@@ -1,0 +1,15 @@
+Package: CRE
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.1
+Authors@R: 
+    person(given="Kwonsang", 
+           family = "Lee",
+           role = c("aut"),
+           email = "kwonsanglee.stat@gmail.com",
+           comment = c(ORCID = "0000-0002-5823-4331"))
+Description: What the package does (one paragraph).
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
