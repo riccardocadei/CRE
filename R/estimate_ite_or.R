@@ -1,14 +1,15 @@
 #' @title
-#' Title
+#' Estimate the Individual Treatment Effect using Outcome Regression
 #'
 #' @description
-#' description
+#' Method for estimating the Individual Treatment Effect using Outcome Regression given a response vector, a treatment vector, and a features matrix
 #'
-#' @param y input value description
-#' @param z input value description
-#' @param X input value description
+#' @param y the observed response vector
+#' @param z the treatment vector
+#' @param X the features matrix
 #'
-#' @return
+#' @return a vector of ITE estimates
+#'
 #' @export
 #'
 #' @examples

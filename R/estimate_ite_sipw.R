@@ -1,14 +1,15 @@
 #' @title
-#' Title
+#' Estimate the Individual Treatment Effect using Standardized Inverse Propensity Weighting
 #'
 #' @description
-#' description
+#' Method for estimating the Individual Treatment Effect using Standardized Inverse Propensity Weighting given a response vector, a treatment vector, and a features matrix
 #'
-#' @param y input variable description
-#' @param z input variable description
-#' @param x input variable description
+#' @param y the observed response vector
+#' @param z the treatment vector
+#' @param X the features matrix
 #'
-#' @return
+#' @return a vector of ITE estimates
+#'
 #' @export
 #'
 #' @examples

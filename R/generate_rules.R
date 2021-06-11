@@ -1,21 +1,21 @@
 #' @title
-#' Title
+#' Generate Rules
 #'
 #' @description
-#' TBD
+#' Method for generating causal rules
 #'
-#' @param tau input variable description
-#' @param X input variable description
-#' @param ntrees input variable description
-#' @param min_nodes input variable description
-#' @param max_nodes input variable description
-#' @param method input variable description
+#' @param ite_std the standardized ITE
+#' @param X the features matrix
+#' @param ntrees the number of decision trees
+#' @param min_nodes the minimum size of the trees' terminal nodes
+#' @param max_nodes the maximum size of the trees' terminal nodes
 #'
-#' @return
+#' @return a vector of causal rules
+#'
 #' @export
 #'
 #' @examples
 #' TBD
-generate_rules <- function(tau, X, ntrees, min_nodes, max_nodes, method){
+generate_rules <- function(ite_std, X, ntrees, min_nodes, max_nodes){
   #TBD
 }
