@@ -20,7 +20,77 @@
 #'
 #' @return a list containing a select list of causal rules, Conditional Average Treatment Effect estimates, and a sensitivity analysis
 #'
-cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf, ntrees, min_nodes,
-                max_nodes, rules_method, t){
-  #TBD
+cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf, ntrees, min_nodes, max_nodes, rules_method, t) {
+  # Load Libraries
+  lapply(c("tidyverse", "BART", "bcf", "randomForest", "xgboost", "gbm", "inTrees", "stabs", "rpart", "grf", "glmnet"),
+         library, character.only = TRUE)
+
+  # Step 1: Split data
+  print("Step 1: Splitting Data")
+  if (!("matrix" %in% class(X))) {
+    X <- as.matrix(X)
+  }
+  subgroups <- split_data(y, z, X, ratio_dis)
+  discovery <- subgroups[[1]]
+  inference <- subgroups[[2]]
+
+  # Generate y, z, and X for discovery and inference data
+  y_dis <- discovery[,"y"]
+  z_dis <- discovery[,"z"]
+  X_dis <- discovery[,c("x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8", "x9", "x10")]
+
+  y_inf <- inference[,"y"]
+  z_inf <- inference[,"z"]
+  X_inf <- inference[,c("x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8", "x9", "x10")]
+
+  ###### Discovery ######
+  print("Conducting Discovery Subsample Analysis")
+
+  # Step 2: Estimate ITE
+  print("Step 2: Estimating ITE")
+  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis)
+  ite_dis <- ite_list_dis[["ite"]]
+  ite_std_dis <- ite_list_dis[["ite_std"]]
+
+  # Step 3: Generate rules list
+  print("Step 3: Generating Initial Causal Rules")
+  initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees, min_nodes, max_nodes)
+
+  # Step 4: Generate rules matrix
+  print("Step 4: Generating Causal Rules Matrix")
+  rules_all_dis <- generate_rules_matrix(X_dis, initial_rules_dis, t)
+  rules_matrix_dis <- rules_all_dis[["rules_matrix"]]
+  rules_matrix_std_dis <- rules_all_dis[["rules_matrix_std"]]
+  rules_list_dis <- rules_all_dis[["rules_list"]]
+
+  # Step 5: Select important rules
+  print("Step 5: Selecting Important Causal Rules")
+  select_rules_dis <- select_causal_rules(rules_matrix_std_dis, rules_list_dis, ite_std_dis, rules_method)
+  select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
+  select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
+
+  ###### Inference ######
+  print("Conducting Inference Subsample Analysis")
+
+  # Step 2: Estimate ITE
+  print("Step 2: Estimating ITE")
+  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf)
+  ite_inf <- ite_list_inf[["ite"]]
+  ite_std_inf <- ite_list_inf[["ite_std"]]
+
+  # Step 6: Estimate CATE
+  print("Step 6: Estimating CATE")
+  rules_all_inf <- generate_rules_matrix(X_inf, select_rules_dis, t)
+  rules_list_inf <- rules_all_inf[["rules_list"]]
+  rules_matrix_inf <- rules_all_inf[["rules_matrix"]]
+  rules_matrix_std_inf <- rules_all_inf[["rules_matrix_std"]]
+  cate_inf <- estimate_cate(ite_std_inf, rules_matrix_std_inf)
+
+  # Step 7: Conduct sensitivity analysis
+  # TBD
+
+  # Return Results
+  print("CRE method complete. Returning results.")
+  cre_results <- list(select_rules = rules_list_inf, cate = cate_inf)
+  return(cre_results)
 }

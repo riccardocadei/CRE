@@ -15,6 +15,11 @@
 #'
 #' @examples
 #' TBD
-split_data <- function(y, z, X, raio_dis){
-  # TBD
+#'
+split_data <- function(y, z, X, ratio_dis) {
+  total_sample <- cbind(y, z, X)
+  index <- sample(nrow(total_sample), nrow(total_sample) * ratio_dis)
+  discovery <- total_sample[index,]
+  inference <- total_sample[-index,]
+  return(list(discovery = discovery, inference = inference))
 }

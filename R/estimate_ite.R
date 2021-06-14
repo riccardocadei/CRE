@@ -15,7 +15,24 @@
 #'
 #' @examples
 #' TBD
-estimate_ite <- function(y, z, X, ite_method){
-  # TBD
-  # A wrapper function to call estimate_ite_<xyz> functions.
+#'
+estimate_ite <- function(y, z, X, ite_method) {
+  stopifnot(ite_method %in% c("ipw", "sipw", "or", "bart", "bcf", "cf"))
+  if (ite_method == "ipw") {
+    ite <- estimate_ite_ipw(y, z, X)
+  } else if (ite_method == "sipw") {
+    ite <- estimate_ite_sipw(y, z, X)
+  } else if (ite_method == "or") {
+    ite <- estimate_ite_or(y, z, X)
+  } else if (ite_method == "bart") {
+    ite <- estimate_ite_bart(y, z, X)
+  } else if (ite_method == "bcf") {
+    ite <- estimate_ite_bcf(y, z, X)
+  } else {
+    ite <- estimate_ite_cf(y, z, X)
+  }
+  mu_ite <- mean(ite)
+  sd_ite <- sd(ite)
+  ite_std <- (ite - mu_ite) / sd_ite
+  return(list(ite = ite, ite_std = ite_std))
 }

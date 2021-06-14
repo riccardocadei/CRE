@@ -14,6 +14,9 @@
 #'
 #' @examples
 #' TBD
-estimate_ite_cf <- function(y, z, X){
-  # TBD
+#'
+estimate_ite_cf <- function(y, z, X) {
+  tau_forest <- causal_forest(X, y, z)
+  ite <- predict(tau_forest)$predictions
+  return(ite)
 }

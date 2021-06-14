@@ -14,6 +14,11 @@
 #'
 #' @examples
 #' TBD
-estimate_ipw_sipw <- function(Y, z, x){
-  #TBD
+#'
+estimate_ite_sipw <- function(y, z, X) {
+  propscore_model <- glm(z ~ X, family = binomial)
+  logit_ps <- predict(propscore_model)
+  est_ps <- exp(logit_ps) / (1 + exp(logit_ps))
+  ite <- ((z / est_ps) / (1 / length(z) * sum(z / est_ps)) - (1 - z) / (1 - est_ps) / (1 / length(z) * sum((1 - z) / (1 - est_ps)))) * y
+  return(ite)
 }

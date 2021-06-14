@@ -14,6 +14,6 @@
 #'
 #' @examples
 #' TBD
-analyze_sensitivity <- function(ite_std, X, select_rules){
+analyze_sensitivity <- function(ite_std, X, select_rules) {
   # TBD
 }
