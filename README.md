@@ -1,4 +1,11 @@
 # CRE
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/fasrc/CRE/workflows/R-CMD-check/badge.svg)](https://github.com/fasrc/CRE/actions)
+<!-- badges: end -->
+
+
+
 The Causal Rule Ensemble Method
 
 Two R code files are currently available (2021/05/10). 
