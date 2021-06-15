@@ -1,14 +1,33 @@
 Package: CRE
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.1
-Authors@R: 
+Authors@R: c(
     person(given="Kwonsang", 
            family = "Lee",
            role = c("aut"),
            email = "kwonsanglee.stat@gmail.com",
-           comment = c(ORCID = "0000-0002-5823-4331"))
+           comment = c(ORCID = "0000-0002-5823-4331")),
+    person(given="Falco Joannes", 
+           family = "Bargagli Stoffi",
+           role = c("aut"),
+           email = "fbargaglistoffi@hsph.harvard.edu",
+           comment = c(ORCID = "0000-0002-6131-8165")),
+    person(given="Daniela Maria", 
+           family = "Garcia",
+           role = c("aut"),
+           email = "danielagarcia@college.harvard.edu",
+           comment = c(ORCID = "0000-0003-3226-3561")),
+    person(given="Naeem",
+           family="Khoshnevis",
+           email = "nkhoshnevis@g.harvard.edu",
+           role=c("aut","cre"), 
+           comment = c(ORCID = "0000-0003-4315-1426", AFFILIATION="FASRC")))
+Maintainer: Naeem Khoshnevis <nkhoshnevis@g.harvard.edu>
 Description: What the package does (one paragraph).
 License: GPL-3
+URL: https://github.com/fasrc/CRE
+BugReports: https://github.com/fasrc/CRE/issues
+Copyright: See COPYRIGHTS for details.
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
