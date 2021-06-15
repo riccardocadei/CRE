@@ -16,10 +16,10 @@
 #' TBD
 #'
 estimate_ite_bcf <- function(y, z, X) {
-  propscore_model <- glm(z ~ X, family = binomial)
-  logit_ps <- predict(propscore_model)
+  propscore_model <- stats::glm(z ~ X, family = binomial)
+  logit_ps <- stats::predict(propscore_model)
   est_ps <- exp(logit_ps) / (1 + exp(logit_ps))
-  bcf_model <- bcf(y, z, X, X, est_ps, nburn = 100, nsim = 1000)
+  bcf_model <- bcf::bcf(y, z, X, X, est_ps, nburn = 100, nsim = 1000)
   ite <- colMeans(bcf_model$tau)
   return(ite)
 }

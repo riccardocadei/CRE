@@ -34,7 +34,7 @@ generate_rules_matrix <- function(X, rules_list, t) {
   }
   # Identify correlated rules
   corelim <- 1
-  C <- cor(rules_matrix[,ind])
+  C <- stats::cor(rules_matrix[,ind])
   diag(C) <- 0
   nrules <- dim(rules_matrix[, ind])[2]
   elim <- c()

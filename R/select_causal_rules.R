@@ -21,8 +21,8 @@ select_causal_rules <- function(rules_matrix_std, rules_list, ite_std, rules_met
   if (rules_method == "lasso") {
     # LASSO
     lambda <- 10^seq(10, -2, length = 100)
-    lasso_mod <- glmnet(rules_matrix_std, ite_std, alpha = 1, lambda = lambda, intercept = FALSE)
-    cv_lasso <- cv.glmnet(rules_matrix_std, ite_std, alpha = 1, intercept = FALSE)
+    lasso_mod <- glmnet::glmnet(rules_matrix_std, ite_std, alpha = 1, lambda = lambda, intercept = FALSE)
+    cv_lasso <- glmnet::cv.glmnet(rules_matrix_std, ite_std, alpha = 1, intercept = FALSE)
     bestlamda <- cv_lasso$lambda.min
     aa <- coef(cv_lasso, s = cv_lasso$lambda.1se)
     index_aa <- which(aa[-1,1] != 0)
@@ -31,7 +31,7 @@ select_causal_rules <- function(rules_matrix_std, rules_list, ite_std, rules_met
     select_rules <- rule_LASSO$rules
   } else {
     # Stability selection
-    stab_mod <- stabsel(rules_matrix_std, ite_std, fitfun = glmnet.lasso, cutoff = 0.8, PFER = 1, args.fitfun = list(type = "conservative"))
+    stab_mod <- stabs::stabsel(rules_matrix_std, ite_std, fitfun = glmnet.lasso, cutoff = 0.8, PFER = 1, args.fitfun = list(type = "conservative"))
     rule_stab <- rules_list[stab_mod$selected]
     select_rules <- rule_stab
   }

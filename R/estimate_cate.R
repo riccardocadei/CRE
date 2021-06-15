@@ -15,6 +15,6 @@
 #' TBD
 #'
 estimate_cate <- function(ite_std, rules_matrix_std) {
-  cate <- summary(lm(ite_std ~ rules_matrix_std))$coef[,1]
+  cate <- summary(stats::lm(ite_std ~ rules_matrix_std))$coef[,1]
   return(cate)
 }

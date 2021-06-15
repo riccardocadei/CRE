@@ -16,8 +16,8 @@
 #' TBD
 #'
 estimate_ite_ipw <- function(y, z, X) {
-  propscore_model <- glm(z ~ X, family = binomial)
-  logit_ps <- predict(propscore_model)
+  propscore_model <- stats::glm(z ~ X, family = binomial)
+  logit_ps <- stats::predict(propscore_model)
   est_ps <- exp(logit_ps) / (1 + exp(logit_ps))
   ite <- ((z / est_ps) - (1 - z) / (1 - est_ps)) * y
   return(ite)

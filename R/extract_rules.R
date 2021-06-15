@@ -17,12 +17,12 @@
 #' TBD
 #'
 extract_rules <- function(treelist, X, ntrees, ite_std) {
-  rules <- extractRules(treeList = treelist, X = X, ntree = ntrees, maxdepth = 15)
+  rules <- inTrees::extractRules(treeList = treelist, X = X, ntree = ntrees, maxdepth = 15)
   rules <- c(rules)
   rules <- rules[take1(length(rules))]
   rules_matrix <- matrix(rules)
   colnames(rules_matrix) <- "condition"
-  metric <- getRuleMetric(rules_matrix, X, ite_std)
-  pruned <- pruneRule(metric, X, ite_std, 0.025, typeDecay = 1)
+  metric <- inTrees::getRuleMetric(rules_matrix, X, ite_std)
+  pruned <- inTrees::pruneRule(metric, X, ite_std, 0.025, typeDecay = 1)
   return(unique(pruned[, 4]))
 }
