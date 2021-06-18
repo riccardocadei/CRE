@@ -7,7 +7,7 @@
 #' @param y the observed response vector
 #' @param z the treatment vector
 #' @param X the features matrix
-#' @param ite_method the method for estimating the Individual Treatment Effect, either Inverse Propensity Weighting "ipw", Standardized Inverse Propensity Weighting "sipw", Outcome Regression "or", BART "bart", Bayesian Causal Forest "bcf", or Causal Forest "cf"
+#' @param ite_method the method for estimating the Individual Treatment Effect, either Inverse Propensity Weighting "ipw", Stabilized Inverse Propensity Weighting "sipw", Outcome Regression "or", BART "bart", Bayesian Causal Forest "bcf", or Causal Forest "cf"
 #'
 #' @return a list of raw ITE estimates and standardized ITE estimates
 #'
