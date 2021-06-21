@@ -54,5 +54,5 @@ estimate_cate <- function(ite_std_inf, rules_matrix_std_inf, rules_list_inf) {
 
   # Return final results
   cates <- list(cate_original = cate_1, cate_contrast = cate_2)
-  return(cate)
+  return(cates)
 }
