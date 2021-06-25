@@ -17,22 +17,22 @@
 #'
 estimate_cate <- function(ite_std_inf, rules_matrix_std_inf, rules_list_inf) {
   # Convert rules matrix to a data frame and convert columns to factors
-  rules_df_factor <- as.data.frame(rules_matrix_std_inf)
+  rules_df_factor <- as.data.frame(rules_matrix_inf)
   for (i in 1:ncol(rules_df_factor)) {
     rules_df_factor[,i] <- as.factor(rules_df_factor[,i])
   }
   # Check that matrix and list of rules have same length
-  stopifnot(ncol(rules_matrix_std_inf) == length(rules_list_inf))
+  stopifnot(ncol(rules_matrix_inf) == length(rules_list_inf))
   names(rules_df_factor) <- rules_list_inf
-  joined_ite_rules <- cbind(ite_std_inf, rules_df_factor)
+  joined_ite_rules <- cbind(ite_inf, rules_df_factor)
 
   # Fit model without contrasts, extract coefficients and confidence intervals
-  model1_cate <- stats::lm(ite_std_inf ~ ., data = joined_ite_rules)
+  model1_cate <- stats::lm(ite_inf ~ ., data = joined_ite_rules)
   model1_coef <- summary(model1_cate)$coef[,c(1,4)] %>% as.data.frame
   model1_ci <- confint(model1_cate) %>% as.data.frame() %>% filter(!is.na(.))
 
   # Fit sum-to-zero contrasts model, extract coefficients and confidence intervals
-  contrasts_list <- lapply(names(rules_df_factor), function(X) X = "contr.sum")
+  contrasts_list <- lapply(names(rules_df_factor), function(X) X = "code_deviation")
   names(contrasts_list) <- names(rules_df_factor)
   model2_cate <- stats::update(model1_cate, contrasts = contrasts_list)
   model2_coef <- summary(model2_cate)$coef[,c(1,4)] %>% as.data.frame
