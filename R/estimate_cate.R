@@ -15,7 +15,7 @@
 #' @examples
 #' TBD
 #'
-estimate_cate <- function(ite_std_inf, rules_matrix_std_inf, rules_list_inf) {
+estimate_cate <- function(ite_inf, rules_matrix_inf, rules_list_inf) {
   # Convert rules matrix to a data frame and convert columns to factors
   rules_df_factor <- as.data.frame(rules_matrix_inf)
   for (i in 1:ncol(rules_df_factor)) {
