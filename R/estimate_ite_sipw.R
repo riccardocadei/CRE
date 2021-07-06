@@ -16,9 +16,7 @@
 #' TBD
 #'
 estimate_ite_sipw <- function(y, z, X) {
-  propscore_model <- stats::glm(z ~ X, family = binomial)
-  logit_ps <- stats::predict(propscore_model)
-  est_ps <- exp(logit_ps) / (1 + exp(logit_ps))
+  est_ps <- estimate_ps(z, X)
   ite <- ((z / est_ps) / (1 / length(z) * sum(z / est_ps)) - (1 - z) / (1 - est_ps) / (1 / length(z) * sum((1 - z) / (1 - est_ps)))) * y
   return(ite)
 }
