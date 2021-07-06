@@ -8,6 +8,7 @@
 #' @param z the treatment vector
 #' @param X the features matrix
 #' @param ite_method the method for estimating the Individual Treatment Effect, either Inverse Propensity Weighting "ipw", Stabilized Inverse Propensity Weighting "sipw", Outcome Regression "or", BART "bart", Bayesian Causal Forest "bcf", or Causal Forest "cf"
+#' @param include_ps whether or not to include propensity score estimate as a covariate in ITE estimation
 #'
 #' @return a list of raw ITE estimates and standardized ITE estimates
 #'
@@ -16,23 +17,25 @@
 #' @examples
 #' TBD
 #'
-estimate_ite <- function(y, z, X, ite_method) {
-  stopifnot(ite_method %in% c("ipw", "sipw", "or", "bart", "bcf", "cf"))
+estimate_ite <- function(y, z, X, ite_method, include_ps) {
+  stopifnot(ite_method %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf", "xbcf", "cf"))
   if (ite_method == "ipw") {
-    ite <- CRE::estimate_ite_ipw(y, z, X)
+    ite <- estimate_ite_ipw(y, z, X)
   } else if (ite_method == "sipw") {
-    ite <- CRE::estimate_ite_sipw(y, z, X)
+    ite <- estimate_ite_sipw(y, z, X)
   } else if (ite_method == "or") {
-    ite <- CRE::estimate_ite_or(y, z, X)
+    ite <- estimate_ite_or(y, z, X)
   } else if (ite_method == "bart") {
-    ite <- CRE::estimate_ite_bart(y, z, X)
+    ite <- estimate_ite_bart(y, z, X, include_ps)
+  } else if (ite_method == "xbart") {
+    ite <- estimate_ite_xbart(y, z, X, include_ps)
   } else if (ite_method == "bcf") {
-    ite <- CRE::estimate_ite_bcf(y, z, X)
+    ite <- estimate_ite_bcf(y, z, X)
+  } else if (ite_method == "xbcf") {
+    ite <- estimate_ite_xbcf(y, z, X)
   } else {
-    ite <- CRE::estimate_ite_cf(y, z, X)
+    ite <- estimate_ite_cf(y, z, X, include_ps)
   }
-  mu_ite <- mean(ite)
-  sd_ite <- sd(ite)
-  ite_std <- (ite - mu_ite) / sd_ite
+  ite_std <- (ite - mean(ite)) / sd(ite)
   return(list(ite = ite, ite_std = ite_std))
 }
