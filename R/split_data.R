@@ -4,17 +4,22 @@
 #' @description
 #' description
 #'
-#' @param y variable description
-#' @param z variable description
-#' @param X variable description
-#' @param raio_dis variable description
+#' @param y the observed response vector
+#' @param z the treatment vector
+#' @param X the features matrix
+#' @param raio_dis the ratio of data delegated to the discovery subsample
 #'
-#' @return
+#' @return a list containing the discovery and inference subsamples
 #'
 #' @export
 #'
 #' @examples
 #' TBD
-split_data <- function(y, z, X, raio_dis){
-  # TBD
+#'
+split_data <- function(y, z, X, ratio_dis) {
+  total_sample <- cbind(y, z, X)
+  index <- sample(nrow(total_sample), nrow(total_sample) * ratio_dis)
+  discovery <- total_sample[index,]
+  inference <- total_sample[-index,]
+  return(list(discovery = discovery, inference = inference))
 }

@@ -1,18 +1,24 @@
 #' @title
-#' Title
+#' Estimate the Individual Treatment Effect using Standardized Inverse Propensity Weighting
 #'
 #' @description
-#' description
+#' Method for estimating the Individual Treatment Effect using Standardized Inverse Propensity Weighting given a response vector, a treatment vector, and a features matrix
 #'
-#' @param y input variable description
-#' @param z input variable description
-#' @param x input variable description
+#' @param y the observed response vector
+#' @param z the treatment vector
+#' @param X the features matrix
 #'
-#' @return
+#' @return a vector of ITE estimates
+#'
 #' @export
 #'
 #' @examples
 #' TBD
-estimate_ipw_sipw <- function(Y, z, x){
-  #TBD
+#'
+estimate_ite_sipw <- function(y, z, X) {
+  propscore_model <- stats::glm(z ~ X, family = binomial)
+  logit_ps <- stats::predict(propscore_model)
+  est_ps <- exp(logit_ps) / (1 + exp(logit_ps))
+  ite <- ((z / est_ps) / (1 / length(z) * sum(z / est_ps)) - (1 - z) / (1 - est_ps) / (1 / length(z) * sum((1 - z) / (1 - est_ps)))) * y
+  return(ite)
 }
