@@ -18,7 +18,6 @@
 #' TBD
 #'
 estimate_ite <- function(y, z, X, ite_method, include_ps) {
-  stopifnot(ite_method %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf", "xbcf", "cf"))
   if (ite_method == "ipw") {
     ite <- estimate_ite_ipw(y, z, X)
   } else if (ite_method == "sipw") {
@@ -33,8 +32,11 @@ estimate_ite <- function(y, z, X, ite_method, include_ps) {
     ite <- estimate_ite_bcf(y, z, X)
   } else if (ite_method == "xbcf") {
     ite <- estimate_ite_xbcf(y, z, X)
-  } else {
+  } else if (ite_method == "cf") {
     ite <- estimate_ite_cf(y, z, X, include_ps)
+  } else {
+    stop("Invalid ITE method. Please choose from the following:
+         'ipw', 'sipw', or, 'bart', 'xbart', 'bcf', 'xbcf', or 'cf'")
   }
   ite_std <- (ite - mean(ite)) / sd(ite)
   return(list(ite = ite, ite_std = ite_std))
