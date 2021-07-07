@@ -17,9 +17,9 @@
 #' @param max_nodes the maximum size of the trees' terminal nodes
 #' @param t the common support used in generating the causal rules matrix
 #'
-#' @export
-#'
 #' @return a list containing a select list of causal rules, Conditional Average Treatment Effect estimates, and a sensitivity analysis
+#'
+#' @export
 #'
 cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
                 include_ps_dis, include_ps_inf, ntrees, min_nodes, max_nodes, t) {
