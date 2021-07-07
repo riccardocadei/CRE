@@ -18,10 +18,10 @@
 #'
 estimate_ite_cf <- function(y, z, X, include_ps) {
   if (include_ps) {
-    est_ps <- estimate_ps(z, X)
+    est_ps <- CRE::estimate_ps(z, X)
     X <- cbind(X, est_ps)
   }
-  tau_forest <- causal_forest(X, y, z)
-  ite <- predict(tau_forest)$predictions
+  tau_forest <- grf::causal_forest(X, y, z)
+  ite <- stats::predict(tau_forest)$predictions
   return(ite)
 }
