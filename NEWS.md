@@ -26,7 +26,7 @@
 - `estimate_ite_cf` function to generate ITE estimates using Causal Forests
 - `estimate_ite_ipw` function to generate ITE estimates using IPW
 - `estimate_ite_or` function to generate ITE estimates using Outcome Regression
-- `estimate_ite_sipw` function to generate ITE estimatest using SIPW
+- `estimate_ite_sipw` function to generate ITE estimates using SIPW
 - `extract_rules` function to extract a list of causal rules from randomForest and GBM models
 - `generate_rules` function to generate causal rule models using randomForest and GBM methods
 - `generate_rules_matrix` function to convert a list of causal rules into a matrix
