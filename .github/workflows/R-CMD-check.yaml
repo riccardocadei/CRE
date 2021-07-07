@@ -74,7 +74,7 @@ jobs:
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("devtools")
           devtools::install_github("JingyuHe/XBART")
-          devtools::install_github("ocket778/XBCF")
+          devtools::install_github("socket778/XBCF")
         shell: Rscript {0}
 
       - name: Check
