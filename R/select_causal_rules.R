@@ -31,7 +31,8 @@ select_causal_rules <- function(rules_matrix_std, rules_list, ite_std, rules_met
     select_rules <- rule_LASSO$rules
   } else {
     # Stability selection
-    stab_mod <- stabs::stabsel(rules_matrix_std, ite_std, fitfun = glmnet.lasso, cutoff = 0.8, PFER = 1, args.fitfun = list(type = "conservative"))
+    stab_mod <- stabs::stabsel(rules_matrix_std, ite_std, fitfun = glmnet.lasso, cutoff = 0.8,
+                               PFER = 1, args.fitfun = list(type = "conservative"))
     rule_stab <- rules_list[stab_mod$selected]
     select_rules <- rule_stab
   }
