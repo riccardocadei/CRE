@@ -11,9 +11,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' TBD
-#'
 analyze_sensitivity <- function(ite_std, rules_matrix_std) {
   # Initialize parameters
   all_zero <- FALSE
