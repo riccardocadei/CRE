@@ -16,7 +16,7 @@
 #' TBD
 #'
 estimate_ite_xbcf <- function(y, z, X) {
-  est_ps <- CRE::estimate_ps(z, X)
+  est_ps <- estimate_ps(z, X)
   xbcf_model <- XBCF::XBCF(y = as.matrix(y), z = as.matrix(z), x_con = as.matrix(X),
                            x_mod = as.matrix(X), pihat = as.matrix(est_ps), num_sweeps = 40,
                            burnin = 15, max_depth = 250, num_cutpoints = 20,

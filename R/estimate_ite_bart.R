@@ -18,7 +18,7 @@
 #'
 estimate_ite_bart <- function(y, z, X, include_ps) {
   if (include_ps) {
-    est_ps <- CRE::estimate_ps(z, X)
+    est_ps <- estimate_ps(z, X)
     X <- cbind(X, est_ps)
   }
   y_treated <- y[z==1]

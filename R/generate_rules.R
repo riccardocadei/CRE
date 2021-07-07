@@ -34,7 +34,7 @@ generate_rules <- function(X, ite_std, ntrees, min_nodes, max_nodes) {
     forest <- combine(forest, model1_RF)
   }
   treelist_RF <- inTrees::RF2List(forest)
-  rules_RF <- CRE::extract_rules(treelist_RF, X, ntrees, ite_std)
+  rules_RF <- extract_rules(treelist_RF, X, ntrees, ite_std)
   # Gradient Boosting
   dist <- ifelse(is.numeric(y), "gaussian", "bernoulli")
   if (is.numeric(y) == FALSE) {
@@ -48,7 +48,7 @@ generate_rules <- function(X, ite_std, ntrees, min_nodes, max_nodes) {
     model1_GB <- gbm::gbm.more(model1_GB, n.new.trees = 1, verbose = FALSE)
   }
   treelist_GB <- inTrees::GBM2List(model1_GB, X)
-  rules_GB <- CRE::extract_rules(treelist_GB, X, ntrees, ite_std)
+  rules_GB <- extract_rules(treelist_GB, X, ntrees, ite_std)
 
   rules_list <- c(rules_RF, rules_GB)
   return(rules_list)
