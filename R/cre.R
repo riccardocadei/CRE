@@ -10,8 +10,8 @@
 #' @param ratio_dis the ratio of data delegated to the discovery subsample
 #' @param ite_method_dis the method to estimate the discovery sample ITE
 #' @param ite_method_inf the method to estimate the inference sample ITE
-#' @param include_ps_dis whether or not to include propensity score estimate as a covariate in discovery ITE estimation
-#' @param include_ps_inf whether or not to include propensity score estimate as a covariate in inference ITE estimation
+#' @param include_ps_dis whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, XBART, or CF
+#' @param include_ps_inf whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, XBART, or CF
 #' @param ntrees the number of decision trees
 #' @param min_nodes the minimum size of the trees' terminal nodes
 #' @param max_nodes the maximum size of the trees' terminal nodes
