@@ -11,10 +11,11 @@ cre(
   ratio_dis,
   ite_method_dis,
   ite_method_inf,
+  include_ps_dis,
+  include_ps_inf,
   ntrees,
   min_nodes,
   max_nodes,
-  rules_method,
   t
 )
 }
@@ -31,13 +32,15 @@ cre(
 
 \item{ite_method_inf}{the method to estimate the inference sample ITE}
 
+\item{include_ps_dis}{whether or not to include propensity score estimate as a covariate in discovery ITE estimation}
+
+\item{include_ps_inf}{whether or not to include propensity score estimate as a covariate in inference ITE estimation}
+
 \item{ntrees}{the number of decision trees}
 
 \item{min_nodes}{the minimum size of the trees' terminal nodes}
 
 \item{max_nodes}{the maximum size of the trees' terminal nodes}
-
-\item{rules_method}{the method for performing penalized regression on the causal rules to select only those that are important}
 
 \item{t}{the common support used in generating the causal rules matrix}
 }

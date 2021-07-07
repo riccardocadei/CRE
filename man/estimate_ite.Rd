@@ -4,7 +4,7 @@
 \alias{estimate_ite}
 \title{Estimate the Individual Treatment Effect}
 \usage{
-estimate_ite(y, z, X, ite_method)
+estimate_ite(y, z, X, ite_method, include_ps)
 }
 \arguments{
 \item{y}{the observed response vector}
@@ -13,7 +13,9 @@ estimate_ite(y, z, X, ite_method)
 
 \item{X}{the features matrix}
 
-\item{ite_method}{the method for estimating the Individual Treatment Effect, either Inverse Propensity Weighting "ipw", Standardized Inverse Propensity Weighting "sipw", Outcome Regression "or", BART "bart", Bayesian Causal Forest "bcf", or Causal Forest "cf"}
+\item{ite_method}{the method for estimating the Individual Treatment Effect, either Inverse Propensity Weighting "ipw", Stabilized Inverse Propensity Weighting "sipw", Outcome Regression "or", BART "bart", Bayesian Causal Forest "bcf", or Causal Forest "cf"}
+
+\item{include_ps}{whether or not to include propensity score estimate as a covariate in ITE estimation}
 }
 \value{
 a list of raw ITE estimates and standardized ITE estimates
