@@ -13,9 +13,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' TBD
-#'
 select_causal_rules <- function(rules_matrix_std, rules_list, ite_std, rules_method) {
   stopifnot(rules_method %in% c("lasso", "stab"))
   if (rules_method == "lasso") {
@@ -24,10 +21,10 @@ select_causal_rules <- function(rules_matrix_std, rules_list, ite_std, rules_met
     lasso_mod <- glmnet::glmnet(rules_matrix_std, ite_std, alpha = 1, lambda = lambda, intercept = FALSE)
     cv_lasso <- glmnet::cv.glmnet(rules_matrix_std, ite_std, alpha = 1, intercept = FALSE)
     bestlamda <- cv_lasso$lambda.min
-    aa <- coef(cv_lasso, s = cv_lasso$lambda.1se)
+    aa <- stats::coef(cv_lasso, s = cv_lasso$lambda.1se)
     index_aa <- which(aa[-1,1] != 0)
     rule_LASSO <- data.frame(rules = rules_list[index_aa], val = aa[index_aa + 1, 1])
-    rule_LASSO <- rule_LASSO[order(-rule_LASSO[,2]), ] %>% filter(!is.na(rules))
+    rule_LASSO <- rule_LASSO[order(-rule_LASSO[,2]), ] %>% dplyr::filter(!is.na(rules))
     select_rules <- rule_LASSO$rules
   } else {
     # Stability selection

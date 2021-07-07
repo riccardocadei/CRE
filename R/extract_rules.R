@@ -13,9 +13,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' TBD
-#'
 extract_rules <- function(treelist, X, ntrees, ite_std) {
   rules <- inTrees::extractRules(treeList = treelist, X = X, ntree = ntrees, maxdepth = 15)
   rules <- c(rules)

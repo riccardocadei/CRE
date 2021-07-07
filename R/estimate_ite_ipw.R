@@ -12,9 +12,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' TBD
-#'
 estimate_ite_ipw <- function(y, z, X) {
   est_ps <- estimate_ps(z, X)
   ite <- ((z / est_ps) - (1 - z) / (1 - est_ps)) * y

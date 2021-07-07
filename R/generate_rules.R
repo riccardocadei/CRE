@@ -14,24 +14,21 @@
 #'
 #' @export
 #'
-#' @examples
-#' TBD
-#'
 generate_rules <- function(X, ite_std, ntrees, min_nodes, max_nodes) {
   # Set parameters
   N <- dim(X)[1]
   sf <- min(1, (11 * sqrt(N) + 1) / N)
-  mn <- 2 + floor(rexp(1, 1 / (max_nodes - 2)))
+  mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
   # Random Forest
   forest <- randomForest::randomForest(x = X, y = ite_std, sampsize = sf * N,
                                        replace = FALSE, ntree = 1, maxnodes = mn,
                                        nodesize = min_nodes)
   for(i in 2:ntrees) {
-    mn <- 2 + floor(rexp(1, 1 / (max_nodes - 2)))
+    mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
     model1_RF <- randomForest::randomForest(x = X, y = ite_std, sampsize = sf * N ,
                                             replace = FALSE, ntree = 1, maxnodes = mn,
                                             nodesize = min_nodes)
-    forest <- combine(forest, model1_RF)
+    forest <- randomForest::combine(forest, model1_RF)
   }
   treelist_RF <- inTrees::RF2List(forest)
   rules_RF <- extract_rules(treelist_RF, X, ntrees, ite_std)

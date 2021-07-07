@@ -12,9 +12,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' TBD
-#'
 estimate_ite_bcf <- function(y, z, X) {
   est_ps <- estimate_ps(z, X)
   bcf_model <- bcf::bcf(y, z, X, X, est_ps, nburn = 100, nsim = 1000)

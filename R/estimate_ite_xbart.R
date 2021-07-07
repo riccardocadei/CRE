@@ -13,9 +13,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' #TBD
-#'
 estimate_ite_xbart <- function(y, z, X, include_ps) {
   if (include_ps) {
     est_ps <- estimate_ps(z, X)
@@ -27,13 +24,13 @@ estimate_ite_xbart <- function(y, z, X, include_ps) {
   X_control <- X[z==0,]
   xbart_y1 <- XBART::XBART(y = as.matrix(y_treated), X = as.matrix(X_treated), Xtest = as.matrix(X),
                            num_trees = 30, num_sweeps = 40, max_depth = 250, Nmin = 1,
-                           num_cutpoints = 50, alpha = 0.95, beta = 1.25, tau = var(y_treated) / 30,
+                           num_cutpoints = 50, alpha = 0.95, beta = 1.25, tau = stats::var(y_treated) / 30,
                            no_split_penality = "Auto", burnin = 15, mtry = ncol(X),
                            p_categorical = ncol(X), kap = 1, s = 1, verbose = FALSE, parallel = TRUE)
   y1hat <- apply(xbart_y1$yhats_test[, 15:40], 1, mean)
   xbart_y0 <- XBART::XBART(y = as.matrix(y_control), X = as.matrix(X_control), Xtest = as.matrix(X),
                            num_trees = 30, num_sweeps = 40, max_depth = 250, Nmin = 1,
-                           num_cutpoints = 50, alpha = 0.95, beta = 1.25, tau = var(y_control) / 30,
+                           num_cutpoints = 50, alpha = 0.95, beta = 1.25, tau = stats::var(y_control) / 30,
                            no_split_penality = "Auto",  burnin = 15, mtry = ncol(X),
                            p_categorical = ncol(X), kap = 1, s = 1, verbose = FALSE, parallel = TRUE)
   y0hat <- apply(xbart_y0$yhats_test[, 15:40], 1, mean)

@@ -12,9 +12,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' TBD
-#'
 estimate_ite_or <- function(y, z, X) {
   y_treated <- y[z==1]
   X_treated <- X[z==1,]

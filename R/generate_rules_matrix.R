@@ -12,9 +12,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' TBD
-#'
 generate_rules_matrix <- function(X, rules_list, t) {
   rules_matrix <- matrix(0, nrow = dim(X)[1], ncol = length(rules_list))
   for (i in 1:length(rules_list)){

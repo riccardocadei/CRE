@@ -10,9 +10,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' TBD
-#'
 take1 <- function(len) {
   out <- c()
   i <- 0

@@ -14,9 +14,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' TBD
-#'
 estimate_ite <- function(y, z, X, ite_method, include_ps) {
   if (ite_method == "ipw") {
     ite <- estimate_ite_ipw(y, z, X)
@@ -38,6 +35,6 @@ estimate_ite <- function(y, z, X, ite_method, include_ps) {
     stop("Invalid ITE method. Please choose from the following:
          'ipw', 'sipw', or, 'bart', 'xbart', 'bcf', 'xbcf', or 'cf'")
   }
-  ite_std <- (ite - mean(ite)) / sd(ite)
+  ite_std <- (ite - mean(ite)) / stats::sd(ite)
   return(list(ite = ite, ite_std = ite_std))
 }

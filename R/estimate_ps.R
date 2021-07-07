@@ -11,9 +11,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' TBD
-#'
 estimate_ps <- function(z, X) {
   propscore_model <- stats::glm(z ~ X, family = binomial)
   logit_ps <- stats::predict(propscore_model)

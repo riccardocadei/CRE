@@ -13,9 +13,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' TBD
-#'
 split_data <- function(y, z, X, ratio_dis) {
   total_sample <- cbind(y, z, X)
   index <- sample(nrow(total_sample), nrow(total_sample) * ratio_dis)
