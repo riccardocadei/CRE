@@ -16,10 +16,12 @@
 #' TBD
 #'
 estimate_ite_xbcf <- function(y, z, X) {
-  est_ps <- estimate_ps(z, X)
-  xbcf_model <- XBCF::XBCF(y = as.matrix(y), z = as.matrix(z), x_con = as.matrix(X), x_mod = as.matrix(X), pihat = as.matrix(est_ps),
-                           num_sweeps = 40, burnin = 15, max_depth = 250, num_cutpoints = 20,
-                           mtry_con = ncol(X), mtry_mod = ncol(X), pcat_con = ncol(X), pcat_mod = ncol(X),
+  est_ps <- CRE::estimate_ps(z, X)
+  xbcf_model <- XBCF::XBCF(y = as.matrix(y), z = as.matrix(z), x_con = as.matrix(X),
+                           x_mod = as.matrix(X), pihat = as.matrix(est_ps), num_sweeps = 40,
+                           burnin = 15, max_depth = 250, num_cutpoints = 20,
+                           mtry_con = ncol(X), mtry_mod = ncol(X),
+                           pcat_con = ncol(X), pcat_mod = ncol(X),
                            n_trees_con = 30, tau_con = 10 * var(y) / 30,
                            n_trees_mod = 10, tau_mod = 1 * var(y) / 10)
   th_xbcf <- xbcf_model$tauhats * sd(y)
