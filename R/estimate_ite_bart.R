@@ -18,16 +18,16 @@
 #'
 estimate_ite_bart <- function(y, z, X, include_ps) {
   if (include_ps) {
-    est_ps <- estimate_ps(z, X)
+    est_ps <- CRE::estimate_ps(z, X)
     X <- cbind(X, est_ps)
   }
   y_treated <- y[z==1]
   X_treated <- X[z==1,]
   y_control <- y[z==0]
   X_control <- X[z==0,]
-  bart_y1 <- wbart(x.train = X_treated, y.train = y_treated, x.test = X)
+  bart_y1 <- BART::wbart(x.train = X_treated, y.train = y_treated, x.test = X)
   y1hat <- bart_y1$yhat.test.mean
-  bart_y0 <- wbart(x.train = X_control, y.train = y_control, x.test = X)
+  bart_y0 <- BART::wbart(x.train = X_control, y.train = y_control, x.test = X)
   y0hat <- bart_y0$yhat.test.mean
   ite <- y1hat - y0hat
   return(ite)
