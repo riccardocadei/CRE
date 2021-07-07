@@ -27,12 +27,15 @@ Description: What the package does (one paragraph).
 License: GPL-3
 URL: https://github.com/fasrc/CRE
 BugReports: https://github.com/fasrc/CRE/issues
-Copyright: See COPYRIGHTS for details.
+Copyright: Harvard University
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: tidyverse, dplyr, BART, bcf, randomForest, xgboost, gbm, inTrees, stabs, rpart, grf, glmnet, doParallel, foreach, devtools, XBART, XBCF, stringr, codingMatrices
+VignetteBuilder: knitr

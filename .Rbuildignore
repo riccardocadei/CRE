@@ -3,3 +3,9 @@
 ^LICENSE\.md$
 ^\.github$
 _archive
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^doc$
+^Meta$
+index.md
