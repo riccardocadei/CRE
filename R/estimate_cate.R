@@ -44,30 +44,16 @@ estimate_cate <- function(ite_inf, rules_matrix_inf, rules_list_inf) {
   # Fit linear regression model without contrasts, then extract coefficients and confidence intervals
   model1_cate <- stats::lm(ite_inf ~ ., data = joined_ite_rules)
   model1_coef <- summary(model1_cate)$coef[,c(1,4)] %>% as.data.frame
-  model1_ci <- confint(model1_cate) %>% as.data.frame() %>% filter(!is.na(.))
+  model1_ci <- stats::confint(model1_cate) %>% as.data.frame() %>% filter(!is.na(.))
 
   # Generate model 1 data frame
   cate_reg_orig <- model1_coef %>% cbind(model1_ci)
-  cate_reg_orig_names <- str_extract(row.names(cate_reg_orig), "`.*`") %>% str_remove_all("`")
+  cate_reg_orig_names <- stringr::str_extract(row.names(cate_reg_orig), "`.*`") %>% str_remove_all("`")
   cate_reg_orig_names[1] <- "(Intercept)"
   cate_reg_orig$Rule <- cate_reg_orig_names
   row.names(cate_reg_orig) <- 1:nrow(cate_reg_orig)
-  cate_reg_orig <- cate_reg_orig %>% summarize(Rule, CATE = Estimate, PVal = `Pr(>|t|)`, CI_lower = `2.5 %`, CI_upper = `97.5 %`)
-
-  # Fit sum-to-zero contrasts linear regression model, then extract coefficients and confidence intervals
-  #contrasts_list <- lapply(names(rules_df_factor), function(X) X = "code_deviation")
-  #names(contrasts_list) <- names(rules_df_factor)
-  #model2_cate <- stats::update(model1_cate, contrasts = contrasts_list)
-  #model2_coef <- summary(model2_cate)$coef[,c(1,4)] %>% as.data.frame
-  #model2_ci <- confint(model2_cate) %>% as.data.frame() %>% filter(!is.na(.))
-
-  # Generate model 2 data frame
-  #cate_reg_contrast <- model2_coef %>% cbind(model2_ci)
-  #cate_reg_contrast_names <- str_extract(row.names(cate_reg_contrast), "`.*`") %>% str_remove_all("`")
-  #cate_reg_contrast_names[1] <- "(Intercept)"
-  #cate_reg_contrast$Rule <- cate_reg_contrast_names
-  #row.names(cate_reg_contrast) <- 1:nrow(cate_reg_contrast)
-  #cate_reg_contrast <- cate_reg_contrast %>% summarize(Rule, CATE = Estimate, PVal = `Pr(>|t|)`, CI_lower = `2.5 %`, CI_upper = `97.5 %`)
+  cate_reg_orig <- cate_reg_orig %>% summarize(Rule, CATE = Estimate, PVal = `Pr(>|t|)`,
+                                               CI_lower = `2.5 %`, CI_upper = `97.5 %`)
 
   # Return final results
   cates <- list(cate_means = cate_means, cate_reg_orig = cate_reg_orig)
