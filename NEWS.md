@@ -1,4 +1,20 @@
-## CRE (devloping version) (2021-06-16)
+## CRE (devloping version) 
+
+### Added
+- `estimate_ps` function to estimate the propensity score
+- `estimate_ite_xbart` function to generate ITE estimates using accelerated BART
+- `estimate_ite_xbcf` function to generate ITE estimates using accelerated BCF
+
+### Changed
+- `estimate_cate` include two methods for estimating the CATE values
+- `cre` added initial checks for binary outcome and whether to include the propensity score in the ITE estimation
+- `estimate_ite_xyz` conduct propensity score estimation using helper function
+
+### Fixed
+
+### Removed
+
+## CRE (devloping version) 
 
 ### Added
 - `analyze_sensitivity` function to conduct sensitivity analysis for unmeasured confounding
@@ -23,4 +39,3 @@
 ### Fixed
 
 ### Removed
-
