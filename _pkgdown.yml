@@ -1,0 +1,17 @@
+template:
+  params:
+    bootswatch: flatly
+    docsearch:
+      api_key: API_KEY
+      index_name: INDEX_NAME
+
+
+
+articles:
+  - title: Introduction
+    navbar: Introduction
+    contents: [article_i1,article_i2,article_i3]
+
+  - title: Collabration
+    navbar: Collabration
+    contents: [article_c1, article_c2, article_c3]
