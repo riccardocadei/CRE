@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Title — cre • CRE</title>
+<title>The Causal Rule Ensemble — cre • CRE</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Title — cre" />
-<meta property="og:description" content="description" />
+<meta property="og:title" content="The Causal Rule Ensemble — cre" />
+<meta property="og:description" content="Method for performing the Causal Rule Ensemble on a dataset with a response variable, a treatment variable, and various features" />
 
 
 
@@ -157,63 +157,81 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Title</h1>
+    <h1>The Causal Rule Ensemble</h1>
     <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/cre.R'><code>R/cre.R</code></a></small>
     <div class="hidden name"><code>cre.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>description</p>
+    <p>Method for performing the Causal Rule Ensemble on a dataset with a response variable, a treatment variable, and various features</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cre</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span>, <span class='va'>X</span>, <span class='va'>ratio_dis</span>, <span class='va'>method_dis</span>, <span class='va'>method_inf</span>, <span class='va'>ntrees</span>, <span class='va'>min_nods</span>, <span class='va'>max_nodes</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>cre</span><span class='op'>(</span>
+  <span class='va'>y</span>,
+  <span class='va'>z</span>,
+  <span class='va'>X</span>,
+  <span class='va'>ratio_dis</span>,
+  <span class='va'>ite_method_dis</span>,
+  <span class='va'>ite_method_inf</span>,
+  <span class='va'>ntrees</span>,
+  <span class='va'>min_nodes</span>,
+  <span class='va'>max_nodes</span>,
+  <span class='va'>rules_method</span>,
+  <span class='va'>t</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>y</th>
-      <td><p>input variable description</p></td>
+      <td><p>the observed response vector</p></td>
     </tr>
     <tr>
       <th>z</th>
-      <td><p>input variable description</p></td>
+      <td><p>the treatment vector</p></td>
     </tr>
     <tr>
       <th>X</th>
-      <td><p>input variable description</p></td>
+      <td><p>the features matrix</p></td>
     </tr>
     <tr>
       <th>ratio_dis</th>
-      <td><p>input variable description</p></td>
+      <td><p>the ratio of data delegated to the discovery subsample</p></td>
     </tr>
     <tr>
-      <th>method_dis</th>
-      <td><p>input variable description</p></td>
+      <th>ite_method_dis</th>
+      <td><p>the method to estimate the discovery sample ITE</p></td>
     </tr>
     <tr>
-      <th>method_inf</th>
-      <td><p>input variable description</p></td>
+      <th>ite_method_inf</th>
+      <td><p>the method to estimate the inference sample ITE</p></td>
     </tr>
     <tr>
       <th>ntrees</th>
-      <td><p>input variable description</p></td>
+      <td><p>the number of decision trees</p></td>
     </tr>
     <tr>
-      <th>min_nods</th>
-      <td><p>input variable description</p></td>
+      <th>min_nodes</th>
+      <td><p>the minimum size of the trees' terminal nodes</p></td>
     </tr>
     <tr>
       <th>max_nodes</th>
-      <td><p>input variable description</p></td>
+      <td><p>the maximum size of the trees' terminal nodes</p></td>
+    </tr>
+    <tr>
+      <th>rules_method</th>
+      <td><p>the method for performing penalized regression on the causal rules to select only those that are important</p></td>
+    </tr>
+    <tr>
+      <th>t</th>
+      <td><p>the common support used in generating the causal rules matrix</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p>a list containing a select list of causal rules, Conditional Average Treatment Effect estimates, and a sensitivity analysis</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

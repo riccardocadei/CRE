@@ -2,23 +2,24 @@
 % Please edit documentation in R/estimate_ite_ipw.R
 \name{estimate_ite_ipw}
 \alias{estimate_ite_ipw}
-\title{Title}
+\title{Estimate the Individual Treatment Effect using Inverse Propensity Weighting}
 \usage{
 estimate_ite_ipw(y, z, X)
 }
 \arguments{
-\item{y}{input value description}
+\item{y}{the observed response vector}
 
-\item{z}{input value description}
+\item{z}{the treatment vector}
 
-\item{X}{input value description}
+\item{X}{the features matrix}
 }
 \value{
-
+a vector of ITE estimates
 }
 \description{
-description
+Method for estimating the Individual Treatment Effect using Inverse Propensity Weighting given a response vector, a treatment vector, and a features matrix
 }
 \examples{
 TBD
+
 }

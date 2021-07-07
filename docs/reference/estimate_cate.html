@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Title — estimate_cate • CRE</title>
+<title>Estimate the Conditional Average Treatment Effect — estimate_cate • CRE</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Title — estimate_cate" />
-<meta property="og:description" content="description" />
+<meta property="og:title" content="Estimate the Conditional Average Treatment Effect — estimate_cate" />
+<meta property="og:description" content="Method for estimating the Conditional Average Treatment Effect given a standardized vector of Individual Treatment Effects and a standardized matrix of causal rules" />
 
 
 
@@ -157,39 +157,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Title</h1>
+    <h1>Estimate the Conditional Average Treatment Effect</h1>
     <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/estimate_cate.R'><code>R/estimate_cate.R</code></a></small>
     <div class="hidden name"><code>estimate_cate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>description</p>
+    <p>Method for estimating the Conditional Average Treatment Effect given a standardized vector of Individual Treatment Effects and a standardized matrix of causal rules</p>
     </div>
 
-    <pre class="usage"><span class='fu'>estimate_cate</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>rules_matrix</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>estimate_cate</span><span class='op'>(</span><span class='va'>ite_std</span>, <span class='va'>rules_matrix_std</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>tau</th>
-      <td><p>input value description</p></td>
+      <th>ite_std</th>
+      <td><p>the standardized ITE</p></td>
     </tr>
     <tr>
-      <th>rules_matrix</th>
-      <td><p>input value description</p></td>
+      <th>rules_matrix_std</th>
+      <td><p>the standardized causal rules matrix</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p>a vector of CATE estimates</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>TBD</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'TBD' not found</span></div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'TBD' not found</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

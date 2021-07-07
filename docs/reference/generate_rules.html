@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Title — generate_rules • CRE</title>
+<title>Generate Rules — generate_rules • CRE</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Title — generate_rules" />
-<meta property="og:description" content="TBD" />
+<meta property="og:title" content="Generate Rules — generate_rules" />
+<meta property="og:description" content="Method for generating causal rules" />
 
 
 
@@ -157,55 +157,50 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Title</h1>
+    <h1>Generate Rules</h1>
     <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/generate_rules.R'><code>R/generate_rules.R</code></a></small>
     <div class="hidden name"><code>generate_rules.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>TBD</p>
+    <p>Method for generating causal rules</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generate_rules</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>X</span>, <span class='va'>ntrees</span>, <span class='va'>min_nodes</span>, <span class='va'>max_nodes</span>, <span class='va'>method</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>generate_rules</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>ite_std</span>, <span class='va'>ntrees</span>, <span class='va'>min_nodes</span>, <span class='va'>max_nodes</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>tau</th>
-      <td><p>input variable description</p></td>
+      <th>X</th>
+      <td><p>the features matrix</p></td>
     </tr>
     <tr>
-      <th>X</th>
-      <td><p>input variable description</p></td>
+      <th>ite_std</th>
+      <td><p>the standardized ITE</p></td>
     </tr>
     <tr>
       <th>ntrees</th>
-      <td><p>input variable description</p></td>
+      <td><p>the number of decision trees</p></td>
     </tr>
     <tr>
       <th>min_nodes</th>
-      <td><p>input variable description</p></td>
+      <td><p>the minimum size of the trees' terminal nodes</p></td>
     </tr>
     <tr>
       <th>max_nodes</th>
-      <td><p>input variable description</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>input variable description</p></td>
+      <td><p>the maximum size of the trees' terminal nodes</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p>a vector of causal rules</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>TBD</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'TBD' not found</span></div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'TBD' not found</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

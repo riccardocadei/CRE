@@ -2,25 +2,26 @@
 % Please edit documentation in R/estimate_ite.R
 \name{estimate_ite}
 \alias{estimate_ite}
-\title{Title}
+\title{Estimate the Individual Treatment Effect}
 \usage{
-estimate_ite(y, z, X, method)
+estimate_ite(y, z, X, ite_method)
 }
 \arguments{
-\item{y}{input variable description}
+\item{y}{the observed response vector}
 
-\item{z}{input variable description}
+\item{z}{the treatment vector}
 
-\item{X}{input variable description}
+\item{X}{the features matrix}
 
-\item{method}{input variable description}
+\item{ite_method}{the method for estimating the Individual Treatment Effect, either Inverse Propensity Weighting "ipw", Standardized Inverse Propensity Weighting "sipw", Outcome Regression "or", BART "bart", Bayesian Causal Forest "bcf", or Causal Forest "cf"}
 }
 \value{
-
+a list of raw ITE estimates and standardized ITE estimates
 }
 \description{
-description
+Method for estimating the Individual Treatment Effect given a response vector, a treatment vector, a features matrix, and a desired algorithm
 }
 \examples{
 TBD
+
 }

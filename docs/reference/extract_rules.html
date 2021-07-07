@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sensitivity Analysis — analyze_sensitivity • CRE</title>
+<title>Extract Rules — extract_rules • CRE</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Sensitivity Analysis — analyze_sensitivity" />
-<meta property="og:description" content="Method for analyzing the sensitivity of the estimates of the causal rule-specific treatment effects" />
+<meta property="og:title" content="Extract Rules — extract_rules" />
+<meta property="og:description" content="Method for extracting causal rules from the Random Forest or Gradient Boosting algorithms" />
 
 
 
@@ -157,33 +157,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sensitivity Analysis</h1>
-    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/analyze_sensitivity.R'><code>R/analyze_sensitivity.R</code></a></small>
-    <div class="hidden name"><code>analyze_sensitivity.Rd</code></div>
+    <h1>Extract Rules</h1>
+    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/extract_rules.R'><code>R/extract_rules.R</code></a></small>
+    <div class="hidden name"><code>extract_rules.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Method for analyzing the sensitivity of the estimates of the causal rule-specific treatment effects</p>
+    <p>Method for extracting causal rules from the Random Forest or Gradient Boosting algorithms</p>
     </div>
 
-    <pre class="usage"><span class='fu'>analyze_sensitivity</span><span class='op'>(</span><span class='va'>ite_std</span>, <span class='va'>rules_matrix_std</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>extract_rules</span><span class='op'>(</span><span class='va'>treelist</span>, <span class='va'>X</span>, <span class='va'>ntrees</span>, <span class='va'>ite_std</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ite_std</th>
-      <td><p>the standardized ITE</p></td>
+      <th>treelist</th>
+      <td><p>a list of decision trees</p></td>
     </tr>
     <tr>
-      <th>rules_matrix_std</th>
-      <td><p>the standardized causal rules matrix</p></td>
+      <th>X</th>
+      <td><p>the features matrix</p></td>
+    </tr>
+    <tr>
+      <th>ntrees</th>
+      <td><p>the number of decision trees</p></td>
+    </tr>
+    <tr>
+      <th>ite_std</th>
+      <td><p>the standardized ITE</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list containing the results of the sensitivity analysis</p>
+    <p>a vector of causal rules</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>TBD</span>

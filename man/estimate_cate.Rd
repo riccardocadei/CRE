@@ -2,21 +2,22 @@
 % Please edit documentation in R/estimate_cate.R
 \name{estimate_cate}
 \alias{estimate_cate}
-\title{Title}
+\title{Estimate the Conditional Average Treatment Effect}
 \usage{
-estimate_cate(tau, rules_matrix)
+estimate_cate(ite_std, rules_matrix_std)
 }
 \arguments{
-\item{tau}{input value description}
+\item{ite_std}{the standardized ITE}
 
-\item{rules_matrix}{input value description}
+\item{rules_matrix_std}{the standardized causal rules matrix}
 }
 \value{
-
+a vector of CATE estimates
 }
 \description{
-description
+Method for estimating the Conditional Average Treatment Effect given a standardized vector of Individual Treatment Effects and a standardized matrix of causal rules
 }
 \examples{
 TBD
+
 }

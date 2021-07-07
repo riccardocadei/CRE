@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Title — select_causal_rules • CRE</title>
+<title>Select Causal Rules — select_causal_rules • CRE</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Title — select_causal_rules" />
-<meta property="og:description" content="Description" />
+<meta property="og:title" content="Select Causal Rules — select_causal_rules" />
+<meta property="og:description" content="Method for selecting the causal rules that are most important" />
 
 
 
@@ -157,39 +157,46 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Title</h1>
+    <h1>Select Causal Rules</h1>
     <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/select_causal_rules.R'><code>R/select_causal_rules.R</code></a></small>
     <div class="hidden name"><code>select_causal_rules.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Description</p>
+    <p>Method for selecting the causal rules that are most important</p>
     </div>
 
-    <pre class="usage"><span class='fu'>select_causal_rules</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>rules_matrix</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>select_causal_rules</span><span class='op'>(</span><span class='va'>rules_matrix_std</span>, <span class='va'>rules_list</span>, <span class='va'>ite_std</span>, <span class='va'>rules_method</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>tau</th>
-      <td><p>input variable description</p></td>
+      <th>rules_matrix_std</th>
+      <td><p>the standardized causal rules matrix</p></td>
     </tr>
     <tr>
-      <th>rules_matrix</th>
-      <td><p>input variable description</p></td>
+      <th>rules_list</th>
+      <td><p>a vector of causal rules</p></td>
+    </tr>
+    <tr>
+      <th>ite_std</th>
+      <td><p>the standardized ITE</p></td>
+    </tr>
+    <tr>
+      <th>rules_method</th>
+      <td><p>the method for performing penalized regression on the causal rules to select only those that are important</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p>a vector of causal rules</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>TBD</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'TBD' not found</span></div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'TBD' not found</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

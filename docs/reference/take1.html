@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sensitivity Analysis — analyze_sensitivity • CRE</title>
+<title>Take 1 — take1 • CRE</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Sensitivity Analysis — analyze_sensitivity" />
-<meta property="og:description" content="Method for analyzing the sensitivity of the estimates of the causal rule-specific treatment effects" />
+<meta property="og:title" content="Take 1 — take1" />
+<meta property="og:description" content="Generate a list of indices" />
 
 
 
@@ -157,33 +157,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sensitivity Analysis</h1>
-    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/analyze_sensitivity.R'><code>R/analyze_sensitivity.R</code></a></small>
-    <div class="hidden name"><code>analyze_sensitivity.Rd</code></div>
+    <h1>Take 1</h1>
+    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/take1.R'><code>R/take1.R</code></a></small>
+    <div class="hidden name"><code>take1.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Method for analyzing the sensitivity of the estimates of the causal rule-specific treatment effects</p>
+    <p>Generate a list of indices</p>
     </div>
 
-    <pre class="usage"><span class='fu'>analyze_sensitivity</span><span class='op'>(</span><span class='va'>ite_std</span>, <span class='va'>rules_matrix_std</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>take1</span><span class='op'>(</span><span class='va'>len</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ite_std</th>
-      <td><p>the standardized ITE</p></td>
-    </tr>
-    <tr>
-      <th>rules_matrix_std</th>
-      <td><p>the standardized causal rules matrix</p></td>
+      <th>len</th>
+      <td><p>a length value</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list containing the results of the sensitivity analysis</p>
+    <p>a vector of indices</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>TBD</span>
