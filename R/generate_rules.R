@@ -23,10 +23,14 @@ generate_rules <- function(X, ite_std, ntrees, min_nodes, max_nodes) {
   sf <- min(1, (11 * sqrt(N) + 1) / N)
   mn <- 2 + floor(rexp(1, 1 / (max_nodes - 2)))
   # Random Forest
-  forest <- randomForest::randomForest(x = X, y = ite_std, sampsize = sf * N, replace = FALSE, ntree = 1, maxnodes = mn, nodesize = min_nodes)
+  forest <- randomForest::randomForest(x = X, y = ite_std, sampsize = sf * N,
+                                       replace = FALSE, ntree = 1, maxnodes = mn,
+                                       nodesize = min_nodes)
   for(i in 2:ntrees) {
     mn <- 2 + floor(rexp(1, 1 / (max_nodes - 2)))
-    model1_RF <- randomForest::randomForest(x = X, y = ite_std, sampsize = sf * N ,replace = FALSE, ntree = 1, maxnodes = mn, nodesize = min_nodes)
+    model1_RF <- randomForest::randomForest(x = X, y = ite_std, sampsize = sf * N ,
+                                            replace = FALSE, ntree = 1, maxnodes = mn,
+                                            nodesize = min_nodes)
     forest <- combine(forest, model1_RF)
   }
   treelist_RF <- inTrees::RF2List(forest)
@@ -36,8 +40,9 @@ generate_rules <- function(X, ite_std, ntrees, min_nodes, max_nodes) {
   if (is.numeric(y) == FALSE) {
     y <- as.numeric(y) - 1
   }
-  model1_GB <- gbm::gbm.fit(x = X, y = ite_std, bag.fraction = sf, n.trees = 1, interaction.depth = (mn / 2),
-                       shrinkage = 0.01, distribution = dist, verbose = FALSE, n.minobsinnode = min_nodes)
+  model1_GB <- gbm::gbm.fit(x = X, y = ite_std, bag.fraction = sf, n.trees = 1,
+                            interaction.depth = (mn / 2), shrinkage = 0.01,
+                            distribution = dist, verbose = FALSE, n.minobsinnode = min_nodes)
   for(i in 2:ntrees) {
     model1_GB$interaction_depth <- (mn / 2)
     model1_GB <- gbm::gbm.more(model1_GB, n.new.trees = 1, verbose = FALSE)
