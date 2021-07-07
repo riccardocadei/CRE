@@ -21,22 +21,37 @@
 #'
 #' @return a list containing a select list of causal rules, Conditional Average Treatment Effect estimates, and a sensitivity analysis
 #'
-cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf, include_ps_dis, include_ps_inf, ntrees, min_nodes, max_nodes, t) {
-  X <- as.matrix(X)
-  y <- as.matrix(y)
-  z <- as.matrix(z)
+cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
+                include_ps_dis, include_ps_inf, ntrees, min_nodes, max_nodes, t) {
 
-  # Check for binary outcome
-  binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
-  if (ite_method_dis == "BCF" | ite_method_inf == "BCF") {
-    stop("The Bayesian Causal Forest method does not apply to binary outcomes. Please select another method to estimate the ITE.")
+  # Check for correct ITE inputs
+  if (!(tolower(ite_method_dis) %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf", "xbcf", "cf"))) {
+    stop("Invalid ITE method for Discovery Subsample. Please choose from the following:
+         'ipw', 'sipw', or, 'bart', 'xbart', 'bcf', 'xbcf', or 'cf'")
+  }
+  if (!(tolower(ite_method_inf) %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf", "xbcf", "cf"))) {
+    stop("Invalid ITE method for Inference Subsample. Please choose from the following:
+         'ipw', 'sipw', or, 'bart', 'xbart', 'bcf', 'xbcf', or 'cf'")
   }
 
   # Check for propensity score estimation
-  stopifnot(include_ps_dis %in% c("TRUE", "FALSE") & include_ps_inf %in% c("TRUE", "FALSE"))
+  if (!(toupper(include_ps_dis) %in% c("TRUE", "FALSE")) |
+      !(toupper(include_ps_inf) %in% c("TRUE", "FALSE"))) {
+    stop("Please specify 'TRUE' or 'FALSE' for the include_ps_dis and include_ps_inf arguments.")
+  }
+
+  # Check for binary outcome
+  binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
+  if (tolower(ite_method_dis) == "bcf" | tolower(ite_method_inf) == "bcf") {
+    stop("The Bayesian Causal Forest method does not apply to binary outcomes.
+         Please select another method to estimate the ITE.")
+  }
 
   # Step 1: Split data
   message("Step 1: Splitting Data")
+  X <- as.matrix(X)
+  y <- as.matrix(y)
+  z <- as.matrix(z)
   subgroups <- split_data(y, z, X, ratio_dis)
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
