@@ -20,9 +20,9 @@ estimate_ite_or <- function(y, z, X) {
   X_treated <- X[z==1,]
   y_control <- y[z==0]
   X_control <- X[z==0,]
-  temp1 <- wbart(x.train = X_treated, y.train = y_treated, x.test = X_control)
+  temp1 <- BART::wbart(x.train = X_treated, y.train = y_treated, x.test = X_control)
   y1hat_control <- temp1$yhat.test.mean
-  temp0 <- wbart(x.train = X_control, y.train = y_control, x.test = X_treated)
+  temp0 <- BART::wbart(x.train = X_control, y.train = y_control, x.test = X_treated)
   y0hat_treated <- temp0$yhat.test.mean
   ite <- rep(NA, times = length(y))
   ite[z==0] <- y1hat_control - y[z==0]
