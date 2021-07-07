@@ -2,21 +2,22 @@
 % Please edit documentation in R/select_causal_rules.R
 \name{select_causal_rules}
 \alias{select_causal_rules}
-\title{Title}
+\title{Select Causal Rules}
 \usage{
-select_causal_rules(tau, rules_matrix)
+select_causal_rules(rules_matrix_std, rules_list, ite_std, rules_method)
 }
 \arguments{
-\item{tau}{input variable description}
+\item{rules_matrix_std}{the standardized causal rules matrix}
 
-\item{rules_matrix}{input variable description}
+\item{rules_list}{a vector of causal rules}
+
+\item{ite_std}{the standardized ITE}
+
+\item{rules_method}{the method for performing penalized regression on the causal rules to select only those that are important}
 }
 \value{
-
+a vector of causal rules
 }
 \description{
-Description
-}
-\examples{
-TBD
+Method for selecting the causal rules that are most important
 }

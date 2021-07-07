@@ -4,23 +4,20 @@
 \alias{split_data}
 \title{Title}
 \usage{
-split_data(y, z, X, raio_dis)
+split_data(y, z, X, ratio_dis)
 }
 \arguments{
-\item{y}{variable description}
+\item{y}{the observed response vector}
 
-\item{z}{variable description}
+\item{z}{the treatment vector}
 
-\item{X}{variable description}
+\item{X}{the features matrix}
 
-\item{raio_dis}{variable description}
+\item{ratio_dis}{the ratio of data delegated to the discovery subsample}
 }
 \value{
-
+a list containing the discovery and inference subsamples
 }
 \description{
 description
-}
-\examples{
-TBD
 }

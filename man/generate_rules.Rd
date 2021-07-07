@@ -2,29 +2,24 @@
 % Please edit documentation in R/generate_rules.R
 \name{generate_rules}
 \alias{generate_rules}
-\title{Title}
+\title{Generate Rules}
 \usage{
-generate_rules(tau, X, ntrees, min_nodes, max_nodes, method)
+generate_rules(X, ite_std, ntrees, min_nodes, max_nodes)
 }
 \arguments{
-\item{tau}{input variable description}
+\item{X}{the features matrix}
 
-\item{X}{input variable description}
+\item{ite_std}{the standardized ITE}
 
-\item{ntrees}{input variable description}
+\item{ntrees}{the number of decision trees}
 
-\item{min_nodes}{input variable description}
+\item{min_nodes}{the minimum size of the trees' terminal nodes}
 
-\item{max_nodes}{input variable description}
-
-\item{method}{input variable description}
+\item{max_nodes}{the maximum size of the trees' terminal nodes}
 }
 \value{
-
+a vector of causal rules
 }
 \description{
-TBD
-}
-\examples{
-TBD
+Method for generating causal rules
 }

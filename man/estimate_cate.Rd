@@ -2,21 +2,20 @@
 % Please edit documentation in R/estimate_cate.R
 \name{estimate_cate}
 \alias{estimate_cate}
-\title{Title}
+\title{Estimate the Conditional Average Treatment Effect}
 \usage{
-estimate_cate(tau, rules_matrix)
+estimate_cate(ite_inf, rules_matrix_inf, rules_list_inf)
 }
 \arguments{
-\item{tau}{input value description}
+\item{ite_inf}{the standardized ITE for the inference subsample}
 
-\item{rules_matrix}{input value description}
+\item{rules_matrix_inf}{the standardized causal rules matrix for the inference subsample}
+
+\item{rules_list_inf}{the list of causal rules for the inference subsample}
 }
 \value{
-
+two sets of CATE estimates, one done by averaging the ITEs and the other using linear regression
 }
 \description{
-description
-}
-\examples{
-TBD
+Method for estimating the Conditional Average Treatment Effect given a standardized vector of Individual Treatment Effects, a standardized matrix of causal rules, a list of causal rules
 }

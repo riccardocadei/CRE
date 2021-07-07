@@ -2,32 +2,51 @@
 % Please edit documentation in R/cre.R
 \name{cre}
 \alias{cre}
-\title{Title}
+\title{The Causal Rule Ensemble}
 \usage{
-cre(y, z, X, ratio_dis, method_dis, method_inf, ntrees, min_nods, max_nodes)
+cre(
+  y,
+  z,
+  X,
+  ratio_dis,
+  ite_method_dis,
+  ite_method_inf,
+  include_ps_dis,
+  include_ps_inf,
+  ntrees,
+  min_nodes,
+  max_nodes,
+  t
+)
 }
 \arguments{
-\item{y}{input variable description}
+\item{y}{the observed response vector}
 
-\item{z}{input variable description}
+\item{z}{the treatment vector}
 
-\item{X}{input variable description}
+\item{X}{the features matrix}
 
-\item{ratio_dis}{input variable description}
+\item{ratio_dis}{the ratio of data delegated to the discovery subsample}
 
-\item{method_dis}{input variable description}
+\item{ite_method_dis}{the method to estimate the discovery sample ITE}
 
-\item{method_inf}{input variable description}
+\item{ite_method_inf}{the method to estimate the inference sample ITE}
 
-\item{ntrees}{input variable description}
+\item{include_ps_dis}{whether or not to include propensity score estimate as a covariate in discovery ITE estimation}
 
-\item{min_nods}{input variable description}
+\item{include_ps_inf}{whether or not to include propensity score estimate as a covariate in inference ITE estimation}
 
-\item{max_nodes}{input variable description}
+\item{ntrees}{the number of decision trees}
+
+\item{min_nodes}{the minimum size of the trees' terminal nodes}
+
+\item{max_nodes}{the maximum size of the trees' terminal nodes}
+
+\item{t}{the common support used in generating the causal rules matrix}
 }
 \value{
-
+a list containing a select list of causal rules, Conditional Average Treatment Effect estimates, and a sensitivity analysis
 }
 \description{
-description
+Method for performing the Causal Rule Ensemble on a dataset with a response variable, a treatment variable, and various features
 }
