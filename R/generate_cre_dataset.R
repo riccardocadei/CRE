@@ -1,5 +1,5 @@
 #' @title
-#' Generate CRE Data
+#' Generate CRE Synthetic Data
 #'
 #' @description
 #' Method for generating synthetic data for testing the Causal Rule Ensemble package
@@ -16,6 +16,11 @@
 #' @export
 #'
 generate_cre_dataset <- function(n, rho, n_rules, effect_size, discrete, seed) {
+  # Check for correct discrete input
+  if (!(discrete %in% c(TRUE, FALSE))) {
+    stop("Invalid 'discrete' input. Please specify TRUE or FALSE.")
+  }
+
   # Set seed
   set.seed(seed)
 
