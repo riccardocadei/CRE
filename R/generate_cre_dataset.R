@@ -8,17 +8,17 @@
 #' @param rho the correlation within the variables
 #' @param n_rules the number of causal rules, either 2 or 4
 #' @param effect_size the effect size magnitude
-#' @param discrete whether to use discrete or continuous outcomes, either TRUE or FALSE
+#' @param binary whether to use binary or continuous outcomes, either TRUE or FALSE
 #' @param seed the seed to set when generating data
 #'
 #' @return a list of synthetic data containing an outcome vector, a treatment vector, and a matrix of 10 covariates
 #'
 #' @export
 #'
-generate_cre_dataset <- function(n, rho, n_rules, effect_size, discrete, seed) {
-  # Check for correct discrete input
-  if (!(discrete %in% c(TRUE, FALSE))) {
-    stop("Invalid 'discrete' input. Please specify TRUE or FALSE.")
+generate_cre_dataset <- function(n, rho, n_rules, effect_size, binary, seed) {
+  # Check for correct binary input
+  if (!(binary %in% c(TRUE, FALSE))) {
+    stop("Invalid 'binary' input. Please specify TRUE or FALSE.")
   }
 
   # Set seed
@@ -58,7 +58,7 @@ generate_cre_dataset <- function(n, rho, n_rules, effect_size, discrete, seed) {
   }
 
   # Generate Treatment Effects
-  if (discrete) {
+  if (binary) {
     y0 <- stats::rbinom(n, 1, 0.5)
     y1 <- y0 + tau
   } else {
@@ -74,7 +74,7 @@ generate_cre_dataset <- function(n, rho, n_rules, effect_size, discrete, seed) {
   z <- stats::rbinom(n, 1, prob = prob)
 
   # Generate Outcome
-  if (discrete) {
+  if (binary) {
     y <- y0 * (1 - z) + y1 * z
   } else {
     y <- y0 * (1 - z) + y1 * z + x1 - x2 + x3
