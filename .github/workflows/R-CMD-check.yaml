@@ -75,12 +75,12 @@ jobs:
               clangpp_path=$(which clang++)
               mkdir ~/.R
               touch ~/.R/Makevars
-              cat "CC=$clang_path" >> ~/.R/Makevars
-              cat "CXX11=$clangpp_path" >> ~/.R/Makevars
-              cat "CXX14=$clangpp_path" >> ~/.R/Makevars
-              cat "CXX17=$clangpp_path" >> ~/.R/Makevars
-              cat "CXX1X=$clangpp_path" >> ~/.R/Makevars
-              cat "$LDFLAGS_path -o task -fopenmp" >> ~/.R/Makevars
+              echo "CC=$clang_path" >> ~/.R/Makevars
+              echo "CXX11=$clangpp_path" >> ~/.R/Makevars
+              echo "CXX14=$clangpp_path" >> ~/.R/Makevars
+              echo "CXX17=$clangpp_path" >> ~/.R/Makevars
+              echo "CXX1X=$clangpp_path" >> ~/.R/Makevars
+
 
       - name: Install dependencies
         run: |
