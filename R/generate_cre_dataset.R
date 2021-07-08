@@ -28,9 +28,9 @@ generate_cre_dataset <- function(n, rho, n_rules, effect_size, discrete, seed) {
   p <- 10
   mu <- rep(0, p)
   Sigma <- matrix(rho, nrow = p, ncol = p) + diag(p) * (1 - rho)
-  rawvars <- mvrnorm(n = n, mu = mu, Sigma = Sigma)
-  pvars <- pnorm(rawvars)
-  X <- qbinom(pvars, 1, 0.5)
+  rawvars <- MASS::mvrnorm(n = n, mu = mu, Sigma = Sigma)
+  pvars <- stats::pnorm(rawvars)
+  X <- stats::qbinom(pvars, 1, 0.5)
   colnames(X) <- paste("X", 1:10, sep = "")
   x1 <- X[,1]
   x2 <- X[,2]
@@ -59,10 +59,10 @@ generate_cre_dataset <- function(n, rho, n_rules, effect_size, discrete, seed) {
 
   # Generate Treatment Effects
   if (discrete) {
-    y0 <- rbinom(n, 1, 0.5)
+    y0 <- stats::rbinom(n, 1, 0.5)
     y1 <- y0 + tau
   } else {
-    y0 <- rnorm(n, mean = x1 + 0.5 * x2 + x3, sd = 1)
+    y0 <- stats::rnorm(n, mean = x1 + 0.5 * x2 + x3, sd = 1)
     y1 <- y0 + tau
   }
 
@@ -71,7 +71,7 @@ generate_cre_dataset <- function(n, rho, n_rules, effect_size, discrete, seed) {
   prob <- exp(logit.prob) / (1 + exp(logit.prob))
 
   # Generate Treatment Indicator
-  z <- rbinom(n, 1, prob = prob)
+  z <- stats::rbinom(n, 1, prob = prob)
 
   # Generate Outcome
   if (discrete) {
