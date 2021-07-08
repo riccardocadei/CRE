@@ -2,14 +2,7 @@
 
 ### Added
 - `generate_cre_dataset` function to generate synthetic data for testing the package
-
-### Changed
-
-### Fixed
-
-### Removed
-
-## CRE (devloping version) 
+- `test-generate_cre_dataset` function test
 
 ### Added
 - `estimate_ps` function to estimate the propensity score
@@ -20,12 +13,6 @@
 - `estimate_cate` include two methods for estimating the CATE values
 - `cre` added initial checks for binary outcome and whether to include the propensity score in the ITE estimation
 - `estimate_ite_xyz` conduct propensity score estimation using helper function
-
-### Fixed
-
-### Removed
-
-## CRE (devloping version) 
 
 ### Added
 - `analyze_sensitivity` function to conduct sensitivity analysis for unmeasured confounding
@@ -44,9 +31,3 @@
 - `select_causal_rules` function to apply penalized regression to causal rules to select only the most important ones
 - `split_data` function to split input data into discovery and inference subsamples
 - `take1` function to create a subsample of indices
-
-### Changed
-
-### Fixed
-
-### Removed
