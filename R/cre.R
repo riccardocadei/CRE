@@ -22,7 +22,25 @@
 #' @export
 #'
 cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
-                include_ps_dis, include_ps_inf, ntrees, min_nodes, max_nodes, t) {
+                include_ps_dis = NA, include_ps_inf = NA, ntrees, min_nodes, max_nodes, t) {
+  # Check for correct numerical inputs
+  if (class(y) != "numeric") stop("Invalid 'y' input. Please input a numeric vector.")
+  if (class(z) != "integer") stop("Invalid 'z' input. Please input a binary treatment vector.")
+  if (length(class(X)) == 1) {
+    if (class(X) != "data.frame") {
+      stop("Invalid 'X' input. Please input a matrix or data frame.")
+    }
+  }
+  if (length(class(X)) == 2) {
+    if (!(identical(class(X), c("matrix", "array")))) {
+      stop("Invalid 'X' input. Please input a matrix or data frame.")
+    }
+  }
+  if (class(ratio_dis) != "numeric" | !dplyr::between(ratio_dis, 0, 1)) stop("Invalid 'ratio_dis' input. Please input a number between 0 and 1.")
+  if (class(ntrees) != "numeric") stop("Invalid 'ntrees' input. Please input a number.")
+  if (class(min_nodes) != "numeric") stop("Invalid 'min_nodes' input. Please input a number.")
+  if (class(max_nodes) != "numeric") stop("Invalid 'max_nodes' input. Please input a number.")
+  if (class(t) != "numeric") stop("Invalid 'ntrees' input. Please input a number.")
 
   # Check for correct ITE inputs
   if (!(tolower(ite_method_dis) %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf", "xbcf", "cf"))) {
@@ -35,9 +53,9 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
   }
 
   # Check for propensity score estimation
-  if (!(toupper(include_ps_dis) %in% c("TRUE", "FALSE")) |
-      !(toupper(include_ps_inf) %in% c("TRUE", "FALSE"))) {
-    stop("Please specify 'TRUE' or 'FALSE' for the include_ps_dis and include_ps_inf arguments.")
+  if (!(toupper(include_ps_dis) %in% c("TRUE", "FALSE", NA)) |
+      !(toupper(include_ps_inf) %in% c("TRUE", "FALSE", NA))) {
+    stop("Please specify 'TRUE', 'FALSE', or NA for the include_ps_dis and include_ps_inf arguments.")
   }
 
   # Check for binary outcome
