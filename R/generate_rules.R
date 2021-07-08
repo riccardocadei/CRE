@@ -33,9 +33,9 @@ generate_rules <- function(X, ite_std, ntrees, min_nodes, max_nodes) {
   treelist_RF <- inTrees::RF2List(forest)
   rules_RF <- extract_rules(treelist_RF, X, ntrees, ite_std)
   # Gradient Boosting
-  dist <- ifelse(is.numeric(y), "gaussian", "bernoulli")
-  if (is.numeric(y) == FALSE) {
-    y <- as.numeric(y) - 1
+  dist <- ifelse(is.numeric(ite_std), "gaussian", "bernoulli")
+  if (is.numeric(ite_std) == FALSE) {
+    ite_std <- as.numeric(ite_std) - 1
   }
   model1_GB <- gbm::gbm.fit(x = X, y = ite_std, bag.fraction = sf, n.trees = 1,
                             interaction.depth = (mn / 2), shrinkage = 0.01,
