@@ -1,6 +1,17 @@
 ## CRE (devloping version) 
 
 ### Added
+- `generate_cre_dataset` function to generate synthetic data for testing the package
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## CRE (devloping version) 
+
+### Added
 - `estimate_ps` function to estimate the propensity score
 - `estimate_ite_xbart` function to generate ITE estimates using accelerated BART
 - `estimate_ite_xbcf` function to generate ITE estimates using accelerated BCF
