@@ -9,12 +9,13 @@
 #' @param X the features matrix
 #' @param ite_method the method for estimating the Individual Treatment Effect, either Inverse Propensity Weighting "ipw", Stabilized Inverse Propensity Weighting "sipw", Outcome Regression "or", BART "bart", Accelerated BART "xbart", Bayesian Causal Forest "bcf", Accelerated Bayesian Causal Forest "xbcf", or Causal Forest "cf"
 #' @param include_ps whether or not to include propensity score estimate as a covariate in ITE estimation
+#' @param binary whether or not the outcome is binary
 #'
 #' @return a list of raw ITE estimates and standardized ITE estimates
 #'
 #' @export
 #'
-estimate_ite <- function(y, z, X, ite_method, include_ps) {
+estimate_ite <- function(y, z, X, ite_method, include_ps, binary) {
   if (ite_method == "ipw") {
     ite <- estimate_ite_ipw(y, z, X)
   } else if (ite_method == "sipw") {
@@ -34,6 +35,9 @@ estimate_ite <- function(y, z, X, ite_method, include_ps) {
   } else {
     stop("Invalid ITE method. Please choose from the following:
          'ipw', 'sipw', or, 'bart', 'xbart', 'bcf', 'xbcf', or 'cf'")
+  }
+  if (binary) {
+    ite <- round(ite, 0)
   }
   ite_std <- (ite - mean(ite)) / stats::sd(ite)
   return(list(ite = ite, ite_std = ite_std))
