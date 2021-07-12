@@ -7,11 +7,11 @@ test_that("CF ITE Estimated Correctly", {
   include_ps <- TRUE
 
   # Incorrect data inputs
-  suppressWarnings(expect_error(estimate_ite_cf(y = "test", z, X, include_ps)))
-  suppressWarnings(expect_error(estimate_ite_cf(y, z = "test", X, include_ps)))
-  suppressWarnings(expect_error(estimate_ite_cf(y, z, X = "test", include_ps)))
-  suppressWarnings(expect_error(estimate_ite_cf(y, z, X, include_ps = "test")))
-  suppressWarnings(expect_error(estimate_ite_cf(y, z, X, include_ps = NA)))
+  expect_error(estimate_ite_cf(y = "test", z, X, include_ps))
+  expect_error(estimate_ite_cf(y, z = "test", X, include_ps))
+  expect_error(estimate_ite_cf(y, z, X = "test", include_ps))
+  expect_error(estimate_ite_cf(y, z, X, include_ps = "test"))
+  expect_error(estimate_ite_cf(y, z, X, include_ps = NA))
 
   # Correct outputs
   ite_result <- estimate_ite_cf(y, z, X, include_ps)

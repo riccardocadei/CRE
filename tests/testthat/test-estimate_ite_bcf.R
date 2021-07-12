@@ -6,9 +6,9 @@ test_that("BCF ITE Estimated Correctly", {
   X <- dataset_cont[["X"]]
 
   # Incorrect data inputs
-  suppressWarnings(expect_error(estimate_ite_bcf(y = "test", z, X)))
-  suppressWarnings(expect_error(estimate_ite_bcf(y, z = "test", X)))
-  suppressWarnings(expect_error(estimate_ite_bcf(y, z, X = "test")))
+  expect_error(estimate_ite_bcf(y = "test", z, X))
+  expect_error(estimate_ite_bcf(y, z = "test", X))
+  expect_error(estimate_ite_bcf(y, z, X = "test"))
 
   # Correct outputs
   ite_result <- estimate_ite_bcf(y, z, X)

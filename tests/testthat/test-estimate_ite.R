@@ -9,18 +9,18 @@ test_that("ITE Estimated Correctly", {
   binary <- TRUE
 
   # Incorrect data inputs
-  suppressWarnings(expect_error(estimate_ite(y = "test", z, X, ite_method, include_ps, binary)))
-  suppressWarnings(expect_error(estimate_ite(y, z = "test", X, ite_method, include_ps, binary)))
-  suppressWarnings(expect_error(estimate_ite(y, z, X = "test", ite_method, include_ps, binary)))
+  expect_error(estimate_ite(y = "test", z, X, ite_method, include_ps, binary))
+  expect_error(estimate_ite(y, z = "test", X, ite_method, include_ps, binary))
+  expect_error(estimate_ite(y, z, X = "test", ite_method, include_ps, binary))
 
   # Incorrect ite_method input
-  suppressWarnings(expect_error(estimate_ite(y, z, X, ite_method = "test", include_ps, binary)))
+  expect_error(estimate_ite(y, z, X, ite_method = "test", include_ps, binary))
 
   # Incorrect include_ps input
-  suppressWarnings(expect_error(estimate_ite(y, z, X, ite_method, include_ps = "test", binary)))
+  expect_error(estimate_ite(y, z, X, ite_method, include_ps = "test", binary))
 
   # Incorrect binary input
-  suppressWarnings(expect_error(estimate_ite(y, z, X, ite_method, include_ps, binary = "test")))
+  expect_error(estimate_ite(y, z, X, ite_method, include_ps, binary = "test"))
 
   # Correct outputs
   ite_result <- estimate_ite(y, z, X, ite_method, include_ps, binary)

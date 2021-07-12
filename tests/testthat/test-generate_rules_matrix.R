@@ -32,9 +32,9 @@ test_that("Rules Extracted Correctly", {
   ###### Run Tests ######
 
   # Incorrect inputs
-  suppressWarnings(expect_error(generate_rules_matrix(X = "test", initial_rules, t)))
-  suppressWarnings(expect_error(generate_rules_matrix(X, initial_rules = NA, t)))
-  suppressWarnings(expect_error(generate_rules_matrix(X, initial_rules, t = "test")))
+  expect_error(generate_rules_matrix(X = "test", initial_rules, t))
+  expect_error(generate_rules_matrix(X, initial_rules = NA, t))
+  expect_error(generate_rules_matrix(X, initial_rules, t = "test"))
 
   # Correct outputs
   rules_all <- generate_rules_matrix(X, initial_rules, t)

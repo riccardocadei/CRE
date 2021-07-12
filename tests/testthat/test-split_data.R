@@ -12,8 +12,8 @@ test_that("split_data works as expected.", {
   z <- as.matrix(z)
 
   # Incorrect data inputs
-  suppressWarnings(expect_error(split_data(y, z, X, ratio_dis = NA)))
-  suppressWarnings(expect_error(split_data(y, z, X, ratio_dis = 2)))
+  expect_error(split_data(y, z, X, ratio_dis = NA))
+  expect_error(split_data(y, z, X, ratio_dis = 2))
 
   # Correct outputs
   subgroups <- split_data(y, z, X, ratio_dis)

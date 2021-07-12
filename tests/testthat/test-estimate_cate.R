@@ -73,9 +73,9 @@ test_that("CATE Estimation Runs Correctly", {
   ###### Run Tests ######
 
   # Incorrect inputs
-  suppressWarnings(expect_error(estimate_cate(ite_inf = "test", rules_matrix_inf, rules_list_inf)))
-  suppressWarnings(expect_error(estimate_cate(ite_inf, rules_matrix_inf = "test", rules_list_inf)))
-  suppressWarnings(expect_error(estimate_cate(ite_inf, rules_matrix_inf, rules_list_inf = "test")))
+  expect_error(estimate_cate(ite_inf = "test", rules_matrix_inf, rules_list_inf))
+  expect_error(estimate_cate(ite_inf, rules_matrix_inf = "test", rules_list_inf))
+  expect_error(estimate_cate(ite_inf, rules_matrix_inf, rules_list_inf = "test"))
 
   # Correct outputs
   cate_inf <- estimate_cate(ite_inf, rules_matrix_inf, rules_list_inf)

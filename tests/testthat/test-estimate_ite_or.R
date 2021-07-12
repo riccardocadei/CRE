@@ -6,9 +6,9 @@ test_that("OR ITE Estimated Correctly", {
   X <- dataset_cont[["X"]]
 
   # Incorrect data inputs
-  suppressWarnings(expect_error(estimate_ite_or(y = "test", z, X)))
-  suppressWarnings(expect_error(estimate_ite_or(y, z = NA, X)))
-  suppressWarnings(expect_error(estimate_ite_or(y, z, X = "test")))
+  expect_error(estimate_ite_or(y = "test", z, X))
+  expect_error(estimate_ite_or(y, z = NA, X))
+  expect_error(estimate_ite_or(y, z, X = "test"))
 
   # Correct outputs
   ite_result <- estimate_ite_or(y, z, X)

@@ -40,9 +40,9 @@ test_that("CATE Estimation Runs Correctly", {
   ###### Run Tests ######
 
   # Incorrect inputs
-  suppressWarnings(expect_error(select_causal_rules(rules_matrix_std = "test", rules_list, ite_std, binary, q, rules_method)))
-  suppressWarnings(expect_error(select_causal_rules(rules_matrix_std, rules_list, ite_std = "test", binary, q, rules_method)))
-  suppressWarnings(expect_error(select_causal_rules(rules_matrix_std, rules_list, ite_std, binary = "test", q, rules_method)))
+  expect_error(select_causal_rules(rules_matrix_std = "test", rules_list, ite_std, binary, q, rules_method))
+  expect_error(select_causal_rules(rules_matrix_std, rules_list, ite_std = "test", binary, q, rules_method))
+  expect_error(select_causal_rules(rules_matrix_std, rules_list, ite_std, binary = "test", q, rules_method))
 
   # Correct outputs
   select_rules <- select_causal_rules(rules_matrix_std, rules_list, ite_std, binary, q, rules_method)

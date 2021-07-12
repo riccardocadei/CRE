@@ -26,11 +26,11 @@ test_that("Rules Generated Correctly", {
   ###### Run Tests ######
 
   # Incorrect inputs
-  suppressWarnings(expect_error(generate_rules(X = "test", ite_std, ntrees, min_nodes, max_nodes)))
-  suppressWarnings(expect_error(generate_rules(X, ite_std = "test", ntrees, min_nodes, max_nodes)))
-  suppressWarnings(expect_error(generate_rules(X, ite_std, ntrees = "test", min_nodes, max_nodes)))
-  suppressWarnings(expect_error(generate_rules(X, ite_std, ntrees, min_nodes = "test", max_nodes)))
-  suppressWarnings(expect_error(generate_rules(X, ite_std, ntrees, min_nodes, max_nodes = "test")))
+  expect_error(generate_rules(X = "test", ite_std, ntrees, min_nodes, max_nodes))
+  expect_error(generate_rules(X, ite_std = "test", ntrees, min_nodes, max_nodes))
+  expect_error(generate_rules(X, ite_std, ntrees = "test", min_nodes, max_nodes))
+  expect_error(generate_rules(X, ite_std, ntrees, min_nodes = "test", max_nodes))
+  expect_error(generate_rules(X, ite_std, ntrees, min_nodes, max_nodes = "test"))
 
   # Correct outputs
   initial_rules <- generate_rules(X, ite_std, ntrees, min_nodes, max_nodes)

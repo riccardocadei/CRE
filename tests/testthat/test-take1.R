@@ -1,6 +1,6 @@
 test_that("take1 works as expected.", {
   # Incorrect data inputs
-  suppressWarnings(expect_error(take1(len = NA)))
+  expect_error(take1(len = NA))
 
   # Correct outputs
   sequence <- take1(10)

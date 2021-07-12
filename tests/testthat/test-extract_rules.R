@@ -28,14 +28,18 @@ test_that("Rules Extracted Correctly", {
   sf <- min(1, (11 * sqrt(N) + 1) / N)
   mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
   # Random Forest
-  forest <- randomForest::randomForest(x = X, y = ite_std, sampsize = sf * N,
-                                       replace = FALSE, ntree = 1, maxnodes = mn,
-                                       nodesize = min_nodes)
+  forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
+                                                        sampsize = sf * N,
+                                                        replace = FALSE,
+                                                        ntree = 1, maxnodes = mn,
+                                                        nodesize = min_nodes))
   for(i in 2:ntrees) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
-    model1_RF <- randomForest::randomForest(x = X, y = ite_std, sampsize = sf * N,
-                                            replace = FALSE, ntree = 1, maxnodes = mn,
-                                            nodesize = min_nodes)
+    model1_RF <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
+                                                             sampsize = sf * N,
+                                                             replace = FALSE,
+                                                             ntree = 1, maxnodes = mn,
+                                                             nodesize = min_nodes))
     forest <- randomForest::combine(forest, model1_RF)
   }
   treelist <- inTrees::RF2List(forest)
@@ -43,10 +47,10 @@ test_that("Rules Extracted Correctly", {
   ###### Run Tests ######
 
   # Incorrect inputs
-  suppressWarnings(expect_error(extract_rules(treelist = "test", X, ntrees, ite_std)))
-  suppressWarnings(expect_error(extract_rules(treelist, X = "test", ntrees, ite_std)))
-  suppressWarnings(expect_error(extract_rules(treelist, X, ntrees = NA, ite_std)))
-  suppressWarnings(expect_error(extract_rules(treelist, X, ntrees, ite_std = "test")))
+  expect_error(extract_rules(treelist = "test", X, ntrees, ite_std))
+  expect_error(extract_rules(treelist, X = "test", ntrees, ite_std))
+  expect_error(extract_rules(treelist, X, ntrees = NA, ite_std))
+  expect_error(extract_rules(treelist, X, ntrees, ite_std = "test"))
 
   # Correct outputs
   rules_RF <- extract_rules(treelist, X, ntrees, ite_std)
