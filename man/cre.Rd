@@ -11,12 +11,14 @@ cre(
   ratio_dis,
   ite_method_dis,
   ite_method_inf,
-  include_ps_dis,
-  include_ps_inf,
+  include_ps_dis = NA,
+  include_ps_inf = NA,
   ntrees,
   min_nodes,
   max_nodes,
-  t
+  t,
+  q,
+  rules_method
 )
 }
 \arguments{
@@ -32,9 +34,9 @@ cre(
 
 \item{ite_method_inf}{the method to estimate the inference sample ITE}
 
-\item{include_ps_dis}{whether or not to include propensity score estimate as a covariate in discovery ITE estimation}
+\item{include_ps_dis}{whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, XBART, or CF}
 
-\item{include_ps_inf}{whether or not to include propensity score estimate as a covariate in inference ITE estimation}
+\item{include_ps_inf}{whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, XBART, or CF}
 
 \item{ntrees}{the number of decision trees}
 
@@ -43,6 +45,10 @@ cre(
 \item{max_nodes}{the maximum size of the trees' terminal nodes}
 
 \item{t}{the common support used in generating the causal rules matrix}
+
+\item{q}{the selection threshold used in selecting the causal rules}
+
+\item{rules_method}{the method for selecting causal rules with binary outcomes}
 }
 \value{
 a list containing a select list of causal rules, Conditional Average Treatment Effect estimates, and a sensitivity analysis

@@ -4,7 +4,14 @@
 \alias{select_causal_rules}
 \title{Select Causal Rules}
 \usage{
-select_causal_rules(rules_matrix_std, rules_list, ite_std, rules_method)
+select_causal_rules(
+  rules_matrix_std,
+  rules_list,
+  ite_std,
+  binary,
+  q,
+  rules_method
+)
 }
 \arguments{
 \item{rules_matrix_std}{the standardized causal rules matrix}
@@ -13,7 +20,11 @@ select_causal_rules(rules_matrix_std, rules_list, ite_std, rules_method)
 
 \item{ite_std}{the standardized ITE}
 
-\item{rules_method}{the method for performing penalized regression on the causal rules to select only those that are important}
+\item{binary}{whether or not the outcome is binary}
+
+\item{q}{the selection threshold used in selecting the causal rules}
+
+\item{rules_method}{the method for selecting causal rules with binary outcomes, either "conservative", "anticonservative", or NA}
 }
 \value{
 a vector of causal rules

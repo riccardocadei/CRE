@@ -7,14 +7,14 @@ test_that("BART ITE Estimated Correctly", {
   include_ps <- TRUE
 
   # Incorrect data inputs
-  expect_error(estimate_ite_bart(y = "test", z, X, include_ps))
-  expect_error(estimate_ite_bart(y, z = "test", X, include_ps))
-  expect_error(estimate_ite_bart(y, z, X = "test", include_ps))
-  expect_error(estimate_ite_bart(y, z, X = "test", include_ps = "test"))
-  expect_error(estimate_ite_bart(y, z, X = "test", include_ps = NA))
+  expect_error(estimate_ite_xbart(y = "test", z, X, include_ps))
+  expect_error(estimate_ite_xbart(y, z = "test", X, include_ps))
+  expect_error(estimate_ite_xbart(y, z, X = "test", include_ps))
+  expect_error(estimate_ite_xbart(y, z, X, include_ps = "test"))
+  expect_error(estimate_ite_xbart(y, z, X, include_ps = NA))
 
   # Correct outputs
-  ite_result <- estimate_ite_bart(y, z, X, include_ps)
+  ite_result <- estimate_ite_xbart(y, z, X, include_ps)
   expect_true(length(ite_result) == length(y))
   expect_true(class(ite_result) == "numeric")
 })

@@ -8,17 +8,17 @@
 #' @param rho the correlation within the variables
 #' @param n_rules the number of causal rules, either 2 or 4
 #' @param effect_size the effect size magnitude
-#' @param discrete whether to use discrete or continuous outcomes, either TRUE or FALSE
+#' @param binary whether to use binary or continuous outcomes, either TRUE or FALSE
 #' @param seed the seed to set when generating data
 #'
 #' @return a list of synthetic data containing an outcome vector, a treatment vector, and a matrix of 10 covariates
 #'
 #' @export
 #'
-generate_cre_dataset <- function(n, rho, n_rules, effect_size, discrete, seed) {
-  # Check for correct discrete input
-  if (!(discrete %in% c(TRUE, FALSE))) {
-    stop("Invalid 'discrete' input. Please specify TRUE or FALSE.")
+generate_cre_dataset <- function(n, rho, n_rules, effect_size, binary, seed) {
+  # Check for correct binary input
+  if (!(binary %in% c(TRUE, FALSE))) {
+    stop("Invalid 'binary' input. Please specify TRUE or FALSE.")
   }
 
   # Set seed
@@ -43,25 +43,26 @@ generate_cre_dataset <- function(n, rho, n_rules, effect_size, discrete, seed) {
   x9 <- X[,9]
   x10 <- X[,10]
 
-  # Generate Causal Rules
-  stopifnot(n_rules %in% c(2, 4))
-  if (n_rules == 2) {
-    tau = rep(0, n)
-    tau[x1==0 & x2==0] = effect_size
-    tau[x2==1 & x3==1] = -effect_size
+  # Generate Causal Rules and Treatment Effects
+  if (binary) {
+    y0 <- rep(0, n)
+    y0[x2 == 1 & x3 == 1] <- 1
+    y1 <- rep(0, n)
+    y1[x1 == 0 & x2 == 0] <- 1
+    tau <- y1 - y0
   } else {
-    tau = rep(0, n)
-    tau[x1==0 & x2==0] = effect_size
-    tau[x1==1 & x2==1] = -effect_size
-    tau[x2==0 & x3==0] = effect_size
-    tau[x2==1 & x3==1] = -effect_size
-  }
-
-  # Generate Treatment Effects
-  if (discrete) {
-    y0 <- stats::rbinom(n, 1, 0.5)
-    y1 <- y0 + tau
-  } else {
+    stopifnot(n_rules %in% c(2, 4))
+    if (n_rules == 2) {
+      tau <- rep(0, n)
+      tau[x1 == 0 & x2 == 0] = effect_size
+      tau[x2 == 1 & x3 == 1] = -effect_size
+    } else {
+      tau <- rep(0, n)
+      tau[x1 == 0 & x2 == 0] = effect_size
+      tau[x1 == 1 & x2 == 1] = -effect_size
+      tau[x2 == 0 & x3 == 0] = effect_size
+      tau[x2 == 1 & x3 == 1] = -effect_size
+    }
     y0 <- stats::rnorm(n, mean = x1 + 0.5 * x2 + x3, sd = 1)
     y1 <- y0 + tau
   }
@@ -74,7 +75,7 @@ generate_cre_dataset <- function(n, rho, n_rules, effect_size, discrete, seed) {
   z <- stats::rbinom(n, 1, prob = prob)
 
   # Generate Outcome
-  if (discrete) {
+  if (binary) {
     y <- y0 * (1 - z) + y1 * z
   } else {
     y <- y0 * (1 - z) + y1 * z + x1 - x2 + x3
@@ -82,5 +83,6 @@ generate_cre_dataset <- function(n, rho, n_rules, effect_size, discrete, seed) {
 
   # Observed Data
   dataset <- list(y = y, z = z, X = X)
+  names(dataset) <- c("y", "z", "X")
   return(dataset)
 }
