@@ -46,22 +46,22 @@ generate_cre_dataset <- function(n, rho, n_rules, effect_size, binary, seed) {
   # Generate Causal Rules and Treatment Effects
   if (binary) {
     y0 <- rep(0, n)
-    y0[x2==1 & x3==1] <- 1
+    y0[x2 == 1 & x3 == 1] <- 1
     y1 <- rep(0, n)
-    y1[x1==0 & x2==0] <- 1
+    y1[x1 == 0 & x2 == 0] <- 1
     tau <- y1 - y0
   } else {
     stopifnot(n_rules %in% c(2, 4))
     if (n_rules == 2) {
-      tau = rep(0, n)
-      tau[x1==0 & x2==0] = effect_size
-      tau[x2==1 & x3==1] = -effect_size
+      tau <- rep(0, n)
+      tau[x1 == 0 & x2 == 0] = effect_size
+      tau[x2 == 1 & x3 == 1] = -effect_size
     } else {
-      tau = rep(0, n)
-      tau[x1==0 & x2==0] = effect_size
-      tau[x1==1 & x2==1] = -effect_size
-      tau[x2==0 & x3==0] = effect_size
-      tau[x2==1 & x3==1] = -effect_size
+      tau <- rep(0, n)
+      tau[x1 == 0 & x2 == 0] = effect_size
+      tau[x1 == 1 & x2 == 1] = -effect_size
+      tau[x2 == 0 & x3 == 0] = effect_size
+      tau[x2 == 1 & x3 == 1] = -effect_size
     }
     y0 <- stats::rnorm(n, mean = x1 + 0.5 * x2 + x3, sd = 1)
     y1 <- y0 + tau
