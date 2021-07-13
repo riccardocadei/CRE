@@ -9,7 +9,8 @@ test_that("CATE Estimation Runs Correctly", {
   ite_method_inf <- "xbcf"
   include_ps_dis <- "TRUE"
   include_ps_inf <- NA
-  ntrees <- 100
+  ntrees_rf <- 100
+  ntrees_gbm <- 50
   min_nodes <- 20
   max_nodes <- 5
   t <- 0.025
@@ -44,7 +45,7 @@ test_that("CATE Estimation Runs Correctly", {
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees, min_nodes, max_nodes)
+  initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm, min_nodes, max_nodes)
 
   # Step 4: Generate rules matrix
   rules_all_dis <- generate_rules_matrix(X_dis, initial_rules_dis, t)
