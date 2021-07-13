@@ -13,7 +13,8 @@ cre(
   ite_method_inf,
   include_ps_dis = NA,
   include_ps_inf = NA,
-  ntrees,
+  ntrees_rf,
+  ntrees_gbm,
   min_nodes,
   max_nodes,
   t,
@@ -38,7 +39,9 @@ cre(
 
 \item{include_ps_inf}{whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, XBART, or CF}
 
-\item{ntrees}{the number of decision trees}
+\item{ntrees_rf}{the number of decision trees for randomForest}
+
+\item{ntrees_gbm}{the number of decision trees for gradient boosting}
 
 \item{min_nodes}{the minimum size of the trees' terminal nodes}
 

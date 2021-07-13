@@ -111,14 +111,22 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
+
 <div id="cre-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#cre-" class="anchor"></a>CRE <a href="https://fasrc.github.io/CRE/"><img src="reference/figures/png/logo_place_holder.png" align="right" height="115"></a>
+<a href="#cre-" class="anchor"></a>CRE <a href="https://fasrc.github.io/CRE/"><img src="reference/figures/png/CRE_logo.png" align="right" height="115"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p>This is a placeholder for the website first page.</p>
 </div>
+<div id="overview" class="section level1">
+<h1 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h1>
+<p>The CRE Package in R implements the Causal Rule Ensemble, a method for the discovery of subgroups susceptible to heterogeneous treatment effects.</p>
+<p>The CRE method splits the inputted data into discovery and inference subsamples. On the discovery subsample, it generates and filters causal rules that explain the heterogeneity in treatment effects. It then applies these rules to the inference subsample to estimate the Conditional Average Treatment Effect (CATE) for each subgroup.</p>
+<p>The final outputs are a list of select causal rules and CATE estimates. A sensitivity analysis for unmeasured confounding will also be implemented in a later version.</p>
+</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -46,7 +46,7 @@
 
 
 <meta property="og:title" content="Estimate the Conditional Average Treatment Effect — estimate_cate" />
-<meta property="og:description" content="Method for estimating the Conditional Average Treatment Effect given a standardized vector of Individual Treatment Effects and a standardized matrix of causal rules" />
+<meta property="og:description" content="Method for estimating the Conditional Average Treatment Effect given a standardized vector of Individual Treatment Effects, a standardized matrix of causal rules, a list of causal rules" />
 
 
 
@@ -163,32 +163,32 @@
     </div>
 
     <div class="ref-description">
-    <p>Method for estimating the Conditional Average Treatment Effect given a standardized vector of Individual Treatment Effects and a standardized matrix of causal rules</p>
+    <p>Method for estimating the Conditional Average Treatment Effect given a standardized vector of Individual Treatment Effects, a standardized matrix of causal rules, a list of causal rules</p>
     </div>
 
-    <pre class="usage"><span class='fu'>estimate_cate</span><span class='op'>(</span><span class='va'>ite_std</span>, <span class='va'>rules_matrix_std</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>estimate_cate</span><span class='op'>(</span><span class='va'>ite_inf</span>, <span class='va'>rules_matrix_inf</span>, <span class='va'>rules_list_inf</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ite_std</th>
-      <td><p>the standardized ITE</p></td>
+      <th>ite_inf</th>
+      <td><p>the standardized ITE for the inference subsample</p></td>
     </tr>
     <tr>
-      <th>rules_matrix_std</th>
-      <td><p>the standardized causal rules matrix</p></td>
+      <th>rules_matrix_inf</th>
+      <td><p>the standardized causal rules matrix for the inference subsample</p></td>
+    </tr>
+    <tr>
+      <th>rules_list_inf</th>
+      <td><p>the list of causal rules for the inference subsample</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a vector of CATE estimates</p>
+    <p>two sets of CATE estimates, one done by averaging the ITEs and the other using linear regression</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>TBD</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'TBD' not found</span></div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

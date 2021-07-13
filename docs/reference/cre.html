@@ -173,11 +173,15 @@
   <span class='va'>ratio_dis</span>,
   <span class='va'>ite_method_dis</span>,
   <span class='va'>ite_method_inf</span>,
-  <span class='va'>ntrees</span>,
+  include_ps_dis <span class='op'>=</span> <span class='cn'>NA</span>,
+  include_ps_inf <span class='op'>=</span> <span class='cn'>NA</span>,
+  <span class='va'>ntrees_rf</span>,
+  <span class='va'>ntrees_gbm</span>,
   <span class='va'>min_nodes</span>,
   <span class='va'>max_nodes</span>,
-  <span class='va'>rules_method</span>,
-  <span class='va'>t</span>
+  <span class='va'>t</span>,
+  <span class='va'>q</span>,
+  <span class='va'>rules_method</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -208,8 +212,20 @@
       <td><p>the method to estimate the inference sample ITE</p></td>
     </tr>
     <tr>
-      <th>ntrees</th>
-      <td><p>the number of decision trees</p></td>
+      <th>include_ps_dis</th>
+      <td><p>whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, XBART, or CF</p></td>
+    </tr>
+    <tr>
+      <th>include_ps_inf</th>
+      <td><p>whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, XBART, or CF</p></td>
+    </tr>
+    <tr>
+      <th>ntrees_rf</th>
+      <td><p>the number of decision trees for randomForest</p></td>
+    </tr>
+    <tr>
+      <th>ntrees_gbm</th>
+      <td><p>the number of decision trees for gradient boosting</p></td>
     </tr>
     <tr>
       <th>min_nodes</th>
@@ -220,12 +236,16 @@
       <td><p>the maximum size of the trees' terminal nodes</p></td>
     </tr>
     <tr>
-      <th>rules_method</th>
-      <td><p>the method for performing penalized regression on the causal rules to select only those that are important</p></td>
-    </tr>
-    <tr>
       <th>t</th>
       <td><p>the common support used in generating the causal rules matrix</p></td>
+    </tr>
+    <tr>
+      <th>q</th>
+      <td><p>the selection threshold used in selecting the causal rules</p></td>
+    </tr>
+    <tr>
+      <th>rules_method</th>
+      <td><p>the method for selecting causal rules with binary outcomes</p></td>
     </tr>
     </table>
 
