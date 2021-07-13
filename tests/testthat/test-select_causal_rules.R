@@ -6,7 +6,8 @@ test_that("CATE Estimation Runs Correctly", {
   X <- dataset_cont[["X"]]
   ite_method <- "xbart"
   include_ps <- "TRUE"
-  ntrees <- 100
+  ntrees_rf <- 100
+  ntrees_gbm <- 50
   min_nodes <- 20
   max_nodes <- 5
   t <- 0.025
@@ -29,7 +30,7 @@ test_that("CATE Estimation Runs Correctly", {
   ite_std <- ite_list[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite_std, ntrees, min_nodes, max_nodes)
+  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes, max_nodes)
 
   # Step 4: Generate rules matrix
   rules_all <- generate_rules_matrix(X, initial_rules, t)
