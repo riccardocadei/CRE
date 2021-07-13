@@ -92,6 +92,7 @@ library(CRE)
 ### Users need to call only one function in the CRE package to conduct subgroup analysis: `cre()`. 
 
 The `cre()` inputs asked from the user are as follows: 
+
 - `y` the observed response vector
 - `z` the treatment vector
 - `X` the features matrix
@@ -127,6 +128,7 @@ cre_cate_estimates_regression <- cre_results[[3]] # expected output: matrix of C
 
 ### Running Examples
 You can use any causal inference studies data to test the package. The database needs to have the following attributes:
+
 - `y`: Output vector
 - `z`: Treatment vector
 - `X`: Covariate matrix

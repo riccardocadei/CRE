@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Estimate the Individual Treatment Effect — estimate_ite • CRE</title>
+<title>Estimate the Individual Treatment Effect using Accelerated Bayesian Additive Regression Trees — estimate_ite_xbart • CRE</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Estimate the Individual Treatment Effect — estimate_ite" />
-<meta property="og:description" content="Method for estimating the Individual Treatment Effect given a response vector, a treatment vector, a features matrix, and a desired algorithm" />
+<meta property="og:title" content="Estimate the Individual Treatment Effect using Accelerated Bayesian Additive Regression Trees — estimate_ite_xbart" />
+<meta property="og:description" content="Method for estimating the Individual Treatment Effect using Accelerated Bayesian Additive Regression Trees given a response vector, a treatment vector, and a features matrix" />
 
 
 
@@ -157,16 +157,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Estimate the Individual Treatment Effect</h1>
-    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/estimate_ite.R'><code>R/estimate_ite.R</code></a></small>
-    <div class="hidden name"><code>estimate_ite.Rd</code></div>
+    <h1>Estimate the Individual Treatment Effect using Accelerated Bayesian Additive Regression Trees</h1>
+    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/estimate_ite_xbart.R'><code>R/estimate_ite_xbart.R</code></a></small>
+    <div class="hidden name"><code>estimate_ite_xbart.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Method for estimating the Individual Treatment Effect given a response vector, a treatment vector, a features matrix, and a desired algorithm</p>
+    <p>Method for estimating the Individual Treatment Effect using Accelerated Bayesian Additive Regression Trees given a response vector, a treatment vector, and a features matrix</p>
     </div>
 
-    <pre class="usage"><span class='fu'>estimate_ite</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span>, <span class='va'>X</span>, <span class='va'>ite_method</span>, <span class='va'>include_ps</span>, <span class='va'>binary</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>estimate_ite_xbart</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span>, <span class='va'>X</span>, <span class='va'>include_ps</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,22 +184,14 @@
       <td><p>the features matrix</p></td>
     </tr>
     <tr>
-      <th>ite_method</th>
-      <td><p>the method for estimating the Individual Treatment Effect, either Inverse Propensity Weighting "ipw", Stabilized Inverse Propensity Weighting "sipw", Outcome Regression "or", BART "bart", Accelerated BART "xbart", Bayesian Causal Forest "bcf", Accelerated Bayesian Causal Forest "xbcf", or Causal Forest "cf"</p></td>
-    </tr>
-    <tr>
       <th>include_ps</th>
       <td><p>whether or not to include propensity score estimate as a covariate in ITE estimation</p></td>
-    </tr>
-    <tr>
-      <th>binary</th>
-      <td><p>whether or not the outcome is binary</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list of raw ITE estimates and standardized ITE estimates</p>
+    <p>a vector of ITE estimates</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

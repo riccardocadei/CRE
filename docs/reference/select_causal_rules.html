@@ -166,7 +166,14 @@
     <p>Method for selecting the causal rules that are most important</p>
     </div>
 
-    <pre class="usage"><span class='fu'>select_causal_rules</span><span class='op'>(</span><span class='va'>rules_matrix_std</span>, <span class='va'>rules_list</span>, <span class='va'>ite_std</span>, <span class='va'>rules_method</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>select_causal_rules</span><span class='op'>(</span>
+  <span class='va'>rules_matrix_std</span>,
+  <span class='va'>rules_list</span>,
+  <span class='va'>ite_std</span>,
+  <span class='va'>binary</span>,
+  <span class='va'>q</span>,
+  <span class='va'>rules_method</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,8 +191,16 @@
       <td><p>the standardized ITE</p></td>
     </tr>
     <tr>
+      <th>binary</th>
+      <td><p>whether or not the outcome is binary</p></td>
+    </tr>
+    <tr>
+      <th>q</th>
+      <td><p>the selection threshold used in selecting the causal rules</p></td>
+    </tr>
+    <tr>
       <th>rules_method</th>
-      <td><p>the method for performing penalized regression on the causal rules to select only those that are important</p></td>
+      <td><p>the method for selecting causal rules with binary outcomes, either "conservative", "anticonservative", or NA</p></td>
     </tr>
     </table>
 
@@ -193,10 +208,6 @@
 
     <p>a vector of causal rules</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>TBD</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'TBD' not found</span></div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -166,7 +166,7 @@
     <p>Method for estimating the Individual Treatment Effect using Bayesian Additive Regression Trees given a response vector, a treatment vector, and a features matrix</p>
     </div>
 
-    <pre class="usage"><span class='fu'>estimate_ite_bart</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span>, <span class='va'>X</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>estimate_ite_bart</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span>, <span class='va'>X</span>, <span class='va'>include_ps</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -183,16 +183,16 @@
       <th>X</th>
       <td><p>the features matrix</p></td>
     </tr>
+    <tr>
+      <th>include_ps</th>
+      <td><p>whether or not to include propensity score estimate as a covariate in ITE estimation</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a vector of ITE estimates</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>#TBD</span>
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

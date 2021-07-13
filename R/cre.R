@@ -12,7 +12,8 @@
 #' @param ite_method_inf the method to estimate the inference sample ITE
 #' @param include_ps_dis whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, XBART, or CF
 #' @param include_ps_inf whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, XBART, or CF
-#' @param ntrees the number of decision trees
+#' @param ntrees_rf the number of decision trees for randomForest
+#' @param ntrees_gbm the number of decision trees for gradient boosting
 #' @param min_nodes the minimum size of the trees' terminal nodes
 #' @param max_nodes the maximum size of the trees' terminal nodes
 #' @param t the common support used in generating the causal rules matrix
@@ -24,8 +25,8 @@
 #' @export
 #'
 cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
-                include_ps_dis = NA, include_ps_inf = NA, ntrees, min_nodes,
-                max_nodes, t, q, rules_method) {
+                include_ps_dis = NA, include_ps_inf = NA, ntrees_rf, ntrees_gbm,
+                min_nodes, max_nodes, t, q, rules_method) {
   # Check for correct numerical inputs
   if (class(y) != "numeric") stop("Invalid 'y' input. Please input a numeric vector.")
   if (class(z) != "integer") stop("Invalid 'z' input. Please input a binary treatment vector.")
@@ -40,7 +41,8 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
     }
   }
   if (class(ratio_dis) != "numeric" | !dplyr::between(ratio_dis, 0, 1)) stop("Invalid 'ratio_dis' input. Please input a number between 0 and 1.")
-  if (class(ntrees) != "numeric") stop("Invalid 'ntrees' input. Please input a number.")
+  if (class(ntrees_rf) != "numeric") stop("Invalid 'ntrees_rf' input. Please input a number.")
+  if (class(ntrees_gbm) != "numeric") stop("Invalid 'ntrees_gbm' input. Please input a number.")
   if (class(min_nodes) != "numeric") stop("Invalid 'min_nodes' input. Please input a number.")
   if (class(max_nodes) != "numeric") stop("Invalid 'max_nodes' input. Please input a number.")
   if (class(t) != "numeric") stop("Invalid 't' input. Please input a number.")
@@ -125,7 +127,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
 
   # Step 3: Generate rules list
   message("Step 3: Generating Initial Causal Rules")
-  initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees, min_nodes, max_nodes)
+  initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm, min_nodes, max_nodes)
 
   # Step 4: Generate rules matrix
   message("Step 4: Generating Causal Rules Matrix")

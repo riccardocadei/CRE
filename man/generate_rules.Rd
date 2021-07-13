@@ -4,14 +4,16 @@
 \alias{generate_rules}
 \title{Generate Rules}
 \usage{
-generate_rules(X, ite_std, ntrees, min_nodes, max_nodes)
+generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes, max_nodes)
 }
 \arguments{
 \item{X}{the features matrix}
 
 \item{ite_std}{the standardized ITE}
 
-\item{ntrees}{the number of decision trees}
+\item{ntrees_rf}{the number of decision trees for randomForest}
+
+\item{ntrees_gbm}{the number of decision trees for gradient boosting}
 
 \item{min_nodes}{the minimum size of the trees' terminal nodes}
 
