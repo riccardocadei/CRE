@@ -13,28 +13,17 @@
 #' @export
 #'
 estimate_cate <- function(ite_inf, rules_matrix_inf, rules_list_inf) {
-  # Convert rules matrix to a data frame and convert columns to factors
-  rules_df_factor <- as.data.frame(rules_matrix_inf)
-  for (i in 1:ncol(rules_df_factor)) {
-    rules_df_factor[,i] <- as.factor(rules_df_factor[,i])
-  }
-
   # Check that matrix and list of rules have same length, then join them
   stopifnot(ncol(rules_matrix_inf) == length(rules_list_inf))
-  names(rules_df_factor) <- rules_list_inf
-  joined_ite_rules <- cbind(ite_inf, rules_df_factor)
+  df_rules_factor <- as.data.frame(rules_matrix_inf) %>% dplyr::transmute_all(as.factor)
+  names(df_rules_factor) <- rules_list_inf
+  joined_ite_rules <- cbind(ite_inf, df_rules_factor)
 
   # Fit linear regression model with contr.treatment, then extract coefficients and confidence intervals
   options(contrasts = rep("contr.treatment", 2))
   model1_cate <- stats::lm(ite_inf ~ ., data = joined_ite_rules)
   model1_coef <- summary(model1_cate)$coef[,c(1,4)] %>% as.data.frame
   model1_ci <- stats::confint(model1_cate) %>% as.data.frame() %>% dplyr::filter(!is.na(.))
-
-  group_means <- vector(length = nrow(model1_coef))
-  group_means[1] <- model1_coef[1,1]
-  for (i in 2:nrow(model1_coef)) {
-    group_means[i] <- model1_coef[1,1] + model1_coef[i,1]
-  }
 
   # Generate model 1 data frame
   cate_reg_orig <- model1_coef %>% cbind(model1_ci)
