@@ -120,8 +120,7 @@ cre_results <- cre(y, z, X, ratio_dis = 0.25, ite_method_dis = 'xbart',
                    ite_method_inf = 'xbcf', include_ps_dis = TRUE, include_ps_inf = TRUE, 
                    ntrees = 100, min_nodes = 20, max_nodes = 5, t = 0.025, q = 0.8, rules_method = NA)
 cre_select_rules <- cre_results[[1]] # expected output: vector of rule strings
-cre_cate_estimates_means <- cre_results[[2]] # expected output: matrix of CATE estimates
-cre_cate_estimates_regression <- cre_results[[3]] # expected output: matrix of CATE estimates
+cre_cate_estimates <- cre_results[[2]] # expected output: matrix of CATE estimates
 ```
 
 # Testing the Package, Examples, and Discussion
