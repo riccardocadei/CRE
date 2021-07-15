@@ -80,11 +80,7 @@ test_that("CATE Estimation Runs Correctly", {
 
   # Correct outputs
   cate_inf <- estimate_cate(ite_inf, rules_matrix_inf, rules_list_inf)
-  expect_true(length(cate_inf) == 2)
-  expect_identical(class(cate_inf[[1]]), c("data.frame"))
-  expect_identical(class(cate_inf[[2]]), c("data.frame"))
-  expect_identical(names(cate_inf[[1]]), c("Rule", "CATE", "CI_lower", "CI_upper"))
-  expect_identical(names(cate_inf[[2]]), c("Rule", "CATE", "PVal", "CI_lower", "CI_upper"))
-  expect_true(cate_inf[[1]][1,1] == "Average Treatment Effect")
-  expect_true(cate_inf[[2]][1,1] == "(Intercept)")
+  expect_true(class(cate_inf) == "data.frame")
+  expect_identical(names(cate_inf), c("Rule", "Model_Coef", "CATE", "PVal", "CI_lower", "CI_upper"))
+  expect_true(cate_inf[1,1] == "(Intercept)")
 })
