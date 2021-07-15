@@ -160,12 +160,8 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
   rules_matrix_std_inf <- rules_all_inf[["rules_matrix_std"]]
   cate_inf <- estimate_cate(ite_inf, rules_matrix_inf, rules_list_inf)
 
-  # Step 7: Conduct sensitivity analysis
-  #message("Step 7: Conducting Sensitivity Analysis")
-  #sensitivity_results <- analyze_sensitivity(ite_std_inf, rules_matrix_std_inf)
-
   # Return Results
   message("CRE method complete. Returning results.")
-  cre_results <- list(select_rules = rules_list_inf, cate_means = cate_inf[[1]], cate_reg = cate_inf[[2]])
+  cre_results <- list(select_rules = rules_list_inf, cates = cate_inf)
   return(cre_results)
 }
