@@ -66,20 +66,22 @@ test_that("CATE Estimation Runs Correctly", {
   ite_std_inf <- ite_list_inf[["ite_std"]]
 
   # Step 6: Estimate CATE
-  rules_all_inf <- generate_rules_matrix(X_inf, select_rules_dis, t)
-  rules_list_inf <- rules_all_inf[["rules_list"]]
-  rules_matrix_inf <- rules_all_inf[["rules_matrix"]]
-  rules_matrix_std_inf <- rules_all_inf[["rules_matrix_std"]]
+  rules_matrix_inf <- matrix(0, nrow = dim(X_inf)[1], ncol = length(select_rules_dis))
+  for (i in 1:length(select_rules_dis)) {
+    rules_matrix_inf[eval(parse(text = select_rules_dis[i]), list(X = X_inf)), i] <- 1
+  }
+  cate_inf <- estimate_cate(ite_inf, rules_matrix_inf, select_rules_dis)
+
 
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(estimate_cate(ite_inf = "test", rules_matrix_inf, rules_list_inf))
-  expect_error(estimate_cate(ite_inf, rules_matrix_inf = "test", rules_list_inf))
-  expect_error(estimate_cate(ite_inf, rules_matrix_inf, rules_list_inf = "test"))
+  expect_error(estimate_cate(ite_inf = "test", rules_matrix_inf, select_rules_dis))
+  expect_error(estimate_cate(ite_inf, rules_matrix_inf = "test", select_rules_dis))
+  expect_error(estimate_cate(ite_inf, rules_matrix_inf, select_rules_dis = "test"))
 
   # Correct outputs
-  cate_inf <- estimate_cate(ite_inf, rules_matrix_inf, rules_list_inf)
+  cate_inf <- estimate_cate(ite_inf, rules_matrix_inf, select_rules_dis)
   expect_true(class(cate_inf) == "data.frame")
   expect_identical(names(cate_inf), c("Rule", "Model_Coef", "CATE", "PVal", "CI_lower", "CI_upper"))
   expect_true(cate_inf[1,1] == "(Intercept)")
