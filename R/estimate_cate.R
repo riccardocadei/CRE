@@ -38,7 +38,6 @@ estimate_cate <- function(ite_inf, rules_matrix_inf, rules_list_inf) {
   for (i in 2:nrow(cate_reg_orig)) {
     cate_reg_orig[i,3] <- cate_reg_orig[1,2] + cate_reg_orig[i,2]
   }
-  stopifnot(identical(rules_list_inf, cate_reg_orig$Rule[2:nrow(cate_reg_orig)]))
 
   # Return final results
   return(cate_reg_orig)
