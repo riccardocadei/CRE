@@ -20,7 +20,7 @@
 #' @param q the selection threshold used in selecting the causal rules
 #' @param rules_method the method for selecting causal rules with binary outcomes
 #'
-#' @return a list containing a select list of causal rules, Conditional Average Treatment Effect estimates, and a sensitivity analysis
+#' @return a list containing the list of select causal rules and a matrix of Conditional Average Treatment Effect estimates
 #'
 #' @export
 #'
