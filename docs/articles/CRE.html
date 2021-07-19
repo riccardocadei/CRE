@@ -203,7 +203,9 @@ library(CRE)</a></code></pre>
 <li>
 <code>include_ps_inf</code> whether to include the propensity score estimate in the inference ITE estimation (2)</li>
 <li>
-<code>ntrees</code> the number of decision trees</li>
+<code>ntrees_rf</code> the number of decision trees for random forests</li>
+<li>
+<code>ntrees_gbm</code> the number of decision trees for gradient boosting</li>
 <li>
 <code>min_nodes</code> the minimum size of the trees’ terminal nodes</li>
 <li>
@@ -213,10 +215,25 @@ library(CRE)</a></code></pre>
 <li>
 <code>q</code> the selection threshold used in selecting the causal rules</li>
 <li>
-<code>rules_method</code> the method for selecting causal rules with binary outcomes, either “conservative”, “anticonservative”, or NA</li>
+<code>rules_method</code> the method for selecting causal rules with binary outcomes, either “conservative”, “anticonservative”, or NA (if continuous)</li>
 </ul>
-<p><strong>(1)</strong> Options for the ITE estimation: Inverse Propensity Weighting (<code>ipw</code>), Stabilized Inverse Propensity Weighting (<code>sipw</code>), Outcome Regression (<code>or</code>), Bayesian Additive Regression Trees (<code>bart</code>), Accelerated Bayesian Additive Regression Trees (<code>xbart</code>), Bayesian Causal Forests (<code>bcf</code>), Accelerated Bayesian Causal Forests (<code>xbcf</code>), or Causal Forests (<code>cf</code>)</p>
-<p><strong>(2)</strong> This argument will only be considered if the ITE method selected is <code>bart</code>, <code>xbart</code>, or <code>cf</code></p>
+</div>
+<div id="a-note-on-the-parameters" class="section level3">
+<h3 class="hasAnchor">
+<a href="#a-note-on-the-parameters" class="anchor"></a>A note on the parameters</h3>
+<p><strong>(1)</strong> Options for the ITE estimation are as follows:</p>
+<ul>
+<li>Inverse Propensity Weighting (<code>ipw</code>)</li>
+<li>Stabilized Inverse Propensity Weighting (<code>sipw</code>)</li>
+<li>Outcome Regression (<code>or</code>)</li>
+<li>Bayesian Additive Regression Trees (<code>bart</code>)</li>
+<li>Accelerated Bayesian Additive Regression Trees (<code>xbart</code>)</li>
+<li>Bayesian Causal Forests (<code>bcf</code>)</li>
+<li>Accelerated Bayesian Causal Forests (<code>xbcf</code>)</li>
+<li>Causal Forests (<code>cf</code>)</li>
+</ul>
+<p>We recommend using <code>ipw</code>, <code>sipw</code>, <code>or</code>, <code>bcf</code>, or <code>xbcf</code> on data with <strong>continuous</strong> outcomes and <code>or</code>, <code>bart</code>, <code>xbart</code> or <code>cf</code> on data with <strong>binary</strong> outcomes to maximize efficiency and accuracy. The following ITE estimation methods are <strong>NOT</strong> compatible with binary outcomes: <code>ipw</code>, <code>sipw</code>, <code>bcf</code>, and <code>xbcf</code>.</p>
+<p><strong>(2)</strong> The <code>include_ps_dis</code> and <code>include_ps_inf</code> arguments will only be considered if the ITE method selected is <code>bart</code>, <code>xbart</code>, or <code>cf</code>.</p>
 </div>
 <div id="cre-example" class="section level3">
 <h3 class="hasAnchor">
@@ -226,8 +243,7 @@ cre_results &lt;- cre(y, z, X, ratio_dis = 0.25, ite_method_dis = 'xbart',
                    ite_method_inf = 'xbcf', include_ps_dis = TRUE, include_ps_inf = TRUE, 
                    ntrees = 100, min_nodes = 20, max_nodes = 5, t = 0.025, q = 0.8, rules_method = NA)
 cre_select_rules &lt;- cre_results[[1]] # expected output: vector of rule strings
-cre_cate_estimates_means &lt;- cre_results[[2]] # expected output: matrix of CATE estimates
-cre_cate_estimates_regression &lt;- cre_results[[3]] # expected output: matrix of CATE estimates</a></code></pre>
+cre_cate_estimates &lt;- cre_results[[2]] # expected output: matrix of CATE estimates</a></code></pre>
 </div>
 </div>
 <div id="testing-the-package-examples-and-discussion" class="section level1">
@@ -321,7 +337,7 @@ cre_results &lt;- cre(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
 <div id="running-the-cre-on-synthetic-data-with-binary-outcomes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#running-the-cre-on-synthetic-data-with-binary-outcomes" class="anchor"></a>Running the CRE on Synthetic Data with Binary Outcomes</h3>
-<p>To run the CRE method on synthetic data with binary outcomes, set the <code>binary</code> argument in <code>generate_cre_dataset</code> to TRUE, and specify the <code>rules_method</code> parameter. Note: The following ITE estimation methods are <strong>NOT</strong> compatible with binary outcomes: <code>ipw</code>, <code>sipw</code>, <code>bcf</code>, <code>xbcf</code></p>
+<p>To run the CRE method on synthetic data with binary outcomes, set the <code>binary</code> argument in <code>generate_cre_dataset</code> to TRUE, and specify the <code>rules_method</code> parameter.</p>
 </div>
 </div>
   </div>

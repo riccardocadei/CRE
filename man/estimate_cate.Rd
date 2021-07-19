@@ -14,7 +14,7 @@ estimate_cate(ite_inf, rules_matrix_inf, rules_list_inf)
 \item{rules_list_inf}{the list of causal rules for the inference subsample}
 }
 \value{
-two sets of CATE estimates, one done by averaging the ITEs and the other using linear regression
+a matrix of CATE estimates
 }
 \description{
 Method for estimating the Conditional Average Treatment Effect given a standardized vector of Individual Treatment Effects, a standardized matrix of causal rules, a list of causal rules

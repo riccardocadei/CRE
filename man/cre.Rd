@@ -54,7 +54,7 @@ cre(
 \item{rules_method}{the method for selecting causal rules with binary outcomes}
 }
 \value{
-a list containing a select list of causal rules, Conditional Average Treatment Effect estimates, and a sensitivity analysis
+a list containing the list of select causal rules and a matrix of Conditional Average Treatment Effect estimates
 }
 \description{
 Method for performing the Causal Rule Ensemble on a dataset with a response variable, a treatment variable, and various features

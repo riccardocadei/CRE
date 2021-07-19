@@ -20,7 +20,7 @@
 #' @param q the selection threshold used in selecting the causal rules
 #' @param rules_method the method for selecting causal rules with binary outcomes
 #'
-#' @return a list containing a select list of causal rules, Conditional Average Treatment Effect estimates, and a sensitivity analysis
+#' @return a list containing the list of select causal rules and a matrix of Conditional Average Treatment Effect estimates
 #'
 #' @export
 #'
@@ -114,7 +114,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
 
   y_inf <- inference[,1]
   z_inf <- inference[,2]
-  X_inf <- inference[,3:ncol(discovery)]
+  X_inf <- inference[,3:ncol(inference)]
 
   ###### Discovery ######
   message("Conducting Discovery Subsample Analysis")
@@ -154,18 +154,14 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
 
   # Step 6: Estimate CATE
   message("Step 6: Estimating CATE")
-  rules_all_inf <- generate_rules_matrix(X_inf, select_rules_dis, t)
-  rules_list_inf <- rules_all_inf[["rules_list"]]
-  rules_matrix_inf <- rules_all_inf[["rules_matrix"]]
-  rules_matrix_std_inf <- rules_all_inf[["rules_matrix_std"]]
-  cate_inf <- estimate_cate(ite_inf, rules_matrix_inf, rules_list_inf)
-
-  # Step 7: Conduct sensitivity analysis
-  #message("Step 7: Conducting Sensitivity Analysis")
-  #sensitivity_results <- analyze_sensitivity(ite_std_inf, rules_matrix_std_inf)
+  rules_matrix_inf <- matrix(0, nrow = dim(X_inf)[1], ncol = length(select_rules_dis))
+  for (i in 1:length(select_rules_dis)) {
+    rules_matrix_inf[eval(parse(text = select_rules_dis[i]), list(X = X_inf)), i] <- 1
+  }
+  cate_inf <- estimate_cate(ite_inf, rules_matrix_inf, select_rules_dis)
 
   # Return Results
   message("CRE method complete. Returning results.")
-  cre_results <- list(select_rules = rules_list_inf, cate_means = cate_inf[[1]], cate_reg = cate_inf[[2]])
+  cre_results <- list(select_rules = select_rules_dis, cate_reg = cate_inf)
   return(cre_results)
 }
