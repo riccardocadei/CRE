@@ -122,7 +122,11 @@ The `cre()` inputs asked from the user are as follows:
 - Accelerated Bayesian Causal Forests (`xbcf`)
 - Causal Forests (`cf`)
 
-We recommend using `or`, `bcf`, `cf`, or `xbcf` on data with **continuous** outcomes and `or`, `bart`, `xbart` or `cf` on data with **binary** outcomes to maximize efficiency and accuracy. The following ITE estimation methods are **NOT** compatible with binary outcomes: `ipw`, `sipw`, `bcf`, and `xbcf`.
+In the original paper by Lee et al. (2020), several methods are tested for the imputation of the ITE for continuous outcomes and the consequent ability to correctly discover the causal rules and precisely estimate the conditional effects within the rules. We refer to this paper for more details on which are the best performing techniques. 
+
+For data with **continuous** outcomes, as a rule of thumb, we suggest the usage of `bcf`, as it has shown the most consistent performance across different simulated scenarios.
+
+For data with **binary** outcomes, we suggest using `or`, `bart`, `xbart` or `cf`. The `ipw`, `sipw`, `bcf`, and `xbcf` ITE estimation methods are **NOT** compatible with binary outcomes.
 
 **(2)** The `include_ps_dis` and `include_ps_inf` arguments will only be considered if the ITE method selected is `bart`, `xbart`, or `cf`.
 

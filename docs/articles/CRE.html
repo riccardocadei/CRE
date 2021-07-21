@@ -232,7 +232,9 @@ library(CRE)</a></code></pre>
 <li>Accelerated Bayesian Causal Forests (<code>xbcf</code>)</li>
 <li>Causal Forests (<code>cf</code>)</li>
 </ul>
-<p>We recommend using <code>or</code>, <code>bcf</code>, <code>cf</code>, or <code>xbcf</code> on data with <strong>continuous</strong> outcomes and <code>or</code>, <code>bart</code>, <code>xbart</code> or <code>cf</code> on data with <strong>binary</strong> outcomes to maximize efficiency and accuracy. The following ITE estimation methods are <strong>NOT</strong> compatible with binary outcomes: <code>ipw</code>, <code>sipw</code>, <code>bcf</code>, and <code>xbcf</code>.</p>
+<p>In the original paper by Lee et al. (2020), several methods are tested for the imputation of the ITE for continuous outcomes and the consequent ability to correctly discover the causal rules and precisely estimate the conditional effects within the rules. We refer to this paper for more details on which are the best performing techniques.</p>
+<p>For data with <strong>continuous</strong> outcomes, as a rule of thumb, we suggest the usage of <code>bcf</code>, as it has shown the most consistent performance across different simulated scenarios.</p>
+<p>For data with <strong>binary</strong> outcomes, we suggest using <code>or</code>, <code>bart</code>, <code>xbart</code> or <code>cf</code>. The <code>ipw</code>, <code>sipw</code>, <code>bcf</code>, and <code>xbcf</code> ITE estimation methods are <strong>NOT</strong> compatible with binary outcomes.</p>
 <p><strong>(2)</strong> The <code>include_ps_dis</code> and <code>include_ps_inf</code> arguments will only be considered if the ITE method selected is <code>bart</code>, <code>xbart</code>, or <code>cf</code>.</p>
 </div>
 <div id="cre-example" class="section level3">
