@@ -133,9 +133,12 @@ For data with **binary** outcomes, we suggest using `or`, `bart`, `xbart` or `cf
 ### CRE Example:
 ```
 library(CRE)
-cre_results <- cre(y, z, X, ratio_dis = 0.25, ite_method_dis = 'xbart', 
-                   ite_method_inf = 'xbcf', include_ps_dis = TRUE, include_ps_inf = TRUE, 
-                   ntrees = 100, min_nodes = 20, max_nodes = 5, t = 0.025, q = 0.8, rules_method = NA)
+```
+```
+cre_results <- cre(y, z, X, ratio_dis = 0.25, ite_method_dis = 'bcf', 
+                   ite_method_inf = 'bcf', include_ps_dis = TRUE, include_ps_inf = TRUE, 
+                   ntrees = 100, min_nodes = 20, max_nodes = 5, t = 0.025, q = 0.8, 
+                   rules_method = NA)
 cre_select_rules <- cre_results[[1]] # expected output: vector of rule strings
 cre_cate_estimates <- cre_results[[2]] # expected output: matrix of CATE estimates
 ```
@@ -154,6 +157,8 @@ The CRE package can generate synthetic data that can be used to test different f
 ### Generating Synthetic Data with Continuous Outcomes
 ```
 library("CRE")
+```
+```
 dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
                                      effect_size = 0.5, binary = FALSE, seed = 2021) 
 str(dataset_cont)
@@ -169,6 +174,8 @@ str(dataset_cont)
 ### Generating Synthetic Data with Binary Outcomes
 ```
 library("CRE")
+```
+```
 dataset_binary <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
                                        effect_size = 0.5, binary = TRUE, seed = 2021) 
 str(dataset_binary)
@@ -195,7 +202,8 @@ In the following example, we first generate 1000 synthetic data samples, then we
 ```
 # Load package
 library("CRE")
-
+```
+```
 # Generate synthetic data with continuous outcomes
 dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
                                 effect_size = 0.5, binary = FALSE, seed = 2021) 
@@ -205,8 +213,8 @@ y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]
 ratio_dis <- 0.25
-ite_method_dis <- "xbart"
-ite_method_inf <- "xbcf"
+ite_method_dis <- "bcf"
+ite_method_inf <- "bcf"
 include_ps_dis <- "TRUE"
 include_ps_inf <- NA
 ntrees <- 100
@@ -223,4 +231,4 @@ cre_results <- cre(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
 ```
 
 ### Running the CRE on Synthetic Data with Binary Outcomes
-To run the CRE method on synthetic data with binary outcomes, set the `binary` argument in `generate_cre_dataset` to TRUE, and specify the `rules_method` parameter. 
+To run the CRE method on synthetic data with binary outcomes, set the `binary` argument in `generate_cre_dataset` to TRUE, and specify the `rules_method` parameter. In addition, make sure the ITE estimation methods selected are compatible with binary outcomes (see above).

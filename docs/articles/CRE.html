@@ -240,12 +240,13 @@ library(CRE)</a></code></pre>
 <div id="cre-example" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cre-example" class="anchor"></a>CRE Example:</h3>
-<pre><code><a href="https://github.com/fasrc/CRE">library(CRE)
-cre_results &lt;- cre(y, z, X, ratio_dis = 0.25, ite_method_dis = 'xbart', 
-                   ite_method_inf = 'xbcf', include_ps_dis = TRUE, include_ps_inf = TRUE, 
-                   ntrees = 100, min_nodes = 20, max_nodes = 5, t = 0.025, q = 0.8, rules_method = NA)
+<pre><code><a href="https://github.com/fasrc/CRE">library(CRE)</a></code></pre>
+<pre><code>cre_results &lt;- cre(y, z, X, ratio_dis = 0.25, ite_method_dis = 'bcf', 
+                   ite_method_inf = 'bcf', include_ps_dis = TRUE, include_ps_inf = TRUE, 
+                   ntrees = 100, min_nodes = 20, max_nodes = 5, t = 0.025, q = 0.8, 
+                   rules_method = NA)
 cre_select_rules &lt;- cre_results[[1]] # expected output: vector of rule strings
-cre_cate_estimates &lt;- cre_results[[2]] # expected output: matrix of CATE estimates</a></code></pre>
+cre_cate_estimates &lt;- cre_results[[2]] # expected output: matrix of CATE estimates</code></pre>
 </div>
 </div>
 <div id="testing-the-package-examples-and-discussion" class="section level1">
@@ -268,8 +269,8 @@ cre_cate_estimates &lt;- cre_results[[2]] # expected output: matrix of CATE esti
 <div id="generating-synthetic-data-with-continuous-outcomes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#generating-synthetic-data-with-continuous-outcomes" class="anchor"></a>Generating Synthetic Data with Continuous Outcomes</h3>
-<pre><code><a href="https://github.com/fasrc/CRE">library("CRE")
-dataset_cont &lt;- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
+<pre><code><a href="https://github.com/fasrc/CRE">library("CRE")</a></code></pre>
+<pre><code>dataset_cont &lt;- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
                                      effect_size = 0.5, binary = FALSE, seed = 2021) 
 str(dataset_cont)
 ## List of 3
@@ -278,13 +279,13 @@ str(dataset_cont)
 # $ X: num [1:1000, 1:10] 1 1 1 0 0 0 0 1 1 0 ...
 #  ..- attr(*, "dimnames")=List of 2
 #  .. ..$ : NULL
-#  .. ..$ : chr [1:10] "X1" "X2" "X3" "X4" ...</a></code></pre>
+#  .. ..$ : chr [1:10] "X1" "X2" "X3" "X4" ...</code></pre>
 </div>
 <div id="generating-synthetic-data-with-binary-outcomes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#generating-synthetic-data-with-binary-outcomes" class="anchor"></a>Generating Synthetic Data with Binary Outcomes</h3>
-<pre><code><a href="https://github.com/fasrc/CRE">library("CRE")
-dataset_binary &lt;- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
+<pre><code><a href="https://github.com/fasrc/CRE">library("CRE")</a></code></pre>
+<pre><code>dataset_binary &lt;- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
                                        effect_size = 0.5, binary = TRUE, seed = 2021) 
 str(dataset_binary)
 ## List of 3
@@ -293,7 +294,7 @@ str(dataset_binary)
 # $ X: num [1:1000, 1:10] 1 1 1 0 0 0 0 1 1 0 ...
 #  ..- attr(*, "dimnames")=List of 2
 #  .. ..$ : NULL
-#  .. ..$ : chr [1:10] "X1" "X2" "X3" "X4" ...</a></code></pre>
+#  .. ..$ : chr [1:10] "X1" "X2" "X3" "X4" ...</code></pre>
 </div>
 <div id="running-the-cre-on-synthetic-data-with-continuous-outcomes" class="section level3">
 <h3 class="hasAnchor">
@@ -309,9 +310,8 @@ str(dataset_binary)
 <li>Since we’re not using binary outcomes in the first example, we will not specify a rules method (<code>rules_method &lt;- NA</code>)</li>
 </ul>
 <pre><code><a href="https://github.com/fasrc/CRE"># Load package
-library("CRE")
-
-# Generate synthetic data with continuous outcomes
+library("CRE")</a></code></pre>
+<pre><code># Generate synthetic data with continuous outcomes
 dataset &lt;- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
                                 effect_size = 0.5, binary = FALSE, seed = 2021) 
 
@@ -320,8 +320,8 @@ y &lt;- dataset[["y"]]
 z &lt;- dataset[["z"]]
 X &lt;- dataset[["X"]]
 ratio_dis &lt;- 0.25
-ite_method_dis &lt;- "xbart"
-ite_method_inf &lt;- "xbcf"
+ite_method_dis &lt;- "bcf"
+ite_method_inf &lt;- "bcf"
 include_ps_dis &lt;- "TRUE"
 include_ps_inf &lt;- NA
 ntrees &lt;- 100
@@ -334,12 +334,12 @@ rules_method &lt;- NA
 # Run CRE method
 cre_results &lt;- cre(y, z, X, ratio_dis, ite_method_dis, ite_method_inf, 
                    include_ps_dis, include_ps_inf, ntrees, min_nodes, max_nodes, 
-                   t, q, rules_method)</a></code></pre>
+                   t, q, rules_method)</code></pre>
 </div>
 <div id="running-the-cre-on-synthetic-data-with-binary-outcomes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#running-the-cre-on-synthetic-data-with-binary-outcomes" class="anchor"></a>Running the CRE on Synthetic Data with Binary Outcomes</h3>
-<p>To run the CRE method on synthetic data with binary outcomes, set the <code>binary</code> argument in <code>generate_cre_dataset</code> to TRUE, and specify the <code>rules_method</code> parameter.</p>
+<p>To run the CRE method on synthetic data with binary outcomes, set the <code>binary</code> argument in <code>generate_cre_dataset</code> to TRUE, and specify the <code>rules_method</code> parameter. In addition, make sure the ITE estimation methods selected are compatible with binary outcomes (see above).</p>
 </div>
 </div>
   </div>
