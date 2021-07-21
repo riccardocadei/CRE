@@ -69,13 +69,17 @@ LDFLAGS=-L/usr/local/opt/llvm/lib -o task -fopenmp
 Then in R, run:
 ```
 library("devtools")
-devtools::install_github("JingyuHe/XBART")
+```
+```
+install_github("JingyuHe/XBART")
 ```
 
 ### How to install the [XBCF](https://github.com/socket778/XBCF) package:
 In R, run: 
 ```
 library(devtools)
+```
+```
 install_github("socket778/XBCF")
 ```
 
@@ -83,7 +87,11 @@ install_github("socket778/XBCF")
 In R, run:
 ```
 library("devtools")
-devtools::install_github("fasrc/CRE")
+```
+```
+install_github("fasrc/CRE")
+```
+```
 library(CRE)
 ```
 
