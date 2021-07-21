@@ -232,7 +232,7 @@ library(CRE)</a></code></pre>
 <li>Accelerated Bayesian Causal Forests (<code>xbcf</code>)</li>
 <li>Causal Forests (<code>cf</code>)</li>
 </ul>
-<p>We recommend using <code>ipw</code>, <code>sipw</code>, <code>or</code>, <code>bcf</code>, or <code>xbcf</code> on data with <strong>continuous</strong> outcomes and <code>or</code>, <code>bart</code>, <code>xbart</code> or <code>cf</code> on data with <strong>binary</strong> outcomes to maximize efficiency and accuracy. The following ITE estimation methods are <strong>NOT</strong> compatible with binary outcomes: <code>ipw</code>, <code>sipw</code>, <code>bcf</code>, and <code>xbcf</code>.</p>
+<p>We recommend using <code>or</code>, <code>bcf</code>, <code>cf</code>, or <code>xbcf</code> on data with <strong>continuous</strong> outcomes and <code>or</code>, <code>bart</code>, <code>xbart</code> or <code>cf</code> on data with <strong>binary</strong> outcomes to maximize efficiency and accuracy. The following ITE estimation methods are <strong>NOT</strong> compatible with binary outcomes: <code>ipw</code>, <code>sipw</code>, <code>bcf</code>, and <code>xbcf</code>.</p>
 <p><strong>(2)</strong> The <code>include_ps_dis</code> and <code>include_ps_inf</code> arguments will only be considered if the ITE method selected is <code>bart</code>, <code>xbart</code>, or <code>cf</code>.</p>
 </div>
 <div id="cre-example" class="section level3">
