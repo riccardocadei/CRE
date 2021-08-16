@@ -1,4 +1,4 @@
-test_that("Causal Rules Selected Correctly", {
+test_that("Rules Interpreted Correctly", {
   # Generate sample data
   dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
                                        effect_size = 2, binary = FALSE, seed = 2021)
@@ -18,6 +18,7 @@ test_that("Causal Rules Selected Correctly", {
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
 
+  X_names <- names(as.data.frame(X))
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
@@ -28,22 +29,26 @@ test_that("Causal Rules Selected Correctly", {
   ite_std <- ite_list[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes, max_nodes)
+  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm,
+                                      min_nodes, max_nodes)
 
   # Step 4: Generate rules matrix
   rules_all <- generate_rules_matrix(X, initial_rules, t)
   rules_matrix <- rules_all[["rules_matrix"]]
   rules_matrix_std <- rules_all[["rules_matrix_std"]]
-  rules_list <- rules_all[["rules_list"]]
+  rules_list_dis <- rules_all[["rules_list"]]
+
+  # Step 5: Select important rules
+  select_rules <- as.character(select_causal_rules(rules_matrix_std, rules_list_dis,
+                                                   ite_std, binary, q, rules_method))
 
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(select_causal_rules(rules_matrix_std = "test", rules_list, ite_std, binary, q, rules_method))
-  expect_error(select_causal_rules(rules_matrix_std, rules_list, ite_std = "test", binary, q, rules_method))
-  expect_error(select_causal_rules(rules_matrix_std, rules_list, ite_std, binary = "test", q, rules_method))
+  expect_error(interpret_select_rules(select_rules, X_names = NA))
 
   # Correct outputs
-  select_rules <- select_causal_rules(rules_matrix_std, rules_list, ite_std, binary, q, rules_method)
-  expect_true(class(select_rules) == "character")
+  select_rules_interpretable <- interpret_select_rules(select_rules, X_names)
+  expect_true(class(select_rules_interpretable) == "character")
+  expect_true(length(select_rules_interpretable) == length(select_rules))
 })
