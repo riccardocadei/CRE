@@ -1,8 +1,8 @@
 #' @title
-#' Title
+#' Split Data
 #'
 #' @description
-#' description
+#' Split Data into Discovery and Inference Subsamples
 #'
 #' @param y the observed response vector
 #' @param z the treatment vector
