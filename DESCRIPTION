@@ -37,5 +37,5 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Imports: tidyverse, dplyr, BART, bcf, randomForest, xgboost, gbm, inTrees, stabs, rpart, grf, glmnet, MASS, doParallel, foreach, devtools, XBART, XBCF, stringr, codingMatrices
+Imports: tidyverse, dplyr, BART, bcf, randomForest, xgboost, gbm, inTrees, stabs, rpart, grf, glmnet, MASS, doParallel, foreach, devtools, XBART, XBCF, stringr, bartCause
 VignetteBuilder: knitr
