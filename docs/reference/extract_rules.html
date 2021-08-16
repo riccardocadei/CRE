@@ -166,7 +166,7 @@
     <p>Method for extracting causal rules from the Random Forest or Gradient Boosting algorithms</p>
     </div>
 
-    <pre class="usage"><span class='fu'>extract_rules</span><span class='op'>(</span><span class='va'>treelist</span>, <span class='va'>X</span>, <span class='va'>ntrees</span>, <span class='va'>ite_std</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>extract_rules</span><span class='op'>(</span><span class='va'>treelist</span>, <span class='va'>X</span>, <span class='va'>ntrees</span>, <span class='va'>ite_std</span>, <span class='va'>take_1</span>, <span class='va'>type_decay</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,6 +186,14 @@
     <tr>
       <th>ite_std</th>
       <td><p>the standardized ITE</p></td>
+    </tr>
+    <tr>
+      <th>take_1</th>
+      <td><p>whether or not to call the take1 helper function</p></td>
+    </tr>
+    <tr>
+      <th>type_decay</th>
+      <td><p>the type of decay to apply when pruning the rules</p></td>
     </tr>
     </table>
 

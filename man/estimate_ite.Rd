@@ -20,7 +20,7 @@ estimate_ite(y, z, X, ite_method, include_ps, binary)
 \item{binary}{whether or not the outcome is binary}
 }
 \value{
-a list of raw ITE estimates and standardized ITE estimates
+a list of raw ITE estimates, standardized ITE estimates, and standard deviations for the ITE estimates
 }
 \description{
 Method for estimating the Individual Treatment Effect given a response vector, a treatment vector, a features matrix, and a desired algorithm

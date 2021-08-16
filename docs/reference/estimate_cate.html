@@ -166,14 +166,24 @@
     <p>Method for estimating the Conditional Average Treatment Effect given a standardized vector of Individual Treatment Effects, a standardized matrix of causal rules, a list of causal rules</p>
     </div>
 
-    <pre class="usage"><span class='fu'>estimate_cate</span><span class='op'>(</span><span class='va'>ite_inf</span>, <span class='va'>rules_matrix_inf</span>, <span class='va'>rules_list_inf</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>estimate_cate</span><span class='op'>(</span>
+  <span class='va'>ite_inf</span>,
+  <span class='va'>sd_ite_inf</span>,
+  <span class='va'>rules_matrix_inf</span>,
+  <span class='va'>rules_list_inf</span>,
+  <span class='va'>ite_method_inf</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ite_inf</th>
-      <td><p>the standardized ITE for the inference subsample</p></td>
+      <td><p>the ITE for the inference subsample</p></td>
+    </tr>
+    <tr>
+      <th>sd_ite_inf</th>
+      <td><p>the standard deviations for the inference ITEs</p></td>
     </tr>
     <tr>
       <th>rules_matrix_inf</th>
@@ -182,6 +192,10 @@
     <tr>
       <th>rules_list_inf</th>
       <td><p>the list of causal rules for the inference subsample</p></td>
+    </tr>
+    <tr>
+      <th>ite_method_inf</th>
+      <td><p>the method for estimating the inference ITEs</p></td>
     </tr>
     </table>
 

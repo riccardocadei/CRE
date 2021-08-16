@@ -4,14 +4,24 @@
 \alias{estimate_cate}
 \title{Estimate the Conditional Average Treatment Effect}
 \usage{
-estimate_cate(ite_inf, rules_matrix_inf, rules_list_inf)
+estimate_cate(
+  ite_inf,
+  sd_ite_inf,
+  rules_matrix_inf,
+  rules_list_inf,
+  ite_method_inf
+)
 }
 \arguments{
-\item{ite_inf}{the standardized ITE for the inference subsample}
+\item{ite_inf}{the ITE for the inference subsample}
+
+\item{sd_ite_inf}{the standard deviations for the inference ITEs}
 
 \item{rules_matrix_inf}{the standardized causal rules matrix for the inference subsample}
 
 \item{rules_list_inf}{the list of causal rules for the inference subsample}
+
+\item{ite_method_inf}{the method for estimating the inference ITEs}
 }
 \value{
 a matrix of CATE estimates
