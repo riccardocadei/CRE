@@ -28,10 +28,10 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
                 include_ps_dis = NA, include_ps_inf = NA, ntrees_rf, ntrees_gbm,
                 min_nodes, max_nodes, t, q, rules_method) {
   # Check for correct numerical inputs
-  if (class(y) != "numeric") stop("Invalid 'y' input. Please input a numeric vector.")
-  if (class(z) != "integer") stop("Invalid 'z' input. Please input a binary treatment vector.")
+  if ((class(y) != "numeric")) stop("Invalid 'y' input. Please input a numeric vector.")
+  if (length(unique(z)) != 2) stop("Invalid 'z' input. Please input a binary treatment vector.")
   if (length(class(X)) == 1) {
-    if (class(X) != "data.frame") {
+    if (!(class(X) %in% c("data.frame", "matrix"))) {
       stop("Invalid 'X' input. Please input a matrix or data frame.")
     }
   }
@@ -40,6 +40,8 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
       stop("Invalid 'X' input. Please input a matrix or data frame.")
     }
   }
+  X_classes <- apply(X, 2, class)
+  if (!all(X_classes %in% c("numeric"))) stop("Invalid 'X' input. Please input a matrix or data frame of numeric but categorical variables")
   if (class(ratio_dis) != "numeric" | !dplyr::between(ratio_dis, 0, 1)) stop("Invalid 'ratio_dis' input. Please input a number between 0 and 1.")
   if (class(ntrees_rf) != "numeric") stop("Invalid 'ntrees_rf' input. Please input a number.")
   if (class(ntrees_gbm) != "numeric") stop("Invalid 'ntrees_gbm' input. Please input a number.")
@@ -100,6 +102,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
 
   # Step 1: Split data
   message("Step 1: Splitting Data")
+  X_names <- names(as.data.frame(X))
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
@@ -138,10 +141,11 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
 
   # Step 5: Select important rules
   message("Step 5: Selecting Important Causal Rules")
-  select_rules_dis <- select_causal_rules(rules_matrix_std_dis, rules_list_dis,
-                                          ite_std_dis, binary, q, rules_method)
+  select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis, rules_list_dis,
+                                                       ite_std_dis, binary, q, rules_method))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
+  if (length(select_rules_dis) == 0) stop("No significant rules were discovered. Ending Analysis.")
 
   ###### Inference ######
   message("Conducting Inference Subsample Analysis")
@@ -151,6 +155,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
   ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, include_ps_inf, binary)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
+  sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
   # Step 6: Estimate CATE
   message("Step 6: Estimating CATE")
@@ -158,10 +163,11 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
   for (i in 1:length(select_rules_dis)) {
     rules_matrix_inf[eval(parse(text = select_rules_dis[i]), list(X = X_inf)), i] <- 1
   }
-  cate_inf <- estimate_cate(ite_inf, rules_matrix_inf, select_rules_dis)
+  select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+  cate_inf <- estimate_cate(ite_inf, sd_ite_inf, rules_matrix_inf, select_rules_interpretable, ite_method_inf)
 
   # Return Results
   message("CRE method complete. Returning results.")
-  cre_results <- list(select_rules = select_rules_dis, cate_reg = cate_inf)
+  cre_results <- list(select_rules = select_rules_interpretable, cates = cate_inf)
   return(cre_results)
 }
