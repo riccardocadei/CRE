@@ -9,6 +9,8 @@ test_that("CRE Runs Correctly", {
   ratio_dis <- 0.25
   ite_method_dis <- "bcf"
   include_ps_dis <- "TRUE"
+  ite_method_inf <- "bcf"
+  include_ps_inf <- "TRUE"
   ntrees_rf <- 100
   ntrees_gbm <- 50
   min_nodes <- 20
@@ -21,9 +23,11 @@ test_that("CRE Runs Correctly", {
 
   # Incorrect y, z, X input
   expect_error(cre(y = "test", z, X, ratio_dis, ite_method_dis, include_ps_dis,
+                   ite_method_inf, include_ps_inf,
                    ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
                    include_offset, offset_name))
   expect_error(cre(y, z = "test", X, ratio_dis, ite_method_dis, include_ps_dis,
+                   ite_method_inf, include_ps_inf,
                    ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
                    include_offset, offset_name))
   expect_error(cre(y, z, X = "test", ratio_dis, ite_method_dis, include_ps_dis,
@@ -32,50 +36,67 @@ test_that("CRE Runs Correctly", {
 
   # Incorrect ratio_dis input
   expect_error(cre(y, z, X, ratio_dis = NA, ite_method_dis, include_ps_dis,
+                   ite_method_inf, include_ps_inf,
                    ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
                    include_offset, offset_name))
   expect_error(cre(y, z, X, ratio_dis = 2, ite_method_dis, include_ps_dis,
+                   ite_method_inf, include_ps_inf,
                    ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
                    include_offset, offset_name))
 
   # Incorrect ite_method input
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis = 0, include_ps_dis,
+                   ite_method_inf, include_ps_inf,
                    ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
                    include_offset, offset_name))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis = "test", include_ps_dis,
+                   ite_method_inf, include_ps_inf,
+                   ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
+                   include_offset, offset_name))
+  expect_error(cre(y, z, X, ratio_dis, ite_method_dis, include_ps_dis,
+                   ite_method_inf = 0, include_ps_inf,
+                   ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
+                   include_offset, offset_name))
+  expect_error(cre(y, z, X, ratio_dis, ite_method_dis, include_ps_dis,
+                   ite_method_inf = "test", include_ps_inf,
                    ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
                    include_offset, offset_name))
 
   # Incorrect ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q inputs
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis,
-                   include_ps_dis, ntrees_rf = "test", ntrees_gbm,
+                   include_ps_dis, ite_method_inf, include_ps_inf,
+                   ntrees_rf = "test", ntrees_gbm,
                    min_nodes, max_nodes, t, q, rules_method,
                    include_offset, offset_name))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis,
-                   include_ps_dis, ntrees_rf, ntrees_gbm = "test",
+                   include_ps_dis, ite_method_inf, include_ps_inf,
+                   ntrees_rf, ntrees_gbm = "test",
                    min_nodes, max_nodes, t, q, rules_method,
                    include_offset, offset_name))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis,
-                   include_ps_dis, ntrees_rf, ntrees_gbm,
+                   include_ps_dis, ite_method_inf, include_ps_inf,
+                   ntrees_rf, ntrees_gbm,
                    min_nodes = "test", max_nodes, t, q, rules_method,
                    include_offset, offset_name))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis,
-                   include_ps_dis, ntrees_rf, ntrees_gbm, min_nodes,
+                   include_ps_dis, ite_method_inf, include_ps_inf,
+                   ntrees_rf, ntrees_gbm, min_nodes,
                    max_nodes = "test", t, q, rules_method,
                    include_offset, offset_name))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis,
-                   include_ps_dis, ntrees_rf, ntrees_gbm, min_nodes,
+                   include_ps_dis, ite_method_inf, include_ps_inf,
+                   ntrees_rf, ntrees_gbm, min_nodes,
                    max_nodes, t = "test", q, rules_method,
                    include_offset, offset_name))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis,
-                   include_ps_dis, ntrees_rf, ntrees_gbm, min_nodes,
+                   include_ps_dis, ite_method_inf, include_ps_inf,
+                   ntrees_rf, ntrees_gbm, min_nodes,
                    max_nodes, t, q = "test", rules_method,
                    include_offset, offset_name))
 
   # Correct outputs
-  cre_results <- cre(y, z, X, ratio_dis, ite_method_dis, include_ps_dis,
+  cre_results <- cre(y, z, X, ratio_dis, ite_method_dis, include_ps_dis, ite_method_inf, include_ps_inf,
                      ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
                      include_offset, offset_name)
   expect_true(class(cre_results) == "data.frame")
-  expect_identical(names(cre_results), c("Predictor", "Estimate", "Std_Error", "Z_Value", "P_Value"))
 })

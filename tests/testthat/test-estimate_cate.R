@@ -9,6 +9,8 @@ test_that("CATE Estimation Runs Correctly", {
   ratio_dis <- 0.25
   ite_method_dis <- "bcf"
   include_ps_dis <- "TRUE"
+  ite_method_inf <- "poisson"
+  include_ps_inf <- "FALSE"
   ntrees_rf <- 100
   ntrees_gbm <- 50
   min_nodes <- 20
@@ -63,6 +65,18 @@ test_that("CATE Estimation Runs Correctly", {
   if (length(select_rules_dis) == 0) stop("No significant rules were discovered. Ending Analysis.")
 
   # Step 6: Estimate CATE
+  if (ite_method_inf != "poisson") {
+    ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, include_ps_inf,
+                                 binary, X_names, include_offset, offset_name)
+    ite_inf <- ite_list_inf[["ite"]]
+    ite_std_inf <- ite_list_inf[["ite_std"]]
+    sd_ite_inf <- ite_list_inf[["sd_ite"]]
+  } else {
+    ite_inf <- NA
+    ite_std_inf <- NA
+    sd_ite_inf <- NA
+  }
+
   rules_matrix_inf <- matrix(0, nrow = dim(X_inf)[1], ncol = length(select_rules_dis))
   for (i in 1:length(select_rules_dis)) {
     rules_matrix_inf[eval(parse(text = select_rules_dis[i]), list(X = X_inf)), i] <- 1
@@ -73,15 +87,18 @@ test_that("CATE Estimation Runs Correctly", {
 
   # Incorrect inputs
   expect_error(estimate_cate(y_inf = "test", z_inf, X_inf, X_names, include_offset, offset_name,
-                             rules_matrix_inf, select_rules_interpretable))
+                             rules_matrix_inf, select_rules_interpretable,
+                             ite_method_inf, ite_inf, sd_ite_inf))
   expect_error(estimate_cate(y_inf, z_inf = "test", X_inf, X_names, include_offset, offset_name,
-                             rules_matrix_inf, select_rules_interpretable))
+                             rules_matrix_inf, select_rules_interpretable,
+                             ite_method_inf, ite_inf, sd_ite_inf))
   expect_error(estimate_cate(y_inf, z_inf, X_inf = "test", X_names, include_offset, offset_name,
-                             rules_matrix_inf, select_rules_interpretable))
+                             rules_matrix_inf, select_rules_interpretable,
+                             ite_method_inf, ite_inf, sd_ite_inf))
 
   # Correct outputs
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset, offset_name,
-                            rules_matrix_inf, select_rules_interpretable)
+                            rules_matrix_inf, select_rules_interpretable,
+                            ite_method_inf, ite_inf, sd_ite_inf)
   expect_true(class(cate_inf) == "data.frame")
-  expect_identical(names(cate_inf), c("Predictor", "Estimate", "Std_Error", "Z_Value", "P_Value"))
 })
