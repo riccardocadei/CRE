@@ -55,13 +55,13 @@ generate_cre_dataset <- function(n, rho, n_rules, effect_size, binary, seed) {
     if (n_rules == 2) {
       tau <- rep(0, n)
       tau[x1 == 0 & x2 == 0] = effect_size
-      tau[x2 == 1 & x3 == 1] = -effect_size
+      tau[x2 == 1 & x3 == 1] = 3 * effect_size
     } else {
       tau <- rep(0, n)
       tau[x1 == 0 & x2 == 0] = effect_size
-      tau[x1 == 1 & x2 == 1] = -effect_size
+      tau[x1 == 1 & x2 == 1] = 3 * effect_size
       tau[x2 == 0 & x3 == 0] = effect_size
-      tau[x2 == 1 & x3 == 1] = -effect_size
+      tau[x2 == 1 & x3 == 1] = 3 * effect_size
     }
     y0 <- stats::rnorm(n, mean = x1 + 0.5 * x2 + x3, sd = 1)
     y1 <- y0 + tau
