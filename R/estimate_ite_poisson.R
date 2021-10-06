@@ -34,11 +34,11 @@ estimate_ite_poisson <- function(y, z, X, X_names, include_offset, offset_name) 
     X_control <- as.data.frame(X[z==0,])
     model_data_treated <- cbind(y_treated, X_treated)
     model_data_control <- cbind(y_control, X_control)
-    temp1 <- stats::glm(y ~ ., data = model_data_treated, family = poisson(link = "log"))
-    temp0 <- stats::glm(y ~ ., data = model_data_control, family = poisson(link = "log"))
+    temp1 <- stats::glm(y ~ ., data = model_data_treated, family = stats::poisson(link = "log"))
+    temp0 <- stats::glm(y ~ ., data = model_data_control, family = stats::poisson(link = "log"))
   }
-  y1hat <- predict(temp1, as.data.frame(X))
-  y0hat <- predict(temp0, as.data.frame(X))
+  y1hat <- stats::predict(temp1, as.data.frame(X))
+  y0hat <- stats::predict(temp0, as.data.frame(X))
   ite <- y1hat - y0hat
   return(ite)
 }
