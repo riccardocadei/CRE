@@ -10,16 +10,16 @@ cre(
   X,
   ratio_dis,
   ite_method_dis,
-  ite_method_inf,
   include_ps_dis = NA,
-  include_ps_inf = NA,
   ntrees_rf,
   ntrees_gbm,
   min_nodes,
   max_nodes,
   t,
   q,
-  rules_method
+  rules_method,
+  include_offset,
+  offset_name
 )
 }
 \arguments{
@@ -33,11 +33,7 @@ cre(
 
 \item{ite_method_dis}{the method to estimate the discovery sample ITE}
 
-\item{ite_method_inf}{the method to estimate the inference sample ITE}
-
 \item{include_ps_dis}{whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, XBART, or CF}
-
-\item{include_ps_inf}{whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, XBART, or CF}
 
 \item{ntrees_rf}{the number of decision trees for randomForest}
 
@@ -52,6 +48,10 @@ cre(
 \item{q}{the selection threshold used in selecting the causal rules}
 
 \item{rules_method}{the method for selecting causal rules with binary outcomes}
+
+\item{include_offset}{whether or not to include an offset when estimating the ITE, for poisson only}
+
+\item{offset_name}{the name of the offset, if it is to be included}
 }
 \value{
 a list containing the list of select causal rules and a matrix of Conditional Average Treatment Effect estimates
