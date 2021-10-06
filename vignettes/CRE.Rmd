@@ -116,6 +116,8 @@ The `cre()` inputs asked from the user are as follows:
 - `t` the common support used in generating the causal rules matrix
 - `q` the selection threshold used in selecting the causal rules
 - `rules_method` the method for selecting causal rules with binary outcomes, either “conservative”, “anticonservative”, or NA (if continuous)
+- `include_offset` whether or not to include an offset when estimating the ITE, for poisson only
+- `offset_name` the name of the offset, if it is to be included
 
 ### A note on the parameters
 
@@ -129,6 +131,7 @@ The `cre()` inputs asked from the user are as follows:
 - Bayesian Causal Forests (`bcf`)
 - Accelerated Bayesian Causal Forests (`xbcf`)
 - Causal Forests (`cf`)
+- Poisson Regression (`poisson`)
 
 In the original paper by Lee et al. (2020), several methods are tested for the imputation of the ITE for continuous outcomes and the consequent ability to correctly discover the causal rules and precisely estimate the conditional effects within the rules. We refer to this paper for more details on which are the best performing techniques. 
 
@@ -146,7 +149,7 @@ library(CRE)
 cre_results <- cre(y, z, X, ratio_dis = 0.25, ite_method_dis = 'bcf', 
                    ite_method_inf = 'bcf', include_ps_dis = TRUE, include_ps_inf = TRUE, 
                    ntrees = 100, min_nodes = 20, max_nodes = 5, t = 0.025, q = 0.8, 
-                   rules_method = NA)
+                   rules_method = NA, include_offset = FALSE, offset_name = NA)
 cre_select_rules <- cre_results[[1]] # expected output: vector of rule strings
 cre_cate_estimates <- cre_results[[2]] # expected output: matrix of CATE estimates
 ```
@@ -206,6 +209,7 @@ In the following example, we first generate 1000 synthetic data samples, then we
 - For trimming the causal rules, we want to use a common support value of 0.025 (`t <- 0.025`)
 - For selecting the most important causal rules, we want to use a selection threshold of 0.8 (`q <- 0.08`)
 - Since we're not using binary outcomes in the first example, we will not specify a rules method (`rules_method <- NA`)
+- Since we're not using Poisson regression, we will not specify an offset (`include_offset <- FALSE`, `offset_name = NA`)
 
 ```
 # Load package
@@ -231,6 +235,8 @@ max_nodes <- 5
 t <- 0.025
 q <- 0.8
 rules_method <- NA
+include_offset <- FALSE
+offset_name <- NA
 
 # Run CRE method
 cre_results <- cre(y, z, X, ratio_dis, ite_method_dis, ite_method_inf, 
