@@ -51,7 +51,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA, ntrees_
 
   # Check for correct ITE inputs
   ite_method_dis <- tolower(ite_method_dis)
-  if (!(ite_method_dis %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf", "xbcf", "cf"))) {
+  if (!(ite_method_dis %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf", "xbcf", "cf", "poisson"))) {
     stop("Invalid ITE method for Discovery Subsample. Please choose from the following:
          'ipw', 'sipw', or, 'bart', 'xbart', 'bcf', 'xbcf', or 'cf'")
   }
