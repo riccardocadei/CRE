@@ -216,6 +216,10 @@ LDFLAGS=-L/usr/local/opt/llvm/lib -o task -fopenmp</code></pre>
 <code>q</code> the selection threshold used in selecting the causal rules</li>
 <li>
 <code>rules_method</code> the method for selecting causal rules with binary outcomes, either “conservative”, “anticonservative”, or NA (if continuous)</li>
+<li>
+<code>include_offset</code> whether or not to include an offset when estimating the ITE, for poisson only</li>
+<li>
+<code>offset_name</code> the name of the offset, if it is to be included</li>
 </ul>
 </div>
 <div id="a-note-on-the-parameters" class="section level3">
@@ -231,6 +235,7 @@ LDFLAGS=-L/usr/local/opt/llvm/lib -o task -fopenmp</code></pre>
 <li>Bayesian Causal Forests (<code>bcf</code>)</li>
 <li>Accelerated Bayesian Causal Forests (<code>xbcf</code>)</li>
 <li>Causal Forests (<code>cf</code>)</li>
+<li>Poisson Regression (<code>poisson</code>)</li>
 </ul>
 <p>In the original paper by Lee et al. (2020), several methods are tested for the imputation of the ITE for continuous outcomes and the consequent ability to correctly discover the causal rules and precisely estimate the conditional effects within the rules. We refer to this paper for more details on which are the best performing techniques.</p>
 <p>For data with <strong>continuous</strong> outcomes, as a rule of thumb, we suggest the usage of <code>bcf</code>, as it has shown the most consistent performance across different simulated scenarios.</p>
@@ -244,7 +249,7 @@ LDFLAGS=-L/usr/local/opt/llvm/lib -o task -fopenmp</code></pre>
 <pre><code>cre_results &lt;- cre(y, z, X, ratio_dis = 0.25, ite_method_dis = 'bcf', 
                    ite_method_inf = 'bcf', include_ps_dis = TRUE, include_ps_inf = TRUE, 
                    ntrees = 100, min_nodes = 20, max_nodes = 5, t = 0.025, q = 0.8, 
-                   rules_method = NA)
+                   rules_method = NA, include_offset = FALSE, offset_name = NA)
 cre_select_rules &lt;- cre_results[[1]] # expected output: vector of rule strings
 cre_cate_estimates &lt;- cre_results[[2]] # expected output: matrix of CATE estimates</code></pre>
 </div>
@@ -308,6 +313,7 @@ str(dataset_binary)
 <li>For trimming the causal rules, we want to use a common support value of 0.025 (<code>t &lt;- 0.025</code>)</li>
 <li>For selecting the most important causal rules, we want to use a selection threshold of 0.8 (<code>q &lt;- 0.08</code>)</li>
 <li>Since we’re not using binary outcomes in the first example, we will not specify a rules method (<code>rules_method &lt;- NA</code>)</li>
+<li>Since we’re not using Poisson regression, we will not specify an offset (<code>include_offset &lt;- FALSE</code>, <code>offset_name = NA</code>)</li>
 </ul>
 <pre><code><a href="https://github.com/fasrc/CRE"># Load package
 library("CRE")</a></code></pre>
@@ -330,6 +336,8 @@ max_nodes &lt;- 5
 t &lt;- 0.025
 q &lt;- 0.8
 rules_method &lt;- NA
+include_offset &lt;- FALSE
+offset_name &lt;- NA
 
 # Run CRE method
 cre_results &lt;- cre(y, z, X, ratio_dis, ite_method_dis, ite_method_inf, 

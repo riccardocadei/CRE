@@ -12,7 +12,10 @@ estimate_cate(
   include_offset,
   offset_name,
   rules_matrix_inf,
-  select_rules_interpretable
+  select_rules_interpretable,
+  ite_method_inf,
+  ite_inf,
+  sd_ite_inf
 )
 }
 \arguments{
@@ -31,6 +34,12 @@ estimate_cate(
 \item{rules_matrix_inf}{the standardized causal rules matrix for the inference subsample}
 
 \item{select_rules_interpretable}{the list of select causal rules in terms of coviariate names}
+
+\item{ite_method_inf}{the method to estimate the inference sample ITE}
+
+\item{ite_inf}{the estimated ITEs for the inference subsample}
+
+\item{sd_ite_inf}{the standard deviations for the estimated ITEs for the inference subsample}
 }
 \value{
 a matrix of CATE estimates

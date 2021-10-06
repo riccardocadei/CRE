@@ -167,35 +167,65 @@
     </div>
 
     <pre class="usage"><span class='fu'>estimate_cate</span><span class='op'>(</span>
-  <span class='va'>ite_inf</span>,
-  <span class='va'>sd_ite_inf</span>,
+  <span class='va'>y_inf</span>,
+  <span class='va'>z_inf</span>,
+  <span class='va'>X_inf</span>,
+  <span class='va'>X_names</span>,
+  <span class='va'>include_offset</span>,
+  <span class='va'>offset_name</span>,
   <span class='va'>rules_matrix_inf</span>,
-  <span class='va'>rules_list_inf</span>,
-  <span class='va'>ite_method_inf</span>
+  <span class='va'>select_rules_interpretable</span>,
+  <span class='va'>ite_method_inf</span>,
+  <span class='va'>ite_inf</span>,
+  <span class='va'>sd_ite_inf</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ite_inf</th>
-      <td><p>the ITE for the inference subsample</p></td>
+      <th>y_inf</th>
+      <td><p>the outcome vector for the inference subsample</p></td>
     </tr>
     <tr>
-      <th>sd_ite_inf</th>
-      <td><p>the standard deviations for the inference ITEs</p></td>
+      <th>z_inf</th>
+      <td><p>the treatment vector for the inference subsample</p></td>
+    </tr>
+    <tr>
+      <th>X_inf</th>
+      <td><p>the covariate vector for the inference subsample</p></td>
+    </tr>
+    <tr>
+      <th>X_names</th>
+      <td><p>the names of the covariates</p></td>
+    </tr>
+    <tr>
+      <th>include_offset</th>
+      <td><p>whether or not to include an offset when estimating the ITE, for poisson only</p></td>
+    </tr>
+    <tr>
+      <th>offset_name</th>
+      <td><p>the name of the offset, if it is to be included</p></td>
     </tr>
     <tr>
       <th>rules_matrix_inf</th>
       <td><p>the standardized causal rules matrix for the inference subsample</p></td>
     </tr>
     <tr>
-      <th>rules_list_inf</th>
-      <td><p>the list of causal rules for the inference subsample</p></td>
+      <th>select_rules_interpretable</th>
+      <td><p>the list of select causal rules in terms of coviariate names</p></td>
     </tr>
     <tr>
       <th>ite_method_inf</th>
-      <td><p>the method for estimating the inference ITEs</p></td>
+      <td><p>the method to estimate the inference sample ITE</p></td>
+    </tr>
+    <tr>
+      <th>ite_inf</th>
+      <td><p>the estimated ITEs for the inference subsample</p></td>
+    </tr>
+    <tr>
+      <th>sd_ite_inf</th>
+      <td><p>the standard deviations for the estimated ITEs for the inference subsample</p></td>
     </tr>
     </table>
 

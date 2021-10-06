@@ -11,6 +11,8 @@ cre(
   ratio_dis,
   ite_method_dis,
   include_ps_dis = NA,
+  ite_method_inf,
+  include_ps_inf = NA,
   ntrees_rf,
   ntrees_gbm,
   min_nodes,
@@ -18,8 +20,8 @@ cre(
   t,
   q,
   rules_method,
-  include_offset,
-  offset_name
+  include_offset = FALSE,
+  offset_name = NA
 )
 }
 \arguments{
@@ -34,6 +36,10 @@ cre(
 \item{ite_method_dis}{the method to estimate the discovery sample ITE}
 
 \item{include_ps_dis}{whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, XBART, or CF}
+
+\item{ite_method_inf}{the method to estimate the inference sample ITE}
+
+\item{include_ps_inf}{whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, XBART, or CF}
 
 \item{ntrees_rf}{the number of decision trees for randomForest}
 

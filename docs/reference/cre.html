@@ -172,8 +172,8 @@
   <span class='va'>X</span>,
   <span class='va'>ratio_dis</span>,
   <span class='va'>ite_method_dis</span>,
-  <span class='va'>ite_method_inf</span>,
   include_ps_dis <span class='op'>=</span> <span class='cn'>NA</span>,
+  <span class='va'>ite_method_inf</span>,
   include_ps_inf <span class='op'>=</span> <span class='cn'>NA</span>,
   <span class='va'>ntrees_rf</span>,
   <span class='va'>ntrees_gbm</span>,
@@ -181,7 +181,9 @@
   <span class='va'>max_nodes</span>,
   <span class='va'>t</span>,
   <span class='va'>q</span>,
-  <span class='va'>rules_method</span>
+  <span class='va'>rules_method</span>,
+  include_offset <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  offset_name <span class='op'>=</span> <span class='cn'>NA</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -208,12 +210,12 @@
       <td><p>the method to estimate the discovery sample ITE</p></td>
     </tr>
     <tr>
-      <th>ite_method_inf</th>
-      <td><p>the method to estimate the inference sample ITE</p></td>
-    </tr>
-    <tr>
       <th>include_ps_dis</th>
       <td><p>whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, XBART, or CF</p></td>
+    </tr>
+    <tr>
+      <th>ite_method_inf</th>
+      <td><p>the method to estimate the inference sample ITE</p></td>
     </tr>
     <tr>
       <th>include_ps_inf</th>
@@ -246,6 +248,14 @@
     <tr>
       <th>rules_method</th>
       <td><p>the method for selecting causal rules with binary outcomes</p></td>
+    </tr>
+    <tr>
+      <th>include_offset</th>
+      <td><p>whether or not to include an offset when estimating the ITE, for poisson only</p></td>
+    </tr>
+    <tr>
+      <th>offset_name</th>
+      <td><p>the name of the offset, if it is to be included</p></td>
     </tr>
     </table>
 
