@@ -9,9 +9,7 @@
 #' @param X the features matrix
 #' @param ratio_dis the ratio of data delegated to the discovery subsample
 #' @param ite_method_dis the method to estimate the discovery sample ITE
-#' @param ite_method_inf the method to estimate the inference sample ITE
 #' @param include_ps_dis whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, XBART, or CF
-#' @param include_ps_inf whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, XBART, or CF
 #' @param ntrees_rf the number of decision trees for randomForest
 #' @param ntrees_gbm the number of decision trees for gradient boosting
 #' @param min_nodes the minimum size of the trees' terminal nodes
@@ -19,14 +17,15 @@
 #' @param t the common support used in generating the causal rules matrix
 #' @param q the selection threshold used in selecting the causal rules
 #' @param rules_method the method for selecting causal rules with binary outcomes
+#' @param include_offset whether or not to include an offset when estimating the ITE, for poisson only
+#' @param offset_name the name of the offset, if it is to be included
 #'
 #' @return a list containing the list of select causal rules and a matrix of Conditional Average Treatment Effect estimates
 #'
 #' @export
 #'
-cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
-                include_ps_dis = NA, include_ps_inf = NA, ntrees_rf, ntrees_gbm,
-                min_nodes, max_nodes, t, q, rules_method) {
+cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA, ntrees_rf, ntrees_gbm,
+                min_nodes, max_nodes, t, q, rules_method, include_offset, offset_name) {
   # Check for correct numerical inputs
   if ((class(y) != "numeric")) stop("Invalid 'y' input. Please input a numeric vector.")
   if (length(unique(z)) != 2) stop("Invalid 'z' input. Please input a binary treatment vector.")
@@ -56,11 +55,6 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
     stop("Invalid ITE method for Discovery Subsample. Please choose from the following:
          'ipw', 'sipw', or, 'bart', 'xbart', 'bcf', 'xbcf', or 'cf'")
   }
-  ite_method_inf <- tolower(ite_method_inf)
-  if (!(ite_method_inf %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf", "xbcf", "cf"))) {
-    stop("Invalid ITE method for Inference Subsample. Please choose from the following:
-         'ipw', 'sipw', or, 'bart', 'xbart', 'bcf', 'xbcf', or 'cf'")
-  }
 
   # Check for correct propensity score estimation inputs
   include_ps_dis <- toupper(include_ps_dis)
@@ -71,20 +65,11 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
   } else {
     include_ps_dis <- NA
   }
-  include_ps_inf <- toupper(include_ps_inf)
-  if (ite_method_inf %in% c("bart", "xbart", "cf")) {
-    if (!(include_ps_inf %in% c(TRUE, FALSE))) {
-      stop("Please specify 'TRUE' or 'FALSE' for the include_ps_inf argument.")
-    }
-  } else {
-    include_ps_inf <- NA
-  }
 
   # Determine outcome type
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
   if (binary) {
-    if (ite_method_dis %in% c("bcf", "xbcf", "ipw", "sipw") |
-        ite_method_inf %in% c("bcf", "xbcf", "ipw", "sipw")) {
+    if (ite_method_dis %in% c("bcf", "xbcf", "ipw", "sipw")) {
       stop("The 'ipw', 'sipw', 'bcf', and 'xbcf' methods are not applicable to data with binary outcomes.
            Please select a method from the following: 'or', 'cf', 'bart', or 'xbart'")
     }
@@ -100,8 +85,8 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
     rules_method <- NA
   }
 
-  # Step 1: Split data
-  message("Step 1: Splitting Data")
+  # Split data
+  message("Splitting Data")
   X_names <- names(as.data.frame(X))
   X <- as.matrix(X)
   y <- as.matrix(y)
@@ -122,25 +107,25 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
   ###### Discovery ######
   message("Conducting Discovery Subsample Analysis")
 
-  # Step 2: Estimate ITE
-  message("Step 2: Estimating ITE")
-  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, include_ps_dis, binary)
+  # Estimate ITE
+  message("Estimating ITE")
+  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, include_ps_dis, binary, X_names, include_offset, offset_name)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
-  # Step 3: Generate rules list
-  message("Step 3: Generating Initial Causal Rules")
+  # Generate rules list
+  message("Generating Initial Causal Rules")
   initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm, min_nodes, max_nodes)
 
-  # Step 4: Generate rules matrix
-  message("Step 4: Generating Causal Rules Matrix")
+  # Generate rules matrix
+  message("Generating Causal Rules Matrix")
   rules_all_dis <- generate_rules_matrix(X_dis, initial_rules_dis, t)
   rules_matrix_dis <- rules_all_dis[["rules_matrix"]]
   rules_matrix_std_dis <- rules_all_dis[["rules_matrix_std"]]
   rules_list_dis <- rules_all_dis[["rules_list"]]
 
-  # Step 5: Select important rules
-  message("Step 5: Selecting Important Causal Rules")
+  # Select important rules
+  message("Selecting Important Causal Rules")
   select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis, rules_list_dis,
                                                        ite_std_dis, binary, q, rules_method))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
@@ -150,24 +135,16 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
   ###### Inference ######
   message("Conducting Inference Subsample Analysis")
 
-  # Step 2: Estimate ITE
-  message("Step 2: Estimating ITE")
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, include_ps_inf, binary)
-  ite_inf <- ite_list_inf[["ite"]]
-  ite_std_inf <- ite_list_inf[["ite_std"]]
-  sd_ite_inf <- ite_list_inf[["sd_ite"]]
-
-  # Step 6: Estimate CATE
-  message("Step 6: Estimating CATE")
+  # Estimate CATE
+  message("Estimating CATE")
   rules_matrix_inf <- matrix(0, nrow = dim(X_inf)[1], ncol = length(select_rules_dis))
   for (i in 1:length(select_rules_dis)) {
     rules_matrix_inf[eval(parse(text = select_rules_dis[i]), list(X = X_inf)), i] <- 1
   }
   select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
-  cate_inf <- estimate_cate(ite_inf, sd_ite_inf, rules_matrix_inf, select_rules_interpretable, ite_method_inf)
+  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset, offset_name, rules_matrix_inf, select_rules_interpretable)
 
   # Return Results
   message("CRE method complete. Returning results.")
-  cre_results <- list(select_rules = select_rules_interpretable, cates = cate_inf)
-  return(cre_results)
+  return(cate_inf)
 }
