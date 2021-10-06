@@ -10,6 +10,8 @@
 #' @param ratio_dis the ratio of data delegated to the discovery subsample
 #' @param ite_method_dis the method to estimate the discovery sample ITE
 #' @param include_ps_dis whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, XBART, or CF
+#' @param ite_method_inf the method to estimate the inference sample ITE
+#' @param include_ps_inf whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, XBART, or CF
 #' @param ntrees_rf the number of decision trees for randomForest
 #' @param ntrees_gbm the number of decision trees for gradient boosting
 #' @param min_nodes the minimum size of the trees' terminal nodes
@@ -24,10 +26,12 @@
 #'
 #' @export
 #'
-cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA, ntrees_rf, ntrees_gbm,
-                min_nodes, max_nodes, t, q, rules_method, include_offset, offset_name) {
+cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
+                ite_method_inf,  include_ps_inf = NA,  ntrees_rf, ntrees_gbm,
+                min_nodes, max_nodes, t, q, rules_method,
+                include_offset = FALSE, offset_name = NA) {
   # Check for correct numerical inputs
-  if ((class(y) != "numeric")) stop("Invalid 'y' input. Please input a numeric vector.")
+  if (!(class(y) %in% c("numeric", "integer"))) stop("Invalid 'y' input. Please input a numeric vector.")
   if (length(unique(z)) != 2) stop("Invalid 'z' input. Please input a binary treatment vector.")
   if (length(class(X)) == 1) {
     if (!(class(X) %in% c("data.frame", "matrix"))) {
@@ -40,7 +44,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA, ntrees_
     }
   }
   X_classes <- apply(X, 2, class)
-  if (!all(X_classes %in% c("numeric"))) stop("Invalid 'X' input. Please input a matrix or data frame of numeric but categorical variables")
+  if (!all(X_classes %in% c("integer", "numeric"))) stop("Invalid 'X' input. Please input a matrix or data frame of numeric, categorical variables")
   if (class(ratio_dis) != "numeric" | !dplyr::between(ratio_dis, 0, 1)) stop("Invalid 'ratio_dis' input. Please input a number between 0 and 1.")
   if (class(ntrees_rf) != "numeric") stop("Invalid 'ntrees_rf' input. Please input a number.")
   if (class(ntrees_gbm) != "numeric") stop("Invalid 'ntrees_gbm' input. Please input a number.")
@@ -53,7 +57,12 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA, ntrees_
   ite_method_dis <- tolower(ite_method_dis)
   if (!(ite_method_dis %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf", "xbcf", "cf", "poisson"))) {
     stop("Invalid ITE method for Discovery Subsample. Please choose from the following:
-         'ipw', 'sipw', or, 'bart', 'xbart', 'bcf', 'xbcf', or 'cf'")
+         'ipw', 'sipw', 'or', 'bart', 'xbart', 'bcf', 'xbcf', 'cf', or 'poisson'")
+  }
+  ite_method_inf <- tolower(ite_method_inf)
+  if (!(ite_method_inf %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf", "xbcf", "cf", "poisson"))) {
+    stop("Invalid ITE method for Inference Subsample. Please choose from the following:
+         'ipw', 'sipw', 'or', 'bart', 'xbart', 'bcf', 'xbcf', 'cf', or 'poisson'")
   }
 
   # Check for correct propensity score estimation inputs
@@ -65,11 +74,20 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA, ntrees_
   } else {
     include_ps_dis <- NA
   }
+  include_ps_inf <- toupper(include_ps_inf)
+  if (ite_method_inf %in% c("bart", "xbart", "cf")) {
+    if (!(include_ps_inf %in% c(TRUE, FALSE))) {
+      stop("Please specify 'TRUE' or 'FALSE' for the include_ps_inf argument.")
+    }
+  } else {
+    include_ps_inf <- NA
+  }
 
   # Determine outcome type
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
   if (binary) {
-    if (ite_method_dis %in% c("bcf", "xbcf", "ipw", "sipw")) {
+    if (ite_method_dis %in% c("bcf", "xbcf", "ipw", "sipw") |
+        ite_method_inf %in% c("bcf", "xbcf", "ipw", "sipw")) {
       stop("The 'ipw', 'sipw', 'bcf', and 'xbcf' methods are not applicable to data with binary outcomes.
            Please select a method from the following: 'or', 'cf', 'bart', or 'xbart'")
     }
@@ -83,6 +101,20 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA, ntrees_
     }
   } else {
     rules_method <- NA
+  }
+
+  # Check for correct offset input
+  if (ite_method_dis == "poisson" | ite_method_inf == "poisson") {
+    if (include_offset == TRUE) {
+      if (is.na(offset_name)) {
+        stop("Invalid offset_name input. Please specify an offset_name if you wish to include an offset.")
+      }
+    } else {
+      offset_name <- NA
+    }
+  } else {
+    include_offset <- FALSE
+    offset_name <- NA
   }
 
   # Split data
@@ -109,7 +141,8 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA, ntrees_
 
   # Estimate ITE
   message("Estimating ITE")
-  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, include_ps_dis, binary, X_names, include_offset, offset_name)
+  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, include_ps_dis,
+                               binary, X_names, include_offset, offset_name)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
@@ -134,6 +167,17 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA, ntrees_
 
   ###### Inference ######
   message("Conducting Inference Subsample Analysis")
+  if (ite_method_inf != "poisson") {
+    ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, include_ps_inf,
+                                 binary, X_names, include_offset, offset_name)
+    ite_inf <- ite_list_inf[["ite"]]
+    ite_std_inf <- ite_list_inf[["ite_std"]]
+    sd_ite_inf <- ite_list_inf[["sd_ite"]]
+  } else {
+    ite_inf <- NA
+    ite_std_inf <- NA
+    sd_ite_inf <- NA
+  }
 
   # Estimate CATE
   message("Estimating CATE")
@@ -142,7 +186,9 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA, ntrees_
     rules_matrix_inf[eval(parse(text = select_rules_dis[i]), list(X = X_inf)), i] <- 1
   }
   select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
-  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset, offset_name, rules_matrix_inf, select_rules_interpretable)
+  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset, offset_name,
+                            rules_matrix_inf, select_rules_interpretable,
+                            ite_method_inf, ite_inf, sd_ite_inf)
 
   # Return Results
   message("CRE method complete. Returning results.")
