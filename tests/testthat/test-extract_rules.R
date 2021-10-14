@@ -1,10 +1,11 @@
 test_that("Rules Extracted Correctly", {
   # Generate sample data
-  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, effect_size = 0.5, binary = FALSE, seed = 2021)
+  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
+                                       effect_size = 2, binary = FALSE, seed = 2021)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
-  ite_method <- "xbart"
+  ite_method <- "bcf"
   include_ps <- "TRUE"
   ntrees <- 100
   min_nodes <- 20
@@ -43,16 +44,19 @@ test_that("Rules Extracted Correctly", {
     forest <- randomForest::combine(forest, model1_RF)
   }
   treelist <- inTrees::RF2List(forest)
+  take_1 <- FALSE
+  type_decay <- 2
 
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(extract_rules(treelist = "test", X, ntrees, ite_std))
-  expect_error(extract_rules(treelist, X = "test", ntrees, ite_std))
-  expect_error(extract_rules(treelist, X, ntrees = NA, ite_std))
-  expect_error(extract_rules(treelist, X, ntrees, ite_std = "test"))
+  expect_error(extract_rules(treelist = NA, X, ntrees, ite_std, take_1, type_decay))
+  expect_error(extract_rules(treelist, X = NA, ntrees, ite_std, take_1, type_decay))
+  expect_error(extract_rules(treelist, X, ntrees = -100, ite_std, take_1, type_decay))
+  expect_error(extract_rules(treelist, X, ntrees, ite_std = NA, take_1, type_decay))
+  expect_error(extract_rules(treelist, X, ntrees, ite_std, take_1 = "test", type_decay))
 
   # Correct outputs
-  rules_RF <- extract_rules(treelist, X, ntrees, ite_std)
+  rules_RF <- extract_rules(treelist, X, ntrees, ite_std, take_1, type_decay)
   expect_true(class(rules_RF) == "character")
 })

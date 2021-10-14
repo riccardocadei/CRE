@@ -166,7 +166,17 @@
     <p>Method for estimating the Individual Treatment Effect given a response vector, a treatment vector, a features matrix, and a desired algorithm</p>
     </div>
 
-    <pre class="usage"><span class='fu'>estimate_ite</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span>, <span class='va'>X</span>, <span class='va'>ite_method</span>, <span class='va'>include_ps</span>, <span class='va'>binary</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>estimate_ite</span><span class='op'>(</span>
+  <span class='va'>y</span>,
+  <span class='va'>z</span>,
+  <span class='va'>X</span>,
+  <span class='va'>ite_method</span>,
+  <span class='va'>include_ps</span>,
+  <span class='va'>binary</span>,
+  <span class='va'>X_names</span>,
+  <span class='va'>include_offset</span>,
+  <span class='va'>offset_name</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,11 +205,23 @@
       <th>binary</th>
       <td><p>whether or not the outcome is binary</p></td>
     </tr>
+    <tr>
+      <th>X_names</th>
+      <td><p>the names of the covariates</p></td>
+    </tr>
+    <tr>
+      <th>include_offset</th>
+      <td><p>whether or not to include an offset when estimating the ITE, for poisson only</p></td>
+    </tr>
+    <tr>
+      <th>offset_name</th>
+      <td><p>the name of the offset, if it is to be included</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list of raw ITE estimates and standardized ITE estimates</p>
+    <p>a list of raw ITE estimates, standardized ITE estimates, and standard deviations for the ITE estimates</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

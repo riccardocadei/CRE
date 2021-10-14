@@ -8,13 +8,15 @@
 #' @param z the treatment vector
 #' @param X the features matrix
 #'
-#' @return a vector of ITE estimates
+#' @return a list of ITE estimates and standard deviations for the ITE estimates
 #'
 #' @export
 #'
 estimate_ite_bcf <- function(y, z, X) {
   est_ps <- estimate_ps(z, X)
-  bcf_model <- bcf::bcf(y, z, X, X, est_ps, nburn = 100, nsim = 1000)
-  ite <- colMeans(bcf_model$tau)
-  return(ite)
+  bcf_model <- bcf::bcf(y, z, X, X, est_ps, nburn = 500, nsim = 500)
+  pd_ite <- bcf_model$tau
+  ite <- apply(pd_ite, 2, mean)
+  sd_ite <- apply(pd_ite, 2, stats::sd)
+  return(list(ite, sd_ite))
 }

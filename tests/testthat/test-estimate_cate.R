@@ -1,14 +1,16 @@
 test_that("CATE Estimation Runs Correctly", {
   # Generate sample data
-  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, effect_size = 0.5, binary = FALSE, seed = 2021)
-  y <- dataset_cont[["y"]]
+  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
+                                       effect_size = 2, binary = FALSE, seed = 2021)
+  y <- abs(dataset_cont[["y"]])
   z <- dataset_cont[["z"]]
-  X <- dataset_cont[["X"]]
+  X <- as.data.frame(dataset_cont[["X"]])
+  X_names <- names(as.data.frame(X))
   ratio_dis <- 0.25
-  ite_method_dis <- "xbart"
-  ite_method_inf <- "xbcf"
+  ite_method_dis <- "bcf"
   include_ps_dis <- "TRUE"
-  include_ps_inf <- NA
+  ite_method_inf <- "poisson"
+  include_ps_inf <- "FALSE"
   ntrees_rf <- 100
   ntrees_gbm <- 50
   min_nodes <- 20
@@ -16,6 +18,8 @@ test_that("CATE Estimation Runs Correctly", {
   t <- 0.025
   q <- 0.8
   rules_method <- NA
+  include_offset <- FALSE
+  offset_name <- NA
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -35,17 +39,17 @@ test_that("CATE Estimation Runs Correctly", {
 
   y_inf <- inference[,1]
   z_inf <- inference[,2]
-  X_inf <- inference[,3:ncol(discovery)]
-
-  ###### Discovery ######
+  X_inf <- inference[,3:ncol(inference)]
 
   # Step 2: Estimate ITE
-  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, include_ps_dis, binary)
+  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, include_ps_dis,
+                               binary, X_names, include_offset, offset_name)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm, min_nodes, max_nodes)
+  initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
+                                      min_nodes, max_nodes)
 
   # Step 4: Generate rules matrix
   rules_all_dis <- generate_rules_matrix(X_dis, initial_rules_dis, t)
@@ -54,35 +58,47 @@ test_that("CATE Estimation Runs Correctly", {
   rules_list_dis <- rules_all_dis[["rules_list"]]
 
   # Step 5: Select important rules
-  select_rules_dis <- select_causal_rules(rules_matrix_std_dis, rules_list_dis, ite_std_dis, binary, q, rules_method)
+  select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis, rules_list_dis,
+                                                       ite_std_dis, binary, q, rules_method))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
-
-  ###### Inference ######
-
-  # Step 2: Estimate ITE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, include_ps_inf, binary)
-  ite_inf <- ite_list_inf[["ite"]]
-  ite_std_inf <- ite_list_inf[["ite_std"]]
+  if (length(select_rules_dis) == 0) stop("No significant rules were discovered. Ending Analysis.")
 
   # Step 6: Estimate CATE
+  if (ite_method_inf != "poisson") {
+    ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, include_ps_inf,
+                                 binary, X_names, include_offset, offset_name)
+    ite_inf <- ite_list_inf[["ite"]]
+    ite_std_inf <- ite_list_inf[["ite_std"]]
+    sd_ite_inf <- ite_list_inf[["sd_ite"]]
+  } else {
+    ite_inf <- NA
+    ite_std_inf <- NA
+    sd_ite_inf <- NA
+  }
+
   rules_matrix_inf <- matrix(0, nrow = dim(X_inf)[1], ncol = length(select_rules_dis))
   for (i in 1:length(select_rules_dis)) {
     rules_matrix_inf[eval(parse(text = select_rules_dis[i]), list(X = X_inf)), i] <- 1
   }
-  cate_inf <- estimate_cate(ite_inf, rules_matrix_inf, select_rules_dis)
-
+  select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
 
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(estimate_cate(ite_inf = "test", rules_matrix_inf, select_rules_dis))
-  expect_error(estimate_cate(ite_inf, rules_matrix_inf = "test", select_rules_dis))
-  expect_error(estimate_cate(ite_inf, rules_matrix_inf, select_rules_dis = "test"))
+  expect_error(estimate_cate(y_inf = "test", z_inf, X_inf, X_names, include_offset, offset_name,
+                             rules_matrix_inf, select_rules_interpretable,
+                             ite_method_inf, ite_inf, sd_ite_inf))
+  expect_error(estimate_cate(y_inf, z_inf = "test", X_inf, X_names, include_offset, offset_name,
+                             rules_matrix_inf, select_rules_interpretable,
+                             ite_method_inf, ite_inf, sd_ite_inf))
+  expect_error(estimate_cate(y_inf, z_inf, X_inf = "test", X_names, include_offset, offset_name,
+                             rules_matrix_inf, select_rules_interpretable,
+                             ite_method_inf, ite_inf, sd_ite_inf))
 
   # Correct outputs
-  cate_inf <- estimate_cate(ite_inf, rules_matrix_inf, select_rules_dis)
+  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset, offset_name,
+                            rules_matrix_inf, select_rules_interpretable,
+                            ite_method_inf, ite_inf, sd_ite_inf)
   expect_true(class(cate_inf) == "data.frame")
-  expect_identical(names(cate_inf), c("Rule", "Model_Coef", "CATE", "PVal", "CI_lower", "CI_upper"))
-  expect_true(cate_inf[1,1] == "(Intercept)")
 })

@@ -1,10 +1,11 @@
 test_that("Rules Extracted Correctly", {
   # Generate sample data
-  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, effect_size = 0.5, binary = FALSE, seed = 2021)
+  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
+                                       effect_size = 0.5, binary = FALSE, seed = 2021)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
-  ite_method <- "xbart"
+  ite_method <- "bart"
   include_ps <- "TRUE"
   ntrees_rf <- 100
   ntrees_gbm <- 50

@@ -14,7 +14,7 @@ The CRE Package, written in R and available on GitHub, implements the recently d
 
 The Package is centered on one R function, `cre()`, that conducts the entirety of the CRE algorithm given a dataset and a series of input parameters from the user. The `cre()` function calls on a number of helper functions to conduct discovery and inference subsample analysis. For example, for the estimation of Individual Treatment Effects, users can select a particular method from a large list of methodologies, each of which vary with respect to their speed and precision. The parameter selections will determine which helper functions the `cre()` calls. 
 
-The CRE method splits the inputted data into discovery and inference subsamples. On the discovery subsample, it generates and filters causal rules that explain the heterogeneity in treatment effects. It then applies these rules to the inference subsample and uses linear regression to estimate the Conditional Average Treatment Effect (CATE) for each subgroup. 
+The CRE method splits the inputted data into discovery and inference subsamples. On the discovery subsample, it generates and filters causal rules that explain the heterogeneity in treatment effects. It then applies these rules to the inference subsample and estimates the Conditional Average Treatment Effect (CATE) for each subgroup. 
 
 The final output of the `cre()` is the list of selected causal rules that identify the subgroups with higher heterogeneity in the effects and the matrix of estimated CATEs for each rule, both of which are highly accessible and interpretable. 
 

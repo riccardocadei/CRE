@@ -4,7 +4,17 @@
 \alias{estimate_ite}
 \title{Estimate the Individual Treatment Effect}
 \usage{
-estimate_ite(y, z, X, ite_method, include_ps, binary)
+estimate_ite(
+  y,
+  z,
+  X,
+  ite_method,
+  include_ps,
+  binary,
+  X_names,
+  include_offset,
+  offset_name
+)
 }
 \arguments{
 \item{y}{the observed response vector}
@@ -18,9 +28,15 @@ estimate_ite(y, z, X, ite_method, include_ps, binary)
 \item{include_ps}{whether or not to include propensity score estimate as a covariate in ITE estimation}
 
 \item{binary}{whether or not the outcome is binary}
+
+\item{X_names}{the names of the covariates}
+
+\item{include_offset}{whether or not to include an offset when estimating the ITE, for poisson only}
+
+\item{offset_name}{the name of the offset, if it is to be included}
 }
 \value{
-a list of raw ITE estimates and standardized ITE estimates
+a list of raw ITE estimates, standardized ITE estimates, and standard deviations for the ITE estimates
 }
 \description{
 Method for estimating the Individual Treatment Effect given a response vector, a treatment vector, a features matrix, and a desired algorithm

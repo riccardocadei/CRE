@@ -2,7 +2,7 @@
 % Please edit documentation in R/split_data.R
 \name{split_data}
 \alias{split_data}
-\title{Title}
+\title{Split Data}
 \usage{
 split_data(y, z, X, ratio_dis)
 }
@@ -19,5 +19,5 @@ split_data(y, z, X, ratio_dis)
 a list containing the discovery and inference subsamples
 }
 \description{
-description
+Split Data into Discovery and Inference Subsamples
 }

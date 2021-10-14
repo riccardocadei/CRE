@@ -14,7 +14,7 @@ estimate_ite_xbcf(y, z, X)
 \item{X}{the features matrix}
 }
 \value{
-a vector of ITE estimates
+a list of ITE estimates and standard deviations for the ITE estimates
 }
 \description{
 Method for estimating the Individual Treatment Effect using Accelerated Bayesian Causal Forest given a response vector, a treatment vector, and a features matrix

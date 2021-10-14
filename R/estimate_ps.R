@@ -12,7 +12,7 @@
 #' @export
 #'
 estimate_ps <- function(z, X) {
-  propscore_model <- stats::glm(z ~ X, family = binomial)
+  propscore_model <- stats::glm(z ~ X, family = stats::binomial)
   logit_ps <- stats::predict(propscore_model)
   est_ps <- exp(logit_ps) / (1 + exp(logit_ps))
   return(est_ps)

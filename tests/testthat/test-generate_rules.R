@@ -5,7 +5,7 @@ test_that("Rules Generated Correctly", {
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
-  ite_method <- "xbart"
+  ite_method <- "bart"
   include_ps <- "TRUE"
   ntrees_rf <- 100
   ntrees_gbm <- 50

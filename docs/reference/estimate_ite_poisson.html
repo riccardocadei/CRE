@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Estimate the Individual Treatment Effect using Bayesian Additive Regression Trees — estimate_ite_bart • CRE</title>
+<title>Estimate the Individual Treatment Effect using Poisson Regression — estimate_ite_poisson • CRE</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Estimate the Individual Treatment Effect using Bayesian Additive Regression Trees — estimate_ite_bart" />
-<meta property="og:description" content="Method for estimating the Individual Treatment Effect using Bayesian Additive Regression Trees given a response vector, a treatment vector, and a features matrix" />
+<meta property="og:title" content="Estimate the Individual Treatment Effect using Poisson Regression — estimate_ite_poisson" />
+<meta property="og:description" content="Method for estimating the Individual Treatment Effect using Poisson Regression given a response vector, a treatment vector, and a features matrix" />
 
 
 
@@ -157,16 +157,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Estimate the Individual Treatment Effect using Bayesian Additive Regression Trees</h1>
-    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/estimate_ite_bart.R'><code>R/estimate_ite_bart.R</code></a></small>
-    <div class="hidden name"><code>estimate_ite_bart.Rd</code></div>
+    <h1>Estimate the Individual Treatment Effect using Poisson Regression</h1>
+    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/estimate_ite_poisson.R'><code>R/estimate_ite_poisson.R</code></a></small>
+    <div class="hidden name"><code>estimate_ite_poisson.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Method for estimating the Individual Treatment Effect using Bayesian Additive Regression Trees given a response vector, a treatment vector, and a features matrix</p>
+    <p>Method for estimating the Individual Treatment Effect using Poisson Regression given a response vector, a treatment vector, and a features matrix</p>
     </div>
 
-    <pre class="usage"><span class='fu'>estimate_ite_bart</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span>, <span class='va'>X</span>, <span class='va'>include_ps</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>estimate_ite_poisson</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span>, <span class='va'>X</span>, <span class='va'>X_names</span>, <span class='va'>include_offset</span>, <span class='va'>offset_name</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,14 +184,22 @@
       <td><p>the features matrix</p></td>
     </tr>
     <tr>
-      <th>include_ps</th>
-      <td><p>whether or not to include propensity score estimate as a covariate in ITE estimation</p></td>
+      <th>X_names</th>
+      <td><p>the names of the covariates</p></td>
+    </tr>
+    <tr>
+      <th>include_offset</th>
+      <td><p>whether or not to include an offset when estimating the ITE, for poisson only</p></td>
+    </tr>
+    <tr>
+      <th>offset_name</th>
+      <td><p>the name of the offset, if it is to be included</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list of ITE estimates and standard deviations for the ITE estimates</p>
+    <p>a vector of ITE estimates</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

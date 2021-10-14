@@ -9,7 +9,7 @@
 #' @param X the features matrix
 #' @param include_ps whether or not to include propensity score estimate as a covariate in ITE estimation
 #'
-#' @return a vector of ITE estimates
+#' @return a list of ITE estimates and standard deviations for the ITE estimates
 #'
 #' @export
 #'
@@ -20,5 +20,6 @@ estimate_ite_cf <- function(y, z, X, include_ps) {
   }
   tau_forest <- grf::causal_forest(X, y, z)
   ite <- stats::predict(tau_forest)$predictions
-  return(ite)
+  sd_ite <- sqrt(stats::predict(tau_forest, estimate.variance = TRUE)$variance.estimates)
+  return(list(ite, sd_ite))
 }

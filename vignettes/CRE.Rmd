@@ -69,13 +69,17 @@ LDFLAGS=-L/usr/local/opt/llvm/lib -o task -fopenmp
 Then in R, run:
 ```
 library("devtools")
-devtools::install_github("JingyuHe/XBART")
+```
+```
+install_github("JingyuHe/XBART")
 ```
 
 ### How to install the [XBCF](https://github.com/socket778/XBCF) package:
 In R, run: 
 ```
 library(devtools)
+```
+```
 install_github("socket778/XBCF")
 ```
 
@@ -83,7 +87,11 @@ install_github("socket778/XBCF")
 In R, run:
 ```
 library("devtools")
-devtools::install_github("fasrc/CRE")
+```
+```
+install_github("fasrc/CRE")
+```
+```
 library(CRE)
 ```
 
@@ -108,6 +116,8 @@ The `cre()` inputs asked from the user are as follows:
 - `t` the common support used in generating the causal rules matrix
 - `q` the selection threshold used in selecting the causal rules
 - `rules_method` the method for selecting causal rules with binary outcomes, either “conservative”, “anticonservative”, or NA (if continuous)
+- `include_offset` whether or not to include an offset when estimating the ITE, for poisson only
+- `offset_name` the name of the offset, if it is to be included
 
 ### A note on the parameters
 
@@ -121,17 +131,25 @@ The `cre()` inputs asked from the user are as follows:
 - Bayesian Causal Forests (`bcf`)
 - Accelerated Bayesian Causal Forests (`xbcf`)
 - Causal Forests (`cf`)
+- Poisson Regression (`poisson`)
 
-We recommend using `ipw`, `sipw`, `or`, `bcf`, or `xbcf` on data with **continuous** outcomes and `or`, `bart`, `xbart` or `cf` on data with **binary** outcomes to maximize efficiency and accuracy. The following ITE estimation methods are **NOT** compatible with binary outcomes: `ipw`, `sipw`, `bcf`, and `xbcf`.
+In the original paper by Lee et al. (2020), several methods are tested for the imputation of the ITE for continuous outcomes and the consequent ability to correctly discover the causal rules and precisely estimate the conditional effects within the rules. We refer to this paper for more details on which are the best performing techniques. 
+
+For data with **continuous** outcomes, as a rule of thumb, we suggest the usage of `bcf`, as it has shown the most consistent performance across different simulated scenarios.
+
+For data with **binary** outcomes, we suggest using `or`, `bart`, `xbart` or `cf`. The `ipw`, `sipw`, `bcf`, and `xbcf` ITE estimation methods are **NOT** compatible with binary outcomes.
 
 **(2)** The `include_ps_dis` and `include_ps_inf` arguments will only be considered if the ITE method selected is `bart`, `xbart`, or `cf`.
 
 ### CRE Example:
 ```
 library(CRE)
-cre_results <- cre(y, z, X, ratio_dis = 0.25, ite_method_dis = 'xbart', 
-                   ite_method_inf = 'xbcf', include_ps_dis = TRUE, include_ps_inf = TRUE, 
-                   ntrees = 100, min_nodes = 20, max_nodes = 5, t = 0.025, q = 0.8, rules_method = NA)
+```
+```
+cre_results <- cre(y, z, X, ratio_dis = 0.25, ite_method_dis = 'bcf', 
+                   ite_method_inf = 'bcf', include_ps_dis = TRUE, include_ps_inf = TRUE, 
+                   ntrees = 100, min_nodes = 20, max_nodes = 5, t = 0.025, q = 0.8, 
+                   rules_method = NA, include_offset = FALSE, offset_name = NA)
 cre_select_rules <- cre_results[[1]] # expected output: vector of rule strings
 cre_cate_estimates <- cre_results[[2]] # expected output: matrix of CATE estimates
 ```
@@ -150,6 +168,8 @@ The CRE package can generate synthetic data that can be used to test different f
 ### Generating Synthetic Data with Continuous Outcomes
 ```
 library("CRE")
+```
+```
 dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
                                      effect_size = 0.5, binary = FALSE, seed = 2021) 
 str(dataset_cont)
@@ -165,6 +185,8 @@ str(dataset_cont)
 ### Generating Synthetic Data with Binary Outcomes
 ```
 library("CRE")
+```
+```
 dataset_binary <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
                                        effect_size = 0.5, binary = TRUE, seed = 2021) 
 str(dataset_binary)
@@ -187,11 +209,13 @@ In the following example, we first generate 1000 synthetic data samples, then we
 - For trimming the causal rules, we want to use a common support value of 0.025 (`t <- 0.025`)
 - For selecting the most important causal rules, we want to use a selection threshold of 0.8 (`q <- 0.08`)
 - Since we're not using binary outcomes in the first example, we will not specify a rules method (`rules_method <- NA`)
+- Since we're not using Poisson regression, we will not specify an offset (`include_offset <- FALSE`, `offset_name = NA`)
 
 ```
 # Load package
 library("CRE")
-
+```
+```
 # Generate synthetic data with continuous outcomes
 dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
                                 effect_size = 0.5, binary = FALSE, seed = 2021) 
@@ -201,8 +225,8 @@ y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]
 ratio_dis <- 0.25
-ite_method_dis <- "xbart"
-ite_method_inf <- "xbcf"
+ite_method_dis <- "bcf"
+ite_method_inf <- "bcf"
 include_ps_dis <- "TRUE"
 include_ps_inf <- NA
 ntrees <- 100
@@ -211,6 +235,8 @@ max_nodes <- 5
 t <- 0.025
 q <- 0.8
 rules_method <- NA
+include_offset <- FALSE
+offset_name <- NA
 
 # Run CRE method
 cre_results <- cre(y, z, X, ratio_dis, ite_method_dis, ite_method_inf, 
@@ -219,4 +245,4 @@ cre_results <- cre(y, z, X, ratio_dis, ite_method_dis, ite_method_inf,
 ```
 
 ### Running the CRE on Synthetic Data with Binary Outcomes
-To run the CRE method on synthetic data with binary outcomes, set the `binary` argument in `generate_cre_dataset` to TRUE, and specify the `rules_method` parameter. 
+To run the CRE method on synthetic data with binary outcomes, set the `binary` argument in `generate_cre_dataset` to TRUE, and specify the `rules_method` parameter. In addition, make sure the ITE estimation methods selected are compatible with binary outcomes (see above).
