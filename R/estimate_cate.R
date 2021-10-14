@@ -135,8 +135,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset, offset_n
     cate_reg_orig$Rule <- cate_reg_orig_names
     row.names(cate_reg_orig) <- 1:nrow(cate_reg_orig)
     cate_reg_orig <- cate_reg_orig %>%
-      dplyr::summarize(Rule, Model_Coef = Estimate, CATE = Estimate, PVal = `Pr(>|t|)`,
-                       CI_lower = `2.5 %`, CI_upper = `97.5 %`)
+      dplyr::summarize(Rule, Model_Coef = Estimate, CATE = Estimate, PVal = "Pr(>|t|)",
+                       CI_lower = "2.5 %", CI_upper = "97.5 %")
     for (i in 2:nrow(cate_reg_orig)) {
       cate_reg_orig[i,3] <- cate_reg_orig[1,2] + cate_reg_orig[i,2]
     }
