@@ -25,6 +25,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset, offset_n
                           ite_method_inf, ite_inf, sd_ite_inf) {
 
   `%>%` <- magrittr::`%>%`
+  Rule <- rule <- tau <- se <- . <- Estimate <- NULL
 
   if (ite_method_inf %in% c("poisson")) {
     colnames(rules_matrix_inf) <- select_rules_interpretable

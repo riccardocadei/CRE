@@ -17,6 +17,6 @@ estimate_ite_bcf <- function(y, z, X) {
   bcf_model <- bcf::bcf(y, z, X, X, est_ps, nburn = 500, nsim = 500)
   pd_ite <- bcf_model$tau
   ite <- apply(pd_ite, 2, mean)
-  sd_ite <- apply(pd_ite, 2, sd)
+  sd_ite <- apply(pd_ite, 2, stats::sd)
   return(list(ite, sd_ite))
 }

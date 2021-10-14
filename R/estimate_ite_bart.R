@@ -22,6 +22,6 @@ estimate_ite_bart <- function(y, z, X, include_ps) {
                                n.samples = 500, n.burn = 500)
   pd_ite <- bartCause::extract(bart_fit, type = "ite")
   ite <- apply(pd_ite, 2, mean)
-  sd_ite <- apply(pd_ite, 2, sd)
+  sd_ite <- apply(pd_ite, 2, stats::sd)
   return(list(ite, sd_ite))
 }
