@@ -16,6 +16,9 @@
 #' @export
 #'
 select_causal_rules <- function(rules_matrix_std, rules_list, ite_std, binary, q, rules_method) {
+
+  `%>%` <- magrittr::`%>%`
+
   if (binary) {
     # Stability selection
     stab_mod <- stabs::stabsel(rules_matrix_std, ite_std, fitfun = "glmnet.lasso", cutoff = q,
