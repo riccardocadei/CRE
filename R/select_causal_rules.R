@@ -18,6 +18,7 @@
 select_causal_rules <- function(rules_matrix_std, rules_list, ite_std, binary, q, rules_method) {
 
   `%>%` <- magrittr::`%>%`
+  rules <- NULL
 
   if (binary) {
     # Stability selection

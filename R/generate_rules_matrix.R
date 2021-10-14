@@ -49,7 +49,7 @@ generate_rules_matrix <- function(X, rules_list, t) {
 
   # Standardize rules matrix
   mu_rules_matrix <- apply(rules_matrix, 2, mean)
-  sd_rules_matrix <- apply(rules_matrix, 2, sd)
+  sd_rules_matrix <- apply(rules_matrix, 2, stats::sd)
   rules_matrix_std <- matrix(0, dim(X)[1], dim(rules_matrix)[2])
   for(l in 1:ncol(rules_matrix_std)){
     rules_matrix_std[, l] <- (rules_matrix[, l] - mu_rules_matrix[l]) / sd_rules_matrix[l]

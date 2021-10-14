@@ -27,6 +27,6 @@ estimate_ite_xbcf <- function(y, z, X) {
   }
   pd_ite <- pd_ite_temp[, 16:40]
   ite <- apply(pd_ite, 1, mean)
-  sd_ite <- apply(pd_ite, 1, sd)
+  sd_ite <- apply(pd_ite, 1, stats::sd)
   return(list(ite, sd_ite))
 }
