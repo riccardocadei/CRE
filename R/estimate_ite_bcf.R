@@ -2,7 +2,8 @@
 #' Estimate the Individual Treatment Effect using Bayesian Causal Forest
 #'
 #' @description
-#' Method for estimating the Individual Treatment Effect using Bayesian Causal Forest given a response vector, a treatment vector, and a features matrix
+#' Estimates the Individual Treatment Effect using Bayesian Causal Forest given
+#' a response vector, a treatment vector, and a features matrix.
 #'
 #' @param y the observed response vector
 #' @param z the treatment vector

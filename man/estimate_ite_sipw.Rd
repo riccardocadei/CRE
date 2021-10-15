@@ -2,7 +2,8 @@
 % Please edit documentation in R/estimate_ite_sipw.R
 \name{estimate_ite_sipw}
 \alias{estimate_ite_sipw}
-\title{Estimate the Individual Treatment Effect using Stabilized Inverse Propensity Weighting}
+\title{Estimate the Individual Treatment Effect using Stabilized Inverse Propensity
+Weighting}
 \usage{
 estimate_ite_sipw(y, z, X)
 }
@@ -17,5 +18,6 @@ estimate_ite_sipw(y, z, X)
 a vector of ITE estimates
 }
 \description{
-Method for estimating the Individual Treatment Effect using Stabilized Inverse Propensity Weighting given a response vector, a treatment vector, and a features matrix
+Estimates the Individual Treatment Effect using Stabilized Inverse Propensity
+Weighting given a response vector, a treatment vector, and a features matrix.
 }
