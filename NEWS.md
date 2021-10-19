@@ -8,6 +8,7 @@
 - Moved `take1` function into `utils.R` 
 
 ### Added
+- `set_logger` and `get_logger`
 - `check_input_data` function
 - example to `generate_cre_dataset`
 - `generate_cre_dataset` function to generate synthetic data for testing the package

@@ -72,5 +72,6 @@ Imports: tidyverse,
          bartCause,
          gnm,
          magrittr,
-         baggr
+         baggr,
+         logger
 VignetteBuilder: knitr
