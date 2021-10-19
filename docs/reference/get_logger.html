@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Estimate the Individual Treatment Effect — estimate_ite • CRE</title>
+<title>Get Logger Settings — get_logger • CRE</title>
 
 
 <!-- jquery -->
@@ -45,9 +45,8 @@
 
 
 
-<meta property="og:title" content="Estimate the Individual Treatment Effect — estimate_ite" />
-<meta property="og:description" content="Estimates the Individual Treatment Effect given a response vector,
-a treatment vector, a features matrix, and a desired algorithm." />
+<meta property="og:title" content="Get Logger Settings — get_logger" />
+<meta property="og:description" content="Returns current logger settings." />
 
 
 
@@ -149,87 +148,28 @@ a treatment vector, a features matrix, and a desired algorithm." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Estimate the Individual Treatment Effect</h1>
-    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/estimate_ite.R'><code>R/estimate_ite.R</code></a></small>
-    <div class="hidden name"><code>estimate_ite.Rd</code></div>
+    <h1>Get Logger Settings</h1>
+    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/logger_utils.R'><code>R/logger_utils.R</code></a></small>
+    <div class="hidden name"><code>get_logger.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Estimates the Individual Treatment Effect given a response vector,
-a treatment vector, a features matrix, and a desired algorithm.</p>
+    <p>Returns current logger settings.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>estimate_ite</span><span class='op'>(</span>
-  <span class='va'>y</span>,
-  <span class='va'>z</span>,
-  <span class='va'>X</span>,
-  <span class='va'>ite_method</span>,
-  <span class='va'>include_ps</span>,
-  <span class='va'>binary</span>,
-  <span class='va'>X_names</span>,
-  <span class='va'>include_offset</span>,
-  <span class='va'>offset_name</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_logger</span><span class='op'>(</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>y</th>
-      <td><p>the observed response vector</p></td>
-    </tr>
-    <tr>
-      <th>z</th>
-      <td><p>the treatment vector</p></td>
-    </tr>
-    <tr>
-      <th>X</th>
-      <td><p>the features matrix</p></td>
-    </tr>
-    <tr>
-      <th>ite_method</th>
-      <td><p>the method for estimating the Individual Treatment Effect:</p><ul>
-<li><p><code>ipw</code>: Inverse Propensity Weighting</p></li>
-<li><p><code>sipw</code>: Stabilized Inverse Propensity Weighting</p></li>
-<li><p><code>or</code>: Outcome Regression, TODO: change this into a non reserved term.</p></li>
-<li><p><code>bart</code>: BART</p></li>
-<li><p><code>xbart</code>: Accelerated BART</p></li>
-<li><p><code>bcf</code>: Bayesian Causal Forest</p></li>
-<li><p><code>xbcf</code>: Accelerated Bayesian Causal Forest</p></li>
-<li><p><code>cf</code>: Causal Forest</p></li>
-</ul></td>
-    </tr>
-    <tr>
-      <th>include_ps</th>
-      <td><p>whether or not to include propensity score estimate as a covariate in ITE estimation</p></td>
-    </tr>
-    <tr>
-      <th>binary</th>
-      <td><p>whether or not the outcome is binary</p></td>
-    </tr>
-    <tr>
-      <th>X_names</th>
-      <td><p>the names of the covariates</p></td>
-    </tr>
-    <tr>
-      <th>include_offset</th>
-      <td><p>whether or not to include an offset when estimating the ITE, for poisson only</p></td>
-    </tr>
-    <tr>
-      <th>offset_name</th>
-      <td><p>the name of the offset, if it is to be included</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list that includes:</p><ul>
-<li><p>raw ITE estimates</p></li>
-<li><p>standardized ITE estimates, and</p></li>
-<li><p>standard deviations for the ITE estimates.</p></li>
-</ul>
+    <p>Returns a list that includes <strong>logger_file_path</strong> and <strong>logger_level</strong>.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='set_logger.html'>set_logger</a></span><span class='op'>(</span><span class='st'>"mylogger.log"</span>, <span class='st'>"INFO"</span><span class='op'>)</span>
+<span class='va'>log_meta</span> <span class='op'>&lt;-</span> <span class='fu'>get_logger</span><span class='op'>(</span><span class='op'>)</span>
 
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

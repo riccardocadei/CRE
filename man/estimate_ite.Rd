@@ -35,13 +35,15 @@ estimate_ite(
 \item \code{cf}: Causal Forest
 }}
 
-\item{include_ps}{whether or not to include propensity score estimate as a covariate in ITE estimation}
+\item{include_ps}{whether or not to include propensity score estimate as a
+covariate in ITE estimation}
 
 \item{binary}{whether or not the outcome is binary}
 
 \item{X_names}{the names of the covariates}
 
-\item{include_offset}{whether or not to include an offset when estimating the ITE, for poisson only}
+\item{include_offset}{whether or not to include an offset when estimating
+the ITE, for poisson only}
 
 \item{offset_name}{the name of the offset, if it is to be included}
 }

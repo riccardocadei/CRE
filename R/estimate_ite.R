@@ -17,10 +17,12 @@
 #'   - `bcf`: Bayesian Causal Forest
 #'   - `xbcf`: Accelerated Bayesian Causal Forest
 #'   - `cf`: Causal Forest
-#' @param include_ps whether or not to include propensity score estimate as a covariate in ITE estimation
+#' @param include_ps whether or not to include propensity score estimate as a
+#' covariate in ITE estimation
 #' @param binary whether or not the outcome is binary
 #' @param X_names the names of the covariates
-#' @param include_offset whether or not to include an offset when estimating the ITE, for poisson only
+#' @param include_offset whether or not to include an offset when estimating
+#' the ITE, for poisson only
 #' @param offset_name the name of the offset, if it is to be included
 #'
 #' @return
@@ -69,8 +71,9 @@ estimate_ite <- function(y, z, X, ite_method, include_ps, binary, X_names,
     ite <- ite_results[[1]]
     sd_ite <- NA
   } else {
-    stop("Invalid ITE method. Please choose from the following:
-         'ipw', 'sipw', 'or', 'bart', 'xbart', 'bcf', 'xbcf', 'cf', or 'poisson'")
+    stop(paste("Invalid ITE method. Please choose from the following:\n",
+               "'ipw', 'sipw', 'or', 'bart', 'xbart', 'bcf', 'xbcf', 'cf', ",
+               " or 'poisson'"))
   }
   if (binary) {
     ite <- round(ite, 0)

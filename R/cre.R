@@ -39,7 +39,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
                 min_nodes, max_nodes, t, q, rules_method,
                 include_offset = FALSE, offset_name = NA) {
 
-  # Check for correct numerical inputs
+  # Input checks ---------------------------------------------------------------
   if (!(class(y) %in% c("numeric", "integer"))){
     stop("Invalid 'y' input. Please input a numeric vector.")
   }
@@ -53,6 +53,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
       stop("Invalid 'X' input. Please input a matrix or data frame.")
     }
   }
+
   if (length(class(X)) == 2) {
     if (!(identical(class(X), c("matrix", "array")))) {
       stop("Invalid 'X' input. Please input a matrix or data frame.")
@@ -66,6 +67,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
                " of numeric categorical variables"))
   }
 
+  # todo: dplyr between is not necessary.
   if (class(ratio_dis) != "numeric" | !dplyr::between(ratio_dis, 0, 1)){
     stop("Invalid 'ratio_dis' input. Please input a number between 0 and 1.")
   }
@@ -94,23 +96,25 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
     stop("Invalid 'q' input. Please input a number.")
   }
 
-  # Check for correct ITE inputs
   ite_method_dis <- tolower(ite_method_dis)
   if (!(ite_method_dis %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf",
                               "xbcf", "cf", "poisson"))) {
-    stop("Invalid ITE method for Discovery Subsample. Please choose from the following:
-         'ipw', 'sipw', 'or', 'bart', 'xbart', 'bcf', 'xbcf', 'cf', or 'poisson'")
+    stop(paste("Invalid ITE method for Discovery Subsample. Please choose ",
+               "from the following:\n","'ipw', 'sipw', 'or', 'bart', 'xbart', ",
+               "'bcf', 'xbcf', 'cf', or 'poisson'"))
   }
 
   ite_method_inf <- tolower(ite_method_inf)
 
   if (!(ite_method_inf %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf",
                               "xbcf", "cf", "poisson"))) {
-    stop("Invalid ITE method for Inference Subsample. Please choose from the following:
-         'ipw', 'sipw', 'or', 'bart', 'xbart', 'bcf', 'xbcf', 'cf', or 'poisson'")
+    stop(paste("Invalid ITE method for Inference Subsample. Please choose ",
+         "from the following:\n", "'ipw', 'sipw', 'or', 'bart', 'xbart' ",
+         "'bcf', 'xbcf', 'cf', or 'poisson'"))
   }
 
-  # Check for correct propensity score estimation inputs
+  # Check for correct propensity score estimation inputs -----------------------
+
   include_ps_dis <- toupper(include_ps_dis)
   if (ite_method_dis %in% c("bart", "xbart", "cf")) {
     if (!(include_ps_dis %in% c(TRUE, FALSE))) {
@@ -144,7 +148,8 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   rules_method <- tolower(rules_method)
   if (binary) {
     if (!(rules_method %in% c("conservative", "anticonservative"))) {
-      stop("Invalid rules_method input. Please specify 'conservative' or 'anticonservative'.")
+      stop(paste("Invalid rules_method input. Please specify 'conservative' ",
+                 "or 'anticonservative'."))
     }
   } else {
     rules_method <- NA
@@ -154,7 +159,8 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   if (ite_method_dis == "poisson" | ite_method_inf == "poisson") {
     if (include_offset == TRUE) {
       if (is.na(offset_name)) {
-        stop("Invalid offset_name input. Please specify an offset_name if you wish to include an offset.")
+        stop(paste("Invalid offset_name input. Please specify an offset_name ",
+                   "if you wish to include an offset."))
       }
     } else {
       offset_name <- NA
@@ -183,42 +189,51 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   z_inf <- inference[,2]
   X_inf <- inference[,3:ncol(inference)]
 
-  ###### Discovery ######
-  message("Conducting Discovery Subsample Analysis")
+  # Discovery ------------------------------------------------------------------
 
-  # Estimate ITE
-  message("Estimating ITE")
+  logger::log_info("Conducting Discovery Subsample Analysis ... ")
+
+  # Estimate ITE -----------------------
+  logger::log_info("Estimating ITE ... ")
+  st_ite_t <- proc.time()
   ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis,
                                include_ps_dis, binary, X_names, include_offset,
                                offset_name)
+  en_ite_t <- proc.time()
+  logger::log_debug("Finished Estimating ITE. ",
+                    " Wall clock time: {(en_ite_t - st_ite_t)[[3]]} seconds.")
 
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
-  # Generate rules list
-  message("Generating Initial Causal Rules")
+  # Generate rules list ----------------
+  logger::log_info("Generating Initial Causal Rules ... ")
   initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
                                       min_nodes, max_nodes)
 
-  # Generate rules matrix
-  message("Generating Causal Rules Matrix")
+  # Generate rules matrix --------------
+  logger::log_info("Generating Causal Rules Matrix ...")
   rules_all_dis <- generate_rules_matrix(X_dis, initial_rules_dis, t)
   rules_matrix_dis <- rules_all_dis[["rules_matrix"]]
   rules_matrix_std_dis <- rules_all_dis[["rules_matrix_std"]]
   rules_list_dis <- rules_all_dis[["rules_list"]]
 
-  # Select important rules
-  message("Selecting Important Causal Rules")
+  # Select important rules -------------
+  logger::log_info("Selecting Important Causal Rules ...")
   select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
                                                        rules_list_dis,
                                                        ite_std_dis, binary, q,
                                                        rules_method))
 
-  select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
-  select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
-  if (length(select_rules_dis) == 0) stop("No significant rules were discovered. Ending Analysis.")
+  select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
+                                                       select_rules_dis)]
+  select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in%
+                                                             select_rules_dis)]
+  if (length(select_rules_dis) == 0){
+     stop("No significant rules were discovered. Ending Analysis.")
+  }
 
-  ###### Inference ######
+  # Inference ------------------------------------------------------------------
   message("Conducting Inference Subsample Analysis")
   if (ite_method_inf != "poisson") {
     ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
@@ -233,7 +248,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
     sd_ite_inf <- NA
   }
 
-  # Estimate CATE
+  # Estimate CATE ----------------------
   message("Estimating CATE")
   rules_matrix_inf <- matrix(0, nrow = dim(X_inf)[1],
                              ncol = length(select_rules_dis))
