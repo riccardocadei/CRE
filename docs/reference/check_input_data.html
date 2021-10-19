@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate Rules Matrix — generate_rules_matrix • CRE</title>
+<title>Check Input Data — check_input_data • CRE</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Generate Rules Matrix — generate_rules_matrix" />
-<meta property="og:description" content="Generates a matrix of causal rules given a list." />
+<meta property="og:title" content="Check Input Data — check_input_data" />
+<meta property="og:description" content="Conducts sanity checks for the input data" />
 
 
 
@@ -148,42 +148,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate Rules Matrix</h1>
-    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/generate_rules_matrix.R'><code>R/generate_rules_matrix.R</code></a></small>
-    <div class="hidden name"><code>generate_rules_matrix.Rd</code></div>
+    <h1>Check Input Data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>check_input_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Generates a matrix of causal rules given a list.</p>
+    <p>Conducts sanity checks for the input data</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generate_rules_matrix</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>rules_list</span>, <span class='va'>t</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>check_input_data</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span>, <span class='va'>X</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>y</th>
+      <td><p>the observed response vector</p></td>
+    </tr>
+    <tr>
+      <th>z</th>
+      <td><p>the treatment vector</p></td>
+    </tr>
+    <tr>
       <th>X</th>
       <td><p>the features matrix</p></td>
-    </tr>
-    <tr>
-      <th>rules_list</th>
-      <td><p>a vector of causal rules</p></td>
-    </tr>
-    <tr>
-      <th>t</th>
-      <td><p>the common support used in generating the causal rules matrix</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list with:</p><ul>
-<li><p>a raw matrix of causal rules</p></li>
-<li><p>a standardized matrix of causal rules, and</p></li>
-<li><p>a vector of causal rules</p></li>
-</ul>
-
+    <p>Number of data samples.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

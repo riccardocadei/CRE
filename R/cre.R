@@ -165,7 +165,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   }
 
   # Split data
-  message("Splitting Data")
+  logger::log_info("Working on splitting data ... ")
   X_names <- names(as.data.frame(X))
   X <- as.matrix(X)
   y <- as.matrix(y)
@@ -241,7 +241,8 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
     rules_matrix_inf[eval(parse(text = select_rules_dis[i]),
                           list(X = X_inf)), i] <- 1
   }
-  select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+  select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+                                                       X_names)
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
                             include_offset, offset_name,
                             rules_matrix_inf, select_rules_interpretable,

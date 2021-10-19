@@ -23,5 +23,5 @@ generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes, max_nodes)
 a vector of causal rules
 }
 \description{
-Method for generating causal rules
+Method for generating causal rules.
 }
