@@ -1,7 +1,7 @@
 Package: CRE
 Title: Interpretable Subgroups Identification through Ensemble Learning of 
     Causal Rules
-Version: 0.0.1
+Version: 0.0.1.9000
 Authors@R: c(
     person(given="Kwonsang", 
            family = "Lee",
