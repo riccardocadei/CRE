@@ -66,8 +66,10 @@ jobs:
       - name: Install omp
         if: runner.os == 'macOS'
         run: |
-              brew install llvm libomp
-              export CPP=/usr/local/opt/llvm/bin/clang
+              brew install gcc --without-multilib
+              export CC=gcc-6
+              export CXX=g++-6
+              #export CPP=/usr/local/opt/llvm/bin/clang
               # LDFLAGS_cmd=$(brew info llvm | grep "export LDFLAGS=")
               # LDFLAGS_path=$(echo $LDFLAGS_cmd | awk '{print $2}' | sed 's/"//g')
               # eval $LDFLAGS_cmd
