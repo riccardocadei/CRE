@@ -29,17 +29,21 @@ cre(
 
 \item{z}{the treatment vector}
 
-\item{X}{the features matrix}
+\item{X}{the covariate matrix}
 
-\item{ratio_dis}{the ratio of data delegated to the discovery subsample}
+\item{ratio_dis}{the ratio of data delegated to the discovery sub-sample}
 
 \item{ite_method_dis}{the method to estimate the discovery sample ITE}
 
-\item{include_ps_dis}{whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, XBART, or CF}
+\item{include_ps_dis}{whether or not to include propensity score estimate
+as a covariate in discovery ITE estimation, considered only for BART, XBART,
+or CF}
 
 \item{ite_method_inf}{the method to estimate the inference sample ITE}
 
-\item{include_ps_inf}{whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, XBART, or CF}
+\item{include_ps_inf}{whether or not to include propensity score estimate as
+a covariate in inference ITE estimation, considered only for BART, XBART,
+or CF}
 
 \item{ntrees_rf}{the number of decision trees for randomForest}
 
@@ -55,13 +59,16 @@ cre(
 
 \item{rules_method}{the method for selecting causal rules with binary outcomes}
 
-\item{include_offset}{whether or not to include an offset when estimating the ITE, for poisson only}
+\item{include_offset}{whether or not to include an offset when estimating
+the ITE, for poisson only}
 
 \item{offset_name}{the name of the offset, if it is to be included}
 }
 \value{
-a list containing the list of select causal rules and a matrix of Conditional Average Treatment Effect estimates
+a list containing the list of select causal rules and a matrix of Conditional
+Average Treatment Effect estimates
 }
 \description{
-Method for performing the Causal Rule Ensemble on a dataset with a response variable, a treatment variable, and various features
+Performs the Causal Rule Ensemble on a dataset with a response variable,
+a treatment variable, and various features
 }

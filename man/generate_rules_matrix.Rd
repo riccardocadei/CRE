@@ -14,8 +14,13 @@ generate_rules_matrix(X, rules_list, t)
 \item{t}{the common support used in generating the causal rules matrix}
 }
 \value{
-a list with a raw matrix of causal rules, a standardized matrix of causal rules, and a vector of causal rules
+a list with:
+\itemize{
+\item a raw matrix of causal rules
+\item a standardized matrix of causal rules, and
+\item a vector of causal rules
+}
 }
 \description{
-Method for generating a matrix of causal rules given a list
+Generates a matrix of causal rules given a list.
 }

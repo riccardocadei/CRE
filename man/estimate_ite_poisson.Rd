@@ -15,7 +15,8 @@ estimate_ite_poisson(y, z, X, X_names, include_offset, offset_name)
 
 \item{X_names}{the names of the covariates}
 
-\item{include_offset}{whether or not to include an offset when estimating the ITE, for poisson only}
+\item{include_offset}{whether or not to include an offset when estimating
+the ITE, for poisson only}
 
 \item{offset_name}{the name of the offset, if it is to be included}
 }
@@ -23,5 +24,6 @@ estimate_ite_poisson(y, z, X, X_names, include_offset, offset_name)
 a vector of ITE estimates
 }
 \description{
-Method for estimating the Individual Treatment Effect using Poisson Regression given a response vector, a treatment vector, and a features matrix
+Estimates the Individual Treatment Effect using Poisson Regression given a
+response vector, a treatment vector, and a features matrix.
 }

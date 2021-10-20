@@ -46,7 +46,8 @@
 
 
 <meta property="og:title" content="Estimate the Individual Treatment Effect — estimate_ite" />
-<meta property="og:description" content="Method for estimating the Individual Treatment Effect given a response vector, a treatment vector, a features matrix, and a desired algorithm" />
+<meta property="og:description" content="Estimates the Individual Treatment Effect given a response vector,
+a treatment vector, a features matrix, and a desired algorithm." />
 
 
 
@@ -104,7 +105,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="divider"></li>
-    <li class="dropdown-header">Introduction</li>
+    <li class="dropdown-header">Users</li>
     <li>
       <a href="../articles/article_i1.html">article_i1</a>
     </li>
@@ -115,16 +116,7 @@
       <a href="../articles/article_i3.html">article_i3</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Collabration</li>
-    <li>
-      <a href="../articles/article_c1.html">article_c1</a>
-    </li>
-    <li>
-      <a href="../articles/article_c2.html">article_c2</a>
-    </li>
-    <li>
-      <a href="../articles/article_c3.html">article_c3</a>
-    </li>
+    <li class="dropdown-header">Developers</li>
   </ul>
 </li>
 <li>
@@ -163,7 +155,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Method for estimating the Individual Treatment Effect given a response vector, a treatment vector, a features matrix, and a desired algorithm</p>
+    <p>Estimates the Individual Treatment Effect given a response vector,
+a treatment vector, a features matrix, and a desired algorithm.</p>
     </div>
 
     <pre class="usage"><span class='fu'>estimate_ite</span><span class='op'>(</span>
@@ -195,11 +188,21 @@
     </tr>
     <tr>
       <th>ite_method</th>
-      <td><p>the method for estimating the Individual Treatment Effect, either Inverse Propensity Weighting "ipw", Stabilized Inverse Propensity Weighting "sipw", Outcome Regression "or", BART "bart", Accelerated BART "xbart", Bayesian Causal Forest "bcf", Accelerated Bayesian Causal Forest "xbcf", or Causal Forest "cf"</p></td>
+      <td><p>the method for estimating the Individual Treatment Effect:</p><ul>
+<li><p><code>ipw</code>: Inverse Propensity Weighting</p></li>
+<li><p><code>sipw</code>: Stabilized Inverse Propensity Weighting</p></li>
+<li><p><code>or</code>: Outcome Regression, TODO: change this into a non reserved term.</p></li>
+<li><p><code>bart</code>: BART</p></li>
+<li><p><code>xbart</code>: Accelerated BART</p></li>
+<li><p><code>bcf</code>: Bayesian Causal Forest</p></li>
+<li><p><code>xbcf</code>: Accelerated Bayesian Causal Forest</p></li>
+<li><p><code>cf</code>: Causal Forest</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>include_ps</th>
-      <td><p>whether or not to include propensity score estimate as a covariate in ITE estimation</p></td>
+      <td><p>whether or not to include propensity score estimate as a
+covariate in ITE estimation</p></td>
     </tr>
     <tr>
       <th>binary</th>
@@ -211,7 +214,8 @@
     </tr>
     <tr>
       <th>include_offset</th>
-      <td><p>whether or not to include an offset when estimating the ITE, for poisson only</p></td>
+      <td><p>whether or not to include an offset when estimating
+the ITE, for poisson only</p></td>
     </tr>
     <tr>
       <th>offset_name</th>
@@ -221,7 +225,12 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list of raw ITE estimates, standardized ITE estimates, and standard deviations for the ITE estimates</p>
+    <p>a list that includes:</p><ul>
+<li><p>raw ITE estimates</p></li>
+<li><p>standardized ITE estimates, and</p></li>
+<li><p>standard deviations for the ITE estimates.</p></li>
+</ul>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

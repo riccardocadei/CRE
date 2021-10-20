@@ -24,11 +24,12 @@ select_causal_rules(
 
 \item{q}{the selection threshold used in selecting the causal rules}
 
-\item{rules_method}{the method for selecting causal rules with binary outcomes, either "conservative", "anticonservative", or NA}
+\item{rules_method}{the method for selecting causal rules with binary
+outcomes, either "conservative", "anticonservative", or NA}
 }
 \value{
 a vector of causal rules
 }
 \description{
-Method for selecting the causal rules that are most important
+Selects the causal rules that are most important.
 }

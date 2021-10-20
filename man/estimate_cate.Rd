@@ -27,23 +27,29 @@ estimate_cate(
 
 \item{X_names}{the names of the covariates}
 
-\item{include_offset}{whether or not to include an offset when estimating the ITE, for poisson only}
+\item{include_offset}{whether or not to include an offset when estimating the
+ITE, for poisson only}
 
 \item{offset_name}{the name of the offset, if it is to be included}
 
-\item{rules_matrix_inf}{the standardized causal rules matrix for the inference subsample}
+\item{rules_matrix_inf}{the standardized causal rules matrix for the
+inference subsample}
 
-\item{select_rules_interpretable}{the list of select causal rules in terms of coviariate names}
+\item{select_rules_interpretable}{the list of select causal rules in terms of
+coviariate names}
 
 \item{ite_method_inf}{the method to estimate the inference sample ITE}
 
 \item{ite_inf}{the estimated ITEs for the inference subsample}
 
-\item{sd_ite_inf}{the standard deviations for the estimated ITEs for the inference subsample}
+\item{sd_ite_inf}{the standard deviations for the estimated ITEs for the
+inference subsample}
 }
 \value{
 a matrix of CATE estimates
 }
 \description{
-Method for estimating the Conditional Average Treatment Effect given a standardized vector of Individual Treatment Effects, a standardized matrix of causal rules, a list of causal rules
+Estimates the Conditional Average Treatment Effect given a standardized
+vector of Individual Treatment Effects, a standardized matrix of causal rules,
+a list of causal rules.
 }

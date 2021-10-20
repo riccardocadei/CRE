@@ -1,20 +1,21 @@
 ## CRE (devloping version) 
 
-### Added
-- `generate_cre_dataset` function to generate synthetic data for testing the package
-- `test-generate_cre_dataset` function test
-
-### Added
-- `estimate_ps` function to estimate the propensity score
-- `estimate_ite_xbart` function to generate ITE estimates using accelerated BART
-- `estimate_ite_xbcf` function to generate ITE estimates using accelerated BCF
-
 ### Changed
 - `estimate_cate` include two methods for estimating the CATE values
 - `cre` added initial checks for binary outcome and whether to include the propensity score in the ITE estimation
 - `estimate_ite_xyz` conduct propensity score estimation using helper function
+- Removed `seed` as an input from `generate_cre_dataset` function.
+- Moved `take1` function into `utils.R` 
 
 ### Added
+- `set_logger` and `get_logger`
+- `check_input_data` function
+- example to `generate_cre_dataset`
+- `generate_cre_dataset` function to generate synthetic data for testing the package
+- `test-generate_cre_dataset` function test
+- `estimate_ps` function to estimate the propensity score
+- `estimate_ite_xbart` function to generate ITE estimates using accelerated BART
+- `estimate_ite_xbcf` function to generate ITE estimates using accelerated BCF
 - `analyze_sensitivity` function to conduct sensitivity analysis for unmeasured confounding
 - `cre` function to perform the entire Causal Rule Ensemble method
 - `estimate_cate` function to generate CATE estimates from the ITE estimates and select rules

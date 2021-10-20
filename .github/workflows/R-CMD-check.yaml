@@ -76,10 +76,12 @@ jobs:
               mkdir ~/.R
               touch ~/.R/Makevars
               echo "CC=$clang_path" >> ~/.R/Makevars
+              echo "CXX=$clangpp_path" >> ~/.R/Makevars
               echo "CXX11=$clangpp_path" >> ~/.R/Makevars
               echo "CXX14=$clangpp_path" >> ~/.R/Makevars
               echo "CXX17=$clangpp_path" >> ~/.R/Makevars
               echo "CXX1X=$clangpp_path" >> ~/.R/Makevars
+              echo "$LDFLAGS_path -o task -fopenmp" >> ~/.R/Makevars
 
 
       - name: Install dependencies

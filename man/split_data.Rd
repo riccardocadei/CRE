@@ -19,5 +19,5 @@ split_data(y, z, X, ratio_dis)
 a list containing the discovery and inference subsamples
 }
 \description{
-Split Data into Discovery and Inference Subsamples
+Splits data into discovery and inference subsamples.
 }
