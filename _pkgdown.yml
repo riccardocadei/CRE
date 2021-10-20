@@ -37,6 +37,8 @@ reference:
     - take_1
     - check_input_data
     - analyze_sensitivity
+    - set_logger
+    - get_logger
 
 articles:
   - title: Users

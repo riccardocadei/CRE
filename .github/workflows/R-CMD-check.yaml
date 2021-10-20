@@ -68,18 +68,18 @@ jobs:
         run: |
               brew install gfortran
               brew install llvm boost libomp
-              LDFLAGS_cmd=$(brew info llvm | grep "export LDFLAGS=")
-              LDFLAGS_path=$(echo $LDFLAGS_cmd | awk '{print $2}' | sed 's/"//g')
-              eval $LDFLAGS_cmd
-              clang_path=$(which clang)
-              clangpp_path=$(which clang++)
-              mkdir ~/.R
-              touch ~/.R/Makevars
-              echo "CC=$clang_path" >> ~/.R/Makevars
-              echo "CXX11=$clangpp_path" >> ~/.R/Makevars
-              echo "CXX14=$clangpp_path" >> ~/.R/Makevars
-              echo "CXX17=$clangpp_path" >> ~/.R/Makevars
-              echo "CXX1X=$clangpp_path" >> ~/.R/Makevars
+              # LDFLAGS_cmd=$(brew info llvm | grep "export LDFLAGS=")
+              # LDFLAGS_path=$(echo $LDFLAGS_cmd | awk '{print $2}' | sed 's/"//g')
+              # eval $LDFLAGS_cmd
+              # clang_path=$(which clang)
+              # clangpp_path=$(which clang++)
+              # mkdir ~/.R
+              # touch ~/.R/Makevars
+              # echo "CC=$clang_path" >> ~/.R/Makevars
+              # echo "CXX11=$clangpp_path" >> ~/.R/Makevars
+              # echo "CXX14=$clangpp_path" >> ~/.R/Makevars
+              # echo "CXX17=$clangpp_path" >> ~/.R/Makevars
+              # echo "CXX1X=$clangpp_path" >> ~/.R/Makevars
 
 
       - name: Install dependencies
