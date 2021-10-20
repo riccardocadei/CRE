@@ -1,19 +1,16 @@
 #' @title
-#' Title
+#' Sensitivity Analysis
 #'
 #' @description
-#' Description
+#' Method for analyzing the sensitivity of the estimates of the causal rule-specific treatment effects
 #'
-#' @param tau input value description
-#' @param X input value description
-#' @param select_rules input value description
-#' @param method input value description
+#' @param ite_std the standardized ITE
+#' @param rules_matrix_std the standardized causal rules matrix
 #'
-#' @return
+#' @return a list containing the results of the sensitivity analysis
+#'
 #' @export
 #'
-#' @examples
-#' TBD
-analyze_sensitivity <- function(tau, X, select_rules, method){
+analyze_sensitivity <- function(ite_std, rules_matrix_std) {
   # TBD
 }

@@ -1,0 +1,18 @@
+---
+title: "article_i2"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{article_i2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The is a placeholder for article i2. 
+

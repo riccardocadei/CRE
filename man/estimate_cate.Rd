@@ -2,21 +2,54 @@
 % Please edit documentation in R/estimate_cate.R
 \name{estimate_cate}
 \alias{estimate_cate}
-\title{Title}
+\title{Estimate the Conditional Average Treatment Effect}
 \usage{
-estimate_cate(tau, rules_matrix)
+estimate_cate(
+  y_inf,
+  z_inf,
+  X_inf,
+  X_names,
+  include_offset,
+  offset_name,
+  rules_matrix_inf,
+  select_rules_interpretable,
+  ite_method_inf,
+  ite_inf,
+  sd_ite_inf
+)
 }
 \arguments{
-\item{tau}{input value description}
+\item{y_inf}{the outcome vector for the inference subsample}
 
-\item{rules_matrix}{input value description}
+\item{z_inf}{the treatment vector for the inference subsample}
+
+\item{X_inf}{the covariate vector for the inference subsample}
+
+\item{X_names}{the names of the covariates}
+
+\item{include_offset}{whether or not to include an offset when estimating the
+ITE, for poisson only}
+
+\item{offset_name}{the name of the offset, if it is to be included}
+
+\item{rules_matrix_inf}{the standardized causal rules matrix for the
+inference subsample}
+
+\item{select_rules_interpretable}{the list of select causal rules in terms of
+coviariate names}
+
+\item{ite_method_inf}{the method to estimate the inference sample ITE}
+
+\item{ite_inf}{the estimated ITEs for the inference subsample}
+
+\item{sd_ite_inf}{the standard deviations for the estimated ITEs for the
+inference subsample}
 }
 \value{
-
+a matrix of CATE estimates
 }
 \description{
-description
-}
-\examples{
-TBD
+Estimates the Conditional Average Treatment Effect given a standardized
+vector of Individual Treatment Effects, a standardized matrix of causal rules,
+a list of causal rules.
 }

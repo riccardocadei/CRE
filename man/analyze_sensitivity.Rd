@@ -2,25 +2,18 @@
 % Please edit documentation in R/analyze_sensitivity.R
 \name{analyze_sensitivity}
 \alias{analyze_sensitivity}
-\title{Title}
+\title{Sensitivity Analysis}
 \usage{
-analyze_sensitivity(tau, X, select_rules, method)
+analyze_sensitivity(ite_std, rules_matrix_std)
 }
 \arguments{
-\item{tau}{input value description}
+\item{ite_std}{the standardized ITE}
 
-\item{X}{input value description}
-
-\item{select_rules}{input value description}
-
-\item{method}{input value description}
+\item{rules_matrix_std}{the standardized causal rules matrix}
 }
 \value{
-
+a list containing the results of the sensitivity analysis
 }
 \description{
-Description
-}
-\examples{
-TBD
+Method for analyzing the sensitivity of the estimates of the causal rule-specific treatment effects
 }

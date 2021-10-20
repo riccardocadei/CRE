@@ -2,32 +2,73 @@
 % Please edit documentation in R/cre.R
 \name{cre}
 \alias{cre}
-\title{Title}
+\title{The Causal Rule Ensemble}
 \usage{
-cre(y, z, X, ratio_dis, method_dis, method_inf, ntrees, min_nods, max_nodes)
+cre(
+  y,
+  z,
+  X,
+  ratio_dis,
+  ite_method_dis,
+  include_ps_dis = NA,
+  ite_method_inf,
+  include_ps_inf = NA,
+  ntrees_rf,
+  ntrees_gbm,
+  min_nodes,
+  max_nodes,
+  t,
+  q,
+  rules_method,
+  include_offset = FALSE,
+  offset_name = NA
+)
 }
 \arguments{
-\item{y}{input variable description}
+\item{y}{the observed response vector}
 
-\item{z}{input variable description}
+\item{z}{the treatment vector}
 
-\item{X}{input variable description}
+\item{X}{the covariate matrix}
 
-\item{ratio_dis}{input variable description}
+\item{ratio_dis}{the ratio of data delegated to the discovery sub-sample}
 
-\item{method_dis}{input variable description}
+\item{ite_method_dis}{the method to estimate the discovery sample ITE}
 
-\item{method_inf}{input variable description}
+\item{include_ps_dis}{whether or not to include propensity score estimate
+as a covariate in discovery ITE estimation, considered only for BART, XBART,
+or CF}
 
-\item{ntrees}{input variable description}
+\item{ite_method_inf}{the method to estimate the inference sample ITE}
 
-\item{min_nods}{input variable description}
+\item{include_ps_inf}{whether or not to include propensity score estimate as
+a covariate in inference ITE estimation, considered only for BART, XBART,
+or CF}
 
-\item{max_nodes}{input variable description}
+\item{ntrees_rf}{the number of decision trees for randomForest}
+
+\item{ntrees_gbm}{the number of decision trees for gradient boosting}
+
+\item{min_nodes}{the minimum size of the trees' terminal nodes}
+
+\item{max_nodes}{the maximum size of the trees' terminal nodes}
+
+\item{t}{the common support used in generating the causal rules matrix}
+
+\item{q}{the selection threshold used in selecting the causal rules}
+
+\item{rules_method}{the method for selecting causal rules with binary outcomes}
+
+\item{include_offset}{whether or not to include an offset when estimating
+the ITE, for poisson only}
+
+\item{offset_name}{the name of the offset, if it is to be included}
 }
 \value{
-
+a list containing the list of select causal rules and a matrix of Conditional
+Average Treatment Effect estimates
 }
 \description{
-description
+Performs the Causal Rule Ensemble on a dataset with a response variable,
+a treatment variable, and various features
 }
