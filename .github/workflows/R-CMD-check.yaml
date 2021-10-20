@@ -66,8 +66,8 @@ jobs:
       - name: Install omp
         if: runner.os == 'macOS'
         run: |
-              brew install gfortran
-              brew install llvm boost libomp
+              brew install llvm libomp
+              export CPP=/usr/local/opt/llvm/bin/clang
               # LDFLAGS_cmd=$(brew info llvm | grep "export LDFLAGS=")
               # LDFLAGS_path=$(echo $LDFLAGS_cmd | awk '{print $2}' | sed 's/"//g')
               # eval $LDFLAGS_cmd
