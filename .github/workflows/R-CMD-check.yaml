@@ -81,7 +81,7 @@ jobs:
               echo "CXX14=$clangpp_path" >> ~/.R/Makevars
               echo "CXX17=$clangpp_path" >> ~/.R/Makevars
               echo "CXX1X=$clangpp_path" >> ~/.R/Makevars
-              echo "$LDFLAGS_path -o task -fopenmp" >> ~/.R/Makevars
+              echo "$LDFLAGS_path -o task -Xpreprocessor -fopenmp" >> ~/.R/Makevars
 
 
       - name: Install dependencies
