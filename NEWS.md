@@ -1,11 +1,10 @@
-## CRE (devloping version) 
+## CRE 0.0.1 (2021-10-20)
 
 ### Changed
 - `estimate_cate` include two methods for estimating the CATE values
 - `cre` added initial checks for binary outcome and whether to include the propensity score in the ITE estimation
 - `estimate_ite_xyz` conduct propensity score estimation using helper function
 - Removed `seed` as an input from `generate_cre_dataset` function.
-- Moved `take1` function into `utils.R` 
 
 ### Added
 - `set_logger` and `get_logger`
