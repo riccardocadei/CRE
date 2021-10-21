@@ -71,18 +71,18 @@ jobs:
               LDFLAGS_cmd=$(brew info llvm | grep "export LDFLAGS=")
               LDFLAGS_path=$(echo $LDFLAGS_cmd | awk '{print $2}' | sed 's/"//g')
               eval $LDFLAGS_cmd
-              llvm_path=$(brew info llvm | grep "echo 'export PATH")
-              eval $llvm_path
-              clang_path=$(which clang)
-              clangpp_path=$(which clang++)
+              llvm_path_tmp=$(brew info llvm | grep "echo 'export PATH")
+              llvm_path=$(echo $llvm_path_tmp | awk '{print $3}'| sed 's/PATH="//' | sed 's/:.*//')
+              #clang_path=$(which clang)
+              #clangpp_path=$(which clang++)
               mkdir ~/.R
               touch ~/.R/Makevars
-              echo "CC=$clang_path" >> ~/.R/Makevars
-              echo "CXX=$clangpp_path" >> ~/.R/Makevars
-              echo "CXX11=$clangpp_path" >> ~/.R/Makevars
-              echo "CXX14=$clangpp_path" >> ~/.R/Makevars
-              echo "CXX17=$clangpp_path" >> ~/.R/Makevars
-              echo "CXX1X=$clangpp_path" >> ~/.R/Makevars
+              echo "CC=$llvm_path/clang" >> ~/.R/Makevars
+              echo "CXX=$llvm_path/clang++" >> ~/.R/Makevars
+              echo "CXX11=$llvm_path/clang++" >> ~/.R/Makevars
+              echo "CXX14=$llvm_path/clang++" >> ~/.R/Makevars
+              echo "CXX17=$llvm_path/clang++" >> ~/.R/Makevars
+              echo "CXX1X=$llvm_path/clang++" >> ~/.R/Makevars
               echo "$LDFLAGS_path -o task -fopenmp" >> ~/.R/Makevars
               cat ~/.R/Makevars
 
