@@ -73,8 +73,6 @@ jobs:
               eval $LDFLAGS_cmd
               llvm_path_tmp=$(brew info llvm | grep "echo 'export PATH")
               llvm_path=$(echo $llvm_path_tmp | awk '{print $3}'| sed 's/PATH="//' | sed 's/:.*//')
-              #clang_path=$(which clang)
-              #clangpp_path=$(which clang++)
               mkdir ~/.R
               touch ~/.R/Makevars
               echo "CC=$llvm_path/clang" >> ~/.R/Makevars
