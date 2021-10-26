@@ -47,8 +47,57 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset, offset_n
 
     cate_temp <- data.frame(Predictor = cate_names) %>%
       cbind(cate_model)
-    names(cate_temp) <- c("Predictor", "Estimate", "Std_Error", "Z_Value", "P_Value")
-    cate_final <- subset(cate_temp, cate_temp$P_Value < 0.05)
+    colnames(cate_temp) <- c("Predictor", "Estimate", "Std_Error", "Z_Value", "P_Value")
+    cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
+    rownames(cate_final) <- 1:nrow(cate_final)
+  } else if (ite_method_inf %in% c("blp")) {
+    # split the data evenly
+    split <- sample(nrow(X_inf), nrow(X_inf) * 0.5, replace = FALSE)
+
+    # assign names to rules matrix and X matrix
+    colnames(rules_matrix_inf) <- select_rules_interpretable
+    colnames(X) <- X_names
+
+    # generate new data frames
+    y_inf_a <- y_inf[split]
+    y_inf_b <- y_inf[-split]
+    X_inf_a <- as.data.frame(X_inf[split,])
+    X_inf_b <- as.data.frame(X_inf[-split,])
+    z_inf_a <- z_inf[split]
+    z_inf_b <- z_inf[-split]
+    rules_matrix_inf_a <- rules_matrix_inf[split,]
+    rules_matrix_inf_b <- rules_matrix_inf[-split,]
+
+    # on set A, train a model to predict X using Z, then make predictions on set B
+    sl_w1 <- SuperLearner::SuperLearner(Y = z_inf_a, X = X_inf_a, newX = X_inf_b, family = binomial(),
+                                        SL.library = "SL.xgboost", cvControl = list(V=0))
+    phat <- sl_w1$SL.predict
+
+    # generate CATE estimates for set A, predict set B
+    sl_y <- SuperLearner::SuperLearner(Y = y_inf_a, X = data.frame(X = X_inf_a, Z = z_inf_a),
+                                       family = gaussian(), SL.library = "SL.xgboost", cvControl = list(V=0))
+    pred_0s <- stats::predict(sl_y, data.frame(X = X_inf_b, Z = rep(0, nrow(X_inf_b))), onlySL = TRUE)
+    pred_1s <- stats::predict(sl_y, data.frame(X = X_inf_b, Z = rep(1, nrow(X_inf_b))), onlySL = TRUE)
+
+    cate <- pred_1s$pred - pred_0s$pred
+
+    # generate AIPW estimate
+    apo_1 <- pred_1s$pred + (z_inf_b*(y_inf_b - pred_1s$pred)/(phat))
+    apo_0 <- pred_0s$pred + ((1 - z_inf_b)*(y_inf_b - pred_0s$pred)/(1-phat))
+
+    delta <- apo_1 - apo_0
+
+    # regress AIPW onto the rules
+    blp_model <- lm(delta ~ rules_matrix_inf_b)
+    cate_model <- summary(blp_model)$coefficients
+    colnames(cate_model) <- c("Estimate", "Std_Error", "Z_Value", "P_Value")
+    cate_names <- rownames(cate_model) %>%
+      stringr::str_remove_all("rules_matrix_inf_b") %>%
+      stringr::str_replace_all("Intercept", "Treatment")
+
+    cate_temp <- data.frame(Predictor = cate_names) %>%
+      cbind(cate_model)
+    cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
     rownames(cate_final) <- 1:nrow(cate_final)
   } else if (ite_method_inf %in% c("bart", "xbart")) {
     stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
@@ -117,9 +166,13 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset, offset_n
     }
     cate_final <- cate_means
   } else {
+    stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
+    df_rules_factor <- as.data.frame(rules_matrix_inf) %>% dplyr::transmute_all(as.factor)
+    names(df_rules_factor) <- select_rules_interpretable
     joined_ite_rules <- cbind(ite_inf, df_rules_factor)
 
-    # Fit linear regression model with contr.treatment, then extract coefficients and confidence intervals
+    # Fit linear regression model with contr.treatment
+    # then extract coefficients and confidence intervals
     options(contrasts = rep("contr.treatment", 2))
     model1_cate <- stats::lm(ite_inf ~ ., data = joined_ite_rules)
     model1_coef <- summary(model1_cate)$coef[,c(1,4)] %>% as.data.frame
