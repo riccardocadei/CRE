@@ -102,7 +102,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     delta <- apo_1 - apo_0
 
     # regress AIPW onto the rules
-    blp_model <- lm(delta ~ rules_matrix_inf_b)
+    blp_model <- stats::lm(delta ~ rules_matrix_inf_b)
     cate_model <- summary(blp_model)$coefficients
     colnames(cate_model) <- c("Estimate", "Std_Error", "Z_Value", "P_Value")
     cate_names <- rownames(cate_model) %>%
