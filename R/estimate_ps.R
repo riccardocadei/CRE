@@ -12,8 +12,8 @@
 #' @export
 #'
 estimate_ps <- function(z, X) {
-  propscore_model <- stats::glm(z ~ X, family = binomial)
-  logit_ps <- stats::predict(propscore_model)
-  est_ps <- exp(logit_ps) / (1 + exp(logit_ps))
+  sl_pscore <- SuperLearner::SuperLearner(Y = z, X = X, newX = X, family = binomial(),
+                                          SL.library = "SL.xgboost", cvControl = list(V=0))
+  est_ps <- sl_pscore$SL.predict
   return(est_ps)
 }
