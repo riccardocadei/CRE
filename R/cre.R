@@ -233,7 +233,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
 
   # Inference ------------------------------------------------------------------
   message("Conducting Inference Subsample Analysis")
-  if (ite_method_inf != "poisson") {
+  if (!(ite_method_inf %in% c("poisson", "blp"))) {
     ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
                                  include_ps_inf, binary, X_names,
                                  include_offset, offset_name)
