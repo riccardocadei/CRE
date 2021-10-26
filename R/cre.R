@@ -60,9 +60,9 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
          'ipw', 'sipw', 'or', 'bart', 'xbart', 'bcf', 'xbcf', 'cf', or 'poisson'")
   }
   ite_method_inf <- tolower(ite_method_inf)
-  if (!(ite_method_inf %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf", "xbcf", "cf", "poisson"))) {
+  if (!(ite_method_inf %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf", "xbcf", "cf", "poisson", "blp"))) {
     stop("Invalid ITE method for Inference Subsample. Please choose from the following:
-         'ipw', 'sipw', 'or', 'bart', 'xbart', 'bcf', 'xbcf', 'cf', or 'poisson'")
+         'ipw', 'sipw', 'or', 'bart', 'xbart', 'bcf', 'xbcf', 'cf', 'poisson', or 'blp'")
   }
 
   # Check for correct propensity score estimation inputs
