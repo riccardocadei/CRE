@@ -2,27 +2,40 @@
 #' Estimate the Conditional Average Treatment Effect
 #'
 #' @description
-#' Method for estimating the Conditional Average Treatment Effect given a standardized vector of Individual Treatment Effects, a standardized matrix of causal rules, a list of causal rules
+#' Estimates the Conditional Average Treatment Effect given a standardized
+#' vector of Individual Treatment Effects, a standardized matrix of causal rules,
+#' a list of causal rules.
 #'
 #' @param y_inf the outcome vector for the inference subsample
 #' @param z_inf the treatment vector for the inference subsample
 #' @param X_inf the covariate vector for the inference subsample
 #' @param X_names the names of the covariates
-#' @param include_offset whether or not to include an offset when estimating the ITE, for poisson only
+#' @param include_offset whether or not to include an offset when estimating the
+#'  ITE, for poisson only
 #' @param offset_name the name of the offset, if it is to be included
-#' @param rules_matrix_inf the standardized causal rules matrix for the inference subsample
-#' @param select_rules_interpretable the list of select causal rules in terms of coviariate names
+#' @param rules_matrix_inf the standardized causal rules matrix for the
+#' inference subsample
+#' @param select_rules_interpretable the list of select causal rules in terms of
+#' coviariate names
 #' @param ite_method_inf the method to estimate the inference sample ITE
 #' @param ite_inf the estimated ITEs for the inference subsample
-#' @param sd_ite_inf the standard deviations for the estimated ITEs for the inference subsample
+#' @param sd_ite_inf the standard deviations for the estimated ITEs for the
+#' inference subsample
 #'
-#' @return a matrix of CATE estimates
+#' @return
+#' a matrix of CATE estimates
 #'
 #' @export
 #'
-estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset, offset_name,
-                          rules_matrix_inf, select_rules_interpretable,
+estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
+                          offset_name, rules_matrix_inf,
+                          select_rules_interpretable,
                           ite_method_inf, ite_inf, sd_ite_inf) {
+
+
+  # Handling global variable error.
+  `%>%` <- magrittr::`%>%`
+  Rule <- rule <- tau <- se <- . <- Estimate <- NULL
 
   if (ite_method_inf %in% c("poisson")) {
     colnames(rules_matrix_inf) <- select_rules_interpretable
@@ -32,7 +45,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset, offset_n
       X_inf <- X_inf[,-which(X_names == offset_name)]
 
       # Fit gnm model
-      conditional_gnm <- gnm::gnm(y_inf ~ offset(log(X_offset)) + z_inf + z_inf:rules_matrix_inf + X_inf,
+      conditional_gnm <- gnm::gnm(y_inf ~ offset(log(X_offset)) + z_inf +
+                                    z_inf:rules_matrix_inf + X_inf,
                                   family = stats::poisson(link = "log"))
     } else {
       # Fit gnm model
@@ -107,7 +121,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset, offset_n
 
     # Generate CATE data frame with ATE
     options(mc.cores = parallel::detectCores())
-    baggr_ite <- suppressWarnings(baggr::baggr(joined_ite, cores = getOption("mc.cores", parallel::detectCores())))
+    baggr_ite <- suppressWarnings(
+      baggr::baggr(joined_ite, cores = getOption("mc.cores",
+                                                 parallel::detectCores())))
     sum_ate <- 0
     sum_sd_ate <- 0
     n_samples <- length(baggr_ite$fit@sim$samples)
@@ -115,18 +131,24 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset, offset_n
       sum_ate <- sum_ate + mean(baggr_ite$fit@sim$samples[[i]]$`mu[1]`)
       sum_sd_ate <- sum_sd_ate + mean(baggr_ite$fit@sim$samples[[i]]$`tau[1]`)
     }
+
     ate <- sum_ate / n_samples
     sd_ate <- sum_sd_ate / n_samples
-    cate_means <- data.frame(Rule = "Average Treatment Effect", CATE = ate,
-                             CI_lower = ate - (1.96 * sd_ate), CI_upper = ate + (1.96 * sd_ate))
+    cate_means <- data.frame(Rule = "Average Treatment Effect",
+                             CATE = ate,
+                             CI_lower = ate - (1.96 * sd_ate),
+                             CI_upper = ate + (1.96 * sd_ate))
 
     # Determine CATE manually for each rule
     for (i in 1:length(select_rules_interpretable)) {
-      df_temp <- data.frame(tau = ite_inf, se = sd_ite_inf, rule = df_rules_factor[,i]) %>%
+      df_temp <- data.frame(tau = ite_inf, se = sd_ite_inf,
+                            rule = df_rules_factor[,i]) %>%
         dplyr::filter(rule == 1) %>% dplyr::select(-rule)
       df_temp <- df_temp %>% dplyr::summarize(group = 1:nrow(df_temp), tau, se)
       options(mc.cores = parallel::detectCores())
-      baggr_ite_temp <- suppressWarnings(baggr::baggr(df_temp, cores = getOption("mc.cores", parallel::detectCores())))
+      baggr_ite_temp <- suppressWarnings(
+        baggr::baggr(df_temp, cores = getOption("mc.cores",
+                                                parallel::detectCores())))
 
       sum_cate_temp <- 0
       sum_sd_cate_temp <- 0
@@ -186,8 +208,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset, offset_n
     cate_reg_orig$Rule <- cate_reg_orig_names
     row.names(cate_reg_orig) <- 1:nrow(cate_reg_orig)
     cate_reg_orig <- cate_reg_orig %>%
-      dplyr::summarize(Rule, Model_Coef = Estimate, CATE = Estimate, PVal = `Pr(>|t|)`,
-                       CI_lower = `2.5 %`, CI_upper = `97.5 %`)
+      dplyr::summarize(Rule, Model_Coef = Estimate, CATE = Estimate, PVal = "Pr(>|t|)",
+                       CI_lower = "2.5 %", CI_upper = "97.5 %")
     for (i in 2:nrow(cate_reg_orig)) {
       cate_reg_orig[i,3] <- cate_reg_orig[1,2] + cate_reg_orig[i,2]
     }

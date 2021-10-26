@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CRE</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
       </span>
     </div>
 
@@ -103,7 +103,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="divider"></li>
-    <li class="dropdown-header">Introduction</li>
+    <li class="dropdown-header">Users</li>
     <li>
       <a href="../articles/article_i1.html">article_i1</a>
     </li>
@@ -114,16 +114,7 @@
       <a href="../articles/article_i3.html">article_i3</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Collabration</li>
-    <li>
-      <a href="../articles/article_c1.html">article_c1</a>
-    </li>
-    <li>
-      <a href="../articles/article_c2.html">article_c2</a>
-    </li>
-    <li>
-      <a href="../articles/article_c3.html">article_c3</a>
-    </li>
+    <li class="dropdown-header">Developers</li>
   </ul>
 </li>
 <li>
@@ -170,7 +161,7 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-causal-rule-ensemble" class="hasAnchor"><a href="#section-causal-rule-ensemble" class="anchor"></a>Causal Rule Ensemble</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -182,22 +173,23 @@
       <tr>
         
         <td>
-          <p><code><a href="analyze_sensitivity.html">analyze_sensitivity()</a></code> </p>
-        </td>
-        <td><p>Sensitivity Analysis</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="cre.html">cre()</a></code> </p>
         </td>
         <td><p>The Causal Rule Ensemble</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="estimate_cate.html">estimate_cate()</a></code> </p>
-        </td>
-        <td><p>Estimate the Conditional Average Treatment Effect</p></td>
-      </tr><tr>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-discovery" class="hasAnchor"><a href="#section-discovery" class="anchor"></a>Discovery</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
           <p><code><a href="estimate_ite.html">estimate_ite()</a></code> </p>
@@ -244,7 +236,8 @@
         <td>
           <p><code><a href="estimate_ite_sipw.html">estimate_ite_sipw()</a></code> </p>
         </td>
-        <td><p>Estimate the Individual Treatment Effect using Stabilized Inverse Propensity Weighting</p></td>
+        <td><p>Estimate the Individual Treatment Effect using Stabilized Inverse Propensity
+Weighting</p></td>
       </tr><tr>
         
         <td>
@@ -266,39 +259,53 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="extract_rules.html">extract_rules()</a></code> </p>
-        </td>
-        <td><p>Extract Rules</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="generate_cre_dataset.html">generate_cre_dataset()</a></code> </p>
-        </td>
-        <td><p>Generate CRE Synthetic Data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="generate_rules.html">generate_rules()</a></code> </p>
-        </td>
-        <td><p>Generate Rules</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="generate_rules_matrix.html">generate_rules_matrix()</a></code> </p>
         </td>
         <td><p>Generate Rules Matrix</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="interpret_select_rules.html">interpret_select_rules()</a></code> </p>
+          <p><code><a href="generate_rules.html">generate_rules()</a></code> </p>
         </td>
-        <td><p>Interpret Select Rules</p></td>
-      </tr><tr>
+        <td><p>Generate Rules</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-inference" class="hasAnchor"><a href="#section-inference" class="anchor"></a>Inference</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
-          <p><code><a href="select_causal_rules.html">select_causal_rules()</a></code> </p>
+          <p><code><a href="estimate_cate.html">estimate_cate()</a></code> </p>
         </td>
-        <td><p>Select Causal Rules</p></td>
+        <td><p>Estimate the Conditional Average Treatment Effect</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-utilities" class="hasAnchor"><a href="#section-utilities" class="anchor"></a>Utilities</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="generate_cre_dataset.html">generate_cre_dataset()</a></code> </p>
+        </td>
+        <td><p>Generate CRE Synthetic Data</p></td>
       </tr><tr>
         
         <td>
@@ -308,9 +315,27 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="take1.html">take1()</a></code> </p>
+          <p><code><a href="check_input_data.html">check_input_data()</a></code> </p>
         </td>
-        <td><p>Take 1</p></td>
+        <td><p>Check Input Data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="analyze_sensitivity.html">analyze_sensitivity()</a></code> </p>
+        </td>
+        <td><p>Sensitivity Analysis</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="set_logger.html">set_logger()</a></code> </p>
+        </td>
+        <td><p>Set Logger Settings</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_logger.html">get_logger()</a></code> </p>
+        </td>
+        <td><p>Get Logger Settings</p></td>
       </tr>
     </tbody>
     </table>

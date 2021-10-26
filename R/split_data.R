@@ -2,7 +2,7 @@
 #' Split Data
 #'
 #' @description
-#' Split Data into Discovery and Inference Subsamples
+#' Splits data into discovery and inference subsamples.
 #'
 #' @param y the observed response vector
 #' @param z the treatment vector
@@ -14,9 +14,15 @@
 #' @export
 #'
 split_data <- function(y, z, X, ratio_dis) {
+
+  n <- check_input_data(y, z, X)
+
   total_sample <- cbind(y, z, X)
-  index <- sample(nrow(total_sample), nrow(total_sample) * ratio_dis)
+
+  index <- sample(1:n, round(n*ratio_dis), replace=F)
+
   discovery <- total_sample[index,]
   inference <- total_sample[-index,]
+
   return(list(discovery = discovery, inference = inference))
 }

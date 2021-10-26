@@ -40,6 +40,6 @@ estimate_ite_xbart <- function(y, z, X, include_ps) {
 
   pd_ite <- xbart_y1$yhats_test[, 100:1000] - xbart_y0$yhats_test[, 100:1000]
   ite <- apply(pd_ite, 1, mean)
-  sd_ite <- apply(pd_ite, 1, sd)
+  sd_ite <- apply(pd_ite, 1, stats::sd)
   return(list(ite, sd_ite))
 }

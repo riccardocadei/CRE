@@ -2,7 +2,8 @@
 #' Estimate the Individual Treatment Effect using Bayesian Causal Forest
 #'
 #' @description
-#' Method for estimating the Individual Treatment Effect using Bayesian Causal Forest given a response vector, a treatment vector, and a features matrix
+#' Estimates the Individual Treatment Effect using Bayesian Causal Forest given
+#' a response vector, a treatment vector, and a features matrix.
 #'
 #' @param y the observed response vector
 #' @param z the treatment vector
@@ -17,6 +18,6 @@ estimate_ite_bcf <- function(y, z, X) {
   bcf_model <- bcf::bcf(y, z, X, X, est_ps, nburn = 500, nsim = 500)
   pd_ite <- bcf_model$tau
   ite <- apply(pd_ite, 2, mean)
-  sd_ite <- apply(pd_ite, 2, sd)
+  sd_ite <- apply(pd_ite, 2, stats::sd)
   return(list(ite, sd_ite))
 }

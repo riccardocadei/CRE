@@ -1,7 +1,8 @@
 test_that("Causal Rules Selected Correctly", {
   # Generate sample data
+  set.seed(2021)
   dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
-                                       effect_size = 2, binary = FALSE, seed = 2021)
+                                       effect_size = 2, binary = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
@@ -28,7 +29,8 @@ test_that("Causal Rules Selected Correctly", {
   ite_std <- ite_list[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes, max_nodes)
+  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
+                                  max_nodes)
 
   # Step 4: Generate rules matrix
   rules_all <- generate_rules_matrix(X, initial_rules, t)
@@ -39,11 +41,18 @@ test_that("Causal Rules Selected Correctly", {
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(select_causal_rules(rules_matrix_std = "test", rules_list, ite_std, binary, q, rules_method))
-  expect_error(select_causal_rules(rules_matrix_std, rules_list, ite_std = "test", binary, q, rules_method))
-  expect_error(select_causal_rules(rules_matrix_std, rules_list, ite_std, binary = "test", q, rules_method))
+  expect_error(select_causal_rules(rules_matrix_std = "test",
+                                   rules_list, ite_std, binary, q,
+                                   rules_method))
+  expect_error(select_causal_rules(rules_matrix_std, rules_list,
+                                   ite_std = "test", binary, q,
+                                   rules_method))
+  expect_error(select_causal_rules(rules_matrix_std, rules_list,
+                                   ite_std, binary = "test", q,
+                                   rules_method))
 
   # Correct outputs
-  select_rules <- select_causal_rules(rules_matrix_std, rules_list, ite_std, binary, q, rules_method)
+  select_rules <- select_causal_rules(rules_matrix_std, rules_list, ite_std,
+                                      binary, q, rules_method)
   expect_true(class(select_rules) == "character")
 })

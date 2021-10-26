@@ -17,5 +17,6 @@ estimate_ite_bcf(y, z, X)
 a list of ITE estimates and standard deviations for the ITE estimates
 }
 \description{
-Method for estimating the Individual Treatment Effect using Bayesian Causal Forest given a response vector, a treatment vector, and a features matrix
+Estimates the Individual Treatment Effect using Bayesian Causal Forest given
+a response vector, a treatment vector, and a features matrix.
 }

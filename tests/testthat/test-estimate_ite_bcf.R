@@ -1,7 +1,8 @@
 test_that("BCF ITE Estimated Correctly", {
   # Generate sample data
+  set.seed(2021)
   dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
-                                       effect_size = 0.5, binary = FALSE, seed = 2021)
+                                       effect_size = 0.5, binary = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]

@@ -23,21 +23,39 @@ estimate_ite(
 
 \item{X}{the features matrix}
 
-\item{ite_method}{the method for estimating the Individual Treatment Effect, either Inverse Propensity Weighting "ipw", Stabilized Inverse Propensity Weighting "sipw", Outcome Regression "or", BART "bart", Accelerated BART "xbart", Bayesian Causal Forest "bcf", Accelerated Bayesian Causal Forest "xbcf", or Causal Forest "cf"}
+\item{ite_method}{the method for estimating the Individual Treatment Effect:
+\itemize{
+\item \code{ipw}: Inverse Propensity Weighting
+\item \code{sipw}: Stabilized Inverse Propensity Weighting
+\item \code{or}: Outcome Regression, TODO: change this into a non reserved term.
+\item \code{bart}: BART
+\item \code{xbart}: Accelerated BART
+\item \code{bcf}: Bayesian Causal Forest
+\item \code{xbcf}: Accelerated Bayesian Causal Forest
+\item \code{cf}: Causal Forest
+}}
 
-\item{include_ps}{whether or not to include propensity score estimate as a covariate in ITE estimation}
+\item{include_ps}{whether or not to include propensity score estimate as a
+covariate in ITE estimation}
 
 \item{binary}{whether or not the outcome is binary}
 
 \item{X_names}{the names of the covariates}
 
-\item{include_offset}{whether or not to include an offset when estimating the ITE, for poisson only}
+\item{include_offset}{whether or not to include an offset when estimating
+the ITE, for poisson only}
 
 \item{offset_name}{the name of the offset, if it is to be included}
 }
 \value{
-a list of raw ITE estimates, standardized ITE estimates, and standard deviations for the ITE estimates
+a list that includes:
+\itemize{
+\item raw ITE estimates
+\item standardized ITE estimates, and
+\item standard deviations for the ITE estimates.
+}
 }
 \description{
-Method for estimating the Individual Treatment Effect given a response vector, a treatment vector, a features matrix, and a desired algorithm
+Estimates the Individual Treatment Effect given a response vector,
+a treatment vector, a features matrix, and a desired algorithm.
 }

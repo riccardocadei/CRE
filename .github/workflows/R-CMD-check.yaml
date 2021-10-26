@@ -23,7 +23,7 @@ jobs:
       matrix:
         config:
           - {os: windows-latest, r: 'release'}
-          #- {os: macOS-latest, r: 'release'}
+          - {os: macOS-latest, r: 'release'}
           - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
           - {os: ubuntu-20.04,   r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest", http-user-agent: "R/4.1.0 (ubuntu-20.04) R (4.1.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions" }
 
@@ -71,15 +71,18 @@ jobs:
               LDFLAGS_cmd=$(brew info llvm | grep "export LDFLAGS=")
               LDFLAGS_path=$(echo $LDFLAGS_cmd | awk '{print $2}' | sed 's/"//g')
               eval $LDFLAGS_cmd
-              clang_path=$(which clang)
-              clangpp_path=$(which clang++)
+              llvm_path_tmp=$(brew info llvm | grep "echo 'export PATH")
+              llvm_path=$(echo $llvm_path_tmp | awk '{print $3}'| sed 's/PATH="//' | sed 's/:.*//')
               mkdir ~/.R
               touch ~/.R/Makevars
-              echo "CC=$clang_path" >> ~/.R/Makevars
-              echo "CXX11=$clangpp_path" >> ~/.R/Makevars
-              echo "CXX14=$clangpp_path" >> ~/.R/Makevars
-              echo "CXX17=$clangpp_path" >> ~/.R/Makevars
-              echo "CXX1X=$clangpp_path" >> ~/.R/Makevars
+              echo "CC=$llvm_path/clang" >> ~/.R/Makevars
+              echo "CXX=$llvm_path/clang++" >> ~/.R/Makevars
+              echo "CXX11=$llvm_path/clang++" >> ~/.R/Makevars
+              echo "CXX14=$llvm_path/clang++" >> ~/.R/Makevars
+              echo "CXX17=$llvm_path/clang++" >> ~/.R/Makevars
+              echo "CXX1X=$llvm_path/clang++" >> ~/.R/Makevars
+              echo "$LDFLAGS_path -o task -fopenmp" >> ~/.R/Makevars
+              cat ~/.R/Makevars
 
 
       - name: Install dependencies

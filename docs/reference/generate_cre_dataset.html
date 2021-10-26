@@ -46,7 +46,8 @@
 
 
 <meta property="og:title" content="Generate CRE Synthetic Data — generate_cre_dataset" />
-<meta property="og:description" content="Method for generating synthetic data for testing the Causal Rule Ensemble package" />
+<meta property="og:description" content="Generates synthetic data with continues or binary outcome for testing the
+Causal Rule Ensemble package" />
 
 
 
@@ -78,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CRE</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
       </span>
     </div>
 
@@ -104,7 +105,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="divider"></li>
-    <li class="dropdown-header">Introduction</li>
+    <li class="dropdown-header">Users</li>
     <li>
       <a href="../articles/article_i1.html">article_i1</a>
     </li>
@@ -115,16 +116,7 @@
       <a href="../articles/article_i3.html">article_i3</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Collabration</li>
-    <li>
-      <a href="../articles/article_c1.html">article_c1</a>
-    </li>
-    <li>
-      <a href="../articles/article_c2.html">article_c2</a>
-    </li>
-    <li>
-      <a href="../articles/article_c3.html">article_c3</a>
-    </li>
+    <li class="dropdown-header">Developers</li>
   </ul>
 </li>
 <li>
@@ -163,10 +155,11 @@
     </div>
 
     <div class="ref-description">
-    <p>Method for generating synthetic data for testing the Causal Rule Ensemble package</p>
+    <p>Generates synthetic data with continues or binary outcome for testing the
+Causal Rule Ensemble package</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generate_cre_dataset</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>rho</span>, <span class='va'>n_rules</span>, <span class='va'>effect_size</span>, <span class='va'>binary</span>, <span class='va'>seed</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>generate_cre_dataset</span><span class='op'>(</span><span class='va'>n</span>, rho <span class='op'>=</span> <span class='fl'>0</span>, n_rules <span class='op'>=</span> <span class='fl'>2</span>, effect_size <span class='op'>=</span> <span class='fl'>0.5</span>, binary <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,30 +170,35 @@
     </tr>
     <tr>
       <th>rho</th>
-      <td><p>the correlation within the variables</p></td>
+      <td><p>the correlation within the covariates (default: 0)</p></td>
     </tr>
     <tr>
       <th>n_rules</th>
-      <td><p>the number of causal rules, either 2 or 4</p></td>
+      <td><p>the number of causal rules, either 2 (default) or 4</p></td>
     </tr>
     <tr>
       <th>effect_size</th>
-      <td><p>the effect size magnitude</p></td>
+      <td><p>the effect size magnitude (default: 0.5)
+TODO: what is the range of effect size magnitude?</p></td>
     </tr>
     <tr>
       <th>binary</th>
-      <td><p>whether to use binary or continuous outcomes, either TRUE or FALSE</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>the seed to set when generating data</p></td>
+      <td><p>whether to use binary or continuous outcomes,
+either TRUE (default) or FALSE</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list of synthetic data containing an outcome vector, a treatment vector, and a matrix of 10 covariates</p>
+    <p>a list of synthetic data containing an outcome vector, a treatment vector,
+and a matrix of 10 covariates</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
+<span class='va'>dataset_c</span> <span class='op'>&lt;-</span> <span class='fu'>generate_cre_dataset</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>500</span>, rho <span class='op'>=</span> <span class='fl'>0</span>, n_rules <span class='op'>=</span> <span class='fl'>2</span>,
+effect_size <span class='op'>=</span> <span class='fl'>0.5</span>, binary <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

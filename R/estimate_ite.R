@@ -2,23 +2,40 @@
 #' Estimate the Individual Treatment Effect
 #'
 #' @description
-#' Method for estimating the Individual Treatment Effect given a response vector, a treatment vector, a features matrix, and a desired algorithm
+#' Estimates the Individual Treatment Effect given a response vector,
+#' a treatment vector, a features matrix, and a desired algorithm.
 #'
 #' @param y the observed response vector
 #' @param z the treatment vector
 #' @param X the features matrix
-#' @param ite_method the method for estimating the Individual Treatment Effect, either Inverse Propensity Weighting "ipw", Stabilized Inverse Propensity Weighting "sipw", Outcome Regression "or", BART "bart", Accelerated BART "xbart", Bayesian Causal Forest "bcf", Accelerated Bayesian Causal Forest "xbcf", or Causal Forest "cf"
-#' @param include_ps whether or not to include propensity score estimate as a covariate in ITE estimation
+#' @param ite_method the method for estimating the Individual Treatment Effect:
+#'   - `ipw`: Inverse Propensity Weighting
+#'   - `sipw`: Stabilized Inverse Propensity Weighting
+#'   - `or`: Outcome Regression, TODO: change this into a non reserved term.
+#'   - `bart`: BART
+#'   - `xbart`: Accelerated BART
+#'   - `bcf`: Bayesian Causal Forest
+#'   - `xbcf`: Accelerated Bayesian Causal Forest
+#'   - `cf`: Causal Forest
+#' @param include_ps whether or not to include propensity score estimate as a
+#' covariate in ITE estimation
 #' @param binary whether or not the outcome is binary
 #' @param X_names the names of the covariates
-#' @param include_offset whether or not to include an offset when estimating the ITE, for poisson only
+#' @param include_offset whether or not to include an offset when estimating
+#' the ITE, for poisson only
 #' @param offset_name the name of the offset, if it is to be included
 #'
-#' @return a list of raw ITE estimates, standardized ITE estimates, and standard deviations for the ITE estimates
+#' @return
+#' a list that includes:
+#'   -  raw ITE estimates
+#'   -  standardized ITE estimates, and
+#'   -  standard deviations for the ITE estimates.
 #'
 #' @export
 #'
-estimate_ite <- function(y, z, X, ite_method, include_ps, binary, X_names, include_offset, offset_name) {
+estimate_ite <- function(y, z, X, ite_method, include_ps, binary, X_names,
+                         include_offset, offset_name) {
+
   if (ite_method == "ipw") {
     ite <- estimate_ite_ipw(y, z, X)
     sd_ite <- NA
@@ -49,12 +66,14 @@ estimate_ite <- function(y, z, X, ite_method, include_ps, binary, X_names, inclu
     ite <- ite_results[[1]]
     sd_ite <- ite_results[[2]]
   } else if (ite_method == "poisson") {
-    ite_results <- estimate_ite_poisson(y, z, X, X_names, include_ps, include_offset, offset_name)
+    ite_results <- estimate_ite_poisson(y, z, X, X_names,
+                                        include_offset, offset_name)
     ite <- ite_results[[1]]
     sd_ite <- NA
   } else {
-    stop("Invalid ITE method. Please choose from the following:
-         'ipw', 'sipw', 'or', 'bart', 'xbart', 'bcf', 'xbcf', 'cf', or 'poisson'")
+    stop(paste("Invalid ITE method. Please choose from the following:\n",
+               "'ipw', 'sipw', 'or', 'bart', 'xbart', 'bcf', 'xbcf', 'cf', ",
+               " or 'poisson'"))
   }
   if (binary) {
     ite <- round(ite, 0)

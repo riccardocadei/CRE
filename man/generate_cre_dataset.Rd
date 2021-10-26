@@ -4,24 +4,32 @@
 \alias{generate_cre_dataset}
 \title{Generate CRE Synthetic Data}
 \usage{
-generate_cre_dataset(n, rho, n_rules, effect_size, binary, seed)
+generate_cre_dataset(n, rho = 0, n_rules = 2, effect_size = 0.5, binary = TRUE)
 }
 \arguments{
 \item{n}{the number of observations}
 
-\item{rho}{the correlation within the variables}
+\item{rho}{the correlation within the covariates (default: 0)}
 
-\item{n_rules}{the number of causal rules, either 2 or 4}
+\item{n_rules}{the number of causal rules, either 2 (default) or 4}
 
-\item{effect_size}{the effect size magnitude}
+\item{effect_size}{the effect size magnitude (default: 0.5)
+TODO: what is the range of effect size magnitude?}
 
-\item{binary}{whether to use binary or continuous outcomes, either TRUE or FALSE}
-
-\item{seed}{the seed to set when generating data}
+\item{binary}{whether to use binary or continuous outcomes,
+either TRUE (default) or FALSE}
 }
 \value{
-a list of synthetic data containing an outcome vector, a treatment vector, and a matrix of 10 covariates
+a list of synthetic data containing an outcome vector, a treatment vector,
+and a matrix of 10 covariates
 }
 \description{
-Method for generating synthetic data for testing the Causal Rule Ensemble package
+Generates synthetic data with continues or binary outcome for testing the
+Causal Rule Ensemble package
+}
+\examples{
+set.seed(123)
+dataset_c <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2,
+effect_size = 0.5, binary = FALSE)
+
 }

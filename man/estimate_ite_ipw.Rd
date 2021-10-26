@@ -17,5 +17,6 @@ estimate_ite_ipw(y, z, X)
 a vector of ITE estimates
 }
 \description{
-Method for estimating the Individual Treatment Effect using Inverse Propensity Weighting given a response vector, a treatment vector, and a features matrix
+Estimates the Individual Treatment Effect using Inverse Propensity Weighting
+given a response vector, a treatment vector, and a features matrix.
 }

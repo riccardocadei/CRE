@@ -2,27 +2,35 @@
 #' Generate CRE Synthetic Data
 #'
 #' @description
-#' Method for generating synthetic data for testing the Causal Rule Ensemble package
+#' Generates synthetic data with continues or binary outcome for testing the
+#'  Causal Rule Ensemble package
 #'
 #' @param n the number of observations
-#' @param rho the correlation within the variables
-#' @param n_rules the number of causal rules, either 2 or 4
-#' @param effect_size the effect size magnitude
-#' @param binary whether to use binary or continuous outcomes, either TRUE or FALSE
-#' @param seed the seed to set when generating data
+#' @param rho the correlation within the covariates (default: 0)
+#' @param n_rules the number of causal rules, either 2 (default) or 4
+#' @param effect_size the effect size magnitude (default: 0.5)
+#' TODO: what is the range of effect size magnitude?
+#' @param binary whether to use binary or continuous outcomes,
+#'  either TRUE (default) or FALSE
 #'
-#' @return a list of synthetic data containing an outcome vector, a treatment vector, and a matrix of 10 covariates
+#' @return
+#' a list of synthetic data containing an outcome vector, a treatment vector,
+#'  and a matrix of 10 covariates
+#'
+#' @examples
+#' set.seed(123)
+#' dataset_c <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2,
+#' effect_size = 0.5, binary = FALSE)
 #'
 #' @export
 #'
-generate_cre_dataset <- function(n, rho, n_rules, effect_size, binary, seed) {
+generate_cre_dataset <- function(n, rho = 0, n_rules = 2,
+                                 effect_size = 0.5, binary = TRUE) {
+
   # Check for correct binary input
   if (!(binary %in% c(TRUE, FALSE))) {
     stop("Invalid 'binary' input. Please specify TRUE or FALSE.")
   }
-
-  # Set seed
-  set.seed(seed)
 
   # Generate Variables
   p <- 10
