@@ -73,6 +73,6 @@ Imports: tidyverse,
          gnm,
          magrittr,
          baggr,
+         SuperLearner,
          logger,
-         SuperLearner
 VignetteBuilder: knitr
