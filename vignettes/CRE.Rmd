@@ -132,6 +132,7 @@ The `cre()` inputs asked from the user are as follows:
 - Accelerated Bayesian Causal Forests (`xbcf`)
 - Causal Forests (`cf`)
 - Poisson Regression (`poisson`)
+- Augmented IPW (`blp`), for inference subsample only
 
 In the original paper by Lee et al. (2020), several methods are tested for the imputation of the ITE for continuous outcomes and the consequent ability to correctly discover the causal rules and precisely estimate the conditional effects within the rules. We refer to this paper for more details on which are the best performing techniques. 
 
@@ -241,7 +242,7 @@ offset_name <- NA
 # Run CRE method
 cre_results <- cre(y, z, X, ratio_dis, ite_method_dis, ite_method_inf, 
                    include_ps_dis, include_ps_inf, ntrees, min_nodes, max_nodes, 
-                   t, q, rules_method)
+                   t, q, rules_method, include_offset, offset_name)
 ```
 
 ### Running the CRE on Synthetic Data with Binary Outcomes
