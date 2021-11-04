@@ -12,8 +12,10 @@
 #' @export
 #'
 estimate_ps <- function(z, X) {
-  sl_pscore <- SuperLearner::SuperLearner(Y = z, X = X, newX = X, family = binomial(),
+  library(SuperLearner)
+  sl_pscore <- SuperLearner::SuperLearner(Y = z, X = as.data.frame(X),
+                                          newX = as.data.frame(X), family = binomial(),
                                           SL.library = "SL.xgboost", cvControl = list(V=0))
-  est_ps <- sl_pscore$SL.predict
+  est_ps <- as.numeric(sl_pscore$SL.predict)
   return(est_ps)
 }
