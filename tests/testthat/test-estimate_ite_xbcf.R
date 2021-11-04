@@ -10,7 +10,7 @@ test_that("XBCF ITE Estimated Correctly", {
   # Incorrect data inputs
   expect_error(estimate_ite_xbcf(y = "test", z, X))
   expect_error(estimate_ite_xbcf(y, z = "test", X))
-  expect_error(estimate_ite_xbcf(y, z, X = "test"))
+  expect_error(estimate_ite_xbcf(y, z, X = NA))
 
   # Correct outputs
   ite_result <- estimate_ite_xbcf(y, z, X)

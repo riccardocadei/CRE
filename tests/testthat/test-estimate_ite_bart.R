@@ -11,9 +11,9 @@ test_that("BART ITE Estimated Correctly", {
   # Incorrect data inputs
   expect_error(estimate_ite_bart(y = "test", z, X, include_ps))
   expect_error(estimate_ite_bart(y, z = "test", X, include_ps))
-  expect_error(estimate_ite_bart(y, z, X = "test", include_ps))
-  expect_error(estimate_ite_bart(y, z, X = "test", include_ps = "test"))
-  expect_error(estimate_ite_bart(y, z, X = "test", include_ps = NA))
+  expect_error(estimate_ite_bart(y, z, X = NA, include_ps))
+  expect_error(estimate_ite_bart(y, z, X = NA, include_ps = "test"))
+  expect_error(estimate_ite_bart(y, z, X = NA, include_ps = NA))
 
   # Correct outputs
   ite_result <- estimate_ite_bart(y, z, X, include_ps)
