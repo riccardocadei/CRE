@@ -24,8 +24,8 @@
 #'
 #' @export
 #'
-generate_cre_dataset <- function(n, rho = 0, n_rules = 2, p = 10,
-                                 effect_size = 0.5, binary = FALSE) {
+generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
+                                 effect_size = 2, binary = FALSE) {
 
   # Check for correct binary input
   if (!(binary %in% c(TRUE, FALSE))) {
@@ -39,33 +39,34 @@ generate_cre_dataset <- function(n, rho = 0, n_rules = 2, p = 10,
   pvars <- stats::pnorm(rawvars)
   X <- stats::qbinom(pvars, 1, 0.5)
   colnames(X) <- paste("x", 1:p, sep = "")
+  X <- as.data.frame(X)
 
   # Generate Causal Rules and Treatment Effects
-  if (binary) {
+  if (binary == TRUE) {
     y0 <- rep(0, n)
-    y0[x2 == 1 & x3 == 1] <- 1
+    y0[X$x2 == 1 & X$x3 == 1] <- 1
     y1 <- rep(0, n)
-    y1[x1 == 0 & x2 == 0] <- 1
+    y1[X$x1 == 0 & X$x2 == 0] <- 1
     tau <- y1 - y0
   } else {
     stopifnot(n_rules %in% c(2, 4))
     if (n_rules == 2) {
       tau <- rep(0, n)
-      tau[x1 == 0 & x2 == 0] = effect_size
-      tau[x2 == 1 & x3 == 1] = - effect_size
+      tau[X$x1 == 0 & X$x2 == 0] = effect_size
+      tau[X$x2 == 1 & X$x3 == 1] = - effect_size
     } else {
       tau <- rep(0, n)
-      tau[x1 == 0 & x2 == 0] = effect_size
-      tau[x1 == 1 & x2 == 1] = - effect_size
-      tau[x2 == 0 & x3 == 0] = effect_size
-      tau[x2 == 1 & x3 == 1] = - effect_size
+      tau[X$x1 == 0 & X$x2 == 0] = effect_size
+      tau[X$x1 == 1 & X$x2 == 1] = - effect_size
+      tau[X$x2 == 0 & X$x3 == 0] = effect_size
+      tau[X$x2 == 1 & X$x3 == 1] = - effect_size
     }
-    y0 <- stats::rnorm(n, mean = x1 + 0.5 * x2 + x3, sd = 1)
+    y0 <- stats::rnorm(n, mean = X$x1 + 0.5 * X$x2 + X$x3, sd = 1)
     y1 <- y0 + tau
   }
 
   # Generate Treatment Variable
-  logit.prob <- -1 + x1 - x2 + x3
+  logit.prob <- -1 + X$x1 - X$x2 + X$x3
   prob <- exp(logit.prob) / (1 + exp(logit.prob))
 
   # Generate Treatment Indicator
