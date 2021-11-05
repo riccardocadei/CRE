@@ -8,7 +8,7 @@ test_that("Propensity Score Estimated Correctly", {
 
   # Incorrect data inputs
   expect_error(estimate_ps(z = "test", X))
-  expect_error(estimate_ps(z, X = "test"))
+  expect_error(estimate_ps(z, X = NA))
 
   # Correct outputs
   est_ps <- estimate_ps(z, X)

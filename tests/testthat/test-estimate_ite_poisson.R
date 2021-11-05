@@ -13,7 +13,7 @@ test_that("Poisson ITE Estimated Correctly", {
   # Incorrect data inputs
   expect_error(estimate_ite_poisson(y = "test", z, X, X_names, include_offset, offset_name))
   expect_error(estimate_ite_poisson(y, z = "test", X, X_names, include_offset, offset_name))
-  expect_error(estimate_ite_poisson(y, z, X = "test", X_names, include_offset, offset_name))
+  expect_error(estimate_ite_poisson(y, z, X = NA, X_names, include_offset, offset_name))
 
   # Correct outputs
   ite_result <- estimate_ite_poisson(y, z, X, X_names, include_offset, offset_name)

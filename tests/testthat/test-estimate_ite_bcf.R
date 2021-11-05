@@ -11,7 +11,7 @@ test_that("BCF ITE Estimated Correctly", {
   # Incorrect data inputs
   expect_error(estimate_ite_bcf(y = "test", z, X))
   expect_error(estimate_ite_bcf(y, z = "test", X))
-  expect_error(estimate_ite_bcf(y, z, X = "test"))
+  expect_error(estimate_ite_bcf(y, z, X = NA))
 
   # Correct outputs
   ite_result <- estimate_ite_bcf(y, z, X)

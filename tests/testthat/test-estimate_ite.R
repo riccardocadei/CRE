@@ -18,7 +18,7 @@ test_that("ITE Estimated Correctly", {
                             X_names, include_offset, offset_name))
   expect_error(estimate_ite(y, z = "test", X, ite_method, include_ps, binary,
                             X_names, include_offset, offset_name))
-  expect_error(estimate_ite(y, z, X = "test", ite_method, include_ps, binary,
+  expect_error(estimate_ite(y, z, X = NA, ite_method, include_ps, binary,
                             X_names, include_offset, offset_name))
 
   # Incorrect ite_method input
