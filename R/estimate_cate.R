@@ -25,6 +25,7 @@
 #' @return
 #' a matrix of CATE estimates
 #'
+#' @import stats
 #' @export
 #'
 estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,

@@ -9,11 +9,13 @@
 #'
 #' @return a list of propensity score estimates
 #'
+#'
 #' @export
+#' @import SuperLearner
 #'
 estimate_ps <- function(z, X) {
-  library(SuperLearner)
-  sl_pscore <- SuperLearner::SuperLearner(Y = z, X = as.data.frame(X),
+  #library(SuperLearner)
+  sl_pscore <- SuperLearner(Y = z, X = as.data.frame(X),
                                           newX = as.data.frame(X), family = binomial(),
                                           SL.library = "SL.xgboost", cvControl = list(V=0))
   est_ps <- as.numeric(sl_pscore$SL.predict)
