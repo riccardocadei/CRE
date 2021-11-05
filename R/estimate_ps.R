@@ -14,7 +14,6 @@
 #' @import SuperLearner
 #'
 estimate_ps <- function(z, X) {
-  #library(SuperLearner)
   sl_pscore <- SuperLearner(Y = z, X = as.data.frame(X),
                                           newX = as.data.frame(X), family = binomial(),
                                           SL.library = "SL.xgboost", cvControl = list(V=0))
