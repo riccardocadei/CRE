@@ -13,6 +13,16 @@
 #' @export
 #' @import SuperLearner
 #'
+#' @examples
+#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
+#'                                      effect_size = 2, binary = FALSE)
+#'
+#' # Initialize parameters
+#' z <- dataset_cont[["z"]]
+#' X <- as.data.frame(dataset_cont[["X"]])
+#'
+#' est_ps <- estimate_ps(z, X)
+#'
 estimate_ps <- function(z, X) {
   sl_pscore <- SuperLearner(Y = z, X = as.data.frame(X),
                                           newX = as.data.frame(X), family = binomial(),
