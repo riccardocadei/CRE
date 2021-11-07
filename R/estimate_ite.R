@@ -33,6 +33,24 @@
 #'
 #' @export
 #'
+#' @examples
+#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
+#'                                      effect_size = 2, binary = FALSE)
+#'
+#' # Initialize parameters
+#' y <- abs(dataset_cont[["y"]])
+#' z <- dataset_cont[["z"]]
+#' X <- as.data.frame(dataset_cont[["X"]])
+#' ite_method <- "bcf"
+#' include_ps <- TRUE
+#' binary <- FALSE
+#' X_names <- names(as.data.frame(X))
+#' include_offset <- FALSE
+#' offset_name <- NA
+#'
+#' ite_list <- estimate_ite(y, z, X, ite_method, include_ps, binary,
+#'                          X_names, include_offset, offset_name)
+#'
 estimate_ite <- function(y, z, X, ite_method, include_ps, binary, X_names,
                          include_offset, offset_name) {
 

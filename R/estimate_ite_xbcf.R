@@ -12,6 +12,17 @@
 #'
 #' @export
 #'
+#' @examples
+#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
+#'                                      effect_size = 2, binary = FALSE)
+#'
+#' # Initialize parameters
+#' y <- abs(dataset_cont[["y"]])
+#' z <- dataset_cont[["z"]]
+#' X <- as.data.frame(dataset_cont[["X"]])
+#'
+#' ite_list <- estimate_ite_xbcf(y, z, X)
+#'
 estimate_ite_xbcf <- function(y, z, X) {
   est_ps <- estimate_ps(z, X)
   xbcf_model <- XBCF::XBCF(y = as.matrix(y), z = as.matrix(z), x_con = as.matrix(X),

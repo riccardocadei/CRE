@@ -34,6 +34,18 @@
 #'
 #' @export
 #'
+#' @examples
+#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
+#'                                      effect_size = 2, binary = FALSE)
+#'
+#' cre_results <- cre(y = abs(dataset_cont[["y"]]), z = dataset_cont[["z"]],
+#'                    X = as.data.frame(dataset_cont[["X"]]), ratio_dis 0.25,
+#'                    ite_method_dis = "bcf", include_ps_dis = NA,
+#'                    ite_method_inf = "bcf, include_ps_inf = NA,
+#'                    ntrees_rf = 100, ntrees_gbm = 50, min_nodes = 20,
+#'                    max_nodes = 5, t = 0.025, q = 0.8, rules_method = NA,
+#'                    include_offset = FALSE, offset_name = NA)
+#'
 cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
                 ite_method_inf,  include_ps_inf = NA,  ntrees_rf, ntrees_gbm,
                 min_nodes, max_nodes, t, q, rules_method,
