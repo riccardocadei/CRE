@@ -75,7 +75,7 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
   # Generate Outcome
   y <- y0 * (1 - z) + y1 * z
 
-  # Observed Data
+  # Generate Observed Data
   dataset <- list(y = y, z = z, X = X)
   names(dataset) <- c("y", "z", "X")
   return(dataset)
