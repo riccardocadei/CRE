@@ -10,6 +10,10 @@
 #'
 #' @export
 #'
+#' @examples
+#'
+#' ind = take1(10)
+#'
 take1 <- function(len) {
   out <- c()
   i <- 0

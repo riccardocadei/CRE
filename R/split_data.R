@@ -13,6 +13,25 @@
 #'
 #' @export
 #'
+#' @examples
+#'
+#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
+#'                                      effect_size = 2, binary = FALSE)
+#'
+#' # Initialize parameters
+#' y <- abs(dataset_cont[["y"]])
+#' z <- dataset_cont[["z"]]
+#' X <- as.data.frame(dataset_cont[["X"]])
+#' ratio_dis <- 0.25
+#'
+#' # Split data
+#' X <- as.matrix(X)
+#' y <- as.matrix(y)
+#' z <- as.matrix(z)
+#' subgroups <- split_data(y, z, X, ratio_dis)
+#' discovery <- subgroups[[1]]
+#' inference <- subgroups[[2]]
+#'
 split_data <- function(y, z, X, ratio_dis) {
 
   n <- check_input_data(y, z, X)
