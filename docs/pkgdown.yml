@@ -1,13 +1,13 @@
-pandoc: 2.11.4
+pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  CRE: CRE.html
   article_c1: article_c1.html
   article_c2: article_c2.html
   article_c3: article_c3.html
   article_i1: article_i1.html
   article_i2: article_i2.html
   article_i3: article_i3.html
-  CRE: CRE.html
-last_built: 2021-10-20T13:23Z
+last_built: 2021-11-04T18:15Z
 

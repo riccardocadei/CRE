@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CRE</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
       </span>
     </div>
 
@@ -100,7 +100,7 @@
 
       
 
-      </header><script src="CRE_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><script src="CRE_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>CRE</h1>
@@ -227,6 +227,7 @@ LDFLAGS=-L/usr/local/opt/llvm/lib -o task -fopenmp</code></pre>
 <li>Accelerated Bayesian Causal Forests (<code>xbcf</code>)</li>
 <li>Causal Forests (<code>cf</code>)</li>
 <li>Poisson Regression (<code>poisson</code>)</li>
+<li>Augmented IPW (<code>blp</code>), for inference subsample only</li>
 </ul>
 <p>In the original paper by Lee et al. (2020), several methods are tested for the imputation of the ITE for continuous outcomes and the consequent ability to correctly discover the causal rules and precisely estimate the conditional effects within the rules. We refer to this paper for more details on which are the best performing techniques.</p>
 <p>For data with <strong>continuous</strong> outcomes, as a rule of thumb, we suggest the usage of <code>bcf</code>, as it has shown the most consistent performance across different simulated scenarios.</p>
@@ -333,7 +334,7 @@ offset_name &lt;- NA
 # Run CRE method
 cre_results &lt;- cre(y, z, X, ratio_dis, ite_method_dis, ite_method_inf, 
                    include_ps_dis, include_ps_inf, ntrees, min_nodes, max_nodes, 
-                   t, q, rules_method)</code></pre>
+                   t, q, rules_method, include_offset, offset_name)</code></pre>
 </div>
 <div id="running-the-cre-on-synthetic-data-with-binary-outcomes" class="section level3">
 <h3 class="hasAnchor">

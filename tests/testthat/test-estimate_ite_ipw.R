@@ -10,7 +10,7 @@ test_that("IPW ITE Estimated Correctly", {
   # Incorrect data inputs
   expect_error(estimate_ite_ipw(y = "test", z, X))
   expect_error(estimate_ite_ipw(y, z = "test", X))
-  expect_error(estimate_ite_ipw(y, z, X = "test"))
+  expect_error(estimate_ite_ipw(y, z, X = NA))
 
   # Correct outputs
   ite_result <- estimate_ite_ipw(y, z, X)

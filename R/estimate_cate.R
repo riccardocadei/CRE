@@ -25,7 +25,85 @@
 #' @return
 #' a matrix of CATE estimates
 #'
+#' @import stats
 #' @export
+#'
+#' @examples
+#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
+#'                                      effect_size = 2, binary = FALSE)
+#'
+#' # Initialize parameters
+#' y <- abs(dataset_cont[["y"]])
+#' z <- dataset_cont[["z"]]
+#' X <- as.data.frame(dataset_cont[["X"]])
+#' X_names <- names(as.data.frame(X))
+#' ratio_dis <- 0.25
+#' ite_method_dis <- "bcf"
+#' include_ps_dis <- NA
+#' ite_method_inf <- "poisson"
+#' include_ps_inf <- NA
+#' ntrees_rf <- 100
+#' ntrees_gbm <- 50
+#' min_nodes <- 20
+#' max_nodes <- 5
+#' t <- 0.025
+#' q <- 0.8
+#' rules_method <- NA
+#' include_offset <- FALSE
+#' offset_name <- NA
+#' binary <- FALSE
+#'
+#' # Split data
+#' X <- as.matrix(X)
+#' y <- as.matrix(y)
+#' z <- as.matrix(z)
+#' subgroups <- split_data(y, z, X, ratio_dis)
+#' discovery <- subgroups[[1]]
+#' inference <- subgroups[[2]]
+#'
+#' # Generate y, z, and X for discovery and inference data
+#' y_dis <- discovery[,1]
+#' z_dis <- discovery[,2]
+#' X_dis <- discovery[,3:ncol(discovery)]
+#'
+#' y_inf <- inference[,1]
+#' z_inf <- inference[,2]
+#' X_inf <- inference[,3:ncol(inference)]
+#'
+#' # Estimate ITE on Discovery Subsample
+#' ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, include_ps_dis,
+#'                              binary, X_names, include_offset, offset_name)
+#' ite_dis <- ite_list_dis[["ite"]]
+#' ite_std_dis <- ite_list_dis[["ite_std"]]
+#'
+#' # Generate rules list
+#' initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
+#'                                     min_nodes, max_nodes)
+#'
+#' # Generate rules matrix
+#' rules_all_dis <- generate_rules_matrix(X_dis, initial_rules_dis, t)
+#' rules_matrix_dis <- rules_all_dis[["rules_matrix"]]
+#' rules_matrix_std_dis <- rules_all_dis[["rules_matrix_std"]]
+#' rules_list_dis <- rules_all_dis[["rules_list"]]
+#'
+#' # Select important rules
+#' select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis, rules_list_dis,
+#'                                                      ite_std_dis, binary, q, rules_method))
+#' select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
+#' select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
+#' if (length(select_rules_dis) == 0) stop("No significant rules were discovered. Ending Analysis.")
+#'
+#' # Estimate CATE
+#' rules_matrix_inf <- matrix(0, nrow = dim(X_inf)[1], ncol = length(select_rules_dis))
+#' for (i in 1:length(select_rules_dis)) {
+#'   rules_matrix_inf[eval(parse(text = select_rules_dis[i]), list(X = X_inf)), i] <- 1
+#' }
+#' select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+#'
+#' cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset, offset_name,
+#'                          rules_matrix_inf, select_rules_interpretable,
+#'                          ite_method_inf, ite_inf, sd_ite_inf)
+#'
 #'
 estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                           offset_name, rules_matrix_inf,
@@ -61,9 +139,57 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
     cate_temp <- data.frame(Predictor = cate_names) %>%
       cbind(cate_model)
-    names(cate_temp) <- c("Predictor", "Estimate", "Std_Error", "Z_Value",
-                          "P_Value")
-    cate_final <- subset(cate_temp, cate_temp$P_Value < 0.05)
+    colnames(cate_temp) <- c("Predictor", "Estimate", "Std_Error", "Z_Value", "P_Value")
+    cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
+    rownames(cate_final) <- 1:nrow(cate_final)
+  } else if (ite_method_inf %in% c("blp")) {
+    # split the data evenly
+    split <- sample(nrow(X_inf), nrow(X_inf) * 0.5, replace = FALSE)
+
+    # assign names to rules matrix and X matrix
+    colnames(rules_matrix_inf) <- select_rules_interpretable
+    colnames(X) <- X_names
+
+    # generate new data frames
+    y_inf_a <- y_inf[split]
+    y_inf_b <- y_inf[-split]
+    X_inf_a <- as.data.frame(X_inf[split,])
+    X_inf_b <- as.data.frame(X_inf[-split,])
+    z_inf_a <- z_inf[split]
+    z_inf_b <- z_inf[-split]
+    rules_matrix_inf_a <- rules_matrix_inf[split,]
+    rules_matrix_inf_b <- rules_matrix_inf[-split,]
+
+    # on set A, train a model to predict X using Z, then make predictions on set B
+    sl_w1 <- SuperLearner::SuperLearner(Y = z_inf_a, X = X_inf_a, newX = X_inf_b, family = binomial(),
+                                        SL.library = "SL.xgboost", cvControl = list(V=0))
+    phat <- sl_w1$SL.predict
+
+    # generate CATE estimates for set A, predict set B
+    sl_y <- SuperLearner::SuperLearner(Y = y_inf_a, X = data.frame(X = X_inf_a, Z = z_inf_a),
+                                       family = gaussian(), SL.library = "SL.xgboost", cvControl = list(V=0))
+    pred_0s <- stats::predict(sl_y, data.frame(X = X_inf_b, Z = rep(0, nrow(X_inf_b))), onlySL = TRUE)
+    pred_1s <- stats::predict(sl_y, data.frame(X = X_inf_b, Z = rep(1, nrow(X_inf_b))), onlySL = TRUE)
+
+    cate <- pred_1s$pred - pred_0s$pred
+
+    # generate AIPW estimate
+    apo_1 <- pred_1s$pred + (z_inf_b*(y_inf_b - pred_1s$pred)/(phat))
+    apo_0 <- pred_0s$pred + ((1 - z_inf_b)*(y_inf_b - pred_0s$pred)/(1-phat))
+
+    delta <- apo_1 - apo_0
+
+    # regress AIPW onto the rules
+    blp_model <- stats::lm(delta ~ rules_matrix_inf_b)
+    cate_model <- summary(blp_model)$coefficients
+    colnames(cate_model) <- c("Estimate", "Std_Error", "Z_Value", "P_Value")
+    cate_names <- rownames(cate_model) %>%
+      stringr::str_remove_all("rules_matrix_inf_b") %>%
+      stringr::str_replace_all("(Intercept)", "Treatment")
+
+    cate_temp <- data.frame(Predictor = cate_names) %>%
+      cbind(cate_model)
+    cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
     rownames(cate_final) <- 1:nrow(cate_final)
   } else if (ite_method_inf %in% c("bart", "xbart")) {
     stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
@@ -140,9 +266,13 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     }
     cate_final <- cate_means
   } else {
+    stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
+    df_rules_factor <- as.data.frame(rules_matrix_inf) %>% dplyr::transmute_all(as.factor)
+    names(df_rules_factor) <- select_rules_interpretable
     joined_ite_rules <- cbind(ite_inf, df_rules_factor)
 
-    # Fit linear regression model with contr.treatment, then extract coefficients and confidence intervals
+    # Fit linear regression model with contr.treatment
+    # then extract coefficients and confidence intervals
     options(contrasts = rep("contr.treatment", 2))
     model1_cate <- stats::lm(ite_inf ~ ., data = joined_ite_rules)
     model1_coef <- summary(model1_cate)$coef[,c(1,4)] %>% as.data.frame
