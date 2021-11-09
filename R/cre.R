@@ -29,7 +29,7 @@
 #' @param offset_name the name of the offset, if it is to be included
 #'
 #' @return
-#' a list containing the list of select causal rules and a matrix of Conditional
+#' an S3 object containing the matrix of Conditional
 #'  Average Treatment Effect estimates
 #'
 #' @export
@@ -273,7 +273,19 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
                             rules_matrix_inf, select_rules_interpretable,
                             ite_method_inf, ite_inf, sd_ite_inf)
 
+  # Convert cate_inf into an S3 object
+  make_S3 <- function(cate_inf) {
+    S3_object <- list()
+    item_names <- colnames(cate_inf)
+    for (i in 1:length(item_names)) {
+      S3_object[[item_names[i]]] <- cate_inf[,i]
+    }
+    attr(S3_object, "class") <- "cre"
+    return(S3_object)
+  }
+
   # Return Results
   message("CRE method complete. Returning results.")
-  return(cate_inf)
+  cate_S3 <- make_S3(cate_inf)
+  return(cate_S3)
 }
