@@ -244,7 +244,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   }
 
   # Inference ------------------------------------------------------------------
-  message("Conducting Inference Subsample Analysis")
+  logger::log_info("Conducting Inference Subsample Analysis ...")
   if (!(ite_method_inf %in% c("poisson", "blp"))) {
     ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
                                  include_ps_inf, binary, X_names,
@@ -259,7 +259,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   }
 
   # Estimate CATE ----------------------
-  message("Estimating CATE")
+  logger::log_info("Estimating CATE ...")
   rules_matrix_inf <- matrix(0, nrow = dim(X_inf)[1],
                              ncol = length(select_rules_dis))
   for (i in 1:length(select_rules_dis)) {
@@ -285,7 +285,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   }
 
   # Return Results
-  message("CRE method complete. Returning results.")
+  logger::log_info("CRE method complete. Returning results.")
   cate_S3 <- make_S3(cate_inf)
   return(cate_S3)
 }
