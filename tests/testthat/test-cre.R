@@ -99,5 +99,5 @@ test_that("CRE Runs Correctly", {
   cre_results <- cre(y, z, X, ratio_dis, ite_method_dis, include_ps_dis, ite_method_inf, include_ps_inf,
                      ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
                      include_offset, offset_name)
-  expect_true(class(cre_results) == "data.frame")
+  expect_true(class(cre_results) == "cre")
 })
