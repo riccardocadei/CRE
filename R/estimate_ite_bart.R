@@ -10,19 +10,20 @@
 #' @param X the features matrix
 #' @param include_ps whether or not to include propensity score estimate as a
 #' covariate in ITE estimation
+#' @param method_ps method for the estimation of the propensity score
 #'
 #' @return a list of ITE estimates and standard deviations for the ITE estimates
 #'
 #' @export
 #'
 #' @examples
-#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
 #'                                      effect_size = 2, binary = FALSE)
 #'
 #' # Initialize parameters
-#' y <- abs(dataset_cont[["y"]])
-#' z <- dataset_cont[["z"]]
-#' X <- as.data.frame(dataset_cont[["X"]])
+#' y <- dataset[["y"]]
+#' z <- dataset[["z"]]
+#' X <- as.data.frame(dataset[["X"]])
 #' include_ps = TRUE
 #' method_ps <- "SL.xgboost"
 #'
