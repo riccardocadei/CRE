@@ -29,7 +29,7 @@
 #' @export
 #'
 #' @examples
-#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
+#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
 #'                                      effect_size = 2, binary = FALSE)
 #'
 #' # Initialize parameters
@@ -142,7 +142,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     colnames(cate_temp) <- c("Predictor", "Estimate", "Std_Error", "Z_Value", "P_Value")
     cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
     rownames(cate_final) <- 1:nrow(cate_final)
-  } else if (ite_method_inf %in% c("blp")) {
+  } else if (ite_method_inf %in% c("DRLearner")) {
     # split the data evenly
     split <- sample(nrow(X_inf), nrow(X_inf) * 0.5, replace = FALSE)
 
@@ -160,10 +160,10 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     rules_matrix_inf_a <- rules_matrix_inf[split,]
     rules_matrix_inf_b <- rules_matrix_inf[-split,]
 
-    # on set A, train a model to predict X using Z, then make predictions on set B
-    sl_w1 <- SuperLearner::SuperLearner(Y = z_inf_a, X = X_inf_a, newX = X_inf_b, family = binomial(),
+    # on set A, train a model to predict Z using X, then make predictions on set B
+    sl_z <- SuperLearner::SuperLearner(Y = z_inf_a, X = X_inf_a, newX = X_inf_b, family = binomial(),
                                         SL.library = "SL.xgboost", cvControl = list(V=0))
-    phat <- sl_w1$SL.predict
+    phat <- sl_z$SL.predict
 
     # generate CATE estimates for set A, predict set B
     sl_y <- SuperLearner::SuperLearner(Y = y_inf_a, X = data.frame(X = X_inf_a, Z = z_inf_a),
@@ -180,8 +180,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     delta <- apo_1 - apo_0
 
     # regress AIPW onto the rules
-    blp_model <- stats::lm(delta ~ rules_matrix_inf_b)
-    cate_model <- summary(blp_model)$coefficients
+    DRLearner <- stats::lm(delta ~ rules_matrix_inf_b)
+    cate_model <- summary(DRLearner)$coefficients
     colnames(cate_model) <- c("Estimate", "Std_Error", "Z_Value", "P_Value")
     cate_names <- rownames(cate_model) %>%
       stringr::str_remove_all("rules_matrix_inf_b") %>%
