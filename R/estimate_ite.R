@@ -20,6 +20,7 @@
 #' @param include_ps whether or not to include propensity score estimate as a
 #' covariate in ITE estimation
 #' @param method_ps estimation method for the propensity score
+#' @param method_or the estimation model for the outcome regressions in estimate_ite_aipw
 #' @param binary whether or not the outcome is binary
 #' @param X_names the names of the covariates
 #' @param include_offset whether or not to include an offset when estimating
@@ -61,6 +62,9 @@ estimate_ite <- function(y, z, X, ite_method, include_ps, method_ps, binary, X_n
     sd_ite <- NA
   } else if (ite_method == "sipw") {
     ite <- estimate_ite_sipw(y, z, X, method_ps)
+    sd_ite <- NA
+  } else if (ite_method == "aipw") {
+    ite <- estimate_ite_aipw(y, z, X, method_ps, method_or)
     sd_ite <- NA
   } else if (ite_method == "or") {
     ite <- estimate_ite_or(y, z, X)
