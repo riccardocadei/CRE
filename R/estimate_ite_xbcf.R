@@ -7,24 +7,26 @@
 #' @param y the observed response vector
 #' @param z the treatment vector
 #' @param X the features matrix
+#' @param method_ps estimation method for the propensity score
 #'
 #' @return a list of ITE estimates and standard deviations for the ITE estimates
 #'
 #' @export
 #'
 #' @examples
-#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
+#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
 #'                                      effect_size = 2, binary = FALSE)
 #'
 #' # Initialize parameters
-#' y <- abs(dataset_cont[["y"]])
-#' z <- dataset_cont[["z"]]
-#' X <- as.data.frame(dataset_cont[["X"]])
+#' y <- dataset[["y"]])
+#' z <- dataset[["z"]]
+#' X <- as.data.frame(dataset[["X"]])
+#' method_ps <- "SL.xgboost"
 #'
-#' ite_list <- estimate_ite_xbcf(y, z, X)
+#' ite_list <- estimate_ite_xbcf(y, z, X, method_ps)
 #'
-estimate_ite_xbcf <- function(y, z, X) {
-  est_ps <- estimate_ps(z, X)
+estimate_ite_xbcf <- function(y, z, X, method_ps) {
+  est_ps <- estimate_ps(z, X, method_ps)
   xbcf_model <- XBCF::XBCF(y = as.matrix(y), z = as.matrix(z), x_con = as.matrix(X),
                            x_mod = as.matrix(X), pihat = as.matrix(est_ps),
                            mtry_con = ncol(X), mtry_mod = ncol(X),
