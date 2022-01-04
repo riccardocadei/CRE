@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @examples
-#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
+#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
 #'                                      effect_size = 2, binary = FALSE)
 #'
 #' # Initialize parameters
@@ -24,12 +24,13 @@
 #' z <- dataset_cont[["z"]]
 #' X <- as.data.frame(dataset_cont[["X"]])
 #' include_ps = TRUE
+#' method_ps <- "SL.xgboost"
 #'
-#' ite_list <- estimate_ite_bart(y, z, X, include_ps)
+#' ite_list <- estimate_ite_bart(y, z, X, include_ps, method_ps)
 #'
-estimate_ite_bart <- function(y, z, X, include_ps) {
+estimate_ite_bart <- function(y, z, X, include_ps, method_ps) {
   if (include_ps) {
-    est_ps <- estimate_ps(z, X)
+    est_ps <- estimate_ps(z, X, method_ps)
     X <- cbind(X, est_ps)
   }
   bart_fit <- bartCause::bartc(as.matrix(y), as.matrix(z), as.matrix(X),
