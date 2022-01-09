@@ -8,7 +8,7 @@
 #' @param z the treatment vector
 #' @param X the features matrix
 #' @param include_ps whether or not to include propensity score estimate as a covariate in ITE estimation
-#' @param method_ps estimation method for the propensity score
+#' @param ps_method estimation method for the propensity score
 #'
 #' @return a list of ITE estimates and standard deviations for the ITE estimates
 #'
@@ -22,14 +22,14 @@
 #' y <- dataset[["y"]]
 #' z <- dataset[["z"]]
 #' X <- as.data.frame(dataset[["X"]])
-#' include_ps = TRUE
-#' method_ps <- "SL.xgboost"
+#' include_ps <- TRUE
+#' ps_method <- "SL.xgboost"
 #'
-#' ite_list <- estimate_ite_xbart(y, z, X, include_ps, method_ps)
+#' ite_list <- estimate_ite_xbart(y, z, X, include_ps, ps_method)
 #'
-estimate_ite_xbart <- function(y, z, X, include_ps, method_ps) {
+estimate_ite_xbart <- function(y, z, X, include_ps, ps_method) {
   if (include_ps) {
-    est_ps <- estimate_ps(z, X, method_ps)
+    est_ps <- estimate_ps(z, X, ps_method)
     X <- cbind(X, est_ps)
   }
   y_treated <- y[z==1]

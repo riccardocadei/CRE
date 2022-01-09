@@ -9,7 +9,7 @@
 #' @param y the observed response vector
 #' @param z the treatment vector
 #' @param X the features matrix
-#' @param method_ps estimation method for the propensity score
+#' @param ps_method estimation method for the propensity score
 #'
 #' @return a vector of ITE estimates
 #'
@@ -23,13 +23,13 @@
 #' y <- dataset[["y"]])
 #' z <- dataset[["z"]]
 #' X <- as.data.frame(dataset[["X"]])
-#' method_ps <- "SL.xgboost"
+#' ps_method <- "SL.xgboost"
 #'
-#' ite_list <- estimate_ite_sipw(y, z, X, method_ps)
+#' ite_list <- estimate_ite_sipw(y, z, X, ps_method)
 #'
-estimate_ite_sipw <- function(y, z, X, method_ps) {
+estimate_ite_sipw <- function(y, z, X, ps_method) {
 
-  est_ps <- estimate_ps(z, X, method_ps)
+  est_ps <- estimate_ps(z, X, ps_method)
   ite <- ((z / est_ps) / (1 / length(z) * sum(z / est_ps)) - (1 - z) / (1 - est_ps) / (1 / length(z) * sum((1 - z) / (1 - est_ps)))) * y
 
   return(ite)

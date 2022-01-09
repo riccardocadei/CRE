@@ -12,7 +12,7 @@
 #'
 #' @examples
 #'
-#' ind = take1(10)
+#' ind <- take1(10)
 #'
 take1 <- function(len) {
   out <- c()

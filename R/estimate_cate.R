@@ -17,10 +17,12 @@
 #' inference subsample
 #' @param select_rules_interpretable the list of select causal rules in terms of
 #' coviariate names
-#' @param ite_method_inf the method to estimate the inference sample ITE
+#' @param cate_method the method to estimate the CATE values
 #' @param ite_inf the estimated ITEs for the inference subsample
 #' @param sd_ite_inf the standard deviations for the estimated ITEs for the
-#' inference subsample
+#'   inference subsample
+#' @param cate_SL_library the library used if cate_method = DRLearner
+#' @param filter_cate whether or not to filter rules with p-value <= 0.05
 #'
 #' @return
 #' a matrix of CATE estimates
@@ -40,8 +42,12 @@
 #' ratio_dis <- 0.25
 #' ite_method_dis <- "bcf"
 #' include_ps_dis <- NA
+#' ps_method_dis <- "SL.xgboost"
+#' or_method_dis <- NA
 #' ite_method_inf <- "poisson"
 #' include_ps_inf <- NA
+#' ps_method_inf <- "SL.xgboost"
+#' or_method_inf <- NA
 #' ntrees_rf <- 100
 #' ntrees_gbm <- 50
 #' min_nodes <- 20
@@ -52,6 +58,9 @@
 #' include_offset <- FALSE
 #' offset_name <- NA
 #' binary <- FALSE
+#' cate_method <- "poisson"
+#' cate_SL_library <- NA
+#' filter_cate <- FALSE
 #'
 #' # Split data
 #' X <- as.matrix(X)
@@ -71,7 +80,8 @@
 #' X_inf <- inference[,3:ncol(inference)]
 #'
 #' # Estimate ITE on Discovery Subsample
-#' ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, include_ps_dis,
+#' ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis,
+#'                              include_ps_dis, ps_method_dis, or_method_dis,
 #'                              binary, X_names, include_offset, offset_name)
 #' ite_dis <- ite_list_dis[["ite"]]
 #' ite_std_dis <- ite_list_dis[["ite_std"]]
@@ -93,29 +103,35 @@
 #' select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 #' if (length(select_rules_dis) == 0) stop("No significant rules were discovered. Ending Analysis.")
 #'
-#' # Estimate CATE
+#' # Estimate Inference ITE and CATE
 #' rules_matrix_inf <- matrix(0, nrow = dim(X_inf)[1], ncol = length(select_rules_dis))
 #' for (i in 1:length(select_rules_dis)) {
 #'   rules_matrix_inf[eval(parse(text = select_rules_dis[i]), list(X = X_inf)), i] <- 1
 #' }
 #' select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
 #'
+#' ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
+#'                              include_ps_inf, ps_method_inf, or_method_inf,
+#'                              binary, X_names, include_offset, offset_name)
+#' ite_inf <- ite_list_inf[["ite"]]
+#' ite_std_inf <- ite_list_inf[["ite_std"]]
+#'
 #' cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset, offset_name,
 #'                          rules_matrix_inf, select_rules_interpretable,
-#'                          ite_method_inf, ite_inf, sd_ite_inf)
-#'
+#'                          cate_method, ite_inf, sd_ite_inf,
+#'                          cate_SL_library, filter_cate)
 #'
 estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                           offset_name, rules_matrix_inf,
                           select_rules_interpretable,
-                          ite_method_inf, ite_inf, sd_ite_inf) {
-
+                          cate_method, ite_inf, sd_ite_inf,
+                          cate_SL_library, filter_cate) {
 
   # Handling global variable error.
   `%>%` <- magrittr::`%>%`
   Rule <- rule <- tau <- se <- . <- Estimate <- NULL
 
-  if (ite_method_inf %in% c("poisson")) {
+  if (cate_method %in% c("poisson")) {
     colnames(rules_matrix_inf) <- select_rules_interpretable
     colnames(X_inf) <- X_names
     if (include_offset) {
@@ -140,9 +156,11 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     cate_temp <- data.frame(Predictor = cate_names) %>%
       cbind(cate_model)
     colnames(cate_temp) <- c("Predictor", "Estimate", "Std_Error", "Z_Value", "P_Value")
-    cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
+    cate_final <- ifelse(filter_cate,
+                         subset(cate_temp, cate_temp$P_Value <= 0.05),
+                         cate_temp)
     rownames(cate_final) <- 1:nrow(cate_final)
-  } else if (ite_method_inf %in% c("DRLearner")) {
+  } else if (cate_method %in% c("DRLearner")) {
     # split the data evenly
     split <- sample(nrow(X_inf), nrow(X_inf) * 0.5, replace = FALSE)
 
@@ -161,15 +179,24 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     rules_matrix_inf_b <- rules_matrix_inf[-split,]
 
     # on set A, train a model to predict Z using X, then make predictions on set B
-    sl_z <- SuperLearner::SuperLearner(Y = z_inf_a, X = X_inf_a, newX = X_inf_b, family = binomial(),
-                                        SL.library = "SL.xgboost", cvControl = list(V=0))
+    sl_z <- SuperLearner::SuperLearner(Y = z_inf_a, X = X_inf_a, newX = X_inf_b,
+                                       family = binomial(),
+                                       SL.library = cate_SL_library,
+                                       cvControl = list(V=0))
     phat <- sl_z$SL.predict
 
     # generate CATE estimates for set A, predict set B
-    sl_y <- SuperLearner::SuperLearner(Y = y_inf_a, X = data.frame(X = X_inf_a, Z = z_inf_a),
-                                       family = gaussian(), SL.library = "SL.xgboost", cvControl = list(V=0))
-    pred_0s <- stats::predict(sl_y, data.frame(X = X_inf_b, Z = rep(0, nrow(X_inf_b))), onlySL = TRUE)
-    pred_1s <- stats::predict(sl_y, data.frame(X = X_inf_b, Z = rep(1, nrow(X_inf_b))), onlySL = TRUE)
+    sl_y <- SuperLearner::SuperLearner(Y = y_inf_a,
+                                       X = data.frame(X = X_inf_a, Z = z_inf_a),
+                                       family = gaussian(),
+                                       SL.library = cate_SL_library,
+                                       cvControl = list(V=0))
+    pred_0s <- stats::predict(sl_y,
+                              data.frame(X = X_inf_b, Z = rep(0, nrow(X_inf_b))),
+                              onlySL = TRUE)
+    pred_1s <- stats::predict(sl_y,
+                              data.frame(X = X_inf_b, Z = rep(1, nrow(X_inf_b))),
+                              onlySL = TRUE)
 
     cate <- pred_1s$pred - pred_0s$pred
 
@@ -189,9 +216,11 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
     cate_temp <- data.frame(Predictor = cate_names) %>%
       cbind(cate_model)
-    cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
+    cate_final <- ifelse(filter_cate,
+                         subset(cate_temp, cate_temp$P_Value <= 0.05),
+                         cate_temp)
     rownames(cate_final) <- 1:nrow(cate_final)
-  } else if (ite_method_inf %in% c("bart", "xbart")) {
+  } else if (cate_method == "bart-baggr") {
     stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
     df_rules_factor <- as.data.frame(rules_matrix_inf) %>% dplyr::transmute_all(as.factor)
     names(df_rules_factor) <- select_rules_interpretable
@@ -244,7 +273,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       cate_means <- rbind(cate_means, cate_temp)
     }
     cate_final <- cate_means
-  } else if (ite_method_inf %in% c("cf", "bcf", "xbcf")) {
+  } else if (cate_method == "cf-means") {
     stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
     df_rules_factor <- as.data.frame(rules_matrix_inf) %>% dplyr::transmute_all(as.factor)
     names(df_rules_factor) <- select_rules_interpretable
@@ -265,7 +294,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       cate_means <- rbind(cate_means, cate_temp)
     }
     cate_final <- cate_means
-  } else {
+  } else if (cate_method == "linreg") {
     stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
     df_rules_factor <- as.data.frame(rules_matrix_inf) %>% dplyr::transmute_all(as.factor)
     names(df_rules_factor) <- select_rules_interpretable
@@ -286,12 +315,17 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     cate_reg_orig$Rule <- cate_reg_orig_names
     row.names(cate_reg_orig) <- 1:nrow(cate_reg_orig)
     cate_reg_orig <- cate_reg_orig %>%
-      dplyr::summarize(Rule, Model_Coef = Estimate, CATE = Estimate, PVal = "Pr(>|t|)",
+      dplyr::summarize(Rule, Model_Coef = Estimate,
+                       CATE = Estimate, P_Value = "Pr(>|t|)",
                        CI_lower = "2.5 %", CI_upper = "97.5 %")
     for (i in 2:nrow(cate_reg_orig)) {
       cate_reg_orig[i,3] <- cate_reg_orig[1,2] + cate_reg_orig[i,2]
     }
-    cate_final <- cate_reg_orig
+    cate_final <- ifelse(filter_cate,
+                         subset(cate_reg_orig, cate_reg_orig$P_Value <= 0.05),
+                         cate_reg_orig)
+  } else {
+    stop("Error: No CATE Estimation method specified.")
   }
 
   # Return final results

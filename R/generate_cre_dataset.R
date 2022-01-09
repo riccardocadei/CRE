@@ -10,17 +10,18 @@
 #' @param n_rules the number of causal rules, either 2 (default) or 4
 #' @param effect_size the effect size magnitude (default: 0.5)
 #' TODO: what is the range of effect size magnitude?
+#' @param p the number of covariates (default: 10)
 #' @param binary whether to use binary or continuous outcomes,
 #'  either TRUE (default) or FALSE
 #'
 #' @return
 #' a list of synthetic data containing an outcome vector, a treatment vector,
-#'  and a matrix of 10 covariates
+#'  and a matrix of p covariates
 #'
 #' @examples
 #' set.seed(123)
 #' dataset_c <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-#' effect_size = 2, binary = FALSE)
+#'                                   effect_size = 2, binary = FALSE)
 #'
 #' @export
 #'
