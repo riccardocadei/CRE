@@ -1,7 +1,7 @@
 test_that("CATE Estimation Runs Correctly", {
   # Generate sample data
   set.seed(2021)
-  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
+  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 2, binary = FALSE)
   y <- abs(dataset_cont[["y"]])
   z <- dataset_cont[["z"]]
@@ -10,8 +10,12 @@ test_that("CATE Estimation Runs Correctly", {
   ratio_dis <- 0.25
   ite_method_dis <- "bcf"
   include_ps_dis <- "TRUE"
-  ite_method_inf <- "poisson"
+  ps_method_dis <- "SL.xgboost"
+  or_method_dis <- NA
+  ite_method_inf <- "aipw"
   include_ps_inf <- "FALSE"
+  ps_method_inf <- "SL.xgboost"
+  or_method_inf <- "SL.xgboost"
   ntrees_rf <- 100
   ntrees_gbm <- 50
   min_nodes <- 20
@@ -21,6 +25,9 @@ test_that("CATE Estimation Runs Correctly", {
   rules_method <- NA
   include_offset <- FALSE
   offset_name <- NA
+  cate_method <- "DRLearner"
+  cate_SL_library <- "SL.xgboost"
+  filter_cate <- FALSE
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -44,6 +51,7 @@ test_that("CATE Estimation Runs Correctly", {
 
   # Step 2: Estimate ITE
   ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, include_ps_dis,
+                               ps_method_dis, or_method_dis,
                                binary, X_names, include_offset, offset_name)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
@@ -66,17 +74,12 @@ test_that("CATE Estimation Runs Correctly", {
   if (length(select_rules_dis) == 0) stop("No significant rules were discovered. Ending Analysis.")
 
   # Step 6: Estimate CATE
-  if (ite_method_inf != "poisson") {
-    ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, include_ps_inf,
-                                 binary, X_names, include_offset, offset_name)
-    ite_inf <- ite_list_inf[["ite"]]
-    ite_std_inf <- ite_list_inf[["ite_std"]]
-    sd_ite_inf <- ite_list_inf[["sd_ite"]]
-  } else {
-    ite_inf <- NA
-    ite_std_inf <- NA
-    sd_ite_inf <- NA
-  }
+  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, include_ps_inf,
+                               ps_method_inf, or_method_inf,
+                               binary, X_names, include_offset, offset_name)
+  ite_inf <- ite_list_inf[["ite"]]
+  ite_std_inf <- ite_list_inf[["ite_std"]]
+  sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
   rules_matrix_inf <- matrix(0, nrow = dim(X_inf)[1], ncol = length(select_rules_dis))
   for (i in 1:length(select_rules_dis)) {
@@ -89,17 +92,17 @@ test_that("CATE Estimation Runs Correctly", {
   # Incorrect inputs
   expect_error(estimate_cate(y_inf = "test", z_inf, X_inf, X_names, include_offset, offset_name,
                              rules_matrix_inf, select_rules_interpretable,
-                             ite_method_inf, ite_inf, sd_ite_inf))
+                             cate_method, ite_inf, sd_ite_inf, cate_SL_library, filter_cate))
   expect_error(estimate_cate(y_inf, z_inf = "test", X_inf, X_names, include_offset, offset_name,
                              rules_matrix_inf, select_rules_interpretable,
-                             ite_method_inf, ite_inf, sd_ite_inf))
+                             cate_method, ite_inf, sd_ite_inf, cate_SL_library, filter_cate))
   expect_error(estimate_cate(y_inf, z_inf, X_inf = "test", X_names, include_offset, offset_name,
                              rules_matrix_inf, select_rules_interpretable,
-                             ite_method_inf, ite_inf, sd_ite_inf))
+                             cate_method, ite_inf, sd_ite_inf, cate_SL_library, filter_cate))
 
   # Correct outputs
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset, offset_name,
                             rules_matrix_inf, select_rules_interpretable,
-                            ite_method_inf, ite_inf, sd_ite_inf)
+                            cate_method, ite_inf, sd_ite_inf, cate_SL_library, filter_cate)
   expect_true(class(cate_inf) == "data.frame")
 })

@@ -2,36 +2,36 @@ test_that("Synthetic Data Generated Correctly", {
   # Incorrect n input
   set.seed(2021)
   expect_error(generate_cre_dataset(n = "test", rho = 0,
-                                    n_rules = 2, effect_size = 0.5,
+                                    n_rules = 2, p = 10, effect_size = 0.5,
                                     binary = FALSE))
 
   # Incorrect rho input
   expect_error(generate_cre_dataset(n = 1000, rho = "test",
-                                    n_rules = 2, effect_size = 0.5,
+                                    n_rules = 2, p = 10, effect_size = 0.5,
                                     binary = FALSE))
 
   # Incorrect number of rules
   expect_error(generate_cre_dataset(n = 1000, rho = 0,
-                                    n_rules = 3, effect_size = 0.5,
+                                    n_rules = 3, p = 10, effect_size = 0.5,
                                     binary = FALSE))
   expect_error(generate_cre_dataset(n = 1000, rho = 0,
-                                    n_rules = "test", effect_size = 0.5,
+                                    n_rules = "test", p = 10, effect_size = 0.5,
                                     binary = FALSE))
 
   # Incorrect effect_size input
   expect_error(generate_cre_dataset(n = 1000, rho = 0,
-                                    n_rules = 2, effect_size = "test",
+                                    n_rules = 2, p = 10, effect_size = "test",
                                     binary = FALSE))
 
   # Incorrect binary input
   expect_error(generate_cre_dataset(n = 1000, rho = 0,
-                                    n_rules = 2, effect_size = 0.5,
+                                    n_rules = 2, p = 10, effect_size = 0.5,
                                     binary = "test"))
 
   # Correct outputs
   n <- 1000
-  test_data_cont <- generate_cre_dataset(n = n, rho = 0, n_rules = 2, effect_size = 0.5,
-                                         binary = TRUE)
+  test_data_cont <- generate_cre_dataset(n = n, rho = 0, n_rules = 2, p = 10,
+                                         effect_size = 0.5, binary = TRUE)
   expect_true(class(test_data_cont) == "list")
   expect_true(length(test_data_cont) == 3)
   expect_true(class(test_data_cont[[1]]) == "numeric")
