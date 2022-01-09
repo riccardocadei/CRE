@@ -36,7 +36,7 @@
 #'  the ITE, for poisson only
 #' @param offset_name the name of the offset, if it is to be included
 #' @param cate_method the method to estimate the CATE values
-#' @param cate_SL_library the library used if cate_method = DRLearner
+#' @param cate_SL_library the library used if cate_method is set to DRLearner
 #' @param filter_cate whether or not to filter rules with p-value <= 0.05
 #'
 #' @return
