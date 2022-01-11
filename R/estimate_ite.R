@@ -39,13 +39,13 @@
 #'
 #' @examples
 #' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-#'                                      effect_size = 2, binary = FALSE)
+#'                                 effect_size = 2, binary = FALSE)
 #'
 #' # Initialize parameters
 #' y <- dataset[["y"]]
 #' z <- dataset[["z"]]
-#' X <- as.data.frame(dataset_cont[["X"]])
-#' ite_method <- "bcf"
+#' X <- as.data.frame(dataset[["X"]])
+#' ite_method <- "bart"
 #' include_ps <- TRUE
 #' ps_method <- "SL.xgboost"
 #' or_method <- NA
@@ -106,5 +106,6 @@ estimate_ite <- function(y, z, X, ite_method, include_ps, ps_method, or_method,
     ite <- round(ite, 0)
   }
   ite_std <- (ite - mean(ite)) / stats::sd(ite)
-  return(list(ite = ite, ite_std = ite_std, sd_ite = sd_ite))
+  return(list(ite = as.vector(ite), ite_std = as.vector(ite_std),
+              sd_ite = as.vector(sd_ite)))
 }

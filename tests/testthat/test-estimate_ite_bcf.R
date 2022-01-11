@@ -1,11 +1,11 @@
 test_that("BCF ITE Estimated Correctly", {
   # Generate sample data
   set.seed(2021)
-  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 0.5, binary = FALSE)
+  dataset_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
+                                       effect_size = 2, binary = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
-  X <- dataset_cont[["X"]]
+  X <- as.matrix(dataset_cont[["X"]])
   include_ps <- TRUE
   ps_method <- "SL.xgboost"
 

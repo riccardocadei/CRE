@@ -31,21 +31,21 @@
 #' @export
 #'
 #' @examples
-#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-#'                                      effect_size = 2, binary = FALSE)
+#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+#'                                 effect_size = 2, binary = FALSE)
 #'
 #' # Initialize parameters
-#' y <- abs(dataset_cont[["y"]])
-#' z <- dataset_cont[["z"]]
-#' X <- as.data.frame(dataset_cont[["X"]])
+#' y <- dataset[["y"]]
+#' z <- dataset[["z"]]
+#' X <- as.data.frame(dataset[["X"]])
 #' X_names <- names(as.data.frame(X))
 #' ratio_dis <- 0.25
-#' ite_method_dis <- "bcf"
-#' include_ps_dis <- NA
+#' ite_method_dis <- "bart"
+#' include_ps_dis <- TRUE
 #' ps_method_dis <- "SL.xgboost"
 #' or_method_dis <- NA
-#' ite_method_inf <- "poisson"
-#' include_ps_inf <- NA
+#' ite_method_inf <- "bart"
+#' include_ps_inf <- TRUE
 #' ps_method_inf <- "SL.xgboost"
 #' or_method_inf <- NA
 #' ntrees_rf <- 100
@@ -58,8 +58,8 @@
 #' include_offset <- FALSE
 #' offset_name <- NA
 #' binary <- FALSE
-#' cate_method <- "poisson"
-#' cate_SL_library <- NA
+#' cate_method <- "DRLearner"
+#' cate_SL_library <- "SL.xgboost"
 #' filter_cate <- FALSE
 #'
 #' # Split data
@@ -156,9 +156,11 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     cate_temp <- data.frame(Predictor = cate_names) %>%
       cbind(cate_model)
     colnames(cate_temp) <- c("Predictor", "Estimate", "Std_Error", "Z_Value", "P_Value")
-    cate_final <- ifelse(filter_cate,
-                         subset(cate_temp, cate_temp$P_Value <= 0.05),
-                         cate_temp)
+    if (filter_cate) {
+      cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
+    } else {
+      cate_final <- cate_temp
+    }
     rownames(cate_final) <- 1:nrow(cate_final)
   } else if (cate_method %in% c("DRLearner")) {
     # split the data evenly
@@ -166,7 +168,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
     # assign names to rules matrix and X matrix
     colnames(rules_matrix_inf) <- select_rules_interpretable
-    colnames(X) <- X_names
+    colnames(X_inf) <- X_names
 
     # generate new data frames
     y_inf_a <- y_inf[split]
@@ -216,9 +218,11 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
     cate_temp <- data.frame(Predictor = cate_names) %>%
       cbind(cate_model)
-    cate_final <- ifelse(filter_cate,
-                         subset(cate_temp, cate_temp$P_Value <= 0.05),
-                         cate_temp)
+    if (filter_cate) {
+      cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
+    } else {
+      cate_final <- cate_temp
+    }
     rownames(cate_final) <- 1:nrow(cate_final)
   } else if (cate_method == "bart-baggr") {
     stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
@@ -321,9 +325,11 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     for (i in 2:nrow(cate_reg_orig)) {
       cate_reg_orig[i,3] <- cate_reg_orig[1,2] + cate_reg_orig[i,2]
     }
-    cate_final <- ifelse(filter_cate,
-                         subset(cate_reg_orig, cate_reg_orig$P_Value <= 0.05),
-                         cate_reg_orig)
+    if (filter_cate) {
+      cate_final <- subset(cate_reg_orig, cate_reg_orig$P_Value <= 0.05)
+    } else {
+      cate_final <- cate_reg_orig
+    }
   } else {
     stop("Error: No CATE Estimation method specified.")
   }

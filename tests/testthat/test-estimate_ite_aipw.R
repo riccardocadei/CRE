@@ -1,7 +1,7 @@
 test_that("AIPW ITE Estimated Correctly", {
   # Generate sample data
   set.seed = 2021
-  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+  dataset_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 0.5, binary = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
@@ -10,12 +10,12 @@ test_that("AIPW ITE Estimated Correctly", {
   or_method <- "SL.xgboost"
 
   # Incorrect data inputs
-  expect_error(estimate_ite_ipw(y = "test", z, X, ps_method, or_method))
-  expect_error(estimate_ite_ipw(y, z = "test", X, ps_method, or_method))
-  expect_error(estimate_ite_ipw(y, z, X = NA, ps_method, or_method))
+  expect_error(estimate_ite_aipw(y = "test", z, X, ps_method, or_method))
+  expect_error(estimate_ite_aipw(y, z = "test", X, ps_method, or_method))
+  expect_error(estimate_ite_aipw(y, z, X = NA, ps_method, or_method))
 
   # Correct outputs
-  ite_result <- estimate_ite_ipw(y, z, X, ps_method, or_method)
+  ite_result <- estimate_ite_aipw(y, z, X, ps_method, or_method)
   expect_true(length(ite_result) == length(y))
   expect_true(class(ite_result) == "numeric")
 })

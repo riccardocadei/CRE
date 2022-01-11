@@ -159,7 +159,7 @@ a response vector, a treatment vector, and a features matrix." />
 a response vector, a treatment vector, and a features matrix.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>estimate_ite_bcf</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span>, <span class='va'>X</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>estimate_ite_bcf</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span>, <span class='va'>X</span>, <span class='va'>ps_method</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,12 +176,43 @@ a response vector, a treatment vector, and a features matrix.</p>
       <th>X</th>
       <td><p>the features matrix</p></td>
     </tr>
+    <tr>
+      <th>ps_method</th>
+      <td><p>method for the estimation of the propensity score</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a list of ITE estimates and standard deviations for the ITE estimates</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>dataset</span> <span class='op'>&lt;-</span> <span class='fu'><a href='generate_cre_dataset.html'>generate_cre_dataset</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1000</span>, rho <span class='op'>=</span> <span class='fl'>0</span>, n_rules <span class='op'>=</span> <span class='fl'>2</span>, p <span class='op'>=</span> <span class='fl'>10</span>,
+                                effect_size <span class='op'>=</span> <span class='fl'>2</span>, binary <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='co'># Initialize parameters</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='va'>dataset</span><span class='op'>[[</span><span class='st'>"y"</span><span class='op'>]</span><span class='op'>]</span>
+<span class='va'>z</span> <span class='op'>&lt;-</span> <span class='va'>dataset</span><span class='op'>[[</span><span class='st'>"z"</span><span class='op'>]</span><span class='op'>]</span>
+<span class='va'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>dataset</span><span class='op'>[[</span><span class='st'>"X"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>ps_method</span> <span class='op'>&lt;-</span> <span class='st'>"SL.xgboost"</span>
+
+<span class='va'>ite_list</span> <span class='op'>&lt;-</span> <span class='fu'>estimate_ite_bcf</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span>, <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>X</span><span class='op'>)</span>, <span class='va'>ps_method</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: collapsing to unique 'x' values</span></div><div class='output co'>#&gt; Using 11 control variables.
+#&gt; Using 10 potential effect moderators.
+#&gt; 
+#&gt; Beginning MCMC:
+#&gt; iteration: 0 sigma: 1
+#&gt; iteration: 100 sigma: 0.768282
+#&gt; iteration: 200 sigma: 0.750869
+#&gt; iteration: 300 sigma: 0.77963
+#&gt; iteration: 400 sigma: 0.800812
+#&gt; iteration: 500 sigma: 0.772222
+#&gt; iteration: 600 sigma: 0.795875
+#&gt; iteration: 700 sigma: 0.787037
+#&gt; iteration: 800 sigma: 0.763234
+#&gt; iteration: 900 sigma: 0.770747
+#&gt; time for loop: 13</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

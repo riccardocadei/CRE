@@ -46,7 +46,7 @@ estimate_ite_aipw <- function(y, z, X, ps_method = "SL.xgboost",
   apo_1 <- pred_1$pred + z*(y - pred_1$pred)/(phat)
   apo_0 <- pred_0$pred + (1 - z)*(y - pred_0$pred)/(1 - phat)
 
-  ite <- apo_1 - apo_0
+  ite <- as.vector(apo_1 - apo_0)
 
   return(ite)
 }

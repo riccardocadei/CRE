@@ -1,7 +1,7 @@
 test_that("Rules Extracted Correctly", {
   # Generate sample data
   set.seed(2021)
-  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+  dataset_cont <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 0.5, binary = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
@@ -27,7 +27,7 @@ test_that("Rules Extracted Correctly", {
   ###### Discovery ######
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method, include_ps, os_method,
+  ite_list <- estimate_ite(y, z, X, ite_method, include_ps, ps_method,
                            or_method, binary)
   ite <- ite_list[["ite"]]
   ite_std <- ite_list[["ite_std"]]

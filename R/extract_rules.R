@@ -17,13 +17,13 @@
 #'
 #' @examples
 #'
-#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-#'                                      effect_size = 2, binary = FALSE)
-#' y <- as.matrix(dataset_cont[["y"]])
-#' z <- as.matrix(dataset_cont[["z"]])
-#' X <- as.matrix(dataset_cont[["X"]])
-#' ite_method <- "bcf"
-#' include_ps <- "TRUE"
+#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+#'                                 effect_size = 2, binary = FALSE)
+#' y <- as.matrix(dataset[["y"]])
+#' z <- as.matrix(dataset[["z"]])
+#' X <- as.matrix(dataset[["X"]])
+#' ite_method <- "bart"
+#' include_ps <- TRUE
 #' ps_method <- "SL.xgboost"
 #' or_method <- NA
 #' ntrees <- 100

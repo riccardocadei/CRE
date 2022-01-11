@@ -19,3 +19,15 @@ a vector of ITE estimates
 \description{
 Method for estimating the Individual Treatment Effect using Outcome Regression given a response vector, a treatment vector, and a features matrix
 }
+\examples{
+dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+                                effect_size = 2, binary = FALSE)
+
+# Initialize parameters
+y <- dataset[["y"]]
+z <- dataset[["z"]]
+X <- as.data.frame(dataset[["X"]])
+
+ite_list <- estimate_ite_or(y, z, X)
+
+}

@@ -1,18 +1,18 @@
 test_that("CATE Estimation Runs Correctly", {
   # Generate sample data
   set.seed(2021)
-  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+  dataset_cont <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 2, binary = FALSE)
-  y <- abs(dataset_cont[["y"]])
+  y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- as.data.frame(dataset_cont[["X"]])
   X_names <- names(as.data.frame(X))
   ratio_dis <- 0.25
-  ite_method_dis <- "bcf"
+  ite_method_dis <- "bart"
   include_ps_dis <- "TRUE"
   ps_method_dis <- "SL.xgboost"
   or_method_dis <- NA
-  ite_method_inf <- "aipw"
+  ite_method_inf <- "bart"
   include_ps_inf <- "FALSE"
   ps_method_inf <- "SL.xgboost"
   or_method_inf <- "SL.xgboost"

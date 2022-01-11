@@ -1,18 +1,18 @@
 test_that("CRE Runs Correctly", {
   # Generate sample data
   set.seed(2021)
-  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+  dataset_cont <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 2, binary = FALSE)
-  y <- abs(dataset_cont[["y"]])
+  y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- as.data.frame(dataset_cont[["X"]])
   X_names <- names(as.data.frame(X))
   ratio_dis <- 0.25
-  ite_method_dis <- "bcf"
+  ite_method_dis <- "bart"
   include_ps_dis <- "TRUE"
   ps_method_dis <- "SL.xgboost"
   or_method_dis <- NA
-  ite_method_inf <- "bcf"
+  ite_method_inf <- "bart"
   include_ps_inf <- "TRUE"
   ps_method_inf <- "SL.xgboost"
   or_method_inf <- NA
@@ -25,8 +25,8 @@ test_that("CRE Runs Correctly", {
   rules_method <- NA
   include_offset <- FALSE
   offset_name <- NA
-  cate_method <- "cf-means"
-  cate_SL_library <- NA
+  cate_method <- "DRLearner"
+  cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
 
   # Incorrect y, z, X input
@@ -141,10 +141,10 @@ test_that("CRE Runs Correctly", {
 
   # Correct outputs
   cre_results <- cre(y, z, X, ratio_dis, ite_method_dis, include_ps_dis,
-                     ps_method_dis, or_method_dis, ite_method_inf, include_ps_inf,
-                     ps_method_inf, or_method_inf,
-                     ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
-                     include_offset, offset_name,
+                     ps_method_dis, or_method_dis, ite_method_inf,
+                     include_ps_inf, ps_method_inf, or_method_inf,
+                     ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q,
+                     rules_method, include_offset, offset_name,
                      cate_method, cate_SL_library, filter_cate)
   expect_true(class(cre_results) == "data.frame")
 })

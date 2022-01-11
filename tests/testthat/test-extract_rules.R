@@ -1,12 +1,12 @@
 test_that("Rules Extracted Correctly", {
   # Generate sample data
   set.seed(2021)
-  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+  dataset_cont <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 2, binary = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
-  ite_method <- "bcf"
+  ite_method <- "bart"
   include_ps <- "TRUE"
   ps_method <- "SL.xgboost"
   or_method <- NA

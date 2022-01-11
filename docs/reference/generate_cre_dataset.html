@@ -159,7 +159,14 @@ Causal Rule Ensemble package" />
 Causal Rule Ensemble package</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generate_cre_dataset</span><span class='op'>(</span><span class='va'>n</span>, rho <span class='op'>=</span> <span class='fl'>0</span>, n_rules <span class='op'>=</span> <span class='fl'>2</span>, effect_size <span class='op'>=</span> <span class='fl'>0.5</span>, binary <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>generate_cre_dataset</span><span class='op'>(</span>
+  n <span class='op'>=</span> <span class='fl'>1000</span>,
+  rho <span class='op'>=</span> <span class='fl'>0</span>,
+  n_rules <span class='op'>=</span> <span class='fl'>2</span>,
+  p <span class='op'>=</span> <span class='fl'>10</span>,
+  effect_size <span class='op'>=</span> <span class='fl'>2</span>,
+  binary <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,6 +184,10 @@ Causal Rule Ensemble package</p>
       <td><p>the number of causal rules, either 2 (default) or 4</p></td>
     </tr>
     <tr>
+      <th>p</th>
+      <td><p>the number of covariates (default: 10)</p></td>
+    </tr>
+    <tr>
       <th>effect_size</th>
       <td><p>the effect size magnitude (default: 0.5)
 TODO: what is the range of effect size magnitude?</p></td>
@@ -191,12 +202,12 @@ either TRUE (default) or FALSE</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a list of synthetic data containing an outcome vector, a treatment vector,
-and a matrix of 10 covariates</p>
+and a matrix of p covariates</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
-<span class='va'>dataset_c</span> <span class='op'>&lt;-</span> <span class='fu'>generate_cre_dataset</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>500</span>, rho <span class='op'>=</span> <span class='fl'>0</span>, n_rules <span class='op'>=</span> <span class='fl'>2</span>,
-effect_size <span class='op'>=</span> <span class='fl'>0.5</span>, binary <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>dataset</span> <span class='op'>&lt;-</span> <span class='fu'>generate_cre_dataset</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1000</span>, rho <span class='op'>=</span> <span class='fl'>0</span>, n_rules <span class='op'>=</span> <span class='fl'>2</span>, p <span class='op'>=</span> <span class='fl'>10</span>,
+                                effect_size <span class='op'>=</span> <span class='fl'>2</span>, binary <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 </div></pre>
   </div>

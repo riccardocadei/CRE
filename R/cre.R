@@ -46,28 +46,24 @@
 #' @export
 #'
 #' @examples
-#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-#'                                      effect_size = 2, binary = FALSE)
+#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+#'                                 effect_size = 2, binary = FALSE)
 #'
-#' cre_results <- cre(y = abs(dataset_cont[["y"]]), z = dataset_cont[["z"]],
-#'                    X = as.data.frame(dataset_cont[["X"]]), ratio_dis 0.25,
-#'                    ite_method_dis = "bcf", include_ps_dis = NA,
-#'                    ps_method_dis = "SL.xgboost", or_method_dis = NA,
-#'                    ite_method_inf = "bcf, include_ps_inf = NA,
-#'                    ps_method_inf = "SL.xgboost", or_method_dis = NA,
+#' cre_results <- cre(y = dataset[["y"]], z = dataset[["z"]],
+#'                    X = as.data.frame(dataset[["X"]]), ratio_dis = 0.25,
+#'                    ite_method_dis = "bart", include_ps_dis = TRUE,
+#'                    ite_method_inf = "bart", include_ps_inf = TRUE,
 #'                    ntrees_rf = 100, ntrees_gbm = 50, min_nodes = 20,
-#'                    max_nodes = 5, t = 0.025, q = 0.8, rules_method = NA,
-#'                    include_offset = FALSE, offset_name = NA,
-#'                    cate_method = "cf-means", cate_SL_library = NA,
-#'                    filter_cate = FALSE)
+#'                    max_nodes = 5, t = 0.025, q = 0.8)
 #'
 cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
                 ps_method_dis = "SL.xgboost", or_method_dis = NA,
                 ite_method_inf, include_ps_inf = NA,
                 ps_method_inf = "SL.xgboost", or_method_inf = NA,
-                ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
-                include_offset = FALSE, offset_name = NA,
-                cate_method, cate_SL_library, filter_cate = FALSE) {
+                ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q,
+                rules_method = NA, include_offset = FALSE, offset_name = NA,
+                cate_method = "DRLearner", cate_SL_library = "SL.xgboost",
+                filter_cate = FALSE) {
 
   # Input checks ---------------------------------------------------------------
   if (!(class(y) %in% c("numeric", "integer"))){
@@ -162,7 +158,6 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
     include_ps_inf <- NA
   }
 
-  ps_method_dis <- toupper(ps_method_dis)
   if (!(ite_method_dis %in% c("or", "poisson"))) {
     if (!(class(ps_method_dis) %in% c("character", "list"))) {
       stop("Please specify a string or list of strings for the ps_method_dis argument.")
@@ -171,7 +166,6 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
     ps_method_dis <- NA
   }
 
-  ps_method_inf <- toupper(ps_method_inf)
   if (!(ite_method_inf %in% c("or", "poisson"))) {
     if (!(class(ps_method_inf) %in% c("character", "list"))) {
       stop("Please specify a string or list of strings for the ps_method_inf argument.")
@@ -182,7 +176,6 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
 
   # Check for outcome regression score estimation inputs -----------------------
 
-  or_method_dis <- toupper(or_method_dis)
   if (ite_method_dis %in% c("aipw")) {
     if (!(class(or_method_dis) %in% c("character", "list"))) {
       stop("Please specify a string or list of strings for the or_method_dis argument.")
@@ -191,7 +184,6 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
     or_method_dis <- NA
   }
 
-  or_method_inf <- toupper(or_method_inf)
   if (ite_method_inf %in% c("aipw")) {
     if (!(class(or_method_inf) %in% c("character", "list"))) {
       stop("Please specify a string or list of strings for the or_method_inf argument.")
@@ -239,10 +231,9 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
 
   # Check for correct CATE estimation inputs -----------------------
 
-  cate_method <- tolower(cate_method)
   if (!(cate_method %in% c("poisson", "DRLearner", "bart-baggr", "cf-means",
                            "linreg"))) {
-    stop(paste("Invalid ITE method for Inference Subsample. Please choose from ",
+    stop(paste("Invalid CATE method for Inference Subsample. Please choose from ",
                "the following: 'poisson', 'DRLearner', 'bart-baggr', ",
                "'cf-means', or 'linreg'"))
   }
@@ -251,7 +242,6 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
     if (!(class(cate_SL_library) %in% c("character", "list"))) {
       stop("Please specify a string or list for the cate_SL_library argument.")
     }
-    cate_SL_library <- tolower(cate_SL_library)
   } else {
     cate_SL_library <- NA
   }
@@ -344,6 +334,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
                                binary, X_names, include_offset, offset_name)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
+  sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
   # Estimate CATE ----------------------
   message("Estimating CATE")

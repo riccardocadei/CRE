@@ -20,8 +20,8 @@
 #'
 #' @examples
 #' set.seed(123)
-#' dataset_c <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-#'                                   effect_size = 2, binary = FALSE)
+#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+#'                                 effect_size = 2, binary = FALSE)
 #'
 #' @export
 #'
