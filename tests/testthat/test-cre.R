@@ -146,5 +146,5 @@ test_that("CRE Runs Correctly", {
                      ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q,
                      rules_method, include_offset, offset_name,
                      cate_method, cate_SL_library, filter_cate)
-  expect_true(class(cre_results) == "data.frame")
+  expect_true(class(cre_results) == "cre")
 })

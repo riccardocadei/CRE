@@ -40,7 +40,7 @@
 #' @param filter_cate whether or not to filter rules with p-value <= 0.05
 #'
 #' @return
-#' a list containing the list of select causal rules and a matrix of Conditional
+#' an S3 object containing the matrix of Conditional
 #'  Average Treatment Effect estimates
 #'
 #' @export
@@ -328,6 +328,8 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   }
 
   # Inference ------------------------------------------------------------------
+
+  logger::log_info("Conducting Inference Subsample Analysis ...")
   message("Conducting Inference Subsample Analysis")
   ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
                                include_ps_inf, ps_method_inf, or_method_inf,
@@ -337,7 +339,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
   # Estimate CATE ----------------------
-  message("Estimating CATE")
+  logger::log_info("Estimating CATE ...")
   rules_matrix_inf <- matrix(0, nrow = dim(X_inf)[1],
                              ncol = length(select_rules_dis))
   for (i in 1:length(select_rules_dis)) {
@@ -352,7 +354,19 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
                             cate_method, ite_inf, sd_ite_inf,
                             cate_SL_library, filter_cate)
 
+  # Convert cate_inf into an S3 object
+  make_S3 <- function(cate_inf) {
+    S3_object <- list()
+    item_names <- colnames(cate_inf)
+    for (i in 1:length(item_names)) {
+      S3_object[[item_names[i]]] <- cate_inf[,i]
+    }
+    attr(S3_object, "class") <- "cre"
+    return(S3_object)
+  }
+
   # Return Results
-  message("CRE method complete. Returning results.")
-  return(cate_inf)
+  logger::log_info("CRE method complete. Returning results.")
+  cate_S3 <- make_S3(cate_inf)
+  return(cate_S3)
 }
