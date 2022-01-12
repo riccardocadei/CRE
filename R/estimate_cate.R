@@ -155,7 +155,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
     cate_temp <- data.frame(Predictor = cate_names) %>%
       cbind(cate_model)
-    colnames(cate_temp) <- c("Predictor", "Estimate", "Std_Error", "Z_Value", "P_Value")
+    colnames(cate_temp) <- c("Predictor", "Estimate", "Std_Error",
+                             "Z_Value", "P_Value")
     if (filter_cate) {
       cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
     } else {
@@ -226,9 +227,11 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     rownames(cate_final) <- 1:nrow(cate_final)
   } else if (cate_method == "bart-baggr") {
     stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
-    df_rules_factor <- as.data.frame(rules_matrix_inf) %>% dplyr::transmute_all(as.factor)
+    df_rules_factor <- as.data.frame(rules_matrix_inf) %>%
+      dplyr::transmute_all(as.factor)
     names(df_rules_factor) <- select_rules_interpretable
-    joined_ite <- data.frame(group = 1:length(ite_inf), tau = ite_inf, se = sd_ite_inf)
+    joined_ite <- data.frame(group = 1:length(ite_inf),
+                             tau = ite_inf, se = sd_ite_inf)
 
     # Generate CATE data frame with ATE
     options(mc.cores = parallel::detectCores())
@@ -265,13 +268,16 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       sum_sd_cate_temp <- 0
       n_samples_temp <- length(baggr_ite_temp$fit@sim$samples)
       for (j in 1:n_samples_temp) {
-        sum_cate_temp <- sum_cate_temp + mean(baggr_ite_temp$fit@sim$samples[[j]]$`mu[1]`)
-        sum_sd_cate_temp <- sum_sd_cate_temp + mean(baggr_ite_temp$fit@sim$samples[[j]]$`tau[1]`)
+        sum_cate_temp <- sum_cate_temp +
+          mean(baggr_ite_temp$fit@sim$samples[[j]]$`mu[1]`)
+        sum_sd_cate_temp <- sum_sd_cate_temp +
+          mean(baggr_ite_temp$fit@sim$samples[[j]]$`tau[1]`)
       }
       cate_temp <- sum_cate_temp / n_samples_temp
       sd_cate_temp <- sum_sd_cate_temp / n_samples_temp
 
-      cate_temp <- data.frame(Rule = select_rules_interpretable[i], CATE = cate_temp,
+      cate_temp <- data.frame(Rule = select_rules_interpretable[i],
+                              CATE = cate_temp,
                               CI_lower = cate_temp - (1.96 * sd_cate_temp),
                               CI_upper = cate_temp + (1.96 * sd_cate_temp))
       cate_means <- rbind(cate_means, cate_temp)
@@ -279,28 +285,38 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     cate_final <- cate_means
   } else if (cate_method == "cf-means") {
     stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
-    df_rules_factor <- as.data.frame(rules_matrix_inf) %>% dplyr::transmute_all(as.factor)
+    df_rules_factor <- as.data.frame(rules_matrix_inf) %>%
+      dplyr::transmute_all(as.factor)
     names(df_rules_factor) <- select_rules_interpretable
     joined_ite_rules <- cbind(ite_inf, sd_ite_inf, df_rules_factor)
 
     # Generate CATE data frame with ATE
-    cate_means <- data.frame(Rule = "Average Treatment Effect", CATE = mean(ite_inf),
-                             CI_lower = mean(ite_inf) - (1.96 * mean(sd_ite_inf)),
-                             CI_upper = mean(ite_inf) + (1.96 * mean(sd_ite_inf)))
+    cate_means <- data.frame(Rule = "Average Treatment Effect",
+                             CATE = mean(ite_inf),
+                             CI_lower = mean(ite_inf) -
+                               (1.96 * mean(sd_ite_inf)),
+                             CI_upper = mean(ite_inf) +
+                               (1.96 * mean(sd_ite_inf)))
 
     # Determine CATE manually for each rule
     for (i in 1:length(select_rules_interpretable)) {
-      df_temp <- data.frame(ite_inf = joined_ite_rules[,1], sd_ite_inf = joined_ite_rules[,2],
-                            rule = joined_ite_rules[,i + 2]) %>% dplyr::filter(rule == 1)
-      cate_temp <- data.frame(Rule = select_rules_interpretable[i], CATE = mean(df_temp$ite),
-                              CI_lower = mean(df_temp$ite_inf) - (1.96 * mean(df_temp$sd_ite_inf)),
-                              CI_upper = mean(df_temp$ite_inf) + (1.96 * mean(df_temp$sd_ite_inf)))
+      df_temp <- data.frame(ite_inf = joined_ite_rules[,1],
+                            sd_ite_inf = joined_ite_rules[,2],
+                            rule = joined_ite_rules[,i + 2]) %>%
+        dplyr::filter(rule == 1)
+      cate_temp <- data.frame(Rule = select_rules_interpretable[i],
+                              CATE = mean(df_temp$ite),
+                              CI_lower = mean(df_temp$ite_inf) -
+                                (1.96 * mean(df_temp$sd_ite_inf)),
+                              CI_upper = mean(df_temp$ite_inf) +
+                                (1.96 * mean(df_temp$sd_ite_inf)))
       cate_means <- rbind(cate_means, cate_temp)
     }
     cate_final <- cate_means
   } else if (cate_method == "linreg") {
     stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
-    df_rules_factor <- as.data.frame(rules_matrix_inf) %>% dplyr::transmute_all(as.factor)
+    df_rules_factor <- as.data.frame(rules_matrix_inf) %>%
+      dplyr::transmute_all(as.factor)
     names(df_rules_factor) <- select_rules_interpretable
     joined_ite_rules <- cbind(ite_inf, df_rules_factor)
 
@@ -309,7 +325,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     options(contrasts = rep("contr.treatment", 2))
     model1_cate <- stats::lm(ite_inf ~ ., data = joined_ite_rules)
     model1_coef <- summary(model1_cate)$coef[,c(1,4)] %>% as.data.frame
-    model1_ci <- stats::confint(model1_cate) %>% as.data.frame() %>% dplyr::filter(!is.na(.))
+    model1_ci <- stats::confint(model1_cate) %>% as.data.frame() %>%
+      dplyr::filter(!is.na(.))
 
     # Generate model 1 data frame
     cate_reg_orig <- model1_coef %>% cbind(model1_ci)

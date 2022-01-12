@@ -8,6 +8,21 @@
 
 ### Removed
 
+## CRE 0.0.2 (2022-01-12)
+
+### Changed
+* `estimate_cate` include five methods for estimating the CATE values (`poisson`, `DRLearner`, `bart-baggr`, `cf-means`, `linreg`)
+* `cre` added new arguments to (1) complement `SuperLearner` package (`ps_method_dis`, `ps_method_inf`, `or_method_dis`, `or_method_inf`, `cate_SL_library`) and to (2) select CATE method and (3) whether to filter CATE p-values (`cate_method` and `filter_cate`). Now returns an S3 object.
+* `estimate_ite_xyz` conduct propensity score estimation using helper function with `SuperLearner` package
+* `generate_cre_dataset` make number of covariates an argument of the function
+* improve examples and update tests for all functions
+
+### Added
+* `estimate_ite_aipw` function for augmented inverse propensity weighting
+
+### Removed
+* `estimate_ite_blp` function
+
 ## CRE 0.0.1 (2021-10-20)
 
 ### Changed

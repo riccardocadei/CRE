@@ -90,7 +90,7 @@ the ITE, for poisson only}
 \item{filter_cate}{whether or not to filter rules with p-value <= 0.05}
 }
 \value{
-a list containing the list of select causal rules and a matrix of Conditional
+an S3 object containing the matrix of Conditional
 Average Treatment Effect estimates
 }
 \description{

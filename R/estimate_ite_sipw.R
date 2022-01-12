@@ -30,7 +30,9 @@
 estimate_ite_sipw <- function(y, z, X, ps_method) {
 
   est_ps <- estimate_ps(z, X, ps_method)
-  ite <- ((z / est_ps) / (1 / length(z) * sum(z / est_ps)) - (1 - z) / (1 - est_ps) / (1 / length(z) * sum((1 - z) / (1 - est_ps)))) * y
+  ite <- ((z / est_ps) / (1 / length(z) * sum(z / est_ps)) -
+            (1 - z) / (1 - est_ps) /
+            (1 / length(z) * sum((1 - z) / (1 - est_ps)))) * y
 
   return(ite)
 }
