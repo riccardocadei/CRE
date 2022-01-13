@@ -27,3 +27,18 @@ a vector of ITE estimates
 Estimates the Individual Treatment Effect using Poisson Regression given a
 response vector, a treatment vector, and a features matrix.
 }
+\examples{
+dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+                                effect_size = 2, binary = FALSE)
+
+# Initialize parameters
+y <- abs(dataset[["y"]])
+z <- dataset[["z"]]
+X <- as.data.frame(dataset[["X"]])
+X_names <- names(as.data.frame(X))
+include_offset <- FALSE
+offset_name <- NA
+
+ite_list <- estimate_ite_poisson(y, z, X, X_names, include_offset, offset_name)
+
+}

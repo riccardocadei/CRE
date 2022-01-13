@@ -4,7 +4,7 @@
 \alias{estimate_ite_xbcf}
 \title{Estimate the Individual Treatment Effect using Accelerated Bayesian Causal Forest}
 \usage{
-estimate_ite_xbcf(y, z, X)
+estimate_ite_xbcf(y, z, X, ps_method)
 }
 \arguments{
 \item{y}{the observed response vector}
@@ -12,10 +12,25 @@ estimate_ite_xbcf(y, z, X)
 \item{z}{the treatment vector}
 
 \item{X}{the features matrix}
+
+\item{ps_method}{estimation method for the propensity score}
 }
 \value{
 a list of ITE estimates and standard deviations for the ITE estimates
 }
 \description{
 Method for estimating the Individual Treatment Effect using Accelerated Bayesian Causal Forest given a response vector, a treatment vector, and a features matrix
+}
+\examples{
+dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+                                effect_size = 2, binary = FALSE)
+
+# Initialize parameters
+y <- dataset[["y"]]
+z <- dataset[["z"]]
+X <- as.data.frame(dataset[["X"]])
+ps_method <- "SL.xgboost"
+
+ite_list <- estimate_ite_xbcf(y, z, X, ps_method)
+
 }

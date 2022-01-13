@@ -13,10 +13,18 @@
 #' @param include_ps_dis whether or not to include propensity score estimate
 #'  as a covariate in discovery ITE estimation, considered only for BART, XBART,
 #'   or CF
+#' @param ps_method_dis the estimation model for the propensity score on the
+#'   discovery subsample
+#' @param or_method_dis the estimation model for the outcome regressions in
+#'   estimate_ite_aipw on the discovery subsample
 #' @param ite_method_inf the method to estimate the inference sample ITE
 #' @param include_ps_inf whether or not to include propensity score estimate as
 #'  a covariate in inference ITE estimation, considered only for BART, XBART,
 #'   or CF
+#' @param ps_method_inf the estimation model for the propensity score on the
+#'   inference subsample
+#' @param or_method_inf the estimation model for the outcome regressions in
+#'   estimate_ite_aipw on the inference subsample
 #' @param ntrees_rf the number of decision trees for randomForest
 #' @param ntrees_gbm the number of decision trees for gradient boosting
 #' @param min_nodes the minimum size of the trees' terminal nodes
@@ -27,6 +35,9 @@
 #' @param include_offset whether or not to include an offset when estimating
 #'  the ITE, for poisson only
 #' @param offset_name the name of the offset, if it is to be included
+#' @param cate_method the method to estimate the CATE values
+#' @param cate_SL_library the library used if cate_method is set to DRLearner
+#' @param filter_cate whether or not to filter rules with p-value <= 0.05
 #'
 #' @return
 #' an S3 object containing the matrix of Conditional
@@ -35,21 +46,24 @@
 #' @export
 #'
 #' @examples
-#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
-#'                                      effect_size = 2, binary = FALSE)
+#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+#'                                 effect_size = 2, binary = FALSE)
 #'
-#' cre_results <- cre(y = abs(dataset_cont[["y"]]), z = dataset_cont[["z"]],
-#'                    X = as.data.frame(dataset_cont[["X"]]), ratio_dis 0.25,
-#'                    ite_method_dis = "bcf", include_ps_dis = NA,
-#'                    ite_method_inf = "bcf, include_ps_inf = NA,
+#' cre_results <- cre(y = dataset[["y"]], z = dataset[["z"]],
+#'                    X = as.data.frame(dataset[["X"]]), ratio_dis = 0.25,
+#'                    ite_method_dis = "bart", include_ps_dis = TRUE,
+#'                    ite_method_inf = "bart", include_ps_inf = TRUE,
 #'                    ntrees_rf = 100, ntrees_gbm = 50, min_nodes = 20,
-#'                    max_nodes = 5, t = 0.025, q = 0.8, rules_method = NA,
-#'                    include_offset = FALSE, offset_name = NA)
+#'                    max_nodes = 5, t = 0.025, q = 0.8)
 #'
 cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
-                ite_method_inf,  include_ps_inf = NA,  ntrees_rf, ntrees_gbm,
-                min_nodes, max_nodes, t, q, rules_method,
-                include_offset = FALSE, offset_name = NA) {
+                ps_method_dis = "SL.xgboost", or_method_dis = NA,
+                ite_method_inf, include_ps_inf = NA,
+                ps_method_inf = "SL.xgboost", or_method_inf = NA,
+                ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q,
+                rules_method = NA, include_offset = FALSE, offset_name = NA,
+                cate_method = "DRLearner", cate_SL_library = "SL.xgboost",
+                filter_cate = FALSE) {
 
   # Input checks ---------------------------------------------------------------
   if (!(class(y) %in% c("numeric", "integer"))){
@@ -109,18 +123,19 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   }
 
   ite_method_dis <- tolower(ite_method_dis)
-  if (!(ite_method_dis %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf",
-                              "xbcf", "cf", "poisson"))) {
+  if (!(ite_method_dis %in% c("ipw", "sipw", "sipw", "or", "bart", "xbart",
+                              "bcf", "xbcf", "cf", "poisson"))) {
     stop(paste("Invalid ITE method for Discovery Subsample. Please choose ",
-               "from the following:\n","'ipw', 'sipw', 'or', 'bart', 'xbart', ",
-               "'bcf', 'xbcf', 'cf', or 'poisson'"))
+               "from the following:\n","'ipw', 'sipw', 'aipw', or', 'bart', ",
+               "'xbart', 'bcf', 'xbcf', 'cf', or 'poisson'"))
   }
 
   ite_method_inf <- tolower(ite_method_inf)
-  if (!(ite_method_inf %in% c("ipw", "sipw", "or", "bart", "xbart", "bcf",
-                              "xbcf", "cf", "poisson", "blp"))) {
-    stop("Invalid ITE method for Inference Subsample. Please choose from the following:
-         'ipw', 'sipw', 'or', 'bart', 'xbart', 'bcf', 'xbcf', 'cf', 'poisson', or 'blp'")
+  if (!(ite_method_inf %in% c("ipw", "sipw", "aipw", "or", "bart", "xbart",
+                              "bcf", "xbcf", "cf", "poisson"))) {
+    stop(paste("Invalid ITE method for Inference Subsample. Please choose ",
+               "from the following: 'ipw', 'sipw', 'aipw', 'or', 'bart', ",
+               "'xbart', 'bcf', 'xbcf', 'cf', or 'poisson'"))
   }
 
   # Check for correct propensity score estimation inputs -----------------------
@@ -141,6 +156,40 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
     }
   } else {
     include_ps_inf <- NA
+  }
+
+  if (!(ite_method_dis %in% c("or", "poisson"))) {
+    if (!(class(ps_method_dis) %in% c("character", "list"))) {
+      stop("Please specify a string or list of strings for the ps_method_dis argument.")
+    }
+  } else {
+    ps_method_dis <- NA
+  }
+
+  if (!(ite_method_inf %in% c("or", "poisson"))) {
+    if (!(class(ps_method_inf) %in% c("character", "list"))) {
+      stop("Please specify a string or list of strings for the ps_method_inf argument.")
+    }
+  } else {
+    ps_method_inf <- NA
+  }
+
+  # Check for outcome regression score estimation inputs -----------------------
+
+  if (ite_method_dis %in% c("aipw")) {
+    if (!(class(or_method_dis) %in% c("character", "list"))) {
+      stop("Please specify a string or list of strings for the or_method_dis argument.")
+    }
+  } else {
+    or_method_dis <- NA
+  }
+
+  if (ite_method_inf %in% c("aipw")) {
+    if (!(class(or_method_inf) %in% c("character", "list"))) {
+      stop("Please specify a string or list of strings for the or_method_inf argument.")
+    }
+  } else {
+    or_method_inf <- NA
   }
 
   # Determine outcome type
@@ -166,7 +215,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   }
 
   # Check for correct offset input
-  if (ite_method_dis == "poisson" | ite_method_inf == "poisson") {
+  if (ite_method_dis == "poisson" | ite_method_inf == "poisson" | cate_method == "poisson") {
     if (include_offset == TRUE) {
       if (is.na(offset_name)) {
         stop(paste("Invalid offset_name input. Please specify an offset_name ",
@@ -178,6 +227,41 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   } else {
     include_offset <- FALSE
     offset_name <- NA
+  }
+
+  # Check for correct CATE estimation inputs -----------------------
+
+  if (!(cate_method %in% c("poisson", "DRLearner", "bart-baggr", "cf-means",
+                           "linreg"))) {
+    stop(paste("Invalid CATE method for Inference Subsample. Please choose from ",
+               "the following: 'poisson', 'DRLearner', 'bart-baggr', ",
+               "'cf-means', or 'linreg'"))
+  }
+
+  if (cate_method == "DRLearner") {
+    if (!(class(cate_SL_library) %in% c("character", "list"))) {
+      stop("Please specify a string or list for the cate_SL_library argument.")
+    }
+  } else {
+    cate_SL_library <- NA
+  }
+
+  if (cate_method == "bart-baggr") {
+    if (!(ite_method_inf %in% c("bart", "xbart"))) {
+      stop(paste("Please choose 'bart' or 'xbart' for ite_method_inf ",
+           "if you wish to use 'bart-baggr' as the cate_method"))
+    }
+  }
+
+  if (cate_method == "cf-means") {
+    if (!(ite_method_inf %in% c("cf", "bcf", "xbcf"))) {
+      stop(paste("Please choose 'cf', 'bcf', or 'xbcf' for ite_method_inf ",
+                 "if you wish to use 'cf-means' as the cate_method"))
+    }
+  }
+
+  if (!(filter_cate %in% c(TRUE, FALSE))) {
+    stop("Invalid 'filter_cate' input. Please specify TRUE or FALSE.")
   }
 
   # Split data
@@ -207,8 +291,8 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   logger::log_info("Estimating ITE ... ")
   st_ite_t <- proc.time()
   ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis,
-                               include_ps_dis, binary, X_names, include_offset,
-                               offset_name)
+                               include_ps_dis, ps_method_dis, or_method_dis,
+                               binary, X_names, include_offset, offset_name)
   en_ite_t <- proc.time()
   logger::log_debug("Finished Estimating ITE. ",
                     " Wall clock time: {(en_ite_t - st_ite_t)[[3]]} seconds.")
@@ -244,19 +328,15 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   }
 
   # Inference ------------------------------------------------------------------
+
   logger::log_info("Conducting Inference Subsample Analysis ...")
-  if (!(ite_method_inf %in% c("poisson", "blp"))) {
-    ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
-                                 include_ps_inf, binary, X_names,
-                                 include_offset, offset_name)
-    ite_inf <- ite_list_inf[["ite"]]
-    ite_std_inf <- ite_list_inf[["ite_std"]]
-    sd_ite_inf <- ite_list_inf[["sd_ite"]]
-  } else {
-    ite_inf <- NA
-    ite_std_inf <- NA
-    sd_ite_inf <- NA
-  }
+  message("Conducting Inference Subsample Analysis")
+  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
+                               include_ps_inf, ps_method_inf, or_method_inf,
+                               binary, X_names, include_offset, offset_name)
+  ite_inf <- ite_list_inf[["ite"]]
+  ite_std_inf <- ite_list_inf[["ite_std"]]
+  sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
   # Estimate CATE ----------------------
   logger::log_info("Estimating CATE ...")
@@ -271,7 +351,8 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
                             include_offset, offset_name,
                             rules_matrix_inf, select_rules_interpretable,
-                            ite_method_inf, ite_inf, sd_ite_inf)
+                            cate_method, ite_inf, sd_ite_inf,
+                            cate_SL_library, filter_cate)
 
   # Convert cate_inf into an S3 object
   make_S3 <- function(cate_inf) {

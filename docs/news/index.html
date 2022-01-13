@@ -151,12 +151,47 @@
       <small>Source: <a href='https://github.com/fasrc/CRE/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="cre-001-2021-10-20" class="section level2">
+    <div id="cre-002-2022-01-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#cre-001-2021-10-20" class="anchor"></a>CRE 0.0.1 (2021-10-20)</h2>
+<a href="#cre-002-2022-01-12" class="anchor"></a>CRE 0.0.2 (2022-01-12)</h2>
 <div id="changed-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#changed-1" class="anchor"></a>Changed</h3>
+<ul>
+<li>
+<code>estimate_cate</code> include five methods for estimating the CATE values (<code>poisson</code>, <code>DRLearner</code>, <code>bart-baggr</code>, <code>cf-means</code>, <code>linreg</code>)</li>
+<li>
+<code>cre</code> added new arguments to (1) complement <code>SuperLearner</code> package (<code>ps_method_dis</code>, <code>ps_method_inf</code>, <code>or_method_dis</code>, <code>or_method_inf</code>, <code>cate_SL_library</code>) and to (2) select CATE method and (3) whether to filter CATE p-values (<code>cate_method</code> and <code>filter_cate</code>). Now returns an S3 object.</li>
+<li>
+<code>estimate_ite_xyz</code> conduct propensity score estimation using helper function with <code>SuperLearner</code> package</li>
+<li>
+<code>generate_cre_dataset</code> make number of covariates an argument of the function</li>
+<li>improve examples and update tests for all functions</li>
+</ul>
+</div>
+<div id="added-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#added-1" class="anchor"></a>Added</h3>
+<ul>
+<li>
+<code>estimate_ite_aipw</code> function for augmented inverse propensity weighting</li>
+</ul>
+</div>
+<div id="removed-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#removed-1" class="anchor"></a>Removed</h3>
+<ul>
+<li>
+<code>estimate_ite_blp</code> function</li>
+</ul>
+</div>
+</div>
+    <div id="cre-001-2021-10-20" class="section level2">
+<h2 class="hasAnchor">
+<a href="#cre-001-2021-10-20" class="anchor"></a>CRE 0.0.1 (2021-10-20)</h2>
+<div id="changed-2" class="section level3">
+<h3 class="hasAnchor">
+<a href="#changed-2" class="anchor"></a>Changed</h3>
 <ul>
 <li>
 <code>estimate_cate</code> include two methods for estimating the CATE values</li>
@@ -167,9 +202,9 @@
 <li>Removed <code>seed</code> as an input from <code>generate_cre_dataset</code> function.</li>
 </ul>
 </div>
-<div id="added-1" class="section level3">
+<div id="added-2" class="section level3">
 <h3 class="hasAnchor">
-<a href="#added-1" class="anchor"></a>Added</h3>
+<a href="#added-2" class="anchor"></a>Added</h3>
 <ul>
 <li>
 <code>set_logger</code> and <code>get_logger</code>

@@ -106,9 +106,13 @@ The `cre()` inputs asked from the user are as follows:
 - `X` the features matrix
 - `ratio_dis` the ratio of data for discovery subsample
 - `ite_method_dis` the method to estimate the discovery sample ITE (1)
-- `ite_method_inf` the method to estimate the inference sample ITE (1)
 - `include_ps_dis` whether to include the propensity score estimate in the discovery ITE estimation (2)
+- `ps_method_dis` the estimation model for the propensity score on the discovery subsample
+- `or_method_dis` or_method_dis the estimation model for the outcome regressions in `estimate_ite_aipw` on the discovery subsample
+- `ite_method_inf` the method to estimate the inference sample ITE (1)
 - `include_ps_inf` whether to include the propensity score estimate in the inference ITE estimation (2)
+- `ps_method_inf` the estimation model for the propensity score on the inference subsample
+- `or_method_inf` or_method_dis the estimation model for the outcome regressions in `estimate_ite_aipw` on the inference subsample
 - `ntrees_rf` the number of decision trees for random forests
 - `ntrees_gbm` the number of decision trees for gradient boosting
 - `min_nodes` the minimum size of the trees' terminal nodes
@@ -118,6 +122,9 @@ The `cre()` inputs asked from the user are as follows:
 - `rules_method` the method for selecting causal rules with binary outcomes, either “conservative”, “anticonservative”, or NA (if continuous)
 - `include_offset` whether or not to include an offset when estimating the ITE, for poisson only
 - `offset_name` the name of the offset, if it is to be included
+- `cate_method` the method to estimate the CATE values
+- `cate_SL_library` the library used if `cate_method` is set to `DRLearner`
+- `filter_cate` whether or not to filter rules with p-value <= 0.05
 
 ### A note on the parameters
 
@@ -125,6 +132,7 @@ The `cre()` inputs asked from the user are as follows:
 
 - Inverse Propensity Weighting (`ipw`)
 - Stabilized Inverse Propensity Weighting (`sipw`)
+- Augmented Inverse Propensity Weighting (`aipw`)
 - Outcome Regression (`or`)
 - Bayesian Additive Regression Trees (`bart`)
 - Accelerated Bayesian Additive Regression Trees (`xbart`)
@@ -132,7 +140,6 @@ The `cre()` inputs asked from the user are as follows:
 - Accelerated Bayesian Causal Forests (`xbcf`)
 - Causal Forests (`cf`)
 - Poisson Regression (`poisson`)
-- Augmented IPW (`blp`), for inference subsample only
 
 In the original paper by Lee et al. (2020), several methods are tested for the imputation of the ITE for continuous outcomes and the consequent ability to correctly discover the causal rules and precisely estimate the conditional effects within the rules. We refer to this paper for more details on which are the best performing techniques. 
 
@@ -147,12 +154,18 @@ For data with **binary** outcomes, we suggest using `or`, `bart`, `xbart` or `cf
 library(CRE)
 ```
 ```
-cre_results <- cre(y, z, X, ratio_dis = 0.25, ite_method_dis = 'bcf', 
-                   ite_method_inf = 'bcf', include_ps_dis = TRUE, include_ps_inf = TRUE, 
-                   ntrees = 100, min_nodes = 20, max_nodes = 5, t = 0.025, q = 0.8, 
-                   rules_method = NA, include_offset = FALSE, offset_name = NA)
-cre_select_rules <- cre_results[[1]] # expected output: vector of rule strings
-cre_cate_estimates <- cre_results[[2]] # expected output: matrix of CATE estimates
+# expected output: matrix of CATE estimates
+cre_results <- cre(y = abs(dataset_cont[["y"]]), z = dataset_cont[["z"]],
+                   X = as.data.frame(dataset_cont[["X"]]), ratio_dis 0.25,
+                   ite_method_dis = "bcf", include_ps_dis = NA,
+                   ps_method_dis = "SL.xgboost", or_method_dis = NA,
+                   ite_method_inf = "bcf, include_ps_inf = NA,
+                   ps_method_inf = "SL.xgboost", or_method_dis = NA,
+                   ntrees_rf = 100, ntrees_gbm = 50, min_nodes = 20,
+                   max_nodes = 5, t = 0.025, q = 0.8, rules_method = NA,
+                   include_offset = FALSE, offset_name = NA,
+                   cate_method = "cf-means", cate_SL_library = NA,
+                   filter_cate = FALSE)
 ```
 
 # Testing the Package, Examples, and Discussion
@@ -171,7 +184,7 @@ The CRE package can generate synthetic data that can be used to test different f
 library("CRE")
 ```
 ```
-dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
+dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
                                      effect_size = 0.5, binary = FALSE, seed = 2021) 
 str(dataset_cont)
 ## List of 3
@@ -188,7 +201,7 @@ str(dataset_cont)
 library("CRE")
 ```
 ```
-dataset_binary <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
+dataset_binary <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 0.5, binary = TRUE, seed = 2021) 
 str(dataset_binary)
 ## List of 3
@@ -218,7 +231,7 @@ library("CRE")
 ```
 ```
 # Generate synthetic data with continuous outcomes
-dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, 
+dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10
                                 effect_size = 0.5, binary = FALSE, seed = 2021) 
 
 # Set parameters
@@ -227,9 +240,13 @@ z <- dataset[["z"]]
 X <- dataset[["X"]]
 ratio_dis <- 0.25
 ite_method_dis <- "bcf"
-ite_method_inf <- "bcf"
 include_ps_dis <- "TRUE"
+ps_method_dis <- "SL.xgboost"
+or_method_dis <- NA
+ite_method_inf <- "bcf"
 include_ps_inf <- NA
+ps_method_inf <- "SL.xgboost"
+or_method_inf <- NA
 ntrees <- 100
 min_nodes <- 20
 max_nodes <- 5
@@ -238,11 +255,16 @@ q <- 0.8
 rules_method <- NA
 include_offset <- FALSE
 offset_name <- NA
+cate_method <- "cf-means"
+cate_SL_library <- NA
+filter_cate <- FALSE
 
 # Run CRE method
-cre_results <- cre(y, z, X, ratio_dis, ite_method_dis, ite_method_inf, 
-                   include_ps_dis, include_ps_inf, ntrees, min_nodes, max_nodes, 
-                   t, q, rules_method, include_offset, offset_name)
+cre_results <- cre(y, z, X, ratio_dis, ite_method_dis, include_ps_dis,
+                   ps_method_dis, or_method_dis, ite_method_inf, include_ps_inf, 
+                   ps_method_inf, or_method_inf, ntrees, min_nodes, max_nodes, 
+                   t, q, rules_method, include_offset, offset_name,
+                   cate_method, cate_SL_library, filter_cate)
 ```
 
 ### Running the CRE on Synthetic Data with Binary Outcomes

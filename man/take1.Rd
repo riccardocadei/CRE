@@ -15,3 +15,8 @@ a vector of indices
 \description{
 Generate a list of indices
 }
+\examples{
+
+ind <- take1(10)
+
+}

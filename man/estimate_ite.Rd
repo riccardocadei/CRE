@@ -10,6 +10,8 @@ estimate_ite(
   X,
   ite_method,
   include_ps,
+  ps_method,
+  or_method,
   binary,
   X_names,
   include_offset,
@@ -27,16 +29,22 @@ estimate_ite(
 \itemize{
 \item \code{ipw}: Inverse Propensity Weighting
 \item \code{sipw}: Stabilized Inverse Propensity Weighting
+\item \code{aipw}: Augmented Inverse Propensity Weighting
 \item \code{or}: Outcome Regression, TODO: change this into a non reserved term.
 \item \code{bart}: BART
 \item \code{xbart}: Accelerated BART
 \item \code{bcf}: Bayesian Causal Forest
 \item \code{xbcf}: Accelerated Bayesian Causal Forest
 \item \code{cf}: Causal Forest
+\item \code{poisson}: Poisson Estimation
 }}
 
 \item{include_ps}{whether or not to include propensity score estimate as a
 covariate in ITE estimation}
+
+\item{ps_method}{estimation method for the propensity score}
+
+\item{or_method}{the estimation model for the outcome regressions in estimate_ite_aipw}
 
 \item{binary}{whether or not the outcome is binary}
 
@@ -58,4 +66,25 @@ a list that includes:
 \description{
 Estimates the Individual Treatment Effect given a response vector,
 a treatment vector, a features matrix, and a desired algorithm.
+}
+\examples{
+dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+                                effect_size = 2, binary = FALSE)
+
+# Initialize parameters
+y <- dataset[["y"]]
+z <- dataset[["z"]]
+X <- as.data.frame(dataset[["X"]])
+ite_method <- "bart"
+include_ps <- TRUE
+ps_method <- "SL.xgboost"
+or_method <- NA
+binary <- FALSE
+X_names <- names(as.data.frame(X))
+include_offset <- FALSE
+offset_name <- NA
+
+ite_list <- estimate_ite(y, z, X, ite_method, include_ps, ps_method, or_method,
+                         binary, X_names, include_offset, offset_name)
+
 }

@@ -17,20 +17,22 @@
 #'
 #' @examples
 #'
-#' dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
-#' effect_size = 2, binary = FALSE)
-#' y <- as.matrix(dataset_cont[["y"]])
-#' z <- as.matrix(dataset_cont[["z"]])
-#' X <- as.matrix(dataset_cont[["X"]])
-#' ite_method <- "bcf"
-#' include_ps <- "TRUE"
+#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+#'                                 effect_size = 2, binary = FALSE)
+#' y <- as.matrix(dataset[["y"]])
+#' z <- as.matrix(dataset[["z"]])
+#' X <- as.matrix(dataset[["X"]])
+#' ite_method <- "bart"
+#' include_ps <- TRUE
+#' ps_method <- "SL.xgboost"
+#' or_method <- NA
 #' ntrees <- 100
 #' min_nodes <- 20
 #' max_nodes <- 5
 #' binary <- FALSE
 #'
 #' # Estimate ITE
-#' ite_list <- estimate_ite(y, z, X, ite_method, include_ps, binary)
+#' ite_list <- estimate_ite(y, z, X, ite_method, include_ps, ps_method, or_method, binary)
 #' ite <- ite_list[["ite"]]
 #' ite_std <- ite_list[["ite_std"]]
 #'

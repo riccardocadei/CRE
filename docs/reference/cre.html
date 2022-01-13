@@ -166,17 +166,24 @@ a treatment variable, and various features</p>
   <span class='va'>ratio_dis</span>,
   <span class='va'>ite_method_dis</span>,
   include_ps_dis <span class='op'>=</span> <span class='cn'>NA</span>,
+  ps_method_dis <span class='op'>=</span> <span class='st'>"SL.xgboost"</span>,
+  or_method_dis <span class='op'>=</span> <span class='cn'>NA</span>,
   <span class='va'>ite_method_inf</span>,
   include_ps_inf <span class='op'>=</span> <span class='cn'>NA</span>,
+  ps_method_inf <span class='op'>=</span> <span class='st'>"SL.xgboost"</span>,
+  or_method_inf <span class='op'>=</span> <span class='cn'>NA</span>,
   <span class='va'>ntrees_rf</span>,
   <span class='va'>ntrees_gbm</span>,
   <span class='va'>min_nodes</span>,
   <span class='va'>max_nodes</span>,
   <span class='va'>t</span>,
   <span class='va'>q</span>,
-  <span class='va'>rules_method</span>,
+  rules_method <span class='op'>=</span> <span class='cn'>NA</span>,
   include_offset <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  offset_name <span class='op'>=</span> <span class='cn'>NA</span>
+  offset_name <span class='op'>=</span> <span class='cn'>NA</span>,
+  cate_method <span class='op'>=</span> <span class='st'>"DRLearner"</span>,
+  cate_SL_library <span class='op'>=</span> <span class='st'>"SL.xgboost"</span>,
+  filter_cate <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -209,6 +216,16 @@ as a covariate in discovery ITE estimation, considered only for BART, XBART,
 or CF</p></td>
     </tr>
     <tr>
+      <th>ps_method_dis</th>
+      <td><p>the estimation model for the propensity score on the
+discovery subsample</p></td>
+    </tr>
+    <tr>
+      <th>or_method_dis</th>
+      <td><p>the estimation model for the outcome regressions in
+estimate_ite_aipw on the discovery subsample</p></td>
+    </tr>
+    <tr>
       <th>ite_method_inf</th>
       <td><p>the method to estimate the inference sample ITE</p></td>
     </tr>
@@ -217,6 +234,16 @@ or CF</p></td>
       <td><p>whether or not to include propensity score estimate as
 a covariate in inference ITE estimation, considered only for BART, XBART,
 or CF</p></td>
+    </tr>
+    <tr>
+      <th>ps_method_inf</th>
+      <td><p>the estimation model for the propensity score on the
+inference subsample</p></td>
+    </tr>
+    <tr>
+      <th>or_method_inf</th>
+      <td><p>the estimation model for the outcome regressions in
+estimate_ite_aipw on the inference subsample</p></td>
     </tr>
     <tr>
       <th>ntrees_rf</th>
@@ -255,6 +282,18 @@ the ITE, for poisson only</p></td>
       <th>offset_name</th>
       <td><p>the name of the offset, if it is to be included</p></td>
     </tr>
+    <tr>
+      <th>cate_method</th>
+      <td><p>the method to estimate the CATE values</p></td>
+    </tr>
+    <tr>
+      <th>cate_SL_library</th>
+      <td><p>the library used if cate_method is set to DRLearner</p></td>
+    </tr>
+    <tr>
+      <th>filter_cate</th>
+      <td><p>whether or not to filter rules with p-value &lt;= 0.05</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -262,6 +301,23 @@ the ITE, for poisson only</p></td>
     <p>a list containing the list of select causal rules and a matrix of Conditional
 Average Treatment Effect estimates</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>dataset</span> <span class='op'>&lt;-</span> <span class='fu'><a href='generate_cre_dataset.html'>generate_cre_dataset</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1000</span>, rho <span class='op'>=</span> <span class='fl'>0</span>, n_rules <span class='op'>=</span> <span class='fl'>2</span>, p <span class='op'>=</span> <span class='fl'>10</span>,
+                                effect_size <span class='op'>=</span> <span class='fl'>2</span>, binary <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='va'>cre_results</span> <span class='op'>&lt;-</span> <span class='fu'>cre</span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>dataset</span><span class='op'>[[</span><span class='st'>"y"</span><span class='op'>]</span><span class='op'>]</span>, z <span class='op'>=</span> <span class='va'>dataset</span><span class='op'>[[</span><span class='st'>"z"</span><span class='op'>]</span><span class='op'>]</span>,
+                   X <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>dataset</span><span class='op'>[[</span><span class='st'>"X"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>, ratio_dis <span class='op'>=</span> <span class='fl'>0.25</span>,
+                   ite_method_dis <span class='op'>=</span> <span class='st'>"bart"</span>, include_ps_dis <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                   ite_method_inf <span class='op'>=</span> <span class='st'>"bart"</span>, include_ps_inf <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                   ntrees_rf <span class='op'>=</span> <span class='fl'>100</span>, ntrees_gbm <span class='op'>=</span> <span class='fl'>50</span>, min_nodes <span class='op'>=</span> <span class='fl'>20</span>,
+                   max_nodes <span class='op'>=</span> <span class='fl'>5</span>, t <span class='op'>=</span> <span class='fl'>0.025</span>, q <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Loading required package: nnls</span></div><div class='output co'>#&gt; <span class='message'>Loading required namespace: xgboost</span></div><div class='output co'>#&gt; fitting treatment model via method 'bart'
+#&gt; fitting response model via method 'bart'</div><div class='output co'>#&gt; <span class='message'>Registered S3 method overwritten by 'RRF':</span>
+#&gt; <span class='message'>  method      from        </span>
+#&gt; <span class='message'>  plot.margin randomForest</span></div><div class='output co'>#&gt; 437 rules (length&lt;=15) were extracted from the first 100 trees.
+#&gt; 300 rules (length&lt;=15) were extracted from the first 50 trees.</div><div class='output co'>#&gt; <span class='message'>Conducting Inference Subsample Analysis</span></div><div class='output co'>#&gt; fitting treatment model via method 'bart'
+#&gt; fitting response model via method 'bart'</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -11,17 +11,24 @@ cre(
   ratio_dis,
   ite_method_dis,
   include_ps_dis = NA,
+  ps_method_dis = "SL.xgboost",
+  or_method_dis = NA,
   ite_method_inf,
   include_ps_inf = NA,
+  ps_method_inf = "SL.xgboost",
+  or_method_inf = NA,
   ntrees_rf,
   ntrees_gbm,
   min_nodes,
   max_nodes,
   t,
   q,
-  rules_method,
+  rules_method = NA,
   include_offset = FALSE,
-  offset_name = NA
+  offset_name = NA,
+  cate_method = "DRLearner",
+  cate_SL_library = "SL.xgboost",
+  filter_cate = FALSE
 )
 }
 \arguments{
@@ -39,11 +46,23 @@ cre(
 as a covariate in discovery ITE estimation, considered only for BART, XBART,
 or CF}
 
+\item{ps_method_dis}{the estimation model for the propensity score on the
+discovery subsample}
+
+\item{or_method_dis}{the estimation model for the outcome regressions in
+estimate_ite_aipw on the discovery subsample}
+
 \item{ite_method_inf}{the method to estimate the inference sample ITE}
 
 \item{include_ps_inf}{whether or not to include propensity score estimate as
 a covariate in inference ITE estimation, considered only for BART, XBART,
 or CF}
+
+\item{ps_method_inf}{the estimation model for the propensity score on the
+inference subsample}
+
+\item{or_method_inf}{the estimation model for the outcome regressions in
+estimate_ite_aipw on the inference subsample}
 
 \item{ntrees_rf}{the number of decision trees for randomForest}
 
@@ -63,12 +82,30 @@ or CF}
 the ITE, for poisson only}
 
 \item{offset_name}{the name of the offset, if it is to be included}
+
+\item{cate_method}{the method to estimate the CATE values}
+
+\item{cate_SL_library}{the library used if cate_method is set to DRLearner}
+
+\item{filter_cate}{whether or not to filter rules with p-value <= 0.05}
 }
 \value{
-a list containing the list of select causal rules and a matrix of Conditional
+an S3 object containing the matrix of Conditional
 Average Treatment Effect estimates
 }
 \description{
 Performs the Causal Rule Ensemble on a dataset with a response variable,
 a treatment variable, and various features
+}
+\examples{
+dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+                                effect_size = 2, binary = FALSE)
+
+cre_results <- cre(y = dataset[["y"]], z = dataset[["z"]],
+                   X = as.data.frame(dataset[["X"]]), ratio_dis = 0.25,
+                   ite_method_dis = "bart", include_ps_dis = TRUE,
+                   ite_method_inf = "bart", include_ps_inf = TRUE,
+                   ntrees_rf = 100, ntrees_gbm = 50, min_nodes = 20,
+                   max_nodes = 5, t = 0.025, q = 0.8)
+
 }
