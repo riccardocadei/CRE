@@ -3,6 +3,7 @@
 export(analyze_sensitivity)
 export(check_input_data)
 export(cre)
+export(cre_crossfit)
 export(estimate_cate)
 export(estimate_ite)
 export(estimate_ite_aipw)

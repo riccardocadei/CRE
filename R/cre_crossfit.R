@@ -448,6 +448,7 @@ cre_crossfit <- function(y, z, X, ite_method_dis, include_ps_dis = NA,
   # Generate Final CATE Dataframe
   ############################################################################
 
+  `%>%` <- magrittr::`%>%`
   logger::log_info("Aggregating CATE Estimates ...")
 
   # Ensure both iterations yielded the same CATE data frame
