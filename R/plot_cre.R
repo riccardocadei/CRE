@@ -29,65 +29,78 @@ plot_cre <- function(cre_results) {
   cate_results <- cre_results[["CATE_results"]]
   cate_method <- cre_results[["CATE_method"]]
 
+  # Handling global variable error.
+  `%>%` <- magrittr::`%>%`
+  Predictor <- Estimate <- Std_Error <- Rule <- CI_lower <- CI_upper <- CATE <- NULL
+
   if (cate_method %in% c("poisson", "DRLearner")) {
     # Specify the width of the 95% confidence intervals
-    interval_95 <- -qnorm((1-0.95)/2)
+    interval_95 <- -stats::qnorm((1-0.95)/2)
 
     # Plot
-    cate_results %>% ggplot() +
-      geom_hline(yintercept = 0, color = gray(1/2), lty = 2) +
-      geom_linerange(aes(x = Predictor,
-                         ymin = Estimate - Std_Error*interval_95,
-                         ymax = Estimate + Std_Error*interval_95),
-                     lwd = 1, position = position_dodge(width = 1/2)) +
-      geom_pointrange(aes(x = Predictor,
-                          y = Estimate,
-                          ymin = Estimate - Std_Error*interval_95,
-                          ymax = Estimate + Std_Error*interval_95),
-                      lwd = 1/2, position = position_dodge(width = 1/2),
-                      shape = 21, fill = "WHITE") +
-      coord_flip() +
-      ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects Per Rule",
-                    "\nwith 95% Confidence Intervals\n\n",
-                    "CATE Method: ", cate_method))
+    cate_results %>% ggplot2::ggplot() +
+      ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
+      ggplot2::geom_linerange(ggplot2::aes(x = Predictor,
+                                           ymin = Estimate - Std_Error*interval_95,
+                                           ymax = Estimate + Std_Error*interval_95),
+                              lwd = 1,
+                              position = ggplot2::position_dodge(width = 1/2)) +
+      ggplot2::geom_pointrange(ggplot2::aes(x = Predictor,
+                                            y = Estimate,
+                                            ymin = Estimate - Std_Error*interval_95,
+                                            ymax = Estimate + Std_Error*interval_95),
+                               lwd = 1/2,
+                               position = ggplot2::position_dodge(width = 1/2),
+                               shape = 21, fill = "WHITE") +
+      ggplot2::coord_flip() +
+      ggplot2::theme_bw() +
+      ggplot2::ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects Per Rule",
+                             "\nwith 95% Confidence Intervals\n\n",
+                             "CATE Method: ", cate_method))
 
   } else if (cate_method %in% c("bart-baggr", "cf-means")) {
     # Plot
-    cate_results %>% ggplot() +
-      geom_hline(yintercept = 0, color = gray(1/2), lty = 2) +
-      geom_linerange(aes(x = Rule,
-                         ymin = CI_lower,
-                         ymax = CI_upper),
-                     lwd = 1, position = position_dodge(width = 1/2)) +
-      geom_pointrange(aes(x = Rule,
-                          y = CATE,
-                          ymin = CI_lower,
-                          ymax = CI_upper),
-                      lwd = 1/2, position = position_dodge(width = 1/2),
-                      shape = 21, fill = "WHITE") +
-      coord_flip() +
-      ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects Per Rule",
-                    "\nwith 95% Confidence Intervals\n\n",
-                    "CATE Method: ", cate_method))
+    cate_results %>% ggplot2::ggplot() +
+      ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
+      ggplot2::geom_linerange(ggplot2::aes(x = Rule,
+                                           ymin = CI_lower,
+                                           ymax = CI_upper),
+                              lwd = 1,
+                              position = ggplot2::position_dodge(width = 1/2)) +
+      ggplot2::geom_pointrange(ggplot2::aes(x = Rule,
+                                            y = CATE,
+                                            ymin = CI_lower,
+                                            ymax = CI_upper),
+                               lwd = 1/2,
+                               position = ggplot2::position_dodge(width = 1/2),
+                               shape = 21, fill = "WHITE") +
+      ggplot2::coord_flip() +
+      ggplot2::theme_bw() +
+      ggplot2::ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects Per Rule",
+                             "\nwith 95% Confidence Intervals\n\n",
+                             "CATE Method: ", cate_method))
 
   } else if (cate_method == "linreg") {
     # Plot
-    cate_results %>% ggplot() +
-      geom_hline(yintercept = 0, color = gray(1/2), lty = 2) +
-      geom_linerange(aes(x = Rule,
-                         ymin = CI_lower,
-                         ymax = CI_upper),
-                     lwd = 1, position = position_dodge(width = 1/2)) +
-      geom_pointrange(aes(x = Rule,
-                          y = Estimate,
-                          ymin = CI_lower,
-                          ymax = CI_upper),
-                      lwd = 1/2, position = position_dodge(width = 1/2),
-                      shape = 21, fill = "WHITE") +
-      coord_flip() +
-      ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects Per Rule",
-                    "\nwith 95% Confidence Intervals\n\n",
-                    "CATE Method: ", cate_method))
+    cate_results %>% ggplot2::ggplot() +
+      ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
+      ggplot2::geom_linerange(ggplot2::aes(x = Rule,
+                                           ymin = CI_lower,
+                                           ymax = CI_upper),
+                              lwd = 1,
+                              position = ggplot2::position_dodge(width = 1/2)) +
+      ggplot2::geom_pointrange(ggplot2::aes(x = Rule,
+                                            y = Estimate,
+                                            ymin = CI_lower,
+                                            ymax = CI_upper),
+                               lwd = 1/2,
+                               position = ggplot2::position_dodge(width = 1/2),
+                               shape = 21, fill = "WHITE") +
+      ggplot2::coord_flip() +
+      ggplot2::theme_bw() +
+      ggplot2::ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects Per Rule",
+                             "\nwith 95% Confidence Intervals\n\n",
+                             "CATE Method: ", cate_method))
 
   } else {
     stop("Error: Unrecognized CATE method.")

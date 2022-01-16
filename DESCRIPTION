@@ -46,6 +46,7 @@ Copyright: Harvard University
 Imports: 
     tidyverse,
     dplyr,
+    ggplot2,
     BART,
     bcf,
     randomForest,
