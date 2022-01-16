@@ -355,18 +355,20 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
                             cate_SL_library, filter_cate)
 
   # Convert cate_inf into an S3 object
-  make_S3 <- function(cate_inf) {
+  make_S3 <- function(cate_inf, cate_method) {
     S3_object <- list()
-    item_names <- colnames(cate_inf)
-    for (i in 1:length(item_names)) {
-      S3_object[[item_names[i]]] <- cate_inf[,i]
-    }
+    S3_object[["CATE_results"]] <- cate_inf
+    S3_object[["CATE_method"]] <- cate_method
+    # item_names <- colnames(cate_inf)
+    # for (i in 1:length(item_names)) {
+    #   S3_object[[item_names[i]]] <- cate_inf[,i]
+    # }
     attr(S3_object, "class") <- "cre"
     return(S3_object)
   }
 
   # Return Results
   logger::log_info("CRE method complete. Returning results.")
-  cate_S3 <- make_S3(cate_inf)
+  cate_S3 <- make_S3(cate_inf, cate_method)
   return(cate_S3)
 }
