@@ -26,6 +26,16 @@ jobs:
         with:
           extra-packages: covr
 
+      - name: Install dependencies
+        run: |
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran("rcmdcheck")
+          remotes::install_cran("devtools")
+          remotes::install_cran("RcppParallel")
+          devtools::install_github("JingyuHe/XBART")
+          devtools::install_github("socket778/XBCF")
+        shell: Rscript {0}
+
       - name: Test coverage
         run: covr::codecov()
         shell: Rscript {0}
