@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate Rules — generate_rules • CRE</title>
+<title>The Causal Rule Ensemble Output Plot — plot_cre • CRE</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Generate Rules — generate_rules" />
-<meta property="og:description" content="Method for generating causal rules." />
+<meta property="og:title" content="The Causal Rule Ensemble Output Plot — plot_cre" />
+<meta property="og:description" content="Plots the results of the CRE function: select causal rules and CATE estimates" />
 
 
 
@@ -148,99 +148,47 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate Rules</h1>
-    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/generate_rules.R'><code>R/generate_rules.R</code></a></small>
-    <div class="hidden name"><code>generate_rules.Rd</code></div>
+    <h1>The Causal Rule Ensemble Output Plot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/fasrc/CRE/blob/master/R/plot_cre.R'><code>R/plot_cre.R</code></a></small>
+    <div class="hidden name"><code>plot_cre.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Method for generating causal rules.</p>
+    <p>Plots the results of the CRE function: select causal rules and CATE estimates</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generate_rules</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>ite_std</span>, <span class='va'>ntrees_rf</span>, <span class='va'>ntrees_gbm</span>, <span class='va'>min_nodes</span>, <span class='va'>max_nodes</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plot_cre</span><span class='op'>(</span><span class='va'>cre_results</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>X</th>
-      <td><p>the features matrix</p></td>
-    </tr>
-    <tr>
-      <th>ite_std</th>
-      <td><p>the standardized ITE</p></td>
-    </tr>
-    <tr>
-      <th>ntrees_rf</th>
-      <td><p>the number of decision trees for randomForest</p></td>
-    </tr>
-    <tr>
-      <th>ntrees_gbm</th>
-      <td><p>the number of decision trees for gradient boosting</p></td>
-    </tr>
-    <tr>
-      <th>min_nodes</th>
-      <td><p>the minimum size of the trees' terminal nodes</p></td>
-    </tr>
-    <tr>
-      <th>max_nodes</th>
-      <td><p>the maximum size of the trees' terminal nodes</p></td>
+      <th>cre_results</th>
+      <td><p>the S3 object returned from the cre() function</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a vector of causal rules</p>
+    <p>Returns nothing; plots the CRE results using ggplot</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>dataset</span> <span class='op'>&lt;-</span> <span class='fu'><a href='generate_cre_dataset.html'>generate_cre_dataset</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1000</span>, rho <span class='op'>=</span> <span class='fl'>0</span>, n_rules <span class='op'>=</span> <span class='fl'>2</span>, p <span class='op'>=</span> <span class='fl'>10</span>,
                                 effect_size <span class='op'>=</span> <span class='fl'>2</span>, binary <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='co'># Initialize parameters</span>
-<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='va'>dataset</span><span class='op'>[[</span><span class='st'>"y"</span><span class='op'>]</span><span class='op'>]</span>
-<span class='va'>z</span> <span class='op'>&lt;-</span> <span class='va'>dataset</span><span class='op'>[[</span><span class='st'>"z"</span><span class='op'>]</span><span class='op'>]</span>
-<span class='va'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>dataset</span><span class='op'>[[</span><span class='st'>"X"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>X_names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>X</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>ratio_dis</span> <span class='op'>&lt;-</span> <span class='fl'>0.25</span>
-<span class='va'>ite_method_dis</span> <span class='op'>&lt;-</span> <span class='st'>"bart"</span>
-<span class='va'>include_ps_dis</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span>
-<span class='va'>ps_method_dis</span> <span class='op'>&lt;-</span> <span class='st'>"SL.xgboost"</span>
-<span class='va'>or_method_dis</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span>
-<span class='va'>ntrees_rf</span> <span class='op'>&lt;-</span> <span class='fl'>100</span>
-<span class='va'>ntrees_gbm</span> <span class='op'>&lt;-</span> <span class='fl'>50</span>
-<span class='va'>min_nodes</span> <span class='op'>&lt;-</span> <span class='fl'>20</span>
-<span class='va'>max_nodes</span> <span class='op'>&lt;-</span> <span class='fl'>5</span>
-<span class='va'>include_offset</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
-<span class='va'>offset_name</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span>
-<span class='va'>binary</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
-
-<span class='co'># Split data</span>
-<span class='va'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>X</span><span class='op'>)</span>
-<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span>
-<span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span>
-<span class='va'>subgroups</span> <span class='op'>&lt;-</span> <span class='fu'><a href='split_data.html'>split_data</a></span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span>, <span class='va'>X</span>, <span class='va'>ratio_dis</span><span class='op'>)</span>
-<span class='va'>discovery</span> <span class='op'>&lt;-</span> <span class='va'>subgroups</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-<span class='va'>inference</span> <span class='op'>&lt;-</span> <span class='va'>subgroups</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
-
-<span class='co'># Generate y, z, and X for discovery and inference data</span>
-<span class='va'>y_dis</span> <span class='op'>&lt;-</span> <span class='va'>discovery</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>
-<span class='va'>z_dis</span> <span class='op'>&lt;-</span> <span class='va'>discovery</span><span class='op'>[</span>,<span class='fl'>2</span><span class='op'>]</span>
-<span class='va'>X_dis</span> <span class='op'>&lt;-</span> <span class='va'>discovery</span><span class='op'>[</span>,<span class='fl'>3</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>discovery</span><span class='op'>)</span><span class='op'>]</span>
-
-<span class='co'># Estimate ITE on Discovery Subsample</span>
-<span class='va'>ite_list_dis</span> <span class='op'>&lt;-</span> <span class='fu'><a href='estimate_ite.html'>estimate_ite</a></span><span class='op'>(</span><span class='va'>y_dis</span>, <span class='va'>z_dis</span>, <span class='va'>X_dis</span>, <span class='va'>ite_method_dis</span>, <span class='va'>include_ps_dis</span>,
-                             <span class='va'>ps_method_dis</span>, <span class='va'>or_method_dis</span>, <span class='va'>binary</span>, <span class='va'>X_names</span>,
-                             <span class='va'>include_offset</span>, <span class='va'>offset_name</span><span class='op'>)</span>
+<span class='va'>cre_results</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cre.html'>cre</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>dataset</span><span class='op'>[[</span><span class='st'>"y"</span><span class='op'>]</span><span class='op'>]</span>, z <span class='op'>=</span> <span class='va'>dataset</span><span class='op'>[[</span><span class='st'>"z"</span><span class='op'>]</span><span class='op'>]</span>,
+                   X <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>dataset</span><span class='op'>[[</span><span class='st'>"X"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>, ratio_dis <span class='op'>=</span> <span class='fl'>0.25</span>,
+                   ite_method_dis <span class='op'>=</span> <span class='st'>"bart"</span>, include_ps_dis <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                   ite_method_inf <span class='op'>=</span> <span class='st'>"bart"</span>, include_ps_inf <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                   ntrees_rf <span class='op'>=</span> <span class='fl'>100</span>, ntrees_gbm <span class='op'>=</span> <span class='fl'>50</span>, min_nodes <span class='op'>=</span> <span class='fl'>20</span>,
+                   max_nodes <span class='op'>=</span> <span class='fl'>5</span>, t <span class='op'>=</span> <span class='fl'>0.025</span>, q <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; fitting treatment model via method 'bart'
-#&gt; fitting response model via method 'bart'</div><div class='input'><span class='va'>ite_dis</span> <span class='op'>&lt;-</span> <span class='va'>ite_list_dis</span><span class='op'>[[</span><span class='st'>"ite"</span><span class='op'>]</span><span class='op'>]</span>
-<span class='va'>ite_std_dis</span> <span class='op'>&lt;-</span> <span class='va'>ite_list_dis</span><span class='op'>[[</span><span class='st'>"ite_std"</span><span class='op'>]</span><span class='op'>]</span>
-
-<span class='co'># Generate rules list</span>
-<span class='va'>initial_rules_dis</span> <span class='op'>&lt;-</span> <span class='fu'>generate_rules</span><span class='op'>(</span><span class='va'>X_dis</span>, <span class='va'>ite_std_dis</span>, <span class='va'>ntrees_rf</span>, <span class='va'>ntrees_gbm</span>,
-                                    <span class='va'>min_nodes</span>, <span class='va'>max_nodes</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 429 rules (length&lt;=15) were extracted from the first 100 trees.
-#&gt; 347 rules (length&lt;=15) were extracted from the first 50 trees.
-#&gt; [1] "1 paths are ignored."</div><div class='input'>
+#&gt; fitting response model via method 'bart'
+#&gt; 415 rules (length&lt;=15) were extracted from the first 100 trees.
+#&gt; 100 rules (length&lt;=15) were extracted from the first 50 trees.</div><div class='output co'>#&gt; <span class='message'>Conducting Inference Subsample Analysis</span></div><div class='output co'>#&gt; fitting treatment model via method 'bart'
+#&gt; fitting response model via method 'bart'</div><div class='input'>
+<span class='fu'>plot_cre</span><span class='op'>(</span><span class='va'>cre_results</span><span class='op'>)</span>
+</div><div class='img'><img src='plot_cre-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
