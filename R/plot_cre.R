@@ -52,9 +52,11 @@ plot_cre <- function(cre_results) {
                                lwd = 1/2,
                                position = ggplot2::position_dodge(width = 1/2),
                                shape = 21, fill = "WHITE") +
+      ggplot2::xlab("Causal Rule") +
       ggplot2::coord_flip() +
       ggplot2::theme_bw() +
-      ggplot2::ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects Per Rule",
+      ggplot2::ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects",
+                             "Per Causal Rule",
                              "\nwith 95% Confidence Intervals\n\n",
                              "CATE Method: ", cate_method))
 
@@ -74,9 +76,11 @@ plot_cre <- function(cre_results) {
                                lwd = 1/2,
                                position = ggplot2::position_dodge(width = 1/2),
                                shape = 21, fill = "WHITE") +
+      ggplot2::xlab("Causal Rule") +
       ggplot2::coord_flip() +
       ggplot2::theme_bw() +
-      ggplot2::ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects Per Rule",
+      ggplot2::ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects",
+                             "Per Causal Rule",
                              "\nwith 95% Confidence Intervals\n\n",
                              "CATE Method: ", cate_method))
 
@@ -96,9 +100,11 @@ plot_cre <- function(cre_results) {
                                lwd = 1/2,
                                position = ggplot2::position_dodge(width = 1/2),
                                shape = 21, fill = "WHITE") +
+      ggplot2::xlab("Causal Rule") +
       ggplot2::coord_flip() +
       ggplot2::theme_bw() +
-      ggplot2::ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects Per Rule",
+      ggplot2::ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects",
+                             "Per Causal Rule",
                              "\nwith 95% Confidence Intervals\n\n",
                              "CATE Method: ", cate_method))
 
