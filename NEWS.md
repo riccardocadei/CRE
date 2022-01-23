@@ -19,6 +19,8 @@
 
 ### Added
 * `estimate_ite_aipw` function for augmented inverse propensity weighting
+* `plot_cre` function to plot CRE Results
+* `test-cre_functional.R` tests the functionality of the package
 
 ### Removed
 * `estimate_ite_blp` function
