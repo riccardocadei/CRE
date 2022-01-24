@@ -10,6 +10,7 @@ reference:
   - title: Causal Rule Ensemble
     contents:
     - cre
+    - cre_crossfit
   - title: Discovery
     contents:
     - estimate_ite

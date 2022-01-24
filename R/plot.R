@@ -1,70 +1,74 @@
 #' @title
-#' The Causal Rule Ensemble Output Plot
+#' A helper function for cre object
 #'
 #' @description
-#' Plots the results of the CRE function: select causal rules and CATE estimates
+#' A helper function to plot cre object using ggplot2 package.
 #'
-#' @param cre_results the S3 object returned from the cre() function
+#' @param object A cre object.
+#' @param ... Additional arguments passed to customize the plot.
 #'
 #' @return
-#' Returns nothing; plots the CRE results using ggplot
+#' Returns a ggplot object.
 #'
-#' @export
+#' @keywords internal
+#' @importFrom ggplot2 autoplot
 #'
-#' @examples
-#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-#'                                 effect_size = 2, binary = FALSE)
-#'
-#' cre_results <- cre(y = dataset[["y"]], z = dataset[["z"]],
-#'                    X = as.data.frame(dataset[["X"]]), ratio_dis = 0.25,
-#'                    ite_method_dis = "bart", include_ps_dis = TRUE,
-#'                    ite_method_inf = "bart", include_ps_inf = TRUE,
-#'                    ntrees_rf = 100, ntrees_gbm = 50, min_nodes = 20,
-#'                    max_nodes = 5, t = 0.025, q = 0.8)
-#'
-#' plot_cre(cre_results)
-#'
-plot_cre <- function(cre_results) {
+autoplot.cre <- function(object, ...){
+
+  gg_labs <- gg_title <- NULL
+
+  ## collect additional arguments
+  dot_args <- list(...)
+  arg_names <- names(dot_args)
+
+  for (i in arg_names){
+    assign(i,unlist(dot_args[i],use.names = FALSE))
+  }
 
   cate_results <- cre_results[["CATE_results"]]
   cate_method <- cre_results[["CATE_method"]]
 
   # Handling global variable error.
   `%>%` <- magrittr::`%>%`
-  Predictor <- Estimate <- Std_Error <- Rule <- CI_lower <- CI_upper <- CATE <- NULL
+  Predictor <- Estimate <- Std_Error <- NULL
+  Rule <- CI_lower <- CI_upper <- CATE <- NULL
 
   if (cate_method %in% c("poisson", "DRLearner")) {
     # Specify the width of the 95% confidence intervals
     interval_95 <- -stats::qnorm((1-0.95)/2)
 
     # Plot
-    cate_results %>% ggplot2::ggplot() +
-      ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
-      ggplot2::geom_linerange(ggplot2::aes(x = Predictor,
-                                           ymin = Estimate - Std_Error*interval_95,
-                                           ymax = Estimate + Std_Error*interval_95),
-                              lwd = 1,
-                              position = ggplot2::position_dodge(width = 1/2)) +
-      ggplot2::geom_pointrange(ggplot2::aes(x = Predictor,
-                                            y = Estimate,
-                                            ymin = Estimate - Std_Error*interval_95,
-                                            ymax = Estimate + Std_Error*interval_95),
-                               lwd = 1/2,
-                               position = ggplot2::position_dodge(width = 1/2),
-                               shape = 21, fill = "WHITE") +
-      ggplot2::xlab("Causal Rule") +
-      ggplot2::coord_flip() +
-      ggplot2::theme_bw() +
-      ggplot2::ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects",
-                             "Per Causal Rule",
-                             "\nwith 95% Confidence Intervals\n\n",
-                             "CATE Method: ", cate_method))
+    g <- ggplot2::ggplot(data = cate_results) +
+         ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
+         ggplot2::geom_linerange(
+                    ggplot2::aes(x = Predictor,
+                                 ymin = Estimate - Std_Error*interval_95,
+                                 ymax = Estimate + Std_Error*interval_95),
+                    lwd = 1,
+                    position = ggplot2::position_dodge(width = 1/2))
+
+    g <- g + ggplot2::geom_pointrange(
+                   ggplot2::aes(x = Predictor,
+                                y = Estimate,
+                                ymin = Estimate - Std_Error*interval_95,
+                                ymax = Estimate + Std_Error*interval_95),
+                                lwd = 1/2,
+                                position = ggplot2::position_dodge(width = 1/2),
+                                shape = 21, fill = "WHITE") +
+        ggplot2::xlab("Causal Rule") +
+        ggplot2::coord_flip() +
+        ggplot2::theme_bw() +
+        ggplot2::ggtitle(
+                   paste("CRE Plot:\nConditional Average Treatment Effects",
+                         "Per Causal Rule",
+                         "\nwith 95% Confidence Intervals\n\n",
+                         "CATE Method: ", cate_method))
 
   } else if (cate_method %in% c("bart-baggr", "cf-means")) {
     # Plot
-    cate_results %>% ggplot2::ggplot() +
-      ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
-      ggplot2::geom_linerange(ggplot2::aes(x = Rule,
+    g <- ggplot2::ggplot(data = cate_results) +
+         ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
+         ggplot2::geom_linerange(ggplot2::aes(x = Rule,
                                            ymin = CI_lower,
                                            ymax = CI_upper),
                               lwd = 1,
@@ -86,7 +90,7 @@ plot_cre <- function(cre_results) {
 
   } else if (cate_method == "linreg") {
     # Plot
-    cate_results %>% ggplot2::ggplot() +
+    g <- ggplot2::ggplot(data = cate_results) +
       ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
       ggplot2::geom_linerange(ggplot2::aes(x = Rule,
                                            ymin = CI_lower,
@@ -111,4 +115,26 @@ plot_cre <- function(cre_results) {
   } else {
     stop("Error: Unrecognized CATE method.")
   }
+
+  return(g)
+}
+
+#' @title
+#' Extend generic plot functions for cre class
+#'
+#' @description
+#' A wrapper function to extend generic plot functions for cre class.
+#'
+#' @param x  A cre object.
+#' @param ... Additional arguments passed to customize the plot.
+#'
+#' @return
+#' Returns a ggplot2 object, invisibly. This function is called for side effects.
+#'
+#' @export
+#'
+plot.cre <- function(x, ...){
+  g <- ggplot2::autoplot(x, ...)
+  print(g)
+  invisible(g)
 }
