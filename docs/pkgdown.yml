@@ -1,5 +1,5 @@
 pandoc: 2.11.4
-pkgdown: 1.6.1
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   article_c1: article_c1.html
@@ -9,5 +9,8 @@ articles:
   article_i2: article_i2.html
   article_i3: article_i3.html
   CRE: CRE.html
-last_built: 2022-01-24T00:43Z
+last_built: 2022-01-24T01:54Z
+urls:
+  reference: https://github.com/fasrc/CRE/reference
+  article: https://github.com/fasrc/CRE/articles
 
