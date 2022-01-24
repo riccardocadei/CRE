@@ -30,7 +30,7 @@
     <h6 class="dropdown-header" data-toc-skip>Users</h6>
     <div class="dropdown-divider"></div>
     <h6 class="dropdown-header" data-toc-skip>Developers</h6>
-    <a class="dropdown-item" href="../articles/Contribution.html">article_c2</a>
+    <a class="dropdown-item" href="../articles/Contribution.html">Contribution</a>
     <a class="dropdown-item" href="../articles/Testing-the-Package.html">Testing the CRE Package</a>
   </div>
 </li>
@@ -57,35 +57,6 @@
       <small>Source: <a href="https://github.com/fasrc/CRE/blob/HEAD/NEWS.md"><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.2" id="cre-002-2022-01-12">CRE 0.0.2 (2022-01-12)<a class="anchor" aria-label="anchor" href="#cre-002-2022-01-12"></a></h2>
-<div class="section level3">
-<h3 id="changed-0-0-2">Changed<a class="anchor" aria-label="anchor" href="#changed-0-0-2"></a></h3>
-<ul><li>
-<code>estimate_cate</code> include five methods for estimating the CATE values (<code>poisson</code>, <code>DRLearner</code>, <code>bart-baggr</code>, <code>cf-means</code>, <code>linreg</code>)</li>
-<li>
-<code>cre</code> added new arguments to (1) complement <code>SuperLearner</code> package (<code>ps_method_dis</code>, <code>ps_method_inf</code>, <code>or_method_dis</code>, <code>or_method_inf</code>, <code>cate_SL_library</code>) and to (2) select CATE method and (3) whether to filter CATE p-values (<code>cate_method</code> and <code>filter_cate</code>). Now returns an S3 object.</li>
-<li>
-<code>estimate_ite_xyz</code> conduct propensity score estimation using helper function with <code>SuperLearner</code> package</li>
-<li>
-<code>generate_cre_dataset</code> make number of covariates an argument of the function</li>
-<li>improve examples and update tests for all functions</li>
-</ul></div>
-<div class="section level3">
-<h3 id="added-0-0-2">Added<a class="anchor" aria-label="anchor" href="#added-0-0-2"></a></h3>
-<ul><li>
-<code>estimate_ite_aipw</code> function for augmented inverse propensity weighting</li>
-<li>
-<code>plot_cre</code> function to plot CRE Results</li>
-<li>
-<code>test-cre_functional.R</code> tests the functionality of the package</li>
-</ul></div>
-<div class="section level3">
-<h3 id="removed-0-0-2">Removed<a class="anchor" aria-label="anchor" href="#removed-0-0-2"></a></h3>
-<ul><li>
-<code>estimate_ite_blp</code> function</li>
-</ul></div>
-</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.1" id="cre-001-2021-10-20">CRE 0.0.1 (2021-10-20)<a class="anchor" aria-label="anchor" href="#cre-001-2021-10-20"></a></h2>
 <div class="section level3">

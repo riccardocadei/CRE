@@ -30,7 +30,7 @@
     <h6 class="dropdown-header" data-toc-skip>Users</h6>
     <div class="dropdown-divider"></div>
     <h6 class="dropdown-header" data-toc-skip>Developers</h6>
-    <a class="dropdown-item" href="../articles/Contribution.html">article_c2</a>
+    <a class="dropdown-item" href="../articles/Contribution.html">Contribution</a>
     <a class="dropdown-item" href="../articles/Testing-the-Package.html">Testing the CRE Package</a>
   </div>
 </li>
@@ -146,8 +146,8 @@ outcomes, either "conservative", "anticonservative", or NA</p></dd>
 <span class="r-in"><span class="co"># Generate rules list</span></span>
 <span class="r-in"><span class="va">initial_rules_dis</span> <span class="op">&lt;-</span> <span class="fu"><a href="generate_rules.html">generate_rules</a></span><span class="op">(</span><span class="va">X_dis</span>, <span class="va">ite_std_dis</span>, <span class="va">ntrees_rf</span>, <span class="va">ntrees_gbm</span>,</span>
 <span class="r-in">                                    <span class="va">min_nodes</span>, <span class="va">max_nodes</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 451 rules (length&lt;=15) were extracted from the first 100 trees.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 100 rules (length&lt;=15) were extracted from the first 50 trees.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 466 rules (length&lt;=15) were extracted from the first 100 trees.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 150 rules (length&lt;=15) were extracted from the first 50 trees.</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Generate rules matrix</span></span>
 <span class="r-in"><span class="va">rules_all_dis</span> <span class="op">&lt;-</span> <span class="fu"><a href="generate_rules_matrix.html">generate_rules_matrix</a></span><span class="op">(</span><span class="va">X_dis</span>, <span class="va">initial_rules_dis</span>, <span class="va">t</span><span class="op">)</span></span>
