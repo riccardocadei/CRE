@@ -2,7 +2,7 @@
 % Please edit documentation in R/cre_crossfit.R
 \name{cre_crossfit}
 \alias{cre_crossfit}
-\title{The Causal Rule Ensemble}
+\title{The Causal Rule Ensemble Crossfit}
 \usage{
 cre_crossfit(
   y,

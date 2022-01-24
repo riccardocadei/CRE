@@ -1,5 +1,5 @@
 #' @title
-#' The Causal Rule Ensemble
+#' The Causal Rule Ensemble Crossfit
 #'
 #' @description
 #' Performs the Causal Rule Ensemble twice on a dataset with a response variable,
