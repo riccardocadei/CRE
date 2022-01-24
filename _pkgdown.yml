@@ -51,8 +51,8 @@ reference:
 articles:
   - title: Users
     navbar: Users
-    contents: [article_i1,article_i2,article_i3]
+    contents: []
 
   - title: Developers
     navbar: Developers
-    contents: [Contribution, How-test-the-package]
+    contents: [Contribution, Testing-the-Package]

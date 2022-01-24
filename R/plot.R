@@ -25,8 +25,8 @@ autoplot.cre <- function(object, ...){
     assign(i,unlist(dot_args[i],use.names = FALSE))
   }
 
-  cate_results <- cre_results[["CATE_results"]]
-  cate_method <- cre_results[["CATE_method"]]
+  cate_results <- object[["CATE_results"]]
+  cate_method <- object[["CATE_method"]]
 
   # Handling global variable error.
   `%>%` <- magrittr::`%>%`
