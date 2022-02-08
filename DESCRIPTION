@@ -65,8 +65,8 @@ Suggests:
     XBART,
     XBCF
 Additional_repositories: 
-    JingyuHe/XBART/,
-    johaupt/XBCF/    
+    https://github.com/JingyuHe/XBART/,
+    https://github.com/johaupt/XBCF/    
 VignetteBuilder: 
     knitr
 Copyright: Harvard University
