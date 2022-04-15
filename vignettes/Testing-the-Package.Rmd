@@ -171,7 +171,7 @@ cre_results_3[["CATE_results"]][,1]
 plot(cre_results_3)
 ```
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, eval=FALSE}
 cre_results_4 <- cre(y, z, X, ratio_dis, ite_method_dis = "bart",
                      include_ps_dis = TRUE, ps_method_dis = "SL.xgboost",
                      or_method_dis = NA, ite_method_inf = "bart",
