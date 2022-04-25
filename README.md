@@ -1,7 +1,7 @@
 # CRE
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/fasrc/CRE/workflows/R-CMD-check/badge.svg)](https://github.com/fasrc/CRE/actions)
+[![R-CMD-check](https://github.com/nsaph-software/CRE/workflows/R-CMD-check/badge.svg)](https://github.com/nsaph-software/CRE/actions)
 <!-- badges: end -->
 
 
