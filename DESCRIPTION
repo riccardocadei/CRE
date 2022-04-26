@@ -67,7 +67,6 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
-    inTrees,
     XBART,
     XBCF
 Additional_repositories: 

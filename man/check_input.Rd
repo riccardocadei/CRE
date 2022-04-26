@@ -16,7 +16,7 @@ check_input(y, z, X, params)
 \item{params}{The list of parameters required to run the function.}
 }
 \value{
-
+A list of params that might be changed during checks.
 }
 \description{
 Checks input parameters for the cre function.

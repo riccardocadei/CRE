@@ -12,6 +12,7 @@
 #' @param params The list of parameters required to run the function.
 #'
 #' @return
+#' A list of params that might be changed during checks.
 #' @export
 #'
 check_input <- function(y, z, X, params){

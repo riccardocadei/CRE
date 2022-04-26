@@ -65,7 +65,7 @@ for(i in 2:ntrees) {
                                                            nodesize = min_nodes))
   forest <- randomForest::combine(forest, model1_RF)
 }
-treelist <- inTrees::RF2List(forest)
+treelist <- CRE:::RF2List(forest)
 take_1 <- FALSE
 type_decay <- 2
 

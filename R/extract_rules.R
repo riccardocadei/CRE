@@ -55,21 +55,21 @@
 #'                                                            nodesize = min_nodes))
 #'   forest <- randomForest::combine(forest, model1_RF)
 #' }
-#' treelist <- inTrees::RF2List(forest)
+#' treelist <- CRE:::RF2List(forest)
 #' take_1 <- FALSE
 #' type_decay <- 2
 #'
 #' rules_RF <- extract_rules(treelist, X, ntrees, ite_std, take_1, type_decay)
 #'
 extract_rules <- function(treelist, X, ntrees, ite_std, take_1, type_decay) {
-  rules <- inTrees::extractRules(treeList = treelist, X = X, ntree = ntrees, maxdepth = 15)
+  rules <- extractRules(treeList = treelist, X = X, ntree = ntrees, maxdepth = 15)
   rules <- c(rules)
   if (take_1) {
     rules <- rules[take1(length(rules))]
   }
   rules_matrix <- matrix(rules)
   colnames(rules_matrix) <- "condition"
-  metric <- inTrees::getRuleMetric(rules_matrix, X, ite_std)
-  pruned <- inTrees::pruneRule(metric, X, ite_std, 0.025, typeDecay = type_decay)
+  metric <- getRuleMetric(rules_matrix, X, ite_std)
+  pruned <- pruneRule(metric, X, ite_std, 0.025, typeDecay = type_decay)
   return(unique(pruned[, 4]))
 }
