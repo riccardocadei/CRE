@@ -55,7 +55,13 @@ Imports:
     stringr,
     SuperLearner,
     tidyverse,
-    xgboost
+    xgboost,
+    xtable, 
+    stats, 
+    data.table,
+    RRF,
+    arules,
+    methods
 Suggests:
     covr,
     knitr,
