@@ -7,7 +7,13 @@
 check_input(y, z, X, params)
 }
 \arguments{
-\item{params}{TBD}
+\item{y}{The observed response vector.}
+
+\item{z}{The treatment vector.}
+
+\item{X}{The covariate matrix.}
+
+\item{params}{The list of parameters required to run the function.}
 }
 \value{
 

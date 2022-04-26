@@ -6,12 +6,14 @@
 #' @description
 #' Checks input parameters for the cre function.
 #'
-#' @param params TBD
+#' @param y The observed response vector.
+#' @param z The treatment vector.
+#' @param X The covariate matrix.
+#' @param params The list of parameters required to run the function.
 #'
 #' @return
 #' @export
 #'
-#' @examples
 check_input <- function(y, z, X, params){
 
 
