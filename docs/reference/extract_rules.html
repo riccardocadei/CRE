@@ -130,12 +130,12 @@
 <span class="r-in">                                                           nodesize <span class="op">=</span> <span class="va">min_nodes</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in">  <span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu">randomForest</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/combine.html" class="external-link">combine</a></span><span class="op">(</span><span class="va">forest</span>, <span class="va">model1_RF</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="va">treelist</span> <span class="op">&lt;-</span> <span class="fu">inTrees</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/inTrees/man/RF2List.html" class="external-link">RF2List</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">treelist</span> <span class="op">&lt;-</span> <span class="fu">CRE</span><span class="fu">:::</span><span class="fu">RF2List</span><span class="op">(</span><span class="va">forest</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">take_1</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
 <span class="r-in"><span class="va">type_decay</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">rules_RF</span> <span class="op">&lt;-</span> <span class="fu">extract_rules</span><span class="op">(</span><span class="va">treelist</span>, <span class="va">X</span>, <span class="va">ntrees</span>, <span class="va">ite_std</span>, <span class="va">take_1</span>, <span class="va">type_decay</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 462 rules (length&lt;=15) were extracted from the first 100 trees.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 452 rules (length&lt;=15) were extracted from the first 100 trees.</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
