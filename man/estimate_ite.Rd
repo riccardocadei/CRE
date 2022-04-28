@@ -2,7 +2,7 @@
 % Please edit documentation in R/estimate_ite.R
 \name{estimate_ite}
 \alias{estimate_ite}
-\title{Estimate the Individual Treatment Effect}
+\title{Estimate the Individual Treatment Effect (ITE)}
 \usage{
 estimate_ite(
   y,
@@ -11,7 +11,7 @@ estimate_ite(
   ite_method,
   include_ps,
   ps_method,
-  or_method,
+  oreg_method,
   binary,
   X_names,
   include_offset,
@@ -19,20 +19,20 @@ estimate_ite(
 )
 }
 \arguments{
-\item{y}{the observed response vector}
+\item{y}{The observed response vector.}
 
-\item{z}{the treatment vector}
+\item{z}{The observed treatment vector.}
 
-\item{X}{the features matrix}
+\item{X}{The covariate matrix.}
 
 \item{ite_method}{the method for estimating the Individual Treatment Effect:
 \itemize{
 \item \code{ipw}: Inverse Propensity Weighting
 \item \code{sipw}: Stabilized Inverse Propensity Weighting
 \item \code{aipw}: Augmented Inverse Propensity Weighting
-\item \code{or}: Outcome Regression, TODO: change this into a non reserved term.
-\item \code{bart}: BART
-\item \code{xbart}: Accelerated BART
+\item \code{oreg}: Outcome Regression
+\item \code{bart}: Bayesian Additive Regression Trees
+\item \code{xbart}: Accelerated Bayesian Additive Regression Trees
 \item \code{bcf}: Bayesian Causal Forest
 \item \code{xbcf}: Accelerated Bayesian Causal Forest
 \item \code{cf}: Causal Forest
@@ -44,7 +44,7 @@ covariate in ITE estimation}
 
 \item{ps_method}{estimation method for the propensity score}
 
-\item{or_method}{the estimation model for the outcome regressions in estimate_ite_aipw}
+\item{oreg_method}{the estimation model for the outcome regressions in estimate_ite_aipw}
 
 \item{binary}{whether or not the outcome is binary}
 
@@ -56,7 +56,7 @@ the ITE, for poisson only}
 \item{offset_name}{the name of the offset, if it is to be included}
 }
 \value{
-a list that includes:
+A list that includes:
 \itemize{
 \item raw ITE estimates
 \item standardized ITE estimates, and
@@ -65,7 +65,7 @@ a list that includes:
 }
 \description{
 Estimates the Individual Treatment Effect given a response vector,
-a treatment vector, a features matrix, and a desired algorithm.
+a treatment vector, a covariate matrix, and a desired algorithm.
 }
 \examples{
 dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,

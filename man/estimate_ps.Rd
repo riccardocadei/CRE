@@ -11,7 +11,7 @@ estimate_ps(z, X, ps_method = "SL.xgboost")
 
 \item{X}{the features matrix}
 
-\item{ps_method}{the estimation model for the propensity score}
+\item{ps_method}{the estimation model for the propensity score (default: SL.xgboost).}
 }
 \value{
 a list of propensity score estimates

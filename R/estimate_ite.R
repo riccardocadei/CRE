@@ -1,20 +1,20 @@
 #' @title
-#' Estimate the Individual Treatment Effect
+#' Estimate the Individual Treatment Effect (ITE)
 #'
 #' @description
 #' Estimates the Individual Treatment Effect given a response vector,
-#' a treatment vector, a features matrix, and a desired algorithm.
+#' a treatment vector, a covariate matrix, and a desired algorithm.
 #'
-#' @param y the observed response vector
-#' @param z the treatment vector
-#' @param X the features matrix
+#' @param y The observed response vector.
+#' @param z The observed treatment vector.
+#' @param X The covariate matrix.
 #' @param ite_method the method for estimating the Individual Treatment Effect:
 #'   - `ipw`: Inverse Propensity Weighting
 #'   - `sipw`: Stabilized Inverse Propensity Weighting
 #'   - `aipw`: Augmented Inverse Propensity Weighting
-#'   - `or`: Outcome Regression, TODO: change this into a non reserved term.
-#'   - `bart`: BART
-#'   - `xbart`: Accelerated BART
+#'   - `oreg`: Outcome Regression
+#'   - `bart`: Bayesian Additive Regression Trees
+#'   - `xbart`: Accelerated Bayesian Additive Regression Trees
 #'   - `bcf`: Bayesian Causal Forest
 #'   - `xbcf`: Accelerated Bayesian Causal Forest
 #'   - `cf`: Causal Forest
@@ -22,7 +22,7 @@
 #' @param include_ps whether or not to include propensity score estimate as a
 #' covariate in ITE estimation
 #' @param ps_method estimation method for the propensity score
-#' @param or_method the estimation model for the outcome regressions in estimate_ite_aipw
+#' @param oreg_method the estimation model for the outcome regressions in estimate_ite_aipw
 #' @param binary whether or not the outcome is binary
 #' @param X_names the names of the covariates
 #' @param include_offset whether or not to include an offset when estimating
@@ -30,7 +30,7 @@
 #' @param offset_name the name of the offset, if it is to be included
 #'
 #' @return
-#' a list that includes:
+#' A list that includes:
 #'   -  raw ITE estimates
 #'   -  standardized ITE estimates, and
 #'   -  standard deviations for the ITE estimates.
@@ -57,7 +57,7 @@
 #' ite_list <- estimate_ite(y, z, X, ite_method, include_ps, ps_method, or_method,
 #'                          binary, X_names, include_offset, offset_name)
 #'
-estimate_ite <- function(y, z, X, ite_method, include_ps, ps_method, or_method,
+estimate_ite <- function(y, z, X, ite_method, include_ps, ps_method, oreg_method,
                          binary, X_names, include_offset, offset_name) {
 
   if (ite_method == "ipw") {
@@ -67,9 +67,9 @@ estimate_ite <- function(y, z, X, ite_method, include_ps, ps_method, or_method,
     ite <- estimate_ite_sipw(y, z, X, ps_method)
     sd_ite <- NA
   } else if (ite_method == "aipw") {
-    ite <- estimate_ite_aipw(y, z, X, ps_method, or_method)
+    ite <- estimate_ite_aipw(y, z, X, ps_method, oreg_method)
     sd_ite <- NA
-  } else if (ite_method == "or") {
+  } else if (ite_method == "oreg") {
     ite <- estimate_ite_or(y, z, X)
     sd_ite <- NA
   } else if (ite_method == "bart") {
@@ -97,7 +97,7 @@ estimate_ite <- function(y, z, X, ite_method, include_ps, ps_method, or_method,
     sd_ite <- NA
   } else {
     stop(paste("Invalid ITE method. Please choose from the following:\n",
-               "'ipw', 'sipw', 'aipw', 'or', 'bart', 'xbart', 'bcf', 'xbcf', ",
+               "'ipw', 'sipw', 'aipw', 'oreg', 'bart', 'xbart', 'bcf', 'xbcf', ",
                "'cf', or 'poisson'"))
   }
   if (binary) {

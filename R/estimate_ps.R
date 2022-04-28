@@ -6,7 +6,7 @@
 #'
 #' @param z the treatment vector
 #' @param X the features matrix
-#' @param ps_method the estimation model for the propensity score
+#' @param ps_method the estimation model for the propensity score (default: SL.xgboost).
 #'
 #' @return a list of propensity score estimates
 #'
@@ -27,8 +27,10 @@
 #'
 estimate_ps <- function(z, X, ps_method = "SL.xgboost") {
   sl_pscore <- SuperLearner(Y = z, X = as.data.frame(X),
-                                          newX = as.data.frame(X), family = binomial(),
-                                          SL.library = ps_method, cvControl = list(V=0))
+                                          newX = as.data.frame(X),
+                                          family = binomial(),
+                                          SL.library = ps_method,
+                                          cvControl = list(V=0))
   est_ps <- as.numeric(sl_pscore$SL.predict)
   return(est_ps)
 }

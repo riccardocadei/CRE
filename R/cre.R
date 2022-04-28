@@ -83,6 +83,8 @@ cre <- function(y, z, X, params){
 
   # Input checks ---------------------------------------------------------------
   params <- check_input(y = y, z = z, X = X, params = params)
+
+  # Unlist params into the current environment.
   list2env(params, envir = environment())
 
   # Split data -----------------------------------------------------------------
@@ -95,7 +97,8 @@ cre <- function(y, z, X, params){
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
 
-  # Generate y, z, and X for discovery and inference data
+  # Generate outcome (y), exposure(z), and covariate matrix (X) for discovery
+  # and inference data
   y_dis <- discovery[,1]
   z_dis <- discovery[,2]
   X_dis <- discovery[,3:ncol(discovery)]
