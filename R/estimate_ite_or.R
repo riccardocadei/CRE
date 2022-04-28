@@ -21,9 +21,9 @@
 #' z <- dataset[["z"]]
 #' X <- as.data.frame(dataset[["X"]])
 #'
-#' ite_list <- estimate_ite_or(y, z, X)
+#' ite_list <- estimate_ite_oreg(y, z, X)
 #'
-estimate_ite_or <- function(y, z, X) {
+estimate_ite_oreg <- function(y, z, X) {
   y_treated <- y[z==1]
   X_treated <- X[z==1,]
   y_control <- y[z==0]

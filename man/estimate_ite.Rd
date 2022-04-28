@@ -4,19 +4,7 @@
 \alias{estimate_ite}
 \title{Estimate the Individual Treatment Effect (ITE)}
 \usage{
-estimate_ite(
-  y,
-  z,
-  X,
-  ite_method,
-  include_ps,
-  ps_method,
-  oreg_method,
-  binary,
-  X_names,
-  include_offset,
-  offset_name
-)
+estimate_ite(y, z, X, ite_method, is_y_binary, ...)
 }
 \arguments{
 \item{y}{The observed response vector.}
@@ -25,35 +13,53 @@ estimate_ite(
 
 \item{X}{The covariate matrix.}
 
-\item{ite_method}{the method for estimating the Individual Treatment Effect:
+\item{ite_method}{the method for estimating the Individual Treatment Effect.
+Some methods requires additional parameters. These parameters are mentioned in
+the indented blocks for each method and their definitions are provided at the
+end of this parameters list.
 \itemize{
 \item \code{ipw}: Inverse Propensity Weighting
+\itemize{
+\item \code{ps_method}
+}
 \item \code{sipw}: Stabilized Inverse Propensity Weighting
+\itemize{
+\item \code{ps_method}
+}
 \item \code{aipw}: Augmented Inverse Propensity Weighting
+\itemize{
+\item \code{ps_method} and  \code{oreg_method}
+}
 \item \code{oreg}: Outcome Regression
 \item \code{bart}: Bayesian Additive Regression Trees
+\itemize{
+\item \code{include_ps} and \code{ps_method}
+}
 \item \code{xbart}: Accelerated Bayesian Additive Regression Trees
+\itemize{
+\item \code{include_ps} and \code{ps_method}
+}
 \item \code{bcf}: Bayesian Causal Forest
+\itemize{
+\item \code{ps_method}
+}
 \item \code{xbcf}: Accelerated Bayesian Causal Forest
+\itemize{
+\item \code{ps_method}
+}
 \item \code{cf}: Causal Forest
+\itemize{
+\item \code{include_ps} and \code{ps_method}
+}
 \item \code{poisson}: Poisson Estimation
+\itemize{
+\item \code{X_names}, \code{include_offset}, \code{offset_name}
+}
 }}
 
-\item{include_ps}{whether or not to include propensity score estimate as a
-covariate in ITE estimation}
+\item{is_y_binary}{whether or not the outcome is binary}
 
-\item{ps_method}{estimation method for the propensity score}
-
-\item{oreg_method}{the estimation model for the outcome regressions in estimate_ite_aipw}
-
-\item{binary}{whether or not the outcome is binary}
-
-\item{X_names}{the names of the covariates}
-
-\item{include_offset}{whether or not to include an offset when estimating
-the ITE, for poisson only}
-
-\item{offset_name}{the name of the offset, if it is to be included}
+\item{...}{Additional arguments passed to different models.}
 }
 \value{
 A list that includes:
@@ -67,9 +73,25 @@ A list that includes:
 Estimates the Individual Treatment Effect given a response vector,
 a treatment vector, a covariate matrix, and a desired algorithm.
 }
+\details{
+\subsection{Additional parameters}{
+\itemize{
+\item \strong{include_ps}: Whether or not to include propensity score estimate as a
+covariate in ITE estimation.
+\item \strong{ps_method}: Estimation method for the propensity score. This include
+libraries for the SuperLearner package.
+\item \strong{oreg_method}: The estimation model for the outcome regressions. This
+include libraries for the SuperLearner package.
+\item \strong{X_names}: The names of the covariates. (TODO: Remove from input params.)
+\item \strong{include_offset}: Whether or not to include an offset when estimating
+the ITE.
+\item \strong{offset_name}: The name of the offset.
+}
+}
+}
 \examples{
 dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-                                effect_size = 2, binary = FALSE)
+                                effect_size = 2, is_y_binary = FALSE)
 
 # Initialize parameters
 y <- dataset[["y"]]
@@ -78,13 +100,9 @@ X <- as.data.frame(dataset[["X"]])
 ite_method <- "bart"
 include_ps <- TRUE
 ps_method <- "SL.xgboost"
-or_method <- NA
-binary <- FALSE
-X_names <- names(as.data.frame(X))
-include_offset <- FALSE
-offset_name <- NA
 
-ite_list <- estimate_ite(y, z, X, ite_method, include_ps, ps_method, or_method,
-                         binary, X_names, include_offset, offset_name)
+ite_list <- estimate_ite(y, z, X, ite_method, is_y_binary,
+                         include_ps = include_ps,
+                         ps_method = ps_method)
 
 }

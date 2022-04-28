@@ -190,9 +190,9 @@ check_input <- function(y, z, X, params){
 
 
   # Determine outcome type
-  binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
-  params[["binary"]] <- binary
-  if (binary) {
+  is_y_binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
+  params[["is_y_binary"]] <- is_y_binary
+  if (is_y_binary) {
     if (getElement(params, "ite_method_dis") %in% c("bcf", "xbcf", "ipw", "sipw") |
         getElement(params, "ite_method_inf") %in% c("bcf", "xbcf", "ipw", "sipw")) {
       stop(paste("The 'ipw', 'sipw', 'bcf', and 'xbcf' methods are not ",
@@ -203,7 +203,7 @@ check_input <- function(y, z, X, params){
 
   # Check for correct rules_method input
   rules_method <- tolower(getElement(params, "rules_method"))
-  if (binary) {
+  if (is_y_binary) {
     if (!(rules_method %in% c("conservative", "anticonservative"))) {
       stop(paste("Invalid rules_method input. Please specify 'conservative' ",
                  "or 'anticonservative'."))

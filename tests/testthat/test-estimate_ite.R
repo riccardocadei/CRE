@@ -10,36 +10,35 @@ test_that("ITE Estimated Correctly", {
   ite_method <- "aipw"
   include_ps <- TRUE
   ps_method <- "SL.xgboost"
-  or_method <- "SL.xgboost"
+  oreg_method <- "SL.xgboost"
   binary <- TRUE
-  include_offset <- FALSE
-  offset_name <- NA
 
   # Incorrect data inputs
-  expect_error(estimate_ite(y = "test", z, X, ite_method, include_ps,
-                            ps_method, or_method, binary,
-                            X_names, include_offset, offset_name))
-  expect_error(estimate_ite(y, z = "test", X, ite_method, include_ps,
-                            ps_method, or_method, binary,
-                            X_names, include_offset, offset_name))
-  expect_error(estimate_ite(y, z, X = NA, ite_method, include_ps,
-                            ps_method, or_method, binary,
-                            X_names, include_offset, offset_name))
+  expect_error(estimate_ite(y = "test", z, X, ite_method, binary,
+                            include_ps = include_ps, ps_method = ps_method,
+                            oreg_method = oreg_method))
+  expect_error(estimate_ite(y, z = "test", X, ite_method, binary,
+                            include_ps = include_ps, ps_method = ps_method,
+                            oreg_method = oreg_method))
+  expect_error(estimate_ite(y, z, X = NA, ite_method, binary,
+                            include_ps = include_ps, ps_method = ps_method,
+                            oreg_method = oreg_method))
 
   # Incorrect ite_method input
-  expect_error(estimate_ite(y, z, X, ite_method = NA, include_ps,
-                            ps_method, or_method, binary,
-                            X_names, include_offset, offset_name))
+  expect_error(estimate_ite(y, z, X, ite_method = NA, binary,
+                            include_ps = include_ps, ps_method = ps_method,
+                            oreg_method = oreg_method))
 
   # Incorrect binary input
-  expect_error(estimate_ite(y, z, X, ite_method, include_ps,
-                            ps_method, or_method, binary = "test",
-                            X_names, include_offset, offset_name))
+  expect_error(estimate_ite(y, z, X, ite_method, binary = "test",
+                            include_ps = include_ps, ps_method = ps_method,
+                            oreg_method = oreg_method))
 
   # Correct outputs
-  ite_result <- estimate_ite(y, z, X, ite_method, include_ps,
-                             ps_method, or_method, binary,
-                             X_names, include_offset, offset_name)
+  ite_result <- estimate_ite(y, z, X, ite_method, binary,
+                             include_ps = include_ps,
+                             ps_method = ps_method, oreg_method=oreg_method)
+
   expect_true(length(ite_result) == 3)
   expect_true(class(ite_result[[1]]) == "numeric")
   expect_true(class(ite_result[[2]]) == "numeric")

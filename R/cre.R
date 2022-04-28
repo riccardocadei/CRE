@@ -61,23 +61,23 @@
 #'                    z = dataset[["z"]],
 #'                    X = as.data.frame(dataset[["X"]]),
 #'                    params = list(ratio_dis = 0.25,
-#'                    ite_method_dis="bart",
-#'                    include_ps_dis = TRUE,
-#'                    ps_method_dis = "SL.xgboost",
-#'                    ps_method_inf = "SL.xgboost",
-#'                    ite_method_inf = "bart",
-#'                    include_ps_inf = TRUE,
-#'                    include_offset = FALSE,
-#'                    cate_method = "DRLearner",
-#'                    cate_SL_library = "SL.xgboost",
-#'                    filter_cate = FALSE,
-#'                    offset_name = NA,
-#'                    ntrees_rf = 100,
-#'                    ntrees_gbm = 50,
-#'                    min_nodes = 20,
-#'                    max_nodes = 5,
-#'                    t = 0.025,
-#'                    q = 0.8))
+#'                                  ite_method_dis="bart",
+#'                                  include_ps_dis = TRUE,
+#'                                  ps_method_dis = "SL.xgboost",
+#'                                  ps_method_inf = "SL.xgboost",
+#'                                  ite_method_inf = "bart",
+#'                                  include_ps_inf = TRUE,
+#'                                  include_offset = FALSE,
+#'                                  cate_method = "DRLearner",
+#'                                  cate_SL_library = "SL.xgboost",
+#'                                  filter_cate = FALSE,
+#'                                  offset_name = NA,
+#'                                  ntrees_rf = 100,
+#'                                  ntrees_gbm = 50,
+#'                                  min_nodes = 20,
+#'                                  max_nodes = 5,
+#'                                  t = 0.025,
+#'                                  q = 0.8))
 #'
 cre <- function(y, z, X, params){
 
@@ -114,9 +114,13 @@ cre <- function(y, z, X, params){
   # Estimate ITE -----------------------
   logger::log_info("Estimating ITE ... ")
   st_ite_t <- proc.time()
-  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis,
-                               include_ps_dis, ps_method_dis, or_method_dis,
-                               binary, X_names, include_offset, offset_name)
+  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, is_y_binary,
+                               include_ps = include_ps_dis,
+                               ps_method = ps_method_dis,
+                               oreg_method= oreg_method_dis,
+                               X_names = X_names,
+                               include_offset = include_offset,
+                               offset_name = offset_name)
   en_ite_t <- proc.time()
   logger::log_debug("Finished Estimating ITE. ",
                     " Wall clock time: {(en_ite_t - st_ite_t)[[3]]} seconds.")
