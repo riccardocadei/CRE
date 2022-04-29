@@ -65,39 +65,10 @@ including:
 }}
 }
 \value{
-an S3 object containing the matrix of Conditional
+An S3 object containing the matrix of Conditional
 Average Treatment Effect estimates
 }
 \description{
 Performs the Causal Rule Ensemble on a dataset with a response variable,
 a treatment variable, and various features
-}
-\examples{
-
-set.seed(192)
-dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
-                                effect_size = 2, binary = FALSE)
-
-cre_results <- cre(y = dataset[["y"]],
-                   z = dataset[["z"]],
-                   X = as.data.frame(dataset[["X"]]),
-                   method_params = list(ratio_dis = 0.25,
-                                        ite_method_dis="bart",
-                                        include_ps_dis = TRUE,
-                                        ps_method_dis = "SL.xgboost",
-                                        ps_method_inf = "SL.xgboost",
-                                        ite_method_inf = "bart",
-                                        include_ps_inf = TRUE,
-                                        include_offset = FALSE,
-                                        cate_method = "DRLearner",
-                                        cate_SL_library = "SL.xgboost",
-                                        filter_cate = FALSE,
-                                        offset_name = NA),
-                  hyper_params = list(ntrees_rf = 100,
-                                      ntrees_gbm = 50,
-                                      min_nodes = 20,
-                                      max_nodes = 5,
-                                      t = 0.025,
-                                      q = 0.8))
-
 }

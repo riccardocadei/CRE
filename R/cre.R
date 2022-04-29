@@ -50,40 +50,13 @@
 
 #'
 #' @return
-#' an S3 object containing the matrix of Conditional
+#' An S3 object containing the matrix of Conditional
 #'  Average Treatment Effect estimates
 #'
 #' @export
 #'
-#' @examples
-#'
-#' set.seed(192)
-#' dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
-#'                                 effect_size = 2, binary = FALSE)
-#'
-#' cre_results <- cre(y = dataset[["y"]],
-#'                    z = dataset[["z"]],
-#'                    X = as.data.frame(dataset[["X"]]),
-#'                    method_params = list(ratio_dis = 0.25,
-#'                                         ite_method_dis="bart",
-#'                                         include_ps_dis = TRUE,
-#'                                         ps_method_dis = "SL.xgboost",
-#'                                         ps_method_inf = "SL.xgboost",
-#'                                         ite_method_inf = "bart",
-#'                                         include_ps_inf = TRUE,
-#'                                         include_offset = FALSE,
-#'                                         cate_method = "DRLearner",
-#'                                         cate_SL_library = "SL.xgboost",
-#'                                         filter_cate = FALSE,
-#'                                         offset_name = NA),
-#'                   hyper_params = list(ntrees_rf = 100,
-#'                                       ntrees_gbm = 50,
-#'                                       min_nodes = 20,
-#'                                       max_nodes = 5,
-#'                                       t = 0.025,
-#'                                       q = 0.8))
-#'
 cre <- function(y, z, X, method_params, hyper_params){
+
 
   # Input checks ---------------------------------------------------------------
   check_input_data(y = y, z = z, X = X)
@@ -101,9 +74,9 @@ cre <- function(y, z, X, method_params, hyper_params){
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  subgroups <- split_data(y, z, X, ratio_dis)
-  discovery <- subgroups[[1]]
-  inference <- subgroups[[2]]
+  subgroups <- split_data(y, z, X, getElement(method_params,"ratio_dis"))
+  discovery <- subgroups[["discovery"]]
+  inference <- subgroups[["inference"]]
 
   # Generate outcome (y), exposure(z), and covariate matrix (X) for discovery
   # and inference data
@@ -123,14 +96,14 @@ cre <- function(y, z, X, method_params, hyper_params){
   logger::log_info("Estimating ITE ... ")
   st_ite_t <- proc.time()
   ite_list_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
-                               ite_method = ite_method_dis,
-                               is_y_binary = is_y_binary,
-                               include_ps = include_ps_dis,
-                               ps_method = ps_method_dis,
-                               oreg_method = oreg_method_dis,
+                               ite_method = getElement(method_params,"ite_method_dis"),
+                               is_y_binary = getElement(method_params,"is_y_binary"),
+                               include_ps = getElement(method_params,"include_ps_dis"),
+                               ps_method = getElement(method_params,"ps_method_dis"),
+                               oreg_method = getElement(method_params,"oreg_method_dis"),
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name)
+                               include_offset = getElement(method_params,"include_offset"),
+                               offset_name = getElement(method_params,"offset_name"))
   en_ite_t <- proc.time()
   logger::log_debug("Finished Estimating ITE. ",
                     " Wall clock time: {(en_ite_t - st_ite_t)[[3]]} seconds.")
@@ -140,8 +113,11 @@ cre <- function(y, z, X, method_params, hyper_params){
 
   # Generate rules list ----------------
   logger::log_info("Generating Initial Causal Rules ... ")
-  initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-                                      min_nodes, max_nodes)
+  initial_rules_dis <- generate_rules(X_dis, ite_std_dis,
+                                      getElement(hyper_params,"ntrees_rf"),
+                                      getElement(hyper_params,"ntrees_gbm"),
+                                      getElement(hyper_params,"min_nodes"),
+                                      getElement(hyper_params,"max_nodes"))
 
   # Generate rules matrix --------------
   logger::log_info("Generating Causal Rules Matrix ...")
@@ -154,8 +130,9 @@ cre <- function(y, z, X, method_params, hyper_params){
   logger::log_info("Selecting Important Causal Rules ...")
   select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
                                                        rules_list_dis,
-                                                       ite_std_dis, is_y_binary,
-                                                       q,
+                                                       ite_std_dis,
+                                                       getElement(method_params,"is_y_binary"),
+                                                       getElement(hyper_params,"q"),
                                                        rules_method))
 
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
@@ -171,14 +148,14 @@ cre <- function(y, z, X, method_params, hyper_params){
   logger::log_info("Conducting Inference Subsample Analysis ...")
   message("Conducting Inference Subsample Analysis")
   ite_list_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
-                               ite_method = ite_method_inf,
-                               is_y_binary = is_y_binary,
-                               include_ps = include_ps_inf,
-                               ps_method = ps_method_inf,
-                               oreg_method = oreg_method_inf,
+                               ite_method = getElement(method_params,"ite_method_inf"),
+                               is_y_binary = getElement(method_params,"is_y_binary"),
+                               include_ps = getElement(method_params,"include_ps_inf"),
+                               ps_method = getElement(method_params,"ps_method_inf"),
+                               oreg_method = getElement(method_params,"oreg_method_inf"),
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name)
+                               include_offset = getElement(method_params,"include_offset"),
+                               offset_name = getElement(method_params,"offset_name"))
 
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
@@ -195,10 +172,13 @@ cre <- function(y, z, X, method_params, hyper_params){
   select_rules_interpretable <- interpret_select_rules(select_rules_dis,
                                                        X_names)
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
-                            include_offset, offset_name,
+                            getElement(method_params,"include_offset"),
+                            getElement(method_params,"offset_name"),
                             rules_matrix_inf, select_rules_interpretable,
-                            cate_method, ite_inf, sd_ite_inf,
-                            cate_SL_library, filter_cate)
+                            getElement(method_params,"cate_method"),
+                            ite_inf, sd_ite_inf,
+                            getElement(method_params,"cate_SL_library"),
+                            getElement(method_params,"filter_cate"))
 
   # Convert cate_inf into an S3 object
   make_S3 <- function(cate_inf, cate_method) {
@@ -215,6 +195,6 @@ cre <- function(y, z, X, method_params, hyper_params){
 
   # Return Results
   logger::log_info("CRE method complete. Returning results.")
-  cate_S3 <- make_S3(cate_inf, cate_method)
+  cate_S3 <- make_S3(cate_inf, getElement(method_params,"cate_method"))
   return(cate_S3)
 }

@@ -8,11 +8,10 @@
 #'
 #' @return a vector of indices
 #'
-#' @export
 #'
 #' @examples
 #'
-#' ind <- take1(10)
+#' ind <- CRE:::take1(10)
 #'
 take1 <- function(len) {
   out <- c()

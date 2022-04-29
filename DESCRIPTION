@@ -34,14 +34,30 @@ Depends:
     R (>= 3.5.0)
 Imports: 
     MASS,
-    stats
+    stats,
+    logger,
+    BART,
+    bartCause,
+    gbm, 
+    randomForest,
+    methods,
+    xgboost,
+    RRF,
+    data.table,
+    xtable,
+    glmnet,
+    stabs,
+    stringr,
+    gnm,
+    SuperLearner,
+    baggr,
+    dplyr,
+    magrittr
 Suggests:
     covr,
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0),
-    XBART,
-    XBCF
+    testthat (>= 3.0.0)
 Additional_repositories: 
     https://github.com/JingyuHe/XBART/,
     https://github.com/johaupt/XBCF/    

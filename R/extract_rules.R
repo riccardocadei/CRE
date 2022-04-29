@@ -13,26 +13,29 @@
 #'
 #' @return a vector of causal rules
 #'
-#' @export
-#'
 #' @examples
 #'
-#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+#' dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
 #'                                 effect_size = 2, binary = FALSE)
 #' y <- as.matrix(dataset[["y"]])
 #' z <- as.matrix(dataset[["z"]])
 #' X <- as.matrix(dataset[["X"]])
-#' ite_method <- "bart"
+#' ite_method <- "oreg"
 #' include_ps <- TRUE
 #' ps_method <- "SL.xgboost"
-#' or_method <- NA
+#' oreg_method <- NA
 #' ntrees <- 100
 #' min_nodes <- 20
 #' max_nodes <- 5
 #' binary <- FALSE
 #'
 #' # Estimate ITE
-#' ite_list <- estimate_ite(y, z, X, ite_method, include_ps, ps_method, or_method, binary)
+#' ite_list <- estimate_ite(y, z, X,
+#'                          ite_method = ite_method,
+#'                          include_ps = include_ps,
+#'                          ps_method = ps_method,
+#'                          oreg_method = oreg_method,
+#'                          is_y_binary = binary)
 #' ite <- ite_list[["ite"]]
 #' ite_std <- ite_list[["ite_std"]]
 #'
@@ -59,7 +62,7 @@
 #' take_1 <- FALSE
 #' type_decay <- 2
 #'
-#' rules_RF <- extract_rules(treelist, X, ntrees, ite_std, take_1, type_decay)
+#' rules_RF <- CRE:::extract_rules(treelist, X, ntrees, ite_std, take_1, type_decay)
 #'
 extract_rules <- function(treelist, X, ntrees, ite_std, take_1, type_decay) {
   rules <- inTrees_extractRules(treeList = treelist, X = X, ntree = ntrees, maxdepth = 15)

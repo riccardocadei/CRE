@@ -18,14 +18,14 @@
 #' @aliases CRE
 #'
 #' # imports for inTrees package
-#' @import stats
+#'
 #' @import xtable
 #' @import data.table
 #' @importFrom RRF RRF
 #' @importFrom RRF getTree
 #' @importFrom gbm pretty.gbm.tree
 #' @importFrom xgboost xgb.model.dt.tree
-#' @import arules
+#' @import stats
 #' @importFrom methods as
 #'
 #'

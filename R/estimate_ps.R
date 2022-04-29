@@ -10,8 +10,6 @@
 #'
 #' @return a list of propensity score estimates
 #'
-#'
-#' @export
 #' @import SuperLearner
 #'
 #' @examples
@@ -23,10 +21,10 @@
 #' X <- as.data.frame(dataset[["X"]])
 #' ps_method <- "SL.xgboost"
 #'
-#' est_ps <- estimate_ps(z, X, ps_method)
+#' est_ps <- CRE:::estimate_ps(z, X, ps_method)
 #'
 estimate_ps <- function(z, X, ps_method = "SL.xgboost") {
-  sl_pscore <- SuperLearner(Y = z, X = as.data.frame(X),
+  sl_pscore <- SuperLearner::SuperLearner(Y = z, X = as.data.frame(X),
                                           newX = as.data.frame(X),
                                           family = binomial(),
                                           SL.library = ps_method,

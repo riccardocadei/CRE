@@ -54,23 +54,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-#'                                 effect_size = 2, binary = FALSE)
-#'
-#' # Initialize parameters
-#' y <- dataset[["y"]]
-#' z <- dataset[["z"]]
-#' X <- as.data.frame(dataset[["X"]])
-#' ite_method <- "bart"
-#' include_ps <- TRUE
-#' is_y_binary <- FALSE
-#' ps_method <- "SL.xgboost"
-#'
-#' ite_list <- estimate_ite(y, z, X, ite_method, is_y_binary,
-#'                          include_ps = include_ps,
-#'                          ps_method = ps_method)
-#'
 estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
 
 
@@ -104,7 +87,7 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
     ite <- estimate_ite_aipw(y, z, X, ps_method, oreg_method)
     sd_ite <- NA
   } else if (ite_method == "oreg") {
-    ite <- estimate_ite_or(y, z, X)
+    ite <- estimate_ite_oreg(y, z, X)
     sd_ite <- NA
   } else if (ite_method == "bart") {
     check_args(c('include_ps', 'ps_method'), arg_names)

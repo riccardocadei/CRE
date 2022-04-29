@@ -16,4 +16,8 @@ test_that("OREG ITE Estimated Correctly", {
   ite_result <- estimate_ite_oreg(y, z, X)
   expect_true(length(ite_result) == length(y))
   expect_true(class(ite_result) == "numeric")
+
+  # Values
+  expect_equal(ite_result[12], 1.49845990, tolerance = 0.00001)
+
 })

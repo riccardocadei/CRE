@@ -43,11 +43,11 @@
 #' ite_method_dis <- "bart"
 #' include_ps_dis <- TRUE
 #' ps_method_dis <- "SL.xgboost"
-#' or_method_dis <- NA
+#' oreg_method_dis <- NA
 #' ite_method_inf <- "bart"
 #' include_ps_inf <- TRUE
 #' ps_method_inf <- "SL.xgboost"
-#' or_method_inf <- NA
+#' oreg_method_inf <- NA
 #' ntrees_rf <- 100
 #' ntrees_gbm <- 50
 #' min_nodes <- 20
@@ -66,7 +66,7 @@
 #' X <- as.matrix(X)
 #' y <- as.matrix(y)
 #' z <- as.matrix(z)
-#' subgroups <- split_data(y, z, X, ratio_dis)
+#' subgroups <- CRE:::split_data(y, z, X, ratio_dis)
 #' discovery <- subgroups[[1]]
 #' inference <- subgroups[[2]]
 #'
@@ -80,24 +80,30 @@
 #' X_inf <- inference[,3:ncol(inference)]
 #'
 #' # Estimate ITE on Discovery Subsample
-#' ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis,
-#'                              include_ps_dis, ps_method_dis, or_method_dis,
-#'                              binary, X_names, include_offset, offset_name)
+#' ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis,
+#'                              ite_method =ite_method_dis,
+#'                              include_ps = include_ps_dis,
+#'                              ps_method = ps_method_dis,
+#'                              oreg_method = oreg_method_dis,
+#'                              is_y_binary = binary,
+#'                              X_names = X_names,
+#'                              include_offset = include_offset,
+#'                              offset_name = offset_name)
 #' ite_dis <- ite_list_dis[["ite"]]
 #' ite_std_dis <- ite_list_dis[["ite_std"]]
 #'
 #' # Generate rules list
-#' initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
+#' initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
 #'                                     min_nodes, max_nodes)
 #'
 #' # Generate rules matrix
-#' rules_all_dis <- generate_rules_matrix(X_dis, initial_rules_dis, t)
+#' rules_all_dis <- CRE:::generate_rules_matrix(X_dis, initial_rules_dis, t)
 #' rules_matrix_dis <- rules_all_dis[["rules_matrix"]]
 #' rules_matrix_std_dis <- rules_all_dis[["rules_matrix_std"]]
 #' rules_list_dis <- rules_all_dis[["rules_list"]]
 #'
 #' # Select important rules
-#' select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis, rules_list_dis,
+#' select_rules_dis <- as.character(CRE:::select_causal_rules(rules_matrix_std_dis, rules_list_dis,
 #'                                                      ite_std_dis, binary, q, rules_method))
 #' select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
 #' select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
@@ -108,11 +114,17 @@
 #' for (i in 1:length(select_rules_dis)) {
 #'   rules_matrix_inf[eval(parse(text = select_rules_dis[i]), list(X = X_inf)), i] <- 1
 #' }
-#' select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+#' select_rules_interpretable <- CRE:::interpret_select_rules(select_rules_dis, X_names)
 #'
-#' ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
-#'                              include_ps_inf, ps_method_inf, or_method_inf,
-#'                              binary, X_names, include_offset, offset_name)
+#' ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf,
+#'                              ite_method = ite_method_inf,
+#'                              include_ps = include_ps_inf,
+#'                              ps_method = ps_method_inf,
+#'                              oreg_method = oreg_method_inf,
+#'                              is_y_binary = binary,
+#'                              X_names = X_names,
+#'                              include_offset = include_offset,
+#'                              offset_name = offset_name)
 #' ite_inf <- ite_list_inf[["ite"]]
 #' ite_std_inf <- ite_list_inf[["ite_std"]]
 #'
@@ -129,6 +141,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
   # Handling global variable error.
   `%>%` <- magrittr::`%>%`
+
   Rule <- rule <- tau <- se <- . <- Estimate <- NULL
 
   if (cate_method %in% c("poisson")) {

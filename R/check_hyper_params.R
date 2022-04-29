@@ -9,8 +9,7 @@
 #' @param params The list of parameters required to run the function.
 #'
 #' @return
-#' A list of params that might be changed during checks.
-#' @export
+#' No return value. This function is called for side effects.
 #'
 check_hyper_params <- function(params){
 
