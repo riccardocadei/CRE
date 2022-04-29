@@ -1,7 +1,7 @@
 test_that("Rules Generated Correctly", {
   # Generate sample data
   set.seed(2021)
-  dataset_cont <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
+  dataset_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 0.5, binary = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
@@ -24,8 +24,10 @@ test_that("Rules Generated Correctly", {
   z <- as.matrix(z)
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method, include_ps, ps_method,
-                           or_method, binary)
+  ite_list <- estimate_ite(y, z, X, ite_method, binary,
+                           include_ps = include_ps,
+                           ps_method = ps_method,
+                           or_method = or_method)
   ite <- ite_list[["ite"]]
   ite_std <- ite_list[["ite_std"]]
 

@@ -8,7 +8,7 @@
 #' @param y The observed response vector.
 #' @param z The treatment vector.
 #' @param X The covariate matrix.
-#' @param params the list of parameters required to run the function, including:
+#' @param method_params parameters for individual treatment effect, includig:
 #'   - *Parameters for Discovery*
 #'     - *ratio_dis*: The ratio of data delegated to the discovery sub-sample.
 #'     - *ite_method_dis*: The method to estimate the discovery sample ITE.
@@ -19,7 +19,6 @@
 #'       discovery subsample.
 #'     - *or_method_dis*: The estimation model for the outcome regressions
 #'       estimate_ite_aipw on the discovery subsample.
-#'
 #'   - *Parameters for Inference*
 #'     - *ite_method_inf*: the method to estimate the inference sample ITE.
 #'     - *include_ps_inf* whether or not to include propensity score estimate as
@@ -32,13 +31,7 @@
 #'       inference subsample.
 #'     - *or_method_inf*: the estimation model for the outcome regressions in
 #'       estimate_ite_aipw on the inference subsample.
-#'   - *Other Parameters*
-#'     - *ntrees_rf*: the number of decision trees for randomForest.
-#'     - *ntrees_gbm*: the number of decision trees for gradient boosting.
-#'     - *min_nodes*: the minimum size of the trees' terminal nodes.
-#'     - *max_nodes*: the maximum size of the trees' terminal nodes.
-#'     - *t*: the common support used in generating the causal rules matrix.
-#'     - *q*: the selection threshold used in selecting the causal rules.
+#'   - *Other Parameters*:
 #'     - *rules_method*: the method for selecting causal rules with binary outcomes.
 #'     - *include_offset*: whether or not to include an offset when estimating
 #'  the ITE, for poisson only.
@@ -46,6 +39,15 @@
 #'     - *cate_method*: the method to estimate the CATE values.
 #'     - *cate_SL_library*: the library used if cate_method is set to DRLearner.
 #'     - *filter_cate*: whether or not to filter rules with p-value <= 0.05.
+#' @param hyper_params the list of parameters required to tune the functions,
+#' including:
+#'  - *ntrees_rf*: the number of decision trees for randomForest.
+#'  - *ntrees_gbm*: the number of decision trees for gradient boosting.
+#'  - *min_nodes*: the minimum size of the trees' terminal nodes.
+#'  - *max_nodes*: the maximum size of the trees' terminal nodes.
+#'  - *t*: the common support used in generating the causal rules matrix.
+#'  - *q*: the selection threshold used in selecting the causal rules.
+
 #'
 #' @return
 #' an S3 object containing the matrix of Conditional
@@ -54,38 +56,44 @@
 #' @export
 #'
 #' @examples
-#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+#'
+#' set.seed(192)
+#' dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
 #'                                 effect_size = 2, binary = FALSE)
 #'
 #' cre_results <- cre(y = dataset[["y"]],
 #'                    z = dataset[["z"]],
 #'                    X = as.data.frame(dataset[["X"]]),
-#'                    params = list(ratio_dis = 0.25,
-#'                                  ite_method_dis="bart",
-#'                                  include_ps_dis = TRUE,
-#'                                  ps_method_dis = "SL.xgboost",
-#'                                  ps_method_inf = "SL.xgboost",
-#'                                  ite_method_inf = "bart",
-#'                                  include_ps_inf = TRUE,
-#'                                  include_offset = FALSE,
-#'                                  cate_method = "DRLearner",
-#'                                  cate_SL_library = "SL.xgboost",
-#'                                  filter_cate = FALSE,
-#'                                  offset_name = NA,
-#'                                  ntrees_rf = 100,
-#'                                  ntrees_gbm = 50,
-#'                                  min_nodes = 20,
-#'                                  max_nodes = 5,
-#'                                  t = 0.025,
-#'                                  q = 0.8))
+#'                    method_params = list(ratio_dis = 0.25,
+#'                                         ite_method_dis="bart",
+#'                                         include_ps_dis = TRUE,
+#'                                         ps_method_dis = "SL.xgboost",
+#'                                         ps_method_inf = "SL.xgboost",
+#'                                         ite_method_inf = "bart",
+#'                                         include_ps_inf = TRUE,
+#'                                         include_offset = FALSE,
+#'                                         cate_method = "DRLearner",
+#'                                         cate_SL_library = "SL.xgboost",
+#'                                         filter_cate = FALSE,
+#'                                         offset_name = NA),
+#'                   hyper_params = list(ntrees_rf = 100,
+#'                                       ntrees_gbm = 50,
+#'                                       min_nodes = 20,
+#'                                       max_nodes = 5,
+#'                                       t = 0.025,
+#'                                       q = 0.8))
 #'
-cre <- function(y, z, X, params){
+cre <- function(y, z, X, method_params, hyper_params){
 
   # Input checks ---------------------------------------------------------------
-  params <- check_input(y = y, z = z, X = X, params = params)
+  check_input_data(y = y, z = z, X = X)
+  method_params <- check_method_params(y = y, params = method_params)
+  check_hyper_params(params = hyper_params)
 
   # Unlist params into the current environment.
-  list2env(params, envir = environment())
+  # Interim approach.
+  list2env(method_params, envir = environment())
+  list2env(hyper_params, envir = environment())
 
   # Split data -----------------------------------------------------------------
   logger::log_info("Working on splitting data ... ")
@@ -114,10 +122,12 @@ cre <- function(y, z, X, params){
   # Estimate ITE -----------------------
   logger::log_info("Estimating ITE ... ")
   st_ite_t <- proc.time()
-  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, is_y_binary,
+  ite_list_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
+                               ite_method = ite_method_dis,
+                               is_y_binary = is_y_binary,
                                include_ps = include_ps_dis,
                                ps_method = ps_method_dis,
-                               oreg_method= oreg_method_dis,
+                               oreg_method = oreg_method_dis,
                                X_names = X_names,
                                include_offset = include_offset,
                                offset_name = offset_name)
@@ -144,7 +154,8 @@ cre <- function(y, z, X, params){
   logger::log_info("Selecting Important Causal Rules ...")
   select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
                                                        rules_list_dis,
-                                                       ite_std_dis, binary, q,
+                                                       ite_std_dis, is_y_binary,
+                                                       q,
                                                        rules_method))
 
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
@@ -159,9 +170,16 @@ cre <- function(y, z, X, params){
 
   logger::log_info("Conducting Inference Subsample Analysis ...")
   message("Conducting Inference Subsample Analysis")
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
-                               include_ps_inf, ps_method_inf, or_method_inf,
-                               binary, X_names, include_offset, offset_name)
+  ite_list_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
+                               ite_method = ite_method_inf,
+                               is_y_binary = is_y_binary,
+                               include_ps = include_ps_inf,
+                               ps_method = ps_method_inf,
+                               oreg_method = oreg_method_inf,
+                               X_names = X_names,
+                               include_offset = include_offset,
+                               offset_name = offset_name)
+
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]

@@ -32,7 +32,7 @@
 #'   - `poisson`: Poisson Estimation
 #'     - `X_names`, `include_offset`, `offset_name`
 #' @param is_y_binary whether or not the outcome is binary
-#' @param ...  Additional arguments passed to different models.
+#' @param ... A dditional parameters passed to different models.
 #' @details
 #' ## Additional parameters
 #'   - **include_ps**: Whether or not to include propensity score estimate as a
@@ -56,7 +56,7 @@
 #'
 #' @examples
 #' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-#'                                 effect_size = 2, is_y_binary = FALSE)
+#'                                 effect_size = 2, binary = FALSE)
 #'
 #' # Initialize parameters
 #' y <- dataset[["y"]]
@@ -64,6 +64,7 @@
 #' X <- as.data.frame(dataset[["X"]])
 #' ite_method <- "bart"
 #' include_ps <- TRUE
+#' is_y_binary <- FALSE
 #' ps_method <- "SL.xgboost"
 #'
 #' ite_list <- estimate_ite(y, z, X, ite_method, is_y_binary,

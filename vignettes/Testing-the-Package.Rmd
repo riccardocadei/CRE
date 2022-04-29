@@ -113,64 +113,64 @@ X_names <- names(as.data.frame(X))
 
 
 # Run parameters
-params_1 <- list(ratio_dis = 0.25,
-                 ntrees_rf = 100,
-                 ntrees_gbm = 50,
-                 min_nodes = 20,
-                 max_nodes = 5,
-                 t = 0.025,
-                 q = 0.8,
-                 rules_method = NA,
-                 include_offset = FALSE,
-                 offset_name = NA,
-                 filter_cate = FALSE,
-                 ite_method_dis = "poisson",
-                 include_ps_dis = NA, 
-                 ps_method_dis = "SL.xgboost",
-                 ite_method_inf = "poisson",
-                 include_ps_inf = NA, 
-                 ps_method_inf = "SL.xgboost",
-                 or_method_inf = NA, 
-                 cate_method = "poisson", 
-                 cate_SL_library = NA
-                 )
+method_params_1 <- list(ratio_dis = 0.25,
+                       rules_method = NA,
+                       include_offset = FALSE,
+                       offset_name = NA,
+                       filter_cate = FALSE,
+                       ite_method_dis = "poisson",
+                       include_ps_dis = NA, 
+                       ps_method_dis = "SL.xgboost",
+                       ite_method_inf = "poisson",
+                       include_ps_inf = NA, 
+                       ps_method_inf = "SL.xgboost",
+                       oreg_method_inf = NA, 
+                       cate_method = "poisson", 
+                       cate_SL_library = NA)
+
+hyper_params_1 <- list(ntrees_rf = 100,
+                       ntrees_gbm = 50,
+                       min_nodes = 20,
+                       max_nodes = 5,
+                       t = 0.025,
+                       q = 0.8)
 
 # Poisson CATE estimation with Poisson ITE estimation
 print("Testing Poisson CATE estimation with Poisson ITE estimation")
-cre_results_1 <- cre(y = abs(y), z, X, params_1)
+cre_results_1 <- cre(y = abs(y), z, X, method_params_1, hyper_params_1)
 
 cre_results_1[["CATE_results"]][,1]
 cre_results_1[["CATE_results"]][,1]
 ```
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, eval=TRUE}
 # DRLearner CATE estimation with AIPW ITE estimation
 
-params_2 <- list(ratio_dis = 0.25,
-                 ntrees_rf = 100,
-                 ntrees_gbm = 50,
-                 min_nodes = 20,
-                 max_nodes = 5,
-                 t = 0.025,
-                 q = 0.8,
-                 rules_method = NA,
-                 include_offset = FALSE,
-                 offset_name = NA,
-                 filter_cate = FALSE,
-                 ite_method_dis = "aipw",
-                 include_ps_dis = NA, 
-                 ps_method_dis = "SL.xgboost",
-                 or_method_dis = "SL.xgboost",
-                 ite_method_inf = "aipw",
-                 include_ps_inf = NA, 
-                 ps_method_inf = "SL.xgboost",
-                 or_method_inf = "SL.xgboost", 
-                 cate_method = "DRLearner", 
-                 cate_SL_library ="SL.xgboost"
-                 )
+method_params_2 <- list(ratio_dis = 0.25,
+                        rules_method = NA,
+                        include_offset = FALSE,
+                        offset_name = NA,
+                        filter_cate = FALSE,
+                        ite_method_dis = "aipw",
+                        include_ps_dis = NA, 
+                        ps_method_dis = "SL.xgboost",
+                        oreg_method_dis = "SL.xgboost",
+                        ite_method_inf = "aipw",
+                        include_ps_inf = NA, 
+                        ps_method_inf = "SL.xgboost",
+                        oreg_method_inf = "SL.xgboost", 
+                        cate_method = "DRLearner", 
+                        cate_SL_library ="SL.xgboost")
+
+hyper_params_2 <- list(ntrees_rf = 100,
+                       ntrees_gbm = 50,
+                       min_nodes = 20,
+                       max_nodes = 5,
+                       t = 0.025,
+                       q = 0.8)
 
 print("Testing DRLearner CATE estimation with AIPW ITE estimation")
-cre_results_2 <- cre(y, z, X, params_2)
+cre_results_2 <- cre(y, z, X, method_params_2, hyper_params_2)
 
 cre_results_2[["CATE_results"]][,1]
 cre_results_2[["CATE_results"]][,1]

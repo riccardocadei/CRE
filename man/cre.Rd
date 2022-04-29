@@ -4,7 +4,7 @@
 \alias{cre}
 \title{The Causal Rule Ensemble}
 \usage{
-cre(y, z, X, params)
+cre(y, z, X, method_params, hyper_params)
 }
 \arguments{
 \item{y}{The observed response vector.}
@@ -13,7 +13,7 @@ cre(y, z, X, params)
 
 \item{X}{The covariate matrix.}
 
-\item{params}{the list of parameters required to run the function, including:
+\item{method_params}{parameters for individual treatment effect, includig:
 \itemize{
 \item \emph{Parameters for Discovery}
 \itemize{
@@ -41,14 +41,8 @@ inference subsample.
 \item \emph{or_method_inf}: the estimation model for the outcome regressions in
 estimate_ite_aipw on the inference subsample.
 }
-\item \emph{Other Parameters}
+\item \emph{Other Parameters}:
 \itemize{
-\item \emph{ntrees_rf}: the number of decision trees for randomForest.
-\item \emph{ntrees_gbm}: the number of decision trees for gradient boosting.
-\item \emph{min_nodes}: the minimum size of the trees' terminal nodes.
-\item \emph{max_nodes}: the maximum size of the trees' terminal nodes.
-\item \emph{t}: the common support used in generating the causal rules matrix.
-\item \emph{q}: the selection threshold used in selecting the causal rules.
 \item \emph{rules_method}: the method for selecting causal rules with binary outcomes.
 \item \emph{include_offset}: whether or not to include an offset when estimating
 the ITE, for poisson only.
@@ -57,6 +51,17 @@ the ITE, for poisson only.
 \item \emph{cate_SL_library}: the library used if cate_method is set to DRLearner.
 \item \emph{filter_cate}: whether or not to filter rules with p-value <= 0.05.
 }
+}}
+
+\item{hyper_params}{the list of parameters required to tune the functions,
+including:
+\itemize{
+\item \emph{ntrees_rf}: the number of decision trees for randomForest.
+\item \emph{ntrees_gbm}: the number of decision trees for gradient boosting.
+\item \emph{min_nodes}: the minimum size of the trees' terminal nodes.
+\item \emph{max_nodes}: the maximum size of the trees' terminal nodes.
+\item \emph{t}: the common support used in generating the causal rules matrix.
+\item \emph{q}: the selection threshold used in selecting the causal rules.
 }}
 }
 \value{
@@ -68,29 +73,31 @@ Performs the Causal Rule Ensemble on a dataset with a response variable,
 a treatment variable, and various features
 }
 \examples{
-dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+
+set.seed(192)
+dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
                                 effect_size = 2, binary = FALSE)
 
 cre_results <- cre(y = dataset[["y"]],
                    z = dataset[["z"]],
                    X = as.data.frame(dataset[["X"]]),
-                   params = list(ratio_dis = 0.25,
-                                 ite_method_dis="bart",
-                                 include_ps_dis = TRUE,
-                                 ps_method_dis = "SL.xgboost",
-                                 ps_method_inf = "SL.xgboost",
-                                 ite_method_inf = "bart",
-                                 include_ps_inf = TRUE,
-                                 include_offset = FALSE,
-                                 cate_method = "DRLearner",
-                                 cate_SL_library = "SL.xgboost",
-                                 filter_cate = FALSE,
-                                 offset_name = NA,
-                                 ntrees_rf = 100,
-                                 ntrees_gbm = 50,
-                                 min_nodes = 20,
-                                 max_nodes = 5,
-                                 t = 0.025,
-                                 q = 0.8))
+                   method_params = list(ratio_dis = 0.25,
+                                        ite_method_dis="bart",
+                                        include_ps_dis = TRUE,
+                                        ps_method_dis = "SL.xgboost",
+                                        ps_method_inf = "SL.xgboost",
+                                        ite_method_inf = "bart",
+                                        include_ps_inf = TRUE,
+                                        include_offset = FALSE,
+                                        cate_method = "DRLearner",
+                                        cate_SL_library = "SL.xgboost",
+                                        filter_cate = FALSE,
+                                        offset_name = NA),
+                  hyper_params = list(ntrees_rf = 100,
+                                      ntrees_gbm = 50,
+                                      min_nodes = 20,
+                                      max_nodes = 5,
+                                      t = 0.025,
+                                      q = 0.8))
 
 }

@@ -11,11 +11,11 @@ test_that("CATE Estimation Runs Correctly", {
   ite_method_dis <- "bart"
   include_ps_dis <- "TRUE"
   ps_method_dis <- "SL.xgboost"
-  or_method_dis <- NA
+  oreg_method_dis <- NA
   ite_method_inf <- "bart"
   include_ps_inf <- "FALSE"
   ps_method_inf <- "SL.xgboost"
-  or_method_inf <- "SL.xgboost"
+  oreg_method_inf <- "SL.xgboost"
   ntrees_rf <- 100
   ntrees_gbm <- 50
   min_nodes <- 20
@@ -50,9 +50,13 @@ test_that("CATE Estimation Runs Correctly", {
   X_inf <- inference[,3:ncol(inference)]
 
   # Step 2: Estimate ITE
-  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis,
-                               include_ps_dis, ps_method_dis, or_method_dis,
-                               binary, X_names, include_offset, offset_name)
+  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, binary,
+                               include_ps = include_ps_dis,
+                               ps_method = ps_method_dis,
+                               oreg_method = oreg_method_dis,
+                               X_names = X_names,
+                               include_offset = include_offset,
+                               offset_name = offset_name)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
@@ -80,9 +84,13 @@ test_that("CATE Estimation Runs Correctly", {
   }
 
   # Step 6: Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
-                               include_ps_inf, ps_method_inf, or_method_inf,
-                               binary, X_names, include_offset, offset_name)
+  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary,
+                               include_ps = include_ps_inf,
+                               ps_method = ps_method_inf,
+                               oreg_method = oreg_method_inf,
+                               X_names = X_names,
+                               include_offset = include_offset,
+                               offset_name = offset_name)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
