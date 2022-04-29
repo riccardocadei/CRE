@@ -13,3 +13,4 @@ index.md
 ^cran-comments\.md$
 ^codecov\.yml$
 ^.covrignore
+^_R/*
