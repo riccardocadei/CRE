@@ -1,17 +1,29 @@
+| Resource    |  Github Actions      |  Code Coverage  |
+| ----------  | -------------------- | --------------- |
+| Platforms   | Windows, macOS, Linux|    codecov      |
+| R CMD check | [![R-CMD-check](https://github.com/nsaph-software/CRE/workflows/R-CMD-check/badge.svg)](https://github.com/nsaph-software/CRE/actions) | [![codecov](https://codecov.io/gh/NSAPH-Software/CRE/branch/develop/graph/badge.svg?token=UMSVOYRKGA)](https://codecov.io/gh/NSAPH-Software/CRE)|
+
+
 # CRE
 
-<!-- badges: start -->
-[![R-CMD-check](https://github.com/nsaph-software/CRE/workflows/R-CMD-check/badge.svg)](https://github.com/nsaph-software/CRE/actions)
-<!-- badges: end -->
+The CRE package Provides an interpretable identification of subgroups with heterogeneous causal effect. The heterogeneous subgroups are discovered through ensemble learning of causal rules. Causal rules are highly interpretable if-then statement that recursively partition the features space into heterogeneous subgroups. A small number of significant causal rules are selected through Stability Selection to control for family-wise error rate in the finite sample setting. It proposes various estimation methods for the conditional causal effects for each discovered causal rule.  It is highly flexible and multiple causal estimands and imputation methods are implemented.
 
+## Summary
+Interpretable Subgroups Identification through Ensemble Learning of Causal Rules
 
+## Installation
 
-The Causal Rule Ensemble Method
+```r
+library("devtools")
+install_github("NSAPH-Software/CRE", ref="develop")
+library("CRE")
+```
 
-Two R code files are currently available (2021/05/10). 
-1. causal_rulefit_functions.R contains the basic functions to run R codes. 
-2. rcode_v0.R contains the Rcode for the discovery step. 
+## Usage
 
-In addition, "simulated_dataset.csv" is available to run "rcode_v0.R" to demonstrate the CRE method. 
+TBD
 
-Both LASSO and Stability Selection are used to find causal rules from the simulated dataset. 
+## References
+
+Lee, K., Bargagli-Stoffi, F. J., & Dominici, F. (2020). Causal rule ensemble:
+Interpretable inference of heterogeneous treatment effects.  arXiv preprint arXiv:2009.09036.
