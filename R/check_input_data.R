@@ -15,6 +15,7 @@
 check_input_data <- function(y, z, X){
 
   #---------------- Input data checks ------------------------------------------
+
   ## type
   if (!is.vector(y) & !is.numeric(y)){
     stop("Observed response vector (y) input values should be a numerical vector")
