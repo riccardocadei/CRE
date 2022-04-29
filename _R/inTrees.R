@@ -25,6 +25,25 @@
 # package will remove this file and import the inTrees package directly from
 # CRAN.
 
+# Loaded libraries for inTrees:
+# stats (in common with CRE)
+# xtable
+# data.table (in common with CRE)
+# RRF from RRF
+# getTree from RRF
+# pretty.gbm.tree from gbm
+# xgb.model.dt.tree from xgboost
+# arules
+# as from methods
+
+# Used functions:
+# inTrees_RF2List
+# inTrees_GBM2List
+# inTrees_extractRules
+# inTrees_pruneRule
+# inTrees_getRuleMetric
+
+
 voteAllRules <-
   function(ruleMetric,X,type="r",method="median"){
     xVoteList = vector("list",nrow(X))
@@ -226,7 +245,7 @@ pruneSingleRule <-
   }
 
 
-pruneRule <-
+inTrees_pruneRule <-
   function(rules,X,target, maxDecay = 0.05, typeDecay = 2){
     newRuleMetric <- NULL
     for(i in 1:nrow(rules)){
@@ -459,7 +478,7 @@ getTypeX <-
     return(typeX)
   }
 
-getRuleMetric <-
+inTrees_getRuleMetric <-
   function(ruleExec, X, target){
     #typeX = getTypeX(X)
     #ruleExec <- unique(t(sapply(allRulesList,RuleList2Exec,typeX=typeX)))
@@ -551,7 +570,7 @@ formatGBM <-
     return(gbmList)
   }
 
-extractRules <-
+inTrees_extractRules <-
   function(treeList,X,ntree=100,maxdepth=6,random=FALSE,digits=NULL){
     if(is.numeric(digits)) digits <- as.integer(abs(digits))
 
@@ -772,7 +791,7 @@ XGB2List<-
     return(treeList)
   }
 
-RF2List <-
+inTrees_RF2List <-
   function(rf){
     treeList <- NULL
     treeList$ntree <- rf$ntree
@@ -793,7 +812,7 @@ Num2Level <-
     return(rfList)
   }
 
-GBM2List <-
+inTrees_GBM2List <-
   function(gbm1,X){
     treeList <- NULL
     treeList$ntree <- gbm1$n.trees

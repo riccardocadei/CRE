@@ -33,8 +33,35 @@ BugReports: https://github.com/fasrc/CRE/issues
 Depends: 
     R (>= 3.5.0)
 Imports: 
+    baggr,
+    BART,
+    bartCause,
+    bcf,
+    devtools,
+    doParallel,
+    dplyr,
+    foreach,
+    gbm,
+    ggplot2,
+    glmnet,
+    gnm,
+    grf,
+    logger,
+    magrittr,
     MASS,
-    stats
+    randomForest,
+    rpart,
+    stabs,
+    stringr,
+    SuperLearner,
+    tidyverse,
+    xgboost,
+    xtable, 
+    stats, 
+    data.table,
+    RRF,
+    arules,
+    methods
 Suggests:
     covr,
     knitr,

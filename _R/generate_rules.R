@@ -91,7 +91,7 @@ generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
     forest <- randomForest::combine(forest, model1_RF)
   }
 
-  treelist_RF <- RF2List(forest)
+  treelist_RF <- inTrees_RF2List(forest)
   rules_RF <- extract_rules(treelist_RF, X, ntrees_rf, ite_std, FALSE, 2)
 
   # Gradient Boosting
@@ -111,7 +111,8 @@ generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
     model1_GB <- gbm::gbm.more(model1_GB, n.new.trees = 1, verbose = FALSE)
   }
 
-  treelist_GB <- GBM2List(model1_GB, X)
+
+  treelist_GB <- inTrees_GBM2List(model1_GB, X)
   rules_GB <- extract_rules(treelist_GB, X, ntrees_gbm, ite_std, TRUE, 1)
 
   rules_list <- c(rules_RF, rules_GB)

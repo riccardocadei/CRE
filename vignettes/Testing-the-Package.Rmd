@@ -98,7 +98,7 @@ branching convention.
 
 Run the following command to test the package. 
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, eval=FALSE}
 
 library(CRE)
 
@@ -143,7 +143,7 @@ cre_results_1[["CATE_results"]][,1]
 cre_results_1[["CATE_results"]][,1]
 ```
 
-```{r, warning=FALSE, eval=TRUE}
+```{r, warning=FALSE, eval=FALSE}
 # DRLearner CATE estimation with AIPW ITE estimation
 
 method_params_2 <- list(ratio_dis = 0.25,

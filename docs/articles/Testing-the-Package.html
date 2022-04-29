@@ -107,7 +107,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/detach.html" class="external-link">detach</a></span><span class="op">(</span><span class="st">"package:CRE"</span>, unload <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># if already you have the package, detach and unload it, to have a new install. </span>
 <span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"NSAPH-Software/CRE"</span>, ref<span class="op">=</span><span class="st">"develop"</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/fasrc/CRE">CRE</a></span><span class="op">)</span></code></pre></div>
-<p>Try <code><a href="../reference/CRE-package.html">?CRE</a></code>. It should open the package description page under the help tab (assuming you are using RStudio).</p>
+<p>Try <code>?CRE</code>. It should open the package description page under the help tab (assuming you are using RStudio).</p>
 </div>
 <div class="section level3">
 <h3 id="installing-the-package-from-cran">Installing the package from CRAN<a class="anchor" aria-label="anchor" href="#installing-the-package-from-cran"></a>
@@ -156,285 +156,69 @@
 
 
 <span class="co"># Run parameters</span>
-<span class="va">params_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ratio_dis <span class="op">=</span> <span class="fl">0.25</span>,
-                 ntrees_rf <span class="op">=</span> <span class="fl">100</span>,
-                 ntrees_gbm <span class="op">=</span> <span class="fl">50</span>,
-                 min_nodes <span class="op">=</span> <span class="fl">20</span>,
-                 max_nodes <span class="op">=</span> <span class="fl">5</span>,
-                 t <span class="op">=</span> <span class="fl">0.025</span>,
-                 q <span class="op">=</span> <span class="fl">0.8</span>,
-                 rules_method <span class="op">=</span> <span class="cn">NA</span>,
-                 include_offset <span class="op">=</span> <span class="cn">FALSE</span>,
-                 offset_name <span class="op">=</span> <span class="cn">NA</span>,
-                 filter_cate <span class="op">=</span> <span class="cn">FALSE</span>,
-                 ite_method_dis <span class="op">=</span> <span class="st">"poisson"</span>,
-                 include_ps_dis <span class="op">=</span> <span class="cn">NA</span>, 
-                 ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
-                 ite_method_inf <span class="op">=</span> <span class="st">"poisson"</span>,
-                 include_ps_inf <span class="op">=</span> <span class="cn">NA</span>, 
-                 ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
-                 or_method_inf <span class="op">=</span> <span class="cn">NA</span>, 
-                 cate_method <span class="op">=</span> <span class="st">"poisson"</span>, 
-                 cate_SL_library <span class="op">=</span> <span class="cn">NA</span>
-                 <span class="op">)</span>
+<span class="va">method_params_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ratio_dis <span class="op">=</span> <span class="fl">0.25</span>,
+                       rules_method <span class="op">=</span> <span class="cn">NA</span>,
+                       include_offset <span class="op">=</span> <span class="cn">FALSE</span>,
+                       offset_name <span class="op">=</span> <span class="cn">NA</span>,
+                       filter_cate <span class="op">=</span> <span class="cn">FALSE</span>,
+                       ite_method_dis <span class="op">=</span> <span class="st">"poisson"</span>,
+                       include_ps_dis <span class="op">=</span> <span class="cn">NA</span>, 
+                       ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
+                       ite_method_inf <span class="op">=</span> <span class="st">"poisson"</span>,
+                       include_ps_inf <span class="op">=</span> <span class="cn">NA</span>, 
+                       ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
+                       oreg_method_inf <span class="op">=</span> <span class="cn">NA</span>, 
+                       cate_method <span class="op">=</span> <span class="st">"poisson"</span>, 
+                       cate_SL_library <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>
+
+<span class="va">hyper_params_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ntrees_rf <span class="op">=</span> <span class="fl">100</span>,
+                       ntrees_gbm <span class="op">=</span> <span class="fl">50</span>,
+                       min_nodes <span class="op">=</span> <span class="fl">20</span>,
+                       max_nodes <span class="op">=</span> <span class="fl">5</span>,
+                       t <span class="op">=</span> <span class="fl">0.025</span>,
+                       q <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span>
 
 <span class="co"># Poisson CATE estimation with Poisson ITE estimation</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Testing Poisson CATE estimation with Poisson ITE estimation"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Testing Poisson CATE estimation with Poisson ITE estimation"</span>
-<span class="va">cre_results_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cre.html">cre</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">params_1</span><span class="op">)</span>
-<span class="co">#&gt; Registered S3 method overwritten by 'randomForest':</span>
-<span class="co">#&gt;   method      from</span>
-<span class="co">#&gt;   plot.margin RRF</span>
-<span class="co">#&gt; 388 rules (length&lt;=15) were extracted from the first 100 trees.</span>
-<span class="co">#&gt; 150 rules (length&lt;=15) were extracted from the first 50 trees.</span>
-<span class="co">#&gt; Conducting Inference Subsample Analysis</span>
+<span class="va">cre_results_1</span> <span class="op">&lt;-</span> <span class="fu">cre</span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">method_params_1</span>, <span class="va">hyper_params_1</span><span class="op">)</span>
 
 <span class="va">cre_results_1</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
-<span class="co">#&gt;  [1] "(Intercept)"                          </span>
-<span class="co">#&gt;  [2] "treatment"                            </span>
-<span class="co">#&gt;  [3] "treatment:x1&lt;=0.5 &amp; x2&lt;=0.5"          </span>
-<span class="co">#&gt;  [4] "treatment:x2&lt;=0.5"                    </span>
-<span class="co">#&gt;  [5] "treatment:x1&lt;=0.5 &amp; x8&gt;0.5"           </span>
-<span class="co">#&gt;  [6] "treatment:x3&lt;=0.5 &amp; x4&lt;=0.5"          </span>
-<span class="co">#&gt;  [7] "treatment:x10&lt;=0.5"                   </span>
-<span class="co">#&gt;  [8] "treatment:x9&lt;=0.5"                    </span>
-<span class="co">#&gt;  [9] "treatment:x2&gt;0.5 &amp; x7&lt;=0.5"           </span>
-<span class="co">#&gt; [10] "treatment:x1&lt;=0.5 &amp; x6&gt;0.5 &amp; x7&lt;=0.5" </span>
-<span class="co">#&gt; [11] "treatment:x2&lt;=0.5 &amp; x5&gt;0.5"           </span>
-<span class="co">#&gt; [12] "treatment:x4&gt;0.5 &amp; x5&gt;0.5 &amp; x7&lt;=0.5"  </span>
-<span class="co">#&gt; [13] "treatment:x1&gt;0.5 &amp; x5&lt;=0.5 &amp; x7&lt;=0.5" </span>
-<span class="co">#&gt; [14] "treatment:x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x6&lt;=0.5"</span>
-<span class="co">#&gt; [15] "treatment:x2&lt;=0.5 &amp; x8&gt;0.5"           </span>
-<span class="co">#&gt; [16] "treatment:x3&lt;=0.5 &amp; x8&gt;0.5"           </span>
-<span class="co">#&gt; [17] "treatment:x2&gt;0.5 &amp; x5&gt;0.5"            </span>
-<span class="co">#&gt; [18] "treatment:x1&lt;=0.5 &amp; x4&lt;=0.5"          </span>
-<span class="co">#&gt; [19] "treatment:x1&lt;=0.5 &amp; x4&lt;=0.5 &amp; x6&lt;=0.5"</span>
-<span class="co">#&gt; [20] "treatment:x2&lt;=0.5 &amp; x8&gt;0.5 &amp; x9&lt;=0.5" </span>
-<span class="co">#&gt; [21] "treatment:x1&lt;=0.5 &amp; x3&lt;=0.5 &amp; x6&lt;=0.5"</span>
-<span class="co">#&gt; [22] "treatment:x1&lt;=0.5 &amp; x9&lt;=0.5"          </span>
-<span class="co">#&gt; [23] "treatment:x2&lt;=0.5 &amp; x5&gt;0.5 &amp; x8&lt;=0.5" </span>
-<span class="co">#&gt; [24] "treatment:x2&lt;=0.5 &amp; x3&lt;=0.5 &amp; x5&gt;0.5" </span>
-<span class="co">#&gt; [25] "treatment:x1&gt;0.5 &amp; x4&gt;0.5 &amp; x6&lt;=0.5"  </span>
-<span class="co">#&gt; [26] "treatment:x1&gt;0.5 &amp; x5&lt;=0.5 &amp; x9&lt;=0.5" </span>
-<span class="co">#&gt; [27] "treatment:x2&gt;0.5 &amp; x3&gt;0.5"            </span>
-<span class="co">#&gt; [28] "treatment:x4&gt;0.5 &amp; x5&gt;0.5"            </span>
-<span class="co">#&gt; [29] "treatment:x1&gt;0.5 &amp; x6&gt;0.5"            </span>
-<span class="co">#&gt; [30] "treatment:x1&gt;0.5 &amp; x3&gt;0.5"            </span>
-<span class="co">#&gt; [31] "treatment:x1&lt;=0.5 &amp; x5&gt;0.5 &amp; x8&lt;=0.5" </span>
-<span class="co">#&gt; [32] "treatment:x3&gt;0.5 &amp; x4&gt;0.5 &amp; x10&gt;0.5"  </span>
-<span class="co">#&gt; [33] "treatment:x1&gt;0.5 &amp; x4&gt;0.5 &amp; x5&lt;=0.5"  </span>
-<span class="co">#&gt; [34] "treatment:x2&gt;0.5 &amp; x9&gt;0.5"            </span>
-<span class="co">#&gt; [35] "treatment:x2&gt;0.5 &amp; x5&lt;=0.5 &amp; x8&lt;=0.5" </span>
-<span class="co">#&gt; [36] "treatment:x2&gt;0.5 &amp; x6&gt;0.5"            </span>
-<span class="co">#&gt; [37] "treatment:x4&gt;0.5"                     </span>
-<span class="co">#&gt; [38] "treatment:x3&gt;0.5 &amp; x4&gt;0.5"            </span>
-<span class="co">#&gt; [39] "treatment:x1&gt;0.5 &amp; x8&lt;=0.5"           </span>
-<span class="co">#&gt; [40] "treatment:x6&gt;0.5"                     </span>
-<span class="co">#&gt; [41] "treatment:x1&gt;0.5 &amp; x2&gt;0.5"            </span>
-<span class="co">#&gt; [42] "x1"                                   </span>
-<span class="co">#&gt; [43] "x2"                                   </span>
-<span class="co">#&gt; [44] "x3"                                   </span>
-<span class="co">#&gt; [45] "x4"                                   </span>
-<span class="co">#&gt; [46] "x5"                                   </span>
-<span class="co">#&gt; [47] "x6"                                   </span>
-<span class="co">#&gt; [48] "x7"                                   </span>
-<span class="co">#&gt; [49] "x8"                                   </span>
-<span class="co">#&gt; [50] "x9"                                   </span>
-<span class="co">#&gt; [51] "x10"</span>
-<span class="va">cre_results_1</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
-<span class="co">#&gt;  [1] "(Intercept)"                          </span>
-<span class="co">#&gt;  [2] "treatment"                            </span>
-<span class="co">#&gt;  [3] "treatment:x1&lt;=0.5 &amp; x2&lt;=0.5"          </span>
-<span class="co">#&gt;  [4] "treatment:x2&lt;=0.5"                    </span>
-<span class="co">#&gt;  [5] "treatment:x1&lt;=0.5 &amp; x8&gt;0.5"           </span>
-<span class="co">#&gt;  [6] "treatment:x3&lt;=0.5 &amp; x4&lt;=0.5"          </span>
-<span class="co">#&gt;  [7] "treatment:x10&lt;=0.5"                   </span>
-<span class="co">#&gt;  [8] "treatment:x9&lt;=0.5"                    </span>
-<span class="co">#&gt;  [9] "treatment:x2&gt;0.5 &amp; x7&lt;=0.5"           </span>
-<span class="co">#&gt; [10] "treatment:x1&lt;=0.5 &amp; x6&gt;0.5 &amp; x7&lt;=0.5" </span>
-<span class="co">#&gt; [11] "treatment:x2&lt;=0.5 &amp; x5&gt;0.5"           </span>
-<span class="co">#&gt; [12] "treatment:x4&gt;0.5 &amp; x5&gt;0.5 &amp; x7&lt;=0.5"  </span>
-<span class="co">#&gt; [13] "treatment:x1&gt;0.5 &amp; x5&lt;=0.5 &amp; x7&lt;=0.5" </span>
-<span class="co">#&gt; [14] "treatment:x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x6&lt;=0.5"</span>
-<span class="co">#&gt; [15] "treatment:x2&lt;=0.5 &amp; x8&gt;0.5"           </span>
-<span class="co">#&gt; [16] "treatment:x3&lt;=0.5 &amp; x8&gt;0.5"           </span>
-<span class="co">#&gt; [17] "treatment:x2&gt;0.5 &amp; x5&gt;0.5"            </span>
-<span class="co">#&gt; [18] "treatment:x1&lt;=0.5 &amp; x4&lt;=0.5"          </span>
-<span class="co">#&gt; [19] "treatment:x1&lt;=0.5 &amp; x4&lt;=0.5 &amp; x6&lt;=0.5"</span>
-<span class="co">#&gt; [20] "treatment:x2&lt;=0.5 &amp; x8&gt;0.5 &amp; x9&lt;=0.5" </span>
-<span class="co">#&gt; [21] "treatment:x1&lt;=0.5 &amp; x3&lt;=0.5 &amp; x6&lt;=0.5"</span>
-<span class="co">#&gt; [22] "treatment:x1&lt;=0.5 &amp; x9&lt;=0.5"          </span>
-<span class="co">#&gt; [23] "treatment:x2&lt;=0.5 &amp; x5&gt;0.5 &amp; x8&lt;=0.5" </span>
-<span class="co">#&gt; [24] "treatment:x2&lt;=0.5 &amp; x3&lt;=0.5 &amp; x5&gt;0.5" </span>
-<span class="co">#&gt; [25] "treatment:x1&gt;0.5 &amp; x4&gt;0.5 &amp; x6&lt;=0.5"  </span>
-<span class="co">#&gt; [26] "treatment:x1&gt;0.5 &amp; x5&lt;=0.5 &amp; x9&lt;=0.5" </span>
-<span class="co">#&gt; [27] "treatment:x2&gt;0.5 &amp; x3&gt;0.5"            </span>
-<span class="co">#&gt; [28] "treatment:x4&gt;0.5 &amp; x5&gt;0.5"            </span>
-<span class="co">#&gt; [29] "treatment:x1&gt;0.5 &amp; x6&gt;0.5"            </span>
-<span class="co">#&gt; [30] "treatment:x1&gt;0.5 &amp; x3&gt;0.5"            </span>
-<span class="co">#&gt; [31] "treatment:x1&lt;=0.5 &amp; x5&gt;0.5 &amp; x8&lt;=0.5" </span>
-<span class="co">#&gt; [32] "treatment:x3&gt;0.5 &amp; x4&gt;0.5 &amp; x10&gt;0.5"  </span>
-<span class="co">#&gt; [33] "treatment:x1&gt;0.5 &amp; x4&gt;0.5 &amp; x5&lt;=0.5"  </span>
-<span class="co">#&gt; [34] "treatment:x2&gt;0.5 &amp; x9&gt;0.5"            </span>
-<span class="co">#&gt; [35] "treatment:x2&gt;0.5 &amp; x5&lt;=0.5 &amp; x8&lt;=0.5" </span>
-<span class="co">#&gt; [36] "treatment:x2&gt;0.5 &amp; x6&gt;0.5"            </span>
-<span class="co">#&gt; [37] "treatment:x4&gt;0.5"                     </span>
-<span class="co">#&gt; [38] "treatment:x3&gt;0.5 &amp; x4&gt;0.5"            </span>
-<span class="co">#&gt; [39] "treatment:x1&gt;0.5 &amp; x8&lt;=0.5"           </span>
-<span class="co">#&gt; [40] "treatment:x6&gt;0.5"                     </span>
-<span class="co">#&gt; [41] "treatment:x1&gt;0.5 &amp; x2&gt;0.5"            </span>
-<span class="co">#&gt; [42] "x1"                                   </span>
-<span class="co">#&gt; [43] "x2"                                   </span>
-<span class="co">#&gt; [44] "x3"                                   </span>
-<span class="co">#&gt; [45] "x4"                                   </span>
-<span class="co">#&gt; [46] "x5"                                   </span>
-<span class="co">#&gt; [47] "x6"                                   </span>
-<span class="co">#&gt; [48] "x7"                                   </span>
-<span class="co">#&gt; [49] "x8"                                   </span>
-<span class="co">#&gt; [50] "x9"                                   </span>
-<span class="co">#&gt; [51] "x10"</span></code></pre></div>
+<span class="va">cre_results_1</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># DRLearner CATE estimation with AIPW ITE estimation</span>
 
-<span class="va">params_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ratio_dis <span class="op">=</span> <span class="fl">0.25</span>,
-                 ntrees_rf <span class="op">=</span> <span class="fl">100</span>,
-                 ntrees_gbm <span class="op">=</span> <span class="fl">50</span>,
-                 min_nodes <span class="op">=</span> <span class="fl">20</span>,
-                 max_nodes <span class="op">=</span> <span class="fl">5</span>,
-                 t <span class="op">=</span> <span class="fl">0.025</span>,
-                 q <span class="op">=</span> <span class="fl">0.8</span>,
-                 rules_method <span class="op">=</span> <span class="cn">NA</span>,
-                 include_offset <span class="op">=</span> <span class="cn">FALSE</span>,
-                 offset_name <span class="op">=</span> <span class="cn">NA</span>,
-                 filter_cate <span class="op">=</span> <span class="cn">FALSE</span>,
-                 ite_method_dis <span class="op">=</span> <span class="st">"aipw"</span>,
-                 include_ps_dis <span class="op">=</span> <span class="cn">NA</span>, 
-                 ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
-                 or_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
-                 ite_method_inf <span class="op">=</span> <span class="st">"aipw"</span>,
-                 include_ps_inf <span class="op">=</span> <span class="cn">NA</span>, 
-                 ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
-                 or_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>, 
-                 cate_method <span class="op">=</span> <span class="st">"DRLearner"</span>, 
-                 cate_SL_library <span class="op">=</span><span class="st">"SL.xgboost"</span>
-                 <span class="op">)</span>
+<span class="va">method_params_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ratio_dis <span class="op">=</span> <span class="fl">0.25</span>,
+                        rules_method <span class="op">=</span> <span class="cn">NA</span>,
+                        include_offset <span class="op">=</span> <span class="cn">FALSE</span>,
+                        offset_name <span class="op">=</span> <span class="cn">NA</span>,
+                        filter_cate <span class="op">=</span> <span class="cn">FALSE</span>,
+                        ite_method_dis <span class="op">=</span> <span class="st">"aipw"</span>,
+                        include_ps_dis <span class="op">=</span> <span class="cn">NA</span>, 
+                        ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
+                        oreg_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
+                        ite_method_inf <span class="op">=</span> <span class="st">"aipw"</span>,
+                        include_ps_inf <span class="op">=</span> <span class="cn">NA</span>, 
+                        ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
+                        oreg_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>, 
+                        cate_method <span class="op">=</span> <span class="st">"DRLearner"</span>, 
+                        cate_SL_library <span class="op">=</span><span class="st">"SL.xgboost"</span><span class="op">)</span>
+
+<span class="va">hyper_params_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ntrees_rf <span class="op">=</span> <span class="fl">100</span>,
+                       ntrees_gbm <span class="op">=</span> <span class="fl">50</span>,
+                       min_nodes <span class="op">=</span> <span class="fl">20</span>,
+                       max_nodes <span class="op">=</span> <span class="fl">5</span>,
+                       t <span class="op">=</span> <span class="fl">0.025</span>,
+                       q <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Testing DRLearner CATE estimation with AIPW ITE estimation"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Testing DRLearner CATE estimation with AIPW ITE estimation"</span>
-<span class="va">cre_results_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cre.html">cre</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">params_2</span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: nnls</span>
-<span class="co">#&gt; 495 rules (length&lt;=15) were extracted from the first 100 trees.</span>
-<span class="co">#&gt; 338 rules (length&lt;=15) were extracted from the first 50 trees.</span>
-<span class="co">#&gt; Conducting Inference Subsample Analysis</span>
+<span class="va">cre_results_2</span> <span class="op">&lt;-</span> <span class="fu">cre</span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">method_params_2</span>, <span class="va">hyper_params_2</span><span class="op">)</span>
 
 <span class="va">cre_results_2</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
-<span class="co">#&gt;  [1] "(Treatment)"                          </span>
-<span class="co">#&gt;  [2] "x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x8&gt;0.5"           </span>
-<span class="co">#&gt;  [3] "x2&lt;=0.5 &amp; x3&gt;0.5 &amp; x10&lt;=0.5"          </span>
-<span class="co">#&gt;  [4] "x6&gt;0.5 &amp; x10&lt;=0.5"                    </span>
-<span class="co">#&gt;  [5] "x1&lt;=0.5 &amp; x2&lt;=0.5"                    </span>
-<span class="co">#&gt;  [6] "x8&lt;=0.5 &amp; x10&lt;=0.5"                   </span>
-<span class="co">#&gt;  [7] "x2&gt;0.5 &amp; x8&lt;=0.5 &amp; x10&lt;=0.5"          </span>
-<span class="co">#&gt;  [8] "x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x9&gt;0.5"           </span>
-<span class="co">#&gt;  [9] "x2&lt;=0.5 &amp; x7&gt;0.5"                     </span>
-<span class="co">#&gt; [10] "x2&gt;0.5 &amp; x3&lt;=0.5 &amp; x10&gt;0.5"           </span>
-<span class="co">#&gt; [11] "x1&gt;0.5 &amp; x9&lt;=0.5 &amp; x10&lt;=0.5"          </span>
-<span class="co">#&gt; [12] "x3&lt;=0.5 &amp; x8&lt;=0.5"                    </span>
-<span class="co">#&gt; [13] "x2&lt;=0.5 &amp; x10&gt;0.5"                    </span>
-<span class="co">#&gt; [14] "x1&lt;=0.5 &amp; x5&lt;=0.5"                    </span>
-<span class="co">#&gt; [15] "x5&gt;0.5 &amp; x10&lt;=0.5"                    </span>
-<span class="co">#&gt; [16] "x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x10&lt;=0.5"         </span>
-<span class="co">#&gt; [17] "x1&gt;0.5 &amp; x6&gt;0.5"                      </span>
-<span class="co">#&gt; [18] "x7&gt;0.5"                               </span>
-<span class="co">#&gt; [19] "x2&lt;=0.5 &amp; x4&lt;=0.5 &amp; x6&lt;=0.5"          </span>
-<span class="co">#&gt; [20] "x6&gt;0.5 &amp; x7&lt;=0.5"                     </span>
-<span class="co">#&gt; [21] "x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x5&lt;=0.5 &amp; x8&lt;=0.5"</span>
-<span class="co">#&gt; [22] "x2&gt;0.5 &amp; x3&lt;=0.5 &amp; x8&lt;=0.5"           </span>
-<span class="co">#&gt; [23] "x1&gt;0.5 &amp; x2&lt;=0.5 &amp; x5&gt;0.5"            </span>
-<span class="co">#&gt; [24] "x2&lt;=0.5 &amp; x4&lt;=0.5 &amp; x6&lt;=0.5 &amp; x10&gt;0.5"</span>
-<span class="co">#&gt; [25] "x1&gt;0.5 &amp; x3&lt;=0.5 &amp; x10&gt;0.5"           </span>
-<span class="co">#&gt; [26] "x1&lt;=0.5 &amp; x2&gt;0.5 &amp; x4&gt;0.5 &amp; x10&lt;=0.5" </span>
-<span class="co">#&gt; [27] "x1&gt;0.5 &amp; x3&lt;=0.5 &amp; x4&lt;=0.5 &amp; x8&lt;=0.5" </span>
-<span class="co">#&gt; [28] "x1&lt;=0.5 &amp; x3&lt;=0.5 &amp; x8&lt;=0.5"          </span>
-<span class="co">#&gt; [29] "x1&gt;0.5 &amp; x2&lt;=0.5 &amp; x4&lt;=0.5 &amp; x10&gt;0.5" </span>
-<span class="co">#&gt; [30] "x1&gt;0.5 &amp; x2&gt;0.5 &amp; x3&lt;=0.5"            </span>
-<span class="co">#&gt; [31] "x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x3&lt;=0.5 &amp; x7&gt;0.5" </span>
-<span class="co">#&gt; [32] "x3&lt;=0.5 &amp; x4&lt;=0.5 &amp; x6&lt;=0.5 &amp; x10&gt;0.5"</span>
-<span class="co">#&gt; [33] "x2&lt;=0.5 &amp; x4&lt;=0.5 &amp; x8&lt;=0.5"          </span>
-<span class="co">#&gt; [34] "x1&lt;=0.5 &amp; x3&lt;=0.5 &amp; x6&lt;=0.5 &amp; x10&gt;0.5"</span>
-<span class="co">#&gt; [35] "x2&lt;=0.5 &amp; x8&lt;=0.5 &amp; x9&lt;=0.5"          </span>
-<span class="co">#&gt; [36] "x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x4&lt;=0.5 &amp; x10&gt;0.5"</span>
-<span class="co">#&gt; [37] "x1&gt;0.5 &amp; x7&lt;=0.5 &amp; x8&gt;0.5"            </span>
-<span class="co">#&gt; [38] "x2&gt;0.5 &amp; x9&lt;=0.5"                     </span>
-<span class="co">#&gt; [39] "x5&gt;0.5 &amp; x7&gt;0.5 &amp; x10&lt;=0.5"           </span>
-<span class="co">#&gt; [40] "x4&gt;0.5 &amp; x8&lt;=0.5"                     </span>
-<span class="co">#&gt; [41] "x1&gt;0.5 &amp; x8&lt;=0.5"                     </span>
-<span class="co">#&gt; [42] "x10&lt;=0.5"                             </span>
-<span class="co">#&gt; [43] "x2&lt;=0.5 &amp; x4&lt;=0.5 &amp; x9&lt;=0.5"          </span>
-<span class="co">#&gt; [44] "x1&gt;0.5 &amp; x2&gt;0.5 &amp; x3&gt;0.5 &amp; x9&gt;0.5"    </span>
-<span class="co">#&gt; [45] "x3&lt;=0.5 &amp; x4&lt;=0.5"                    </span>
-<span class="co">#&gt; [46] "x1&gt;0.5 &amp; x3&lt;=0.5 &amp; x7&lt;=0.5"           </span>
-<span class="co">#&gt; [47] "x2&gt;0.5 &amp; x3&gt;0.5 &amp; x6&lt;=0.5 &amp; x9&lt;=0.5"  </span>
-<span class="co">#&gt; [48] "x1&gt;0.5"                               </span>
-<span class="co">#&gt; [49] "x2&gt;0.5 &amp; x3&gt;0.5 &amp; x9&gt;0.5"             </span>
-<span class="co">#&gt; [50] "x1&gt;0.5 &amp; x2&lt;=0.5 &amp; x9&gt;0.5"            </span>
-<span class="co">#&gt; [51] "x2&gt;0.5 &amp; x3&gt;0.5"</span>
-<span class="va">cre_results_2</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
-<span class="co">#&gt;  [1] "(Treatment)"                          </span>
-<span class="co">#&gt;  [2] "x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x8&gt;0.5"           </span>
-<span class="co">#&gt;  [3] "x2&lt;=0.5 &amp; x3&gt;0.5 &amp; x10&lt;=0.5"          </span>
-<span class="co">#&gt;  [4] "x6&gt;0.5 &amp; x10&lt;=0.5"                    </span>
-<span class="co">#&gt;  [5] "x1&lt;=0.5 &amp; x2&lt;=0.5"                    </span>
-<span class="co">#&gt;  [6] "x8&lt;=0.5 &amp; x10&lt;=0.5"                   </span>
-<span class="co">#&gt;  [7] "x2&gt;0.5 &amp; x8&lt;=0.5 &amp; x10&lt;=0.5"          </span>
-<span class="co">#&gt;  [8] "x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x9&gt;0.5"           </span>
-<span class="co">#&gt;  [9] "x2&lt;=0.5 &amp; x7&gt;0.5"                     </span>
-<span class="co">#&gt; [10] "x2&gt;0.5 &amp; x3&lt;=0.5 &amp; x10&gt;0.5"           </span>
-<span class="co">#&gt; [11] "x1&gt;0.5 &amp; x9&lt;=0.5 &amp; x10&lt;=0.5"          </span>
-<span class="co">#&gt; [12] "x3&lt;=0.5 &amp; x8&lt;=0.5"                    </span>
-<span class="co">#&gt; [13] "x2&lt;=0.5 &amp; x10&gt;0.5"                    </span>
-<span class="co">#&gt; [14] "x1&lt;=0.5 &amp; x5&lt;=0.5"                    </span>
-<span class="co">#&gt; [15] "x5&gt;0.5 &amp; x10&lt;=0.5"                    </span>
-<span class="co">#&gt; [16] "x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x10&lt;=0.5"         </span>
-<span class="co">#&gt; [17] "x1&gt;0.5 &amp; x6&gt;0.5"                      </span>
-<span class="co">#&gt; [18] "x7&gt;0.5"                               </span>
-<span class="co">#&gt; [19] "x2&lt;=0.5 &amp; x4&lt;=0.5 &amp; x6&lt;=0.5"          </span>
-<span class="co">#&gt; [20] "x6&gt;0.5 &amp; x7&lt;=0.5"                     </span>
-<span class="co">#&gt; [21] "x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x5&lt;=0.5 &amp; x8&lt;=0.5"</span>
-<span class="co">#&gt; [22] "x2&gt;0.5 &amp; x3&lt;=0.5 &amp; x8&lt;=0.5"           </span>
-<span class="co">#&gt; [23] "x1&gt;0.5 &amp; x2&lt;=0.5 &amp; x5&gt;0.5"            </span>
-<span class="co">#&gt; [24] "x2&lt;=0.5 &amp; x4&lt;=0.5 &amp; x6&lt;=0.5 &amp; x10&gt;0.5"</span>
-<span class="co">#&gt; [25] "x1&gt;0.5 &amp; x3&lt;=0.5 &amp; x10&gt;0.5"           </span>
-<span class="co">#&gt; [26] "x1&lt;=0.5 &amp; x2&gt;0.5 &amp; x4&gt;0.5 &amp; x10&lt;=0.5" </span>
-<span class="co">#&gt; [27] "x1&gt;0.5 &amp; x3&lt;=0.5 &amp; x4&lt;=0.5 &amp; x8&lt;=0.5" </span>
-<span class="co">#&gt; [28] "x1&lt;=0.5 &amp; x3&lt;=0.5 &amp; x8&lt;=0.5"          </span>
-<span class="co">#&gt; [29] "x1&gt;0.5 &amp; x2&lt;=0.5 &amp; x4&lt;=0.5 &amp; x10&gt;0.5" </span>
-<span class="co">#&gt; [30] "x1&gt;0.5 &amp; x2&gt;0.5 &amp; x3&lt;=0.5"            </span>
-<span class="co">#&gt; [31] "x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x3&lt;=0.5 &amp; x7&gt;0.5" </span>
-<span class="co">#&gt; [32] "x3&lt;=0.5 &amp; x4&lt;=0.5 &amp; x6&lt;=0.5 &amp; x10&gt;0.5"</span>
-<span class="co">#&gt; [33] "x2&lt;=0.5 &amp; x4&lt;=0.5 &amp; x8&lt;=0.5"          </span>
-<span class="co">#&gt; [34] "x1&lt;=0.5 &amp; x3&lt;=0.5 &amp; x6&lt;=0.5 &amp; x10&gt;0.5"</span>
-<span class="co">#&gt; [35] "x2&lt;=0.5 &amp; x8&lt;=0.5 &amp; x9&lt;=0.5"          </span>
-<span class="co">#&gt; [36] "x1&lt;=0.5 &amp; x2&lt;=0.5 &amp; x4&lt;=0.5 &amp; x10&gt;0.5"</span>
-<span class="co">#&gt; [37] "x1&gt;0.5 &amp; x7&lt;=0.5 &amp; x8&gt;0.5"            </span>
-<span class="co">#&gt; [38] "x2&gt;0.5 &amp; x9&lt;=0.5"                     </span>
-<span class="co">#&gt; [39] "x5&gt;0.5 &amp; x7&gt;0.5 &amp; x10&lt;=0.5"           </span>
-<span class="co">#&gt; [40] "x4&gt;0.5 &amp; x8&lt;=0.5"                     </span>
-<span class="co">#&gt; [41] "x1&gt;0.5 &amp; x8&lt;=0.5"                     </span>
-<span class="co">#&gt; [42] "x10&lt;=0.5"                             </span>
-<span class="co">#&gt; [43] "x2&lt;=0.5 &amp; x4&lt;=0.5 &amp; x9&lt;=0.5"          </span>
-<span class="co">#&gt; [44] "x1&gt;0.5 &amp; x2&gt;0.5 &amp; x3&gt;0.5 &amp; x9&gt;0.5"    </span>
-<span class="co">#&gt; [45] "x3&lt;=0.5 &amp; x4&lt;=0.5"                    </span>
-<span class="co">#&gt; [46] "x1&gt;0.5 &amp; x3&lt;=0.5 &amp; x7&lt;=0.5"           </span>
-<span class="co">#&gt; [47] "x2&gt;0.5 &amp; x3&gt;0.5 &amp; x6&lt;=0.5 &amp; x9&lt;=0.5"  </span>
-<span class="co">#&gt; [48] "x1&gt;0.5"                               </span>
-<span class="co">#&gt; [49] "x2&gt;0.5 &amp; x3&gt;0.5 &amp; x9&gt;0.5"             </span>
-<span class="co">#&gt; [50] "x1&gt;0.5 &amp; x2&lt;=0.5 &amp; x9&gt;0.5"            </span>
-<span class="co">#&gt; [51] "x2&gt;0.5 &amp; x3&gt;0.5"</span></code></pre></div>
+<span class="va">cre_results_2</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># CF-means CATE estimation with BCF ITE estimation</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Testing CF-means CATE estimation with BCF ITE estimation"</span><span class="op">)</span>
-<span class="va">cre_results_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cre.html">cre</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">ratio_dis</span>, ite_method_dis <span class="op">=</span> <span class="st">"bcf"</span>,
+<span class="va">cre_results_3</span> <span class="op">&lt;-</span> <span class="fu">cre</span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">ratio_dis</span>, ite_method_dis <span class="op">=</span> <span class="st">"bcf"</span>,
                      include_ps_dis <span class="op">=</span> <span class="cn">NA</span>, ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
                      or_method_dis <span class="op">=</span> <span class="cn">NA</span>, ite_method_inf <span class="op">=</span> <span class="st">"bcf"</span>,
                      include_ps_inf <span class="op">=</span> <span class="cn">NA</span>, ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
@@ -446,7 +230,7 @@
 <span class="va">cre_results_3</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cre_results_3</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cre_results_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cre.html">cre</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">ratio_dis</span>, ite_method_dis <span class="op">=</span> <span class="st">"bart"</span>,
+<code class="sourceCode R"><span class="va">cre_results_4</span> <span class="op">&lt;-</span> <span class="fu">cre</span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">ratio_dis</span>, ite_method_dis <span class="op">=</span> <span class="st">"bart"</span>,
                      include_ps_dis <span class="op">=</span> <span class="cn">TRUE</span>, ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
                      or_method_dis <span class="op">=</span> <span class="cn">NA</span>, ite_method_inf <span class="op">=</span> <span class="st">"bart"</span>,
                      include_ps_inf <span class="op">=</span> <span class="cn">TRUE</span>, ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,
