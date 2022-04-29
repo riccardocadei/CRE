@@ -1,17 +1,15 @@
-
-
 #' @title
-#' Check input parameters
+#' Check method-related parameters
 #'
 #' @description
-#' Checks input parameters for the cre function.
+#' Checks method-related parameters.
 #'
 #' @param y The observed response vector.
-#' @param params The list of parameters required to run the ite functions.
+#' @param params The list of parameters required to run the method functions.
 #'
 #' @return
-#' A list of params that might be changed during checks.
-#' @export
+#' A modified input `params`. A list of parameters that might be changed during
+#' the checks.
 #'
 check_method_params <- function(y, params){
 
@@ -19,7 +17,8 @@ check_method_params <- function(y, params){
 
   # todo: dplyr between is not necessary.
   if (class(getElement(params, "ratio_dis")) != "numeric" |
-      !dplyr::between(getElement(params, "ratio_dis"), 0, 1)){
+      (getElement(params, "ratio_dis") < 0) |
+      (getElement(params, "ratio_dis") > 1)){
     stop("Invalid 'ratio_dis' input. Please input a number between 0 and 1.")
   }
 
@@ -147,7 +146,9 @@ check_method_params <- function(y, params){
 
 
   # Check for correct offset input
-  if ((getElement(params, "ite_method_dis") == "poisson") | (getElement(params, "ite_method_inf") == "poisson") | (getElement(params, "cate_method") == "poisson")) {
+  if ((getElement(params, "ite_method_dis") == "poisson") |
+      (getElement(params, "ite_method_inf") == "poisson") |
+      (getElement(params, "cate_method") == "poisson")) {
     if (getElement(params, "include_offset") == TRUE) {
       if (is.na(getElement(params, "offset_name"))) {
         stop(paste("Invalid offset_name input. Please specify an offset_name ",
@@ -200,8 +201,6 @@ check_method_params <- function(y, params){
   if (!(getElement(params, "filter_cate") %in% c(TRUE, FALSE))) {
     stop("Invalid 'filter_cate' input. Please specify TRUE or FALSE.")
   }
-
-
 
   return(params)
 }
