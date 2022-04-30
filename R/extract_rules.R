@@ -1,21 +1,26 @@
 #' @title
-#' Extract Rules
+#' Extract Causal Rules
 #'
 #' @description
-#' Method for extracting causal rules from the Random Forest or Gradient Boosting algorithms
+#' Method for extracting causal rules from the Random Forest or Gradient
+#' Boosting algorithms.
 #'
-#' @param treelist a list of decision trees
-#' @param X the features matrix
-#' @param ntrees the number of decision trees
-#' @param ite_std the standardized ITE
-#' @param take_1 whether or not to call the take1 helper function
-#' @param type_decay the type of decay to apply when pruning the rules
+#' @param treelist A list of decision trees.
+#' @param X The features matrix.
+#' @param ntrees The number of decision trees.
+#' @param ite_std The standardized ITE.
+#' @param take_1 Whether or not to call the take1 helper function.
+#' @param type_decay The type of decay to apply when pruning the rules.
 #'
-#' @return a vector of causal rules
+#' @keywords internal
+#'
+#' @return
+#' A vector of causal rules.
 #'
 #' @examples
 #'
-#' dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
+#' set.seed(235)
+#' dataset <- generate_cre_dataset(n = 200, rho = 0, n_rules = 2, p = 10,
 #'                                 effect_size = 2, binary = FALSE)
 #' y <- as.matrix(dataset[["y"]])
 #' z <- as.matrix(dataset[["z"]])
@@ -35,7 +40,8 @@
 #'                          include_ps = include_ps,
 #'                          ps_method = ps_method,
 #'                          oreg_method = oreg_method,
-#'                          is_y_binary = binary)
+#'                          is_y_binary = binary,
+#'                          random_state = 145)
 #' ite <- ite_list[["ite"]]
 #' ite_std <- ite_list[["ite_std"]]
 #'
@@ -44,6 +50,7 @@
 #' sf <- min(1, (11 * sqrt(N) + 1) / N)
 #' mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
 #' # Random Forest
+#' set.seed(761)
 #' forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
 #'                                                       sampsize = sf * N,
 #'                                                    replace = FALSE,
@@ -51,6 +58,7 @@
 #'                                                    nodesize = min_nodes))
 #' for(i in 2:ntrees) {
 #'   mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
+#'   set.seed(211)
 #'   model1_RF <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
 #'                                                            sampsize = sf * N,
 #'                                                            replace = FALSE,
@@ -62,17 +70,34 @@
 #' take_1 <- FALSE
 #' type_decay <- 2
 #'
-#' rules_RF <- CRE:::extract_rules(treelist, X, ntrees, ite_std, take_1, type_decay)
+#' rules_RF <- CRE:::extract_rules(treelist,
+#'                                 X,
+#'                                 ntrees,
+#'                                 ite_std,
+#'                                 take_1,
+#'                                 type_decay)
 #'
 extract_rules <- function(treelist, X, ntrees, ite_std, take_1, type_decay) {
-  rules <- inTrees_extractRules(treeList = treelist, X = X, ntree = ntrees, maxdepth = 15)
+
+  rules <- inTrees_extractRules(treeList = treelist,
+                                X = X,
+                                ntree = ntrees,
+                                maxdepth = 15)
   rules <- c(rules)
+
   if (take_1) {
     rules <- rules[take1(length(rules))]
   }
+
   rules_matrix <- matrix(rules)
   colnames(rules_matrix) <- "condition"
-  metric <- inTrees_getRuleMetric(rules_matrix, X, ite_std)
-  pruned <- inTrees_pruneRule(metric, X, ite_std, 0.025, typeDecay = type_decay)
+  metric <- inTrees_getRuleMetric(rules_matrix,
+                                  X,
+                                  ite_std)
+  pruned <- inTrees_pruneRule(metric,
+                              X,
+                              ite_std,
+                              0.025,
+                              typeDecay = type_decay)
   return(unique(pruned[, 4]))
 }

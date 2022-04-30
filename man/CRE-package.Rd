@@ -4,11 +4,6 @@
 \name{CRE-package}
 \alias{CRE-package}
 \alias{CRE}
-\alias{#}
-\alias{imports}
-\alias{for}
-\alias{inTrees}
-\alias{package}
 \title{The 'CRE' package.}
 \description{
 Provides an interpretable identification of subgroups with
@@ -21,4 +16,19 @@ control for family-wise error rate in the finite sample setting. It
 proposes various estimation methods for the conditional causal effects
 for each discovered causal rule.  It is highly flexible and multiple
 causal estimands and imputation methods are implemented.
+}
+\references{
+Lee, K.,
+Bargagli-Stoffi, F. J., & Dominici, F. (2020). Causal rule ensemble:
+Interpretable inference of heterogeneous treatment effects.  arXiv
+preprint \url{arXiv:2009.09036}.
+}
+\author{
+Kwonsang Lee
+
+Falco Joannes Bargagli Stoffi
+
+Daniela Maria Garcia
+
+Naeem Khoshnevis
 }

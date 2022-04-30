@@ -4,9 +4,11 @@
 #' @description
 #' Conducts sanity checks for the input data
 #'
-#' @param y the observed response vector
-#' @param z the treatment vector
-#' @param X the features matrix
+#' @param y The observed response vector.
+#' @param z The treatment vector.
+#' @param X The features matrix.
+#'
+#' @keywords internal
 #'
 #' @return
 #' Number of data samples.
@@ -15,8 +17,7 @@
 check_input_data <- function(y, z, X){
 
   #---------------- Input data checks ------------------------------------------
-
-  ## type
+  # type
   if (!is.vector(y) & !is.numeric(y)){
     stop("Observed response vector (y) input values should be a numerical vector")
   }
@@ -24,10 +25,6 @@ check_input_data <- function(y, z, X){
   if (!is.vector(z) & !is.numeric(z)){
     stop("Treatment (z) input values should be a numerical vector.")
   }
-
-  # if (!is.data.frame(X)){
-  #   stop("Covariates (x) input values should be a data.frame.")
-  # }
 
   ## size
   y_size <- length(y)
@@ -73,9 +70,6 @@ check_input_data <- function(y, z, X){
     stop(paste("Invalid 'X' input. Please input a matrix or data frame",
                " of numeric categorical variables"))
   }
-
   #-----------------------------------------------------------------------------
   invisible(y_size)
 }
-
-

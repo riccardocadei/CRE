@@ -1,5 +1,3 @@
-
-
 #' @title
 #' Check input parameters
 #'
@@ -7,6 +5,8 @@
 #' Checks input parameters for the cre function.
 #'
 #' @param params The list of parameters required to run the function.
+#'
+#' @keywords internal
 #'
 #' @return
 #' No return value. This function is called for side effects.

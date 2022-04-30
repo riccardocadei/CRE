@@ -4,20 +4,30 @@
 \alias{generate_rules}
 \title{Generate Rules}
 \usage{
-generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes, max_nodes)
+generate_rules(
+  X,
+  ite_std,
+  ntrees_rf,
+  ntrees_gbm,
+  min_nodes,
+  max_nodes,
+  random_state
+)
 }
 \arguments{
 \item{X}{The covariate matrix.}
 
 \item{ite_std}{The standardized ITE.}
 
-\item{ntrees_rf}{the number of decision trees for randomForest}
+\item{ntrees_rf}{The number of decision trees for randomForest.}
 
-\item{ntrees_gbm}{the number of decision trees for gradient boosting}
+\item{ntrees_gbm}{The number of decision trees for gradient boosting.}
 
-\item{min_nodes}{the minimum size of the trees' terminal nodes}
+\item{min_nodes}{The minimum size of the trees' terminal nodes.}
 
-\item{max_nodes}{the maximum size of the trees' terminal nodes}
+\item{max_nodes}{The maximum size of the trees' terminal nodes.}
+
+\item{random_state}{An integer number that repesents a random state.}
 }
 \value{
 a vector of causal rules
@@ -78,6 +88,6 @@ ite_std_dis <- ite_list_dis[["ite_std"]]
 
 # Generate rules list
 initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-                                    min_nodes, max_nodes)
+                                    min_nodes, max_nodes, random_state = 100)
 
 }

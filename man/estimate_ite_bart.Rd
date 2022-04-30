@@ -4,7 +4,7 @@
 \alias{estimate_ite_bart}
 \title{Estimate the Individual Treatment Effect using Bayesian Additive Regression Trees}
 \usage{
-estimate_ite_bart(y, z, X, include_ps, ps_method)
+estimate_ite_bart(y, z, X, include_ps, ps_method, random_state)
 }
 \arguments{
 \item{y}{the observed response vector}
@@ -17,6 +17,8 @@ estimate_ite_bart(y, z, X, include_ps, ps_method)
 covariate in ITE estimation}
 
 \item{ps_method}{method for the estimation of the propensity score}
+
+\item{random_state}{An integer value for random state.}
 }
 \value{
 a list of ITE estimates and standard deviations for the ITE estimates
@@ -26,6 +28,8 @@ Estimates the Individual Treatment Effect using Bayesian Additive Regression
 Trees given a response vector, a treatment vector, and a features matrix.
 }
 \examples{
+
+set.seed(167)
 dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
                                 effect_size = 2, binary = FALSE)
 
@@ -35,7 +39,8 @@ z <- dataset[["z"]]
 X <- as.data.frame(dataset[["X"]])
 include_ps <- TRUE
 ps_method <- "SL.xgboost"
+random_state <- 100
 
-ite_list <- estimate_ite_bart(y, z, X, include_ps, ps_method)
+ite_list <- estimate_ite_bart(y, z, X, include_ps, ps_method, random_state)
 
 }

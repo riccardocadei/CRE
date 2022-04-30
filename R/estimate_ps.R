@@ -2,13 +2,16 @@
 #' Estimate the Propensity Score
 #'
 #' @description
-#' Method for estimating the Propensity Score given a treatment vector and features matrix
+#' Method for estimating the Propensity Score given a treatment vector and
+#' features data.frame.
 #'
-#' @param z the treatment vector
-#' @param X the features matrix
-#' @param ps_method the estimation model for the propensity score (default: SL.xgboost).
+#' @param z The treatment vector.
+#' @param X The features data frame.
+#' @param ps_method The estimation model for the propensity score
+#' (default: SL.xgboost).
 #'
-#' @return a list of propensity score estimates
+#' @return
+#' A vector of propensity score estimates.
 #'
 #' @import SuperLearner
 #'
@@ -24,7 +27,7 @@
 #' est_ps <- CRE:::estimate_ps(z, X, ps_method)
 #'
 estimate_ps <- function(z, X, ps_method = "SL.xgboost") {
-  sl_pscore <- SuperLearner::SuperLearner(Y = z, X = as.data.frame(X),
+  sl_pscore <- SuperLearner(Y = z, X = as.data.frame(X),
                                           newX = as.data.frame(X),
                                           family = binomial(),
                                           SL.library = ps_method,

@@ -91,7 +91,8 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
     sd_ite <- NA
   } else if (ite_method == "bart") {
     check_args(c('include_ps', 'ps_method'), arg_names)
-    ite_results <- estimate_ite_bart(y, z, X, include_ps, ps_method)
+    ite_results <- estimate_ite_bart(y, z, X, include_ps, ps_method,
+                                     random_state = random_state)
     ite <- ite_results[[1]]
     sd_ite <- ite_results[[2]]
   } else if (ite_method == "xbart") {

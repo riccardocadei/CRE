@@ -7,6 +7,8 @@
 #' @param y The observed response vector.
 #' @param params The list of parameters required to run the method functions.
 #'
+#' @keywords internal
+#'
 #' @return
 #' A modified input `params`. A list of parameters that might be changed during
 #' the checks.
@@ -14,8 +16,6 @@
 check_method_params <- function(y, params){
 
   # Input params checks --------------------------------------------------------
-
-  # todo: dplyr between is not necessary.
   if (class(getElement(params, "ratio_dis")) != "numeric" |
       (getElement(params, "ratio_dis") < 0) |
       (getElement(params, "ratio_dis") > 1)){
@@ -69,7 +69,6 @@ check_method_params <- function(y, params){
     ps_method_dis <- NA
     params[["ps_method_dis"]] <- ps_method_dis
   }
-
 
   if (!(getElement(params, "ite_method_inf") %in% c("or", "poisson"))) {
     if (!(class(getElement(params, "ps_method_inf")) %in% c("character", "list"))) {
@@ -143,7 +142,6 @@ check_method_params <- function(y, params){
   }
 
   params[["rules_method"]] <- rules_method
-
 
   # Check for correct offset input
   if ((getElement(params, "ite_method_dis") == "poisson") |

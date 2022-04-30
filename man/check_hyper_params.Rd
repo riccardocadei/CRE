@@ -15,3 +15,4 @@ No return value. This function is called for side effects.
 \description{
 Checks input parameters for the cre function.
 }
+\keyword{internal}

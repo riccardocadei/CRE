@@ -80,7 +80,8 @@ ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis,
                              is_y_binary = binary,
                              X_names = X_names,
                              include_offset = include_offset,
-                             offset_name = offset_name)
+                             offset_name = offset_name,
+                             random_state = 345)
 ite_dis <- ite_list_dis[["ite"]]
 ite_std_dis <- ite_list_dis[["ite_std"]]
 
@@ -90,7 +91,8 @@ initial_rules_dis <- CRE:::generate_rules(X_dis,
                                           ntrees_rf,
                                           ntrees_gbm,
                                           min_nodes,
-                                          max_nodes)
+                                          max_nodes,
+                                          random_state = 871)
 
 # Generate rules matrix
 rules_all_dis <- CRE:::generate_rules_matrix(X_dis, initial_rules_dis, t)

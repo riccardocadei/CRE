@@ -18,3 +18,4 @@ the checks.
 \description{
 Checks method-related parameters.
 }
+\keyword{internal}

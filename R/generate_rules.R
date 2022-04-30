@@ -6,10 +6,11 @@
 #'
 #' @param X The covariate matrix.
 #' @param ite_std The standardized ITE.
-#' @param ntrees_rf the number of decision trees for randomForest
-#' @param ntrees_gbm the number of decision trees for gradient boosting
-#' @param min_nodes the minimum size of the trees' terminal nodes
-#' @param max_nodes the maximum size of the trees' terminal nodes
+#' @param ntrees_rf The number of decision trees for randomForest.
+#' @param ntrees_gbm The number of decision trees for gradient boosting.
+#' @param min_nodes The minimum size of the trees' terminal nodes.
+#' @param max_nodes The maximum size of the trees' terminal nodes.
+#' @param random_state An integer number that repesents a random state.
 #'
 #' @return
 #' a vector of causal rules
@@ -69,10 +70,17 @@
 #'
 #' # Generate rules list
 #' initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-#'                                     min_nodes, max_nodes)
+#'                                     min_nodes, max_nodes, random_state = 100)
 #'
 generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
-                           max_nodes) {
+                           max_nodes, random_state) {
+
+  # generate seed values
+  seed_1 <- random_state + 1
+  set.seed(random_state + 100)
+  seed_2 <- sample(100000, ntrees_rf)
+  set.seed(random_state + 1000)
+  seed_3 <- sample(100000, 1)
 
   # Set parameters
   N <- dim(X)[1]
@@ -80,6 +88,7 @@ generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
   mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
 
   # Random Forest
+  set.seed(seed_1)
   forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
                                                         sampsize = sf * N,
                                                         replace = FALSE,
@@ -88,6 +97,7 @@ generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
                                                         nodesize = min_nodes))
   for(i in 2:ntrees_rf) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
+    set.seed(seed_2[i])
     model1_RF <- suppressWarnings(
                   randomForest::randomForest(x = X,
                                              y = ite_std,
@@ -110,6 +120,7 @@ generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
     ite_std <- as.numeric(ite_std) - 1
   }
 
+  set.seed(seed_3)
   model1_GB <- gbm::gbm.fit(x = X, y = ite_std, bag.fraction = sf, n.trees = 1,
                             interaction.depth = (mn / 2), shrinkage = 0.01,
                             distribution = dist, verbose = FALSE,

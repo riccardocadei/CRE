@@ -42,7 +42,6 @@ Imports:
     dplyr,
     foreach,
     gbm,
-    ggplot2,
     glmnet,
     gnm,
     grf,

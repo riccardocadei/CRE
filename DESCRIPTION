@@ -52,7 +52,8 @@ Imports:
     SuperLearner,
     baggr,
     dplyr,
-    magrittr
+    magrittr,
+    ggplot2
 Suggests:
     covr,
     knitr,
