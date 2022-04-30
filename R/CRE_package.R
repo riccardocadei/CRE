@@ -33,6 +33,6 @@
 #' Lee, K.,
 #' Bargagli-Stoffi, F. J., & Dominici, F. (2020). Causal rule ensemble:
 #' Interpretable inference of heterogeneous treatment effects.  arXiv
-#' preprint <arXiv:2009.09036>.
+#' preprint arXiv:2009.09036.
 #'
 NULL

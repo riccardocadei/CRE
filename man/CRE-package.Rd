@@ -21,7 +21,7 @@ causal estimands and imputation methods are implemented.
 Lee, K.,
 Bargagli-Stoffi, F. J., & Dominici, F. (2020). Causal rule ensemble:
 Interpretable inference of heterogeneous treatment effects.  arXiv
-preprint \url{arXiv:2009.09036}.
+preprint arXiv:2009.09036.
 }
 \author{
 Kwonsang Lee

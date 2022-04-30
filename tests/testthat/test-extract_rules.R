@@ -54,7 +54,7 @@ test_that("Rules Extracted Correctly", {
                                                              nodesize = min_nodes))
     forest <- randomForest::combine(forest, model1_RF)
   }
-  treelist <- inTrees::RF2List(forest)
+  treelist <- inTrees_RF2List(forest)
   take_1 <- FALSE
   type_decay <- 2
 

@@ -57,6 +57,12 @@
 estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
 
 
+  # Address visible binding error.
+  X_names <- include_offset <- offset_name <- random_state <- NULL
+  include_ps <- ps_method <- ps_method_dis <- ps_method_inf <- NULL
+  oreg_method <- NULL
+
+
   ## collect additional arguments
   dot_args <- list(...)
   arg_names <- names(dot_args)
