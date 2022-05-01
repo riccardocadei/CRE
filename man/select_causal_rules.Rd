@@ -34,7 +34,7 @@ a vector of causal rules
 Selects the causal rules that are most important.
 }
 \examples{
-dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+dataset <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
                                 effect_size = 2, binary = FALSE)
 
 # Initialize parameters
@@ -43,10 +43,10 @@ z <- dataset[["z"]]
 X <- as.data.frame(dataset[["X"]])
 X_names <- names(as.data.frame(X))
 ratio_dis <- 0.25
-ite_method_dis <- "bart"
+ite_method_dis <- "oreg"
 include_ps_dis <- TRUE
 ps_method_dis <- "SL.xgboost"
-or_method_dis <- NA
+oreg_method_dis <- NA
 ntrees_rf <- 100
 ntrees_gbm <- 50
 min_nodes <- 20
@@ -62,7 +62,7 @@ binary <- FALSE
 X <- as.matrix(X)
 y <- as.matrix(y)
 z <- as.matrix(z)
-subgroups <- split_data(y, z, X, ratio_dis)
+subgroups <- CRE:::split_data(y, z, X, ratio_dis)
 discovery <- subgroups[[1]]
 inference <- subgroups[[2]]
 
@@ -72,24 +72,41 @@ z_dis <- discovery[,2]
 X_dis <- discovery[,3:ncol(discovery)]
 
 # Estimate ITE on Discovery Subsample
-ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, include_ps_dis,
-                             ps_method_dis, or_method_dis, binary, X_names,
-                             include_offset, offset_name)
+ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis,
+                             ite_method = ite_method_dis,
+                             include_ps = include_ps_dis,
+                             ps_method = ps_method_dis,
+                             oreg_method = oreg_method_dis,
+                             is_y_binary = binary,
+                             X_names = X_names,
+                             include_offset = include_offset,
+                             offset_name = offset_name,
+                             random_state = 345)
 ite_dis <- ite_list_dis[["ite"]]
 ite_std_dis <- ite_list_dis[["ite_std"]]
 
 # Generate rules list
-initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-                                    min_nodes, max_nodes)
+initial_rules_dis <- CRE:::generate_rules(X_dis,
+                                          ite_std_dis,
+                                          ntrees_rf,
+                                          ntrees_gbm,
+                                          min_nodes,
+                                          max_nodes,
+                                          random_state = 871)
 
 # Generate rules matrix
-rules_all_dis <- generate_rules_matrix(X_dis, initial_rules_dis, t)
+rules_all_dis <- CRE:::generate_rules_matrix(X_dis, initial_rules_dis, t)
 rules_matrix_dis <- rules_all_dis[["rules_matrix"]]
 rules_matrix_std_dis <- rules_all_dis[["rules_matrix_std"]]
 rules_list_dis <- rules_all_dis[["rules_list"]]
 
 # Select important rules
-select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis, rules_list_dis,
-                                                     ite_std_dis, binary, q, rules_method))
+select_rules_dis <- as.character(CRE:::select_causal_rules(
+                                                     rules_matrix_std_dis,
+                                                     rules_list_dis,
+                                                     ite_std_dis,
+                                                     binary,
+                                                     q,
+                                                     rules_method))
 
 }

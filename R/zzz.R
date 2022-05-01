@@ -7,5 +7,4 @@
                                                    sep = ""))
 
   logger::log_layout(flogger, index = 1)
-
 }

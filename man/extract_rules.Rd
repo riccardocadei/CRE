@@ -2,47 +2,55 @@
 % Please edit documentation in R/extract_rules.R
 \name{extract_rules}
 \alias{extract_rules}
-\title{Extract Rules}
+\title{Extract Causal Rules}
 \usage{
 extract_rules(treelist, X, ntrees, ite_std, take_1, type_decay)
 }
 \arguments{
-\item{treelist}{a list of decision trees}
+\item{treelist}{A list of decision trees.}
 
-\item{X}{the features matrix}
+\item{X}{The features matrix.}
 
-\item{ntrees}{the number of decision trees}
+\item{ntrees}{The number of decision trees.}
 
-\item{ite_std}{the standardized ITE}
+\item{ite_std}{The standardized ITE.}
 
-\item{take_1}{whether or not to call the take1 helper function}
+\item{take_1}{Whether or not to call the take1 helper function.}
 
-\item{type_decay}{the type of decay to apply when pruning the rules}
+\item{type_decay}{The type of decay to apply when pruning the rules.}
 }
 \value{
-a vector of causal rules
+A vector of causal rules.
 }
 \description{
-Method for extracting causal rules from the Random Forest or Gradient Boosting algorithms
+Method for extracting causal rules from the Random Forest or Gradient
+Boosting algorithms.
 }
 \examples{
 
-dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+set.seed(235)
+dataset <- generate_cre_dataset(n = 200, rho = 0, n_rules = 2, p = 10,
                                 effect_size = 2, binary = FALSE)
 y <- as.matrix(dataset[["y"]])
 z <- as.matrix(dataset[["z"]])
 X <- as.matrix(dataset[["X"]])
-ite_method <- "bart"
+ite_method <- "oreg"
 include_ps <- TRUE
 ps_method <- "SL.xgboost"
-or_method <- NA
+oreg_method <- NA
 ntrees <- 100
 min_nodes <- 20
 max_nodes <- 5
 binary <- FALSE
 
 # Estimate ITE
-ite_list <- estimate_ite(y, z, X, ite_method, include_ps, ps_method, or_method, binary)
+ite_list <- estimate_ite(y, z, X,
+                         ite_method = ite_method,
+                         include_ps = include_ps,
+                         ps_method = ps_method,
+                         oreg_method = oreg_method,
+                         is_y_binary = binary,
+                         random_state = 145)
 ite <- ite_list[["ite"]]
 ite_std <- ite_list[["ite_std"]]
 
@@ -51,6 +59,7 @@ N <- dim(X)[1]
 sf <- min(1, (11 * sqrt(N) + 1) / N)
 mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
 # Random Forest
+set.seed(761)
 forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
                                                       sampsize = sf * N,
                                                    replace = FALSE,
@@ -58,6 +67,7 @@ forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
                                                    nodesize = min_nodes))
 for(i in 2:ntrees) {
   mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
+  set.seed(211)
   model1_RF <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
                                                            sampsize = sf * N,
                                                            replace = FALSE,
@@ -65,10 +75,16 @@ for(i in 2:ntrees) {
                                                            nodesize = min_nodes))
   forest <- randomForest::combine(forest, model1_RF)
 }
-treelist <- inTrees::RF2List(forest)
+treelist <- CRE:::inTrees_RF2List(forest)
 take_1 <- FALSE
 type_decay <- 2
 
-rules_RF <- extract_rules(treelist, X, ntrees, ite_std, take_1, type_decay)
+rules_RF <- CRE:::extract_rules(treelist,
+                                X,
+                                ntrees,
+                                ite_std,
+                                take_1,
+                                type_decay)
 
 }
+\keyword{internal}

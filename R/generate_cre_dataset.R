@@ -2,21 +2,22 @@
 #' Generate CRE Synthetic Data
 #'
 #' @description
-#' Generates synthetic data with continues or binary outcome for testing the
-#'  Causal Rule Ensemble package
+#' Generates synthetic data with continues or binary outcome
 #'
-#' @param n the number of observations
-#' @param rho the correlation within the covariates (default: 0)
-#' @param n_rules the number of causal rules, either 2 (default) or 4
-#' @param effect_size the effect size magnitude (default: 0.5)
+#' @param n An integer number that represents the number of observations. Non-integer
+#' values will be converted into an integer number.
+#' @param rho A positive double number (0,1) that represents the correlation
+#' within the covariates (default: 0).
+#' @param n_rules The number of causal rules, either 2 (default) or 4.
+#' @param effect_size The effect size magnitude (default: 0.5).
 #' TODO: what is the range of effect size magnitude?
-#' @param p the number of covariates (default: 10)
-#' @param binary whether to use binary or continuous outcomes,
-#'  either TRUE (default) or FALSE
+#' @param p The number of covariates (default: 10).
+#' @param binary Whether to use binary or continuous outcomes,
+#'  either TRUE (default) or FALSE.
 #'
 #' @return
-#' a list of synthetic data containing an outcome vector, a treatment vector,
-#'  and a matrix of p covariates
+#' A list of synthetic data containing an outcome vector (y), a treatment
+#' vector (z), and a matrix of p covariates (X).
 #'
 #' @examples
 #' set.seed(123)
@@ -32,6 +33,11 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
   if (!(binary %in% c(TRUE, FALSE))) {
     stop("Invalid 'binary' input. Please specify TRUE or FALSE.")
   }
+
+  if (is.numeric(n) & !is.integer(n)){
+    n <- as.integer(n)
+  }
+
 
   # Generate Variables
   mu <- rep(0, p)

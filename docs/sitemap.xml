@@ -43,10 +43,16 @@
     <loc>https://github.com/fasrc/CRE/news/index.html</loc>
   </url>
   <url>
+    <loc>https://github.com/fasrc/CRE/reference/CRE-package.html</loc>
+  </url>
+  <url>
     <loc>https://github.com/fasrc/CRE/reference/analyze_sensitivity.html</loc>
   </url>
   <url>
     <loc>https://github.com/fasrc/CRE/reference/autoplot.cre.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/fasrc/CRE/reference/check_input.html</loc>
   </url>
   <url>
     <loc>https://github.com/fasrc/CRE/reference/check_input_data.html</loc>

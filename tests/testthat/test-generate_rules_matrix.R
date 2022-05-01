@@ -9,7 +9,7 @@ test_that("Rules Extracted Correctly", {
   ite_method <- "bart"
   include_ps <- "TRUE"
   ps_method <- "SL.xgboost"
-  or_method <- NA
+  oreg_method <- NA
   ntrees_rf <- 100
   ntrees_gbm <- 50
   min_nodes <- 20
@@ -27,13 +27,17 @@ test_that("Rules Extracted Correctly", {
   ###### Discovery ######
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method, include_ps, ps_method,
-                           or_method, binary)
+  ite_list <- estimate_ite(y, z, X, ite_method, binary,
+                           include_ps = include_ps,
+                           ps_method = ps_method,
+                           oreg_method = oreg_method,
+                           random_state = 376)
   ite <- ite_list[["ite"]]
   ite_std <- ite_list[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes, max_nodes)
+  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
+                                  max_nodes, random_state = 2389)
 
   ###### Run Tests ######
 

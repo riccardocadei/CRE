@@ -17,6 +17,6 @@ Generate a list of indices
 }
 \examples{
 
-ind <- take1(10)
+ind <- CRE:::take1(10)
 
 }

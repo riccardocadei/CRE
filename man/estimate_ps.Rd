@@ -7,17 +7,19 @@
 estimate_ps(z, X, ps_method = "SL.xgboost")
 }
 \arguments{
-\item{z}{the treatment vector}
+\item{z}{The treatment vector.}
 
-\item{X}{the features matrix}
+\item{X}{The features data frame.}
 
-\item{ps_method}{the estimation model for the propensity score}
+\item{ps_method}{The estimation model for the propensity score
+(default: SL.xgboost).}
 }
 \value{
-a list of propensity score estimates
+A vector of propensity score estimates.
 }
 \description{
-Method for estimating the Propensity Score given a treatment vector and features matrix
+Method for estimating the Propensity Score given a treatment vector and
+features data.frame.
 }
 \examples{
 dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
@@ -28,6 +30,6 @@ z <- dataset[["z"]]
 X <- as.data.frame(dataset[["X"]])
 ps_method <- "SL.xgboost"
 
-est_ps <- estimate_ps(z, X, ps_method)
+est_ps <- CRE:::estimate_ps(z, X, ps_method)
 
 }

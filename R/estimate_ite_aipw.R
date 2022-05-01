@@ -1,16 +1,18 @@
 #' @title
-#' Estimate the Individual Treatment Effect using Augmented Inverse Propensity Weighting
+#' Estimate the Individual Treatment Effect using Augmented Inverse Propensity
+#' Weighting
 #'
 #' @description
-#' Estimates the Individual Treatment Effect using Augmented Inverse Propensity Weighting given a
-#' response vector, a treatment vector, a features matrix, an estimation model for the propensity score
-#' and and estimation model for the outcome regressions
+#' Estimates the Individual Treatment Effect using Augmented Inverse Propensity
+#' Weighting given a response vector, a treatment vector, a features matrix,
+#' an estimation model for the propensity score and estimation model for the
+#' outcome regressions
 #'
 #' @param y the observed response vector
 #' @param z the treatment vector
 #' @param X the features matrix
 #' @param ps_method the estimation model for the propensity score
-#' @param or_method the estimation model for the outcome regressions
+#' @param oreg_method the estimation model for the outcome regressions
 #'
 #' @return
 #' a list of ITE estimates and standard deviations for the ITE estimates
@@ -26,18 +28,19 @@
 #' z <- dataset[["z"]]
 #' X <- as.data.frame(dataset[["X"]])
 #' ps_method <- "SL.xgboost"
-#' or_method <- "SL.xgboost"
+#' oreg_method <- "SL.xgboost"
 #'
-#' ite_list <- estimate_ite_aipw(y, z, X, ps_method, or_method)
+#' ite_list <- estimate_ite_aipw(y, z, X, ps_method, oreg_method)
 #'
 estimate_ite_aipw <- function(y, z, X, ps_method = "SL.xgboost",
-                              or_method = "SL.xgboost") {
+                              oreg_method = "SL.xgboost") {
+
   phat <- estimate_ps(z, X, ps_method)
 
   sl_y <- SuperLearner(Y = y,
                        X = data.frame(X=X, Z=z),
                        family = gaussian(),
-                       SL.library = or_method,
+                       SL.library = oreg_method,
                        cvControl = list(V=0))
 
   pred_0 <- predict(sl_y, data.frame(X=X, Z=rep(0, nrow(X))), onlySL = T)

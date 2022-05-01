@@ -7,11 +7,11 @@
 check_input_data(y, z, X)
 }
 \arguments{
-\item{y}{the observed response vector}
+\item{y}{The observed response vector.}
 
-\item{z}{the treatment vector}
+\item{z}{The treatment vector.}
 
-\item{X}{the features matrix}
+\item{X}{The features matrix.}
 }
 \value{
 Number of data samples.
@@ -19,3 +19,4 @@ Number of data samples.
 \description{
 Conducts sanity checks for the input data
 }
+\keyword{internal}

@@ -2,8 +2,9 @@
 #' Estimate the Individual Treatment Effect using Inverse Propensity Weighting
 #'
 #' @description
-#' Estimates the Individual Treatment Effect using Inverse Propensity Weighting
-#' given a response vector, a treatment vector, and a features matrix.
+#' Estimates the Individual Treatment Effect (ITE) using Inverse Propensity
+#' Weighting (IPW) given a response vector, a treatment vector, and a features
+#' matrix.
 #'
 #' @param y the observed response vector
 #' @param z the treatment vector

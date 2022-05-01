@@ -149,7 +149,7 @@ LDFLAGS=-L/usr/local/opt/llvm/lib -o task -fopenmp</code></pre>
 <div class="section level4">
 <h4 id="users-need-to-call-only-one-function-in-the-cre-package-to-conduct-subgroup-analysis-cre-">Users need to call only one function in the CRE package to conduct subgroup analysis: <code>cre()</code>.<a class="anchor" aria-label="anchor" href="#users-need-to-call-only-one-function-in-the-cre-package-to-conduct-subgroup-analysis-cre-"></a>
 </h4>
-<p>The <code><a href="../reference/cre.html">cre()</a></code> inputs asked from the user are as follows:</p>
+<p>The <code>cre()</code> inputs asked from the user are as follows:</p>
 <ul>
 <li>
 <code>y</code> the observed response vector</li>
@@ -291,7 +291,7 @@ cre_results &lt;- cre(y = abs(dataset_cont[["y"]]), z = dataset_cont[["z"]],
 <div class="section level4">
 <h4 id="running-the-cre-on-synthetic-data-with-continuous-outcomes">Running the CRE on Synthetic Data with Continuous Outcomes<a class="anchor" aria-label="anchor" href="#running-the-cre-on-synthetic-data-with-continuous-outcomes"></a>
 </h4>
-<p>In the following example, we first generate 1000 synthetic data samples, then we feed them into the <code><a href="../reference/cre.html">cre()</a></code> function to generate select causal rules and CATE estimates. You can read more about different arguments in the documentation (<code><a href="../reference/cre.html">?cre</a></code>). In summary:</p>
+<p>In the following example, we first generate 1000 synthetic data samples, then we feed them into the <code>cre()</code> function to generate select causal rules and CATE estimates. You can read more about different arguments in the documentation (<code>?cre</code>). In summary:</p>
 <ul>
 <li>We want to run a code delegating 25% of the data for the discovery subsample and 75% for inference (<code>ratio_dis &lt;- 0.25</code>)</li>
 <li>For the discovery subsample, we want to estimate the Individual Treatment effect using the XBART method, including the estimated propensity score as a covariate (<code>ite_method_dis &lt;- "xbart"</code> and <code>include_ps_dis &lt;- TRUE</code>)</li>

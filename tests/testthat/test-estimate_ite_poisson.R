@@ -1,6 +1,6 @@
 test_that("Poisson ITE Estimated Correctly", {
   # Generate sample data
-  set.seed(2021)
+  set.seed(8967)
   dataset_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 0.5, binary = FALSE)
   y <- trunc(abs(dataset_cont[["y"]]) * 10)
@@ -11,12 +11,17 @@ test_that("Poisson ITE Estimated Correctly", {
   offset_name <- NA
 
   # Incorrect data inputs
-  expect_error(estimate_ite_poisson(y = "test", z, X, X_names, include_offset, offset_name))
-  expect_error(estimate_ite_poisson(y, z = "test", X, X_names, include_offset, offset_name))
-  expect_error(estimate_ite_poisson(y, z, X = NA, X_names, include_offset, offset_name))
+  expect_error(estimate_ite_poisson(y = "test", z, X, X_names, include_offset,
+                                    offset_name))
+  expect_warning(expect_error(estimate_ite_poisson(y, z = "test", X, X_names,
+                                                   include_offset,
+                                                   offset_name)))
+  expect_error(estimate_ite_poisson(y, z, X = NA, X_names, include_offset,
+                                    offset_name))
 
   # Correct outputs
-  ite_result <- estimate_ite_poisson(y, z, X, X_names, include_offset, offset_name)
+  ite_result <- estimate_ite_poisson(y, z, X, X_names, include_offset,
+                                     offset_name)
   expect_true(class(ite_result) == "numeric")
   expect_true(length(ite_result) == length(y))
 })
