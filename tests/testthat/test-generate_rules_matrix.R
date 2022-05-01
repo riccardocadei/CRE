@@ -30,12 +30,14 @@ test_that("Rules Extracted Correctly", {
   ite_list <- estimate_ite(y, z, X, ite_method, binary,
                            include_ps = include_ps,
                            ps_method = ps_method,
-                           oreg_method = oreg_method)
+                           oreg_method = oreg_method,
+                           random_state = 376)
   ite <- ite_list[["ite"]]
   ite_std <- ite_list[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes, max_nodes)
+  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
+                                  max_nodes, random_state = 2389)
 
   ###### Run Tests ######
 

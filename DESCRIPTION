@@ -53,12 +53,16 @@ Imports:
     baggr,
     dplyr,
     magrittr,
-    ggplot2
+    ggplot2,
+    bcf,
+    grf
 Suggests:
     covr,
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    XBART,
+    XBCF
 Additional_repositories: 
     https://github.com/JingyuHe/XBART/,
     https://github.com/johaupt/XBCF/    

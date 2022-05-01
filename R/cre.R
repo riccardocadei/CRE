@@ -103,7 +103,8 @@ cre <- function(y, z, X, method_params, hyper_params){
                                oreg_method = getElement(method_params,"oreg_method_dis"),
                                X_names = X_names,
                                include_offset = getElement(method_params,"include_offset"),
-                               offset_name = getElement(method_params,"offset_name"))
+                               offset_name = getElement(method_params,"offset_name"),
+                               random_state = getElement(method_params, "random_state"))
   en_ite_t <- proc.time()
   logger::log_debug("Finished Estimating ITE. ",
                     " Wall clock time: {(en_ite_t - st_ite_t)[[3]]} seconds.")
@@ -117,7 +118,8 @@ cre <- function(y, z, X, method_params, hyper_params){
                                       getElement(hyper_params,"ntrees_rf"),
                                       getElement(hyper_params,"ntrees_gbm"),
                                       getElement(hyper_params,"min_nodes"),
-                                      getElement(hyper_params,"max_nodes"))
+                                      getElement(hyper_params,"max_nodes"),
+                                      getElement(method_params, "random_state"))
 
   # Generate rules matrix --------------
   logger::log_info("Generating Causal Rules Matrix ...")
@@ -133,7 +135,7 @@ cre <- function(y, z, X, method_params, hyper_params){
                                                        ite_std_dis,
                                                        getElement(method_params,"is_y_binary"),
                                                        getElement(hyper_params,"q"),
-                                                       rules_method))
+                                                       getElement(hyper_params,"rules_method")))
 
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
                                                        select_rules_dis)]
@@ -155,7 +157,8 @@ cre <- function(y, z, X, method_params, hyper_params){
                                oreg_method = getElement(method_params,"oreg_method_inf"),
                                X_names = X_names,
                                include_offset = getElement(method_params,"include_offset"),
-                               offset_name = getElement(method_params,"offset_name"))
+                               offset_name = getElement(method_params,"offset_name"),
+                               random_state = getElement(method_params, "random_state"))
 
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]

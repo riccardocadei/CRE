@@ -19,7 +19,8 @@ test_that("cre Runs Correctly", {
                        cate_method = "DRLearner",
                        cate_SL_library = "SL.xgboost",
                        filter_cate = FALSE,
-                       offset_name = NA)
+                       offset_name = NA,
+                       random_state = 3591)
 
  hyper_params = list(ntrees_rf = 100,
                      ntrees_gbm = 50,

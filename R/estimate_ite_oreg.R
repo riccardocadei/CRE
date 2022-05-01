@@ -14,7 +14,7 @@
 #' @export
 #'
 #' @examples
-#' dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
+#' dataset <- generate_cre_dataset(n = 200, rho = 0, n_rules = 2, p = 10,
 #'                                 effect_size = 2, binary = FALSE)
 #'
 #' # Initialize parameters

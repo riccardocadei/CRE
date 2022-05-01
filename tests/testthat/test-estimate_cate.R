@@ -56,13 +56,14 @@ test_that("CATE Estimation Runs Correctly", {
                                oreg_method = oreg_method_dis,
                                X_names = X_names,
                                include_offset = include_offset,
-                               offset_name = offset_name)
+                               offset_name = offset_name,
+                               random_state = 112)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Step 3: Generate rules list
   initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-                                      min_nodes, max_nodes)
+                                      min_nodes, max_nodes, random_state = 981)
 
   # Step 4: Generate rules matrix
   rules_all_dis <- generate_rules_matrix(X_dis, initial_rules_dis, t)
@@ -90,7 +91,8 @@ test_that("CATE Estimation Runs Correctly", {
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
                                include_offset = include_offset,
-                               offset_name = offset_name)
+                               offset_name = offset_name,
+                               random_state = 2568)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
