@@ -2,7 +2,7 @@
 #' The Causal Rule Ensemble
 #'
 #' @description
-#' Performs the Causal Rule Ensemble on a dataset with a response variable,
+#' Performs the Causal Rule Ensemble on a data set with a response variable,
 #'  a treatment variable, and various features
 #'
 #' @param y The observed response vector.
@@ -56,7 +56,6 @@
 #' @export
 #'
 cre <- function(y, z, X, method_params, hyper_params){
-
 
   # Input checks ---------------------------------------------------------------
   check_input_data(y = y, z = z, X = X)
