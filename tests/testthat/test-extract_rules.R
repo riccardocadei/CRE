@@ -1,4 +1,5 @@
 test_that("Rules Extracted Correctly", {
+
   # Generate sample data
   set.seed(181)
   dataset_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
@@ -13,7 +14,12 @@ test_that("Rules Extracted Correctly", {
   ntrees <- 100
   min_nodes <- 20
   max_nodes <- 5
-  random_state <- 121
+
+  set.seed(349)
+  seed_vector <- 1000 + sample.int(n = 10000000,
+                                   size = ntrees+2,
+                                   replace = FALSE)
+  random_state <- seed_vector[ntrees+1]
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -31,14 +37,31 @@ test_that("Rules Extracted Correctly", {
                            random_state = random_state)
   ite <- ite_list[["ite"]]
   ite_std <- ite_list[["ite_std"]]
+  sd_ite <- ite_list[["sd_ite"]]
+
+  expect_equal(ite[10], -0.667227 , tolerance = 0.000001)
+  expect_equal(ite[25], -0.5807448, tolerance = 0.000001)
+  expect_equal(ite[70], 2.24271, tolerance = 0.000001)
+
+  expect_equal(ite_std[15], -0.09474403 , tolerance = 0.000001)
+  expect_equal(ite_std[44], -0.3022489, tolerance = 0.000001)
+  expect_equal(ite_std[82], 1.283510602, tolerance = 0.000001)
+
+
+  expect_equal(sd_ite[9], 1.152046, tolerance = 0.000001)
+  expect_equal(sd_ite[51], 1.136721, tolerance = 0.000001)
+  expect_equal(sd_ite[93], 1.139932, tolerance = 0.000001)
+
 
   # Set parameters
   N <- dim(X)[1]
   sf <- min(1, (11 * sqrt(N) + 1) / N)
   mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
 
+
+
   # Random Forest
-  set.seed(286)
+  set.seed(seed_vector[1])
   forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
                                                         sampsize = sf * N,
                                                         replace = FALSE,
@@ -46,7 +69,7 @@ test_that("Rules Extracted Correctly", {
                                                         nodesize = min_nodes))
   for(i in 2:ntrees) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
-    set.seed(1281)
+    set.seed(seed_vector[i])
     model1_RF <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
                                                              sampsize = sf * N,
                                                              replace = FALSE,
@@ -59,9 +82,9 @@ test_that("Rules Extracted Correctly", {
   expect_equal(length(treelist),2)
   expect_equal(length(treelist[2]$list),100)
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
-  expect_equal(treelist[2]$list[[1]][2,6], 0.3963068, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[2]][3,6],-0.5433083, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[10]][3,6],-0.5433083, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[1]][2,6], 0.3856449, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3,6],-0.5336606, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3,6],0.08349415, tolerance = 0.000001)
 
 
   take_1 <- FALSE
