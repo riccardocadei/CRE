@@ -7,7 +7,7 @@ test_that("Rules Extracted Correctly", {
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
-  ite_method <- "bart"
+  ite_method <- "ipw"
   include_ps <- "TRUE"
   ps_method <- "SL.xgboost"
   oreg_method <- NA
@@ -37,20 +37,20 @@ test_that("Rules Extracted Correctly", {
                            random_state = random_state)
   ite <- ite_list[["ite"]]
   ite_std <- ite_list[["ite_std"]]
-  sd_ite <- ite_list[["sd_ite"]]
+  #sd_ite <- ite_list[["sd_ite"]]
 
-  expect_equal(ite[10], -0.667227 , tolerance = 0.000001)
-  expect_equal(ite[25], -0.5807448, tolerance = 0.000001)
-  expect_equal(ite[70], 2.24271, tolerance = 0.000001)
+  expect_equal(ite[10], -5.101268327, tolerance = 0.000001)
+  expect_equal(ite[25], -0.9622934128, tolerance = 0.000001)
+  expect_equal(ite[70], 7.98951025, tolerance = 0.000001)
 
-  expect_equal(ite_std[15], -0.09474403 , tolerance = 0.000001)
-  expect_equal(ite_std[44], -0.3022489, tolerance = 0.000001)
-  expect_equal(ite_std[82], 1.283510602, tolerance = 0.000001)
+  expect_equal(ite_std[15], 0.8319789286 , tolerance = 0.000001)
+  expect_equal(ite_std[44], -0.4318524937, tolerance = 0.000001)
+  expect_equal(ite_std[82], -0.1296018405, tolerance = 0.000001)
 
 
-  expect_equal(sd_ite[9], 1.152046, tolerance = 0.000001)
-  expect_equal(sd_ite[51], 1.136721, tolerance = 0.000001)
-  expect_equal(sd_ite[93], 1.139932, tolerance = 0.000001)
+  # expect_equal(sd_ite[9], 1.152046, tolerance = 0.000001)
+  # expect_equal(sd_ite[51], 1.136721, tolerance = 0.000001)
+  # expect_equal(sd_ite[93], 1.139932, tolerance = 0.000001)
 
 
   # Set parameters
@@ -82,9 +82,9 @@ test_that("Rules Extracted Correctly", {
   expect_equal(length(treelist),2)
   expect_equal(length(treelist[2]$list),100)
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
-  expect_equal(treelist[2]$list[[1]][2,6], 0.3856449, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[2]][3,6],-0.5336606, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[10]][3,6],0.08349415, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[1]][2,6], -0.1950480515, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3,6], -0.3603212639, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3,6], -0.1344911363, tolerance = 0.000001)
 
 
   take_1 <- FALSE
