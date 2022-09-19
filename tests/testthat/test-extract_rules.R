@@ -55,6 +55,15 @@ test_that("Rules Extracted Correctly", {
     forest <- randomForest::combine(forest, model1_RF)
   }
   treelist <- inTrees_RF2List(forest)
+
+  expect_equal(length(treelist),2)
+  expect_equal(length(treelist[2]$list),100)
+  expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
+  expect_equal(treelist[2]$list[[1]][2,6], 0.3963068, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3,6],-0.5433083, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3,6],-0.5433083, tolerance = 0.000001)
+
+
   take_1 <- FALSE
   type_decay <- 2
 
