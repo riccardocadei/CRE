@@ -14,3 +14,4 @@ index.md
 ^codecov\.yml$
 ^.covrignore
 ^_R/*
+^docker_singularity/*$
