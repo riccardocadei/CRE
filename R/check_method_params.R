@@ -16,7 +16,7 @@
 check_method_params <- function(y, params){
 
   # Input params checks --------------------------------------------------------
-  if (class(getElement(params, "ratio_dis")) != "numeric" |
+  if (!inherits(getElement(params, "ratio_dis"), "numeric") |
       (getElement(params, "ratio_dis") < 0) |
       (getElement(params, "ratio_dis") > 1)){
     stop("Invalid 'ratio_dis' input. Please input a number between 0 and 1.")
