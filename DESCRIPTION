@@ -1,6 +1,6 @@
 Type: Package
 Package: CRE
-Title: Interpretable Subgroups Identification through Ensemble Learning of
+Title: Interpretable Subgroups Identification Through Ensemble Learning of
     Causal Rules
 Version: 0.0.1.9000
 Authors@R: c(
@@ -55,7 +55,8 @@ Imports:
     magrittr,
     ggplot2,
     bcf,
-    grf
+    grf,
+    inTrees
 Suggests:
     covr,
     knitr,
