@@ -28,9 +28,9 @@ Estimates the Individual Treatment Effect using Bayesian Additive Regression
 Trees given a response vector, a treatment vector, and a features matrix.
 }
 \examples{
-
+\donttest{
 set.seed(167)
-dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
+dataset <- generate_cre_dataset(n = 50, rho = 0, n_rules = 2, p = 10,
                                 effect_size = 2, binary = FALSE)
 
 # Initialize parameters
@@ -42,5 +42,5 @@ ps_method <- "SL.xgboost"
 random_state <- 100
 
 ite_list <- estimate_ite_bart(y, z, X, include_ps, ps_method, random_state)
-
+}
 }

@@ -16,7 +16,9 @@
 #' @export
 #'
 #' @examples
-#' dataset <- generate_cre_dataset(n = 600, rho = 0, n_rules = 2, p = 10,
+#' \donttest{
+#' set.seed(7941)
+#' dataset <- generate_cre_dataset(n = 50, rho = 0, n_rules = 2, p = 10,
 #'                                 effect_size = 2, binary = FALSE)
 #'
 #' # Initialize parameters
@@ -26,7 +28,7 @@
 #' ps_method <- "SL.xgboost"
 #'
 #' ite_list <- estimate_ite_ipw(y, z, X, ps_method)
-#'
+#' }
 estimate_ite_ipw <- function(y, z, X, ps_method) {
 
   est_ps <- estimate_ps(z, X, ps_method)

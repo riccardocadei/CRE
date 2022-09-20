@@ -20,7 +20,9 @@
 #' @export
 #'
 #' @examples
-#' dataset <- generate_cre_dataset(n = 120, rho = 0, n_rules = 2, p = 10,
+#' \donttest{
+#' set.seed(8912)
+#' dataset <- generate_cre_dataset(n = 50, rho = 0, n_rules = 2, p = 10,
 #'                                 effect_size = 2, binary = FALSE)
 #'
 #' # Initialize parameters
@@ -31,6 +33,7 @@
 #' oreg_method <- "SL.xgboost"
 #'
 #' ite_list <- estimate_ite_aipw(y, z, X, ps_method, oreg_method)
+#' }
 #'
 estimate_ite_aipw <- function(y, z, X, ps_method = "SL.xgboost",
                               oreg_method = "SL.xgboost") {
