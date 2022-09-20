@@ -32,3 +32,4 @@ hyper_params = list(ntrees_rf = 100,
                     q = 0.8)
 
 cre_obj <- cre(y, z, X, method_params, hyper_params)
+plot(cre_obj)

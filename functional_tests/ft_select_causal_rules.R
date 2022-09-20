@@ -1,4 +1,3 @@
- @examples
  dataset <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
                                  effect_size = 2, binary = FALSE)
 

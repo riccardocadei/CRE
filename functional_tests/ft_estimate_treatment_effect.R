@@ -72,15 +72,4 @@ eite_1 <- estimate_ite(y = data_1$y, z=data_1$z, data_1$X,
                        random_state = random_state)
 
 
-#===============================================================================
 
-
-
-set.seed(17)
-print(.Random.seed[1])
-
-set.seed(1007)
-print(.Random.seed[1])
-
-set.seed(127)
-print(.Random.seed[1])
