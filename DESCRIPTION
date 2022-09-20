@@ -60,12 +60,7 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0),
-    XBART,
-    XBCF
-Additional_repositories: 
-    https://github.com/JingyuHe/XBART/,
-    https://github.com/johaupt/XBCF/    
+    testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
 Copyright: Harvard University
