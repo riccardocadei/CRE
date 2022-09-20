@@ -87,51 +87,73 @@
 
     
     
-<p>CRE is an open source package and contributions are welcome from open source community in the form of pull request.Please read the following documents before making changes to the codebase.</p>
+<p>CRE is an open source package and contributions are welcome from open
+source community in the form of pull request.Please read the following
+documents before making changes to the codebase.</p>
 <div class="section level2">
 <h2 id="environment-setup">Environment Setup<a class="anchor" aria-label="anchor" href="#environment-setup"></a>
 </h2>
-<p>Please follow these steps to get a copy of <em>CRE</em> on your Github account.</p>
+<p>Please follow these steps to get a copy of <em>CRE</em> on your
+Github account.</p>
 <ul>
-<li>Navigate to CRE Github <a href="https://github.com/fasrc/CRE">repository</a>, and at the top right corner, click on the <code>Fork</code> button. This will add a clone of the project to your Github account.</li>
-<li>Open your terminal (or Gitbash for Windows, Anaconda prompt, …) and run the following command (brackets are not included):</li>
+<li>Navigate to CRE Github <a href="https://github.com/fasrc/CRE">repository</a>, and at the top right
+corner, click on the <code>Fork</code> button. This will add a clone of
+the project to your Github account.</li>
+<li>Open your terminal (or Gitbash for Windows, Anaconda prompt, …) and
+run the following command (brackets are not included):</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>git clone git<span class="co">@github.com:[your user name]/CRE.git</span></span></code></pre></div>
 <ul>
-<li>If you do not already have an SSH key, you need to generate one. Read more <a href="https://docs.github.com/en/github-ae@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent" class="external-link">here</a>.</li>
+<li>If you do not already have an SSH key, you need to generate one.
+Read more <a href="https://docs.github.com/en/github-ae@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent" class="external-link">here</a>.</li>
 <li>Now, you can modify the codebase and track your modification.</li>
-<li>It is a good idea to create a new branch to work on the codebase. Read the following instructions for git branching.</li>
+<li>It is a good idea to create a new branch to work on the codebase.
+Read the following instructions for git branching.</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="git-branching-model">Git Branching Model<a class="anchor" aria-label="anchor" href="#git-branching-model"></a>
 </h2>
-<p>Although, in your personal repository, you can pick any branch name, however, in order to keep consistency and also understand who is working on what, the following convention is strongly recommended. In this project, we follow the convention that is proposed by Vincent Driessen in his <a href="https://nvie.com/posts/a-successful-git-branching-model/" class="external-link">A successful Git branching model</a> post.</p>
+<p>Although, in your personal repository, you can pick any branch name,
+however, in order to keep consistency and also understand who is working
+on what, the following convention is strongly recommended. In this
+project, we follow the convention that is proposed by Vincent Driessen
+in his <a href="https://nvie.com/posts/a-successful-git-branching-model/" class="external-link">A
+successful Git branching model</a> post.</p>
 </div>
 <div class="section level2">
 <h2 id="where-to-submit-pull-requests">Where to submit pull requests?<a class="anchor" aria-label="anchor" href="#where-to-submit-pull-requests"></a>
 </h2>
-<p>All pull requests should be submitted to <code>base repository: fasrc/CRE</code> and <code>base: develop</code> branch.</p>
+<p>All pull requests should be submitted to
+<code>base repository: fasrc/CRE</code> and <code>base: develop</code>
+branch.</p>
 </div>
 <div class="section level2">
 <h2 id="pull-request-checklist">Pull request checklist<a class="anchor" aria-label="anchor" href="#pull-request-checklist"></a>
 </h2>
 <ul>
-<li>Please run <code><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">devtools::document()</a></code>, <code><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">devtools::load_all()</a></code> after your final modifications.</li>
-<li>Make sure that your modified code passes all checks and tests (you can run <code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code> in RStudio)</li>
+<li>Please run <code><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">devtools::document()</a></code>,
+<code><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">devtools::load_all()</a></code> after your final modifications.</li>
+<li>Make sure that your modified code passes all checks and tests (you
+can run <code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code> in RStudio)</li>
 <li>Your PR should pass all the CI and reviews so we can merge it.</li>
 <li>Add a line(s) about the modification to the NEWS.md file.</li>
-<li>If you are adding new features, please make sure that appropriate documentation is added or updated.</li>
+<li>If you are adding new features, please make sure that appropriate
+documentation is added or updated.</li>
 <li>Please clean up white spaces. Read more <a href="https://softwareengineering.stackexchange.com/questions/121555/why-is-trailing-whitespace-a-big-deal" class="external-link">here</a>.</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="reporting-bugs">Reporting bugs<a class="anchor" aria-label="anchor" href="#reporting-bugs"></a>
 </h2>
-<p>Please report potential bugs by creating a <a href="https://github.com/fasrc/CRE/issues">new issue</a> or sending us an email. Please include the following information in your bug report:</p>
+<p>Please report potential bugs by creating a <a href="https://github.com/fasrc/CRE/issues">new issue</a> or sending us
+an email. Please include the following information in your bug
+report:</p>
 <ul>
-<li>A brief description of what you are doing, what you expected to happen, and what happened.</li>
-<li>OS that you are using and whether you are using a personal computer or HPC cluster.</li>
+<li>A brief description of what you are doing, what you expected to
+happen, and what happened.</li>
+<li>OS that you are using and whether you are using a personal computer
+or HPC cluster.</li>
 <li>The version of the package that you have installed.</li>
 </ul>
 </div>
@@ -146,10 +168,14 @@
 <h4 id="names">Names<a class="anchor" aria-label="anchor" href="#names"></a>
 </h4>
 <ul>
-<li>File names all snake_case and ends with .R (e.g., create_matching.R)</li>
-<li>variable names small letter and separate with _ if need (e.g., delta_n)</li>
-<li>Function names should follow snake_case style (e.g., generate_data)</li>
-<li>Function names follow verb+output convention (e.g., compute_resid)</li>
+<li>File names all snake_case and ends with .R (e.g.,
+create_matching.R)</li>
+<li>variable names small letter and separate with _ if need (e.g.,
+delta_n)</li>
+<li>Function names should follow snake_case style (e.g.,
+generate_data)</li>
+<li>Function names follow verb+output convention (e.g.,
+compute_resid)</li>
 </ul>
 </div>
 <div class="section level4">
@@ -177,7 +203,8 @@
 <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">5</span> <span class="op">)</span> <span class="co"># (extra space after and before parentheses)</span>
 <span class="va">a</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="co"># (no space around unary operator &lt;- )</span></code></pre></div>
 <ul>
-<li>Place space after # and before commenting and avoid multiple ###</li>
+<li>Place space after # and before commenting and avoid multiple
+###</li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#Acceptable:</span>
@@ -198,7 +225,8 @@
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">z</span> <span class="op">+</span> <span class="va">y</span> <span class="op">)</span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="op">(</span> <span class="va">z</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span></code></pre></div>
 <ul>
-<li>Place a space before and after <code>()</code> when used with <code>if</code>, <code>for</code>, or <code>while</code>.</li>
+<li>Place a space before and after <code>()</code> when used with
+<code>if</code>, <code>for</code>, or <code>while</code>.</li>
 </ul>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#Acceptible</span>
@@ -229,12 +257,14 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Kwonsang Lee, Falco Joannes Bargagli Stoffi, Daniela Maria Garcia, Naeem Khoshnevis.</p>
+<p>Developed by Kwonsang Lee, Falco Joannes Bargagli Stoffi, Daniela
+Maria Garcia, Naeem Khoshnevis.</p>
 </div>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
     </footer>

@@ -1,0 +1,54 @@
+set.seed(235)
+dataset <- generate_cre_dataset(n = 200, rho = 0, n_rules = 2, p = 10,
+                               effect_size = 2, binary = FALSE)
+y <- as.matrix(dataset[["y"]])
+z <- as.matrix(dataset[["z"]])
+X <- as.matrix(dataset[["X"]])
+ite_method <- "oreg"
+include_ps <- TRUE
+ps_method <- "SL.xgboost"
+oreg_method <- NA
+ntrees <- 100
+min_nodes <- 20
+max_nodes <- 5
+binary <- FALSE
+# Estimate ITE
+ite_list <- estimate_ite(y, z, X,
+                        ite_method = ite_method,
+                        include_ps = include_ps,
+                        ps_method = ps_method,
+                        oreg_method = oreg_method,
+                        is_y_binary = binary,
+                        random_state = 145)
+ite <- ite_list[["ite"]]
+ite_std <- ite_list[["ite_std"]]
+# Set parameters
+N <- dim(X)[1]
+sf <- min(1, (11 * sqrt(N) + 1) / N)
+mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
+# Random Forest
+set.seed(761)
+forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
+                                                     sampsize = sf * N,
+                                                  replace = FALSE,
+                                                  ntree = 1, maxnodes = mn,
+                                                  nodesize = min_nodes))
+for(i in 2:ntrees) {
+ mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
+ set.seed(211)
+ model1_RF <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
+                                                          sampsize = sf * N,
+                                                          replace = FALSE,
+                                                          ntree = 1, maxnodes = mn,
+                                                          nodesize = min_nodes))
+ forest <- randomForest::combine(forest, model1_RF)
+}
+treelist <- CRE:::inTrees_RF2List(forest)
+take_1 <- FALSE
+type_decay <- 2
+rules_RF <- CRE:::extract_rules(treelist,
+                               X,
+                               ntrees,
+                               ite_std,
+                               take_1,
+                               type_decay)

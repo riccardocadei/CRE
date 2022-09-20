@@ -69,6 +69,6 @@ An S3 object containing the matrix of Conditional
 Average Treatment Effect estimates
 }
 \description{
-Performs the Causal Rule Ensemble on a dataset with a response variable,
+Performs the Causal Rule Ensemble on a data set with a response variable,
 a treatment variable, and various features
 }

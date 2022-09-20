@@ -14,3 +14,5 @@ index.md
 ^codecov\.yml$
 ^.covrignore
 ^_R/*
+^docker_singularity/*$
+^functional_tests/*$
