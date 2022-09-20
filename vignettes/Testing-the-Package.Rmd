@@ -103,7 +103,7 @@ Run the following command to test the package.
 library(CRE)
 
 # Generate sample data
-set.seed(2021)
+set.seed(1358)
 dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
                                      effect_size = 2, binary = FALSE)
 y <- dataset_cont[["y"]]

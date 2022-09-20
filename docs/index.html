@@ -98,7 +98,8 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="cre-">CRE <a href="https://nsaph-software.github.io/CRE/" class="external-link"><img src="reference/figures/png/CRE_logo.png" align="right" width="115"></a>
+<div class="page-header"><h1 id="cre-">CRE
+<a href="https://nsaph-software.github.io/CRE/" class="external-link"><img src="reference/figures/png/CRE_logo.png" align="right" width="115"></a>
 <a class="anchor" aria-label="anchor" href="#cre-"></a>
 </h1></div>
 <!-- badges: start -->
@@ -107,21 +108,53 @@
 <div class="section level1">
 <h1 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h1>
-<p>Causal subgroup identification is a powerful statistical tool for determining vulnerabilities in a population with respect to a particular treatment. As causal machine learning provides an efficient and accurate tool for data-driven subgroup identification, software packages are proving an essential means to easily disseminate and reproduce these algorithms broadly.</p>
-<p>The CRE Package, written in R and available on GitHub, implements the recently developed Causal Rule Ensemble (CRE) algorithm, a flexible and precise method for denovo subgroup discovery. The CRE approach focuses on identifying drivers of treatment heterogeneity in observational or randomized studies in the presence of an intervention or treatment.</p>
+<p>Causal subgroup identification is a powerful statistical tool for
+determining vulnerabilities in a population with respect to a particular
+treatment. As causal machine learning provides an efficient and accurate
+tool for data-driven subgroup identification, software packages are
+proving an essential means to easily disseminate and reproduce these
+algorithms broadly.</p>
+<p>The CRE Package, written in R and available on GitHub, implements the
+recently developed Causal Rule Ensemble (CRE) algorithm, a flexible and
+precise method for denovo subgroup discovery. The CRE approach focuses
+on identifying drivers of treatment heterogeneity in observational or
+randomized studies in the presence of an intervention or treatment.</p>
 </div>
 <div class="section level1">
 <h1 id="package-details">Package Details<a class="anchor" aria-label="anchor" href="#package-details"></a>
 </h1>
-<p>The Package is centered on one R function, <code>cre()</code>, that conducts the entirety of the CRE algorithm given a dataset and a series of input parameters from the user. The <code>cre()</code> function calls on a number of helper functions to conduct discovery and inference subsample analysis. For example, for the estimation of Individual Treatment Effects, users can select a particular method from a large list of methodologies, each of which vary with respect to their speed and precision. The parameter selections will determine which helper functions the <code>cre()</code> calls.</p>
-<p>The CRE method splits the inputted data into discovery and inference subsamples. On the discovery subsample, it generates and filters causal rules that explain the heterogeneity in treatment effects. It then applies these rules to the inference subsample and estimates the Conditional Average Treatment Effect (CATE) for each subgroup.</p>
-<p>The final output of the <code>cre()</code> is the list of selected causal rules that identify the subgroups with higher heterogeneity in the effects and the matrix of estimated CATEs for each rule, both of which are highly accessible and interpretable.</p>
-<p>Note: A sensitivity analysis for unmeasured confounding will also be implemented in a later version.</p>
+<p>The Package is centered on one R function, <code><a href="reference/cre.html">cre()</a></code>, that
+conducts the entirety of the CRE algorithm given a dataset and a series
+of input parameters from the user. The <code><a href="reference/cre.html">cre()</a></code> function calls
+on a number of helper functions to conduct discovery and inference
+subsample analysis. For example, for the estimation of Individual
+Treatment Effects, users can select a particular method from a large
+list of methodologies, each of which vary with respect to their speed
+and precision. The parameter selections will determine which helper
+functions the <code><a href="reference/cre.html">cre()</a></code> calls.</p>
+<p>The CRE method splits the inputted data into discovery and inference
+subsamples. On the discovery subsample, it generates and filters causal
+rules that explain the heterogeneity in treatment effects. It then
+applies these rules to the inference subsample and estimates the
+Conditional Average Treatment Effect (CATE) for each subgroup.</p>
+<p>The final output of the <code><a href="reference/cre.html">cre()</a></code> is the list of selected
+causal rules that identify the subgroups with higher heterogeneity in
+the effects and the matrix of estimated CATEs for each rule, both of
+which are highly accessible and interpretable.</p>
+<p>Note: A sensitivity analysis for unmeasured confounding will also be
+implemented in a later version.</p>
 </div>
 <div class="section level1">
 <h1 id="applications">Applications<a class="anchor" aria-label="anchor" href="#applications"></a>
 </h1>
-<p>Through this package, any user can apply the method to a variety of new datasets. The applications of the CRE method and R package are vast, with a notable potential impact in the field of public health. We intend to apply the method to a dataset linking air pollution (PM2.5) data to Medicare mortality data across the United States. Our empirical goal is to identify the most vulnerable communities, to inform policymakers on how to mitigate the negative health and economic effects on these subgroups and reduce inequality.</p>
+<p>Through this package, any user can apply the method to a variety of
+new datasets. The applications of the CRE method and R package are vast,
+with a notable potential impact in the field of public health. We intend
+to apply the method to a dataset linking air pollution (PM2.5) data to
+Medicare mortality data across the United States. Our empirical goal is
+to identify the most vulnerable communities, to inform policymakers on
+how to mitigate the negative health and economic effects on these
+subgroups and reduce inequality.</p>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
@@ -172,12 +205,14 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Kwonsang Lee, Falco Joannes Bargagli Stoffi, Daniela Maria Garcia, Naeem Khoshnevis.</p>
+<p>Developed by Kwonsang Lee, Falco Joannes Bargagli Stoffi, Daniela
+Maria Garcia, Naeem Khoshnevis.</p>
 </div>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
     </footer>

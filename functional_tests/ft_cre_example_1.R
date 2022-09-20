@@ -31,37 +31,4 @@ hyper_params = list(ntrees_rf = 100,
                     t = 0.025,
                     q = 0.8)
 
-
 cre_obj <- cre(y, z, X, method_params, hyper_params)
-
-
-
-#TODO: Need to move to a better place: Incorrect ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q inputs
-hyper_params[["ntrees_rf"]] <- "test"
-expect_error(cre(y, z, X, method_params, hyper_params))
-
-hyper_params[["ntrees_rf"]] <- 100
-hyper_params[["ntrees_gbm"]] <- "test"
-expect_error(cre(y, z, X, method_params, hyper_params))
-
-hyper_params[["ntrees_gbm"]] <- 50
-hyper_params[["min_nodes"]] <- "test"
-expect_error(cre(y, z, X, method_params, hyper_params))
-
-hyper_params[["min_nodes"]] <- 5
-hyper_params[["max_nodes"]] <- "test"
-expect_error(cre(y, z, X, method_params, hyper_params))
-
-hyper_params[["max_nodes"]] <- 5
-hyper_params[["t"]] <- "test"
-expect_error(cre(y, z, X, method_params, hyper_params))
-
-hyper_params[["t"]] <- 0.025
-hyper_params[["q"]] <- "test"
-expect_error(cre(y, z, X, method_params, hyper_params))
-
-# Correct outputs
-hyper_params[["q"]] <- 0.8
-cre_results <- cre(y, z, X, method_params, hyper_params)
-expect_true(class(cre_results) == "cre")
-

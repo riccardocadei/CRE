@@ -125,116 +125,18 @@ inference subsample</p></dd>
     <p>a matrix of CATE estimates</p>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, rho <span class="op">=</span> <span class="fl">0</span>, n_rules <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">10</span>,</span>
-<span class="r-in">                                effect_size <span class="op">=</span> <span class="fl">2</span>, binary <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Initialize parameters</span></span>
-<span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">dataset</span><span class="op">[[</span><span class="st">"y"</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">z</span> <span class="op">&lt;-</span> <span class="va">dataset</span><span class="op">[[</span><span class="st">"z"</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">[[</span><span class="st">"X"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">X_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ratio_dis</span> <span class="op">&lt;-</span> <span class="fl">0.25</span></span>
-<span class="r-in"><span class="va">ite_method_dis</span> <span class="op">&lt;-</span> <span class="st">"bart"</span></span>
-<span class="r-in"><span class="va">include_ps_dis</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="va">ps_method_dis</span> <span class="op">&lt;-</span> <span class="st">"SL.xgboost"</span></span>
-<span class="r-in"><span class="va">or_method_dis</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
-<span class="r-in"><span class="va">ite_method_inf</span> <span class="op">&lt;-</span> <span class="st">"bart"</span></span>
-<span class="r-in"><span class="va">include_ps_inf</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="va">ps_method_inf</span> <span class="op">&lt;-</span> <span class="st">"SL.xgboost"</span></span>
-<span class="r-in"><span class="va">or_method_inf</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
-<span class="r-in"><span class="va">ntrees_rf</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
-<span class="r-in"><span class="va">ntrees_gbm</span> <span class="op">&lt;-</span> <span class="fl">50</span></span>
-<span class="r-in"><span class="va">min_nodes</span> <span class="op">&lt;-</span> <span class="fl">20</span></span>
-<span class="r-in"><span class="va">max_nodes</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
-<span class="r-in"><span class="va">t</span> <span class="op">&lt;-</span> <span class="fl">0.025</span></span>
-<span class="r-in"><span class="va">q</span> <span class="op">&lt;-</span> <span class="fl">0.8</span></span>
-<span class="r-in"><span class="va">rules_method</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
-<span class="r-in"><span class="va">include_offset</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
-<span class="r-in"><span class="va">offset_name</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
-<span class="r-in"><span class="va">binary</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
-<span class="r-in"><span class="va">cate_method</span> <span class="op">&lt;-</span> <span class="st">"DRLearner"</span></span>
-<span class="r-in"><span class="va">cate_SL_library</span> <span class="op">&lt;-</span> <span class="st">"SL.xgboost"</span></span>
-<span class="r-in"><span class="va">filter_cate</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Split data</span></span>
-<span class="r-in"><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">subgroups</span> <span class="op">&lt;-</span> <span class="fu"><a href="split_data.html">split_data</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">ratio_dis</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">discovery</span> <span class="op">&lt;-</span> <span class="va">subgroups</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">inference</span> <span class="op">&lt;-</span> <span class="va">subgroups</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Generate y, z, and X for discovery and inference data</span></span>
-<span class="r-in"><span class="va">y_dis</span> <span class="op">&lt;-</span> <span class="va">discovery</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">z_dis</span> <span class="op">&lt;-</span> <span class="va">discovery</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">X_dis</span> <span class="op">&lt;-</span> <span class="va">discovery</span><span class="op">[</span>,<span class="fl">3</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">discovery</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">y_inf</span> <span class="op">&lt;-</span> <span class="va">inference</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">z_inf</span> <span class="op">&lt;-</span> <span class="va">inference</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">X_inf</span> <span class="op">&lt;-</span> <span class="va">inference</span><span class="op">[</span>,<span class="fl">3</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">inference</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Estimate ITE on Discovery Subsample</span></span>
-<span class="r-in"><span class="va">ite_list_dis</span> <span class="op">&lt;-</span> <span class="fu"><a href="estimate_ite.html">estimate_ite</a></span><span class="op">(</span><span class="va">y_dis</span>, <span class="va">z_dis</span>, <span class="va">X_dis</span>, <span class="va">ite_method_dis</span>,</span>
-<span class="r-in">                             <span class="va">include_ps_dis</span>, <span class="va">ps_method_dis</span>, <span class="va">or_method_dis</span>,</span>
-<span class="r-in">                             <span class="va">binary</span>, <span class="va">X_names</span>, <span class="va">include_offset</span>, <span class="va">offset_name</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fitting treatment model via method 'bart'</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fitting response model via method 'bart'</span>
-<span class="r-in"><span class="va">ite_dis</span> <span class="op">&lt;-</span> <span class="va">ite_list_dis</span><span class="op">[[</span><span class="st">"ite"</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">ite_std_dis</span> <span class="op">&lt;-</span> <span class="va">ite_list_dis</span><span class="op">[[</span><span class="st">"ite_std"</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Generate rules list</span></span>
-<span class="r-in"><span class="va">initial_rules_dis</span> <span class="op">&lt;-</span> <span class="fu"><a href="generate_rules.html">generate_rules</a></span><span class="op">(</span><span class="va">X_dis</span>, <span class="va">ite_std_dis</span>, <span class="va">ntrees_rf</span>, <span class="va">ntrees_gbm</span>,</span>
-<span class="r-in">                                    <span class="va">min_nodes</span>, <span class="va">max_nodes</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 448 rules (length&lt;=15) were extracted from the first 100 trees.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 200 rules (length&lt;=15) were extracted from the first 50 trees.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Generate rules matrix</span></span>
-<span class="r-in"><span class="va">rules_all_dis</span> <span class="op">&lt;-</span> <span class="fu"><a href="generate_rules_matrix.html">generate_rules_matrix</a></span><span class="op">(</span><span class="va">X_dis</span>, <span class="va">initial_rules_dis</span>, <span class="va">t</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">rules_matrix_dis</span> <span class="op">&lt;-</span> <span class="va">rules_all_dis</span><span class="op">[[</span><span class="st">"rules_matrix"</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">rules_matrix_std_dis</span> <span class="op">&lt;-</span> <span class="va">rules_all_dis</span><span class="op">[[</span><span class="st">"rules_matrix_std"</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">rules_list_dis</span> <span class="op">&lt;-</span> <span class="va">rules_all_dis</span><span class="op">[[</span><span class="st">"rules_list"</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Select important rules</span></span>
-<span class="r-in"><span class="va">select_rules_dis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="select_causal_rules.html">select_causal_rules</a></span><span class="op">(</span><span class="va">rules_matrix_std_dis</span>, <span class="va">rules_list_dis</span>,</span>
-<span class="r-in">                                                     <span class="va">ite_std_dis</span>, <span class="va">binary</span>, <span class="va">q</span>, <span class="va">rules_method</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">select_rules_matrix_dis</span> <span class="op">&lt;-</span> <span class="va">rules_matrix_dis</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">rules_list_dis</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">select_rules_dis</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">select_rules_matrix_std_dis</span> <span class="op">&lt;-</span> <span class="va">rules_matrix_std_dis</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">rules_list_dis</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">select_rules_dis</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">select_rules_dis</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"No significant rules were discovered. Ending Analysis."</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Estimate Inference ITE and CATE</span></span>
-<span class="r-in"><span class="va">rules_matrix_inf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">0</span>, nrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">X_inf</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, ncol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">select_rules_dis</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">select_rules_dis</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="va">rules_matrix_inf</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="va">select_rules_dis</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">X_inf</span><span class="op">)</span><span class="op">)</span>, <span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="va">select_rules_interpretable</span> <span class="op">&lt;-</span> <span class="fu"><a href="interpret_select_rules.html">interpret_select_rules</a></span><span class="op">(</span><span class="va">select_rules_dis</span>, <span class="va">X_names</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ite_list_inf</span> <span class="op">&lt;-</span> <span class="fu"><a href="estimate_ite.html">estimate_ite</a></span><span class="op">(</span><span class="va">y_inf</span>, <span class="va">z_inf</span>, <span class="va">X_inf</span>, <span class="va">ite_method_inf</span>,</span>
-<span class="r-in">                             <span class="va">include_ps_inf</span>, <span class="va">ps_method_inf</span>, <span class="va">or_method_inf</span>,</span>
-<span class="r-in">                             <span class="va">binary</span>, <span class="va">X_names</span>, <span class="va">include_offset</span>, <span class="va">offset_name</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fitting treatment model via method 'bart'</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fitting response model via method 'bart'</span>
-<span class="r-in"><span class="va">ite_inf</span> <span class="op">&lt;-</span> <span class="va">ite_list_inf</span><span class="op">[[</span><span class="st">"ite"</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">ite_std_inf</span> <span class="op">&lt;-</span> <span class="va">ite_list_inf</span><span class="op">[[</span><span class="st">"ite_std"</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">cate_inf</span> <span class="op">&lt;-</span> <span class="fu">estimate_cate</span><span class="op">(</span><span class="va">y_inf</span>, <span class="va">z_inf</span>, <span class="va">X_inf</span>, <span class="va">X_names</span>, <span class="va">include_offset</span>, <span class="va">offset_name</span>,</span>
-<span class="r-in">                         <span class="va">rules_matrix_inf</span>, <span class="va">select_rules_interpretable</span>,</span>
-<span class="r-in">                         <span class="va">cate_method</span>, <span class="va">ite_inf</span>, <span class="va">sd_ite_inf</span>,</span>
-<span class="r-in">                         <span class="va">cate_SL_library</span>, <span class="va">filter_cate</span><span class="op">)</span></span>
-<span class="r-in"></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Kwonsang Lee, Falco Joannes Bargagli Stoffi, Daniela Maria Garcia, Naeem Khoshnevis.</p>
+  <p></p><p>Developed by Kwonsang Lee, Falco Joannes Bargagli Stoffi, Daniela
+Maria Garcia, Naeem Khoshnevis.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
     </footer></div>
