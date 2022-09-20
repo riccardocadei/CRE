@@ -1,6 +1,6 @@
 test_that("AIPW ITE Estimated Correctly", {
   # Generate sample data
-  set.seed(2021)
+  set.seed(8697)
   dataset_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 0.5, binary = FALSE)
   y <- dataset_cont[["y"]]
@@ -18,5 +18,10 @@ test_that("AIPW ITE Estimated Correctly", {
   ite_result <- estimate_ite_aipw(y, z, X, ps_method, or_method)
   expect_true(length(ite_result) == length(y))
   expect_true(class(ite_result) == "numeric")
+
+  # Reproducible results
+  expect_equal(ite_result[1], 0.001451184227, tolerance = 0.00001)
+  expect_equal(ite_result[11], 0.5835801654, tolerance = 0.00001)
+  expect_equal(ite_result[92], -0.1438562195, tolerance = 0.00001)
 })
 
