@@ -18,6 +18,7 @@ test_that("BART ITE Estimated Correctly", {
   expect_error(estimate_ite_bart(y, z, X = NA, include_ps = NA, ps_method, random_state = random_state))
 
   # Correct outputs
+  set.seed(9976)
   ite_result <- estimate_ite_bart(y, z, X, include_ps, ps_method, random_state = random_state)
   expect_true(length(ite_result) == 2)
   expect_true(length(ite_result[[1]]) == length(y))
@@ -26,8 +27,8 @@ test_that("BART ITE Estimated Correctly", {
   expect_true(class(ite_result[[2]]) == "numeric")
 
   # Reproducible results
-  expect_equal(ite_result[[1]][10], -0.3335712669, tolerance = 0.00001)
-  expect_equal(ite_result[[1]][92], -1.460415453, tolerance = 0.00001)
-  expect_equal(ite_result[[2]][23], 0.9498194357, tolerance = 0.00001)
-  expect_equal(ite_result[[2]][74], 0.9593744935, tolerance = 0.00001)
+  expect_equal(ite_result[[1]][10], -0.3719706, tolerance = 0.00001)
+  expect_equal(ite_result[[1]][92], -1.458027, tolerance = 0.00001)
+  expect_equal(ite_result[[2]][23], 0.9523162, tolerance = 0.00001)
+  expect_equal(ite_result[[2]][74], 0.9747365, tolerance = 0.00001)
 })
