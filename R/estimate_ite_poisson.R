@@ -19,7 +19,9 @@
 #' @export
 #'
 #' @examples
-#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+#' \donttest{
+#' set.seed(7831)
+#' dataset <- generate_cre_dataset(n = 50, rho = 0, n_rules = 2, p = 10,
 #'                                 effect_size = 2, binary = FALSE)
 #'
 #' # Initialize parameters
@@ -31,6 +33,7 @@
 #' offset_name <- NA
 #'
 #' ite_list <- estimate_ite_poisson(y, z, X, X_names, include_offset, offset_name)
+#' }
 #'
 estimate_ite_poisson <- function(y, z, X, X_names, include_offset, offset_name) {
   if (include_offset) {

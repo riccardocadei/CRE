@@ -1,6 +1,7 @@
 test_that("SIPW ITE Estimated Correctly", {
+
   # Generate sample data
-  set.seed(2021)
+  set.seed(1789697)
   dataset_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 0.5, binary = FALSE)
   y <- dataset_cont[["y"]]
@@ -17,4 +18,9 @@ test_that("SIPW ITE Estimated Correctly", {
   ite_result <- estimate_ite_sipw(y, z, X, ps_method)
   expect_true(length(ite_result) == length(y))
   expect_true(class(ite_result) == "numeric")
+
+  # Reproducible results
+  expect_equal(ite_result[1], 0.3882511384, tolerance = 0.000001)
+  expect_equal(ite_result[19], -2.371204699, tolerance = 0.000001)
+  expect_equal(ite_result[72], -1.755903025, tolerance = 0.000001)
 })

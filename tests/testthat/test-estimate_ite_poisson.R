@@ -24,4 +24,9 @@ test_that("Poisson ITE Estimated Correctly", {
                                      offset_name)
   expect_true(class(ite_result) == "numeric")
   expect_true(length(ite_result) == length(y))
+
+  # Reproducible results
+  expect_equal(ite_result[[1]], 0.008525829632, tolerance = 0.000001)
+  expect_equal(ite_result[[20]], -0.03955637797, tolerance = 0.000001)
+  expect_equal(ite_result[[91]], 0.2022659665, tolerance = 0.000001)
 })

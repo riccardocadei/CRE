@@ -101,19 +101,9 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
                                      random_state = random_state)
     ite <- ite_results[[1]]
     sd_ite <- ite_results[[2]]
-  } else if (ite_method == "xbart") {
-    check_args(c('include_ps', 'ps_method'), arg_names)
-    ite_results <- estimate_ite_xbart(y, z, X, include_ps, ps_method)
-    ite <- ite_results[[1]]
-    sd_ite <- ite_results[[2]]
   } else if (ite_method == "bcf") {
     check_args(c('ps_method'), arg_names)
     ite_results <- estimate_ite_bcf(y, z, X, ps_method)
-    ite <- ite_results[[1]]
-    sd_ite <- ite_results[[2]]
-  } else if (ite_method == "xbcf") {
-    check_args(c('ps_method'), arg_names)
-    ite_results <- estimate_ite_xbcf(y, z, X, ps_method)
     ite <- ite_results[[1]]
     sd_ite <- ite_results[[2]]
   } else if (ite_method == "cf") {

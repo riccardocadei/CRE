@@ -16,7 +16,7 @@
 check_method_params <- function(y, params){
 
   # Input params checks --------------------------------------------------------
-  if (class(getElement(params, "ratio_dis")) != "numeric" |
+  if (!inherits(getElement(params, "ratio_dis"), "numeric") |
       (getElement(params, "ratio_dis") < 0) |
       (getElement(params, "ratio_dis") > 1)){
     stop("Invalid 'ratio_dis' input. Please input a number between 0 and 1.")
@@ -24,25 +24,25 @@ check_method_params <- function(y, params){
 
   ite_method_dis <- tolower(getElement(params, "ite_method_dis"))
   params[["ite_method_dis"]] <- ite_method_dis
-  if (!(ite_method_dis %in% c("ipw", "sipw", "aipw", "oreg", "bart", "xbart",
-                              "bcf", "xbcf", "cf", "poisson"))) {
+  if (!(ite_method_dis %in% c("ipw", "sipw", "aipw", "oreg", "bart",
+                              "bcf", "cf", "poisson"))) {
     stop(paste("Invalid ITE method for Discovery Subsample. Please choose ",
                "from the following:\n","'ipw', 'sipw', 'aipw', oreg', 'bart', ",
-               "'xbart', 'bcf', 'xbcf', 'cf', or 'poisson'"))
+               "'bcf', 'cf', or 'poisson'"))
   }
 
   ite_method_inf <- tolower(getElement(params, "ite_method_inf"))
   params[["ite_method_inf"]] <- ite_method_inf
-  if (!(ite_method_inf %in% c("ipw", "sipw", "aipw", "oreg", "bart", "xbart",
-                              "bcf", "xbcf", "cf", "poisson"))) {
+  if (!(ite_method_inf %in% c("ipw", "sipw", "aipw", "oreg", "bart",
+                              "bcf", "cf", "poisson"))) {
     stop(paste("Invalid ITE method for Inference Subsample. Please choose ",
                "from the following: 'ipw', 'sipw', 'aipw', 'oreg', 'bart', ",
-               "'xbart', 'bcf', 'xbcf', 'cf', or 'poisson'"))
+               "'bcf', 'cf', or 'poisson'"))
   }
 
   # Check for correct propensity score estimation inputs -----------------------
   include_ps_dis <- toupper(getElement(params, "include_ps_dis"))
-  if (ite_method_dis %in% c("bart", "xbart", "cf")) {
+  if (ite_method_dis %in% c("bart", "cf")) {
     if (!(include_ps_dis %in% c(TRUE, FALSE))) {
       stop("Please specify 'TRUE' or 'FALSE' for the include_ps_dis argument.")
     }
@@ -52,7 +52,7 @@ check_method_params <- function(y, params){
   params[["include_ps_dis"]] <- include_ps_dis
 
   include_ps_inf <- toupper(getElement(params, "include_ps_inf"))
-  if (ite_method_inf %in% c("bart", "xbart", "cf")) {
+  if (ite_method_inf %in% c("bart", "cf")) {
     if (!(include_ps_inf %in% c(TRUE, FALSE))) {
       stop("Please specify 'TRUE' or 'FALSE' for the include_ps_inf argument.")
     }
@@ -102,11 +102,11 @@ check_method_params <- function(y, params){
   is_y_binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
   params[["is_y_binary"]] <- is_y_binary
   if (is_y_binary) {
-    if (getElement(params, "ite_method_dis") %in% c("bcf", "xbcf", "ipw", "sipw") |
-        getElement(params, "ite_method_inf") %in% c("bcf", "xbcf", "ipw", "sipw")) {
-      stop(paste("The 'ipw', 'sipw', 'bcf', and 'xbcf' methods are not ",
+    if (getElement(params, "ite_method_dis") %in% c("bcf", "ipw", "sipw") |
+        getElement(params, "ite_method_inf") %in% c("bcf", "ipw", "sipw")) {
+      stop(paste("The 'ipw', 'sipw', and 'bcf' methods are not ",
                  "applicable to data with binary outcomes.Please select a ",
-                 "method from the following: 'or', 'cf', 'bart', or 'xbart'"))
+                 "method from the following: 'or', 'cf', or 'bart'"))
     }
   }
 
@@ -183,15 +183,15 @@ check_method_params <- function(y, params){
   }
 
   if (getElement(params, "cate_method") == "bart-baggr") {
-    if (!(getElement(params, "ite_method_inf") %in% c("bart", "xbart"))) {
-      stop(paste("Please choose 'bart' or 'xbart' for ite_method_inf ",
+    if (!(getElement(params, "ite_method_inf") %in% c("bart"))) {
+      stop(paste("Please choose 'bart' for ite_method_inf ",
                  "if you wish to use 'bart-baggr' as the cate_method"))
     }
   }
 
   if (getElement(params, "cate_method") == "cf-means") {
-    if (!(getElement(params, "ite_method_inf") %in% c("cf", "bcf", "xbcf"))) {
-      stop(paste("Please choose 'cf', 'bcf', or 'xbcf' for ite_method_inf ",
+    if (!(getElement(params, "ite_method_inf") %in% c("cf", "bcf"))) {
+      stop(paste("Please choose 'cf', or 'bcf' for ite_method_inf ",
                  "if you wish to use 'cf-means' as the cate_method"))
     }
   }
