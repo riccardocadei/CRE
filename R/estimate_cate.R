@@ -28,7 +28,7 @@
 #' a matrix of CATE estimates
 #'
 #' @import stats
-#' @export
+#' @keywords internal
 #'
 #'
 estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
@@ -36,6 +36,10 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                           select_rules_interpretable,
                           cate_method, ite_inf, sd_ite_inf,
                           cate_SL_library, filter_cate) {
+
+  # TODO: Move different methods to a new function.
+  # TODO: Pass the number of cores explicitly.
+  # TODO: Not all input parameters are needed by all methods. Needs refactoring.
 
   # Handling global variable error.
   `%>%` <- magrittr::`%>%`

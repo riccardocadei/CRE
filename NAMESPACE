@@ -2,7 +2,6 @@
 
 S3method(plot,cre)
 export(cre)
-export(estimate_cate)
 export(estimate_ite)
 export(estimate_ite_aipw)
 export(estimate_ite_bart)
