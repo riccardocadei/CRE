@@ -8,7 +8,7 @@
 #' @param y The observed response vector.
 #' @param z The treatment vector.
 #' @param X The covariate matrix.
-#' @param method_params parameters for individual treatment effect, includig:
+#' @param method_params Parameters for individual treatment effect, includig:
 #'   - *Parameters for Discovery*
 #'     - *ratio_dis*: The ratio of data delegated to the discovery sub-sample.
 #'     - *ite_method_dis*: The method to estimate the discovery sample ITE.
@@ -20,33 +20,33 @@
 #'     - *or_method_dis*: The estimation model for the outcome regressions
 #'       estimate_ite_aipw on the discovery subsample.
 #'   - *Parameters for Inference*
-#'     - *ite_method_inf*: the method to estimate the inference sample ITE.
-#'     - *include_ps_inf* whether or not to include propensity score estimate as
+#'     - *ite_method_inf*: The method to estimate the inference sample ITE.
+#'     - *include_ps_inf*: Whether or not to include propensity score estimate as
 #'       a covariate in inference ITE estimation, considered only for BART, XBART,
 #'       or CF.
-#'     - *include_ps_inf*: whether or not to include propensity score estimate as
+#'     - *include_ps_inf*: Whether or not to include propensity score estimate as
 #'       a covariate in inference ITE estimation, considered only for BART, XBART,
 #'       or CF.
-#'     - *ps_method_inf*: the estimation model for the propensity score on the
+#'     - *ps_method_inf*: The estimation model for the propensity score on the
 #'       inference subsample.
-#'     - *or_method_inf*: the estimation model for the outcome regressions in
+#'     - *or_method_inf*: The estimation model for the outcome regressions in
 #'       estimate_ite_aipw on the inference subsample.
 #'   - *Other Parameters*:
-#'     - *rules_method*: the method for selecting causal rules with binary outcomes.
-#'     - *include_offset*: whether or not to include an offset when estimating
+#'     - *rules_method*: The method for selecting causal rules with binary outcomes.
+#'     - *include_offset*: Whether or not to include an offset when estimating
 #'  the ITE, for poisson only.
-#'     - *offset_name*: the name of the offset, if it is to be included.
-#'     - *cate_method*: the method to estimate the CATE values.
-#'     - *cate_SL_library*: the library used if cate_method is set to DRLearner.
-#'     - *filter_cate*: whether or not to filter rules with p-value <= 0.05.
-#' @param hyper_params the list of parameters required to tune the functions,
+#'     - *offset_name*: The name of the offset, if it is to be included.
+#'     - *cate_method*: The method to estimate the CATE values.
+#'     - *cate_SL_library*: The library used if cate_method is set to DRLearner.
+#'     - *filter_cate*: Whether or not to filter rules with p-value <= 0.05.
+#' @param hyper_params The list of parameters required to tune the functions,
 #' including:
-#'  - *ntrees_rf*: the number of decision trees for randomForest.
-#'  - *ntrees_gbm*: the number of decision trees for gradient boosting.
-#'  - *min_nodes*: the minimum size of the trees' terminal nodes.
-#'  - *max_nodes*: the maximum size of the trees' terminal nodes.
-#'  - *t*: the common support used in generating the causal rules matrix.
-#'  - *q*: the selection threshold used in selecting the causal rules.
+#'  - *ntrees_rf*: The number of decision trees for randomForest.
+#'  - *ntrees_gbm*: The number of decision trees for gradient boosting.
+#'  - *node_size*: The minimum size of the trees' terminal nodes.
+#'  - *max_nodes*: The maximum number of terminal nodes trees in the forest can have.
+#'  - *t*: The common support used in generating the causal rules matrix.
+#'  - *q*: The selection threshold used in selecting the causal rules.
 
 #'
 #' @return
@@ -116,7 +116,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   initial_rules_dis <- generate_rules(X_dis, ite_std_dis,
                                       getElement(hyper_params,"ntrees_rf"),
                                       getElement(hyper_params,"ntrees_gbm"),
-                                      getElement(hyper_params,"min_nodes"),
+                                      getElement(hyper_params,"node_size"),
                                       getElement(hyper_params,"max_nodes"),
                                       getElement(method_params, "random_state"))
 

@@ -22,8 +22,8 @@ check_hyper_params <- function(params){
     stop("Invalid 'ntrees_gbm' input. Please input a number.")
   }
 
-  if (!inherits(getElement(params, "min_nodes"),"numeric")){
-    stop("Invalid 'min_nodes' input. Please input a number.")
+  if (!inherits(getElement(params, "node_size"),"numeric")){
+    stop("Invalid 'node_size' input. Please input a number.")
   }
 
   if (!inherits(getElement(params, "max_nodes"),"numeric")){
