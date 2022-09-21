@@ -86,7 +86,9 @@ Regression given a response vector, a treatment vector, and a features matrix.</
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">200</span>, rho <span class="op">=</span> <span class="fl">0</span>, n_rules <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">10</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">5561</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">50</span>, rho <span class="op">=</span> <span class="fl">0</span>, n_rules <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">10</span>,</span>
 <span class="r-in">                                effect_size <span class="op">=</span> <span class="fl">2</span>, binary <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Initialize parameters</span></span>
@@ -97,15 +99,15 @@ Regression given a response vector, a treatment vector, and a features matrix.</
 <span class="r-in"><span class="va">ite_list</span> <span class="op">&lt;-</span> <span class="fu">estimate_ite_oreg</span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****Into main of wbart</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****Data:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> data:n,p,np: 83, 10, 117</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> y1,yn: 3.020606, -2.004178</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1,x[n*p]: 0.000000, 0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> xp1,xp[np*p]: 0.000000, 1.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:n,p,np: 24, 10, 26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> y1,yn: 0.044851, -0.420054</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1,x[n*p]: 1.000000, 0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> xp1,xp[np*p]: 1.000000, 1.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****Number of Trees: 200</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****Number of Cut Points: 1 ... 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****burn and ndpost: 100, 1000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> *****Prior:beta,alpha,tau,nu,lambda: 2.000000,0.950000,0.128079,3.000000,0.254888</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> *****sigma: 1.143905</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> *****Prior:beta,alpha,tau,nu,lambda: 2.000000,0.950000,0.078194,3.000000,0.115464</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> *****sigma: 0.769907</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****w (weights): 1.000000 ... 1.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****Dirichlet:sparse,theta,omega,a,b,rho,augment: 0,0,1,0.5,1,10,0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****nkeeptrain,nkeeptest,nkeeptestme,nkeeptreedraws: 1000,1000,1000,1000</span>
@@ -124,20 +126,20 @@ Regression given a response vector, a treatment vector, and a features matrix.</
 <span class="r-out co"><span class="r-pr">#&gt;</span> done 800 (out of 1100)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> done 900 (out of 1100)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> done 1000 (out of 1100)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> time: 2s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> time: 1s</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> check counts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> trcnt,tecnt,temecnt,treedrawscnt: 1000,1000,1000,1000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****Into main of wbart</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****Data:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> data:n,p,np: 117, 10, 83</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> y1,yn: -1.178910, 0.321506</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1,x[n*p]: 0.000000, 1.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> xp1,xp[np*p]: 0.000000, 0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:n,p,np: 26, 10, 24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> y1,yn: -0.514007, 1.318716</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1,x[n*p]: 1.000000, 1.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> xp1,xp[np*p]: 1.000000, 0.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****Number of Trees: 200</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****Number of Cut Points: 1 ... 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****burn and ndpost: 100, 1000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> *****Prior:beta,alpha,tau,nu,lambda: 2.000000,0.950000,0.124832,3.000000,0.197874</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> *****sigma: 1.007881</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> *****Prior:beta,alpha,tau,nu,lambda: 2.000000,0.950000,0.080626,3.000000,0.093647</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> *****sigma: 0.693364</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****w (weights): 1.000000 ... 1.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****Dirichlet:sparse,theta,omega,a,b,rho,augment: 0,0,1,0.5,1,10,0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *****nkeeptrain,nkeeptest,nkeeptestme,nkeeptreedraws: 1000,1000,1000,1000</span>
@@ -156,10 +158,10 @@ Regression given a response vector, a treatment vector, and a features matrix.</
 <span class="r-out co"><span class="r-pr">#&gt;</span> done 800 (out of 1100)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> done 900 (out of 1100)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> done 1000 (out of 1100)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> time: 3s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> time: 1s</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> check counts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> trcnt,tecnt,temecnt,treedrawscnt: 1000,1000,1000,1000</span>
-<span class="r-in"></span>
+<span class="r-in"><span class="co"># }</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -167,8 +169,8 @@ Regression given a response vector, a treatment vector, and a features matrix.</
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Kwonsang Lee, Falco Joannes Bargagli Stoffi, Daniela
-Maria Garcia, Naeem Khoshnevis.</p>
+  <p></p><p>Developed by Naeem Khoshnevis, Falco Joannes Bargagli Stoffi, Daniela
+Maria Garcia, Kwonsang Lee.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -16,10 +16,10 @@
 #' @docType package
 #' @name CRE-package
 #' @aliases CRE
-#' @author Kwonsang Lee
+#' @author Naeem Khoshnevis
 #' @author Falco Joannes Bargagli Stoffi
 #' @author Daniela Maria Garcia
-#' @author Naeem Khoshnevis
+#' @author Kwonsang Lee
 #' @import xtable
 #' @import data.table
 #' @importFrom RRF RRF

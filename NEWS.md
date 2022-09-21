@@ -8,6 +8,7 @@
 * improve examples and update tests for all functions
 
 ### Added
+* `print` and `summary` generic functions.
 * `check_input` function to isolate input checks.
 * `estimate_ite_aipw` function for augmented inverse propensity weighting
 * `plot.cre` generic function to plot CRE S3 object Results
