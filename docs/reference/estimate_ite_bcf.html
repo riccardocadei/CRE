@@ -88,7 +88,9 @@ a response vector, a treatment vector, and a features matrix.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, rho <span class="op">=</span> <span class="fl">0</span>, n_rules <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">10</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">345</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">50</span>, rho <span class="op">=</span> <span class="fl">0</span>, n_rules <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">10</span>,</span>
 <span class="r-in">                                effect_size <span class="op">=</span> <span class="fl">2</span>, binary <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Initialize parameters</span></span>
@@ -98,23 +100,23 @@ a response vector, a treatment vector, and a features matrix.</p>
 <span class="r-in"><span class="va">ps_method</span> <span class="op">&lt;-</span> <span class="st">"SL.xgboost"</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">ite_list</span> <span class="op">&lt;-</span> <span class="fu">estimate_ite_bcf</span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, <span class="va">ps_method</span><span class="op">)</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>collapsing to unique 'x' values</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>A supplied covariate contains a single distinct value.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Using 11 control variables.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Using 10 potential effect moderators.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Beginning MCMC:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 0 sigma: 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 100 sigma: 0.739852</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 200 sigma: 0.725262</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 300 sigma: 0.776271</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 400 sigma: 0.736157</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 500 sigma: 0.755889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 600 sigma: 0.754905</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 700 sigma: 0.72967</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 800 sigma: 0.774816</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 900 sigma: 0.761463</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> time for loop: 11</span>
-<span class="r-in"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 100 sigma: 0.911174</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 200 sigma: 1.05774</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 300 sigma: 0.847377</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 400 sigma: 1.21101</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 500 sigma: 1.11035</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 600 sigma: 0.99673</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 700 sigma: 0.914512</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 800 sigma: 0.987882</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 900 sigma: 0.943388</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> time for loop: 1</span>
+<span class="r-in"><span class="co"># }</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -122,8 +124,8 @@ a response vector, a treatment vector, and a features matrix.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Kwonsang Lee, Falco Joannes Bargagli Stoffi, Daniela
-Maria Garcia, Naeem Khoshnevis.</p>
+  <p></p><p>Developed by Naeem Khoshnevis, Falco Joannes Bargagli Stoffi, Daniela
+Maria Garcia, Kwonsang Lee.</p>
 </div>
 
 <div class="pkgdown-footer-right">

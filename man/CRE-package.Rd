@@ -24,11 +24,11 @@ Interpretable inference of heterogeneous treatment effects.  arXiv
 preprint arXiv:2009.09036.
 }
 \author{
-Kwonsang Lee
+Naeem Khoshnevis
 
 Falco Joannes Bargagli Stoffi
 
 Daniela Maria Garcia
 
-Naeem Khoshnevis
+Kwonsang Lee
 }

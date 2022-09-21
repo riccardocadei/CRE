@@ -91,7 +91,9 @@ covariate in ITE estimation</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, rho <span class="op">=</span> <span class="fl">0</span>, n_rules <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">10</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">3789</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">50</span>, rho <span class="op">=</span> <span class="fl">0</span>, n_rules <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">10</span>,</span>
 <span class="r-in">                                effect_size <span class="op">=</span> <span class="fl">2</span>, binary <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Initialize parameters</span></span>
@@ -102,7 +104,7 @@ covariate in ITE estimation</p></dd>
 <span class="r-in"><span class="va">ps_method</span> <span class="op">&lt;-</span> <span class="st">"SL.xgboost"</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">ite_list</span> <span class="op">&lt;-</span> <span class="fu">estimate_ite_cf</span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">include_ps</span>, <span class="va">ps_method</span><span class="op">)</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span class="co"># }</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -110,8 +112,8 @@ covariate in ITE estimation</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Kwonsang Lee, Falco Joannes Bargagli Stoffi, Daniela
-Maria Garcia, Naeem Khoshnevis.</p>
+  <p></p><p>Developed by Naeem Khoshnevis, Falco Joannes Bargagli Stoffi, Daniela
+Maria Garcia, Kwonsang Lee.</p>
 </div>
 
 <div class="pkgdown-footer-right">
