@@ -19,7 +19,7 @@
 #'
 extract_rules <- function(treelist, X, ntrees, ite_std, take_1, type_decay) {
 
-  rules <- inTrees_extractRules(treeList = treelist,
+  rules <- inTrees::extractRules(treeList = treelist,
                                 X = X,
                                 ntree = ntrees,
                                 maxdepth = 15)
@@ -31,10 +31,10 @@ extract_rules <- function(treelist, X, ntrees, ite_std, take_1, type_decay) {
 
   rules_matrix <- matrix(rules)
   colnames(rules_matrix) <- "condition"
-  metric <- inTrees_getRuleMetric(rules_matrix,
+  metric <- inTrees::getRuleMetric(rules_matrix,
                                   X,
                                   ite_std)
-  pruned <- inTrees_pruneRule(metric,
+  pruned <- inTrees::pruneRule(metric,
                               X,
                               ite_std,
                               0.025,
