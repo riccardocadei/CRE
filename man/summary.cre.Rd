@@ -4,10 +4,10 @@
 \alias{summary.cre}
 \title{Print summary of CRE object}
 \usage{
-\method{summary}{cre}(x, ...)
+\method{summary}{cre}(object, ...)
 }
 \arguments{
-\item{x}{A cre object from running the CRE function}
+\item{object}{A cre object from running the CRE function}
 
 \item{...}{Additional arguments passed to customize the results.}
 }

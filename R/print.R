@@ -34,33 +34,33 @@ print.cre <- function(x, ...) {
 #' @description
 #' Prints a brief summary of the CRE object
 #'
-#' @param x A cre object from running the CRE function
+#' @param object A cre object from running the CRE function
 #' @param ... Additional arguments passed to customize the results.
 #'
 #' @return
 #' A summary of the CRE object
 #'
 #' @export
-summary.cre <- function(x, ...) {
+summary.cre <- function(object, ...) {
 
-  x <- unclass(x)
+  object <- unclass(object)
 
-  if ("CATE_results" %in% names(x)) {
-    print(paste("CRE results using CATE method: ", x[["CATE_method"]]))
-    print(x[["CATE_results"]])
-    if ("select_rules_1" %in% names(x)) {
+  if ("CATE_results" %in% names(object)) {
+    print(paste("CRE results using CATE method: ", object[["CATE_method"]]))
+    print(object[["CATE_results"]])
+    if ("select_rules_1" %in% names(object)) {
       print("Select rules (1): ")
-      print(x[["select_rules_1"]])
+      print(object[["select_rules_1"]])
       print("Select rules (2): ")
-      print(x[["select_rules_2"]])
+      print(object[["select_rules_2"]])
     } else {
       print("Select rules: ")
-      print(x[["select_rules"]])
+      print(object[["select_rules"]])
     }
   } else {
     print("No significant rules were discovered.\n")
-    print(paste("Average Treatment Effect (discovery): ", x[["ATE_dis"]]))
-    print(paste("Average Treatment Effect (inference): ", x[["ATE_inf"]]))
+    print(paste("Average Treatment Effect (discovery): ", object[["ATE_dis"]]))
+    print(paste("Average Treatment Effect (inference): ", object[["ATE_inf"]]))
   }
 }
 
