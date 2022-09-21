@@ -2,30 +2,18 @@
 % Please edit documentation in R/print.R
 \name{print.cre}
 \alias{print.cre}
-\title{Print CRE Results}
+\title{Extend print function for the CRE object}
 \usage{
-\method{print}{cre}(cre_object, ...)
+\method{print}{cre}(x, ...)
 }
 \arguments{
-\item{cre_object}{the output cre object from running the CRE function}
+\item{x}{A cre object from running the CRE function}
+
+\item{...}{Additional arguments passed to customize the results.}
 }
 \value{
-A print statement of the CRE object
+No return value. This function is called for side effects.
 }
 \description{
 Prints a brief description of the CRE object
-}
-\examples{
-dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-                                effect_size = 2, binary = FALSE)
-
-cre_results <- cre(y = dataset[["y"]], z = dataset[["z"]],
-                   X = as.data.frame(dataset[["X"]]), ratio_dis = 0.25,
-                   ite_method_dis = "bart", include_ps_dis = TRUE,
-                   ite_method_inf = "bart", include_ps_inf = TRUE,
-                   ntrees_rf = 100, ntrees_gbm = 50, min_nodes = 20,
-                   max_nodes = 5, t = 0.025, q = 0.8)
-
-print_cre(cre_results)
-
 }

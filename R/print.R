@@ -1,80 +1,66 @@
 #' @title
-#' Print CRE Results
+#' Extend print function for the CRE object
 #'
 #' @description
 #' Prints a brief description of the CRE object
 #'
-#' @param cre_object the output cre object from running the CRE function
+#' @param x A cre object from running the CRE function
+#' @param ... Additional arguments passed to customize the results.
 #'
 #' @return
-#' A print statement of the CRE object
+#' No return value. This function is called for side effects.
 #'
-#' @examples
-#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-#'                                 effect_size = 2, binary = FALSE)
+#' @export
 #'
-#' cre_results <- cre(y = dataset[["y"]], z = dataset[["z"]],
-#'                    X = as.data.frame(dataset[["X"]]), ratio_dis = 0.25,
-#'                    ite_method_dis = "bart", include_ps_dis = TRUE,
-#'                    ite_method_inf = "bart", include_ps_inf = TRUE,
-#'                    ntrees_rf = 100, ntrees_gbm = 50, min_nodes = 20,
-#'                    max_nodes = 5, t = 0.025, q = 0.8)
-#'
-#' print_cre(cre_results)
-#'
-print.cre <- function(cre_object, ...) {
-  stopifnot(class(cre_object) == "cre")
-  if ("CATE_results" %in% names(cre_object)) {
-    print(paste("CRE results using CATE method: ", cre_object[["CATE_method"]]))
-    print(cre_object[["CATE_results"]])
+print.cre <- function(x, ...) {
+
+  x <- unclass(x)
+
+  cat(" CRE object \n")
+  cat("    ***       ")
+  if ("CATE_results" %in% names(x)) {
+    print(paste("CRE results using CATE method: ", x[["CATE_method"]]))
+    print(x[["CATE_results"]])
   } else {
     print("No significant rules were discovered.")
   }
+  cat("    ***       ")
 }
 
 
 #' @title
-#' Print CRE Results
+#' Print summary of CRE object
 #'
 #' @description
 #' Prints a brief summary of the CRE object
 #'
-#' @param cre_object the output cre object from running the CRE function
+#' @param x A cre object from running the CRE function
+#' @param ... Additional arguments passed to customize the results.
 #'
 #' @return
 #' A summary of the CRE object
 #'
-#' @examples
-#' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-#'                                 effect_size = 2, binary = FALSE)
-#'
-#' cre_object <- cre(y = dataset[["y"]], z = dataset[["z"]],
-#'                    X = as.data.frame(dataset[["X"]]), ratio_dis = 0.25,
-#'                    ite_method_dis = "bart", include_ps_dis = TRUE,
-#'                    ite_method_inf = "bart", include_ps_inf = TRUE,
-#'                    ntrees_rf = 100, ntrees_gbm = 50, min_nodes = 20,
-#'                    max_nodes = 5, t = 0.025, q = 0.8)
-#'
-#' summary_cre(cre_object)
-#'
-summary.cre <- function(cre_object, ...) {
-  stopifnot(class(cre_object) == "cre")
-  if ("CATE_results" %in% names(cre_object)) {
-    print(paste("CRE results using CATE method: ", cre_object[["CATE_method"]]))
-    print(cre_object[["CATE_results"]])
-    if ("select_rules_1" %in% names(cre_object)) {
+#' @export
+summary.cre <- function(x, ...) {
+
+  x <- unclass(x)
+
+  if ("CATE_results" %in% names(x)) {
+    print(paste("CRE results using CATE method: ", x[["CATE_method"]]))
+    print(x[["CATE_results"]])
+    if ("select_rules_1" %in% names(x)) {
       print("Select rules (1): ")
-      print(cre_object[["select_rules_1"]])
+      print(x[["select_rules_1"]])
       print("Select rules (2): ")
-      print(cre_object[["select_rules_2"]])
+      print(x[["select_rules_2"]])
     } else {
       print("Select rules: ")
-      print(cre_object[["select_rules"]])
+      print(x[["select_rules"]])
     }
   } else {
     print("No significant rules were discovered.\n")
-    print(paste("Average Treatment Effect (discovery): ", cre_object[["ATE_dis"]]))
-    print(paste("Average Treatment Effect (inference): ", cre_object[["ATE_inf"]]))
+    print(paste("Average Treatment Effect (discovery): ", x[["ATE_dis"]]))
+    print(paste("Average Treatment Effect (inference): ", x[["ATE_inf"]]))
   }
 }
 
