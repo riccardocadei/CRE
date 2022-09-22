@@ -130,19 +130,6 @@ check_method_params <- function(y, params){
     params[["offset_name"]] <- offset_name
   }
 
-  # Check for correct rules_method input
-  rules_method <- tolower(getElement(params, "rules_method"))
-  if (is_y_binary) {
-    if (!(rules_method %in% c("conservative", "anticonservative"))) {
-      stop(paste("Invalid rules_method input. Please specify 'conservative' ",
-                 "or 'anticonservative'."))
-    }
-  } else {
-    rules_method <- NA
-  }
-
-  params[["rules_method"]] <- rules_method
-
   # Check for correct offset input
   if ((getElement(params, "ite_method_dis") == "poisson") |
       (getElement(params, "ite_method_inf") == "poisson") |

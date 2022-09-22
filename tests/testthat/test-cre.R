@@ -1,7 +1,7 @@
 test_that("cre Runs Correctly", {
   # Generate sample data
   set.seed(2021)
-  dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 2, binary = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
@@ -27,7 +27,9 @@ test_that("cre Runs Correctly", {
                      node_size = 20,
                      max_nodes = 5,
                      t = 0.025,
-                     q = 0.8)
+                     q = 0.8,
+                     stability_selection = TRUE,
+                     pfer_val = 0.1)
 
 
   #TODO: Need to move to a better place: Incorrect ntrees_rf, ntrees_gbm, node_size, max_nodes, t, q inputs
@@ -54,8 +56,16 @@ test_that("cre Runs Correctly", {
   hyper_params[["q"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  # Correct outputs
   hyper_params[["q"]] <- 0.8
+  hyper_params[["stability_selection"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  hyper_params[["stability_selection"]] <- TRUE
+  hyper_params[["pfer_val"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  # Correct outputs
+  hyper_params[["pfer_val"]] <- 0.1
   cre_results <- cre(y, z, X, method_params, hyper_params)
   expect_true(class(cre_results) == "cre")
 })

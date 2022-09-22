@@ -13,8 +13,8 @@
 #'     - *ratio_dis*: The ratio of data delegated to the discovery sub-sample.
 #'     - *ite_method_dis*: The method to estimate the discovery sample ITE.
 #'     - *include_ps_dis*: Whether or not to include propensity score estimate
-#'       as a covariate in discovery ITE estimation, considered only for BART, XBART,
-#'       or CF.
+#'       as a covariate in discovery ITE estimation, considered only for BART,
+#'       XBART, or CF.
 #'     - *ps_method_dis*: The estimation model for the propensity score on the
 #'       discovery subsample.
 #'     - *or_method_dis*: The estimation model for the outcome regressions
@@ -32,9 +32,8 @@
 #'     - *or_method_inf*: The estimation model for the outcome regressions in
 #'       estimate_ite_aipw on the inference subsample.
 #'   - *Other Parameters*:
-#'     - *rules_method*: The method for selecting causal rules with binary outcomes.
 #'     - *include_offset*: Whether or not to include an offset when estimating
-#'  the ITE, for poisson only.
+#'  the ITE, for Poisson only.
 #'     - *offset_name*: The name of the offset, if it is to be included.
 #'     - *cate_method*: The method to estimate the CATE values.
 #'     - *cate_SL_library*: The library used if cate_method is set to DRLearner.
@@ -44,9 +43,15 @@
 #'  - *ntrees_rf*: The number of decision trees for randomForest.
 #'  - *ntrees_gbm*: The number of decision trees for gradient boosting.
 #'  - *node_size*: The minimum size of the trees' terminal nodes.
-#'  - *max_nodes*: The maximum number of terminal nodes trees in the forest can have.
+#'  - *max_nodes*: The maximum number of terminal nodes trees in the forest can
+#'   have.
 #'  - *t*: The common support used in generating the causal rules matrix.
 #'  - *q*: The selection threshold used in selecting the causal rules.
+#'  - *stability_selection*: Whether or not using stability selection for
+#'  selecting the causal rules.
+#'  - *pfer_val*: The Per-Family Error Rate, the expected number of false
+#'  discoveries.
+
 
 #'
 #' @return
@@ -118,7 +123,7 @@ cre <- function(y, z, X, method_params, hyper_params){
                                       getElement(hyper_params,"ntrees_gbm"),
                                       getElement(hyper_params,"node_size"),
                                       getElement(hyper_params,"max_nodes"),
-                                      getElement(method_params, "random_state"))
+                                      getElement(method_params,"random_state"))
 
   # Generate rules matrix --------------
   logger::log_info("Generating Causal Rules Matrix ...")
@@ -132,9 +137,11 @@ cre <- function(y, z, X, method_params, hyper_params){
   select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
                                                        rules_list_dis,
                                                        ite_std_dis,
-                                                       getElement(method_params,"is_y_binary"),
                                                        getElement(hyper_params,"q"),
-                                                       getElement(hyper_params,"rules_method")))
+                                                       getElement(hyper_params,"stability_selection"),
+                                                       getElement(hyper_params,"pfer_val")
+                                                       )
+                                   )
 
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
                                                        select_rules_dis)]

@@ -37,4 +37,16 @@ check_hyper_params <- function(params){
   if (!inherits(getElement(params, "q"),"numeric")){
     stop("Invalid 'q' input. Please input a number.")
   }
+
+  if (!(getElement(params, "stability_selection") %in% c(TRUE, FALSE))) {
+    stop("Please specify 'TRUE' or 'FALSE' for the stability_selection argument.")
+  }
+
+  if (getElement(params, "stability_selection")) {
+    if (!inherits(getElement(params, "pfer_val"),"numeric")){
+      stop("Invalid 'pfer_val' input. Please input a number.")
+    }
+  } else {
+    params[["pfer_val"]] <- NA
+  }
 }
