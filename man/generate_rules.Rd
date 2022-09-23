@@ -9,7 +9,7 @@ generate_rules(
   ite_std,
   ntrees_rf,
   ntrees_gbm,
-  min_nodes,
+  node_size,
   max_nodes,
   random_state
 )
@@ -23,9 +23,9 @@ generate_rules(
 
 \item{ntrees_gbm}{The number of decision trees for gradient boosting.}
 
-\item{min_nodes}{The minimum size of the trees' terminal nodes.}
+\item{node_size}{The minimum size of the trees' terminal nodes.}
 
-\item{max_nodes}{The maximum size of the trees' terminal nodes.}
+\item{max_nodes}{The maximum number of terminal nodes trees in the forest can have.}
 
 \item{random_state}{An integer number that repesents a random state.}
 }
