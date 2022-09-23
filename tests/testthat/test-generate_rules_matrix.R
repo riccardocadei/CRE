@@ -12,7 +12,7 @@ test_that("Rules Extracted Correctly", {
   oreg_method <- NA
   ntrees_rf <- 100
   ntrees_gbm <- 50
-  min_nodes <- 20
+  node_size <- 20
   max_nodes <- 5
   t <- 0.025
 
@@ -36,7 +36,7 @@ test_that("Rules Extracted Correctly", {
   ite_std <- ite_list[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
+  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
                                   max_nodes, random_state = 2389)
 
   ###### Run Tests ######

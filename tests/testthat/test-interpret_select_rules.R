@@ -12,7 +12,7 @@ test_that("Rules Interpreted Correctly", {
   oreg_method <- NA
   ntrees_rf <- 100
   ntrees_gbm <- 50
-  min_nodes <- 20
+  node_size <- 20
   max_nodes <- 5
   t <- 0.025
   q <- 0.8
@@ -37,7 +37,7 @@ test_that("Rules Interpreted Correctly", {
 
   # Step 3: Generate rules list
   initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm,
-                                      min_nodes, max_nodes,
+                                      node_size, max_nodes,
                                   random_state = 812)
 
   # Step 4: Generate rules matrix

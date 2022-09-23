@@ -12,7 +12,7 @@ test_that("Rules Extracted Correctly", {
   ps_method <- "SL.xgboost"
   oreg_method <- NA
   ntrees <- 100
-  min_nodes <- 20
+  node_size <- 20
   max_nodes <- 5
 
   set.seed(349)
@@ -66,7 +66,7 @@ test_that("Rules Extracted Correctly", {
                                                         sampsize = sf * N,
                                                         replace = FALSE,
                                                         ntree = 1, maxnodes = mn,
-                                                        nodesize = min_nodes))
+                                                        nodesize = node_size))
   for(i in 2:ntrees) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
     set.seed(seed_vector[i])
@@ -74,7 +74,7 @@ test_that("Rules Extracted Correctly", {
                                                              sampsize = sf * N,
                                                              replace = FALSE,
                                                              ntree = 1, maxnodes = mn,
-                                                             nodesize = min_nodes))
+                                                             nodesize = node_size))
     forest <- randomForest::combine(forest, model1_RF)
   }
   treelist <- inTrees::RF2List(forest)

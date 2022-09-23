@@ -49,26 +49,23 @@ test_that("Causal Rules Selected Correctly", {
 
   # Incorrect inputs
   expect_error(select_causal_rules(rules_matrix_std = "test",
-                                   rules_list, ite_std, binary, q,
+                                   rules_list, ite_std, q,
                                    stability_selection, pfer_val))
   expect_error(select_causal_rules(rules_matrix_std, rules_list,
-                                   ite_std = "test", binary, q,
+                                   ite_std = "test", q,
                                    stability_selection, pfer_val))
   expect_error(select_causal_rules(rules_matrix_std, rules_list,
-                                   ite_std, binary = "test", q,
+                                   ite_std, q = "test",
                                    stability_selection, pfer_val))
   expect_error(select_causal_rules(rules_matrix_std, rules_list,
-                                   ite_std, binary, q = "test",
-                                   stability_selection, pfer_val))
+                                   ite_std, q, stability_selection = "test",
+                                   pfer_val))
   expect_error(select_causal_rules(rules_matrix_std, rules_list,
-                                   ite_std, binary, q,
-                                   stability_selection = "test", pfer_val))
-  expect_error(select_causal_rules(rules_matrix_std, rules_list,
-                                   ite_std, binary, q,
-                                   stability_selection, pfer_val = "test"))
+                                   ite_std, q, stability_selection,
+                                   pfer_val = "test"))
 
   # Correct outputs
   select_rules <- select_causal_rules(rules_matrix_std, rules_list, ite_std,
-                                      binary, q, stability_selection, pfer_val)
+                                    q, stability_selection, pfer_val)
   expect_true(class(select_rules) == "character")
 })
