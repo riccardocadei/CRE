@@ -30,7 +30,7 @@ generate_rules(
 \item{random_state}{An integer number that repesents a random state.}
 }
 \value{
-a vector of causal rules
+A vector of causal rules.
 }
 \description{
 Method for generating causal rules.
