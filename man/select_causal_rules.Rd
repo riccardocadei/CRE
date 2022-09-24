@@ -22,9 +22,11 @@ select_causal_rules(
 
 \item{q}{The selection threshold used in selecting the causal rules.}
 
-\item{stability_selection}{Whether or not using stability selection to select the causal rules.}
+\item{stability_selection}{Whether or not using stability selection to
+select the causal rules.}
 
-\item{pfer_val}{the Per-Family Error Rate, the expected number of false discoveries}
+\item{pfer_val}{The Per-Family Error Rate, the expected number of
+false discoveries.}
 }
 \value{
 a vector of causal rules

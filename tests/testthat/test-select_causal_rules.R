@@ -68,4 +68,9 @@ test_that("Causal Rules Selected Correctly", {
   select_rules <- select_causal_rules(rules_matrix_std, rules_list, ite_std,
                                     q, stability_selection, pfer_val)
   expect_true(class(select_rules) == "character")
+
+  stability_selection <- FALSE
+  select_rules <- select_causal_rules(rules_matrix_std, rules_list, ite_std,
+                                      q, stability_selection, pfer_val)
+  expect_true(class(select_rules) == "character")
 })

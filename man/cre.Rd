@@ -21,7 +21,7 @@ cre(y, z, X, method_params, hyper_params)
 \item \emph{ite_method_dis}: The method to estimate the discovery sample ITE.
 \item \emph{include_ps_dis}: Whether or not to include propensity score estimate
 as a covariate in discovery ITE estimation, considered only for BART,
-XBART, or CF.
+or CF.
 \item \emph{ps_method_dis}: The estimation model for the propensity score on the
 discovery subsample.
 \item \emph{or_method_dis}: The estimation model for the outcome regressions
@@ -30,11 +30,11 @@ estimate_ite_aipw on the discovery subsample.
 \item \emph{Parameters for Inference}
 \itemize{
 \item \emph{ite_method_inf}: The method to estimate the inference sample ITE.
-\item \emph{include_ps_inf}: Whether or not to include propensity score estimate as
-a covariate in inference ITE estimation, considered only for BART, XBART,
+\item \emph{include_ps_inf}: Whether or not to include propensity score estimate
+as a covariate in inference ITE estimation, considered only for BART,
 or CF.
-\item \emph{include_ps_inf}: Whether or not to include propensity score estimate as
-a covariate in inference ITE estimation, considered only for BART, XBART,
+\item \emph{include_ps_inf}: Whether or not to include propensity score estimate
+as a covariate in inference ITE estimation, considered only for BART,
 or CF.
 \item \emph{ps_method_inf}: The estimation model for the propensity score on the
 inference subsample.

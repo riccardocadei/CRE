@@ -14,18 +14,18 @@
 #'     - *ite_method_dis*: The method to estimate the discovery sample ITE.
 #'     - *include_ps_dis*: Whether or not to include propensity score estimate
 #'       as a covariate in discovery ITE estimation, considered only for BART,
-#'       XBART, or CF.
+#'       or CF.
 #'     - *ps_method_dis*: The estimation model for the propensity score on the
 #'       discovery subsample.
 #'     - *or_method_dis*: The estimation model for the outcome regressions
 #'       estimate_ite_aipw on the discovery subsample.
 #'   - *Parameters for Inference*
 #'     - *ite_method_inf*: The method to estimate the inference sample ITE.
-#'     - *include_ps_inf*: Whether or not to include propensity score estimate as
-#'       a covariate in inference ITE estimation, considered only for BART, XBART,
+#'     - *include_ps_inf*: Whether or not to include propensity score estimate
+#'       as a covariate in inference ITE estimation, considered only for BART,
 #'       or CF.
-#'     - *include_ps_inf*: Whether or not to include propensity score estimate as
-#'       a covariate in inference ITE estimation, considered only for BART, XBART,
+#'     - *include_ps_inf*: Whether or not to include propensity score estimate
+#'       as a covariate in inference ITE estimation, considered only for BART,
 #'       or CF.
 #'     - *ps_method_inf*: The estimation model for the propensity score on the
 #'       inference subsample.
