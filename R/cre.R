@@ -150,16 +150,17 @@ cre <- function(y, z, X, method_params, hyper_params){
   if (length(select_rules_dis) == 0){
     # Generate final S3 object
     cate_S3 <- list()
+    cate_S3[["rules_discovered"]] <- FALSE
     cate_S3[["ATE_dis"]] <- mean(ite_dis)
-    cate_S3[["ATE_inf"]] <- mean(ite_inf)
+    cate_S3[["ATE_inf"]] <- NULL
     cate_S3[["ite_list_dis"]] <- ite_list_dis
-    cate_S3[["ite_list_inf"]] <- ite_list_inf
+    cate_S3[["ite_list_inf"]] <- NULL
     cate_S3[["outcome_vector_dis"]] <- y_dis
     cate_S3[["treatment_vector_dis"]] <- z_dis
     cate_S3[["covariates_matrix_dis"]] <- X_dis
-    cate_S3[["outcome_vector_inf"]] <- y_inf
-    cate_S3[["treatment_vector_inf"]] <- z_inf
-    cate_S3[["covariates_matrix_inf"]] <- X_inf
+    cate_S3[["outcome_vector_inf"]] <- NULL
+    cate_S3[["treatment_vector_inf"]] <- NULL
+    cate_S3[["covariates_matrix_inf"]] <- NULL
     attr(cate_S3, "class") <- "cre"
 
     # Return Results
@@ -210,10 +211,11 @@ cre <- function(y, z, X, method_params, hyper_params){
     S3_object <- list()
     S3_object[["CATE_results"]] <- cate_inf
     S3_object[["CATE_method"]] <- cate_method
-    # item_names <- colnames(cate_inf)
-    # for (i in 1:length(item_names)) {
-    #   S3_object[[item_names[i]]] <- cate_inf[,i]
-    # }
+    S3_object[["rules_discovered"]] <- TRUE
+    item_names <- colnames(cate_inf)
+    for (i in 1:length(item_names)) {
+      S3_object[[item_names[i]]] <- cate_inf[,i]
+    }
     attr(S3_object, "class") <- "cre"
     return(S3_object)
   }

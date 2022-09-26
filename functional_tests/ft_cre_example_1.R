@@ -3,7 +3,7 @@
 
 # Generate sample data
 set.seed(200)
-dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+dataset_cont <- generate_cre_dataset(n = 3000, rho = 0, n_rules = 2, p = 10,
                                      effect_size = 2, binary = FALSE)
 y <- dataset_cont[["y"]]
 z <- dataset_cont[["z"]]
@@ -26,10 +26,12 @@ method_params = list(ratio_dis = 0.25,
 
 hyper_params = list(ntrees_rf = 100,
                     ntrees_gbm = 50,
-                    min_nodes = 20,
+                    node_size = 20,
                     max_nodes = 5,
                     t = 0.025,
-                    q = 0.8)
+                    q = 0.8,
+                    stability_selection = TRUE,
+                    pfer_val = 0.1)
 
 cre_obj <- cre(y, z, X, method_params, hyper_params)
 plot(cre_obj)

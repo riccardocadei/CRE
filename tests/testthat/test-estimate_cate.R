@@ -18,12 +18,11 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   oreg_method_inf <- "SL.xgboost"
   ntrees_rf <- 100
   ntrees_gbm <- 50
-  node_size <- 20
+  min_nodes <- 20
   max_nodes <- 5
   t <- 0.025
   q <- 0.8
-  pfer_val <- 0.1
-  stability_selection <- TRUE
+  rules_method <- NA
   include_offset <- FALSE
   offset_name <- NA
   cate_method <- "DRLearner"
@@ -64,7 +63,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
 
   # Step 3: Generate rules list
   initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-                                      node_size, max_nodes, random_state = 981)
+                                      min_nodes, max_nodes, random_state = 981)
 
   # Step 4: Generate rules matrix
   rules_all_dis <- generate_rules_matrix(X_dis, initial_rules_dis, t)
@@ -75,8 +74,8 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   # Step 5: Select important rules
   select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
                                                        rules_list_dis,
-                                                       ite_std_dis, q,
-                                                       stability_selection, pfer_val))
+                                                       ite_std_dis, binary,
+                                                       q, rules_method))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
                                                        select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in%
@@ -154,7 +153,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
 #   oreg_method_inf <- NA
 #   ntrees_rf <- 100
 #   ntrees_gbm <- 50
-#   node_size <- 20
+#   min_nodes <- 20
 #   max_nodes <- 5
 #   t <- 0.025
 #   q <- 0.8
@@ -195,7 +194,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
 #
 #   # Generate rules list
 #   initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-#                                             node_size, max_nodes, random_state = 214)
+#                                             min_nodes, max_nodes, random_state = 214)
 #   # Generate rules matrix
 #   rules_all_dis <- CRE:::generate_rules_matrix(X_dis, initial_rules_dis, t)
 #   rules_matrix_dis <- rules_all_dis[["rules_matrix"]]
@@ -268,12 +267,11 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   oreg_method_inf <- NA
   ntrees_rf <- 100
   ntrees_gbm <- 50
-  node_size <- 20
+  min_nodes <- 20
   max_nodes <- 5
   t <- 0.025
   q <- 0.8
-  pfer_val <- 0.1
-  stability_selection <- TRUE
+  rules_method <- NA
   include_offset <- FALSE
   offset_name <- NA
   binary <- FALSE
@@ -310,7 +308,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
 
   # Generate rules list
   initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-                                            node_size, max_nodes, random_state = 214)
+                                            min_nodes, max_nodes, random_state = 214)
   # Generate rules matrix
   rules_all_dis <- CRE:::generate_rules_matrix(X_dis, initial_rules_dis, t)
   rules_matrix_dis <- rules_all_dis[["rules_matrix"]]
@@ -318,8 +316,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   rules_list_dis <- rules_all_dis[["rules_list"]]
   # Select important rules
   select_rules_dis <- as.character(CRE:::select_causal_rules(rules_matrix_std_dis, rules_list_dis,
-                                                             ite_std_dis, q, stability_selection,
-                                                             pfer_val))
+                                                             ite_std_dis, binary, q, rules_method))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
   if (length(select_rules_dis) == 0) stop("No significant rules were discovered. Ending Analysis.")
