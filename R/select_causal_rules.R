@@ -19,7 +19,7 @@
 select_causal_rules <- function(rules_matrix_std, rules_list, ite_std,
                                 q, stability_selection, pfer_val) {
 
-  #`%>%` <- magrittr::`%>%`
+  `%>%` <- magrittr::`%>%`
   rules <- NULL
   if (stability_selection) {
     # Stability selection
