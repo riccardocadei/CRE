@@ -8,16 +8,16 @@
 #' @param ite_std The standardized ITE.
 #' @param ntrees_rf The number of decision trees for randomForest.
 #' @param ntrees_gbm The number of decision trees for gradient boosting.
-#' @param min_nodes The minimum size of the trees' terminal nodes.
-#' @param max_nodes The maximum size of the trees' terminal nodes.
+#' @param node_size The minimum size of the trees' terminal nodes.
+#' @param max_nodes The maximum number of terminal nodes trees in the forest can have.
 #' @param random_state An integer number that repesents a random state.
 #'
 #' @return
-#' a vector of causal rules
+#' A vector of causal rules.
 #'
 #' @export
 #'
-generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
+generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
                            max_nodes, random_state) {
 
   # generate seed values
@@ -39,7 +39,7 @@ generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
                                                         replace = FALSE,
                                                         ntree = 1,
                                                         maxnodes = mn,
-                                                        nodesize = min_nodes))
+                                                        nodesize = node_size))
   for(i in 2:ntrees_rf) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
     set.seed(seed_2[i])
@@ -50,7 +50,7 @@ generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
                                              replace = FALSE,
                                              ntree = 1,
                                              maxnodes = mn,
-                                             nodesize = min_nodes))
+                                             nodesize = node_size))
 
     forest <- randomForest::combine(forest, model1_RF)
   }
@@ -69,7 +69,7 @@ generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
   model1_GB <- gbm::gbm.fit(x = X, y = ite_std, bag.fraction = sf, n.trees = 1,
                             interaction.depth = (mn / 2), shrinkage = 0.01,
                             distribution = dist, verbose = FALSE,
-                            n.minobsinnode = min_nodes)
+                            n.minobsinnode = node_size)
 
   for(i in 2:ntrees_gbm) {
     model1_GB$interaction_depth <- (mn / 2)

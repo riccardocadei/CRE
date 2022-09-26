@@ -12,11 +12,12 @@ test_that("Rules Interpreted Correctly", {
   oreg_method <- NA
   ntrees_rf <- 100
   ntrees_gbm <- 50
-  min_nodes <- 20
+  node_size <- 20
   max_nodes <- 5
   t <- 0.025
   q <- 0.8
-  rules_method <- NA
+  stability_selection <- TRUE
+  pfer_val <- 0.1
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -37,7 +38,7 @@ test_that("Rules Interpreted Correctly", {
 
   # Step 3: Generate rules list
   initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm,
-                                      min_nodes, max_nodes,
+                                      node_size, max_nodes,
                                   random_state = 812)
 
   # Step 4: Generate rules matrix
@@ -48,7 +49,7 @@ test_that("Rules Interpreted Correctly", {
 
   # Step 5: Select important rules
   select_rules <- as.character(select_causal_rules(rules_matrix_std, rules_list_dis,
-                                                   ite_std, binary, q, rules_method))
+                                                   ite_std, q, stability_selection, pfer_val))
 
   ###### Run Tests ######
 

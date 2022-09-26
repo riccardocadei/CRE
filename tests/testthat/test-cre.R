@@ -24,13 +24,15 @@ test_that("cre Runs Correctly", {
 
  hyper_params = list(ntrees_rf = 100,
                      ntrees_gbm = 50,
-                     min_nodes = 20,
+                     node_size = 20,
                      max_nodes = 5,
                      t = 0.025,
-                     q = 0.8)
+                     q = 0.8,
+                     stability_selection = TRUE,
+                     pfer_val = 0.1)
 
 
-  #TODO: Need to move to a better place: Incorrect ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q inputs
+  #TODO: Need to move to a better place: Incorrect ntrees_rf, ntrees_gbm, node_size, max_nodes, t, q inputs
   hyper_params[["ntrees_rf"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
@@ -39,10 +41,10 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["ntrees_gbm"]] <- 50
-  hyper_params[["min_nodes"]] <- "test"
+  hyper_params[["node_size"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["min_nodes"]] <- 5
+  hyper_params[["node_size"]] <- 5
   hyper_params[["max_nodes"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
@@ -54,8 +56,16 @@ test_that("cre Runs Correctly", {
   hyper_params[["q"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  # Correct outputs
   hyper_params[["q"]] <- 0.8
+  hyper_params[["stability_selection"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  hyper_params[["stability_selection"]] <- TRUE
+  hyper_params[["pfer_val"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  # Correct outputs
+  hyper_params[["pfer_val"]] <- 0.1
   cre_results <- cre(y, z, X, method_params, hyper_params)
   expect_true(class(cre_results) == "cre")
 })

@@ -22,8 +22,8 @@ check_hyper_params <- function(params){
     stop("Invalid 'ntrees_gbm' input. Please input a number.")
   }
 
-  if (!inherits(getElement(params, "min_nodes"),"numeric")){
-    stop("Invalid 'min_nodes' input. Please input a number.")
+  if (!inherits(getElement(params, "node_size"),"numeric")){
+    stop("Invalid 'node_size' input. Please input a number.")
   }
 
   if (!inherits(getElement(params, "max_nodes"),"numeric")){
@@ -36,5 +36,17 @@ check_hyper_params <- function(params){
 
   if (!inherits(getElement(params, "q"),"numeric")){
     stop("Invalid 'q' input. Please input a number.")
+  }
+
+  if (!(getElement(params, "stability_selection") %in% c(TRUE, FALSE))) {
+    stop("Please specify 'TRUE' or 'FALSE' for the stability_selection argument.")
+  }
+
+  if (getElement(params, "stability_selection")) {
+    if (!inherits(getElement(params, "pfer_val"),"numeric")){
+      stop("Invalid 'pfer_val' input. Please input a number.")
+    }
+  } else {
+    params[["pfer_val"]] <- NA
   }
 }

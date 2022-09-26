@@ -12,7 +12,7 @@ test_that("generate_rules works as expected!", {
   or_method <- NA
   ntrees_rf <- 100
   ntrees_gbm <- 50
-  min_nodes <- 20
+  node_size <- 20
   max_nodes <- 5
 
   # Check for binary outcome
@@ -38,7 +38,7 @@ test_that("generate_rules works as expected!", {
                                   ite_std,
                                   ntrees_rf,
                                   ntrees_gbm,
-                                  min_nodes,
+                                  node_size,
                                   max_nodes,
                                   random_state = 215)
   expect_true(class(initial_rules) == "character")

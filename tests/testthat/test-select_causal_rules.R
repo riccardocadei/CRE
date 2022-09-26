@@ -12,11 +12,12 @@ test_that("Causal Rules Selected Correctly", {
   oreg_method <- NA
   ntrees_rf <- 100
   ntrees_gbm <- 50
-  min_nodes <- 20
+  node_size <- 20
   max_nodes <- 5
   t <- 0.025
   q <- 0.8
-  rules_method <- NA
+  stability_selection <- TRUE
+  pfer_val <- 0.1
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -35,7 +36,7 @@ test_that("Causal Rules Selected Correctly", {
   ite_std <- ite_list[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
+  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
                                   max_nodes, random_state = 2987)
 
   # Step 4: Generate rules matrix
@@ -48,17 +49,28 @@ test_that("Causal Rules Selected Correctly", {
 
   # Incorrect inputs
   expect_error(select_causal_rules(rules_matrix_std = "test",
-                                   rules_list, ite_std, binary, q,
-                                   rules_method))
+                                   rules_list, ite_std, q,
+                                   stability_selection, pfer_val))
   expect_error(select_causal_rules(rules_matrix_std, rules_list,
-                                   ite_std = "test", binary, q,
-                                   rules_method))
+                                   ite_std = "test", q,
+                                   stability_selection, pfer_val))
   expect_error(select_causal_rules(rules_matrix_std, rules_list,
-                                   ite_std, binary = "test", q,
-                                   rules_method))
+                                   ite_std, q = "test",
+                                   stability_selection, pfer_val))
+  expect_error(select_causal_rules(rules_matrix_std, rules_list,
+                                   ite_std, q, stability_selection = "test",
+                                   pfer_val))
+  expect_error(select_causal_rules(rules_matrix_std, rules_list,
+                                   ite_std, q, stability_selection,
+                                   pfer_val = "test"))
 
   # Correct outputs
   select_rules <- select_causal_rules(rules_matrix_std, rules_list, ite_std,
-                                      binary, q, rules_method)
+                                    q, stability_selection, pfer_val)
+  expect_true(class(select_rules) == "character")
+
+  stability_selection <- FALSE
+  select_rules <- select_causal_rules(rules_matrix_std, rules_list, ite_std,
+                                      q, stability_selection, pfer_val)
   expect_true(class(select_rules) == "character")
 })

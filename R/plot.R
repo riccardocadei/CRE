@@ -33,6 +33,10 @@ autoplot.cre <- function(object, ...){
   Predictor <- Estimate <- Std_Error <- NULL
   Rule <- CI_lower <- CI_upper <- CATE <- NULL
 
+  if (!object[["rules_discovered"]]){
+    stop("No significant rules were discovered.")
+  }
+
   if (cate_method %in% c("poisson", "DRLearner")) {
     # Specify the width of the 95% confidence intervals
     interval_95 <- -stats::qnorm((1-0.95)/2)

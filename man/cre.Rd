@@ -13,14 +13,14 @@ cre(y, z, X, method_params, hyper_params)
 
 \item{X}{The covariate matrix.}
 
-\item{method_params}{parameters for individual treatment effect, includig:
+\item{method_params}{Parameters for individual treatment effect, includig:
 \itemize{
 \item \emph{Parameters for Discovery}
 \itemize{
 \item \emph{ratio_dis}: The ratio of data delegated to the discovery sub-sample.
 \item \emph{ite_method_dis}: The method to estimate the discovery sample ITE.
 \item \emph{include_ps_dis}: Whether or not to include propensity score estimate
-as a covariate in discovery ITE estimation, considered only for BART, XBART,
+as a covariate in discovery ITE estimation, considered only for BART,
 or CF.
 \item \emph{ps_method_dis}: The estimation model for the propensity score on the
 discovery subsample.
@@ -29,39 +29,43 @@ estimate_ite_aipw on the discovery subsample.
 }
 \item \emph{Parameters for Inference}
 \itemize{
-\item \emph{ite_method_inf}: the method to estimate the inference sample ITE.
-\item \emph{include_ps_inf} whether or not to include propensity score estimate as
-a covariate in inference ITE estimation, considered only for BART, XBART,
+\item \emph{ite_method_inf}: The method to estimate the inference sample ITE.
+\item \emph{include_ps_inf}: Whether or not to include propensity score estimate
+as a covariate in inference ITE estimation, considered only for BART,
 or CF.
-\item \emph{include_ps_inf}: whether or not to include propensity score estimate as
-a covariate in inference ITE estimation, considered only for BART, XBART,
+\item \emph{include_ps_inf}: Whether or not to include propensity score estimate
+as a covariate in inference ITE estimation, considered only for BART,
 or CF.
-\item \emph{ps_method_inf}: the estimation model for the propensity score on the
+\item \emph{ps_method_inf}: The estimation model for the propensity score on the
 inference subsample.
-\item \emph{or_method_inf}: the estimation model for the outcome regressions in
+\item \emph{or_method_inf}: The estimation model for the outcome regressions in
 estimate_ite_aipw on the inference subsample.
 }
 \item \emph{Other Parameters}:
 \itemize{
-\item \emph{rules_method}: the method for selecting causal rules with binary outcomes.
-\item \emph{include_offset}: whether or not to include an offset when estimating
-the ITE, for poisson only.
-\item \emph{offset_name}: the name of the offset, if it is to be included.
-\item \emph{cate_method}: the method to estimate the CATE values.
-\item \emph{cate_SL_library}: the library used if cate_method is set to DRLearner.
-\item \emph{filter_cate}: whether or not to filter rules with p-value <= 0.05.
+\item \emph{include_offset}: Whether or not to include an offset when estimating
+the ITE, for Poisson only.
+\item \emph{offset_name}: The name of the offset, if it is to be included.
+\item \emph{cate_method}: The method to estimate the CATE values.
+\item \emph{cate_SL_library}: The library used if cate_method is set to DRLearner.
+\item \emph{filter_cate}: Whether or not to filter rules with p-value <= 0.05.
 }
 }}
 
-\item{hyper_params}{the list of parameters required to tune the functions,
+\item{hyper_params}{The list of parameters required to tune the functions,
 including:
 \itemize{
-\item \emph{ntrees_rf}: the number of decision trees for randomForest.
-\item \emph{ntrees_gbm}: the number of decision trees for gradient boosting.
-\item \emph{min_nodes}: the minimum size of the trees' terminal nodes.
-\item \emph{max_nodes}: the maximum size of the trees' terminal nodes.
-\item \emph{t}: the common support used in generating the causal rules matrix.
-\item \emph{q}: the selection threshold used in selecting the causal rules.
+\item \emph{ntrees_rf}: The number of decision trees for randomForest.
+\item \emph{ntrees_gbm}: The number of decision trees for gradient boosting.
+\item \emph{node_size}: The minimum size of the trees' terminal nodes.
+\item \emph{max_nodes}: The maximum number of terminal nodes trees in the forest can
+have.
+\item \emph{t}: The common support used in generating the causal rules matrix.
+\item \emph{q}: The selection threshold used in selecting the causal rules.
+\item \emph{stability_selection}: Whether or not using stability selection for
+selecting the causal rules.
+\item \emph{pfer_val}: The Per-Family Error Rate, the expected number of false
+discoveries.
 }}
 }
 \value{

@@ -12,7 +12,7 @@ test_that("Rules Extracted Correctly", {
   oreg_method <- NA
   ntrees_rf <- 100
   ntrees_gbm <- 50
-  min_nodes <- 20
+  node_size <- 20
   max_nodes <- 5
   t <- 0.025
 
@@ -36,7 +36,7 @@ test_that("Rules Extracted Correctly", {
   ite_std <- ite_list[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes,
+  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
                                   max_nodes, random_state = 2389)
 
   ###### Run Tests ######
@@ -47,6 +47,16 @@ test_that("Rules Extracted Correctly", {
   expect_error(generate_rules_matrix(X, initial_rules, t = "test"))
 
   # Correct outputs
+  rules_all <- generate_rules_matrix(X, initial_rules, t)
+  expect_true(length(rules_all) == 3)
+  expect_identical(class(rules_all[[1]]), c("matrix", "array"))
+  expect_identical(class(rules_all[[2]]), c("matrix", "array"))
+  expect_true(class(rules_all[[3]]) == "character")
+  expect_true(nrow(rules_all[[1]]) == nrow(rules_all[[2]]))
+  expect_true(ncol(rules_all[[1]]) == ncol(rules_all[[2]]))
+  expect_true(ncol(rules_all[[2]]) == length(rules_all[[3]]))
+
+  t <- 0.1
   rules_all <- generate_rules_matrix(X, initial_rules, t)
   expect_true(length(rules_all) == 3)
   expect_identical(class(rules_all[[1]]), c("matrix", "array"))

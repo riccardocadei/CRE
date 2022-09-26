@@ -12,7 +12,7 @@ test_that("ITE Estimated Correctly", {
   ps_method <- "SL.xgboost"
   oreg_method <- NA
   ntrees <- 100
-  min_nodes <- 20
+  node_size <- 20
   max_nodes <- 5
   random_state <- 121
 

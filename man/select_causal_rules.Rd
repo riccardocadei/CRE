@@ -8,24 +8,25 @@ select_causal_rules(
   rules_matrix_std,
   rules_list,
   ite_std,
-  binary,
   q,
-  rules_method
+  stability_selection,
+  pfer_val
 )
 }
 \arguments{
-\item{rules_matrix_std}{the standardized causal rules matrix}
+\item{rules_matrix_std}{The standardized causal rules matrix.}
 
-\item{rules_list}{a vector of causal rules}
+\item{rules_list}{A vector of causal rules.}
 
-\item{ite_std}{the standardized ITE}
+\item{ite_std}{The standardized ITE.}
 
-\item{binary}{whether or not the outcome is binary}
+\item{q}{The selection threshold used in selecting the causal rules.}
 
-\item{q}{the selection threshold used in selecting the causal rules}
+\item{stability_selection}{Whether or not using stability selection to
+select the causal rules.}
 
-\item{rules_method}{the method for selecting causal rules with binary
-outcomes, either "conservative", "anticonservative", or NA}
+\item{pfer_val}{The Per-Family Error Rate, the expected number of
+false discoveries.}
 }
 \value{
 a vector of causal rules

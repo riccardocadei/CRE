@@ -4,9 +4,9 @@
 #' @description
 #' Generates a matrix of causal rules given a list.
 #'
-#' @param X the features matrix
-#' @param rules_list a vector of causal rules
-#' @param t the common support used in generating the causal rules matrix
+#' @param X The features matrix.
+#' @param rules_list A vector of causal rules.
+#' @param t The common support used in generating the causal rules matrix.
 #'
 #' @return
 #' a list with:

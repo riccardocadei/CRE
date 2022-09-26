@@ -7,11 +7,11 @@
 generate_rules_matrix(X, rules_list, t)
 }
 \arguments{
-\item{X}{the features matrix}
+\item{X}{The features matrix.}
 
-\item{rules_list}{a vector of causal rules}
+\item{rules_list}{A vector of causal rules.}
 
-\item{t}{the common support used in generating the causal rules matrix}
+\item{t}{The common support used in generating the causal rules matrix.}
 }
 \value{
 a list with:

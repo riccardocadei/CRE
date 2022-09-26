@@ -8,45 +8,50 @@
 #' @param y The observed response vector.
 #' @param z The treatment vector.
 #' @param X The covariate matrix.
-#' @param method_params parameters for individual treatment effect, includig:
+#' @param method_params Parameters for individual treatment effect, includig:
 #'   - *Parameters for Discovery*
 #'     - *ratio_dis*: The ratio of data delegated to the discovery sub-sample.
 #'     - *ite_method_dis*: The method to estimate the discovery sample ITE.
 #'     - *include_ps_dis*: Whether or not to include propensity score estimate
-#'       as a covariate in discovery ITE estimation, considered only for BART, XBART,
+#'       as a covariate in discovery ITE estimation, considered only for BART,
 #'       or CF.
 #'     - *ps_method_dis*: The estimation model for the propensity score on the
 #'       discovery subsample.
 #'     - *or_method_dis*: The estimation model for the outcome regressions
 #'       estimate_ite_aipw on the discovery subsample.
 #'   - *Parameters for Inference*
-#'     - *ite_method_inf*: the method to estimate the inference sample ITE.
-#'     - *include_ps_inf* whether or not to include propensity score estimate as
-#'       a covariate in inference ITE estimation, considered only for BART, XBART,
+#'     - *ite_method_inf*: The method to estimate the inference sample ITE.
+#'     - *include_ps_inf*: Whether or not to include propensity score estimate
+#'       as a covariate in inference ITE estimation, considered only for BART,
 #'       or CF.
-#'     - *include_ps_inf*: whether or not to include propensity score estimate as
-#'       a covariate in inference ITE estimation, considered only for BART, XBART,
+#'     - *include_ps_inf*: Whether or not to include propensity score estimate
+#'       as a covariate in inference ITE estimation, considered only for BART,
 #'       or CF.
-#'     - *ps_method_inf*: the estimation model for the propensity score on the
+#'     - *ps_method_inf*: The estimation model for the propensity score on the
 #'       inference subsample.
-#'     - *or_method_inf*: the estimation model for the outcome regressions in
+#'     - *or_method_inf*: The estimation model for the outcome regressions in
 #'       estimate_ite_aipw on the inference subsample.
 #'   - *Other Parameters*:
-#'     - *rules_method*: the method for selecting causal rules with binary outcomes.
-#'     - *include_offset*: whether or not to include an offset when estimating
-#'  the ITE, for poisson only.
-#'     - *offset_name*: the name of the offset, if it is to be included.
-#'     - *cate_method*: the method to estimate the CATE values.
-#'     - *cate_SL_library*: the library used if cate_method is set to DRLearner.
-#'     - *filter_cate*: whether or not to filter rules with p-value <= 0.05.
-#' @param hyper_params the list of parameters required to tune the functions,
+#'     - *include_offset*: Whether or not to include an offset when estimating
+#'  the ITE, for Poisson only.
+#'     - *offset_name*: The name of the offset, if it is to be included.
+#'     - *cate_method*: The method to estimate the CATE values.
+#'     - *cate_SL_library*: The library used if cate_method is set to DRLearner.
+#'     - *filter_cate*: Whether or not to filter rules with p-value <= 0.05.
+#' @param hyper_params The list of parameters required to tune the functions,
 #' including:
-#'  - *ntrees_rf*: the number of decision trees for randomForest.
-#'  - *ntrees_gbm*: the number of decision trees for gradient boosting.
-#'  - *min_nodes*: the minimum size of the trees' terminal nodes.
-#'  - *max_nodes*: the maximum size of the trees' terminal nodes.
-#'  - *t*: the common support used in generating the causal rules matrix.
-#'  - *q*: the selection threshold used in selecting the causal rules.
+#'  - *ntrees_rf*: The number of decision trees for randomForest.
+#'  - *ntrees_gbm*: The number of decision trees for gradient boosting.
+#'  - *node_size*: The minimum size of the trees' terminal nodes.
+#'  - *max_nodes*: The maximum number of terminal nodes trees in the forest can
+#'   have.
+#'  - *t*: The common support used in generating the causal rules matrix.
+#'  - *q*: The selection threshold used in selecting the causal rules.
+#'  - *stability_selection*: Whether or not using stability selection for
+#'  selecting the causal rules.
+#'  - *pfer_val*: The Per-Family Error Rate, the expected number of false
+#'  discoveries.
+
 
 #'
 #' @return
@@ -116,9 +121,9 @@ cre <- function(y, z, X, method_params, hyper_params){
   initial_rules_dis <- generate_rules(X_dis, ite_std_dis,
                                       getElement(hyper_params,"ntrees_rf"),
                                       getElement(hyper_params,"ntrees_gbm"),
-                                      getElement(hyper_params,"min_nodes"),
+                                      getElement(hyper_params,"node_size"),
                                       getElement(hyper_params,"max_nodes"),
-                                      getElement(method_params, "random_state"))
+                                      getElement(method_params,"random_state"))
 
   # Generate rules matrix --------------
   logger::log_info("Generating Causal Rules Matrix ...")
@@ -132,9 +137,11 @@ cre <- function(y, z, X, method_params, hyper_params){
   select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
                                                        rules_list_dis,
                                                        ite_std_dis,
-                                                       getElement(method_params,"is_y_binary"),
                                                        getElement(hyper_params,"q"),
-                                                       getElement(hyper_params,"rules_method")))
+                                                       getElement(hyper_params,"stability_selection"),
+                                                       getElement(hyper_params,"pfer_val")
+                                                       )
+                                   )
 
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
                                                        select_rules_dis)]
@@ -143,16 +150,17 @@ cre <- function(y, z, X, method_params, hyper_params){
   if (length(select_rules_dis) == 0){
     # Generate final S3 object
     cate_S3 <- list()
+    cate_S3[["rules_discovered"]] <- FALSE
     cate_S3[["ATE_dis"]] <- mean(ite_dis)
-    cate_S3[["ATE_inf"]] <- mean(ite_inf)
+    cate_S3[["ATE_inf"]] <- NULL
     cate_S3[["ite_list_dis"]] <- ite_list_dis
-    cate_S3[["ite_list_inf"]] <- ite_list_inf
+    cate_S3[["ite_list_inf"]] <- NULL
     cate_S3[["outcome_vector_dis"]] <- y_dis
     cate_S3[["treatment_vector_dis"]] <- z_dis
     cate_S3[["covariates_matrix_dis"]] <- X_dis
-    cate_S3[["outcome_vector_inf"]] <- y_inf
-    cate_S3[["treatment_vector_inf"]] <- z_inf
-    cate_S3[["covariates_matrix_inf"]] <- X_inf
+    cate_S3[["outcome_vector_inf"]] <- NULL
+    cate_S3[["treatment_vector_inf"]] <- NULL
+    cate_S3[["covariates_matrix_inf"]] <- NULL
     attr(cate_S3, "class") <- "cre"
 
     # Return Results
@@ -203,10 +211,11 @@ cre <- function(y, z, X, method_params, hyper_params){
     S3_object <- list()
     S3_object[["CATE_results"]] <- cate_inf
     S3_object[["CATE_method"]] <- cate_method
-    # item_names <- colnames(cate_inf)
-    # for (i in 1:length(item_names)) {
-    #   S3_object[[item_names[i]]] <- cate_inf[,i]
-    # }
+    S3_object[["rules_discovered"]] <- TRUE
+    item_names <- colnames(cate_inf)
+    for (i in 1:length(item_names)) {
+      S3_object[[item_names[i]]] <- cate_inf[,i]
+    }
     attr(S3_object, "class") <- "cre"
     return(S3_object)
   }
