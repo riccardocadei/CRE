@@ -2,12 +2,14 @@
 % Please edit documentation in R/plot.R
 \name{plot.cre}
 \alias{plot.cre}
-\title{Extend generic plot functions for cre class}
+\title{Extend generic plot functions for CRE class}
 \usage{
-\method{plot}{cre}(x, ...)
+\method{plot}{cre}(cre_results, method_params, ...)
 }
 \arguments{
-\item{x}{A cre object.}
+\item{cre_results}{A CRE object.}
+
+\item{method_params}{Method parameters.}
 
 \item{...}{Additional arguments passed to customize the plot.}
 }
@@ -15,5 +17,5 @@
 Returns a ggplot2 object, invisibly. This function is called for side effects.
 }
 \description{
-A wrapper function to extend generic plot functions for cre class.
+A wrapper function to extend generic plot functions for CRE class.
 }
