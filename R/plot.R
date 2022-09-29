@@ -5,7 +5,6 @@
 #' A helper function to plot CRE object using ggplot2 package.
 #'
 #' @param cre_results A CRE object.
-#' @param method_params Method parameters.
 #' @param ... Additional arguments passed to customize the plot.
 #'
 #' @return
@@ -14,7 +13,7 @@
 #' @keywords internal
 #' @importFrom ggplot2 autoplot
 #'
-autoplot.cre <- function(cre_results, method_params, ...){
+autoplot.cre <- function(cre_results, ...){
 
   gg_labs <- gg_title <- NULL
 
@@ -26,8 +25,8 @@ autoplot.cre <- function(cre_results, method_params, ...){
     assign(i,unlist(dot_args[i],use.names = FALSE))
   }
 
-  CATE_results <- cre_results[["CATE"]]
-  cate_method <- getElement(method_params,"cate_method")
+  cate_results <- cre_results[["CATE"]]
+  cate_method <- cre_results[["cate_method"]]
   M <- cre_results[["M"]]
 
   # Handling global variable error.
@@ -44,7 +43,7 @@ autoplot.cre <- function(cre_results, method_params, ...){
     interval_95 <- -stats::qnorm((1-0.95)/2)
 
     # Plot
-    g <- ggplot2::ggplot(data = CATE_results) +
+    g <- ggplot2::ggplot(data = cate_results) +
          ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
          ggplot2::geom_linerange(
                     ggplot2::aes(x = Predictor,
@@ -72,7 +71,7 @@ autoplot.cre <- function(cre_results, method_params, ...){
 
   } else if (cate_method %in% c("bart-baggr", "cf-means")) {
     # Plot
-    g <- ggplot2::ggplot(data = CATE_results) +
+    g <- ggplot2::ggplot(data = cate_results) +
          ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
          ggplot2::geom_linerange(ggplot2::aes(x = Rule,
                                            ymin = CI_lower,
@@ -96,7 +95,7 @@ autoplot.cre <- function(cre_results, method_params, ...){
 
   } else if (cate_method == "linreg") {
     # Plot
-    g <- ggplot2::ggplot(data = CATE_results) +
+    g <- ggplot2::ggplot(data = cate_results) +
       ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
       ggplot2::geom_linerange(ggplot2::aes(x = Rule,
                                            ymin = CI_lower,
@@ -132,7 +131,6 @@ autoplot.cre <- function(cre_results, method_params, ...){
 #' A wrapper function to extend generic plot functions for CRE class.
 #'
 #' @param cre_results  A CRE object.
-#' @param method_params Method parameters.
 #' @param ... Additional arguments passed to customize the plot.
 #'
 #' @return
@@ -140,8 +138,8 @@ autoplot.cre <- function(cre_results, method_params, ...){
 #'
 #' @export
 #'
-plot.cre <- function(cre_results, method_params, ...){
-  g <- ggplot2::autoplot(cre_results, method_params, ...)
+plot.cre <- function(cre_results, ...){
+  g <- ggplot2::autoplot(cre_results, ...)
   print(g)
   invisible(g)
 }

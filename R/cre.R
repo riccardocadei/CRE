@@ -132,6 +132,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   rules_matrix_std_dis <- rules_all_dis[["rules_matrix_std"]]
   rules_list_dis <- rules_all_dis[["rules_list"]]
 
+
   # Select important rules -------------
   logger::log_info("Selecting Important Causal Rules ...")
   select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
@@ -210,6 +211,7 @@ cre <- function(y, z, X, method_params, hyper_params){
     results[["M"]] <- M
     results[["ATE"]] <- NULL
     results[["CATE"]] <- cate_inf
+    results[["cate_method"]] <- getElement(method_params,"cate_method")
     attr(results, "class") <- "cre"
 
   }

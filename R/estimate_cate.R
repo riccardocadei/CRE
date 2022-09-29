@@ -130,7 +130,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     colnames(cate_model) <- c("Estimate", "Std_Error", "Z_Value", "P_Value")
     cate_names <- rownames(cate_model) %>%
       stringr::str_remove_all("rules_matrix_inf_b") %>%
-      stringr::str_replace_all("(Intercept)", "Treatment")
+      stringr::str_replace_all("(Intercept)", "ATE")
 
     cate_temp <- data.frame(Predictor = cate_names) %>%
       cbind(cate_model)
