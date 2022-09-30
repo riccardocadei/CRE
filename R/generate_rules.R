@@ -2,7 +2,7 @@
 #' Generate Rules
 #'
 #' @description
-#' Method for generating causal rules.
+#' Method for generating (Causal) Decision Rules before Regularization.
 #'
 #' @param X The covariate matrix.
 #' @param ite_std The standardized ITE.
