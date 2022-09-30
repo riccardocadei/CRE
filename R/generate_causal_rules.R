@@ -15,6 +15,13 @@
 #' @export
 #'
 generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
+
+  # Filter only Effect Modifiers -------
+  effect_modifiers = getElement(hyper_params,"effect_modifiers")
+  if (!is.null(effect_modifiers)) X <- X[,effect_modifiers]
+
+
+
   # Generate rules list ----------------
   logger::log_info("Rules generation ... ")
   initial_rules <- generate_rules(X, ite_std,

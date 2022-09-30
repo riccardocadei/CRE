@@ -40,6 +40,7 @@
 #'     - *filter_cate*: Whether or not to filter rules with p-value <= 0.05.
 #' @param hyper_params The list of parameters required to tune the functions,
 #' including:
+#'  - *effect_modifiers*: Effect Modifiers for Rules Generation.
 #'  - *ntrees_rf*: The number of decision trees for randomForest.
 #'  - *ntrees_gbm*: The number of decision trees for gradient boosting.
 #'  - *node_size*: The minimum size of the trees' terminal nodes.
@@ -118,7 +119,6 @@ cre <- function(y, z, X, method_params, hyper_params){
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate Causal Decision Rules  -----------------------
-
   select_rules_dis <- generate_causal_rules(X_dis, ite_std_dis, method_params, hyper_params)
   M <- length(select_rules_dis)
   logger::log_info("{length(select_rules_dis)} significant Causal Rules were discovered.")
