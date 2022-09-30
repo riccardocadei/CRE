@@ -4,7 +4,7 @@
 #' @description
 #' A helper function to plot CRE object using ggplot2 package.
 #'
-#' @param cre_results A CRE object.
+#' @param object A CRE object.
 #' @param ... Additional arguments passed to customize the plot.
 #'
 #' @return
@@ -13,7 +13,7 @@
 #' @keywords internal
 #' @importFrom ggplot2 autoplot
 #'
-autoplot.cre <- function(cre_results, ...){
+autoplot.cre <- function(object, ...){
 
   gg_labs <- gg_title <- NULL
 
@@ -25,9 +25,9 @@ autoplot.cre <- function(cre_results, ...){
     assign(i,unlist(dot_args[i],use.names = FALSE))
   }
 
-  cate_results <- cre_results[["CATE"]]
-  cate_method <- cre_results[["cate_method"]]
-  M <- cre_results[["M"]]
+  cate_results <- object[["CATE"]]
+  cate_method <- object[["cate_method"]]
+  M <- object[["M"]]
 
   # Handling global variable error.
   `%>%` <- magrittr::`%>%`
@@ -130,7 +130,7 @@ autoplot.cre <- function(cre_results, ...){
 #' @description
 #' A wrapper function to extend generic plot functions for CRE class.
 #'
-#' @param cre_results  A CRE object.
+#' @param x  A CRE object.
 #' @param ... Additional arguments passed to customize the plot.
 #'
 #' @return
@@ -138,8 +138,8 @@ autoplot.cre <- function(cre_results, ...){
 #'
 #' @export
 #'
-plot.cre <- function(cre_results, ...){
-  g <- ggplot2::autoplot(cre_results, ...)
+plot.cre <- function(x, ...){
+  g <- ggplot2::autoplot(x, ...)
   print(g)
   invisible(g)
 }

@@ -4,10 +4,10 @@
 \alias{plot.cre}
 \title{Extend generic plot functions for CRE class}
 \usage{
-\method{plot}{cre}(cre_results, ...)
+\method{plot}{cre}(x, ...)
 }
 \arguments{
-\item{cre_results}{A CRE object.}
+\item{x}{A CRE object.}
 
 \item{...}{Additional arguments passed to customize the plot.}
 }
