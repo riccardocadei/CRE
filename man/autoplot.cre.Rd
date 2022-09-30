@@ -4,12 +4,10 @@
 \alias{autoplot.cre}
 \title{A helper function for CRE object}
 \usage{
-\method{autoplot}{cre}(cre_results, method_params, ...)
+\method{autoplot}{cre}(cre_results, ...)
 }
 \arguments{
 \item{cre_results}{A CRE object.}
-
-\item{method_params}{Method parameters.}
 
 \item{...}{Additional arguments passed to customize the plot.}
 }

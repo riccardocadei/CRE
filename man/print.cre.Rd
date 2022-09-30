@@ -4,14 +4,14 @@
 \alias{print.cre}
 \title{Extend print function for the CRE object}
 \usage{
-\method{print}{cre}(cre_results, method_params)
+\method{print}{cre}(cre_results, method_params = NULL, hyper_params = NULL)
 }
 \arguments{
-\item{cre_results}{A cre object from running the CRE function}
+\item{cre_results}{A CRE object from running the CRE function}
 
 \item{method_params}{Method parameters.}
 
-\item{...}{Additional arguments passed to customize the results.}
+\item{hyper_params}{Hyper parameters.}
 }
 \value{
 No return value. This function is called for side effects.
