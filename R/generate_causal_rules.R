@@ -31,7 +31,7 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
 
   # Generate rules matrix --------------
   logger::log_info("Generating Causal Rules Matrix ...")
-  rules_all <- generate_rules_matrix(X, initial_rules, t)
+  rules_all <- generate_rules_matrix(X, initial_rules, getElement(hyper_params,"t"))
   rules_matrix <- rules_all[["rules_matrix"]]
   rules_matrix_std <- rules_all[["rules_matrix_std"]]
   rules_list <- rules_all[["rules_list"]]
