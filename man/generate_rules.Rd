@@ -33,5 +33,5 @@ generate_rules(
 A vector of causal rules.
 }
 \description{
-Method for generating causal rules.
+Method for generating (Causal) Decision Rules before Regularization.
 }
