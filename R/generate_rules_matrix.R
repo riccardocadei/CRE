@@ -55,7 +55,7 @@ generate_rules_matrix <- function(X, rules_list, t) {
   }
 
   # Remove rules with too few observations and correlated rules
-  rules_matrix <- rules_matrix[, ind]
+  rules_matrix <- rules_matrix[, ind,drop=FALSE]
   rules_list <- rules_list[ind]
 
   # Standardize rules matrix
