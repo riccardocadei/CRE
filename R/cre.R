@@ -155,6 +155,9 @@ cre <- function(y, z, X, method_params, hyper_params){
 
   logger::log_info("Conducting Inference Subsample Analysis ...")
   message("Conducting Inference Subsample Analysis")
+
+  # Estimate ITE -----------------------
+  logger::log_info("Estimating ITE ... ")
   ite_list_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
                                ite_method = getElement(method_params,"ite_method_inf"),
                                is_y_binary = getElement(method_params,"is_y_binary"),
@@ -170,51 +173,38 @@ cre <- function(y, z, X, method_params, hyper_params){
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
-
-  if (M == 0) {
-
-    # Estimate ATE ----------------------
-    logger::log_info("Estimating ATE ...")
-    ate_inf <- mean(ite_inf)
-
-    # Generate final results S3 object
-    results <- list()
-    results[["M"]] <- M
-    results[["ATE"]] <- ate_inf
-    results[["CATE"]] <- NULL
-    attr(results, "class") <- "cre"
-
-  } else {
-
-    # Estimate CATE ----------------------
-    logger::log_info("Estimating CATE ...")
-
-    rules_matrix_inf <- matrix(0, nrow = dim(X_inf)[1],
-                               ncol = length(select_rules_dis))
-    for (i in 1:length(select_rules_dis)) {
+  # Generate rules matrix --------------
+  logger::log_info("Generating Causal Rules Matrix ...")
+  rules_matrix_inf <- matrix(0,
+                             nrow = dim(X_inf)[1],
+                             ncol = M)
+  if (M>0){
+    for (i in 1:M) {
       rules_matrix_inf[eval(parse(text = select_rules_dis[i]),
-                            list(X = X_inf)), i] <- 1
+                            list(X = X_inf)),
+                       i] <- 1
     }
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
-                                                         X_names)
-    cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
-                              getElement(method_params,"include_offset"),
-                              getElement(method_params,"offset_name"),
-                              rules_matrix_inf, select_rules_interpretable,
-                              getElement(method_params,"cate_method"),
-                              ite_inf, sd_ite_inf,
-                              getElement(method_params,"cate_SL_library"),
-                              getElement(method_params,"filter_cate"))
-
-    # Generate final results S3 object
-    results <- list()
-    results[["M"]] <- M
-    results[["ATE"]] <- NULL
-    results[["CATE"]] <- cate_inf
-    results[["cate_method"]] <- getElement(method_params,"cate_method")
-    attr(results, "class") <- "cre"
-
   }
+
+  select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+
+  # Estimate CATE ----------------------
+  logger::log_info("Estimating CATE ...")
+  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
+                            getElement(method_params,"include_offset"),
+                            getElement(method_params,"offset_name"),
+                            rules_matrix_inf, select_rules_interpretable,
+                            getElement(method_params,"cate_method"),
+                            ite_inf, sd_ite_inf,
+                            getElement(method_params,"cate_SL_library"),
+                            getElement(method_params,"filter_cate"))
+
+  # Generate final results S3 object
+  results <- list()
+  results[["M"]] <- M
+  results[["CATE"]] <- cate_inf
+  results[["cate_method"]] <- getElement(method_params,"cate_method")
+  attr(results, "class") <- "cre"
 
   # Return Results
   logger::log_info("CRE method complete. Returning results.")
