@@ -4,8 +4,7 @@
 
 * solve Undesired 'All' Decision Rule Issue
 * solve No Causal Rule Selected Issue
-* improve `cre.print()` function
-* remove `cre.summary()` function
+* improve `cre.summary()` function
 * `min_nodes` --> `node_size` (following the randomForest convention)
 * `estimate_cate` include five methods for estimating the CATE values (`poisson`, `DRLearner`, `bart-baggr`, `cf-means`, `linreg`)
 * `cre` added new arguments to (1) complement `SuperLearner` package (`ps_method_dis`, `ps_method_inf`, `or_method_dis`, `or_method_inf`, `cate_SL_library`) and to (2) select CATE method and (3) whether to filter CATE p-values (`cate_method` and `filter_cate`). 
