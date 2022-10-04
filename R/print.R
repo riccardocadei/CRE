@@ -13,8 +13,27 @@
 #' @export
 #'
 print.cre <- function(x, ...) {
+  print(x$CATE)
+}
 
-  x <- unclass(x)
+
+
+#' @title
+#' Print summary of CRE object
+#'
+#' @description
+#' Prints a brief summary of the CRE object
+#'
+#' @param object A cre object from running the CRE function
+#' @param ... Additional arguments passed to customize the results.
+#'
+#' @return
+#' A summary of the CRE object
+#'
+#' @export
+summary.cre <- function(object, ...) {
+
+  object <- unclass(object)
   params <- c(...)
 
   cat("CAUSAL RULE ENSAMBLE - Summary")
@@ -60,15 +79,7 @@ print.cre <- function(x, ...) {
   }
 
   cat("\n\nResults\n")
-  cat("- Heterogeneity:", x[['M']], "(significant) Causal Rules discovered\n", sep=" ")
-  if (x[["M"]]==0) {
-    cat("- ATE          : ")
-    cat(x[["ATE"]])
-  } else {
-    cat("- CATE         :\n")
-    print(x[["CATE"]])
-
-    # plot results
-    attr(x, "class") <- "cre"
-  }
+  cat("- Heterogeneity:", object[['M']], "(significant) Causal Rules discovered\n", sep=" ")
+  cat("- CATE         :\n")
+  print(object[["CATE"]])
 }
