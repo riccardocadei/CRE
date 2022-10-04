@@ -40,6 +40,7 @@
 #'     - *filter_cate*: Whether or not to filter rules with p-value <= 0.05.
 #' @param hyper_params The list of parameters required to tune the functions,
 #' including:
+#'  - *effect_modifiers*: Effect Modifiers for Rules Generation.
 #'  - *ntrees_rf*: The number of decision trees for randomForest.
 #'  - *ntrees_gbm*: The number of decision trees for gradient boosting.
 #'  - *node_size*: The minimum size of the trees' terminal nodes.
@@ -92,6 +93,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   z_inf <- inference[,2]
   X_inf <- inference[,3:ncol(inference)]
 
+
   # Discovery ------------------------------------------------------------------
 
   logger::log_info("Conducting Discovery Subsample Analysis ... ")
@@ -116,40 +118,11 @@ cre <- function(y, z, X, method_params, hyper_params){
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
-  # Generate rules list ----------------
-  logger::log_info("Generating Initial Causal Rules ... ")
-  initial_rules_dis <- generate_rules(X_dis, ite_std_dis,
-                                      getElement(hyper_params,"ntrees_rf"),
-                                      getElement(hyper_params,"ntrees_gbm"),
-                                      getElement(hyper_params,"node_size"),
-                                      getElement(hyper_params,"max_nodes"),
-                                      getElement(method_params,"random_state"))
-
-  # Generate rules matrix --------------
-  logger::log_info("Generating Causal Rules Matrix ...")
-  rules_all_dis <- generate_rules_matrix(X_dis, initial_rules_dis, t)
-  rules_matrix_dis <- rules_all_dis[["rules_matrix"]]
-  rules_matrix_std_dis <- rules_all_dis[["rules_matrix_std"]]
-  rules_list_dis <- rules_all_dis[["rules_list"]]
-
-
-  # Select important rules -------------
-  logger::log_info("Selecting Important Causal Rules ...")
-  select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
-                                                       rules_list_dis,
-                                                       ite_std_dis,
-                                                       getElement(hyper_params,"q"),
-                                                       getElement(hyper_params,"stability_selection"),
-                                                       getElement(hyper_params,"pfer_val")
-                                                       )
-                                   )
-
-  select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
-                                                       select_rules_dis)]
-  select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in%
-                                                             select_rules_dis)]
+  # Generate Causal Decision Rules  -----------------------
+  select_rules_dis <- generate_causal_rules(X_dis, ite_std_dis, method_params, hyper_params)
   M <- length(select_rules_dis)
   logger::log_info("{length(select_rules_dis)} significant Causal Rules were discovered.")
+
 
   # Inference ------------------------------------------------------------------
 

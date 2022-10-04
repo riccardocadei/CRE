@@ -2,6 +2,8 @@
 
 ### Changed
 
+* add effect modifiers filter for Rule Generation
+* add `generate_causal_rules()` function and relative tests
 * solve Undesired 'All' Decision Rule Issue
 * solve No Causal Rule Selected Issue
 * improve `cre.summary()` function
