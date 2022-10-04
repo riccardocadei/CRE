@@ -10,10 +10,12 @@ test_that("cre Runs Correctly", {
 
   method_params = list(ratio_dis = 0.25,
                        ite_method_dis="bart",
-                       include_ps_dis = TRUE,
                        ps_method_dis = "SL.xgboost",
-                       ps_method_inf = "SL.xgboost",
+                       oreg_method_dis = "SL.xgboost",
+                       include_ps_dis = TRUE,
                        ite_method_inf = "bart",
+                       ps_method_inf = "SL.xgboost",
+                       oreg_method_inf = "SL.xgboost",
                        include_ps_inf = TRUE,
                        include_offset = FALSE,
                        cate_method = "DRLearner",
@@ -66,6 +68,15 @@ test_that("cre Runs Correctly", {
 
   # Correct outputs
   hyper_params[["pfer_val"]] <- 0.1
+  cre_results <- cre(y, z, X, method_params, hyper_params)
+  expect_true(class(cre_results) == "cre")
+
+  hyper_params[["stability_selection"]] <- FALSE
+  cre_results <- cre(y, z, X, method_params, hyper_params)
+  expect_true(class(cre_results) == "cre")
+
+  method_params[["ite_method_dis"]] <- "aipw"
+  method_params[["ite_method_inf"]] <- "aipw"
   cre_results <- cre(y, z, X, method_params, hyper_params)
   expect_true(class(cre_results) == "cre")
 })

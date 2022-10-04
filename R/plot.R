@@ -1,10 +1,10 @@
 #' @title
-#' A helper function for cre object
+#' A helper function for CRE object
 #'
 #' @description
-#' A helper function to plot cre object using ggplot2 package.
+#' A helper function to plot CRE object using ggplot2 package.
 #'
-#' @param object A cre object.
+#' @param object A CRE object.
 #' @param ... Additional arguments passed to customize the plot.
 #'
 #' @return
@@ -25,17 +25,14 @@ autoplot.cre <- function(object, ...){
     assign(i,unlist(dot_args[i],use.names = FALSE))
   }
 
-  cate_results <- object[["CATE_results"]]
-  cate_method <- object[["CATE_method"]]
+  cate_results <- object[["CATE"]]
+  cate_method <- object[["cate_method"]]
+  M <- object[["M"]]
 
   # Handling global variable error.
   `%>%` <- magrittr::`%>%`
   Predictor <- Estimate <- Std_Error <- NULL
   Rule <- CI_lower <- CI_upper <- CATE <- NULL
-
-  if (!object[["rules_discovered"]]){
-    stop("No significant rules were discovered.")
-  }
 
   if (cate_method %in% c("poisson", "DRLearner")) {
     # Specify the width of the 95% confidence intervals
@@ -124,12 +121,12 @@ autoplot.cre <- function(object, ...){
 }
 
 #' @title
-#' Extend generic plot functions for cre class
+#' Extend generic plot functions for CRE class
 #'
 #' @description
-#' A wrapper function to extend generic plot functions for cre class.
+#' A wrapper function to extend generic plot functions for CRE class.
 #'
-#' @param x  A cre object.
+#' @param x  A CRE object.
 #' @param ... Additional arguments passed to customize the plot.
 #'
 #' @return

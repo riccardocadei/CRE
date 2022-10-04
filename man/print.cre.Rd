@@ -7,13 +7,13 @@
 \method{print}{cre}(x, ...)
 }
 \arguments{
-\item{x}{A cre object from running the CRE function}
+\item{x}{A CRE object from running the CRE function}
 
-\item{...}{Additional arguments passed to customize the results.}
+\item{...}{Additional arguments passed to customize the plot.}
 }
 \value{
 No return value. This function is called for side effects.
 }
 \description{
-Prints a brief description of the CRE object
+Prints a brief summary of the CRE object
 }
