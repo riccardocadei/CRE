@@ -46,7 +46,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
   Rule <- rule <- tau <- se <- . <- Estimate <- NULL
 
-  if (is.na(select_rules_interpretable)) {
+  if (any(is.na(select_rules_interpretable))) {
     # No Causal Rules Selected: Estimate ATE
 
     cate_model <- stats::lm(ite_inf ~ 1)
