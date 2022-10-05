@@ -36,8 +36,6 @@ Imports:
     MASS,
     stats,
     logger,
-    BART,
-    bartCause,
     gbm, 
     randomForest,
     methods,
@@ -46,6 +44,7 @@ Imports:
     data.table,
     xtable,
     glmnet,
+    bartCause,
     stabs,
     stringr,
     gnm,
@@ -55,9 +54,10 @@ Imports:
     magrittr,
     ggplot2,
     bcf,
-    grf,
     inTrees
 Suggests:
+    grf,
+    BART,
     covr,
     knitr,
     rmarkdown,

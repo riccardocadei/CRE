@@ -1,4 +1,8 @@
 test_that("OREG ITE Estimated Correctly", {
+
+  skip_if_not_installed("BART")
+
+
   # Generate sample data
   set.seed(17894)
   dataset_cont <- generate_cre_dataset(n = 50, rho = 0, n_rules = 2, p = 10,

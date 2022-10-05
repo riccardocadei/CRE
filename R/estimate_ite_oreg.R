@@ -28,6 +28,13 @@
 #' }
 estimate_ite_oreg <- function(y, z, X) {
 
+  if (!requireNamespace("BART", quietly = TRUE)) {
+    stop(
+      "Package \"BART\" must be installed to use this function.",
+      call. = FALSE
+    )
+  }
+
   temp1 <- BART::wbart(x.train = X[z==1,],
                        y.train = y[z==1],
                        x.test = X[z==0,])

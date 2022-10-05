@@ -34,6 +34,13 @@
 #'}
 estimate_ite_cf <- function(y, z, X, include_ps, ps_method) {
 
+  if (!requireNamespace("grf", quietly = TRUE)) {
+    stop(
+      "Package \"grf\" must be installed to use this function.",
+      call. = FALSE
+    )
+  }
+
   if (include_ps) {
     est_ps <- estimate_ps(z, X, ps_method)
     X <- cbind(X, est_ps)
