@@ -29,10 +29,18 @@
 #' X <- as.data.frame(dataset[["X"]])
 #' include_ps <- TRUE
 #' ps_method <- "SL.xgboost"
-#'
-#' ite_list <- estimate_ite_cf(y, z, X, include_ps, ps_method)
+#' if (requireNamespace("grf", quietly = TRUE)) {
+#'   ite_list <- estimate_ite_cf(y, z, X, include_ps, ps_method)
+#' }
 #'}
 estimate_ite_cf <- function(y, z, X, include_ps, ps_method) {
+
+  if (!requireNamespace("grf", quietly = TRUE)) {
+    stop(
+      "Package \"grf\" must be installed to use this function.",
+      call. = FALSE
+    )
+  }
 
   if (include_ps) {
     est_ps <- estimate_ps(z, X, ps_method)

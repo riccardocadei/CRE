@@ -37,7 +37,8 @@ z <- dataset[["z"]]
 X <- as.data.frame(dataset[["X"]])
 include_ps <- TRUE
 ps_method <- "SL.xgboost"
-
-ite_list <- estimate_ite_cf(y, z, X, include_ps, ps_method)
+if (requireNamespace("grf", quietly = TRUE)) {
+  ite_list <- estimate_ite_cf(y, z, X, include_ps, ps_method)
+}
 }
 }

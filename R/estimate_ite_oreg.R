@@ -23,10 +23,18 @@
 #' y <- dataset[["y"]]
 #' z <- dataset[["z"]]
 #' X <- as.data.frame(dataset[["X"]])
-#'
-#' ite_list <- estimate_ite_oreg(y, z, X)
+#' if (requireNamespace("BART", quietly = TRUE)) {
+#'   ite_list <- estimate_ite_oreg(y, z, X)
+#'  }
 #' }
 estimate_ite_oreg <- function(y, z, X) {
+
+  if (!requireNamespace("BART", quietly = TRUE)) {
+    stop(
+      "Package \"BART\" must be installed to use this function.",
+      call. = FALSE
+    )
+  }
 
   temp1 <- BART::wbart(x.train = X[z==1,],
                        y.train = y[z==1],

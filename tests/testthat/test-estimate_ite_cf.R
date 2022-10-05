@@ -1,4 +1,7 @@
 test_that("CF ITE Estimated Correctly", {
+
+  skip_if_not_installed("grf")
+
   # Generate sample data
   set.seed(2021)
   dataset_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,

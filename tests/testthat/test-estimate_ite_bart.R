@@ -1,4 +1,5 @@
 test_that("BART ITE Estimated Correctly", {
+
   # Generate sample data
   set.seed(39678)
   dataset_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
