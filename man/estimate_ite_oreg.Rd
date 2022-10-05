@@ -30,7 +30,8 @@ dataset <- generate_cre_dataset(n = 50, rho = 0, n_rules = 2, p = 10,
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- as.data.frame(dataset[["X"]])
-
-ite_list <- estimate_ite_oreg(y, z, X)
+if (requireNamespace("BART", quietly = TRUE)) {
+  ite_list <- estimate_ite_oreg(y, z, X)
+ }
 }
 }
