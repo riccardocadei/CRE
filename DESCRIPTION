@@ -47,7 +47,6 @@ Imports:
     bartCause,
     stabs,
     stringr,
-    gnm,
     SuperLearner,
     baggr,
     dplyr,
@@ -58,6 +57,7 @@ Imports:
 Suggests:
     grf,
     BART,
+    gnm,
     covr,
     knitr,
     rmarkdown,
