@@ -45,8 +45,8 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
                                                        getElement(hyper_params,"q"),
                                                        getElement(hyper_params,"stability_selection"),
                                                        getElement(hyper_params,"pfer_val")
-                                                       )
-                                   )
+                                                    )
+                               )
   return(select_rules)
 }
 

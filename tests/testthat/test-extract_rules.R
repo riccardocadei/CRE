@@ -87,20 +87,18 @@ test_that("Rules Extracted Correctly", {
   expect_equal(treelist[2]$list[[10]][3,6], -0.1344911363, tolerance = 0.000001)
 
 
-  take_1 <- FALSE
   type_decay <- 2
 
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(extract_rules(treelist = NA, X, ntrees, ite_std, take_1, type_decay))
-  expect_error(extract_rules(treelist, X = NA, ntrees, ite_std, take_1, type_decay))
-  expect_error(extract_rules(treelist, X, ntrees = -100, ite_std, take_1, type_decay))
-  expect_error(extract_rules(treelist, X, ntrees, ite_std = NA, take_1, type_decay))
-  expect_error(extract_rules(treelist, X, ntrees, ite_std, take_1 = "test", type_decay))
+  expect_error(extract_rules(treelist = NA, X, ntrees, ite_std, type_decay))
+  expect_error(extract_rules(treelist, X = NA, ntrees, ite_std, type_decay))
+  expect_error(extract_rules(treelist, X, ntrees = -100, ite_std, type_decay))
+  expect_error(extract_rules(treelist, X, ntrees, ite_std = NA, type_decay))
 
   # Correct outputs
-  #rules_RF <- extract_rules(treelist, X, ntrees, ite_std, take_1, type_decay)
+  #rules_RF <- extract_rules(treelist, X, ntrees, ite_std, type_decay)
   #expect_true(class(rules_RF) == "character")
   #expect_equal(length(rules_RF), 6)
   #expect_equal(rules_RF[3], "X[,3]>0.5 & X[,10]<=0.5")

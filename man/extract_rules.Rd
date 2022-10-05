@@ -4,7 +4,7 @@
 \alias{extract_rules}
 \title{Extract Causal Rules}
 \usage{
-extract_rules(treelist, X, ntrees, ite_std, take_1, type_decay)
+extract_rules(treelist, X, ntrees, ite_std, type_decay)
 }
 \arguments{
 \item{treelist}{A list of decision trees.}
@@ -15,9 +15,8 @@ extract_rules(treelist, X, ntrees, ite_std, take_1, type_decay)
 
 \item{ite_std}{The standardized ITE.}
 
-\item{take_1}{Whether or not to call the take1 helper function.}
-
-\item{type_decay}{The type of decay to apply when pruning the rules.}
+\item{type_decay}{The type of decay to apply when pruning the rules.
+(1: relative error; 2: error)}
 }
 \value{
 A vector of causal rules.
