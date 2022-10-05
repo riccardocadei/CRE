@@ -48,13 +48,13 @@ Imports:
     stabs,
     stringr,
     SuperLearner,
-    baggr,
     dplyr,
     magrittr,
     ggplot2,
     bcf,
     inTrees
 Suggests:
+    baggr,
     grf,
     BART,
     gnm,

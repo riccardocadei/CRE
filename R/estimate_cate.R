@@ -170,6 +170,15 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       }
       rownames(cate_final) <- 1:nrow(cate_final)
     } else if (cate_method == "bart-baggr") {
+
+      if (!requireNamespace("baggr", quietly = TRUE)) {
+        stop(
+          "Package \"baggr\" must be installed to use this function.",
+          call. = FALSE
+        )
+      }
+
+
       stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
       df_rules_factor <- as.data.frame(rules_matrix_inf) %>%
         dplyr::transmute_all(as.factor)
