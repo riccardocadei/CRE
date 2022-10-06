@@ -20,6 +20,9 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   ntrees_gbm <- 50
   node_size <- 20
   max_nodes <- 5
+  max_depth <- 15
+  max_decay <- 0.025
+  type_decay <- 2
   t <- 0.025
   q <- 0.8
   pfer_val <- 0.1
@@ -64,7 +67,8 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
 
   # Step 3: Generate rules list
   initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-                                      node_size, max_nodes, random_state = 981)
+                                      node_size, max_nodes, max_depth,
+                                      max_decay, type_decay, random_state = 981)
 
   # Step 4: Generate rules matrix
   rules_all_dis <- generate_rules_matrix(X_dis, initial_rules_dis, t)
@@ -270,6 +274,9 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   ntrees_gbm <- 50
   node_size <- 20
   max_nodes <- 5
+  max_depth <- 15
+  max_decay <- 0.025
+  type_decay <- 2
   t <- 0.025
   q <- 0.8
   pfer_val <- 0.1
@@ -310,7 +317,8 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
 
   # Generate rules list
   initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-                                            node_size, max_nodes, random_state = 214)
+                                            node_size, max_nodes, max_depth,
+                                            max_decay, type_decay, random_state = 214)
   # Generate rules matrix
   rules_all_dis <- CRE:::generate_rules_matrix(X_dis, initial_rules_dis, t)
   rules_matrix_dis <- rules_all_dis[["rules_matrix"]]

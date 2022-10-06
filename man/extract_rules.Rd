@@ -4,19 +4,23 @@
 \alias{extract_rules}
 \title{Extract Causal Rules}
 \usage{
-extract_rules(treelist, X, ntrees, ite_std, type_decay)
+extract_rules(treelist, X, ntrees, max_depth, ite_std, max_decay, type_decay)
 }
 \arguments{
 \item{treelist}{A list of decision trees.}
 
 \item{X}{The features matrix.}
 
-\item{ntrees}{The number of decision trees.}
+\item{ntrees}{The number of (the first) decision trees considered.}
+
+\item{max_depth}{The number of top levels from each tree considered
+to extract conditions.}
 
 \item{ite_std}{The standardized ITE.}
 
-\item{type_decay}{The type of decay to apply when pruning the rules.
-(1: relative error; 2: error)}
+\item{max_decay}{Decay Threshold for pruning the rules.}
+
+\item{type_decay}{Decay Type for pruning the rules (1: relative error; 2: error).}
 }
 \value{
 A vector of causal rules.

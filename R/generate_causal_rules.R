@@ -22,12 +22,17 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
 
   # Generate rules list ----------------
   logger::log_info("Rules generation ... ")
-  initial_rules <- generate_rules(X, ite_std,
-                                      getElement(hyper_params,"ntrees_rf"),
-                                      getElement(hyper_params,"ntrees_gbm"),
-                                      getElement(hyper_params,"node_size"),
-                                      getElement(hyper_params,"max_nodes"),
-                                      getElement(method_params,"random_state"))
+  initial_rules <- generate_rules(X,
+                                  ite_std,
+                                  getElement(hyper_params,"ntrees_rf"),
+                                  getElement(hyper_params,"ntrees_gbm"),
+                                  getElement(hyper_params,"node_size"),
+                                  getElement(hyper_params,"max_nodes"),
+                                  getElement(hyper_params,"max_depth"),
+                                  getElement(hyper_params,"max_decay"),
+                                  getElement(hyper_params,"type_decay"),
+                                  getElement(method_params,"random_state")
+                                  )
 
   # Generate rules matrix --------------
   logger::log_info("Generating Causal Rules Matrix ...")
@@ -45,7 +50,7 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
                                                        getElement(hyper_params,"q"),
                                                        getElement(hyper_params,"stability_selection"),
                                                        getElement(hyper_params,"pfer_val")
-                                                    )
+                                                   )
                                )
   return(select_rules)
 }

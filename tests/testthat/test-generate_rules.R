@@ -14,6 +14,9 @@ test_that("generate_rules works as expected!", {
   ntrees_gbm <- 50
   node_size <- 20
   max_nodes <- 5
+  max_depth <- 15
+  max_decay <- 0.025
+  type_decay <- 2
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -40,6 +43,9 @@ test_that("generate_rules works as expected!", {
                                   ntrees_gbm,
                                   node_size,
                                   max_nodes,
+                                  max_depth,
+                                  max_decay,
+                                  type_decay,
                                   random_state = 215)
   expect_true(class(initial_rules) == "character")
 

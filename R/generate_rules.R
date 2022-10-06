@@ -10,15 +10,19 @@
 #' @param ntrees_gbm The number of decision trees for gradient boosting.
 #' @param node_size The minimum size of the trees' terminal nodes.
 #' @param max_nodes The maximum number of terminal nodes trees in the forest can have.
-#' @param random_state An integer number that repesents a random state.
+#' @param max_depth The number of top levels from each tree considered
+#' to extract conditions.
+#' @param max_decay Decay Threshold for pruning the rules.
+#' @param type_decay Decay Type for pruning the rules (1: relative error; 2: error).
+#' @param random_state An integer number that represents a random state.
 #'
 #' @return
 #' A vector of causal rules.
 #'
 #' @export
 #'
-generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
-                           max_nodes, random_state) {
+generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, node_size, max_nodes,
+                           max_depth, max_decay, type_decay, random_state) {
 
   # generate seed values
   seed_1 <- random_state + 1
@@ -56,7 +60,8 @@ generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
   }
 
   treelist_RF <- inTrees::RF2List(forest)
-  rules_RF <- extract_rules(treelist_RF, X, ntrees_rf, ite_std, 2)
+  rules_RF <- extract_rules(treelist_RF, X, ntrees_rf, max_depth,
+                            ite_std, max_decay, type_decay)
 
   # Gradient Boosting
   dist <- ifelse(is.numeric(ite_std), "gaussian", "bernoulli")
@@ -78,7 +83,9 @@ generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
 
 
   treelist_GB <- inTrees::GBM2List(model1_GB, X)
-  rules_GB <- extract_rules(treelist_GB, X, ntrees_gbm, ite_std, 1)
+  rules_GB <- extract_rules(treelist_GB, X, ntrees_gbm, max_depth,
+                            ite_std, max_decay, type_decay)
+
 
   rules_list <- c(rules_RF, rules_GB)
   return(rules_list)

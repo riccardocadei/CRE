@@ -7,22 +7,25 @@
 #'
 #' @param treelist A list of decision trees.
 #' @param X The features matrix.
-#' @param ntrees The number of decision trees.
+#' @param ntrees The number of (the first) decision trees considered.
+#' @param max_depth The number of top levels from each tree considered
+#' to extract conditions.
 #' @param ite_std The standardized ITE.
-#' @param type_decay The type of decay to apply when pruning the rules.
-#' (1: relative error; 2: error)
+#' @param max_decay Decay Threshold for pruning the rules.
+#' @param type_decay Decay Type for pruning the rules (1: relative error; 2: error).
 #'
 #' @keywords internal
 #'
 #' @return
 #' A vector of causal rules.
 #'
-extract_rules <- function(treelist, X, ntrees, ite_std, type_decay) {
+extract_rules <- function(treelist, X, ntrees, max_depth,
+                          ite_std, max_decay, type_decay) {
 
   rules <- inTrees::extractRules(treeList = treelist,
                                 X = X,
                                 ntree = ntrees,
-                                maxdepth = 15)
+                                maxdepth = max_depth)
   rules <- c(rules)
 
   rules_matrix <- matrix(rules)
@@ -30,10 +33,12 @@ extract_rules <- function(treelist, X, ntrees, ite_std, type_decay) {
   metric <- inTrees::getRuleMetric(rules_matrix,
                                   X,
                                   ite_std)
-  pruned <- inTrees::pruneRule(metric,
-                              X,
-                              ite_std,
-                              0.025,
+
+  # Prune irrelevant variable-value pair from a rule condition
+  pruned <- inTrees::pruneRule(rules = metric,
+                              X = X,
+                              target = ite_std,
+                              maxDecay = max_decay,
                               typeDecay = type_decay)
   return(unique(pruned[, 4]))
 }

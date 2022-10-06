@@ -14,6 +14,9 @@ test_that("Rules Interpreted Correctly", {
   ntrees_gbm <- 50
   node_size <- 20
   max_nodes <- 5
+  max_depth = 15
+  max_decay = 0.025
+  type_decay = 2
   t <- 0.025
   q <- 0.8
   stability_selection <- TRUE
@@ -37,8 +40,8 @@ test_that("Rules Interpreted Correctly", {
   ite_std <- ite_list[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm,
-                                      node_size, max_nodes,
+  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
+                                  max_nodes, max_depth, max_decay, type_decay,
                                   random_state = 812)
 
   # Step 4: Generate rules matrix
