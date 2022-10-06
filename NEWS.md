@@ -2,6 +2,7 @@
 
 ### Changed
 
+* explicit `prune_rules()` function and add relative tests
 * remove `take1()` function for random Rule Selection
 * add effect modifiers filter for Rule Generation
 * add `generate_causal_rules()` function and relative tests

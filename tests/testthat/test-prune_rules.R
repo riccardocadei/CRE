@@ -1,4 +1,4 @@
-test_that("Rules Extracted Correctly", {
+test_that("Rules Pruned Correctly", {
 
   # Generate sample data
   set.seed(181)
@@ -14,6 +14,7 @@ test_that("Rules Extracted Correctly", {
   ntrees <- 100
   node_size <- 20
   max_nodes <- 5
+  max_depth <- 15
 
   set.seed(349)
   seed_vector <- 1000 + sample.int(n = 10000000,
@@ -86,21 +87,24 @@ test_that("Rules Extracted Correctly", {
   expect_equal(treelist[2]$list[[2]][3,6], -0.3603212639, tolerance = 0.000001)
   expect_equal(treelist[2]$list[[10]][3,6], -0.1344911363, tolerance = 0.000001)
 
+  rules <- extract_rules(treelist, X, ntrees, max_depth)
 
+  max_decay <- 0.025
   type_decay <- 2
-  max_depth <- 15
 
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(extract_rules(treelist = NA, X, ntrees, max_depth))
-  expect_error(extract_rules(treelist, X = NA, ntrees, max_depth))
-  expect_error(extract_rules(treelist, X, ntrees = -100, max_depth))
-  #expect_error(extract_rules(treelist, X, ntrees, max_depth = -10))
+  expect_error(prune_rules(rules = NA, X, ite_std, max_decay, type_decay))
+  expect_error(prune_rules(rules, X = NA, ite_std, max_decay, type_decay))
+  expect_error(prune_rules(rules, X, ite_std = NA, max_decay, type_decay))
+  expect_error(prune_rules(rules, X, ite_std, max_decay = NA, type_decay))
+  expect_error(prune_rules(rules, X, ite_std, max_decay, type_decay = NA))
+
 
   # Correct outputs
-  rules_RF <- extract_rules(treelist, X, ntrees, max_depth)
-  expect_true(any(class(rules_RF) == "matrix"))
+  rules_RF <- prune_rules(rules, X, ite_std, max_decay, type_decay)
+  expect_true(class(rules_RF) == "character")
   #expect_equal(length(rules_RF), 6)
   #expect_equal(rules_RF[3], "X[,3]>0.5 & X[,10]<=0.5")
 })

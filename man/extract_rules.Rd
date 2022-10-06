@@ -2,9 +2,9 @@
 % Please edit documentation in R/extract_rules.R
 \name{extract_rules}
 \alias{extract_rules}
-\title{Extract Causal Rules}
+\title{Extract (Causal) Decision Rules}
 \usage{
-extract_rules(treelist, X, ntrees, max_depth, ite_std, max_decay, type_decay)
+extract_rules(treelist, X, ntrees, max_depth)
 }
 \arguments{
 \item{treelist}{A list of decision trees.}
@@ -15,15 +15,9 @@ extract_rules(treelist, X, ntrees, max_depth, ite_std, max_decay, type_decay)
 
 \item{max_depth}{The number of top levels from each tree considered
 to extract conditions.}
-
-\item{ite_std}{The standardized ITE.}
-
-\item{max_decay}{Decay Threshold for pruning the rules.}
-
-\item{type_decay}{Decay Type for pruning the rules (1: relative error; 2: error).}
 }
 \value{
-A vector of causal rules.
+A vector of (Causal) Decision Rules.
 }
 \description{
 Method for extracting causal rules from the Random Forest or Gradient
