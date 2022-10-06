@@ -30,6 +30,7 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
                           getElement(hyper_params,"max_nodes"),
                           getElement(hyper_params,"max_depth"),
                           getElement(method_params,"random_state"))
+  M_initial <- length(rules)
 
   # 2. Select important rules -------------
   logger::log_info("Rules Regularization ...")
@@ -41,6 +42,7 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
                        ite_std,
                        getElement(hyper_params,"max_decay"),
                        getElement(hyper_params,"type_decay"))
+  M_filter1 <- length(rules)
 
   # 2.2 Remove rules with too few observations and correlated rules
   logger::log_info("Remove reduntant rules ...")
@@ -49,6 +51,7 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
   rules_matrix <- rules_all[["rules_matrix"]]
   rules_matrix_std <- rules_all[["rules_matrix_std"]]
   rules_list <- rules_all[["rules_list"]]
+  M_filter2 <- length(rules_list)
 
   # 2.3 LASSO
   logger::log_info("LASSO ...")
@@ -60,6 +63,13 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
                                                        getElement(hyper_params,"pfer_val")
                                                    )
                                )
-  return(select_rules)
+  M_filter3 <- length(select_rules)
+
+  M <- list("Initial" = M_initial,
+         "Filter 1 (pruning)" = M_filter1,
+         "Filter 2 (few obs/corr)" = M_filter2,
+         "Filter 3 (LASSO)" = M_filter3)
+
+  return(list(rules=select_rules,M=M))
 }
 

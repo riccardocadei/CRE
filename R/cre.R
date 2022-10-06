@@ -123,9 +123,11 @@ cre <- function(y, z, X, method_params, hyper_params){
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate Causal Decision Rules  -----------------------
-  select_rules_dis <- generate_causal_rules(X_dis, ite_std_dis, method_params, hyper_params)
-  M <- length(select_rules_dis)
-  logger::log_info("{length(select_rules_dis)} significant Causal Rules were discovered.")
+  select_rules_dis_list <- generate_causal_rules(X_dis, ite_std_dis, method_params, hyper_params)
+  select_rules_dis <- select_rules_dis_list[["rules"]]
+  M <- select_rules_dis_list[["M"]]
+  M_final <- M[["Filter 3 (LASSO)"]]
+  logger::log_info("{M_final} significant Causal Rules were discovered.")
 
 
   # Inference ------------------------------------------------------------------
@@ -154,9 +156,9 @@ cre <- function(y, z, X, method_params, hyper_params){
   logger::log_info("Generating Causal Rules Matrix ...")
   rules_matrix_inf <- matrix(0,
                              nrow = dim(X_inf)[1],
-                             ncol = M)
-  if (M>0){
-    for (i in 1:M) {
+                             ncol = M_final)
+  if (M_final>0){
+    for (i in 1:M_final) {
       rules_matrix_inf[eval(parse(text = select_rules_dis[i]),
                             list(X = X_inf)),
                        i] <- 1

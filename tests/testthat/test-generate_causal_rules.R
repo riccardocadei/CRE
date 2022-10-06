@@ -58,9 +58,9 @@ test_that("generate_causal_rules works as expected!", {
 
   # Generate Causal Decision Rules
   select_rules <- generate_causal_rules(X, ite_std, method_params, hyper_params)
-  expect_true(class(select_rules) == "character")
+  expect_true(class(select_rules[[1]]) == "character")
 
   hyper_params[["effect_modifiers"]] <- X_names[c(5,7,8,9)]
   select_rules <- generate_causal_rules(X, ite_std, method_params, hyper_params)
-  expect_true(class(select_rules) == "character")
+  expect_true(class(select_rules[[1]]) == "character")
 })
