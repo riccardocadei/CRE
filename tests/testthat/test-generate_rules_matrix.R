@@ -40,18 +40,20 @@ test_that("Rules Extracted Correctly", {
 
   # Step 3: Generate rules list
   initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
-                                  max_nodes, max_depth, max_decay, type_decay,
-                                  random_state = 2389)
+                                  max_nodes, max_depth, random_state = 2389)
+
+  rules <- prune_rules(initial_rules, X, ite_std, max_decay, type_decay)
+
 
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(generate_rules_matrix(X = "test", initial_rules, t))
-  expect_error(generate_rules_matrix(X, initial_rules = NA, t))
-  expect_error(generate_rules_matrix(X, initial_rules, t = "test"))
+  expect_error(generate_rules_matrix(X = "test", rules, t))
+  expect_error(generate_rules_matrix(X, rules = NA, t))
+  expect_error(generate_rules_matrix(X, rules, t = "test"))
 
   # Correct outputs
-  rules_all <- generate_rules_matrix(X, initial_rules, t)
+  rules_all <- generate_rules_matrix(X, rules, t)
   expect_true(length(rules_all) == 3)
   expect_identical(class(rules_all[[1]]), c("matrix", "array"))
   expect_identical(class(rules_all[[2]]), c("matrix", "array"))
@@ -61,7 +63,7 @@ test_that("Rules Extracted Correctly", {
   expect_true(ncol(rules_all[[2]]) == length(rules_all[[3]]))
 
   t <- 0.1
-  rules_all <- generate_rules_matrix(X, initial_rules, t)
+  rules_all <- generate_rules_matrix(X, rules, t)
   expect_true(length(rules_all) == 3)
   expect_identical(class(rules_all[[1]]), c("matrix", "array"))
   expect_identical(class(rules_all[[2]]), c("matrix", "array"))

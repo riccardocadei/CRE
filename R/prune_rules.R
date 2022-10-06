@@ -14,7 +14,7 @@
 #' @keywords internal
 #'
 #' @return
-#' A vector of (Causal) Decision Rules.
+#' A list of (Causal) Decision Rules.
 #'
 prune_rules <- function(rules, X, ite_std, max_decay, type_decay){
 

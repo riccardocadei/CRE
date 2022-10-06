@@ -20,30 +20,38 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
   effect_modifiers = getElement(hyper_params,"effect_modifiers")
   if (!is.null(effect_modifiers)) X <- X[,effect_modifiers,drop=FALSE]
 
-  # Generate rules list ----------------
+  # 1. Generate rules --------------------
   logger::log_info("Rules generation ... ")
-  initial_rules <- generate_rules(X,
-                                  ite_std,
-                                  getElement(hyper_params,"ntrees_rf"),
-                                  getElement(hyper_params,"ntrees_gbm"),
-                                  getElement(hyper_params,"node_size"),
-                                  getElement(hyper_params,"max_nodes"),
-                                  getElement(hyper_params,"max_depth"),
-                                  getElement(hyper_params,"max_decay"),
-                                  getElement(hyper_params,"type_decay"),
-                                  getElement(method_params,"random_state")
-                                  )
+  rules <- generate_rules(X,
+                          ite_std,
+                          getElement(hyper_params,"ntrees_rf"),
+                          getElement(hyper_params,"ntrees_gbm"),
+                          getElement(hyper_params,"node_size"),
+                          getElement(hyper_params,"max_nodes"),
+                          getElement(hyper_params,"max_depth"),
+                          getElement(method_params,"random_state"))
 
-  # Generate rules matrix --------------
-  logger::log_info("Generating Causal Rules Matrix ...")
-  rules_all <- generate_rules_matrix(X, initial_rules, getElement(hyper_params,"t"))
+  # 2. Select important rules -------------
+  logger::log_info("Rules Regularization ...")
+
+  # 2.1 Prune irrelevant variable-value pair from a rule condition
+  logger::log_info("Pruning ...")
+  rules <- prune_rules(rules,
+                       X,
+                       ite_std,
+                       getElement(hyper_params,"max_decay"),
+                       getElement(hyper_params,"type_decay"))
+
+  # 2.2 Remove rules with too few observations and correlated rules
+  logger::log_info("Remove reduntant rules ...")
+
+  rules_all <- generate_rules_matrix(X, rules, getElement(hyper_params,"t"))
   rules_matrix <- rules_all[["rules_matrix"]]
   rules_matrix_std <- rules_all[["rules_matrix_std"]]
   rules_list <- rules_all[["rules_list"]]
 
-
-  # Select important rules -------------
-  logger::log_info("Rules Regularization ...")
+  # 2.3 LASSO
+  logger::log_info("LASSO ...")
   select_rules <- as.character(select_causal_rules(rules_matrix_std,
                                                        rules_list,
                                                        ite_std,
