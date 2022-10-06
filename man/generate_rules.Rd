@@ -12,8 +12,6 @@ generate_rules(
   node_size,
   max_nodes,
   max_depth,
-  max_decay,
-  type_decay,
   random_state
 )
 }
@@ -32,10 +30,6 @@ generate_rules(
 
 \item{max_depth}{The number of top levels from each tree considered
 to extract conditions.}
-
-\item{max_decay}{Decay Threshold for pruning the rules.}
-
-\item{type_decay}{Decay Type for pruning the rules (1: relative error; 2: error).}
 
 \item{random_state}{An integer number that represents a random state.}
 }

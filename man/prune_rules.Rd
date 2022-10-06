@@ -18,7 +18,7 @@ prune_rules(rules, X, ite_std, max_decay, type_decay)
 \item{type_decay}{Decay Type for pruning the rules (1: relative error; 2: error).}
 }
 \value{
-A vector of (Causal) Decision Rules.
+A list of (Causal) Decision Rules.
 }
 \description{
 Method for pruning (Causal) Decision Rules extracted from the Random Forest or
