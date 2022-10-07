@@ -59,11 +59,13 @@ summary.cre <- function(object, ...) {
       cat("\n    - Node Size           : ", getElement(params, "node_size"))
       cat("\n    - Max Nodes           : ", getElement(params, "max_nodes"))
       cat("\n  - Rule Regularization:")
-      cat("\n    - Threshold Anomalous : ", getElement(params, "t_anom"))
-      cat("\n    - Threshold Correlated: ", getElement(params, "t_corr"))
-      cat("\n    - Stability Selection : ", getElement(params, "stability_selection"))
-      cat("\n    - N.Rules (stab. sel.): ", getElement(params, "q"))
-      cat("\n    - Per-Family E.R.     : ", getElement(params, "pfer_val"))
+      cat("\n    - Threshold Decay (Pruning)           : ", getElement(params, "max_decay"))
+      cat("\n    - Decay Type (Pruning)                : ", getElement(params, "type_decay"))
+      cat("\n    - Threshold (Anomalous)               : ", getElement(params, "t_anom"))
+      cat("\n    - Threshold (Correlated)              : ", getElement(params, "t_corr"))
+      cat("\n    - Stability Selection                 : ", getElement(params, "stability_selection"))
+      cat("\n    - N.Rules (Stability Selection)       : ", getElement(params, "q"))
+      cat("\n    - Per-Family E.R.(Stability Selection): ", getElement(params, "pfer_val"))
     }
 
     cat("\n- Inference:")
