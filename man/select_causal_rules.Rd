@@ -20,7 +20,7 @@ select_causal_rules(
 
 \item{ite_std}{The standardized ITE.}
 
-\item{q}{The selection threshold used in selecting the causal rules.}
+\item{q}{Number of (unique) selected rules per subsample in stability selection.}
 
 \item{stability_selection}{Whether or not using stability selection to
 select the causal rules.}

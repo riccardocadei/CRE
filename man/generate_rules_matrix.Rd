@@ -17,4 +17,3 @@ the causal rules matrix.
 \description{
 Generates a matrix of causal rules given a list.
 }
-\keyword{internal}
