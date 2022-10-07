@@ -288,12 +288,10 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       cate_reg_orig_names[1] <- "(ATE)"
       cate_reg_orig <- data.frame(Rule = cate_reg_orig_names,
                                   Estimate = cate_reg_orig[,1],
-                                  CI_2.5 = cate_reg_orig[,3],
-                                  CI_97.5 = cate_reg_orig[,4],
+                                  CI_lower = cate_reg_orig[,3],
+                                  CI_upper = cate_reg_orig[,4],
                                   P_Value = cate_reg_orig[,2])
       row.names(cate_reg_orig) <- 1:nrow(cate_reg_orig)
-      colnames(cate_reg_orig) <- c("Rule","Estimate", "CI (2.5 %)",
-                                   "CI (97.5 %)", "P_Value")
       if (filter_cate) {
         cate_final <- subset(cate_reg_orig, cate_reg_orig$P_Value <= 0.05)
       } else {
