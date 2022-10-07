@@ -48,6 +48,7 @@
 #'   have.
 #'  - *max_depth*: The number of top levels from each tree considered
 #' to extract conditions.
+#'  - *replace*: Boolean variable for replacement in bootstrapping.
 #'  - *max_decay*: Decay Threshold for pruning the rules.
 #'  - *type_decay*: Decay Type for pruning the rules (1: relative error; 2: error).
 #'  - *t_anom*: The threshold to define too generic or too specific (anomalous) rules.

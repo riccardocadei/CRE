@@ -15,6 +15,7 @@ test_that("Rules Extracted Correctly", {
   node_size <- 20
   max_nodes <- 5
   max_depth <- 15
+  replace <- FALSE
   max_decay <- 0.025
   type_decay <- 2
 
@@ -39,7 +40,7 @@ test_that("Rules Extracted Correctly", {
 
   # Step 3: Generate rules list
   initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
-                                  max_nodes, max_depth, random_state = 2389)
+                                  max_nodes, max_depth, replace, random_state = 2389)
 
   rules <- prune_rules(initial_rules, X, ite_std, max_decay, type_decay)
 

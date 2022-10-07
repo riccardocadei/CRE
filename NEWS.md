@@ -2,8 +2,9 @@
 
 ### Changed
 
-* rename variable `t` with `t_anom`
-* add variable `t_corr` discard correlation threshold
+* add parameter `replace` to set replacement in bootstrapping for rules generation
+* rename parameter `t` with `t_anom`
+* add parameter `t_corr` discard correlation threshold
 * define `discard_anomalous_rules()` and `discard_corre_rules()` functions and 
 and relative tests
 * reorganize `generate_rules_matrix()` (separate standardization, and remove filtering)

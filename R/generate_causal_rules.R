@@ -29,6 +29,7 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
                           getElement(hyper_params,"node_size"),
                           getElement(hyper_params,"max_nodes"),
                           getElement(hyper_params,"max_depth"),
+                          getElement(hyper_params,"replace"),
                           getElement(method_params,"random_state"))
   M_initial <- length(rules)
 
