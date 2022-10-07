@@ -48,7 +48,6 @@ test_that("Rules Extracted Correctly", {
 
   # Incorrect inputs
   expect_error(generate_rules_matrix(X = "test", rules))
-  expect_error(generate_rules_matrix(X, rules = NA))
 
   # Correct outputs
   rules_matrix <- generate_rules_matrix(X, rules)
