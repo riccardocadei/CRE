@@ -17,7 +17,7 @@ source('estimate_ps.R')
 source("generate_rules.R")
 source("extract_rules.R")
 source("generate_rules_matrix.R")
-source("select_causal_rules.R")
+source("lasso_rules_filter.R")
 source("interpret_select_rules.R")
 source("estimate_cate.R")
 source("print.R")
@@ -52,7 +52,7 @@ method_params = list(ratio_dis = 0.25,
                      ite_method_inf = "bart",
                      include_ps_inf = TRUE,
                      include_offset = FALSE,
-                     cate_method = "DRLearner",
+                     cate_method = "linreg",
                      cate_SL_library = "SL.xgboost",
                      filter_cate = FALSE,
                      offset_name = NA,
