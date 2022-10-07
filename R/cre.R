@@ -155,16 +155,7 @@ cre <- function(y, z, X, method_params, hyper_params){
 
   # Generate rules matrix --------------
   logger::log_info("Generating Causal Rules Matrix ...")
-  rules_matrix_inf <- matrix(0,
-                             nrow = dim(X_inf)[1],
-                             ncol = M_final)
-  if (M_final>0){
-    for (i in 1:M_final) {
-      rules_matrix_inf[eval(parse(text = select_rules_dis[i]),
-                            list(X = X_inf)),
-                       i] <- 1
-    }
-  }
+  rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
 
   select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
 

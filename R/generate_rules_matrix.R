@@ -18,7 +18,7 @@ generate_rules_matrix <- function(X, rules_list) {
   nrules <- length(rules_list)
   rules_matrix <- matrix(0, nrow = samplesize, ncol = nrules)
   for (i in 1:nrules){
-    rules_matrix[eval(parse(text = rules_list[i])), i] <- 1
+    rules_matrix[eval(parse(text = rules_list[i]), list(X=X)), i] <- 1
   }
 
   return(rules_matrix)
