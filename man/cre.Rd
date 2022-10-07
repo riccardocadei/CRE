@@ -61,6 +61,10 @@ including:
 \item \emph{node_size}: The minimum size of the trees' terminal nodes.
 \item \emph{max_nodes}: The maximum number of terminal nodes trees in the forest can
 have.
+\item \emph{max_depth}: The number of top levels from each tree considered
+to extract conditions.
+\item \emph{max_decay}: Decay Threshold for pruning the rules.
+\item \emph{type_decay}: Decay Type for pruning the rules (1: relative error; 2: error).
 \item \emph{t}: The common support used in generating the causal rules matrix.
 \item \emph{q}: The selection threshold used in selecting the causal rules.
 \item \emph{stability_selection}: Whether or not using stability selection for

@@ -14,6 +14,9 @@ test_that("Causal Rules Selected Correctly", {
   ntrees_gbm <- 50
   node_size <- 20
   max_nodes <- 5
+  max_depth = 15
+  max_decay = 0.025
+  type_decay = 2
   t <- 0.025
   q <- 0.8
   stability_selection <- TRUE
@@ -37,10 +40,13 @@ test_that("Causal Rules Selected Correctly", {
 
   # Step 3: Generate rules list
   initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
-                                  max_nodes, random_state = 2987)
+                                  max_nodes, max_depth, random_state = 2987)
+
+  rules <- prune_rules(initial_rules, X, ite_std, max_decay, type_decay)
+
 
   # Step 4: Generate rules matrix
-  rules_all <- generate_rules_matrix(X, initial_rules, t)
+  rules_all <- generate_rules_matrix(X, rules, t)
   rules_matrix <- rules_all[["rules_matrix"]]
   rules_matrix_std <- rules_all[["rules_matrix_std"]]
   rules_list <- rules_all[["rules_list"]]

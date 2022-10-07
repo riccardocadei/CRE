@@ -16,8 +16,8 @@
 #'
 generate_rules_matrix <- function(X, rules_list, t) {
 
+  # Generate and Rules Matrix
   rules_matrix <- matrix(0, nrow = dim(X)[1], ncol = length(rules_list))
-
   for (i in 1:length(rules_list)){
     rules_matrix[eval(parse(text = rules_list[i])), i] <- 1
   }
@@ -25,6 +25,7 @@ generate_rules_matrix <- function(X, rules_list, t) {
   # Identify rules with too few observations
   nrules <- dim(rules_matrix)[2]
   ind <- 1:nrules
+
   if (dim(X)[1] < 200){
     t <- 0.05
   }

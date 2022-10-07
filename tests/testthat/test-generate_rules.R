@@ -14,6 +14,7 @@ test_that("generate_rules works as expected!", {
   ntrees_gbm <- 50
   node_size <- 20
   max_nodes <- 5
+  max_depth <- 15
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -34,17 +35,13 @@ test_that("generate_rules works as expected!", {
 
 
   # Correct outputs
-  initial_rules <- generate_rules(X,
-                                  ite_std,
-                                  ntrees_rf,
-                                  ntrees_gbm,
-                                  node_size,
-                                  max_nodes,
-                                  random_state = 215)
-  expect_true(class(initial_rules) == "character")
+  rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
+                                  max_nodes, max_depth, random_state = 215)
+
+  expect_true(class(rules) == "character")
 
   # Activate the following test after addressing reproduciblity issue.
-  #expect_equal(length(initial_rules), 123)
-  #expect_equal(initial_rules[23], "X[,2]>0.5 & X[,9]<=0.5")
-  #expect_equal(initial_rules[107], "X[,2]<=0.5 & X[,4]<=0.5")
+  #expect_equal(length(rules), 123)
+  #expect_equal(rules[23], "X[,2]>0.5 & X[,9]<=0.5")
+  #expect_equal(rules[107], "X[,2]<=0.5 & X[,4]<=0.5")
 })

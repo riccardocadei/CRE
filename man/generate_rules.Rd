@@ -11,6 +11,7 @@ generate_rules(
   ntrees_gbm,
   node_size,
   max_nodes,
+  max_depth,
   random_state
 )
 }
@@ -27,7 +28,10 @@ generate_rules(
 
 \item{max_nodes}{The maximum number of terminal nodes trees in the forest can have.}
 
-\item{random_state}{An integer number that repesents a random state.}
+\item{max_depth}{The number of top levels from each tree considered
+to extract conditions.}
+
+\item{random_state}{An integer number that represents a random state.}
 }
 \value{
 A vector of causal rules.
