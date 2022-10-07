@@ -118,6 +118,9 @@
     <loc>https://github.com/fasrc/CRE/reference/extract_rules.html</loc>
   </url>
   <url>
+    <loc>https://github.com/fasrc/CRE/reference/generate_causal_rules.html</loc>
+  </url>
+  <url>
     <loc>https://github.com/fasrc/CRE/reference/generate_cre_dataset.html</loc>
   </url>
   <url>
@@ -146,6 +149,9 @@
   </url>
   <url>
     <loc>https://github.com/fasrc/CRE/reference/print.cre.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/fasrc/CRE/reference/prune_rules.html</loc>
   </url>
   <url>
     <loc>https://github.com/fasrc/CRE/reference/select_causal_rules.html</loc>

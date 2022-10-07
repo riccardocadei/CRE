@@ -34,3 +34,4 @@ a vector of causal rules
 \description{
 Selects the causal rules that are most important.
 }
+\keyword{internal}

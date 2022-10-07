@@ -17,9 +17,10 @@
 #' @name CRE-package
 #' @aliases CRE
 #' @author Naeem Khoshnevis
-#' @author Falco Joannes Bargagli Stoffi
 #' @author Daniela Maria Garcia
+#' @author Riccardo Cadei
 #' @author Kwonsang Lee
+#' @author Falco Joannes Bargagli Stoffi
 #' @import xtable
 #' @import data.table
 #' @importFrom RRF RRF

@@ -15,7 +15,7 @@
 #'
 #' @import SuperLearner
 #'
-#'
+#' @keywords internal
 estimate_ps <- function(z, X, ps_method = "SL.xgboost") {
   sl_pscore <- SuperLearner(Y = z, X = as.data.frame(X),
                                           newX = as.data.frame(X),

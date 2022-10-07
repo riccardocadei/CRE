@@ -57,8 +57,6 @@
 #'  selecting the causal rules.
 #'  - *pfer_val*: The Per-Family Error Rate, the expected number of false
 #'  discoveries.
-
-
 #'
 #' @return
 #' An S3 object containing the matrix of Conditional

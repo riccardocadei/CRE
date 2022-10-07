@@ -41,3 +41,4 @@ discovery <- subgroups[[1]]
 inference <- subgroups[[2]]
 
 }
+\keyword{internal}
