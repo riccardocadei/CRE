@@ -11,22 +11,9 @@
 #'
 #' @return a vector of ITE estimates
 #'
-#' @export
+#' @keywords internal
 #'
-#' @examples
-#' \donttest{
-#' set.seed(5561)
-#' dataset <- generate_cre_dataset(n = 50, rho = 0, n_rules = 2, p = 10,
-#'                                 effect_size = 2, binary = FALSE)
-#'
-#' # Initialize parameters
-#' y <- dataset[["y"]]
-#' z <- dataset[["z"]]
-#' X <- as.data.frame(dataset[["X"]])
-#' if (requireNamespace("BART", quietly = TRUE)) {
-#'   ite_list <- estimate_ite_oreg(y, z, X)
-#'  }
-#' }
+
 estimate_ite_oreg <- function(y, z, X) {
 
   if (!requireNamespace("BART", quietly = TRUE)) {

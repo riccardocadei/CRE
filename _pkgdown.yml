@@ -18,17 +18,6 @@ reference:
     contents:
     - CRE-package
     - cre
-    - estimate_ite
-    - estimate_ite_aipw
-    - estimate_ite_bart
-    - estimate_ite_bcf
-    - estimate_ite_cf
-    - estimate_ite_ipw
-    - estimate_ite_oreg
-    - estimate_ite_poisson
-    - estimate_ite_sipw
-    - generate_causal_rules
-    - generate_rules
     - plot.cre
     - print.cre
     - summary.cre

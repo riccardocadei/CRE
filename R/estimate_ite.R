@@ -52,7 +52,7 @@
 #'   -  standardized ITE estimates, and
 #'   -  standard deviations for the ITE estimates.
 #'
-#' @export
+#' @keywords internal
 #'
 estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
 

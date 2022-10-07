@@ -43,7 +43,7 @@ a treatment variable, and various features"><!-- mathjax --><script src="https:/
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
       <ul class="navbar-nav"><li class="nav-item">
-  <a class="nav-link" href="https://github.com/fasrc/CRE/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/NSAPH-Software/CRE/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -56,7 +56,7 @@ a treatment variable, and various features"><!-- mathjax --><script src="https:/
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>The Causal Rule Ensemble</h1>
-      <small class="dont-index">Source: <a href="https://github.com/fasrc/CRE/blob/HEAD/R/cre.R"><code>R/cre.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/NSAPH-Software/CRE/blob/HEAD/R/cre.R" class="external-link"><code>R/cre.R</code></a></small>
       <div class="d-none name"><code>cre.Rd</code></div>
     </div>
 
@@ -99,15 +99,12 @@ estimate_ite_aipw on the discovery subsample.</p></li>
 <li><p><em>include_ps_inf</em>: Whether or not to include propensity score estimate
 as a covariate in inference ITE estimation, considered only for BART,
 or CF.</p></li>
-<li><p><em>include_ps_inf</em>: Whether or not to include propensity score estimate
-as a covariate in inference ITE estimation, considered only for BART,
-or CF.</p></li>
 <li><p><em>ps_method_inf</em>: The estimation model for the propensity score on the
 inference subsample.</p></li>
 <li><p><em>or_method_inf</em>: The estimation model for the outcome regressions in
 estimate_ite_aipw on the inference subsample.</p></li>
 </ul></li>
-<li><p><em>Other Parameters</em>:</p><ul><li><p><em>include_offset</em>: Whether or not to include an offset when estimating
+<li><p><em>Other Parameters</em></p><ul><li><p><em>include_offset</em>: Whether or not to include an offset when estimating
 the ITE, for Poisson only.</p></li>
 <li><p><em>offset_name</em>: The name of the offset, if it is to be included.</p></li>
 <li><p><em>cate_method</em>: The method to estimate the CATE values.</p></li>
@@ -127,10 +124,12 @@ including:</p><ul><li><p><em>effect_modifiers</em>: Effect Modifiers for Rules G
 have.</p></li>
 <li><p><em>max_depth</em>: The number of top levels from each tree considered
 to extract conditions.</p></li>
+<li><p><em>replace</em>: Boolean variable for replacement in bootstrapping.</p></li>
 <li><p><em>max_decay</em>: Decay Threshold for pruning the rules.</p></li>
 <li><p><em>type_decay</em>: Decay Type for pruning the rules (1: relative error; 2: error).</p></li>
-<li><p><em>t</em>: The common support used in generating the causal rules matrix.</p></li>
-<li><p><em>q</em>: The selection threshold used in selecting the causal rules.</p></li>
+<li><p><em>t_anom</em>: The threshold to define too generic or too specific (anomalous) rules.</p></li>
+<li><p><em>t_corr</em>: The threshold to define correlated rules.</p></li>
+<li><p><em>q</em>: Number of (unique) selected rules per subsample in stability selection.</p></li>
 <li><p><em>stability_selection</em>: Whether or not using stability selection for
 selecting the causal rules.</p></li>
 <li><p><em>pfer_val</em>: The Per-Family Error Rate, the expected number of false
@@ -146,6 +145,63 @@ discoveries.</p></li>
 Average Treatment Effect estimates</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2021</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dataset_cont</span> <span class="op">&lt;-</span> <span class="fu"><a href="generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">300</span>, rho <span class="op">=</span> <span class="fl">0</span>, n_rules <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>                                     effect_size <span class="op">=</span> <span class="fl">2</span>, binary <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">dataset_cont</span><span class="op">[[</span><span class="st">"y"</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">z</span> <span class="op">&lt;-</span> <span class="va">dataset_cont</span><span class="op">[[</span><span class="st">"z"</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">dataset_cont</span><span class="op">[[</span><span class="st">"X"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">method_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ratio_dis <span class="op">=</span> <span class="fl">0.25</span>,</span></span>
+<span class="r-in"><span>                      ite_method_dis<span class="op">=</span><span class="st">"bart"</span>,</span></span>
+<span class="r-in"><span>                      ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span></span>
+<span class="r-in"><span>                      oreg_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span></span>
+<span class="r-in"><span>                      include_ps_dis <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                      ite_method_inf <span class="op">=</span> <span class="st">"bart"</span>,</span></span>
+<span class="r-in"><span>                      ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span></span>
+<span class="r-in"><span>                      oreg_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span></span>
+<span class="r-in"><span>                      include_ps_inf <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                      include_offset <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                      cate_method <span class="op">=</span> <span class="st">"DRLearner"</span>,</span></span>
+<span class="r-in"><span>                      cate_SL_library <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span></span>
+<span class="r-in"><span>                      filter_cate <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                      offset_name <span class="op">=</span> <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>                      random_state <span class="op">=</span> <span class="fl">3591</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">hyper_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ntrees_rf <span class="op">=</span> <span class="fl">100</span>,</span></span>
+<span class="r-in"><span>                     ntrees_gbm <span class="op">=</span> <span class="fl">50</span>,</span></span>
+<span class="r-in"><span>                     node_size <span class="op">=</span> <span class="fl">20</span>,</span></span>
+<span class="r-in"><span>                     max_nodes <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span>                     max_depth <span class="op">=</span> <span class="fl">15</span>,</span></span>
+<span class="r-in"><span>                     max_decay <span class="op">=</span> <span class="fl">0.025</span>,</span></span>
+<span class="r-in"><span>                     type_decay <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>                     t_anom <span class="op">=</span> <span class="fl">0.025</span>,</span></span>
+<span class="r-in"><span>                     t_corr <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>                     replace <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                     q <span class="op">=</span> <span class="fl">0.8</span>,</span></span>
+<span class="r-in"><span>                     stability_selection <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                     pfer_val <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">cre_results</span> <span class="op">&lt;-</span> <span class="fu">cre</span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">method_params</span>, <span class="va">hyper_params</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: nnls</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fitting treatment model via method 'bart'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fitting response model via method 'bart'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Registered S3 method overwritten by 'randomForest':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   method      from</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   plot.margin RRF </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 378 rules (length&lt;=15) were extracted from the first 100 trees.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 100 rules (length&lt;=15) were extracted from the first 50 trees.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Conducting Inference Subsample Analysis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fitting treatment model via method 'bart'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fitting response model via method 'bart'</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

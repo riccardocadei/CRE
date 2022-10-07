@@ -70,6 +70,12 @@
     <loc>https://github.com/fasrc/CRE/reference/cre_crossfit.html</loc>
   </url>
   <url>
+    <loc>https://github.com/fasrc/CRE/reference/discard_anomalous_rules.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/fasrc/CRE/reference/discard_correlated_rules.html</loc>
+  </url>
+  <url>
     <loc>https://github.com/fasrc/CRE/reference/estimate_cate.html</loc>
   </url>
   <url>
@@ -142,6 +148,9 @@
     <loc>https://github.com/fasrc/CRE/reference/interpret_select_rules.html</loc>
   </url>
   <url>
+    <loc>https://github.com/fasrc/CRE/reference/lasso_rules_filter.html</loc>
+  </url>
+  <url>
     <loc>https://github.com/fasrc/CRE/reference/plot.cre.html</loc>
   </url>
   <url>
@@ -161,6 +170,9 @@
   </url>
   <url>
     <loc>https://github.com/fasrc/CRE/reference/split_data.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/fasrc/CRE/reference/standardize_rules_matrix.html</loc>
   </url>
   <url>
     <loc>https://github.com/fasrc/CRE/reference/summary.cre.html</loc>
