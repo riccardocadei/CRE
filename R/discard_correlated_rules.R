@@ -23,9 +23,8 @@ discard_correlated_rules <- function(rules_matrix, rules_list, t){
   C <- stats::cor(rules_matrix)
   elim <- c()
   for(i in 1:(nrules - 1)) {
-    elim <- c(elim, which(round(abs(C[i, (i + 1):nrules]), digits = 4)
-                          >= t)
-              + i)
+    elim <- c(elim,
+              which(round(abs(C[i, (i + 1):nrules]), digits = 4) >= t) + i)
   }
   if (length(elim) > 0) {ind <- ind[-elim]}
 

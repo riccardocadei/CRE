@@ -39,10 +39,10 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
   # 2.1 Prune irrelevant variable-value pair from a rule condition
   logger::log_info("Pruning ...")
   rules_list <- prune_rules(rules,
-                       X,
-                       ite_std,
-                       getElement(hyper_params,"max_decay"),
-                       getElement(hyper_params,"type_decay"))
+                             X,
+                             ite_std,
+                             getElement(hyper_params,"max_decay"),
+                             getElement(hyper_params,"type_decay"))
   M_filter1 <- length(rules_list)
 
   # Generate rules matrix
