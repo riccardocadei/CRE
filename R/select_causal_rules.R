@@ -16,6 +16,8 @@
 #' @return
 #' a vector of causal rules
 #'
+#' @keywords internal
+#'
 select_causal_rules <- function(rules_matrix_std, rules_list, ite_std,
                                 q, stability_selection, pfer_val) {
 

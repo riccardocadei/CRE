@@ -21,3 +21,4 @@ A vector of propensity score estimates.
 Method for estimating the Propensity Score given a treatment vector and
 features data.frame.
 }
+\keyword{internal}

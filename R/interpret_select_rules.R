@@ -9,6 +9,9 @@
 #'
 #' @return a vector of select causal rules that are interpretable
 #'
+#'
+#'@keywords internal
+#'
 
 interpret_select_rules <- function(select_rules_dis, X_names) {
   replacements <- X_names
