@@ -50,7 +50,8 @@
 #' to extract conditions.
 #'  - *max_decay*: Decay Threshold for pruning the rules.
 #'  - *type_decay*: Decay Type for pruning the rules (1: relative error; 2: error).
-#'  - *t*: The common support used in generating the causal rules matrix.
+#'  - *t_anom*: The threshold to define too generic or too specific (anomalous) rules.
+#'  - *t_corr*: The threshold to define correlated rules.
 #'  - *q*: The selection threshold used in selecting the causal rules.
 #'  - *stability_selection*: Whether or not using stability selection for
 #'  selecting the causal rules.

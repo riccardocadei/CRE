@@ -30,7 +30,11 @@ check_hyper_params <- function(params){
     stop("Invalid 'max_nodes' input. Please input a number.")
   }
 
-  if (!inherits(getElement(params, "t"),"numeric")){
+  if (!inherits(getElement(params, "t_anom"),"numeric")){
+    stop("Invalid 't' input. Please input a number.")
+  }
+
+  if (!inherits(getElement(params, "t_corr"),"numeric")){
     stop("Invalid 't' input. Please input a number.")
   }
 

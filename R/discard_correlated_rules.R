@@ -2,11 +2,11 @@
 #' Discard Correlated (Causal) Decision Rules
 #'
 #' @description
-#' Discard reduntant correlated rules.
+#' Discard redundant correlated rules.
 #'
 #' @param rules_matrix The causal rules matrix.
 #' @param rules_list The list of the causal rules.
-#' @param t The threshold to define too generic or too specific rules.
+#' @param t The threshold to define correlated rules.
 #'
 #' @keywords internal
 #'
@@ -20,12 +20,11 @@ discard_correlated_rules <- function(rules_matrix, rules_list, t){
   # Identify correlated rules
   nrules <- length(rules_list)
   ind <- 1:nrules
-  corelim <- 1
   C <- stats::cor(rules_matrix)
   elim <- c()
   for(i in 1:(nrules - 1)) {
     elim <- c(elim, which(round(abs(C[i, (i + 1):nrules]), digits = 4)
-                          >= corelim)
+                          >= t)
               + i)
   }
   if (length(elim) > 0) {ind <- ind[-elim]}

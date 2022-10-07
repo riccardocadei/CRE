@@ -51,14 +51,15 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
   # 2.2 Remove rules with too few or too many observations and correlated rules
   logger::log_info("Remove anomalous rules ...")
   anomalous_temp <- discard_anomalous_rules(rules_matrix, rules_list,
-                                            getElement(hyper_params,"t"))
+                                            getElement(hyper_params,"t_anom"))
   rules_matrix <- anomalous_temp[["rules_matrix"]]
   rules_list <- anomalous_temp[["rules_list"]]
   M_filter2 <- length(rules_list)
 
   # 2.3 Remove correlated rules
   logger::log_info("Remove correlated rules ...")
-  correlated_temp <- discard_correlated_rules(rules_matrix, rules_list)
+  correlated_temp <- discard_correlated_rules(rules_matrix, rules_list,
+                                              getElement(hyper_params,"t_corr"))
   rules_matrix <- correlated_temp[["rules_matrix"]]
   rules_list <- correlated_temp[["rules_list"]]
   M_filter3 <- length(rules_list)

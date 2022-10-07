@@ -56,10 +56,11 @@ summary.cre <- function(object, ...) {
       cat("\n  - Rule Generation:")
       cat("\n    - Number of Trees: ", getElement(params, "ntrees_rf"),
           "RF +",getElement(params, "ntrees_gbm"), "GBM")
-      cat("\n    - Node Size      : ", getElement(params, "node_size"))
-      cat("\n    - Max Nodes      : ", getElement(params, "max_nodes"))
-      cat("\n    - Common Support : ", getElement(params, "t"))
-      cat("\n    - Threshold      : ", getElement(params, "q"))
+      cat("\n    - Node Size           : ", getElement(params, "node_size"))
+      cat("\n    - Max Nodes           : ", getElement(params, "max_nodes"))
+      cat("\n    - Threshold Anomalous : ", getElement(params, "t_anom"))
+      cat("\n    - Threshold Correlated: ", getElement(params, "t_corr"))
+      cat("\n    - Threshold           : ", getElement(params, "q"))
       cat("\n  - Rule Regularization:")
       cat("\n    - Stability Selection: ",
           getElement(params, "stability_selection"))

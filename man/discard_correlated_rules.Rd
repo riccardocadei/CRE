@@ -11,7 +11,7 @@ discard_correlated_rules(rules_matrix, rules_list, t)
 
 \item{rules_list}{The list of the causal rules.}
 
-\item{t}{The threshold to define too generic or too specific rules.}
+\item{t}{The threshold to define correlated rules.}
 }
 \value{
 A list with:
@@ -21,6 +21,6 @@ A list with:
 }
 }
 \description{
-Discard reduntant correlated rules.
+Discard redundant correlated rules.
 }
 \keyword{internal}
