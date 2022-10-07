@@ -4,7 +4,8 @@
 
 * rename variable `t` with `t_anom`
 * add variable `t_corr` discard correlation threshold
-* define `discard_anomalous_rules()` and `discard_corre_rules()` functions
+* define `discard_anomalous_rules()` and `discard_corre_rules()` functions and 
+and relative tests
 * reorganize `generate_rules_matrix()` (separate standardization, and remove filtering)
 * explicit `prune_rules()` function and add relative tests
 * remove `take1()` function for random Rule Selection
