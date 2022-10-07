@@ -111,7 +111,7 @@ autoplot.cre <- function(object, ...){
       ggplot2::ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects",
                              "Per Causal Rule",
                              "\nwith 95% Confidence Intervals\n\n",
-                             "CATE Method: ", cate_method))
+                             "CATE Method: Linear Regression"))
 
   } else {
     stop("Error: Unrecognized CATE method.")
