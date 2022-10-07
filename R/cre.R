@@ -53,7 +53,7 @@
 #'  - *type_decay*: Decay Type for pruning the rules (1: relative error; 2: error).
 #'  - *t_anom*: The threshold to define too generic or too specific (anomalous) rules.
 #'  - *t_corr*: The threshold to define correlated rules.
-#'  - *q*: The selection threshold used in selecting the causal rules.
+#'  - *q*: Number of (unique) selected rules per subsample in stability selection.
 #'  - *stability_selection*: Whether or not using stability selection for
 #'  selecting the causal rules.
 #'  - *pfer_val*: The Per-Family Error Rate, the expected number of false
