@@ -12,7 +12,7 @@
 #' @return
 #' A vector of Causal Rules.
 #'
-#' @export
+#' @keywords internal
 #'
 generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
 

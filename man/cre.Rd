@@ -82,7 +82,8 @@ a treatment variable, and various features
 }
 \examples{
 
-  set.seed(2021)
+\donttest{
+set.seed(2021)
 dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
                                      effect_size = 2, binary = FALSE)
 y <- dataset_cont[["y"]]
@@ -121,5 +122,5 @@ hyper_params <- list(ntrees_rf = 100,
                      pfer_val = 0.1)
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
-
+}
 }

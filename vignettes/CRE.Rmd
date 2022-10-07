@@ -127,5 +127,7 @@ The CRE package can generate synthetic data that can be used to test different f
                      stability_selection = TRUE,
                      pfer_val = 0.1)
 
+cre_results <- cre(y, z, X, method_params, hyper_params)
+
 ```
 

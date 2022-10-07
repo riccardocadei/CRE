@@ -15,24 +15,8 @@
 #'
 #' @return a list of ITE estimates and standard deviations for the ITE estimates
 #'
-#' @export
+#' @keywords internal
 #'
-#' @examples
-#' \donttest{
-#' set.seed(167)
-#' dataset <- generate_cre_dataset(n = 50, rho = 0, n_rules = 2, p = 10,
-#'                                 effect_size = 2, binary = FALSE)
-#'
-#' # Initialize parameters
-#' y <- dataset[["y"]]
-#' z <- dataset[["z"]]
-#' X <- as.data.frame(dataset[["X"]])
-#' include_ps <- TRUE
-#' ps_method <- "SL.xgboost"
-#' random_state <- 100
-#'
-#' ite_list <- estimate_ite_bart(y, z, X, include_ps, ps_method, random_state)
-#' }
 estimate_ite_bart <- function(y, z, X, include_ps, ps_method, random_state) {
 
   # generate seed value
