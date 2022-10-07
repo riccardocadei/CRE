@@ -130,26 +130,6 @@ check_method_params <- function(y, params){
     params[["offset_name"]] <- offset_name
   }
 
-  # Check for correct offset input
-  if ((getElement(params, "ite_method_dis") == "poisson") |
-      (getElement(params, "ite_method_inf") == "poisson") |
-      (getElement(params, "cate_method") == "poisson")) {
-    if (getElement(params, "include_offset") == TRUE) {
-      if (is.na(getElement(params, "offset_name"))) {
-        stop(paste("Invalid offset_name input. Please specify an offset_name ",
-                   "if you wish to include an offset."))
-      }
-    } else {
-      offset_name <- NA
-      params[["offset_name"]] <- offset_name
-    }
-  } else {
-    include_offset <- FALSE
-    offset_name <- NA
-    params[["include_offset"]] <- include_offset
-    params[["offset_name"]] <- offset_name
-  }
-
   # Check for correct CATE estimation inputs -----------------------
 
   if (!(getElement(params, "cate_method") %in% c("poisson", "DRLearner",
@@ -164,9 +144,6 @@ check_method_params <- function(y, params){
     if (!(class(getElement(params, "cate_SL_library")) %in% c("character", "list"))) {
       stop("Please specify a string or list for the cate_SL_library argument.")
     }
-  } else {
-    cate_SL_library <- NA
-    params[["cate_SL_library"]] <- cate_SL_library
   }
 
   if (getElement(params, "cate_method") == "bart-baggr") {

@@ -38,8 +38,80 @@ test_that("cre Runs Correctly", {
                      stability_selection = TRUE,
                      pfer_val = 0.1)
 
+  method_params[["ratio_dis"]] <- 2
+  expect_error(cre(y, z, X, method_params, hyper_params))
 
-  #TODO: Need to move to a better place: Incorrect ntrees_rf, ntrees_gbm, node_size, max_nodes, t, q inputs
+  method_params[["ratio_dis"]] <- 0.25
+  method_params[["ite_method_dis"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  method_params[["ite_method_dis"]] <- "bart"
+  method_params[["ite_method_inf"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  method_params[["ite_method_inf"]] <- "bart"
+  method_params[["include_ps_dis"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  method_params[["include_ps_dis"]] <- TRUE
+  method_params[["include_ps_inf"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  method_params[["include_ps_inf"]] <- TRUE
+  method_params[["ite_method_dis"]] <- "poisson"
+  method_params[["ps_method_dis"]] <- 1
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  method_params[["ite_method_dis"]] <- "bart"
+  method_params[["ps_method_dis"]] <- "SL.xgboost"
+  method_params[["ite_method_inf"]] <- "poisson"
+  method_params[["ps_method_inf"]] <- 1
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  method_params[["ite_method_inf"]] <- "bart"
+  method_params[["ps_method_inf"]] <- "SL.xgboost"
+  method_params[["ite_method_dis"]] <- "aipw"
+  method_params[["oreg_method_dis"]] <- 1
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  method_params[["ite_method_dis"]] <- "bart"
+  method_params[["oreg_method_dis"]] <- "SL.xgboost"
+  method_params[["ite_method_inf"]] <- "aipw"
+  method_params[["oreg_method_inf"]] <- 1
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  method_params[["ite_method_inf"]] <- "bart"
+  method_params[["oreg_method_inf"]] <- "SL.xgboost"
+  method_params[["ite_method_dis"]] <- "bcf"
+  y_temp <- ifelse(y>0,1,0)
+  expect_error(cre(y_temp, z, X, method_params, hyper_params))
+
+  method_params[["ite_method_dis"]] <- "poisson"
+  method_params[["include_offset"]] <- TRUE
+  expect_error(cre(y_temp, z, X, method_params, hyper_params))
+
+  method_params[["include_offset"]] <- FALSE
+  method_params[["cate_method"]] <- "test"
+  expect_error(cre(y_temp, z, X, method_params, hyper_params))
+
+  method_params[["ite_method_dis"]] <- "bart"
+  method_params[["cate_SL_library"]] <- 1
+  expect_error(cre(y_temp, z, X, method_params, hyper_params))
+
+  method_params[["cate_SL_library"]] <- "SL.xgboost"
+  method_params[["cate_method"]] <- "bart-baggr"
+  method_params[["ite_method_inf"]] <- "aipw"
+  expect_error(cre(y_temp, z, X, method_params, hyper_params))
+
+  method_params[["cate_method"]] <- "cf-means"
+  expect_error(cre(y_temp, z, X, method_params, hyper_params))
+
+  method_params[["cate_method"]] <- "DRLearner"
+  method_params[["ite_method_inf"]] <- "bart"
+  method_params[["filter_cate"]] <- "test"
+  expect_error(cre(y_temp, z, X, method_params, hyper_params))
+
+  method_params[["filter_cate"]] <- FALSE
   hyper_params[["ntrees_rf"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
