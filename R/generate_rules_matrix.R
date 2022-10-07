@@ -7,7 +7,6 @@
 #' @param X The features matrix.
 #' @param rules_list A vector of causal rules.
 #'
-#' @keywords internal
 #'
 #' @return
 #' the causal rules matrix.
