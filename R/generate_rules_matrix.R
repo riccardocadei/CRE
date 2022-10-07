@@ -17,57 +17,62 @@
 generate_rules_matrix <- function(X, rules_list, t) {
 
   # Generate and Rules Matrix
-  rules_matrix <- matrix(0, nrow = dim(X)[1], ncol = length(rules_list))
-  for (i in 1:length(rules_list)){
+  samplesize <- dim(X)[1]
+  nrules <- length(rules_list)
+  rules_matrix <- matrix(0, nrow = samplesize, ncol = nrules)
+  for (i in 1:nrules){
     rules_matrix[eval(parse(text = rules_list[i])), i] <- 1
   }
 
-  # Identify rules with too few observations
-  nrules <- dim(rules_matrix)[2]
+  # Identify rules with too few or too many observations
   ind <- 1:nrules
-
-  if (dim(X)[1] < 200){
-    t <- 0.05
-  }
-
   sup <- apply(rules_matrix, 2, mean)
   elim <- which((sup < t) | (sup > (1 - t)))
-
-  if (length(elim) > 0) {
-    ind <- ind[-elim]
-  }
+  if (length(elim) > 0) {ind <- ind[-elim]}
 
   # Identify correlated rules
   corelim <- 1
-  C <- stats::cor(rules_matrix[,ind])
-  diag(C) <- 0
-  nrules <- dim(rules_matrix[, ind])[2]
+  C <- stats::cor(rules_matrix[, ind])
+  nrules <- length(ind)
   elim <- c()
-
   for(i in 1:(nrules - 1)) {
-    elim <- c(elim, which(round(abs(C[i, (i + 1):nrules]),
-                                digits = 4) >= corelim) + i)
+    elim <- c(elim, which(round(abs(C[i, (i + 1):nrules]), digits = 4)
+                          >= corelim)
+                  + i)
   }
+  if (length(elim) > 0) {ind <- ind[-elim]}
 
-  if (length(elim) > 0) {
-    ind <- ind[-elim]
-  } else {
-    ind <- ind
-  }
-
-  # Remove rules with too few observations and correlated rules
+  # Remove rules with too few/too many observations and correlated rules
   rules_matrix <- rules_matrix[, ind,drop=FALSE]
   rules_list <- rules_list[ind]
 
-  # Standardize rules matrix
+  return(list(rules_matrix = rules_matrix, rules_list = rules_list))
+}
+
+
+#' @title
+#' Standardize Rules Matrix
+#'
+#' @description
+#' Standardize the matrix of causal rules given a list.
+#'
+#' @param rules_matrix The rules matrix.
+#'
+#' @return
+#' Standardized rules matrix
+#'
+standardize_rules_matrix <- function(rules_matrix) {
+
+  samplesize <- dim(rules_matrix)[1]
+  nrules <- dim(rules_matrix)[2]
   mu_rules_matrix <- apply(rules_matrix, 2, mean)
   sd_rules_matrix <- apply(rules_matrix, 2, stats::sd)
-  rules_matrix_std <- matrix(0, dim(X)[1], dim(rules_matrix)[2])
+  rules_matrix_std <- matrix(0, samplesize, nrules)
   for(l in 1:ncol(rules_matrix_std)){
     rules_matrix_std[, l] <- ((rules_matrix[, l] - mu_rules_matrix[l]) /
                                 sd_rules_matrix[l])
   }
 
-  return(list(rules_matrix = rules_matrix, rules_matrix_std = rules_matrix_std,
-              rules_list = rules_list))
+  return(rules_matrix_std)
+
 }

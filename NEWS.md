@@ -2,6 +2,7 @@
 
 ### Changed
 
+* reorganize `generate_rules_matrix()` (separate standardization)
 * explicit `prune_rules()` function and add relative tests
 * remove `take1()` function for random Rule Selection
 * add effect modifiers filter for Rule Generation

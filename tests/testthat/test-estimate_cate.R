@@ -75,7 +75,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   # Step 4: Generate rules matrix
   rules_all_dis <- generate_rules_matrix(X_dis, rules_dis, t)
   rules_matrix_dis <- rules_all_dis[["rules_matrix"]]
-  rules_matrix_std_dis <- rules_all_dis[["rules_matrix_std"]]
+  rules_matrix_std_dis <- standardize_rules_matrix(rules_matrix_dis)
   rules_list_dis <- rules_all_dis[["rules_list"]]
 
   # Step 5: Select important rules
@@ -328,7 +328,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   # Generate rules matrix
   rules_all_dis <- CRE:::generate_rules_matrix(X_dis, rules_dis, t)
   rules_matrix_dis <- rules_all_dis[["rules_matrix"]]
-  rules_matrix_std_dis <- rules_all_dis[["rules_matrix_std"]]
+  rules_matrix_std_dis <- standardize_rules_matrix(rules_matrix_dis)
   rules_list_dis <- rules_all_dis[["rules_list"]]
   # Select important rules
   select_rules_dis <- as.character(CRE:::select_causal_rules(rules_matrix_std_dis, rules_list_dis,

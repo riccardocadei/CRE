@@ -48,7 +48,7 @@ test_that("Causal Rules Selected Correctly", {
   # Step 4: Generate rules matrix
   rules_all <- generate_rules_matrix(X, rules, t)
   rules_matrix <- rules_all[["rules_matrix"]]
-  rules_matrix_std <- rules_all[["rules_matrix_std"]]
+  rules_matrix_std <- standardize_rules_matrix(rules_matrix)
   rules_list <- rules_all[["rules_list"]]
 
   ###### Run Tests ######

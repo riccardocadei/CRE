@@ -54,21 +54,15 @@ test_that("Rules Extracted Correctly", {
 
   # Correct outputs
   rules_all <- generate_rules_matrix(X, rules, t)
-  expect_true(length(rules_all) == 3)
+  expect_true(length(rules_all) == 2)
   expect_identical(class(rules_all[[1]]), c("matrix", "array"))
-  expect_identical(class(rules_all[[2]]), c("matrix", "array"))
-  expect_true(class(rules_all[[3]]) == "character")
-  expect_true(nrow(rules_all[[1]]) == nrow(rules_all[[2]]))
-  expect_true(ncol(rules_all[[1]]) == ncol(rules_all[[2]]))
-  expect_true(ncol(rules_all[[2]]) == length(rules_all[[3]]))
+  expect_true(class(rules_all[[2]]) == "character")
+  expect_true(ncol(rules_all[[1]]) == length(rules_all[[2]]))
 
   t <- 0.1
   rules_all <- generate_rules_matrix(X, rules, t)
-  expect_true(length(rules_all) == 3)
+  expect_true(length(rules_all) == 2)
   expect_identical(class(rules_all[[1]]), c("matrix", "array"))
-  expect_identical(class(rules_all[[2]]), c("matrix", "array"))
-  expect_true(class(rules_all[[3]]) == "character")
-  expect_true(nrow(rules_all[[1]]) == nrow(rules_all[[2]]))
-  expect_true(ncol(rules_all[[1]]) == ncol(rules_all[[2]]))
-  expect_true(ncol(rules_all[[2]]) == length(rules_all[[3]]))
+  expect_true(class(rules_all[[2]]) == "character")
+  expect_true(ncol(rules_all[[1]]) == length(rules_all[[2]]))
 })

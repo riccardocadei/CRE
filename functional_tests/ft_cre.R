@@ -64,7 +64,7 @@ hyper_params = list(effect_modifiers = c(),
                     max_depth = 15,
                     max_decay = 0.025,
                     type_decay = 2,
-                    t = 0.025,
+                    t = 0.2,
                     q = 0.8,
                     stability_selection = FALSE,
                     pfer_val=0.1)

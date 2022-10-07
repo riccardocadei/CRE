@@ -49,7 +49,7 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
 
   rules_all <- generate_rules_matrix(X, rules, getElement(hyper_params,"t"))
   rules_matrix <- rules_all[["rules_matrix"]]
-  rules_matrix_std <- rules_all[["rules_matrix_std"]]
+  rules_matrix_std <- standardize_rules_matrix(rules_matrix)
   rules_list <- rules_all[["rules_list"]]
   M_filter2 <- length(rules_list)
 
