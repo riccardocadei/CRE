@@ -71,7 +71,7 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
 
   # 2.4 LASSO
   logger::log_info("LASSO ...")
-  rules_list <- as.character(select_causal_rules(rules_matrix_std,
+  rules_list <- as.character(lasso_rules_filter(rules_matrix_std,
                                                  rules_list,
                                                  ite_std,
                                                  getElement(hyper_params,"q"),

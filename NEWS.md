@@ -2,6 +2,8 @@
 
 ### Changed
 
+* rename `select_causal_rules()` function in `lasso_rules_filter()` and 
+update its definition
 * add parameter `replace` to set replacement in bootstrapping for rules generation
 * rename parameter `t` with `t_anom`
 * add parameter `t_corr` discard correlation threshold

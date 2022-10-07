@@ -1,5 +1,5 @@
 #' @title
-#' Select Causal Rules
+#' Filter (Causal) Decision Rules by LASSO (with stability selection)
 #'
 #' @description
 #' Selects the causal rules that are most important.
@@ -18,7 +18,7 @@
 #'
 #' @keywords internal
 #'
-select_causal_rules <- function(rules_matrix_std, rules_list, ite_std,
+lasso_rules_filter <- function(rules_matrix_std, rules_list, ite_std,
                                 q, stability_selection, pfer_val) {
 
   `%>%` <- magrittr::`%>%`

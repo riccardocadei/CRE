@@ -158,11 +158,9 @@ cre <- function(y, z, X, method_params, hyper_params){
   if (length(select_rules_dis)==0){
     rules_matrix_inf <- NA
     select_rules_interpretable <- NA
-
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
     select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
-
   }
 
   # Estimate CATE ----------------------
