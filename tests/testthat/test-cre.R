@@ -51,6 +51,10 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["node_size"]] <- 5
+  hyper_params[["replace"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  hyper_params[["replace"]] <- TRUE
   hyper_params[["max_nodes"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
