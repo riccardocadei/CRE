@@ -71,5 +71,5 @@ hyper_params = list(effect_modifiers = c(),
 
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
-print(cre_results, method_params, hyper_params)
+summary(cre_results, method_params, hyper_params)
 plot(cre_results)
