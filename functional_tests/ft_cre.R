@@ -1,31 +1,3 @@
-source("generate_cre_dataset.R")
-source("CRE.R")
-source('split_data.R')
-source('check_input_data.R')
-source("check_method_params.R")
-source("check_hyper_params.R")
-source('estimate_ite.R')
-source('estimate_ite_bart.R')
-source('estimate_ite_bcf.R')
-source('estimate_ite_sipw.R')
-source('estimate_ite_poisson.R')
-source('estimate_ite_ipw.R')
-source('estimate_ite_aipw.R')
-source('estimate_ite_cf.R')
-source('estimate_ite_oreg.R')
-source('estimate_ps.R')
-source("generate_rules.R")
-source("extract_rules.R")
-source("generate_rules_matrix.R")
-source("select_causal_rules.R")
-source("interpret_select_rules.R")
-source("estimate_cate.R")
-source("print.R")
-source("plot.R")
-source("generate_causal_rules.R")
-source("prune_rules.R")
-library("SuperLearner")
-
 # Generate sample data
 set.seed(2021)
 dataset_cont <- generate_cre_dataset(n = 300,
@@ -50,7 +22,7 @@ method_params = list(ratio_dis = 0.25,
                      ite_method_inf = "bart",
                      include_ps_inf = TRUE,
                      include_offset = FALSE,
-                     cate_method = "DRLearner",
+                     cate_method = "linreg",
                      cate_SL_library = "SL.xgboost",
                      filter_cate = FALSE,
                      offset_name = NA,
@@ -62,9 +34,11 @@ hyper_params = list(effect_modifiers = c(),
                     node_size = 20,
                     max_nodes = 5,
                     max_depth = 15,
+                    replace = TRUE,
                     max_decay = 0.025,
                     type_decay = 2,
-                    t = 0.025,
+                    t_anom = 0.2,
+                    t_corr = 1,
                     q = 0.8,
                     stability_selection = FALSE,
                     pfer_val=0.1)

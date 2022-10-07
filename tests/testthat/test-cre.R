@@ -31,7 +31,9 @@ test_that("cre Runs Correctly", {
                      max_depth = 15,
                      max_decay = 0.025,
                      type_decay = 2,
-                     t = 0.025,
+                     t_anom = 0.025,
+                     t_corr = 1,
+                     replace = FALSE,
                      q = 0.8,
                      stability_selection = TRUE,
                      pfer_val = 0.1)
@@ -50,14 +52,22 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["node_size"]] <- 5
+  hyper_params[["replace"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  hyper_params[["replace"]] <- TRUE
   hyper_params[["max_nodes"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["max_nodes"]] <- 5
-  hyper_params[["t"]] <- "test"
+  hyper_params[["t_anom"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["t"]] <- 0.025
+  hyper_params[["t_anom"]] <- 0.025
+  hyper_params[["t_corr"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  hyper_params[["t_corr"]] <- 1
   hyper_params[["q"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 

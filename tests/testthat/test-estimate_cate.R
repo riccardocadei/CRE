@@ -21,6 +21,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   node_size <- 20
   max_nodes <- 5
   max_depth <- 15
+  replace <- FALSE
   max_decay <- 0.025
   type_decay <- 2
   t <- 0.025
@@ -67,19 +68,17 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
 
   # Step 3: Generate rules list
   initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-                                      node_size, max_nodes, max_depth,
+                                      node_size, max_nodes, max_depth, replace,
                                       random_state = 981)
 
-  rules_dis <- prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Step 4: Generate rules matrix
-  rules_all_dis <- generate_rules_matrix(X_dis, rules_dis, t)
-  rules_matrix_dis <- rules_all_dis[["rules_matrix"]]
-  rules_matrix_std_dis <- rules_all_dis[["rules_matrix_std"]]
-  rules_list_dis <- rules_all_dis[["rules_list"]]
+  rules_matrix_dis <- generate_rules_matrix(X_dis, rules_list_dis)
+  rules_matrix_std_dis <- standardize_rules_matrix(rules_matrix_dis)
 
   # Step 5: Select important rules
-  select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
+  select_rules_dis <- as.character(lasso_rules_filter(rules_matrix_std_dis,
                                                        rules_list_dis,
                                                        ite_std_dis, q,
                                                        stability_selection, pfer_val))
@@ -277,6 +276,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   node_size <- 20
   max_nodes <- 5
   max_depth <- 15
+  replace <- FALSE
   max_decay <- 0.025
   type_decay <- 2
   t <- 0.025
@@ -320,18 +320,16 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   # Generate rules list
   initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf,
                                             ntrees_gbm, node_size, max_nodes,
-                                            max_depth, random_state = 214)
+                                            max_depth, replace, random_state = 214)
 
-  rules_dis <- CRE:::prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
-
+  rules_list_dis <- CRE:::prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Generate rules matrix
-  rules_all_dis <- CRE:::generate_rules_matrix(X_dis, rules_dis, t)
-  rules_matrix_dis <- rules_all_dis[["rules_matrix"]]
-  rules_matrix_std_dis <- rules_all_dis[["rules_matrix_std"]]
-  rules_list_dis <- rules_all_dis[["rules_list"]]
+  rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
+  rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
+
   # Select important rules
-  select_rules_dis <- as.character(CRE:::select_causal_rules(rules_matrix_std_dis, rules_list_dis,
+  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis, rules_list_dis,
                                                              ite_std_dis, q, stability_selection,
                                                              pfer_val))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]

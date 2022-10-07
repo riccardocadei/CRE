@@ -15,6 +15,7 @@ test_that("Rules Interpreted Correctly", {
   node_size <- 20
   max_nodes <- 5
   max_depth = 15
+  replace <- FALSE
   max_decay = 0.025
   type_decay = 2
   t <- 0.025
@@ -41,20 +42,21 @@ test_that("Rules Interpreted Correctly", {
 
   # Step 3: Generate rules list
   initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
-                                  max_nodes, max_depth, random_state = 812)
+                                  max_nodes, max_depth, replace,
+                                  random_state = 812)
 
-  rules <- prune_rules(initial_rules, X, ite_std, max_decay, type_decay)
-
+  rules_list <- prune_rules(initial_rules, X, ite_std, max_decay, type_decay)
 
   # Step 4: Generate rules matrix
-  rules_all <- generate_rules_matrix(X, rules, t)
-  rules_matrix <- rules_all[["rules_matrix"]]
-  rules_matrix_std <- rules_all[["rules_matrix_std"]]
-  rules_list_dis <- rules_all[["rules_list"]]
+  rules_matrix <- generate_rules_matrix(X, rules_list)
+  rules_matrix_std <- standardize_rules_matrix(rules_matrix)
 
   # Step 5: Select important rules
-  select_rules <- as.character(select_causal_rules(rules_matrix_std, rules_list_dis,
-                                                   ite_std, q, stability_selection, pfer_val))
+  select_rules <- as.character(lasso_rules_filter(rules_matrix_std,
+                                                  rules_list,
+                                                  ite_std, q,
+                                                  stability_selection,
+                                                  pfer_val))
 
   ###### Run Tests ######
 

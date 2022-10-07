@@ -63,10 +63,12 @@ including:
 have.
 \item \emph{max_depth}: The number of top levels from each tree considered
 to extract conditions.
+\item \emph{replace}: Boolean variable for replacement in bootstrapping.
 \item \emph{max_decay}: Decay Threshold for pruning the rules.
 \item \emph{type_decay}: Decay Type for pruning the rules (1: relative error; 2: error).
-\item \emph{t}: The common support used in generating the causal rules matrix.
-\item \emph{q}: The selection threshold used in selecting the causal rules.
+\item \emph{t_anom}: The threshold to define too generic or too specific (anomalous) rules.
+\item \emph{t_corr}: The threshold to define correlated rules.
+\item \emph{q}: Number of (unique) selected rules per subsample in stability selection.
 \item \emph{stability_selection}: Whether or not using stability selection for
 selecting the causal rules.
 \item \emph{pfer_val}: The Per-Family Error Rate, the expected number of false

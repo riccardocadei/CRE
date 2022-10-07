@@ -12,6 +12,7 @@
 #' @param max_nodes The maximum number of terminal nodes trees in the forest can have.
 #' @param max_depth The number of top levels from each tree considered
 #' to extract conditions.
+#' @param replace Boolean variable for replacement in bootstrapping.
 #' @param random_state An integer number that represents a random state.
 #'
 #' @return
@@ -20,7 +21,7 @@
 #' @export
 #'
 generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
-                           max_nodes, max_depth, random_state) {
+                           max_nodes, max_depth, replace, random_state) {
 
   # generate seed values
   seed_1 <- random_state + 1
@@ -36,23 +37,22 @@ generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
 
   # Random Forest
   set.seed(seed_1)
-  forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
+  forest <- randomForest::randomForest(x = X, y = ite_std,
                                                         sampsize = sf * N,
-                                                        replace = FALSE,
+                                                        replace = replace,
                                                         ntree = 1,
                                                         maxnodes = mn,
-                                                        nodesize = node_size))
+                                                        nodesize = node_size)
   for(i in 2:ntrees_rf) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
     set.seed(seed_2[i])
-    model1_RF <- suppressWarnings(
-                  randomForest::randomForest(x = X,
+    model1_RF <- randomForest::randomForest(x = X,
                                              y = ite_std,
                                              sampsize = sf * N ,
-                                             replace = FALSE,
+                                             replace = replace,
                                              ntree = 1,
                                              maxnodes = mn,
-                                             nodesize = node_size))
+                                             nodesize = node_size)
 
     forest <- randomForest::combine(forest, model1_RF)
   }

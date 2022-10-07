@@ -32,7 +32,9 @@ test_that("generate_causal_rules works as expected!", {
                       max_depth = 15,
                       max_decay = 0.025,
                       type_decay = 2,
-                      t = 0.025,
+                      t_anom = 0.025,
+                      t_corr = 1,
+                      replace = FALSE,
                       q = 0.8,
                       stability_selection = TRUE,
                       pfer_val = 0.1)

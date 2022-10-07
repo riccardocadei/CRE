@@ -48,10 +48,12 @@
 #'   have.
 #'  - *max_depth*: The number of top levels from each tree considered
 #' to extract conditions.
+#'  - *replace*: Boolean variable for replacement in bootstrapping.
 #'  - *max_decay*: Decay Threshold for pruning the rules.
 #'  - *type_decay*: Decay Type for pruning the rules (1: relative error; 2: error).
-#'  - *t*: The common support used in generating the causal rules matrix.
-#'  - *q*: The selection threshold used in selecting the causal rules.
+#'  - *t_anom*: The threshold to define too generic or too specific (anomalous) rules.
+#'  - *t_corr*: The threshold to define correlated rules.
+#'  - *q*: Number of (unique) selected rules per subsample in stability selection.
 #'  - *stability_selection*: Whether or not using stability selection for
 #'  selecting the causal rules.
 #'  - *pfer_val*: The Per-Family Error Rate, the expected number of false
@@ -124,7 +126,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   select_rules_dis_list <- generate_causal_rules(X_dis, ite_std_dis, method_params, hyper_params)
   select_rules_dis <- select_rules_dis_list[["rules"]]
   M <- select_rules_dis_list[["M"]]
-  M_final <- M[["Filter 3 (LASSO)"]]
+  M_final <- M[["Filter 4 (LASSO)"]]
   logger::log_info("{M_final} significant Causal Rules were discovered.")
 
 
@@ -152,18 +154,14 @@ cre <- function(y, z, X, method_params, hyper_params){
 
   # Generate rules matrix --------------
   logger::log_info("Generating Causal Rules Matrix ...")
-  rules_matrix_inf <- matrix(0,
-                             nrow = dim(X_inf)[1],
-                             ncol = M_final)
-  if (M_final>0){
-    for (i in 1:M_final) {
-      rules_matrix_inf[eval(parse(text = select_rules_dis[i]),
-                            list(X = X_inf)),
-                       i] <- 1
-    }
-  }
 
-  select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+  if (length(select_rules_dis)==0){
+    rules_matrix_inf <- NA
+    select_rules_interpretable <- NA
+  } else {
+    rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
+    select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+  }
 
   # Estimate CATE ----------------------
   logger::log_info("Estimating CATE ...")

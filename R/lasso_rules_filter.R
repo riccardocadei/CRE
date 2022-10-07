@@ -1,5 +1,5 @@
 #' @title
-#' Select Causal Rules
+#' Filter (Causal) Decision Rules by LASSO (with stability selection)
 #'
 #' @description
 #' Selects the causal rules that are most important.
@@ -7,7 +7,7 @@
 #' @param rules_matrix_std The standardized causal rules matrix.
 #' @param rules_list A vector of causal rules.
 #' @param ite_std The standardized ITE.
-#' @param q The selection threshold used in selecting the causal rules.
+#' @param q Number of (unique) selected rules per subsample in stability selection.
 #' @param stability_selection Whether or not using stability selection to
 #' select the causal rules.
 #' @param pfer_val The Per-Family Error Rate, the expected number of
@@ -18,7 +18,7 @@
 #'
 #' @keywords internal
 #'
-select_causal_rules <- function(rules_matrix_std, rules_list, ite_std,
+lasso_rules_filter <- function(rules_matrix_std, rules_list, ite_std,
                                 q, stability_selection, pfer_val) {
 
   `%>%` <- magrittr::`%>%`

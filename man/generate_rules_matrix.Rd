@@ -4,24 +4,16 @@
 \alias{generate_rules_matrix}
 \title{Generate Rules Matrix}
 \usage{
-generate_rules_matrix(X, rules_list, t)
+generate_rules_matrix(X, rules_list)
 }
 \arguments{
 \item{X}{The features matrix.}
 
 \item{rules_list}{A vector of causal rules.}
-
-\item{t}{The common support used in generating the causal rules matrix.}
 }
 \value{
-a list with:
-\itemize{
-\item a raw matrix of causal rules
-\item a standardized matrix of causal rules, and
-\item a vector of causal rules
-}
+the causal rules matrix.
 }
 \description{
 Generates a matrix of causal rules given a list.
 }
-\keyword{internal}

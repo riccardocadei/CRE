@@ -12,6 +12,7 @@ generate_rules(
   node_size,
   max_nodes,
   max_depth,
+  replace,
   random_state
 )
 }
@@ -30,6 +31,8 @@ generate_rules(
 
 \item{max_depth}{The number of top levels from each tree considered
 to extract conditions.}
+
+\item{replace}{Boolean variable for replacement in bootstrapping.}
 
 \item{random_state}{An integer number that represents a random state.}
 }
