@@ -79,7 +79,7 @@ summary.cre <- function(object, ...) {
   }
 
   cat("\n\nResults\n")
-  cat("- Heterogeneity:", object[['M']], "(significant) Causal Rules discovered\n", sep=" ")
+  cat("- Heterogeneity:", object[['M']][['Filter 3 (LASSO)']], "(significant) Causal Rules discovered\n", sep=" ")
   cat("- CATE         :\n")
   print(object[["CATE"]])
 }
