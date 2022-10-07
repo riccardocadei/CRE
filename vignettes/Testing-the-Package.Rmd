@@ -37,7 +37,7 @@ As a result, the `develop` branch is the most updated branch for developers. Use
 `devtools::install_github` to install the package. If you do not specify the `ref`,
 it will install the master (or main) branch.  
 
-```r
+```R
 library(devtools)
 try(detach("package:CRE", unload = TRUE), silent = TRUE) # if already you have the package, detach and unload it, to have a new install. 
 install_github("NSAPH-Software/CRE", ref="develop")
@@ -68,7 +68,7 @@ project directory (`Session > Set Working Directory > To Project Directory`).
 
 - Load `devtools` library and then load CRE.
 
-```r
+```R
 library(devtools)
 load_all()
 ?CRE

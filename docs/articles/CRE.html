@@ -90,144 +90,85 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>To install the CRE package properly, you first must install the <a href="https://github.com/JingyuHe/XBART" class="external-link">XBART</a> and <a href="https://github.com/socket778/XBCF" class="external-link">XBCF</a> packages:</p>
-<div class="section level4">
-<h4 id="how-to-install-the-xbart-package-linux">How to install the <a href="https://github.com/JingyuHe/XBART" class="external-link">XBART</a> package (linux):<a class="anchor" aria-label="anchor" href="#how-to-install-the-xbart-package-linux"></a>
-</h4>
-<p>In your terminal, install necessary packages via <a href="https://brew.sh/" class="external-link">homebrew</a>:</p>
-<pre><code>~ $ brew install gfortran
-~ $ brew install llvm boost libomp</code></pre>
-<p>Find the path to LDFLAGS by running <code>brew info llvm</code> (see
-example): For compilers to find llvm you may need to set:</p>
-<pre><code>~ $ export LDFLAGS="-L/usr/local/opt/llvm/lib"</code></pre>
-<p>Run the following two commands and take note of their output:</p>
-<pre><code>~ $ which clang
-~ $ which clang++</code></pre>
-<p>Run the following in your terminal under your user directory:</p>
-<pre><code>~ $ mkdir ~/.R # if it doesn’t already exist
-~ $ cd .R
-.R $ touch Makevars
-.R $ open -e Makevars</code></pre>
-<p>Copy the following into the text editor, replacing
-<code>/path/to/_</code> with the paths found above:</p>
-<pre><code>CC=/path/to/clang
-CXX=/path/to/clang++
-CXX11=/path/to/clang++
-CXX14=/path/to/clang++
-CXX17=/path/to/clang++
-CXX1X=/path/to/clang++
-LDFLAGS=path/to/LDFLAGS -o task -fopenmp</code></pre>
-<p>Example Makevars file:</p>
-<pre><code>CC=/usr/local/opt/llvm/bin/clang
-CXX=/usr/local/opt/llvm/bin/clang++
-CXX11=/usr/local/opt/llvm/bin/clang++ 
-CXX14=/usr/local/opt/llvm/bin/clang++ 
-CXX17=/usr/local/opt/llvm/bin/clang++ 
-CXX1X=/usr/local/opt/llvm/bin/clang++ 
-LDFLAGS=-L/usr/local/opt/llvm/lib -o task -fopenmp</code></pre>
-<p>Then in R, run:</p>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span></span></code></pre>
-<pre><code><span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"JingyuHe/XBART"</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="section level4">
-<h4 id="how-to-install-the-xbcf-package">How to install the <a href="https://github.com/socket778/XBCF" class="external-link">XBCF</a> package:<a class="anchor" aria-label="anchor" href="#how-to-install-the-xbcf-package"></a>
-</h4>
-<p>In R, run:</p>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span></code></pre>
-<pre><code><span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"socket778/XBCF"</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="section level4">
-<h4 id="install-the-cre-package-from-github">Install the CRE package from GitHub:<a class="anchor" aria-label="anchor" href="#install-the-cre-package-from-github"></a>
-</h4>
-<p>In R, run:</p>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span></span></code></pre>
-<pre><code><span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"fasrc/CRE"</span><span class="op">)</span></span></code></pre>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/fasrc/CRE">CRE</a></span><span class="op">)</span></span></code></pre>
-</div>
+<p>Installing the latest developing version.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"NSAPH-Software/CRE"</span>, ref<span class="op">=</span><span class="st">"develop"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/fasrc/CRE">"CRE"</a></span><span class="op">)</span></span></code></pre></div>
+<p>Installing from CRAN.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"CRE"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
-<div class="section level4">
-<h4 id="users-need-to-call-only-one-function-in-the-cre-package-to-conduct-subgroup-analysis-cre-">Users need to call only one function in the CRE package to conduct
-subgroup analysis: <code>cre()</code>.<a class="anchor" aria-label="anchor" href="#users-need-to-call-only-one-function-in-the-cre-package-to-conduct-subgroup-analysis-cre-"></a>
-</h4>
-<p>The <code><a href="../reference/cre.html">cre()</a></code> inputs asked from the user are as follows:</p>
-<ul>
-<li>
-<code>y</code> the observed response vector</li>
-<li>
-<code>z</code> the treatment vector</li>
-<li>
-<code>X</code> the features matrix</li>
-<li>
-<code>ratio_dis</code> the ratio of data for discovery
-subsample</li>
-<li>
-<code>ite_method_dis</code> the method to estimate the discovery
-sample ITE (1)</li>
-<li>
-<code>include_ps_dis</code> whether to include the propensity score
-estimate in the discovery ITE estimation (2)</li>
-<li>
-<code>ps_method_dis</code> the estimation model for the propensity
-score on the discovery subsample</li>
-<li>
-<code>or_method_dis</code> or_method_dis the estimation model for
-the outcome regressions in <code>estimate_ite_aipw</code> on the
-discovery subsample</li>
-<li>
-<code>ite_method_inf</code> the method to estimate the inference
-sample ITE (1)</li>
-<li>
-<code>include_ps_inf</code> whether to include the propensity score
-estimate in the inference ITE estimation (2)</li>
-<li>
-<code>ps_method_inf</code> the estimation model for the propensity
-score on the inference subsample</li>
-<li>
-<code>or_method_inf</code> or_method_dis the estimation model for
-the outcome regressions in <code>estimate_ite_aipw</code> on the
-inference subsample</li>
-<li>
-<code>ntrees_rf</code> the number of decision trees for random
-forests</li>
-<li>
-<code>ntrees_gbm</code> the number of decision trees for gradient
-boosting</li>
-<li>
-<code>min_nodes</code> the minimum size of the trees’ terminal
-nodes</li>
-<li>
-<code>max_nodes</code> the maximum size of the trees’ terminal
-nodes</li>
-<li>
-<code>t</code> the common support used in generating the causal
-rules matrix</li>
-<li>
-<code>q</code> the selection threshold used in selecting the causal
-rules</li>
-<li>
-<code>rules_method</code> the method for selecting causal rules with
-binary outcomes, either “conservative”, “anticonservative”, or NA (if
-continuous)</li>
-<li>
-<code>include_offset</code> whether or not to include an offset when
-estimating the ITE, for poisson only</li>
-<li>
-<code>offset_name</code> the name of the offset, if it is to be
-included</li>
-<li>
-<code>cate_method</code> the method to estimate the CATE values</li>
-<li>
-<code>cate_SL_library</code> the library used if
-<code>cate_method</code> is set to <code>DRLearner</code>
-</li>
-<li>
-<code>filter_cate</code> whether or not to filter rules with p-value
-&lt;= 0.05</li>
-</ul>
-</div>
+<p>Input parameters:</p>
+<p><strong><code>y</code></strong> The observed response (outcome)
+vector.<br><strong><code>z</code></strong> The treatment (exposure, policy)
+vector.<br><strong><code>X</code></strong> The covariate matrix.<br><strong><code>method_params</code></strong> Parameters for estimating
+the individual treatment effect, including:<br><strong>Parameters for Discovery</strong><br>
+- <strong><code>ratio_dis</code></strong> The ratio of data delegated to
+the discovery sub-sample.<br>
+- <strong><code>ite_method_dis</code></strong> The method to estimate
+the discovery sub-sample in estimating individual treatment effect
+(ITE).<br>
+- <strong><code>include_ps_dis</code></strong> Whether or not to include
+propensity score estimate as a covariate in discovery ITE estimation,
+considered only for BART, or CF.<br>
+- <strong><code>ps_method_dis</code></strong> The estimation model for
+the propensity score on the discovery sub-sample.<br>
+- <strong><code>or_method_dis</code></strong> The estimation model for
+the outcome regressions estimate_ite_aipw on the discovery
+sub-sample.<br><strong>Parameters for Inference</strong><br>
+- <strong><code>ite_method_inf</code></strong> The method to estimate
+the inference sample ITE.<br>
+- <strong><code>include_ps_inf</code></strong> Whether or not to include
+propensity score estimate as a covariate in inference ITE estimation,
+considered only for BART, or CF.<br>
+- <strong><code>ps_method_inf</code></strong> The estimation model for
+the propensity score on the inference subsample.<br>
+- <strong><code>or_method_inf</code></strong> The estimation model for
+the outcome regressions in estimate_ite_aipw on the inference
+subsample.<br><strong>Other Parameters</strong> -
+<strong><code>include_offset</code></strong> Whether or not to include
+an offset when estimating the ITE, for Poisson only.<br>
+- <strong><code>offset_name</code></strong> The name of the offset, if
+it is to be included.<br>
+- <strong><code>cate_method</code></strong> The method to estimate the
+conditional average treatment effect (CATE) values.<br>
+- <strong><code>cate_SL_library</code></strong> The library used if
+cate_method is set to DRLearner.<br>
+- <strong><code>filter_cate</code></strong> Whether or not to filter
+rules with p-value &lt;= 0.05.<br><strong><code>hyper_params</code></strong> The list of parameters
+required to tune the functions, including:<br>
+- <strong><code>effect_modifiers</code></strong> Effect Modifiers for
+Rules Generation.<br>
+- <strong><code>ntrees_rf</code></strong> The number of decision trees
+for randomForest.<br>
+- <strong><code>ntrees_gbm</code></strong> The number of decision trees
+for gradient boosting.<br>
+- <strong><code>node_size</code></strong> The minimum size of the trees’
+terminal nodes.<br>
+- <strong><code>max_nodes</code></strong> The maximum number of terminal
+nodes trees in the forest can have.<br>
+- <strong><code>max_depth</code></strong> The number of top levels from
+each tree considered to extract conditions.<br>
+- <strong><code>replace</code></strong> Boolean variable for replacement
+in bootstrapping.<br>
+- <strong><code>max_decay</code></strong> Decay Threshold for pruning
+the rules.<br>
+- <strong><code>type_decay</code></strong> Decay Type for pruning the
+rules (1: relative error; 2: error).<br>
+- <strong><code>t_anom</code></strong> The threshold to define too
+generic or too specific (anomalous) rules.<br>
+- <strong><code>t_corr</code></strong> The threshold to define
+correlated rules.<br>
+- <strong><code>q</code></strong> Number of (unique) selected rules per
+subsample in stability selection.<br>
+- <strong><code>stability_selection</code></strong> Whether or not using
+stability selection for selecting the causal rules.<br>
+- <strong><code>pfer_val</code></strong> The Per-Family Error Rate, the
+expected number of false discoveries.</p>
 <div class="section level4">
 <h4 id="a-note-on-the-parameters">A note on the parameters<a class="anchor" aria-label="anchor" href="#a-note-on-the-parameters"></a>
 </h4>
@@ -237,184 +178,56 @@ follows:</p>
 <li>Inverse Propensity Weighting (<code>ipw</code>)</li>
 <li>Stabilized Inverse Propensity Weighting (<code>sipw</code>)</li>
 <li>Augmented Inverse Propensity Weighting (<code>aipw</code>)</li>
-<li>Outcome Regression (<code>or</code>)</li>
+<li>Outcome Regression (<code>oreg</code>)</li>
 <li>Bayesian Additive Regression Trees (<code>bart</code>)</li>
-<li>Accelerated Bayesian Additive Regression Trees
-(<code>xbart</code>)</li>
 <li>Bayesian Causal Forests (<code>bcf</code>)</li>
-<li>Accelerated Bayesian Causal Forests (<code>xbcf</code>)</li>
 <li>Causal Forests (<code>cf</code>)</li>
 <li>Poisson Regression (<code>poisson</code>)</li>
 </ul>
-<p>In the original paper by Lee et al. (2020), several methods are
-tested for the imputation of the ITE for continuous outcomes and the
-consequent ability to correctly discover the causal rules and precisely
-estimate the conditional effects within the rules. We refer to this
-paper for more details on which are the best performing techniques.</p>
-<p>For data with <strong>continuous</strong> outcomes, as a rule of
-thumb, we suggest the usage of <code>bcf</code>, as it has shown the
-most consistent performance across different simulated scenarios.</p>
-<p>For data with <strong>binary</strong> outcomes, we suggest using
-<code>or</code>, <code>bart</code>, <code>xbart</code> or
-<code>cf</code>. The <code>ipw</code>, <code>sipw</code>,
-<code>bcf</code>, and <code>xbcf</code> ITE estimation methods are
-<strong>NOT</strong> compatible with binary outcomes.</p>
 <p><strong>(2)</strong> The <code>include_ps_dis</code> and
 <code>include_ps_inf</code> arguments will only be considered if the ITE
-method selected is <code>bart</code>, <code>xbart</code>, or
-<code>cf</code>.</p>
-</div>
-<div class="section level4">
-<h4 id="cre-example">CRE Example:<a class="anchor" aria-label="anchor" href="#cre-example"></a>
-</h4>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/fasrc/CRE">CRE</a></span><span class="op">)</span></span></code></pre>
-<pre><code># expected output: matrix of CATE estimates
-cre_results &lt;- cre(y = abs(dataset_cont[["y"]]), z = dataset_cont[["z"]],
-                   X = as.data.frame(dataset_cont[["X"]]), ratio_dis 0.25,
-                   ite_method_dis = "bcf", include_ps_dis = NA,
-                   ps_method_dis = "SL.xgboost", or_method_dis = NA,
-                   ite_method_inf = "bcf, include_ps_inf = NA,
-                   ps_method_inf = "SL.xgboost", or_method_dis = NA,
-                   ntrees_rf = 100, ntrees_gbm = 50, min_nodes = 20,
-                   max_nodes = 5, t = 0.025, q = 0.8, rules_method = NA,
-                   include_offset = FALSE, offset_name = NA,
-                   cate_method = "cf-means", cate_SL_library = NA,
-                   filter_cate = FALSE)</code></pre>
-</div>
-</div>
-<div class="section level2">
-<h2 id="testing-the-package-examples-and-discussion">Testing the Package, Examples, and Discussion<a class="anchor" aria-label="anchor" href="#testing-the-package-examples-and-discussion"></a>
-</h2>
-<div class="section level4">
-<h4 id="running-examples">Running Examples<a class="anchor" aria-label="anchor" href="#running-examples"></a>
-</h4>
-<p>You can use any causal inference studies data to test the package.
-The database needs to have the following attributes:</p>
-<ul>
-<li>
-<code>y</code>: Output vector</li>
-<li>
-<code>z</code>: Treatment vector</li>
-<li>
-<code>X</code>: Covariate matrix</li>
-</ul>
+method selected is <code>bart</code>, <code>cf</code>.</p>
 <p>The CRE package can generate synthetic data that can be used to test
 different features of the package. At the current implementation, the
-code can generate data with continuous or binary outcomes. In the
-following, we present some reproducible examples that you can copy and
-build upon.</p>
-</div>
-<div class="section level4">
-<h4 id="generating-synthetic-data-with-continuous-outcomes">Generating Synthetic Data with Continuous Outcomes<a class="anchor" aria-label="anchor" href="#generating-synthetic-data-with-continuous-outcomes"></a>
-</h4>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/fasrc/CRE">"CRE"</a></span><span class="op">)</span></span></code></pre>
-<pre><code><span><span class="va">dataset_cont</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, rho <span class="op">=</span> <span class="fl">0</span>, n_rules <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>                                     effect_size <span class="op">=</span> <span class="fl">0.5</span>, binary <span class="op">=</span> <span class="cn">FALSE</span>, seed <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span> </span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dataset_cont</span><span class="op">)</span></span>
-<span><span class="co">## List of 3</span></span>
-<span><span class="co"># $ y: num [1:1000] 2.72 2.79 3.2 2.53 2.49 ...</span></span>
-<span><span class="co"># $ z: int [1:1000] 0 0 1 1 1 1 0 1 0 0 ...</span></span>
-<span><span class="co"># $ X: num [1:1000, 1:10] 1 1 1 0 0 0 0 1 1 0 ...</span></span>
-<span><span class="co">#  ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">#  .. ..$ : NULL</span></span>
-<span><span class="co">#  .. ..$ : chr [1:10] "X1" "X2" "X3" "X4" ...</span></span></code></pre>
-</div>
-<div class="section level4">
-<h4 id="generating-synthetic-data-with-binary-outcomes">Generating Synthetic Data with Binary Outcomes<a class="anchor" aria-label="anchor" href="#generating-synthetic-data-with-binary-outcomes"></a>
-</h4>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/fasrc/CRE">"CRE"</a></span><span class="op">)</span></span></code></pre>
-<pre><code><span><span class="va">dataset_binary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, rho <span class="op">=</span> <span class="fl">0</span>, n_rules <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>                                       effect_size <span class="op">=</span> <span class="fl">0.5</span>, binary <span class="op">=</span> <span class="cn">TRUE</span>, seed <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span> </span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dataset_binary</span><span class="op">)</span></span>
-<span><span class="co">## List of 3</span></span>
-<span><span class="co"># $ y: num [1:1000] 1 0.5 0 0 1.5 1 1 1 -0.5 0 ...</span></span>
-<span><span class="co"># $ z: int [1:1000] 0 1 0 0 1 0 0 0 1 0 ...</span></span>
-<span><span class="co"># $ X: num [1:1000, 1:10] 1 1 1 0 0 0 0 1 1 0 ...</span></span>
-<span><span class="co">#  ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">#  .. ..$ : NULL</span></span>
-<span><span class="co">#  .. ..$ : chr [1:10] "X1" "X2" "X3" "X4" ...</span></span></code></pre>
-</div>
-<div class="section level4">
-<h4 id="running-the-cre-on-synthetic-data-with-continuous-outcomes">Running the CRE on Synthetic Data with Continuous Outcomes<a class="anchor" aria-label="anchor" href="#running-the-cre-on-synthetic-data-with-continuous-outcomes"></a>
-</h4>
-<p>In the following example, we first generate 1000 synthetic data
-samples, then we feed them into the <code><a href="../reference/cre.html">cre()</a></code> function to
-generate select causal rules and CATE estimates. You can read more about
-different arguments in the documentation (<code><a href="../reference/cre.html">?cre</a></code>). In
-summary:</p>
-<ul>
-<li>We want to run a code delegating 25% of the data for the discovery
-subsample and 75% for inference (<code>ratio_dis &lt;- 0.25</code>)</li>
-<li>For the discovery subsample, we want to estimate the Individual
-Treatment effect using the XBART method, including the estimated
-propensity score as a covariate
-(<code>ite_method_dis &lt;- "xbart"</code> and
-<code>include_ps_dis &lt;- TRUE</code>)</li>
-<li>For the inference subsample, we want to estimate the Individual
-Treatment effect using the XBCF method, which automatically includes the
-estimated propensity score as a covariate
-(<code>ite_method_inf &lt;- "xbcf"</code> and
-<code>include_ps_inf &lt;- NA</code>)</li>
-<li>For the causal rule generation, we want to generate 100 decision
-trees with a minimum node size of 20 and a maximum node size of 5
-(<code>ntrees &lt;- 100</code>, <code>min_nodes &lt;- 20</code>, and
-<code>max_nodes &lt;- 5</code>)</li>
-<li>For trimming the causal rules, we want to use a common support value
-of 0.025 (<code>t &lt;- 0.025</code>)</li>
-<li>For selecting the most important causal rules, we want to use a
-selection threshold of 0.8 (<code>q &lt;- 0.08</code>)</li>
-<li>Since we’re not using binary outcomes in the first example, we will
-not specify a rules method (<code>rules_method &lt;- NA</code>)</li>
-<li>Since we’re not using Poisson regression, we will not specify an
-offset (<code>include_offset &lt;- FALSE</code>,
-<code>offset_name = NA</code>)</li>
-</ul>
-<pre><code><span><span class="co"># Load package</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/fasrc/CRE">"CRE"</a></span><span class="op">)</span></span></code></pre>
-<pre><code># Generate synthetic data with continuous outcomes
-dataset &lt;- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10
-                                effect_size = 0.5, binary = FALSE, seed = 2021) 
-
-# Set parameters
-y &lt;- dataset[["y"]]
-z &lt;- dataset[["z"]]
-X &lt;- dataset[["X"]]
-ratio_dis &lt;- 0.25
-ite_method_dis &lt;- "bcf"
-include_ps_dis &lt;- "TRUE"
-ps_method_dis &lt;- "SL.xgboost"
-or_method_dis &lt;- NA
-ite_method_inf &lt;- "bcf"
-include_ps_inf &lt;- NA
-ps_method_inf &lt;- "SL.xgboost"
-or_method_inf &lt;- NA
-ntrees &lt;- 100
-min_nodes &lt;- 20
-max_nodes &lt;- 5
-t &lt;- 0.025
-q &lt;- 0.8
-rules_method &lt;- NA
-include_offset &lt;- FALSE
-offset_name &lt;- NA
-cate_method &lt;- "cf-means"
-cate_SL_library &lt;- NA
-filter_cate &lt;- FALSE
-
-# Run CRE method
-cre_results &lt;- cre(y, z, X, ratio_dis, ite_method_dis, include_ps_dis,
-                   ps_method_dis, or_method_dis, ite_method_inf, include_ps_inf, 
-                   ps_method_inf, or_method_inf, ntrees, min_nodes, max_nodes, 
-                   t, q, rules_method, include_offset, offset_name,
-                   cate_method, cate_SL_library, filter_cate)</code></pre>
-</div>
-<div class="section level4">
-<h4 id="running-the-cre-on-synthetic-data-with-binary-outcomes">Running the CRE on Synthetic Data with Binary Outcomes<a class="anchor" aria-label="anchor" href="#running-the-cre-on-synthetic-data-with-binary-outcomes"></a>
-</h4>
-<p>To run the CRE method on synthetic data with binary outcomes, set the
-<code>binary</code> argument in <code>generate_cre_dataset</code> to
-TRUE, and specify the <code>rules_method</code> parameter. In addition,
-make sure the ITE estimation methods selected are compatible with binary
-outcomes (see above).</p>
+code can generate data with continuous or binary outcomes.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">9687</span><span class="op">)</span></span>
+<span>  <span class="va">dataset_cont</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">300</span>, rho <span class="op">=</span> <span class="fl">0</span>, n_rules <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                                       effect_size <span class="op">=</span> <span class="fl">2</span>, binary <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">dataset_cont</span><span class="op">[[</span><span class="st">"y"</span><span class="op">]</span><span class="op">]</span></span>
+<span>  <span class="va">z</span> <span class="op">&lt;-</span> <span class="va">dataset_cont</span><span class="op">[[</span><span class="st">"z"</span><span class="op">]</span><span class="op">]</span></span>
+<span>  <span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">dataset_cont</span><span class="op">[[</span><span class="st">"X"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="va">X_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">method_params</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ratio_dis <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>                       ite_method_dis<span class="op">=</span><span class="st">"bart"</span>,</span>
+<span>                       ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
+<span>                       oreg_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
+<span>                       include_ps_dis <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                       ite_method_inf <span class="op">=</span> <span class="st">"bart"</span>,</span>
+<span>                       ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
+<span>                       oreg_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
+<span>                       include_ps_inf <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                       include_offset <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                       cate_method <span class="op">=</span> <span class="st">"DRLearner"</span>,</span>
+<span>                       cate_SL_library <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
+<span>                       filter_cate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                       offset_name <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>                       random_state <span class="op">=</span> <span class="fl">3591</span><span class="op">)</span></span>
+<span></span>
+<span> <span class="va">hyper_params</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ntrees_rf <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>                     ntrees_gbm <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>                     node_size <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>                     max_nodes <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                     max_depth <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>                     max_decay <span class="op">=</span> <span class="fl">0.025</span>,</span>
+<span>                     type_decay <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                     t_anom <span class="op">=</span> <span class="fl">0.025</span>,</span>
+<span>                     t_corr <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                     replace <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                     q <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>                     stability_selection <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                     pfer_val <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

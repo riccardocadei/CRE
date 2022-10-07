@@ -33,15 +33,12 @@ estimate_ite_aipw on the discovery subsample.
 \item \emph{include_ps_inf}: Whether or not to include propensity score estimate
 as a covariate in inference ITE estimation, considered only for BART,
 or CF.
-\item \emph{include_ps_inf}: Whether or not to include propensity score estimate
-as a covariate in inference ITE estimation, considered only for BART,
-or CF.
 \item \emph{ps_method_inf}: The estimation model for the propensity score on the
 inference subsample.
 \item \emph{or_method_inf}: The estimation model for the outcome regressions in
 estimate_ite_aipw on the inference subsample.
 }
-\item \emph{Other Parameters}:
+\item \emph{Other Parameters}
 \itemize{
 \item \emph{include_offset}: Whether or not to include an offset when estimating
 the ITE, for Poisson only.

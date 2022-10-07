@@ -15,116 +15,60 @@ knitr::opts_chunk$set(
 ```
 
 # Installation
-To install the CRE package properly, you first must install the [XBART](https://github.com/JingyuHe/XBART) and [XBCF](https://github.com/socket778/XBCF) packages:
 
-### How to install the [XBART](https://github.com/JingyuHe/XBART) package (linux):
-In your terminal, install necessary packages via [homebrew](https://brew.sh/):
-```
-~ $ brew install gfortran
-~ $ brew install llvm boost libomp
-```
+Installing the latest developing version. 
 
-Find the path to LDFLAGS by running `brew info llvm` (see example):
-For compilers to find llvm you may need to set:
-```
-~ $ export LDFLAGS="-L/usr/local/opt/llvm/lib"
-```
-
-Run the following two commands and take note of their output:
-```
-~ $ which clang
-~ $ which clang++
-```
-
-Run the following in your terminal under your user directory:
-```
-~ $ mkdir ~/.R # if it doesn’t already exist
-~ $ cd .R
-.R $ touch Makevars
-.R $ open -e Makevars
-```
-
-Copy the following into the text editor, replacing `/path/to/_` with the paths found above:
-```
-CC=/path/to/clang
-CXX=/path/to/clang++
-CXX11=/path/to/clang++
-CXX14=/path/to/clang++
-CXX17=/path/to/clang++
-CXX1X=/path/to/clang++
-LDFLAGS=path/to/LDFLAGS -o task -fopenmp
-```
-
-Example Makevars file:
-```
-CC=/usr/local/opt/llvm/bin/clang
-CXX=/usr/local/opt/llvm/bin/clang++
-CXX11=/usr/local/opt/llvm/bin/clang++ 
-CXX14=/usr/local/opt/llvm/bin/clang++ 
-CXX17=/usr/local/opt/llvm/bin/clang++ 
-CXX1X=/usr/local/opt/llvm/bin/clang++ 
-LDFLAGS=-L/usr/local/opt/llvm/lib -o task -fopenmp
-```
-
-Then in R, run:
-```
-library("devtools")
-```
-```
-install_github("JingyuHe/XBART")
-```
-
-### How to install the [XBCF](https://github.com/socket778/XBCF) package:
-In R, run: 
-```
+```{r, eval=FALSE}
 library(devtools)
-```
-```
-install_github("socket778/XBCF")
-```
-
-### Install the CRE package from GitHub:
-In R, run:
-```
-library("devtools")
-```
-```
-install_github("fasrc/CRE")
-```
-```
-library(CRE)
+install_github("NSAPH-Software/CRE", ref="develop")
+library("CRE")
 ```
 
+Installing from CRAN.
+
+```{r, eval=FALSE}
+install.packages("CRE")
+```
 # Usage
 
-### Users need to call only one function in the CRE package to conduct subgroup analysis: `cre()`. 
+Input parameters:
 
-The `cre()` inputs asked from the user are as follows: 
-
-- `y` the observed response vector
-- `z` the treatment vector
-- `X` the features matrix
-- `ratio_dis` the ratio of data for discovery subsample
-- `ite_method_dis` the method to estimate the discovery sample ITE (1)
-- `include_ps_dis` whether to include the propensity score estimate in the discovery ITE estimation (2)
-- `ps_method_dis` the estimation model for the propensity score on the discovery subsample
-- `or_method_dis` or_method_dis the estimation model for the outcome regressions in `estimate_ite_aipw` on the discovery subsample
-- `ite_method_inf` the method to estimate the inference sample ITE (1)
-- `include_ps_inf` whether to include the propensity score estimate in the inference ITE estimation (2)
-- `ps_method_inf` the estimation model for the propensity score on the inference subsample
-- `or_method_inf` or_method_dis the estimation model for the outcome regressions in `estimate_ite_aipw` on the inference subsample
-- `ntrees_rf` the number of decision trees for random forests
-- `ntrees_gbm` the number of decision trees for gradient boosting
-- `min_nodes` the minimum size of the trees' terminal nodes
-- `max_nodes` the maximum size of the trees' terminal nodes
-- `t` the common support used in generating the causal rules matrix
-- `q` the selection threshold used in selecting the causal rules
-- `rules_method` the method for selecting causal rules with binary outcomes, either “conservative”, “anticonservative”, or NA (if continuous)
-- `include_offset` whether or not to include an offset when estimating the ITE, for poisson only
-- `offset_name` the name of the offset, if it is to be included
-- `cate_method` the method to estimate the CATE values
-- `cate_SL_library` the library used if `cate_method` is set to `DRLearner`
-- `filter_cate` whether or not to filter rules with p-value <= 0.05
+**`y`** The observed response (outcome) vector.     
+**`z`** The treatment (exposure, policy) vector.    
+**`X`** The covariate matrix.    
+**`method_params`** Parameters for estimating the individual treatment effect, including:    
+__Parameters for Discovery__           
+- **`ratio_dis`** The ratio of data delegated to the discovery sub-sample.     
+- **`ite_method_dis`** The method to estimate the discovery sub-sample in estimating individual treatment effect (ITE).    
+- **`include_ps_dis`**  Whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, or CF.    
+- **`ps_method_dis`** The estimation model for the propensity score on the discovery sub-sample.    
+- **`or_method_dis`** The estimation model for the outcome regressions estimate_ite_aipw on the discovery sub-sample.      
+__Parameters for Inference__     
+- **`ite_method_inf`** The method to estimate the inference sample ITE.    
+- **`include_ps_inf`** Whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, or CF.     
+- **`ps_method_inf`** The estimation model for the propensity score on the inference subsample.     
+- **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample.     
+__Other Parameters__
+- **`include_offset`** Whether or not to include an offset when estimating the ITE, for Poisson only.     
+- **`offset_name`** The name of the offset, if it is to be included.     
+- **`cate_method`** The method to estimate the conditional average treatment effect (CATE) values.     
+- **`cate_SL_library`** The library used if cate_method is set to DRLearner.    
+- **`filter_cate`** Whether or not to filter rules with p-value <= 0.05.   
+**`hyper_params`** The list of parameters required to tune the functions, including:    
+- **`effect_modifiers`** Effect Modifiers for Rules Generation.     
+- **`ntrees_rf`** The number of decision trees for randomForest.     
+- **`ntrees_gbm`** The number of decision trees for gradient boosting.     
+- **`node_size`** The minimum size of the trees' terminal nodes.      
+- **`max_nodes`** The maximum number of terminal nodes trees in the forest can have.    
+- **`max_depth`** The number of top levels from each tree considered to extract conditions.    
+- **`replace`** Boolean variable for replacement in bootstrapping.     
+- **`max_decay`** Decay Threshold for pruning the rules.     
+- **`type_decay`** Decay Type for pruning the rules (1: relative error; 2: error).     
+- **`t_anom`** The threshold to define too generic or too specific (anomalous) rules.     
+- **`t_corr`** The threshold to define correlated rules.     
+- **`q`** Number of (unique) selected rules per subsample in stability selection.     
+- **`stability_selection`** Whether or not using stability selection for selecting the causal rules.    
+- **`pfer_val`** The Per-Family Error Rate, the expected number of false discoveries.      
 
 ### A note on the parameters
 
@@ -133,139 +77,55 @@ The `cre()` inputs asked from the user are as follows:
 - Inverse Propensity Weighting (`ipw`)
 - Stabilized Inverse Propensity Weighting (`sipw`)
 - Augmented Inverse Propensity Weighting (`aipw`)
-- Outcome Regression (`or`)
+- Outcome Regression (`oreg`)
 - Bayesian Additive Regression Trees (`bart`)
-- Accelerated Bayesian Additive Regression Trees (`xbart`)
 - Bayesian Causal Forests (`bcf`)
-- Accelerated Bayesian Causal Forests (`xbcf`)
 - Causal Forests (`cf`)
 - Poisson Regression (`poisson`)
 
-In the original paper by Lee et al. (2020), several methods are tested for the imputation of the ITE for continuous outcomes and the consequent ability to correctly discover the causal rules and precisely estimate the conditional effects within the rules. We refer to this paper for more details on which are the best performing techniques. 
+**(2)** The `include_ps_dis` and `include_ps_inf` arguments will only be considered if the ITE method selected is `bart`, `cf`.
 
-For data with **continuous** outcomes, as a rule of thumb, we suggest the usage of `bcf`, as it has shown the most consistent performance across different simulated scenarios.
 
-For data with **binary** outcomes, we suggest using `or`, `bart`, `xbart` or `cf`. The `ipw`, `sipw`, `bcf`, and `xbcf` ITE estimation methods are **NOT** compatible with binary outcomes.
+The CRE package can generate synthetic data that can be used to test different features of the package. At the current implementation, the code can generate data with continuous or binary outcomes. 
 
-**(2)** The `include_ps_dis` and `include_ps_inf` arguments will only be considered if the ITE method selected is `bart`, `xbart`, or `cf`.
+```R
+  set.seed(9687)
+  dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+                                       effect_size = 2, binary = FALSE)
+  y <- dataset_cont[["y"]]
+  z <- dataset_cont[["z"]]
+  X <- as.data.frame(dataset_cont[["X"]])
+  X_names <- names(as.data.frame(X))
 
-### CRE Example:
-```
-library(CRE)
-```
-```
-# expected output: matrix of CATE estimates
-cre_results <- cre(y = abs(dataset_cont[["y"]]), z = dataset_cont[["z"]],
-                   X = as.data.frame(dataset_cont[["X"]]), ratio_dis 0.25,
-                   ite_method_dis = "bcf", include_ps_dis = NA,
-                   ps_method_dis = "SL.xgboost", or_method_dis = NA,
-                   ite_method_inf = "bcf, include_ps_inf = NA,
-                   ps_method_inf = "SL.xgboost", or_method_dis = NA,
-                   ntrees_rf = 100, ntrees_gbm = 50, min_nodes = 20,
-                   max_nodes = 5, t = 0.025, q = 0.8, rules_method = NA,
-                   include_offset = FALSE, offset_name = NA,
-                   cate_method = "cf-means", cate_SL_library = NA,
-                   filter_cate = FALSE)
-```
+  method_params = list(ratio_dis = 0.25,
+                       ite_method_dis="bart",
+                       ps_method_dis = "SL.xgboost",
+                       oreg_method_dis = "SL.xgboost",
+                       include_ps_dis = TRUE,
+                       ite_method_inf = "bart",
+                       ps_method_inf = "SL.xgboost",
+                       oreg_method_inf = "SL.xgboost",
+                       include_ps_inf = TRUE,
+                       include_offset = FALSE,
+                       cate_method = "DRLearner",
+                       cate_SL_library = "SL.xgboost",
+                       filter_cate = FALSE,
+                       offset_name = NA,
+                       random_state = 3591)
 
-# Testing the Package, Examples, and Discussion
-
-### Running Examples
-You can use any causal inference studies data to test the package. The database needs to have the following attributes:
-
-- `y`: Output vector
-- `z`: Treatment vector
-- `X`: Covariate matrix
-
-The CRE package can generate synthetic data that can be used to test different features of the package. At the current implementation, the code can generate data with continuous or binary outcomes. In the following, we present some reproducible examples that you can copy and build upon.
-
-### Generating Synthetic Data with Continuous Outcomes
-```
-library("CRE")
-```
-```
-dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-                                     effect_size = 0.5, binary = FALSE, seed = 2021) 
-str(dataset_cont)
-## List of 3
-# $ y: num [1:1000] 2.72 2.79 3.2 2.53 2.49 ...
-# $ z: int [1:1000] 0 0 1 1 1 1 0 1 0 0 ...
-# $ X: num [1:1000, 1:10] 1 1 1 0 0 0 0 1 1 0 ...
-#  ..- attr(*, "dimnames")=List of 2
-#  .. ..$ : NULL
-#  .. ..$ : chr [1:10] "X1" "X2" "X3" "X4" ...
-```
-
-### Generating Synthetic Data with Binary Outcomes
-```
-library("CRE")
-```
-```
-dataset_binary <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 0.5, binary = TRUE, seed = 2021) 
-str(dataset_binary)
-## List of 3
-# $ y: num [1:1000] 1 0.5 0 0 1.5 1 1 1 -0.5 0 ...
-# $ z: int [1:1000] 0 1 0 0 1 0 0 0 1 0 ...
-# $ X: num [1:1000, 1:10] 1 1 1 0 0 0 0 1 1 0 ...
-#  ..- attr(*, "dimnames")=List of 2
-#  .. ..$ : NULL
-#  .. ..$ : chr [1:10] "X1" "X2" "X3" "X4" ...
-```
-
-### Running the CRE on Synthetic Data with Continuous Outcomes
-In the following example, we first generate 1000 synthetic data samples, then we feed them into the `cre()` function to generate select causal rules and CATE estimates. You can read more about different arguments in the documentation (`?cre`). In summary:
-
-- We want to run a code delegating 25% of the data for the discovery subsample and 75% for inference (`ratio_dis <- 0.25`)
-- For the discovery subsample, we want to estimate the Individual Treatment effect using the XBART method, including the estimated propensity score as a covariate (`ite_method_dis <- "xbart"` and `include_ps_dis <- TRUE`)
-- For the inference subsample, we want to estimate the Individual Treatment effect using the XBCF method, which automatically includes the estimated propensity score as a covariate (`ite_method_inf <- "xbcf"` and `include_ps_inf <- NA`)
-- For the causal rule generation, we want to generate 100 decision trees with a minimum node size of 20 and a maximum node size of 5 (`ntrees <- 100`, `min_nodes <- 20`, and `max_nodes <- 5`)
-- For trimming the causal rules, we want to use a common support value of 0.025 (`t <- 0.025`)
-- For selecting the most important causal rules, we want to use a selection threshold of 0.8 (`q <- 0.08`)
-- Since we're not using binary outcomes in the first example, we will not specify a rules method (`rules_method <- NA`)
-- Since we're not using Poisson regression, we will not specify an offset (`include_offset <- FALSE`, `offset_name = NA`)
+ hyper_params = list(ntrees_rf = 100,
+                     ntrees_gbm = 50,
+                     node_size = 20,
+                     max_nodes = 5,
+                     max_depth = 15,
+                     max_decay = 0.025,
+                     type_decay = 2,
+                     t_anom = 0.025,
+                     t_corr = 1,
+                     replace = FALSE,
+                     q = 0.8,
+                     stability_selection = TRUE,
+                     pfer_val = 0.1)
 
 ```
-# Load package
-library("CRE")
-```
-```
-# Generate synthetic data with continuous outcomes
-dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10
-                                effect_size = 0.5, binary = FALSE, seed = 2021) 
 
-# Set parameters
-y <- dataset[["y"]]
-z <- dataset[["z"]]
-X <- dataset[["X"]]
-ratio_dis <- 0.25
-ite_method_dis <- "bcf"
-include_ps_dis <- "TRUE"
-ps_method_dis <- "SL.xgboost"
-or_method_dis <- NA
-ite_method_inf <- "bcf"
-include_ps_inf <- NA
-ps_method_inf <- "SL.xgboost"
-or_method_inf <- NA
-ntrees <- 100
-min_nodes <- 20
-max_nodes <- 5
-t <- 0.025
-q <- 0.8
-rules_method <- NA
-include_offset <- FALSE
-offset_name <- NA
-cate_method <- "cf-means"
-cate_SL_library <- NA
-filter_cate <- FALSE
-
-# Run CRE method
-cre_results <- cre(y, z, X, ratio_dis, ite_method_dis, include_ps_dis,
-                   ps_method_dis, or_method_dis, ite_method_inf, include_ps_inf, 
-                   ps_method_inf, or_method_inf, ntrees, min_nodes, max_nodes, 
-                   t, q, rules_method, include_offset, offset_name,
-                   cate_method, cate_SL_library, filter_cate)
-```
-
-### Running the CRE on Synthetic Data with Binary Outcomes
-To run the CRE method on synthetic data with binary outcomes, set the `binary` argument in `generate_cre_dataset` to TRUE, and specify the `rules_method` parameter. In addition, make sure the ITE estimation methods selected are compatible with binary outcomes (see above).

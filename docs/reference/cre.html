@@ -99,15 +99,12 @@ estimate_ite_aipw on the discovery subsample.</p></li>
 <li><p><em>include_ps_inf</em>: Whether or not to include propensity score estimate
 as a covariate in inference ITE estimation, considered only for BART,
 or CF.</p></li>
-<li><p><em>include_ps_inf</em>: Whether or not to include propensity score estimate
-as a covariate in inference ITE estimation, considered only for BART,
-or CF.</p></li>
 <li><p><em>ps_method_inf</em>: The estimation model for the propensity score on the
 inference subsample.</p></li>
 <li><p><em>or_method_inf</em>: The estimation model for the outcome regressions in
 estimate_ite_aipw on the inference subsample.</p></li>
 </ul></li>
-<li><p><em>Other Parameters</em>:</p><ul><li><p><em>include_offset</em>: Whether or not to include an offset when estimating
+<li><p><em>Other Parameters</em></p><ul><li><p><em>include_offset</em>: Whether or not to include an offset when estimating
 the ITE, for Poisson only.</p></li>
 <li><p><em>offset_name</em>: The name of the offset, if it is to be included.</p></li>
 <li><p><em>cate_method</em>: The method to estimate the CATE values.</p></li>
@@ -127,10 +124,12 @@ including:</p><ul><li><p><em>effect_modifiers</em>: Effect Modifiers for Rules G
 have.</p></li>
 <li><p><em>max_depth</em>: The number of top levels from each tree considered
 to extract conditions.</p></li>
+<li><p><em>replace</em>: Boolean variable for replacement in bootstrapping.</p></li>
 <li><p><em>max_decay</em>: Decay Threshold for pruning the rules.</p></li>
 <li><p><em>type_decay</em>: Decay Type for pruning the rules (1: relative error; 2: error).</p></li>
-<li><p><em>t</em>: The common support used in generating the causal rules matrix.</p></li>
-<li><p><em>q</em>: The selection threshold used in selecting the causal rules.</p></li>
+<li><p><em>t_anom</em>: The threshold to define too generic or too specific (anomalous) rules.</p></li>
+<li><p><em>t_corr</em>: The threshold to define correlated rules.</p></li>
+<li><p><em>q</em>: Number of (unique) selected rules per subsample in stability selection.</p></li>
 <li><p><em>stability_selection</em>: Whether or not using stability selection for
 selecting the causal rules.</p></li>
 <li><p><em>pfer_val</em>: The Per-Family Error Rate, the expected number of false
