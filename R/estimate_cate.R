@@ -161,7 +161,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
         stringr::str_replace_all("(Intercept)", "ATE")
       }
 
-      cate_temp <- data.frame(Predictor = cate_names) %>%
+      cate_temp <- data.frame(Rule = cate_names) %>%
         cbind(cate_model)
       if (filter_cate) {
         cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
@@ -278,19 +278,22 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       options(contrasts = rep("contr.treatment", 2))
       model1_cate <- stats::lm(ite_inf ~ ., data = joined_ite_rules)
       model1_coef <- summary(model1_cate)$coef[,c(1,4)] %>% as.data.frame
-      model1_ci <- stats::confint(model1_cate) %>% as.data.frame() %>%
-        dplyr::filter(!is.na(.))
+      model1_ci <- stats::confint(model1_cate) %>% as.data.frame()
+      # %>% dplyr::filter(!is.na(.))
 
       # Generate model 1 data frame
       cate_reg_orig <- model1_coef %>% cbind(model1_ci)
       cate_reg_orig_names <- stringr::str_extract(row.names(cate_reg_orig), "`.*`") %>%
         stringr::str_remove_all("`")
       cate_reg_orig_names[1] <- "(ATE)"
-      cate_reg_orig$Rule <- cate_reg_orig_names
+      cate_reg_orig <- data.frame(Rule = cate_reg_orig_names,
+                                  Estimate = cate_reg_orig[,1],
+                                  CI_2.5 = cate_reg_orig[,3],
+                                  CI_97.5 = cate_reg_orig[,4],
+                                  P_Value = cate_reg_orig[,2])
       row.names(cate_reg_orig) <- 1:nrow(cate_reg_orig)
-      cate_reg_orig <- cate_reg_orig %>%
-        dplyr::summarize(Rule, Estimate, P_Value = "Pr(>|t|)",
-                         CI_lower = "2.5 %", CI_upper = "97.5 %")
+      colnames(cate_reg_orig) <- c("Rule","Estimate", "CI (2.5 %)",
+                                   "CI (97.5 %)", "P_Value")
       if (filter_cate) {
         cate_final <- subset(cate_reg_orig, cate_reg_orig$P_Value <= 0.05)
       } else {
