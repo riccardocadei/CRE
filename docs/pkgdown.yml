@@ -1,15 +1,11 @@
 pandoc: '2.18'
-pkgdown: 2.0.2
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   CRE: CRE.html
   Contribution: Contribution.html
   Testing-the-Package: Testing-the-Package.html
-  article_c3: article_c3.html
-  article_i1: article_i1.html
-  article_i2: article_i2.html
-  article_i3: article_i3.html
-last_built: 2022-09-21T12:20Z
+last_built: 2022-10-07T02:27Z
 urls:
   reference: https://github.com/fasrc/CRE/reference
   article: https://github.com/fasrc/CRE/articles

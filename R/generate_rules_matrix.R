@@ -14,6 +14,8 @@
 #' - a standardized matrix of causal rules, and
 #' - a vector of causal rules
 #'
+#' @keywords internal
+#'
 generate_rules_matrix <- function(X, rules_list, t) {
 
   # Generate and Rules Matrix

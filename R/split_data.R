@@ -11,6 +11,8 @@
 #'
 #' @return A list containing the discovery and inference subsamples
 #'
+#' @keywords internal
+#'
 #' @examples
 #'
 #' dataset <- generate_cre_dataset(n = 200, rho = 0, n_rules = 2, p = 10,

@@ -24,3 +24,4 @@ a list with:
 \description{
 Generates a matrix of causal rules given a list.
 }
+\keyword{internal}
