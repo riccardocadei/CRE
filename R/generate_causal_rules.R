@@ -37,39 +37,52 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
 
   # 2.1 Prune irrelevant variable-value pair from a rule condition
   logger::log_info("Pruning ...")
-  rules <- prune_rules(rules,
+  rules_list <- prune_rules(rules,
                        X,
                        ite_std,
                        getElement(hyper_params,"max_decay"),
                        getElement(hyper_params,"type_decay"))
-  M_filter1 <- length(rules)
+  M_filter1 <- length(rules_list)
 
-  # 2.2 Remove rules with too few observations and correlated rules
-  logger::log_info("Remove reduntant rules ...")
+  # Generate rules matrix
+  logger::log_info("Generate Rules Matrix ...")
+  rules_matrix <- generate_rules_matrix(X, rules_list)
 
-  rules_all <- generate_rules_matrix(X, rules, getElement(hyper_params,"t"))
-  rules_matrix <- rules_all[["rules_matrix"]]
-  rules_matrix_std <- standardize_rules_matrix(rules_matrix)
-  rules_list <- rules_all[["rules_list"]]
+  # 2.2 Remove rules with too few or too many observations and correlated rules
+  logger::log_info("Remove anomalous rules ...")
+  anomalous_temp <- discard_anomalous_rules(rules_matrix, rules_list,
+                                            getElement(hyper_params,"t"))
+  rules_matrix <- anomalous_temp[["rules_matrix"]]
+  rules_list <- anomalous_temp[["rules_list"]]
   M_filter2 <- length(rules_list)
 
-  # 2.3 LASSO
+  # 2.3 Remove correlated rules
+  logger::log_info("Remove correlated rules ...")
+  correlated_temp <- discard_correlated_rules(rules_matrix, rules_list)
+  rules_matrix <- correlated_temp[["rules_matrix"]]
+  rules_list <- correlated_temp[["rules_list"]]
+  M_filter3 <- length(rules_list)
+
+  # Standardize rules matrix
+  logger::log_info("Standardize Rules Matrix ...")
+  rules_matrix_std <- standardize_rules_matrix(rules_matrix)
+
+  # 2.4 LASSO
   logger::log_info("LASSO ...")
-  select_rules <- as.character(select_causal_rules(rules_matrix_std,
-                                                       rules_list,
-                                                       ite_std,
-                                                       getElement(hyper_params,"q"),
-                                                       getElement(hyper_params,"stability_selection"),
-                                                       getElement(hyper_params,"pfer_val")
-                                                   )
-                               )
-  M_filter3 <- length(select_rules)
+  rules_list <- as.character(select_causal_rules(rules_matrix_std,
+                                                 rules_list,
+                                                 ite_std,
+                                                 getElement(hyper_params,"q"),
+                                                 getElement(hyper_params,"stability_selection"),
+                                                 getElement(hyper_params,"pfer_val")))
+  M_filter4 <- length(rules_list)
 
   M <- list("Initial" = M_initial,
          "Filter 1 (pruning)" = M_filter1,
-         "Filter 2 (few obs/corr)" = M_filter2,
-         "Filter 3 (LASSO)" = M_filter3)
+         "Filter 2 (anomalous)" = M_filter2,
+         "Filter 3 (correlated)" = M_filter3,
+         "Filter 4 (LASSO)" = M_filter4)
 
-  return(list(rules=select_rules,M=M))
+  return(list(rules=rules_list,M=M))
 }
 

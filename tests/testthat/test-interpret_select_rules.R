@@ -43,17 +43,14 @@ test_that("Rules Interpreted Correctly", {
   initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
                                   max_nodes, max_depth, random_state = 812)
 
-  rules <- prune_rules(initial_rules, X, ite_std, max_decay, type_decay)
-
+  rules_list <- prune_rules(initial_rules, X, ite_std, max_decay, type_decay)
 
   # Step 4: Generate rules matrix
-  rules_all <- generate_rules_matrix(X, rules, t)
-  rules_matrix <- rules_all[["rules_matrix"]]
+  rules_matrix <- generate_rules_matrix(X, rules_list)
   rules_matrix_std <- standardize_rules_matrix(rules_matrix)
-  rules_list_dis <- rules_all[["rules_list"]]
 
   # Step 5: Select important rules
-  select_rules <- as.character(select_causal_rules(rules_matrix_std, rules_list_dis,
+  select_rules <- as.character(select_causal_rules(rules_matrix_std, rules_list,
                                                    ite_std, q, stability_selection, pfer_val))
 
   ###### Run Tests ######

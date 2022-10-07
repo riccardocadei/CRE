@@ -126,7 +126,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   select_rules_dis_list <- generate_causal_rules(X_dis, ite_std_dis, method_params, hyper_params)
   select_rules_dis <- select_rules_dis_list[["rules"]]
   M <- select_rules_dis_list[["M"]]
-  M_final <- M[["Filter 3 (LASSO)"]]
+  M_final <- M[["Filter 4 (LASSO)"]]
   logger::log_info("{M_final} significant Causal Rules were discovered.")
 
 

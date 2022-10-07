@@ -2,7 +2,8 @@
 
 ### Changed
 
-* reorganize `generate_rules_matrix()` (separate standardization)
+* define `discard_anomalous_rules()` and `discard_corre_rules()` functions
+* reorganize `generate_rules_matrix()` (separate standardization, and remove filtering)
 * explicit `prune_rules()` function and add relative tests
 * remove `take1()` function for random Rule Selection
 * add effect modifiers filter for Rule Generation

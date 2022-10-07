@@ -24,6 +24,8 @@ source("print.R")
 source("plot.R")
 source("generate_causal_rules.R")
 source("prune_rules.R")
+source("discard_anomalous_rules.R")
+source("discard_correlated_rules.R")
 library("SuperLearner")
 
 # Generate sample data

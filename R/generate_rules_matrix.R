@@ -6,15 +6,12 @@
 #'
 #' @param X The features matrix.
 #' @param rules_list A vector of causal rules.
-#' @param t The common support used in generating the causal rules matrix.
 #'
 #' @return
-#' a list with:
-#' - a raw matrix of causal rules
-#' - a standardized matrix of causal rules, and
-#' - a vector of causal rules
+#' the causal rules matrix.
 #'
-generate_rules_matrix <- function(X, rules_list, t) {
+#'
+generate_rules_matrix <- function(X, rules_list) {
 
   # Generate and Rules Matrix
   samplesize <- dim(X)[1]
@@ -24,29 +21,7 @@ generate_rules_matrix <- function(X, rules_list, t) {
     rules_matrix[eval(parse(text = rules_list[i])), i] <- 1
   }
 
-  # Identify rules with too few or too many observations
-  ind <- 1:nrules
-  sup <- apply(rules_matrix, 2, mean)
-  elim <- which((sup < t) | (sup > (1 - t)))
-  if (length(elim) > 0) {ind <- ind[-elim]}
-
-  # Identify correlated rules
-  corelim <- 1
-  C <- stats::cor(rules_matrix[, ind])
-  nrules <- length(ind)
-  elim <- c()
-  for(i in 1:(nrules - 1)) {
-    elim <- c(elim, which(round(abs(C[i, (i + 1):nrules]), digits = 4)
-                          >= corelim)
-                  + i)
-  }
-  if (length(elim) > 0) {ind <- ind[-elim]}
-
-  # Remove rules with too few/too many observations and correlated rules
-  rules_matrix <- rules_matrix[, ind,drop=FALSE]
-  rules_list <- rules_list[ind]
-
-  return(list(rules_matrix = rules_matrix, rules_list = rules_list))
+  return(rules_matrix)
 }
 
 
@@ -74,5 +49,4 @@ standardize_rules_matrix <- function(rules_matrix) {
   }
 
   return(rules_matrix_std)
-
 }

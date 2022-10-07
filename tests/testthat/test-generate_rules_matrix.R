@@ -53,16 +53,10 @@ test_that("Rules Extracted Correctly", {
   expect_error(generate_rules_matrix(X, rules, t = "test"))
 
   # Correct outputs
-  rules_all <- generate_rules_matrix(X, rules, t)
-  expect_true(length(rules_all) == 2)
-  expect_identical(class(rules_all[[1]]), c("matrix", "array"))
-  expect_true(class(rules_all[[2]]) == "character")
-  expect_true(ncol(rules_all[[1]]) == length(rules_all[[2]]))
+  rules_matrix <- generate_rules_matrix(X, rules)
+  expect_identical(class(rules_matrix), c("matrix", "array"))
 
   t <- 0.1
-  rules_all <- generate_rules_matrix(X, rules, t)
-  expect_true(length(rules_all) == 2)
-  expect_identical(class(rules_all[[1]]), c("matrix", "array"))
-  expect_true(class(rules_all[[2]]) == "character")
-  expect_true(ncol(rules_all[[1]]) == length(rules_all[[2]]))
+  rules_matrix <- generate_rules_matrix(X, rules)
+  expect_identical(class(rules_matrix), c("matrix", "array"))
 })
