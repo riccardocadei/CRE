@@ -483,9 +483,9 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
 })
 
 
-
 test_that("CATE (bart-baggr) Estimation Runs Correctly", {
 
+  skip_if_not_installed("baggr")
   set.seed(99687)
   dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
                                   effect_size = 2, binary = FALSE)
