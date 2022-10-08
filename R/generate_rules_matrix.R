@@ -11,7 +11,7 @@
 #' @return
 #' the causal rules matrix.
 #'
-#'
+#' @keywords internal
 generate_rules_matrix <- function(X, rules_list) {
 
 
@@ -38,6 +38,7 @@ generate_rules_matrix <- function(X, rules_list) {
 #' @return
 #' Standardized rules matrix
 #'
+#' @keywords internal
 standardize_rules_matrix <- function(rules_matrix) {
 
   samplesize <- dim(rules_matrix)[1]

@@ -22,18 +22,4 @@ a list of ITE estimates and standard deviations for the ITE estimates
 Estimates the Individual Treatment Effect using Bayesian Causal Forest given
 a response vector, a treatment vector, and a features matrix.
 }
-\examples{
-\donttest{
-set.seed(345)
-dataset <- generate_cre_dataset(n = 50, rho = 0, n_rules = 2, p = 10,
-                                effect_size = 2, binary = FALSE)
-
-# Initialize parameters
-y <- dataset[["y"]]
-z <- dataset[["z"]]
-X <- as.data.frame(dataset[["X"]])
-ps_method <- "SL.xgboost"
-
-ite_list <- estimate_ite_bcf(y, z, as.matrix(X), ps_method)
-}
-}
+\keyword{internal}

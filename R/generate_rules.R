@@ -18,7 +18,7 @@
 #' @return
 #' A vector of causal rules.
 #'
-#' @export
+#' @keywords internal
 #'
 generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
                            max_nodes, max_depth, replace, random_state) {

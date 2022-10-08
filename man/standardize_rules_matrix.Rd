@@ -15,3 +15,4 @@ Standardized rules matrix
 \description{
 Standardize the matrix of causal rules given a list.
 }
+\keyword{internal}
