@@ -67,5 +67,10 @@ test_that("Rules Interpreted Correctly", {
   # Correct outputs
   select_rules_interpretable <- interpret_select_rules(select_rules, X_names)
   expect_true(class(select_rules_interpretable) == "character")
-  expect_true(length(select_rules_interpretable) == length(select_rules))
+  if (!is.na(select_rules_interpretable)){
+    expect_true(length(select_rules_interpretable) == length(select_rules))
+  } else {
+    expect_true(identical(select_rules, character(0)))
+  }
+
 })

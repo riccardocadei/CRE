@@ -18,6 +18,6 @@ test_that("Propensity Score Estimated Correctly", {
   expect_true(is.vector(est_ps))
 
   #values
-  expect_equal(est_ps[2], 0.4355479, tolerance = 0.00001)
-  expect_equal(est_ps[37], 0.1591280, tolerance = 0.00001)
+  expect_equal(est_ps[2], 0.5607738, tolerance = 0.00001)
+  expect_equal(est_ps[37], 0.2728835, tolerance = 0.00001)
 })
