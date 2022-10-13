@@ -37,20 +37,10 @@ test_that("Rules Extracted Correctly", {
                            random_state = random_state)
   ite <- ite_list[["ite"]]
   ite_std <- ite_list[["ite_std"]]
-  #sd_ite <- ite_list[["sd_ite"]]
 
-  expect_equal(ite[10], -5.101268327, tolerance = 0.000001)
-  expect_equal(ite[25], -0.9622934128, tolerance = 0.000001)
-  expect_equal(ite[70], 7.98951025, tolerance = 0.000001)
-
-  expect_equal(ite_std[15], 0.8319789286 , tolerance = 0.000001)
-  expect_equal(ite_std[44], -0.4318524937, tolerance = 0.000001)
-  expect_equal(ite_std[82], -0.1296018405, tolerance = 0.000001)
-
-
-  # expect_equal(sd_ite[9], 1.152046, tolerance = 0.000001)
-  # expect_equal(sd_ite[51], 1.136721, tolerance = 0.000001)
-  # expect_equal(sd_ite[93], 1.139932, tolerance = 0.000001)
+  expect_equal(ite[10], -2.586544, tolerance = 0.000001)
+  expect_equal(ite[25], -1.553539, tolerance = 0.000001)
+  expect_equal(ite[70], 1.974034, tolerance = 0.000001)
 
 
   # Set parameters
@@ -82,9 +72,9 @@ test_that("Rules Extracted Correctly", {
   expect_equal(length(treelist),2)
   expect_equal(length(treelist[2]$list),100)
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
-  expect_equal(treelist[2]$list[[1]][2,6], -0.1950480515, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[2]][3,6], -0.3603212639, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[10]][3,6], -0.1344911363, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[1]][2,6], 0.1122061, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3,6], -0.02796966, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3,6], -0.750918, tolerance = 0.000001)
 
 
   type_decay <- 2
@@ -101,6 +91,6 @@ test_that("Rules Extracted Correctly", {
   # Correct outputs
   rules_RF <- extract_rules(treelist, X, ntrees, max_depth)
   expect_true(any(class(rules_RF) == "matrix"))
-  #expect_equal(length(rules_RF), 6)
-  #expect_equal(rules_RF[3], "X[,3]>0.5 & X[,10]<=0.5")
+  expect_equal(length(rules_RF), 446)
+  expect_equal(rules_RF[3], "X[,3]<=0.878150784662752 & X[,3]>0.801627615753321")
 })

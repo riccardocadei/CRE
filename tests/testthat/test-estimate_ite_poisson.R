@@ -20,14 +20,23 @@ test_that("Poisson ITE Estimated Correctly", {
                                     offset_name))
 
   # Correct outputs
+  # Poisson (vanila)
+  ite_result <- estimate_ite_poisson(y, z, X, X_names, include_offset,
+                                     offset_name)
+  expect_true(class(ite_result) == "numeric")
+  expect_true(length(ite_result) == length(y))
+
+  # Poisson + Offset
+  include_offset <- TRUE
+  offset_name <- "x1"
   ite_result <- estimate_ite_poisson(y, z, X, X_names, include_offset,
                                      offset_name)
   expect_true(class(ite_result) == "numeric")
   expect_true(length(ite_result) == length(y))
 
   # Reproducible results
-  expect_equal(ite_result[[1]], 0.008525829632, tolerance = 0.000001)
-  expect_equal(ite_result[[20]], -0.03955637797, tolerance = 0.000001)
-  expect_equal(ite_result[[91]], 0.2022659665, tolerance = 0.000001)
+  expect_equal(ite_result[[1]], -0.8168112, tolerance = 0.000001)
+  expect_equal(ite_result[[20]], -0.2781798, tolerance = 0.000001)
+  expect_equal(ite_result[[91]], -0.2147065, tolerance = 0.000001)
 
 })

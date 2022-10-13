@@ -47,13 +47,13 @@ test_that("generate_cre_dataset works as expected.", {
   expect_true(length(test_data_1[[2]]) == 100)
   expect_true(nrow(test_data_1[[3]]) == 100)
   expect_true(ncol(test_data_1[[3]]) == 10)
-  expect_equal(test_data_1$y[75], 1L)
-  expect_equal(test_data_1$X[4,4], 1L)
+  expect_equal(test_data_1$y[75], 0)
+  expect_equal(test_data_1$X[4,4], 0.5207282)
 
   # Correct outputs
   set.seed(2021)
   test_data_1 <- generate_cre_dataset(n = 100, rho = 0, n_rules = 4, p = 10,
-                                      effect_size = 0.5, binary = TRUE)
+                                      effect_size = 0.5, binary = FALSE)
   expect_true(class(test_data_1) == "list")
   expect_true(length(test_data_1) == 3)
   expect_true(class(test_data_1[[1]]) == "numeric")
@@ -63,6 +63,6 @@ test_that("generate_cre_dataset works as expected.", {
   expect_true(length(test_data_1[[2]]) == 100)
   expect_true(nrow(test_data_1[[3]]) == 100)
   expect_true(ncol(test_data_1[[3]]) == 10)
-  expect_equal(test_data_1$y[75], 1L)
-  expect_equal(test_data_1$X[4,4], 1L)
+  expect_equal(test_data_1$y[75], 0.9520807)
+  expect_equal(test_data_1$X[4,4], 0.5207282)
 })

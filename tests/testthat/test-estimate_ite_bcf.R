@@ -15,7 +15,7 @@ test_that("BCF ITE Estimated Correctly", {
   expect_error(estimate_ite_bcf(y, z, X = NA, ps_method))
 
   # Correct outputs
-  expect_warning(ite_result <- estimate_ite_bcf(y, z, X, ps_method))
+  ite_result <- estimate_ite_bcf(y, z, X, ps_method)
   expect_true(length(ite_result) == 2)
   expect_true(length(ite_result[[1]]) == length(y))
   expect_true(class(ite_result[[1]]) == "numeric")

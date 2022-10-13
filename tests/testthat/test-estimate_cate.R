@@ -110,22 +110,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
 
   ###### Run Tests ######
 
-  # Incorrect inputs
-  expect_error(estimate_cate(y_inf = "test", z_inf, X_inf, X_names,
-                             include_offset, offset_name,
-                             rules_matrix_inf, select_rules_interpretable,
-                             cate_method, ite_inf, sd_ite_inf, cate_SL_library,
-                             filter_cate))
-  expect_error(estimate_cate(y_inf, z_inf = "test", X_inf, X_names,
-                             include_offset, offset_name,
-                             rules_matrix_inf, select_rules_interpretable,
-                             cate_method, ite_inf, sd_ite_inf, cate_SL_library,
-                             filter_cate))
-  expect_error(estimate_cate(y_inf, z_inf, X_inf = "test", X_names,
-                             include_offset, offset_name,
-                             rules_matrix_inf, select_rules_interpretable,
-                             cate_method, ite_inf, sd_ite_inf, cate_SL_library,
-                             filter_cate))
+  # TO DO: add test to check wrong arguments
 
   # Correct outputs
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
