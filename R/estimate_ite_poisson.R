@@ -37,32 +37,35 @@
 #'
 estimate_ite_poisson <- function(y, z, X, X_names, include_offset, offset_name) {
   if (include_offset) {
+    X_names = X_names[-which(X_names == offset_name)]
+    names(X)[names(X) == offset_name] <- 'offset'
     y_treated <- data.frame(y = y[z==1])
-    X_treated <- as.data.frame(X[z==1, -which(X_names == offset_name)])
+    X_treated <- as.data.frame(X[z==1,])
     y_control <- data.frame(y = y[z==0])
-    X_control <- as.data.frame(X[z==0 ,-which(X_names == offset_name)])
-    offset_treated <- data.frame(offset_treated = X[z==1,
-                                                    which(X_names == offset_name)])
-    offset_control <- data.frame(offset_control = X[z==0,
-                                                    which(X_names == offset_name)])
-    model_data_treated <- cbind(y_treated, X_treated, offset_treated)
-    model_data_control <- cbind(y_control, X_control, offset_control)
-    temp1 <- stats::glm(y_treated ~ offset(log(offset_treated)) +
-                          X_treated, data = model_data_treated,
+    X_control <- as.data.frame(X[z==0,])
+    data_treated <- cbind(y_treated, X_treated)
+    data_control <- cbind(y_control, X_control)
+    formula = as.formula(paste("y ~ ", paste(X_names, collapse= "+")))
+    temp1 <- stats::glm(formula,
+                        data = data_treated,
+                        offset = log(offset),
                         family = stats::poisson(link = "log"))
-    temp0 <- stats::glm(y_control ~ offset(log(offset_control)) +
-                          X_control, data = model_data_control,
+    temp0 <- stats::glm(formula,
+                        data = data_control,
+                        offset = log(offset),
                         family = stats::poisson(link = "log"))
   } else {
     y_treated <- data.frame(y = y[z==1])
     X_treated <- as.data.frame(X[z==1,])
     y_control <- data.frame(y = y[z==0])
     X_control <- as.data.frame(X[z==0,])
-    model_data_treated <- cbind(y_treated, X_treated)
-    model_data_control <- cbind(y_control, X_control)
-    temp1 <- stats::glm(y ~ ., data = model_data_treated,
+    data_treated <- cbind(y_treated, X_treated)
+    data_control <- cbind(y_control, X_control)
+    temp1 <- stats::glm(y ~ .,
+                        data = data_treated,
                         family = stats::poisson(link = "log"))
-    temp0 <- stats::glm(y ~ ., data = model_data_control,
+    temp0 <- stats::glm(y ~ .,
+                        data = data_control,
                         family = stats::poisson(link = "log"))
   }
   y1hat <- stats::predict(temp1, as.data.frame(X))
