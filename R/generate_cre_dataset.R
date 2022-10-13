@@ -44,7 +44,8 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
   Sigma <- matrix(rho, nrow = p, ncol = p) + diag(p) * (1 - rho)
   rawvars <- MASS::mvrnorm(n = n, mu = mu, Sigma = Sigma)
   pvars <- stats::pnorm(rawvars)
-  X <- stats::qbinom(pvars, 1, 0.5)
+  X <- cbind(pvars[,1:5],
+             stats::qbinom(pvars[,6:10], 1, 0.5))
   colnames(X) <- paste("x", 1:p, sep = "")
   X <- as.data.frame(X)
 
