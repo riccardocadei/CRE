@@ -111,7 +111,7 @@ test_that("ITE Estimated Correctly", {
   expect_true(length(ite_result[[2]]) == length(dts_1$y))
 
   ite_method <- "poisson"
-  ite_result <- estimate_ite(y = abs(dts_1$y)+1, z=dts_1$z, dts_1$X,
+  ite_result <- estimate_ite(y = round(abs(dts_1$y)+1), z=dts_1$z, dts_1$X,
                              ite_method, is_y_binary = binary,
                              include_ps = include_ps,
                              ps_method = ps_method,
