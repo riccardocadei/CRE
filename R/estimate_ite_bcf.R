@@ -12,22 +12,9 @@
 #'
 #' @return a list of ITE estimates and standard deviations for the ITE estimates
 #'
-#' @export
+#' @keywords internal
 #'
-#' @examples
-#' \donttest{
-#' set.seed(345)
-#' dataset <- generate_cre_dataset(n = 50, rho = 0, n_rules = 2, p = 10,
-#'                                 effect_size = 2, binary = FALSE)
-#'
-#' # Initialize parameters
-#' y <- dataset[["y"]]
-#' z <- dataset[["z"]]
-#' X <- as.data.frame(dataset[["X"]])
-#' ps_method <- "SL.xgboost"
-#'
-#' ite_list <- estimate_ite_bcf(y, z, as.matrix(X), ps_method)
-#'}
+
 estimate_ite_bcf <- function(y, z, X, ps_method) {
   est_ps <- estimate_ps(z, X, ps_method)
   bcf_model <- bcf::bcf(y, z, X, X, est_ps, nburn = 500, nsim = 500)

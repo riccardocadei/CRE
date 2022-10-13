@@ -21,3 +21,4 @@ A vector of Causal Rules.
 \description{
 Method for generating Causal Decision Rules.
 }
+\keyword{internal}

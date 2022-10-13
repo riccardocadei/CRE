@@ -42,3 +42,4 @@ A vector of causal rules.
 \description{
 Method for generating (Causal) Decision Rules before Regularization.
 }
+\keyword{internal}
