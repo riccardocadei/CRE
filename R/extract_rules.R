@@ -21,6 +21,7 @@ extract_rules <- function(treelist, X, ntrees, max_depth) {
   rules <- inTrees::extractRules(treeList = treelist,
                                 X = X,
                                 ntree = ntrees,
-                                maxdepth = max_depth)
+                                maxdepth = max_depth,
+                                digits = 2)
   return(rules)
 }
