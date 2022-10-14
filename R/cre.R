@@ -214,6 +214,8 @@ cre <- function(y, z, X, method_params, hyper_params){
                             getElement(method_params,"cate_SL_library"),
                             getElement(method_params,"filter_cate"))
 
+  M["Filter 5 (CATE)"] <- as.integer(length(cate_inf$Rule)-1)
+
   # Generate final results S3 object
   results <- list()
   results[["M"]] <- M
