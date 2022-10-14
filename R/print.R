@@ -49,12 +49,12 @@ summary.cre <- function(object, ...) {
     }
     if (!getElement(params, "include_ps_dis")) {
       cat("\n  - PS Estimator  : ", getElement(params, "ps_method_dis"))
-    } else { cat("\n  - PS Estimator  : None") }
+    } else { cat("\n  - PS Estimator  :  None") }
 
     # hyper params
     if (!is.null(getElement(c(...), "ntrees_rf"))) {
       cat("\n  - Rule Generation:")
-      cat("\n    - Number of Trees: ", getElement(params, "ntrees_rf"),
+      cat("\n    - Number of Trees     : ", getElement(params, "ntrees_rf"),
           "RF +",getElement(params, "ntrees_gbm"), "GBM")
       cat("\n    - Node Size           : ", getElement(params, "node_size"))
       cat("\n    - Max Nodes           : ", getElement(params, "max_nodes"))
@@ -75,12 +75,12 @@ summary.cre <- function(object, ...) {
     }
     if (!getElement(params, "include_ps_inf")) {
       cat("\n  - PS Estimator  : ", getElement(params, "ps_method_inf"))
-    } else { cat("\n  - PS Estimator  : None") }
+    } else { cat("\n  - PS Estimator  :  None") }
     cat("\n  - CATE Estimator: ", getElement(params, "cate_method"))
   }
 
   cat("\n\nResults\n")
-  cat("- Heterogeneity:", object[['M']][['Filter 4 (LASSO)']], "(significant) Causal Rules discovered\n", sep=" ")
+  cat("- Heterogeneity:", object[['M']][['Filter 5 (CATE)']], "(significant) Causal Rules discovered\n", sep=" ")
   cat("- CATE         :\n")
   print(object[["CATE"]])
 }

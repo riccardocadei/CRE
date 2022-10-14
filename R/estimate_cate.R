@@ -55,7 +55,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     cate_names <- rownames(cate_coeff) %>%
       stringr::str_replace_all("(Intercept)", "ATE")
 
-    cate_final <- data.frame(Predictor = cate_names) %>% cbind(cate_coeff)
+    cate_final <- data.frame(Rule = cate_names) %>% cbind(cate_coeff)
     rownames(cate_final) <- 1:nrow(cate_final)
 
   } else {
@@ -93,7 +93,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
       cate_temp <- data.frame(Predictor = cate_names) %>%
         cbind(cate_model)
-      colnames(cate_temp) <- c("Predictor", "Estimate", "Std_Error",
+      colnames(cate_temp) <- c("Rule", "Estimate", "Std_Error",
                                "Z_Value", "P_Value")
       if (filter_cate) {
         cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
