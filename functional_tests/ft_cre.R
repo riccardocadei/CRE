@@ -39,10 +39,11 @@ hyper_params = list(effect_modifiers = c(),
                     type_decay = 2,
                     t_anom = 0.01,
                     t_corr = 1,
-                    q = 0.8,
+                    q = 0.6,
                     stability_selection = FALSE,
-                    pfer_val = 0.5)
+                    pfer_val = 0.01)
 
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
 summary(cre_results, method_params, hyper_params)
+plot(cre_results)
