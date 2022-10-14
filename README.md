@@ -78,7 +78,7 @@ __Other Parameters__
 
 The CRE package can generate synthetic data that can be used to test different features of the package. At the current implementation, the code can generate data with continuous or binary outcomes. 
 
-```
+```r
   set.seed(9687)
   dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 2, binary = FALSE)
