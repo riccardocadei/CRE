@@ -1,3 +1,14 @@
+## Submission (October 16, 2022)
+
+Thank you for taking the time to review the CRE 0.1.0 package.
+
+We fixed the raised issues with the links. 
+
+Best regards, 
+Naeem Khoshnevis
+RCD - HUIT
+Harvard University
+
 ## Submission (October 14, 2022)
 
 * This is a new release.
