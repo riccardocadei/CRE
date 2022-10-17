@@ -1,3 +1,19 @@
+## Submission (October 17, 2022)
+
+Thank you for taking the time to review the CRE 0.1.0 package.
+
+- We removed the example from an internal function.  
+- We made sure that we were not using more than two cores in the examples. 
+- We addressed the options issue in the code.
+
+Thank you so much for your invaluable feedback.
+
+Best regards, 
+Naeem Khoshnevis
+RCD - HUIT
+Harvard University
+
+
 ## Submission (October 16, 2022)
 
 Thank you for taking the time to review the CRE 0.1.0 package.
