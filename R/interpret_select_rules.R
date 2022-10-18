@@ -9,8 +9,10 @@
 #'
 #' @return a vector of select causal rules that are interpretable
 #'
-#' @export
 #'
+#'@keywords internal
+#'
+
 interpret_select_rules <- function(select_rules_dis, X_names) {
   replacements <- X_names
   names(replacements) <- paste("X[,", 1:length(X_names), "]", sep = "")

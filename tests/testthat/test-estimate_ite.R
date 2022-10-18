@@ -1,47 +1,197 @@
 test_that("ITE Estimated Correctly", {
-  # Generate sample data
-  set.seed(2021)
-  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2,
-                                       effect_size = 0.5, binary = TRUE)
-  y <- dataset_cont[["y"]]
-  z <- dataset_cont[["z"]]
-  X <- dataset_cont[["X"]]
-  X_names <- names(as.data.frame(X))
+
+  #Generate sample data
+  set.seed(181)
+  dts_1 <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+                                       effect_size = 2, binary = FALSE)
+  dts_2 <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
+                                    effect_size = 2, binary = FALSE)
+
   ite_method <- "bart"
   include_ps <- TRUE
-  binary <- TRUE
-  include_offset <- FALSE
-  offset_name <- NA
+  ps_method <- "SL.xgboost"
+  oreg_method <- NA
+  ntrees <- 100
+  node_size <- 20
+  max_nodes <- 5
+  random_state <- 121
 
-  # Incorrect data inputs
-  expect_error(estimate_ite(y = "test", z, X, ite_method, include_ps, binary,
-                            X_names, include_offset, offset_name))
-  expect_error(estimate_ite(y, z = "test", X, ite_method, include_ps, binary,
-                            X_names, include_offset, offset_name))
-  expect_error(estimate_ite(y, z, X = "test", ite_method, include_ps, binary,
-                            X_names, include_offset, offset_name))
+  # Check for binary outcome
+  binary <- ifelse(length(unique(dts_1$y)) == 2, TRUE, FALSE)
 
-  # Incorrect ite_method input
-  expect_error(estimate_ite(y, z, X, ite_method = NA, include_ps, binary,
-                            X_names, include_offset, offset_name))
+  # Wrong ite estimator
+  expect_error(estimate_ite(y = dts_2$y, z=dts_1$z, dts_1$X,
+                            ite_method = "test", binary,
+                            include_ps = include_ps,
+                            ps_method = ps_method,
+                            oreg_method = oreg_method,
+                            random_state = random_state))
 
-  # Incorrect include_ps input
-  expect_error(estimate_ite(y, z, X, ite_method, include_ps = "test", binary,
-                            X_names, include_offset, offset_name))
+  # Missing arguments
+  expect_error(estimate_ite(y = dts_2$y, z=dts_1$z, dts_1$X,
+                            ite_method = "poisson", binary,
+                            include_ps = include_ps,
+                            ps_method = ps_method,
+                            oreg_method = oreg_method,
+                            random_state = random_state))
 
-  # Incorrect binary input
-  expect_error(estimate_ite(y, z, X, ite_method, include_ps, binary = "test",
-                            X_names, include_offset, offset_name))
+  # Wrong input size
+  expect_error(estimate_ite(y = dts_2$y, z=dts_1$z, dts_1$X,
+                              ite_method, binary,
+                              include_ps = include_ps,
+                              ps_method = ps_method,
+                              oreg_method = oreg_method,
+                              random_state = random_state))
+
+  expect_warning(expect_error(estimate_ite(y = dts_1$y, z=dts_2$z, dts_1$X,
+                              ite_method, binary,
+                              include_ps = include_ps,
+                              ps_method = ps_method,
+                              oreg_method = oreg_method,
+                              random_state = random_state)))
+
+  expect_warning(expect_error(estimate_ite(y = dts_1$y, z=dts_1$z, dts_2$X,
+                              ite_method, binary,
+                              include_ps = include_ps,
+                              ps_method = ps_method,
+                              oreg_method = oreg_method,
+                              random_state = random_state)))
+
+  # wrong input for binary value
+  expect_warning(expect_error(estimate_ite(y = dts_1$y, z=dts_1$z, dts_2$X,
+                             ite_method, is_y_binary = "TRUE",
+                             include_ps = include_ps,
+                             ps_method = ps_method,
+                             oreg_method = oreg_method,
+                             random_state = random_state)))
+
 
   # Correct outputs
-  ite_result <- estimate_ite(y, z, X, ite_method, include_ps, binary,
-                             X_names, include_offset, offset_name)
+  ite_result <- estimate_ite(y = dts_1$y, z=dts_1$z, dts_1$X,
+                             ite_method, is_y_binary = binary,
+                             include_ps = include_ps,
+                             ps_method = ps_method,
+                             oreg_method = oreg_method,
+                             random_state = random_state)
+
   expect_true(length(ite_result) == 3)
   expect_true(class(ite_result[[1]]) == "numeric")
   expect_true(class(ite_result[[2]]) == "numeric")
-  expect_true(class(ite_result[[3]]) == "numeric")
-  expect_true(length(ite_result[[1]]) == length(y))
-  expect_true(length(ite_result[[2]]) == length(y))
-  expect_true(length(ite_result[[3]]) == length(y))
-  expect_true(length(unique(ite_result[[1]])) %in% c(1, 2, 3))
+  expect_true(length(ite_result[[1]]) == length(dts_1$y))
+  expect_true(length(ite_result[[2]]) == length(dts_1$y))
+
+
+  ite_method <- "sipw"
+  ite_result <- estimate_ite(y = dts_1$y, z=dts_1$z, dts_1$X,
+                             ite_method, is_y_binary = binary,
+                             include_ps = include_ps,
+                             ps_method = ps_method,
+                             oreg_method = oreg_method,
+                             random_state = random_state)
+
+  expect_true(length(ite_result) == 3)
+  expect_true(class(ite_result[[1]]) == "numeric")
+  expect_true(class(ite_result[[2]]) == "numeric")
+  expect_true(length(ite_result[[1]]) == length(dts_1$y))
+  expect_true(length(ite_result[[2]]) == length(dts_1$y))
+
+
+  ite_method <- "bcf"
+  ite_result <- estimate_ite(y = dts_1$y, z=dts_1$z, as.matrix(dts_1$X),
+                             ite_method, is_y_binary = binary,
+                             include_ps = include_ps,
+                             ps_method = ps_method,
+                             oreg_method = oreg_method,
+                             random_state = random_state)
+
+  expect_true(length(ite_result) == 3)
+  expect_true(class(ite_result[[1]]) == "numeric")
+  expect_true(class(ite_result[[2]]) == "numeric")
+  expect_true(length(ite_result[[1]]) == length(dts_1$y))
+  expect_true(length(ite_result[[2]]) == length(dts_1$y))
+
+  ite_method <- "poisson"
+  ite_result <- estimate_ite(y = round(abs(dts_1$y)+1), z=dts_1$z, dts_1$X,
+                             ite_method, is_y_binary = binary,
+                             include_ps = include_ps,
+                             ps_method = ps_method,
+                             oreg_method = oreg_method,
+                             random_state = random_state,
+                             include_offset = FALSE,
+                             offset_name = NA,
+                             X_names = names(dts_1$X))
+
+  expect_true(length(ite_result) == 3)
+  expect_true(class(ite_result[[1]]) == "numeric")
+  expect_true(class(ite_result[[2]]) == "numeric")
+  expect_true(length(ite_result[[1]]) == length(dts_1$y))
+  expect_true(length(ite_result[[2]]) == length(dts_1$y))
+})
+
+
+test_that("ITE (oreg) Estimated Correctly", {
+
+  skip_if_not_installed("BART")
+  #Generate sample data
+  set.seed(233)
+  dts_1 <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+                                effect_size = 2, binary = FALSE)
+
+  ite_method <- "bart"
+  include_ps <- TRUE
+  ps_method <- "SL.xgboost"
+  oreg_method <- NA
+  ntrees <- 100
+  node_size <- 20
+  max_nodes <- 5
+  random_state <- 121
+
+  # Check for binary outcome
+  binary <- ifelse(length(unique(dts_1$y)) == 2, TRUE, FALSE)
+
+
+  ite_method <- "oreg"
+  ite_result <- estimate_ite(y = dts_1$y, z=dts_1$z, dts_1$X,
+                             ite_method, is_y_binary = binary,
+                             include_ps = include_ps,
+                             ps_method = ps_method,
+                             oreg_method = oreg_method,
+                             random_state = random_state)
+
+  expect_true(length(ite_result) == 3)
+  expect_true(class(ite_result[[1]]) == "numeric")
+  expect_true(class(ite_result[[2]]) == "numeric")
+  expect_true(length(ite_result[[1]]) == length(dts_1$y))
+  expect_true(length(ite_result[[2]]) == length(dts_1$y))
+})
+
+
+test_that("ITE (cf) Estimated Correctly", {
+
+  skip_if_not_installed("grf")
+
+  ite_method <- "cf"
+  include_ps <- TRUE
+  ps_method <- "SL.xgboost"
+  oreg_method <- NA
+  ntrees <- 100
+  node_size <- 20
+  max_nodes <- 5
+  random_state <- 121
+
+  dts_1 <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+                                effect_size = 2, binary = TRUE)
+  binary <- ifelse(length(unique(dts_1$y)) == 2, TRUE, FALSE)
+  ite_result <- estimate_ite(y = abs(dts_1$y), z=dts_1$z, dts_1$X,
+                             ite_method, is_y_binary = binary,
+                             include_ps = include_ps,
+                             ps_method = ps_method,
+                             oreg_method = oreg_method,
+                             random_state = random_state)
+
+  expect_true(length(ite_result) == 3)
+  expect_true(class(ite_result[[1]]) == "numeric")
+  expect_true(class(ite_result[[2]]) == "numeric")
+  expect_true(length(ite_result[[1]]) == length(dts_1$y))
+  expect_true(length(ite_result[[2]]) == length(dts_1$y))
 })

@@ -5,7 +5,7 @@
 \title{Estimate the Individual Treatment Effect using Stabilized Inverse Propensity
 Weighting}
 \usage{
-estimate_ite_sipw(y, z, X)
+estimate_ite_sipw(y, z, X, ps_method)
 }
 \arguments{
 \item{y}{the observed response vector}
@@ -13,6 +13,8 @@ estimate_ite_sipw(y, z, X)
 \item{z}{the treatment vector}
 
 \item{X}{the features matrix}
+
+\item{ps_method}{estimation method for the propensity score}
 }
 \value{
 a vector of ITE estimates
@@ -21,3 +23,4 @@ a vector of ITE estimates
 Estimates the Individual Treatment Effect using Stabilized Inverse Propensity
 Weighting given a response vector, a treatment vector, and a features matrix.
 }
+\keyword{internal}

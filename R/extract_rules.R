@@ -1,29 +1,26 @@
 #' @title
-#' Extract Rules
+#' Extract (Causal) Decision Rules
 #'
 #' @description
-#' Method for extracting causal rules from the Random Forest or Gradient Boosting algorithms
+#' Method for extracting causal rules from the Random Forest or Gradient
+#' Boosting algorithms.
 #'
-#' @param treelist a list of decision trees
-#' @param X the features matrix
-#' @param ntrees the number of decision trees
-#' @param ite_std the standardized ITE
-#' @param take_1 whether or not to call the take1 helper function
-#' @param type_decay the type of decay to apply when pruning the rules
+#' @param treelist A list of decision trees.
+#' @param X The features matrix.
+#' @param ntrees The number of (the first) decision trees considered.
+#' @param max_depth The number of top levels from each tree considered
+#' to extract conditions.
 #'
-#' @return a vector of causal rules
+#' @keywords internal
 #'
-#' @export
+#' @return
+#' A vector of (Causal) Decision Rules.
 #'
-extract_rules <- function(treelist, X, ntrees, ite_std, take_1, type_decay) {
-  rules <- inTrees::extractRules(treeList = treelist, X = X, ntree = ntrees, maxdepth = 15)
-  rules <- c(rules)
-  if (take_1) {
-    rules <- rules[take1(length(rules))]
-  }
-  rules_matrix <- matrix(rules)
-  colnames(rules_matrix) <- "condition"
-  metric <- inTrees::getRuleMetric(rules_matrix, X, ite_std)
-  pruned <- inTrees::pruneRule(metric, X, ite_std, 0.025, typeDecay = type_decay)
-  return(unique(pruned[, 4]))
+extract_rules <- function(treelist, X, ntrees, max_depth) {
+
+  rules <- inTrees::extractRules(treeList = treelist,
+                                X = X,
+                                ntree = ntrees,
+                                maxdepth = max_depth)
+  return(rules)
 }

@@ -27,3 +27,4 @@ a vector of ITE estimates
 Estimates the Individual Treatment Effect using Poisson Regression given a
 response vector, a treatment vector, and a features matrix.
 }
+\keyword{internal}

@@ -4,7 +4,7 @@
 \alias{estimate_ite_bcf}
 \title{Estimate the Individual Treatment Effect using Bayesian Causal Forest}
 \usage{
-estimate_ite_bcf(y, z, X)
+estimate_ite_bcf(y, z, X, ps_method)
 }
 \arguments{
 \item{y}{the observed response vector}
@@ -12,6 +12,8 @@ estimate_ite_bcf(y, z, X)
 \item{z}{the treatment vector}
 
 \item{X}{the features matrix}
+
+\item{ps_method}{method for the estimation of the propensity score}
 }
 \value{
 a list of ITE estimates and standard deviations for the ITE estimates
@@ -20,3 +22,4 @@ a list of ITE estimates and standard deviations for the ITE estimates
 Estimates the Individual Treatment Effect using Bayesian Causal Forest given
 a response vector, a treatment vector, and a features matrix.
 }
+\keyword{internal}

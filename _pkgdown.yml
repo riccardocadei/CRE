@@ -1,4 +1,11 @@
+url: https://github.com/fasrc/CRE/
+
+home:
+  title: Interpretable Subgroups Identification through Ensemble Learning of
+    Causal Rules
+
 template:
+  bootstrap: 5
   params:
     bootswatch: flatly
     docsearch:
@@ -7,44 +14,24 @@ template:
 
 
 reference:
-  - title: Causal Rule Ensemble
+  - title: CRE
     contents:
+    - CRE-package
     - cre
-  - title: Discovery
-    contents:
-    - estimate_ite
-    - estimate_ite_bart
-    - estimate_ite_bcf
-    - estimate_ite_cf
-    - estimate_ite_ipw
-    - estimate_ite_or
-    - estimate_ite_poisson
-    - estimate_ite_sipw
-    - estimate_ite_xbart
-    - estimate_ite_xbcf
-    - extract_ruls
-    - estimate_ps
-    - generate_rules_matrix
-    - generate_rules
-    - interprent_select_rules
-  - title: Inference
-    contents:
-    - estimate_cate
+    - plot.cre
+    - print.cre
+    - summary.cre
   - title: Utilities
     contents:
     - generate_cre_dataset
-    - split_data
-    - take_1
-    - check_input_data
-    - analyze_sensitivity
     - set_logger
     - get_logger
 
 articles:
   - title: Users
     navbar: Users
-    contents: [article_i1,article_i2,article_i3]
+    contents: []
 
   - title: Developers
     navbar: Developers
-    contents: [Contribution, How-test-the-package]
+    contents: [Contribution, Testing-the-Package]

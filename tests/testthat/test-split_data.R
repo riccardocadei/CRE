@@ -1,10 +1,11 @@
 test_that("split_data works as expected.", {
   # Generate sample data
-  set.seed(2021)
-  dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, effect_size = 0.5, binary = FALSE)
-  y <- dataset_cont[["y"]]
-  z <- dataset_cont[["z"]]
-  X <- dataset_cont[["X"]]
+  set.seed(1321)
+  dataset <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
+                                       effect_size = 0.5, binary = FALSE)
+  y <- dataset[["y"]]
+  z <- dataset[["z"]]
+  X <- dataset[["X"]]
   ratio_dis <- 0.25
 
   # Step 1: Split data
@@ -23,4 +24,20 @@ test_that("split_data works as expected.", {
   expect_identical(class(subgroups[[2]]), c("matrix", "array"))
   expect_true(nrow(subgroups[[1]]) == ratio_dis * nrow(X))
   expect_true(nrow(subgroups[[2]]) == (1 - ratio_dis) * nrow(X))
+
+  # Values
+  discovery <- subgroups[["discovery"]]
+  inference <- subgroups[["inference"]]
+  y_dis <- discovery[,1]
+  z_dis <- discovery[,2]
+  X_dis <- discovery[,3:ncol(discovery)]
+
+  y_inf <- inference[,1]
+  z_inf <- inference[,2]
+  X_inf <- inference[,3:ncol(inference)]
+
+  expect_equal(y_dis[2], 1.775837, tolerance = 0.00001)
+  expect_equal(z_inf[10], 1, tolerance = 0.00001)
+  expect_equal(X_dis[3,9][[1]], 1)
+
 })

@@ -4,7 +4,7 @@
 \alias{estimate_ite_cf}
 \title{Estimate the Individual Treatment Effect using Causal Forest}
 \usage{
-estimate_ite_cf(y, z, X, include_ps)
+estimate_ite_cf(y, z, X, include_ps, ps_method)
 }
 \arguments{
 \item{y}{the observed response vector}
@@ -15,6 +15,8 @@ estimate_ite_cf(y, z, X, include_ps)
 
 \item{include_ps}{whether or not to include propensity score estimate as a
 covariate in ITE estimation}
+
+\item{ps_method}{method for the estimation of the propensity score}
 }
 \value{
 a list of ITE estimates and standard deviations for the ITE estimates
@@ -23,3 +25,4 @@ a list of ITE estimates and standard deviations for the ITE estimates
 Estimates the Individual Treatment Effect using Causal Forest given a
 response vector, a treatment vector, and a features matrix
 }
+\keyword{internal}

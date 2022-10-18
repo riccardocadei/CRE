@@ -10,16 +10,25 @@
 #' @param X the features matrix
 #' @param include_ps whether or not to include propensity score estimate as a
 #' covariate in ITE estimation
+#' @param ps_method method for the estimation of the propensity score
 #'
 #' @return
 #' a list of ITE estimates and standard deviations for the ITE estimates
 #'
-#' @export
+#' @keywords internal
 #'
-estimate_ite_cf <- function(y, z, X, include_ps) {
+
+estimate_ite_cf <- function(y, z, X, include_ps, ps_method) {
+
+  if (!requireNamespace("grf", quietly = TRUE)) {
+    stop(
+      "Package \"grf\" must be installed to use this function.",
+      call. = FALSE
+    )
+  }
 
   if (include_ps) {
-    est_ps <- estimate_ps(z, X)
+    est_ps <- estimate_ps(z, X, ps_method)
     X <- cbind(X, est_ps)
   }
 

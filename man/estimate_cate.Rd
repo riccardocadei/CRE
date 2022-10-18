@@ -13,9 +13,11 @@ estimate_cate(
   offset_name,
   rules_matrix_inf,
   select_rules_interpretable,
-  ite_method_inf,
+  cate_method,
   ite_inf,
-  sd_ite_inf
+  sd_ite_inf,
+  cate_SL_library,
+  filter_cate
 )
 }
 \arguments{
@@ -38,12 +40,16 @@ inference subsample}
 \item{select_rules_interpretable}{the list of select causal rules in terms of
 coviariate names}
 
-\item{ite_method_inf}{the method to estimate the inference sample ITE}
+\item{cate_method}{the method to estimate the CATE values}
 
 \item{ite_inf}{the estimated ITEs for the inference subsample}
 
 \item{sd_ite_inf}{the standard deviations for the estimated ITEs for the
 inference subsample}
+
+\item{cate_SL_library}{the library used if cate_method = DRLearner}
+
+\item{filter_cate}{whether or not to filter rules with p-value <= 0.05}
 }
 \value{
 a matrix of CATE estimates
@@ -53,3 +59,4 @@ Estimates the Conditional Average Treatment Effect given a standardized
 vector of Individual Treatment Effects, a standardized matrix of causal rules,
 a list of causal rules.
 }
+\keyword{internal}

@@ -4,24 +4,42 @@
 \alias{generate_rules}
 \title{Generate Rules}
 \usage{
-generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, min_nodes, max_nodes)
+generate_rules(
+  X,
+  ite_std,
+  ntrees_rf,
+  ntrees_gbm,
+  node_size,
+  max_nodes,
+  max_depth,
+  replace,
+  random_state
+)
 }
 \arguments{
-\item{X}{the features matrix}
+\item{X}{The covariate matrix.}
 
-\item{ite_std}{the standardized ITE}
+\item{ite_std}{The standardized ITE.}
 
-\item{ntrees_rf}{the number of decision trees for randomForest}
+\item{ntrees_rf}{The number of decision trees for randomForest.}
 
-\item{ntrees_gbm}{the number of decision trees for gradient boosting}
+\item{ntrees_gbm}{The number of decision trees for gradient boosting.}
 
-\item{min_nodes}{the minimum size of the trees' terminal nodes}
+\item{node_size}{The minimum size of the trees' terminal nodes.}
 
-\item{max_nodes}{the maximum size of the trees' terminal nodes}
+\item{max_nodes}{The maximum number of terminal nodes trees in the forest can have.}
+
+\item{max_depth}{The number of top levels from each tree considered
+to extract conditions.}
+
+\item{replace}{Boolean variable for replacement in bootstrapping.}
+
+\item{random_state}{An integer number that represents a random state.}
 }
 \value{
-a vector of causal rules
+A vector of causal rules.
 }
 \description{
-Method for generating causal rules.
+Method for generating (Causal) Decision Rules before Regularization.
 }
+\keyword{internal}

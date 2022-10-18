@@ -4,71 +4,123 @@
 \alias{cre}
 \title{The Causal Rule Ensemble}
 \usage{
-cre(
-  y,
-  z,
-  X,
-  ratio_dis,
-  ite_method_dis,
-  include_ps_dis = NA,
-  ite_method_inf,
-  include_ps_inf = NA,
-  ntrees_rf,
-  ntrees_gbm,
-  min_nodes,
-  max_nodes,
-  t,
-  q,
-  rules_method,
-  include_offset = FALSE,
-  offset_name = NA
-)
+cre(y, z, X, method_params, hyper_params)
 }
 \arguments{
-\item{y}{the observed response vector}
+\item{y}{The observed response vector.}
 
-\item{z}{the treatment vector}
+\item{z}{The treatment vector.}
 
-\item{X}{the covariate matrix}
+\item{X}{The covariate matrix.}
 
-\item{ratio_dis}{the ratio of data delegated to the discovery sub-sample}
+\item{method_params}{Parameters for individual treatment effect, includig:
+\itemize{
+\item \emph{Parameters for Discovery}
+\itemize{
+\item \emph{ratio_dis}: The ratio of data delegated to the discovery sub-sample.
+\item \emph{ite_method_dis}: The method to estimate the discovery sample ITE.
+\item \emph{include_ps_dis}: Whether or not to include propensity score estimate
+as a covariate in discovery ITE estimation, considered only for BART,
+or CF.
+\item \emph{ps_method_dis}: The estimation model for the propensity score on the
+discovery subsample.
+\item \emph{or_method_dis}: The estimation model for the outcome regressions
+estimate_ite_aipw on the discovery subsample.
+}
+\item \emph{Parameters for Inference}
+\itemize{
+\item \emph{ite_method_inf}: The method to estimate the inference sample ITE.
+\item \emph{include_ps_inf}: Whether or not to include propensity score estimate
+as a covariate in inference ITE estimation, considered only for BART,
+or CF.
+\item \emph{ps_method_inf}: The estimation model for the propensity score on the
+inference subsample.
+\item \emph{or_method_inf}: The estimation model for the outcome regressions in
+estimate_ite_aipw on the inference subsample.
+}
+\item \emph{Other Parameters}
+\itemize{
+\item \emph{include_offset}: Whether or not to include an offset when estimating
+the ITE, for Poisson only.
+\item \emph{offset_name}: The name of the offset, if it is to be included.
+\item \emph{cate_method}: The method to estimate the CATE values.
+\item \emph{cate_SL_library}: The library used if cate_method is set to DRLearner.
+\item \emph{filter_cate}: Whether or not to filter rules with p-value <= 0.05.
+}
+}}
 
-\item{ite_method_dis}{the method to estimate the discovery sample ITE}
-
-\item{include_ps_dis}{whether or not to include propensity score estimate
-as a covariate in discovery ITE estimation, considered only for BART, XBART,
-or CF}
-
-\item{ite_method_inf}{the method to estimate the inference sample ITE}
-
-\item{include_ps_inf}{whether or not to include propensity score estimate as
-a covariate in inference ITE estimation, considered only for BART, XBART,
-or CF}
-
-\item{ntrees_rf}{the number of decision trees for randomForest}
-
-\item{ntrees_gbm}{the number of decision trees for gradient boosting}
-
-\item{min_nodes}{the minimum size of the trees' terminal nodes}
-
-\item{max_nodes}{the maximum size of the trees' terminal nodes}
-
-\item{t}{the common support used in generating the causal rules matrix}
-
-\item{q}{the selection threshold used in selecting the causal rules}
-
-\item{rules_method}{the method for selecting causal rules with binary outcomes}
-
-\item{include_offset}{whether or not to include an offset when estimating
-the ITE, for poisson only}
-
-\item{offset_name}{the name of the offset, if it is to be included}
+\item{hyper_params}{The list of parameters required to tune the functions,
+including:
+\itemize{
+\item \emph{effect_modifiers}: Effect Modifiers for Rules Generation.
+\item \emph{ntrees_rf}: The number of decision trees for randomForest.
+\item \emph{ntrees_gbm}: The number of decision trees for gradient boosting.
+\item \emph{node_size}: The minimum size of the trees' terminal nodes.
+\item \emph{max_nodes}: The maximum number of terminal nodes trees in the forest can
+have.
+\item \emph{max_depth}: The number of top levels from each tree considered
+to extract conditions.
+\item \emph{replace}: Boolean variable for replacement in bootstrapping.
+\item \emph{max_decay}: Decay Threshold for pruning the rules.
+\item \emph{type_decay}: Decay Type for pruning the rules (1: relative error; 2: error).
+\item \emph{t_anom}: The threshold to define too generic or too specific (anomalous) rules.
+\item \emph{t_corr}: The threshold to define correlated rules.
+\item \emph{q}: Number of (unique) selected rules per subsample in stability selection.
+\item \emph{stability_selection}: Whether or not using stability selection for
+selecting the causal rules.
+\item \emph{pfer_val}: The Per-Family Error Rate, the expected number of false
+discoveries.
+}}
 }
 \value{
-a list containing the list of select causal rules and a matrix of Conditional
+An S3 object containing the matrix of Conditional
 Average Treatment Effect estimates
 }
 \description{
-Performs the Causal Rule Ensemble on a dataset with a response variable,
+Performs the Causal Rule Ensemble on a data set with a response variable,
 a treatment variable, and various features
+}
+\examples{
+
+\donttest{
+set.seed(2021)
+dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+                                     effect_size = 2, binary = FALSE)
+y <- dataset_cont[["y"]]
+z <- dataset_cont[["z"]]
+X <- as.data.frame(dataset_cont[["X"]])
+X_names <- names(as.data.frame(X))
+
+method_params <- list(ratio_dis = 0.25,
+                      ite_method_dis="bart",
+                      ps_method_dis = "SL.xgboost",
+                      oreg_method_dis = "SL.xgboost",
+                      include_ps_dis = TRUE,
+                      ite_method_inf = "bart",
+                      ps_method_inf = "SL.xgboost",
+                      oreg_method_inf = "SL.xgboost",
+                      include_ps_inf = TRUE,
+                      include_offset = FALSE,
+                      cate_method = "DRLearner",
+                      cate_SL_library = "SL.xgboost",
+                      filter_cate = FALSE,
+                      offset_name = NA,
+                      random_state = 3591)
+
+hyper_params <- list(ntrees_rf = 100,
+                     ntrees_gbm = 50,
+                     node_size = 20,
+                     max_nodes = 5,
+                     max_depth = 15,
+                     max_decay = 0.025,
+                     type_decay = 2,
+                     t_anom = 0.025,
+                     t_corr = 1,
+                     replace = FALSE,
+                     q = 0.8,
+                     stability_selection = TRUE,
+                     pfer_val = 0.1)
+
+cre_results <- cre(y, z, X, method_params, hyper_params)
+}
 }

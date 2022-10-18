@@ -7,17 +7,18 @@
 split_data(y, z, X, ratio_dis)
 }
 \arguments{
-\item{y}{the observed response vector}
+\item{y}{The observed response vector.}
 
-\item{z}{the treatment vector}
+\item{z}{The treatment vector.}
 
-\item{X}{the features matrix}
+\item{X}{The features matrix.}
 
 \item{ratio_dis}{the ratio of data delegated to the discovery subsample}
 }
 \value{
-a list containing the discovery and inference subsamples
+A list containing the discovery and inference subsamples
 }
 \description{
 Splits data into discovery and inference subsamples.
 }
+\keyword{internal}
