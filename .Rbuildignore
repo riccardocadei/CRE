@@ -16,3 +16,4 @@ index.md
 ^_R/*
 ^docker_singularity/*$
 ^functional_tests/*$
+^CRAN-SUBMISSION$

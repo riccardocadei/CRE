@@ -187,10 +187,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                                tau = ite_inf, se = sd_ite_inf)
 
       # Generate CATE data frame with ATE
-      options(mc.cores = parallel::detectCores())
+      # TODO: Pass number of cores to baggr. Do not use available cores.
       baggr_ite <- suppressWarnings(
-        baggr::baggr(joined_ite, cores = getOption("mc.cores",
-                                                   parallel::detectCores())))
+        baggr::baggr(joined_ite))
       sum_ate <- 0
       sum_sd_ate <- 0
       n_samples <- length(baggr_ite$fit@sim$samples)
@@ -212,10 +211,10 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                               rule = df_rules_factor[,i]) %>%
           dplyr::filter(rule == 1) %>% dplyr::select(-rule)
         df_temp <- df_temp %>% dplyr::summarize(group = 1:nrow(df_temp), tau, se)
-        options(mc.cores = parallel::detectCores())
-        baggr_ite_temp <- suppressWarnings(
-          baggr::baggr(df_temp, cores = getOption("mc.cores",
-                                                  parallel::detectCores())))
+
+          # TODO: Pass number of cores to baggr. Do not use available cores.
+          baggr_ite_temp <- suppressWarnings(
+          baggr::baggr(df_temp))
 
         sum_cate_temp <- 0
         sum_sd_cate_temp <- 0
@@ -274,12 +273,15 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       joined_ite_rules <- cbind(ite_inf, df_rules_factor)
 
       # Fit linear regression model with contr.treatment
+
+      old_op <- options()
+      on.exit(options(old_op))
+
       # then extract coefficients and confidence intervals
       options(contrasts = rep("contr.treatment", 2))
       model1_cate <- stats::lm(ite_inf ~ ., data = joined_ite_rules)
       model1_coef <- summary(model1_cate)$coef[,c(1,4)] %>% as.data.frame
       model1_ci <- stats::confint(model1_cate) %>% as.data.frame()
-      # %>% dplyr::filter(!is.na(.))
 
       # Generate model 1 data frame
       cate_reg_orig <- model1_coef %>% cbind(model1_ci)

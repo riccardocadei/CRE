@@ -20,7 +20,7 @@ CRE is an open source package and contributions are welcome from open source com
 
 Please follow these steps to get a copy of _CRE_ on your Github account. 
 
-- Navigate to CRE Github [repository](https://github.com/fasrc/CRE), and at the top right corner, click on the `Fork` button. This will add a clone of the project to your Github account.
+- Navigate to CRE Github [repository](https://github.com/NSAPH-Software/CRE), and at the top right corner, click on the `Fork` button. This will add a clone of the project to your Github account.
 - Open your terminal (or Gitbash for Windows, Anaconda prompt, ...) and run the following command  (brackets are not included):
 
 ```S
@@ -49,7 +49,7 @@ All pull requests should be submitted to `base repository: fasrc/CRE` and `base:
 
 ## Reporting bugs
 
-Please report potential bugs by creating a [new issue](https://github.com/fasrc/CRE/issues) or sending us an email. Please include the following information in your bug report:
+Please report potential bugs by creating a [new issue](https://github.com/NSAPH-Software/CRE/issues) or sending us an email. Please include the following information in your bug report:
 
 - A brief description of what you are doing, what you expected to happen, and what happened. 
 - OS that you are using and whether you are using a personal computer or HPC cluster. 

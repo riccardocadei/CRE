@@ -1,4 +1,20 @@
-## CRE development
+## CRE (Developing)
+
+### Changed
+
+### Added
+
+### Removed 
+
+
+
+## CRE 0.1.1 (2022-10-18)
+
+### Changed
+
+* Removed value test on `test-estimate_ite_oreg`.
+
+## CRE 0.1.0 (2022-10-17)
 
 ### Changed
 
