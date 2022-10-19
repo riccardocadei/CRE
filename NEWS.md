@@ -2,6 +2,8 @@
 
 ### Changed
 
+* replace parameter `q` with `cutoff`
+* rename parameter `pfer_val` with `pfer`
 * `select_causal_rules()` is now `lasso_rules_filter()`
 * rules generation now accepts replace parameter to set replacement in bootstrapping
 * rename parameter `t` with `t_anom`

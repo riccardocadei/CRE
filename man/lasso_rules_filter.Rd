@@ -8,9 +8,9 @@ lasso_rules_filter(
   rules_matrix_std,
   rules_list,
   ite_std,
-  q,
   stability_selection,
-  pfer_val
+  cutoff,
+  pfer
 )
 }
 \arguments{
@@ -20,13 +20,14 @@ lasso_rules_filter(
 
 \item{ite_std}{The standardized ITE.}
 
-\item{q}{Number of (unique) selected rules per subsample in stability selection.}
-
 \item{stability_selection}{Whether or not using stability selection to
 select the causal rules.}
 
-\item{pfer_val}{The Per-Family Error Rate, the expected number of
-false discoveries.}
+\item{cutoff}{Threshold defining the minimum cutoff value for the stability
+scores.}
+
+\item{pfer}{Upper bound for the per-family error rate (tolerated amount of
+falsely selected rules).}
 }
 \value{
 a vector of causal rules
