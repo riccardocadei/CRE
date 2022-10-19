@@ -20,7 +20,7 @@ test_that("SIPW ITE Estimated Correctly", {
   expect_true(class(ite_result) == "numeric")
 
   # Reproducible results
-  expect_equal(ite_result[1], 0.7699422, tolerance = 0.000001)
-  expect_equal(ite_result[19], -2.015022, tolerance = 0.000001)
-  expect_equal(ite_result[72], -2.026895, tolerance = 0.000001)
+  expect_equal(ite_result[1], 0.3127867, tolerance = 0.000001)
+  expect_equal(ite_result[19], -2.293657, tolerance = 0.000001)
+  expect_equal(ite_result[72], -1.566302, tolerance = 0.000001)
 })

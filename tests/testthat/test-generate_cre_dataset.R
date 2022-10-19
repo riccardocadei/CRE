@@ -47,8 +47,8 @@ test_that("generate_cre_dataset works as expected.", {
   expect_true(length(test_data_1[[2]]) == 100)
   expect_true(nrow(test_data_1[[3]]) == 100)
   expect_true(ncol(test_data_1[[3]]) == 10)
-  expect_equal(test_data_1$y[75], 0)
-  expect_equal(test_data_1$X[4,4], 0.5207282)
+  expect_equal(test_data_1$y[75], 1)
+  expect_equal(test_data_1$X[4,4], 1)
 
   # Correct outputs
   set.seed(2021)
@@ -63,6 +63,6 @@ test_that("generate_cre_dataset works as expected.", {
   expect_true(length(test_data_1[[2]]) == 100)
   expect_true(nrow(test_data_1[[3]]) == 100)
   expect_true(ncol(test_data_1[[3]]) == 10)
-  expect_equal(test_data_1$y[75], 0.9520807)
-  expect_equal(test_data_1$X[4,4], 0.5207282)
+  expect_equal(test_data_1$y[75], 0.5411234, tolerance = 0.000001)
+  expect_equal(test_data_1$X[4,4], 1)
 })
