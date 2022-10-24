@@ -38,5 +38,4 @@ test_that("Poisson ITE Estimated Correctly", {
   expect_equal(ite_result[[1]], 0.002221956, tolerance = 0.000001)
   expect_equal(ite_result[[19]], -0.05229289, tolerance = 0.000001)
   expect_equal(ite_result[[72]], -0.5921032, tolerance = 0.000001)
-
 })
