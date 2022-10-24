@@ -100,9 +100,9 @@
 #'                      t_anom = 0.025,
 #'                      t_corr = 1,
 #'                      replace = FALSE,
-#'                      q = 0.8,
 #'                      stability_selection = TRUE,
-#'                      pfer_val = 0.1)
+#'                      cutoff = 0.6,
+#'                      pfer = 0.1)
 #'
 #' cre_results <- cre(y, z, X, method_params, hyper_params)
 #'}
