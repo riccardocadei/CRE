@@ -65,11 +65,12 @@ to extract conditions.
 \item \emph{type_decay}: Decay Type for pruning the rules (1: relative error; 2: error).
 \item \emph{t_anom}: The threshold to define too generic or too specific (anomalous) rules.
 \item \emph{t_corr}: The threshold to define correlated rules.
-\item \emph{q}: Number of (unique) selected rules per subsample in stability selection.
 \item \emph{stability_selection}: Whether or not using stability selection for
 selecting the causal rules.
-\item \emph{pfer_val}: The Per-Family Error Rate, the expected number of false
-discoveries.
+\item \emph{cutoff}:  Threshold defining the minimum cutoff value for the stability
+scores.
+\item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
+falsely selected rules).
 }}
 }
 \value{
@@ -117,9 +118,9 @@ hyper_params <- list(ntrees_rf = 100,
                      t_anom = 0.025,
                      t_corr = 1,
                      replace = FALSE,
-                     q = 0.8,
                      stability_selection = TRUE,
-                     pfer_val = 0.1)
+                     cutoff = 0.6,
+                     pfer = 0.1)
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
 }

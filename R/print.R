@@ -49,23 +49,26 @@ summary.cre <- function(object, ...) {
     }
     if (!getElement(params, "include_ps_dis")) {
       cat("\n  - PS Estimator  : ", getElement(params, "ps_method_dis"))
-    } else { cat("\n  - PS Estimator  : None") }
+    } else { cat("\n  - PS Estimator  :  None") }
 
     # hyper params
     if (!is.null(getElement(c(...), "ntrees_rf"))) {
       cat("\n  - Rule Generation:")
       cat("\n    - Number of Trees: ", getElement(params, "ntrees_rf"),
           "RF +",getElement(params, "ntrees_gbm"), "GBM")
-      cat("\n    - Node Size           : ", getElement(params, "node_size"))
-      cat("\n    - Max Nodes           : ", getElement(params, "max_nodes"))
+      cat("\n    - Node Size      : ", getElement(params, "node_size"))
+      cat("\n    - Max Nodes      : ", getElement(params, "max_nodes"))
       cat("\n  - Rule Regularization:")
-      cat("\n    - Threshold Decay (Pruning)           : ", getElement(params, "max_decay"))
-      cat("\n    - Decay Type (Pruning)                : ", getElement(params, "type_decay"))
-      cat("\n    - Threshold (Anomalous)               : ", getElement(params, "t_anom"))
-      cat("\n    - Threshold (Correlated)              : ", getElement(params, "t_corr"))
-      cat("\n    - Stability Selection                 : ", getElement(params, "stability_selection"))
-      cat("\n    - N.Rules (Stability Selection)       : ", getElement(params, "q"))
-      cat("\n    - Per-Family E.R.(Stability Selection): ", getElement(params, "pfer_val"))
+      cat("\n    - Threshold Decay (Pruning)   : ", getElement(params, "max_decay"))
+      cat("\n    - Decay Type (Pruning)        : ", getElement(params, "type_decay"))
+      cat("\n    - Threshold (Anomalous)       : ", getElement(params, "t_anom"))
+      cat("\n    - Threshold (Correlated)      : ", getElement(params, "t_corr"))
+      cat("\n    - Stability Selection         : ", getElement(params, "stability_selection"))
+      if (getElement(params, "stability_selection")){
+        cat("\n    - Cutoff (Stability Selection): ", getElement(params, "cutoff"))
+        cat("\n    - PFER (Stability Selection)  : ", getElement(params, "pfer"))
+      }
+      cat("\n    - Filter CATE                 : ", getElement(params, "filter_cate"))
     }
 
     cat("\n- Inference:")
@@ -75,12 +78,12 @@ summary.cre <- function(object, ...) {
     }
     if (!getElement(params, "include_ps_inf")) {
       cat("\n  - PS Estimator  : ", getElement(params, "ps_method_inf"))
-    } else { cat("\n  - PS Estimator  : None") }
+    } else { cat("\n  - PS Estimator  :  None") }
     cat("\n  - CATE Estimator: ", getElement(params, "cate_method"))
   }
 
   cat("\n\nResults\n")
-  cat("- Heterogeneity:", object[['M']][['Filter 4 (LASSO)']], "(significant) Causal Rules discovered\n", sep=" ")
+  cat("- Heterogeneity:", object[['M']][['Filter 5 (CATE)']], "(significant) Causal Rules discovered\n", sep=" ")
   cat("- CATE         :\n")
   print(object[["CATE"]])
 }

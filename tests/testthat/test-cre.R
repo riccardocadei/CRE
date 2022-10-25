@@ -34,9 +34,9 @@ test_that("cre Runs Correctly", {
                      t_anom = 0.025,
                      t_corr = 1,
                      replace = FALSE,
-                     q = 0.8,
                      stability_selection = TRUE,
-                     pfer_val = 0.1)
+                     cutoff = 0.6,
+                     pfer = 1)
 
   method_params[["ratio_dis"]] <- 2
   expect_error(cre(y, z, X, method_params, hyper_params))
@@ -140,19 +140,19 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["t_corr"]] <- 1
-  hyper_params[["q"]] <- "test"
+  hyper_params[["cutoff"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["q"]] <- 0.8
+  hyper_params[["cutoff"]] <- 0.8
   hyper_params[["stability_selection"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["stability_selection"]] <- TRUE
-  hyper_params[["pfer_val"]] <- "test"
+  hyper_params[["pfer"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   # Correct outputs
-  hyper_params[["pfer_val"]] <- 0.1
+  hyper_params[["pfer"]] <- 0.1
   cre_results <- cre(y, z, X, method_params, hyper_params)
   expect_true(class(cre_results) == "cre")
 

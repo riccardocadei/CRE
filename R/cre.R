@@ -50,11 +50,12 @@
 #'  - *type_decay*: Decay Type for pruning the rules (1: relative error; 2: error).
 #'  - *t_anom*: The threshold to define too generic or too specific (anomalous) rules.
 #'  - *t_corr*: The threshold to define correlated rules.
-#'  - *q*: Number of (unique) selected rules per subsample in stability selection.
 #'  - *stability_selection*: Whether or not using stability selection for
 #'  selecting the causal rules.
-#'  - *pfer_val*: The Per-Family Error Rate, the expected number of false
-#'  discoveries.
+#'  - *cutoff*:  Threshold defining the minimum cutoff value for the stability
+#' scores.
+#'  - *pfer*: Upper bound for the per-family error rate (tolerated amount of
+#' falsely selected rules).
 #'
 #' @return
 #' An S3 object containing the matrix of Conditional
@@ -99,9 +100,9 @@
 #'                      t_anom = 0.025,
 #'                      t_corr = 1,
 #'                      replace = FALSE,
-#'                      q = 0.8,
 #'                      stability_selection = TRUE,
-#'                      pfer_val = 0.1)
+#'                      cutoff = 0.6,
+#'                      pfer = 0.1)
 #'
 #' cre_results <- cre(y, z, X, method_params, hyper_params)
 #'}
@@ -213,6 +214,8 @@ cre <- function(y, z, X, method_params, hyper_params){
                             ite_inf, sd_ite_inf,
                             getElement(method_params,"cate_SL_library"),
                             getElement(method_params,"filter_cate"))
+
+  M["Filter 5 (CATE)"] <- as.integer(length(cate_inf$Rule)-1)
 
   # Generate final results S3 object
   results <- list()

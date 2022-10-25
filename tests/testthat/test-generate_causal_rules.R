@@ -35,9 +35,9 @@ test_that("generate_causal_rules works as expected!", {
                       t_anom = 0.025,
                       t_corr = 1,
                       replace = FALSE,
-                      q = 0.8,
                       stability_selection = TRUE,
-                      pfer_val = 0.1)
+                      cutoff = 0.8,
+                      pfer = 0.1)
 
   # Input checks
   check_input_data(y = y, z = z, X = X)

@@ -25,8 +25,8 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   max_decay <- 0.025
   type_decay <- 2
   t <- 0.025
-  q <- 0.8
-  pfer_val <- 0.1
+  cutoff <- 0.8
+  pfer <- 0.1
   stability_selection <- TRUE
   include_offset <- FALSE
   offset_name <- NA
@@ -80,8 +80,10 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   # Step 5: Select important rules
   select_rules_dis <- as.character(lasso_rules_filter(rules_matrix_std_dis,
                                                        rules_list_dis,
-                                                       ite_std_dis, q,
-                                                       stability_selection, pfer_val))
+                                                       ite_std_dis,
+                                                       stability_selection,
+                                                       cutoff,
+                                                       pfer))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
                                                        select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in%
@@ -149,8 +151,8 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   max_decay <- 0.025
   type_decay <- 2
   t <- 0.025
-  q <- 0.8
-  pfer_val <- 0.1
+  cutoff <- 0.8
+  pfer <- 0.1
   stability_selection <- TRUE
   include_offset <- FALSE
   offset_name <- NA
@@ -198,9 +200,12 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis, rules_list_dis,
-                                                             ite_std_dis, q, stability_selection,
-                                                             pfer_val))
+  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis,
+                                                            rules_list_dis,
+                                                            ite_std_dis,
+                                                            stability_selection,
+                                                            cutoff,
+                                                            pfer))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
@@ -266,8 +271,8 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   max_decay <- 0.025
   type_decay <- 2
   t <- 0.025
-  q <- 0.8
-  pfer_val <- 0.1
+  cutoff <- 0.8
+  pfer <- 0.1
   stability_selection <- TRUE
   include_offset <- FALSE
   offset_name <- NA
@@ -315,9 +320,12 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis, rules_list_dis,
-                                                            ite_std_dis, q, stability_selection,
-                                                            pfer_val))
+  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis,
+                                                            rules_list_dis,
+                                                            ite_std_dis,
+                                                            stability_selection,
+                                                            cutoff,
+                                                            pfer))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
@@ -381,8 +389,8 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   max_decay <- 0.025
   type_decay <- 2
   t <- 0.025
-  q <- 0.8
-  pfer_val <- 0.1
+  cutoff <- 0.8
+  pfer <- 0.1
   stability_selection <- TRUE
   include_offset <- FALSE
   offset_name <- NA
@@ -430,9 +438,12 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis, rules_list_dis,
-                                                            ite_std_dis, q, stability_selection,
-                                                            pfer_val))
+  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis,
+                                                            rules_list_dis,
+                                                            ite_std_dis,
+                                                            stability_selection,
+                                                            cutoff,
+                                                            pfer))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
@@ -497,8 +508,8 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   max_decay <- 0.025
   type_decay <- 2
   t <- 0.025
-  q <- 0.8
-  pfer_val <- 0.1
+  cutoff <- 0.8
+  pfer <- 0.1
   stability_selection <- TRUE
   include_offset <- FALSE
   offset_name <- NA
@@ -546,9 +557,12 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis, rules_list_dis,
-                                                            ite_std_dis, q, stability_selection,
-                                                            pfer_val))
+  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis,
+                                                            rules_list_dis,
+                                                            ite_std_dis,
+                                                            stability_selection,
+                                                            cutoff,
+                                                            pfer))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
@@ -614,8 +628,8 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   max_decay <- 0.025
   type_decay <- 2
   t <- 0.025
-  q <- 0.8
-  pfer_val <- 0.1
+  cutoff <- 0.8
+  pfer <- 0.1
   stability_selection <- TRUE
   include_offset <- FALSE
   offset_name <- NA
@@ -663,9 +677,12 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis, rules_list_dis,
-                                                            ite_std_dis, q, stability_selection,
-                                                            pfer_val))
+  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis,
+                                                            rules_list_dis,
+                                                            ite_std_dis,
+                                                            stability_selection,
+                                                            cutoff,
+                                                            pfer))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
@@ -705,7 +722,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   # Poisson (Offset)
   # Step 6: Estimate CATE
   include_offset <- TRUE
-  offset_name <- "x1"
+  offset_name <- "x6"
   ite_list_inf <- estimate_ite(y_inf, z_inf, as.data.frame(X_inf), ite_method_inf, binary,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,

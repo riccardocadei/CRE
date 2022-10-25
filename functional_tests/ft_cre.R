@@ -1,8 +1,8 @@
 # Generate sample data
 set.seed(2021)
-dataset_cont <- generate_cre_dataset(n = 300,
+dataset_cont <- generate_cre_dataset(n = 500,
                                      rho = 0,
-                                     n_rules = 2,
+                                     n_rules = 4,
                                      p = 10,
                                      effect_size = 2,
                                      binary = FALSE)
@@ -24,24 +24,24 @@ method_params = list(ratio_dis = 0.25,
                      include_offset = FALSE,
                      cate_method = "linreg",
                      cate_SL_library = "SL.xgboost",
-                     filter_cate = FALSE,
+                     filter_cate = TRUE,
                      offset_name = NA,
                      random_state = 3591)
 
 hyper_params = list(effect_modifiers = c(),
-                    ntrees_rf = 100,
-                    ntrees_gbm = 50,
+                    ntrees_rf = 200,
+                    ntrees_gbm = 200,
                     node_size = 20,
                     max_nodes = 5,
                     max_depth = 15,
                     replace = TRUE,
                     max_decay = 0.025,
                     type_decay = 2,
-                    t_anom = 0.2,
+                    t_anom = 0.01,
                     t_corr = 1,
-                    q = 0.8,
-                    stability_selection = FALSE,
-                    pfer_val=0.1)
+                    stability_selection = TRUE,
+                    cutoff = 0.6,
+                    pfer = 1)
 
 
 cre_results <- cre(y, z, X, method_params, hyper_params)

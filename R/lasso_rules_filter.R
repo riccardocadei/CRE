@@ -7,11 +7,12 @@
 #' @param rules_matrix_std The standardized causal rules matrix.
 #' @param rules_list A vector of causal rules.
 #' @param ite_std The standardized ITE.
-#' @param q Number of (unique) selected rules per subsample in stability selection.
 #' @param stability_selection Whether or not using stability selection to
 #' select the causal rules.
-#' @param pfer_val The Per-Family Error Rate, the expected number of
-#' false discoveries.
+#' @param cutoff  Threshold defining the minimum cutoff value for the stability
+#' scores.
+#' @param pfer Upper bound for the per-family error rate (tolerated amount of
+#' falsely selected rules).
 #'
 #' @return
 #' a vector of causal rules
@@ -19,23 +20,27 @@
 #' @keywords internal
 #'
 lasso_rules_filter <- function(rules_matrix_std, rules_list, ite_std,
-                                q, stability_selection, pfer_val) {
+                                stability_selection, cutoff, pfer) {
 
   `%>%` <- magrittr::`%>%`
   rules <- NULL
   if (length(rules_list)>1){
 
     if (stability_selection) {
-      # Stability selection
-      stab_mod <- stabs::stabsel(rules_matrix_std, ite_std,
-                                 fitfun = "glmnet.lasso", cutoff = q,
-                                 PFER = pfer_val, args.fitfun = "conservative")
+      # LASSO Stability Selection
+      stab_mod <- stabs::stabsel(x = rules_matrix_std,
+                                 y = ite_std,
+                                 fitfun = "glmnet.lasso",
+                                 cutoff = cutoff,
+                                 PFER = pfer)
       rule_stab <- rules_list[stab_mod$selected]
       select_rules <- rule_stab
 
     } else {
-      # LASSO
-      cv_lasso <- glmnet::cv.glmnet(rules_matrix_std, ite_std, alpha = 1,
+      # (Vanilla) LASSO
+      cv_lasso <- glmnet::cv.glmnet(x = rules_matrix_std,
+                                    y = ite_std,
+                                    alpha = 1,
                                     intercept = FALSE)
       aa <- stats::coef(cv_lasso, s = cv_lasso$lambda.1se)
       index_aa <- which(aa[-1,1] != 0)
