@@ -4,7 +4,7 @@
 \alias{extract_rules}
 \title{Extract (Causal) Decision Rules}
 \usage{
-extract_rules(treelist, X, ntrees, max_depth)
+extract_rules(treelist, X, ntrees, max_depth, digits = 2)
 }
 \arguments{
 \item{treelist}{A list of decision trees.}
@@ -13,7 +13,9 @@ extract_rules(treelist, X, ntrees, max_depth)
 
 \item{ntrees}{The number of (the first) decision trees considered.}
 
-\item{max_depth}{The number of top levels from each tree considered
+\item{max_depth}{The number of top levels from each tree considered}
+
+\item{digits}{The Number of digitits for rounding decision rules.
 to extract conditions.}
 }
 \value{
