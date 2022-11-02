@@ -168,8 +168,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   select_rules_dis_list <- generate_causal_rules(X_dis, ite_std_dis, method_params, hyper_params)
   select_rules_dis <- select_rules_dis_list[["rules"]]
   M <- select_rules_dis_list[["M"]]
-  M_final <- M[["Filter 4 (LASSO)"]]
-  logger::log_info("{M_final} significant Causal Rules were discovered.")
+
 
 
   # Inference ------------------------------------------------------------------
@@ -214,7 +213,7 @@ cre <- function(y, z, X, method_params, hyper_params){
                             getElement(method_params,"cate_SL_library"),
                             getElement(method_params,"filter_cate"))
 
-  M["Filter 5 (CATE)"] <- as.integer(length(cate_inf$Rule)-1)
+  M["Causal (significant)"] <- as.integer(length(cate_inf$Rule[cate_inf$Rule %in% "(ATE)" == FALSE]))
 
   # Generate final results S3 object
   results <- list()
