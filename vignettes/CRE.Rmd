@@ -16,19 +16,25 @@ knitr::opts_chunk$set(
 
 # Installation
 
-Installing the latest developing version. 
-
-```{r, eval=FALSE}
-library(devtools)
-install_github("NSAPH-Software/CRE", ref="develop")
-library("CRE")
-```
-
 Installing from CRAN.
 
 ```{r, eval=FALSE}
 install.packages("CRE")
 ```
+
+Installing the latest developing version. 
+
+```{r, eval=FALSE}
+library(devtools)
+install_github("NSAPH-Software/CRE", ref="develop")
+```
+
+Import.
+
+```{r, eval=FALSE}
+library("CRE")
+```
+
 # Usage
 
 Input parameters:
@@ -64,7 +70,7 @@ __Other Parameters__
 - **`replace`** Boolean variable for replacement in bootstrapping.     
 - **`max_decay`** Decay Threshold for pruning the rules.     
 - **`type_decay`** Decay Type for pruning the rules (1: relative error; 2: error).     
-- **`t_anom`** The threshold to define too generic or too specific (anomalous) rules.     
+- **`t_ext`** The threshold to define too generic or too specific (extreme) rules.     
 - **`t_corr`** The threshold to define correlated rules.     
 - **`stability_selection`** Whether or not using stability selection for selecting the causal rules.
 - **`cutoff`** Threshold defining the minimum cutoff value for the stability scores.
@@ -113,14 +119,15 @@ The CRE package can generate synthetic data that can be used to test different f
                        offset_name = NA,
                        random_state = 3591)
 
- hyper_params = list(ntrees_rf = 100,
+ hyper_params = list(interaction_vars = c(),
+                     ntrees_rf = 100,
                      ntrees_gbm = 50,
                      node_size = 20,
                      max_nodes = 5,
                      max_depth = 15,
                      max_decay = 0.025,
                      type_decay = 2,
-                     t_anom = 0.025,
+                     t_ext = 0.025,
                      t_corr = 1,
                      replace = FALSE,
                      stability_selection = TRUE,
@@ -128,6 +135,7 @@ The CRE package can generate synthetic data that can be used to test different f
                      pfer = 0.1)
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
-
+summary(cre_results, method_params, hyper_params)
+plot(cre_results)
 ```
 
