@@ -1,5 +1,5 @@
 #' @title
-#' Split Data
+#' Honest Splitting
 #'
 #' @description
 #' Splits data into discovery and inference subsamples.
@@ -13,7 +13,7 @@
 #'
 #' @keywords internal
 #'
-split_data <- function(y, z, X, ratio_dis) {
+honest_splitting <- function(y, z, X, ratio_dis) {
 
   n <- check_input_data(y, z, X)
   total_sample <- cbind(y, z, X)

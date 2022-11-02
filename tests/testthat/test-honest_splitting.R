@@ -14,11 +14,11 @@ test_that("split_data works as expected.", {
   z <- as.matrix(z)
 
   # Incorrect data inputs
-  expect_error(split_data(y, z, X, ratio_dis = NA))
-  expect_error(split_data(y, z, X, ratio_dis = 2))
+  expect_error(honest_splitting(y, z, X, ratio_dis = NA))
+  expect_error(honest_splitting(y, z, X, ratio_dis = 2))
 
   # Correct outputs
-  subgroups <- split_data(y, z, X, ratio_dis)
+  subgroups <- honest_splitting(y, z, X, ratio_dis)
   expect_true(length(subgroups) == 2)
   expect_identical(class(subgroups[[1]]), c("matrix", "array"))
   expect_identical(class(subgroups[[2]]), c("matrix", "array"))

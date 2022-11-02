@@ -41,7 +41,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  subgroups <- split_data(y, z, X, ratio_dis)
+  subgroups <- honest_splitting(y, z, X, ratio_dis)
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
 
@@ -164,7 +164,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  subgroups <- CRE:::split_data(y, z, X, ratio_dis)
+  subgroups <- CRE:::honest_splitting(y, z, X, ratio_dis)
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
@@ -284,7 +284,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  subgroups <- CRE:::split_data(y, z, X, ratio_dis)
+  subgroups <- CRE:::honest_splitting(y, z, X, ratio_dis)
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
@@ -402,7 +402,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  subgroups <- CRE:::split_data(y, z, X, ratio_dis)
+  subgroups <- CRE:::honest_splitting(y, z, X, ratio_dis)
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
@@ -521,7 +521,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  subgroups <- CRE:::split_data(y, z, X, ratio_dis)
+  subgroups <- CRE:::honest_splitting(y, z, X, ratio_dis)
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
@@ -641,7 +641,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   X <- as.matrix(X)
   y <- abs(round(as.matrix(y)))
   z <- as.matrix(z)
-  subgroups <- CRE:::split_data(y, z, X, ratio_dis)
+  subgroups <- CRE:::honest_splitting(y, z, X, ratio_dis)
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data

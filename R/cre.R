@@ -124,7 +124,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  subgroups <- split_data(y, z, X, getElement(method_params,"ratio_dis"))
+  subgroups <- honest_splitting(y, z, X, getElement(method_params,"ratio_dis"))
   discovery <- subgroups[["discovery"]]
   inference <- subgroups[["inference"]]
 

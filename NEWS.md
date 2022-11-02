@@ -12,6 +12,7 @@
 
 ### Changed
 
+* Rename `split_data()` in `honest_splitting()`
 * Rename `prune_rules()` in ``filter_irrelevant_rules()`
 * Rename `discard_correlated_rules()` in `filter_correlated_rules()`
 * Rename `discard_anomalous_rules()` in `filter_extreme_rules()`
