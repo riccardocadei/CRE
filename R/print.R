@@ -42,48 +42,60 @@ summary.cre <- function(object, ...) {
   if (!is.null(getElement(c(...), "ratio_dis"))) {
     cat("\n\nMethods")
 
-    cat("\n- Discovery:")
-    cat("\n  - ITE Estimator : ", getElement(params, "ite_method_dis"))
+    cat("\n- Causal Rules Discovery")
+    cat("\n  - ITE")
+    cat("\n    - Estimator:", getElement(params, "ite_method_dis"))
     if (getElement(params, "ite_method_dis")=='aipw') {
-      cat("\n  - Outcome Estim.: ", getElement(params, "oreg_method_dis"))
+      cat("\n    - Outcome:", getElement(params, "oreg_method_dis"))
     }
     if (!getElement(params, "include_ps_dis")) {
-      cat("\n  - PS Estimator  : ", getElement(params, "ps_method_dis"))
-    } else { cat("\n  - PS Estimator  :  None") }
+      cat("\n    - Propensity Score:", getElement(params, "ps_method_dis"))
+    }
 
     # hyper params
     if (!is.null(getElement(c(...), "ntrees_rf"))) {
-      cat("\n  - Rule Generation:")
-      cat("\n    - Number of Trees: ", getElement(params, "ntrees_rf"),
+      cat("\n  - Rules Generation")
+      if (!is.null(getElement(params, "intervention_vars"))) {
+        cat("\n    - Intervention Variables:", getElement(params, "node_size"))
+      } else {cat("\n    - Intervention Variables: All")}
+      cat("\n    - Number of Trees       :", getElement(params, "ntrees_rf"),
           "RF +",getElement(params, "ntrees_gbm"), "GBM")
-      cat("\n    - Node Size      : ", getElement(params, "node_size"))
-      cat("\n    - Max Nodes      : ", getElement(params, "max_nodes"))
-      cat("\n  - Rule Regularization:")
-      cat("\n    - Threshold Decay (Pruning)   : ", getElement(params, "max_decay"))
-      cat("\n    - Decay Type (Pruning)        : ", getElement(params, "type_decay"))
-      cat("\n    - Threshold (Anomalous)       : ", getElement(params, "t_anom"))
-      cat("\n    - Threshold (Correlated)      : ", getElement(params, "t_corr"))
-      cat("\n    - Stability Selection         : ", getElement(params, "stability_selection"))
+      cat("\n    - Node Size             :", getElement(params, "node_size"))
+      cat("\n    - Max Nodes             :", getElement(params, "max_nodes"))
+      cat("\n  - Filtering")
+      cat("\n    - Threshold Decay (Ireelevant):", getElement(params, "max_decay"))
+      cat("\n    - Decay Type (Irrelevant)     :", getElement(params, "type_decay"))
+      cat("\n    - Threshold (Extreme)         :", getElement(params, "t_anom"))
+      cat("\n    - Threshold (Correlated)      :", getElement(params, "t_corr"))
+      cat("\n    - Signfifcant (p-value>0.05)  :", getElement(params, "filter_cate"))
+      cat("\n  - Causal Rules Discovery")
+      cat("\n    - Stability Selection:", getElement(params, "stability_selection"))
       if (getElement(params, "stability_selection")){
-        cat("\n    - Cutoff (Stability Selection): ", getElement(params, "cutoff"))
-        cat("\n    - PFER (Stability Selection)  : ", getElement(params, "pfer"))
+        cat("\n    - Cutoff             :", getElement(params, "cutoff"))
+        cat("\n    - PFER               :", getElement(params, "pfer"))
       }
-      cat("\n    - Filter CATE                 : ", getElement(params, "filter_cate"))
     }
 
-    cat("\n- Inference:")
-    cat("\n  - ITE Estimator : ", getElement(params, "ite_method_inf"))
+    cat("\n- CATE Inference")
+    cat("\n  - ITE")
+    cat("\n    - ITE Estimator:", getElement(params, "ite_method_inf"))
     if (getElement(params, "ite_method_inf")=='aipw') {
-      cat("\n  - Outcome Estim.: ", getElement(params, "oreg_method_inf"))
+      cat("\n    - Outcome:", getElement(params, "oreg_method_inf"))
     }
     if (!getElement(params, "include_ps_inf")) {
-      cat("\n  - PS Estimator  : ", getElement(params, "ps_method_inf"))
-    } else { cat("\n  - PS Estimator  :  None") }
-    cat("\n  - CATE Estimator: ", getElement(params, "cate_method"))
+      cat("\n    - Propensity Score:", getElement(params, "ps_method_inf"))
+    }
+    cat("\n  - CATE")
+    cat("\n    - Estimator:", getElement(params, "cate_method"))
   }
 
   cat("\n\nResults\n")
-  cat("- Heterogeneity:", object[['M']][['Filter 5 (CATE)']], "(significant) Causal Rules discovered\n", sep=" ")
+  if (getElement(params, "filter_cate")) {
+    cat("- Heterogeneity:", object[['M']][['Causal (significant)']], "(significant) Causal Rules discovered\n", sep=" ")
+  } else {
+    cat("- Heterogeneity:", object[['M']][['Causal']], "Causal Rules discovered\n", sep=" ")
+  }
+
   cat("- CATE         :\n")
   print(object[["CATE"]])
 }
