@@ -63,7 +63,7 @@ to extract conditions.
 \item \emph{replace}: Boolean variable for replacement in bootstrapping.
 \item \emph{max_decay}: Decay Threshold for pruning the rules.
 \item \emph{type_decay}: Decay Type for pruning the rules (1: relative error; 2: error).
-\item \emph{t_anom}: The threshold to define too generic or too specific (anomalous) rules.
+\item \emph{t_ext}: The threshold to define too generic or too specific (extreme) rules.
 \item \emph{t_corr}: The threshold to define correlated rules.
 \item \emph{stability_selection}: Whether or not using stability selection for
 selecting the causal rules.
@@ -115,7 +115,7 @@ hyper_params <- list(ntrees_rf = 100,
                      max_depth = 15,
                      max_decay = 0.025,
                      type_decay = 2,
-                     t_anom = 0.025,
+                     t_ext = 0.025,
                      t_corr = 1,
                      replace = FALSE,
                      stability_selection = TRUE,

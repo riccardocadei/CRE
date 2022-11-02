@@ -32,7 +32,7 @@ test_that("cre Runs Correctly", {
                      max_depth = 15,
                      max_decay = 0.025,
                      type_decay = 2,
-                     t_anom = 0.025,
+                     t_ext = 0.025,
                      t_corr = 1,
                      replace = FALSE,
                      stability_selection = TRUE,
@@ -133,10 +133,10 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["max_nodes"]] <- 5
-  hyper_params[["t_anom"]] <- "test"
+  hyper_params[["t_ext"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["t_anom"]] <- 0.025
+  hyper_params[["t_ext"]] <- 0.025
   hyper_params[["t_corr"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 

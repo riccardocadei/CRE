@@ -12,6 +12,7 @@
 
 ### Changed
 
+* Rename `t_anom` variable in `t_ext`
 * Rename `effect_modifier` variable in `intervention_vars`
 * Rename `lasso_rules_filter()` in `discover_causal_rules()`
 * Rename `split_data()` in `honest_splitting()`

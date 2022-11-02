@@ -46,7 +46,7 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
   # Discard rules with too few or too many observations and correlated rules ---
   logger::log_info("1.3.2 Filter extreme rules")
   rules_matrix <- filter_extreme_rules(rules_matrix, rules_list,
-                                       getElement(hyper_params,"t_anom"))
+                                       getElement(hyper_params,"t_ext"))
   rules_list <- colnames(rules_matrix)
   M_filter2 <- length(rules_list)
 

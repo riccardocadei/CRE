@@ -18,7 +18,7 @@ test_that("Extreme Rules Discarded Correctly", {
   replace <- FALSE
   max_decay <- 0.025
   type_decay <- 2
-  t_anom <- 0.1
+  t_ext <- 0.1
   intervention_vars <- c()
 
   # Check for binary outcome
@@ -51,13 +51,13 @@ test_that("Extreme Rules Discarded Correctly", {
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(filter_extreme_rules(rules_matrix = "test", rules_list, t_anom))
+  expect_error(filter_extreme_rules(rules_matrix = "test", rules_list, t_ext))
 
   # Correct outputs
-  results <- filter_extreme_rules(rules_matrix, rules_list, t_anom)
+  results <- filter_extreme_rules(rules_matrix, rules_list, t_ext)
   expect_identical(class(results), c("matrix", "array"))
 
-  t_anom <- 0
-  results <- filter_extreme_rules(rules_matrix, rules_list, t_anom)
+  t_ext <- 0
+  results <- filter_extreme_rules(rules_matrix, rules_list, t_ext)
   expect_identical(class(results), c("matrix", "array"))
 })

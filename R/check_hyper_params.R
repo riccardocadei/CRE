@@ -34,7 +34,7 @@ check_hyper_params <- function(params){
     stop("Please specify 'TRUE' or 'FALSE' for the replace argument.")
   }
 
-  if (!inherits(getElement(params, "t_anom"),"numeric")){
+  if (!inherits(getElement(params, "t_ext"),"numeric")){
     stop("Invalid 't' input. Please input a number.")
   }
 
