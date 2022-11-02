@@ -51,12 +51,12 @@ test_that("Rules Interpreted Correctly", {
   rules_matrix <- generate_rules_matrix(X, rules_list)
   rules_matrix_std <- standardize_rules_matrix(rules_matrix)
 
-  # Step 5: Select important rules
-  select_rules <- as.character(lasso_rules_filter(rules_matrix_std,
-                                                  rules_list,
-                                                  ite_std, q,
-                                                  stability_selection,
-                                                  pfer_val))
+  # Step 5: Select Causal Rules
+  select_rules <- as.character(discover_causal_rules(rules_matrix_std,
+                                                     rules_list,
+                                                     ite_std, q,
+                                                     stability_selection,
+                                                     pfer_val))
 
   ###### Run Tests ######
 

@@ -67,12 +67,12 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
 
   # 2.4 LASSO
   logger::log_info("LASSO ...")
-  rules_list <- as.character(lasso_rules_filter(rules_matrix_std,
-                                                 rules_list,
-                                                 ite_std,
-                                                 getElement(hyper_params,"stability_selection"),
-                                                 getElement(hyper_params,"cutoff"),
-                                                 getElement(hyper_params,"pfer")))
+  rules_list <- as.character(discover_causal_rules(rules_matrix_std,
+                                                   rules_list,
+                                                   ite_std,
+                                                   getElement(hyper_params,"stability_selection"),
+                                                   getElement(hyper_params,"cutoff"),
+                                                   getElement(hyper_params,"pfer")))
   M_filter4 <- length(rules_list)
 
   M <- list("Initial" = M_initial,

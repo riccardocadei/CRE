@@ -12,6 +12,7 @@
 
 ### Changed
 
+* Rename `lasso_rules_filter()` in `discover_causal_rules()`
 * Rename `split_data()` in `honest_splitting()`
 * Rename `prune_rules()` in ``filter_irrelevant_rules()`
 * Rename `discard_correlated_rules()` in `filter_correlated_rules()`

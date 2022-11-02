@@ -1,8 +1,8 @@
 #' @title
-#' Filter (Causal) Decision Rules by LASSO (with stability selection)
+#' Discover Causal Decision Rules
 #'
 #' @description
-#' Selects the causal rules that are most important.
+#' Discover Causal Decision Rules by randomization-based tests
 #'
 #' @param rules_matrix_std The standardized causal rules matrix.
 #' @param rules_list A vector of causal rules.
@@ -15,11 +15,11 @@
 #' falsely selected rules).
 #'
 #' @return
-#' a vector of causal rules
+#' List of the Causal Decision Rules discovered
 #'
 #' @keywords internal
 #'
-lasso_rules_filter <- function(rules_matrix_std, rules_list, ite_std,
+discover_causal_rules <- function(rules_matrix_std, rules_list, ite_std,
                                 stability_selection, cutoff, pfer) {
 
   `%>%` <- magrittr::`%>%`
@@ -27,7 +27,8 @@ lasso_rules_filter <- function(rules_matrix_std, rules_list, ite_std,
   if (length(rules_list)>1){
 
     if (stability_selection) {
-      # LASSO Stability Selection
+      # Stability Selection
+      # TO DO: replace LASSO with randomization-based tests
       stab_mod <- stabs::stabsel(x = rules_matrix_std,
                                  y = ite_std,
                                  fitfun = "glmnet.lasso",
@@ -37,7 +38,8 @@ lasso_rules_filter <- function(rules_matrix_std, rules_list, ite_std,
       select_rules <- rule_stab
 
     } else {
-      # (Vanilla) LASSO
+      # vanilla
+      # TO DO: replace LASSO with randomization-based tests
       cv_lasso <- glmnet::cv.glmnet(x = rules_matrix_std,
                                     y = ite_std,
                                     alpha = 1,
