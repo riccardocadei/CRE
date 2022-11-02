@@ -33,6 +33,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   cate_method <- "DRLearner"
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
+  intervention_vars <- c()
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -67,8 +68,9 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-                                      node_size, max_nodes, max_depth, replace,
+  initial_rules_dis <- generate_rules(X_dis, ite_std_dis, intervention_vars,
+                                      ntrees_rf, ntrees_gbm, node_size,
+                                      max_nodes, max_depth, replace,
                                       random_state = 981)
 
   rules_list_dis <- filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
@@ -160,6 +162,8 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   cate_method <- "cf-means"
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
+  intervention_vars <- c()
+
   # Split data
   X <- as.matrix(X)
   y <- as.matrix(y)
@@ -189,9 +193,10 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf,
-                                            ntrees_gbm, node_size, max_nodes,
-                                            max_depth, replace, random_state = 214)
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+                                            ntrees_rf, ntrees_gbm, node_size,
+                                            max_nodes, max_depth, replace,
+                                            random_state = 214)
 
   rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
@@ -280,6 +285,8 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   cate_method <- "linreg"
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
+  intervention_vars <- c()
+
   # Split data
   X <- as.matrix(X)
   y <- as.matrix(y)
@@ -309,9 +316,10 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf,
-                                            ntrees_gbm, node_size, max_nodes,
-                                            max_depth, replace, random_state = 214)
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+                                            ntrees_rf, ntrees_gbm, node_size,
+                                            max_nodes, max_depth, replace,
+                                            random_state = 214)
 
   rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
@@ -398,6 +406,9 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   cate_method <- "linreg"
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
+  intervention_vars <- c()
+
+
   # Split data
   X <- as.matrix(X)
   y <- as.matrix(y)
@@ -427,9 +438,10 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf,
-                                            ntrees_gbm, node_size, max_nodes,
-                                            max_depth, replace, random_state = 214)
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+                                            ntrees_rf, ntrees_gbm, node_size,
+                                            max_nodes, max_depth, replace,
+                                            random_state = 214)
 
   rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
@@ -517,6 +529,8 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   cate_method <- "bart-baggr"
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
+  intervention_vars <- c()
+
   # Split data
   X <- as.matrix(X)
   y <- as.matrix(y)
@@ -546,9 +560,10 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf,
-                                            ntrees_gbm, node_size, max_nodes,
-                                            max_depth, replace, random_state = 214)
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+                                            ntrees_rf, ntrees_gbm, node_size,
+                                            max_nodes, max_depth, replace,
+                                            random_state = 214)
 
   rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
@@ -637,6 +652,8 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   cate_method <- "poisson"
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
+  intervention_vars <- c()
+
   # Split data
   X <- as.matrix(X)
   y <- abs(round(as.matrix(y)))
@@ -666,9 +683,10 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf,
-                                            ntrees_gbm, node_size, max_nodes,
-                                            max_depth, replace, random_state = 214)
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+                                            ntrees_rf, ntrees_gbm, node_size,
+                                            max_nodes, max_depth, replace,
+                                            random_state = 214)
 
   rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 

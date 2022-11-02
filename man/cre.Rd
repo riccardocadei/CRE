@@ -52,7 +52,7 @@ the ITE, for Poisson only.
 \item{hyper_params}{The list of parameters required to tune the functions,
 including:
 \itemize{
-\item \emph{effect_modifiers}: Effect Modifiers for Rules Generation.
+\item \emph{intervention_vars}: Intervention-able variables used for Rules Generation.
 \item \emph{ntrees_rf}: The number of decision trees for randomForest.
 \item \emph{ntrees_gbm}: The number of decision trees for gradient boosting.
 \item \emph{node_size}: The minimum size of the trees' terminal nodes.

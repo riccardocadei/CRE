@@ -18,6 +18,7 @@ test_that("Rules Extracted Correctly", {
   replace <- FALSE
   max_decay <- 0.025
   type_decay <- 2
+  intervention_vars <- c()
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -39,8 +40,9 @@ test_that("Rules Extracted Correctly", {
   ite_std <- ite_list[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
-                                  max_nodes, max_depth, replace, random_state = 2389)
+  initial_rules <- generate_rules(X, ite_std, intervention_vars, ntrees_rf,
+                                  ntrees_gbm, node_size, max_nodes, max_depth,
+                                  replace, random_state = 2389)
 
   rules <- filter_irrelevant_rules(initial_rules, X, ite_std, max_decay, type_decay)
 

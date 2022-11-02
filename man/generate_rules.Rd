@@ -7,6 +7,7 @@
 generate_rules(
   X,
   ite_std,
+  intervention_vars,
   ntrees_rf,
   ntrees_gbm,
   node_size,
@@ -20,6 +21,8 @@ generate_rules(
 \item{X}{The covariate matrix.}
 
 \item{ite_std}{The standardized ITE.}
+
+\item{intervention_vars}{Intervention-able variables used for Rules Generation.}
 
 \item{ntrees_rf}{The number of decision trees for randomForest.}
 
@@ -37,9 +40,10 @@ to extract conditions.}
 \item{random_state}{An integer number that represents a random state.}
 }
 \value{
-A vector of causal rules.
+List of generated Decision Rules
 }
 \description{
-Method for generating (Causal) Decision Rules before Regularization.
+Method for generating a set of relevant Decision Rules characterizing the
+heterogeneity in the ITE
 }
 \keyword{internal}

@@ -37,7 +37,7 @@
 #'     - *filter_cate*: Whether or not to filter rules with p-value <= 0.05.
 #' @param hyper_params The list of parameters required to tune the functions,
 #' including:
-#'  - *effect_modifiers*: Effect Modifiers for Rules Generation.
+#'  - *intervention_vars*: Intervention-able variables used for Rules Generation.
 #'  - *ntrees_rf*: The number of decision trees for randomForest.
 #'  - *ntrees_gbm*: The number of decision trees for gradient boosting.
 #'  - *node_size*: The minimum size of the trees' terminal nodes.
@@ -177,8 +177,8 @@ cre <- function(y, z, X, method_params, hyper_params){
   logger::log_info("2. CATE Inference")
   #message("Conducting Inference Subsample Analysis")
 
-  # Estimate ITE -----------------------
-  logger::log_info("2.1 Estimating ITE") ---------------------------------------
+  # Estimate ITE ---------------------------------------------------------------
+  logger::log_info("2.1 Estimating ITE")
   ite_list_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
                                ite_method = getElement(method_params,"ite_method_inf"),
                                is_y_binary = getElement(method_params,"is_y_binary"),

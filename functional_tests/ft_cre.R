@@ -28,7 +28,7 @@ method_params = list(ratio_dis = 0.25,
                      offset_name = NA,
                      random_state = 3591)
 
-hyper_params = list(effect_modifiers = c(),
+hyper_params = list(intervention_vars = c(),
                     ntrees_rf = 200,
                     ntrees_gbm = 200,
                     node_size = 20,

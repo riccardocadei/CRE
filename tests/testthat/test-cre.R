@@ -24,7 +24,8 @@ test_that("cre Runs Correctly", {
                        offset_name = NA,
                        random_state = 3591)
 
- hyper_params = list(ntrees_rf = 100,
+ hyper_params = list(intervention_vars = c(),
+                     ntrees_rf = 100,
                      ntrees_gbm = 50,
                      node_size = 20,
                      max_nodes = 5,

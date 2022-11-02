@@ -22,6 +22,7 @@ test_that("Rules Interpreted Correctly", {
   q <- 0.8
   stability_selection <- TRUE
   pfer_val <- 0.1
+  intervention_vars <- c()
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -41,9 +42,9 @@ test_that("Rules Interpreted Correctly", {
   ite_std <- ite_list[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
-                                  max_nodes, max_depth, replace,
-                                  random_state = 812)
+  initial_rules <- generate_rules(X, ite_std, intervention_vars, ntrees_rf,
+                                  ntrees_gbm, node_size, max_nodes, max_depth,
+                                  replace, random_state = 812)
 
   rules_list <- filter_irrelevant_rules(initial_rules, X, ite_std, max_decay, type_decay)
 

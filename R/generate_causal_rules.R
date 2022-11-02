@@ -16,14 +16,11 @@
 #'
 generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
 
-  # Filter only Effect Modifiers -----------------------------------------------
-  effect_modifiers = getElement(hyper_params,"effect_modifiers")
-  if (!is.null(effect_modifiers)) X <- X[,effect_modifiers,drop=FALSE]
-
   # Generate rules -------------------------------------------------------------
   logger::log_info("1.2 Rules generation")
   rules <- generate_rules(X,
                           ite_std,
+                          getElement(hyper_params,"intervention_vars"),
                           getElement(hyper_params,"ntrees_rf"),
                           getElement(hyper_params,"ntrees_gbm"),
                           getElement(hyper_params,"node_size"),
