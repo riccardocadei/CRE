@@ -65,7 +65,7 @@ summary.cre <- function(object, ...) {
       cat("\n  - Filtering")
       cat("\n    - Threshold Decay (Ireelevant):", getElement(params, "max_decay"))
       cat("\n    - Decay Type (Irrelevant)     :", getElement(params, "type_decay"))
-      cat("\n    - Threshold (Extreme)         :", getElement(params, "t_anom"))
+      cat("\n    - Threshold (Extreme)         :", getElement(params, "t_ext"))
       cat("\n    - Threshold (Correlated)      :", getElement(params, "t_corr"))
       cat("\n    - Signfifcant (p-value>0.05)  :", getElement(params, "filter_cate"))
       cat("\n  - Causal Rules Discovery")
@@ -90,10 +90,12 @@ summary.cre <- function(object, ...) {
   }
 
   cat("\n\nResults\n")
-  if (getElement(params, "filter_cate")) {
-    cat("- Heterogeneity:", object[['M']][['Causal (significant)']], "(significant) Causal Rules discovered\n", sep=" ")
+  if (!is.null(getElement(c(...), "filter_cate"))) {
+    if (getElement(params, "filter_cate")) {
+      cat("- Heterogeneity:", object[['M']][['Causal (significant)']], "(significant) Causal Rules discovered\n", sep=" ")
+    }
   } else {
-    cat("- Heterogeneity:", object[['M']][['Causal']], "Causal Rules discovered\n", sep=" ")
+      cat("- Heterogeneity:", object[['M']][['Causal']], "Causal Rules discovered\n", sep=" ")
   }
 
   cat("- CATE         :\n")
