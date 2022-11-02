@@ -67,12 +67,11 @@
 #'
 #' \donttest{
 #' set.seed(2021)
-#' dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+#' dataset <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
 #'                                      effect_size = 2, binary = FALSE)
-#' y <- dataset_cont[["y"]]
-#' z <- dataset_cont[["z"]]
-#' X <- as.data.frame(dataset_cont[["X"]])
-#' X_names <- names(as.data.frame(X))
+#' y <- dataset[["y"]]
+#' z <- dataset[["z"]]
+#' X <- dataset[["X"]]
 #'
 #' method_params <- list(ratio_dis = 0.25,
 #'                       ite_method_dis="bart",

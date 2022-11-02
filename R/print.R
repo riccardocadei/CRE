@@ -78,7 +78,7 @@ summary.cre <- function(object, ...) {
 
     cat("\n- CATE Inference")
     cat("\n  - ITE")
-    cat("\n    - ITE Estimator:", getElement(params, "ite_method_inf"))
+    cat("\n    - Estimator:", getElement(params, "ite_method_inf"))
     if (getElement(params, "ite_method_inf")=='aipw') {
       cat("\n    - Outcome:", getElement(params, "oreg_method_inf"))
     }
