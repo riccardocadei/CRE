@@ -16,12 +16,12 @@
 #'
 generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
 
-  # Filter only Effect Modifiers -------
+  # Filter only Effect Modifiers -----------------------------------------------
   effect_modifiers = getElement(hyper_params,"effect_modifiers")
   if (!is.null(effect_modifiers)) X <- X[,effect_modifiers,drop=FALSE]
 
-  # 1. Generate rules --------------------
-  logger::log_info("Rules generation ... ")
+  # Generate rules -------------------------------------------------------------
+  logger::log_info("1.2 Rules generation")
   rules <- generate_rules(X,
                           ite_std,
                           getElement(hyper_params,"ntrees_rf"),
@@ -33,40 +33,36 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
                           getElement(method_params,"random_state"))
   M_initial <- length(rules)
 
-  # 2. Select important rules -------------
-  logger::log_info("Rules Regularization ...")
+  # Filtering ------------------------------------------------------------------
+  logger::log_info("1.3 Filtering")
 
-  # 2.1 Discard irrelevant variable-value pair from a rule condition
-  logger::log_info("Filter irrelevant rules ...")
+  # Discard irrelevant variable-value pair from a rule condition ---------------
+  logger::log_info("1.3.1 Filter irrelevant rules")
   rules_list <- filter_irrelevant_rules(rules, X, ite_std,
                                         getElement(hyper_params,"max_decay"),
                                         getElement(hyper_params,"type_decay"))
   M_filter1 <- length(rules_list)
 
-  # Generate rules matrix
-  logger::log_info("Generate Rules Matrix ...")
+  # Generate rules matrix ------------------------------------------------------
   rules_matrix <- generate_rules_matrix(X, rules_list)
 
-  # 2.2 Discard rules with too few or too many observations and correlated rules
-  logger::log_info("Remove extreme rules ...")
+  # Discard rules with too few or too many observations and correlated rules ---
+  logger::log_info("1.3.2 Filter extreme rules")
   rules_matrix <- filter_extreme_rules(rules_matrix, rules_list,
                                        getElement(hyper_params,"t_anom"))
   rules_list <- colnames(rules_matrix)
   M_filter2 <- length(rules_list)
 
-  # 2.3 Discard correlated rules
-  logger::log_info("Remove correlated rules ...")
+  # Discard correlated rules ---------------------------------------------------
+  logger::log_info("1.3.2 Filter correlated rules")
   rules_matrix <- filter_correlated_rules(rules_matrix, rules_list,
                                            getElement(hyper_params,"t_corr"))
   rules_list <- colnames(rules_matrix)
   M_filter3 <- length(rules_list)
 
-  # Standardize rules matrix
-  logger::log_info("Standardize Rules Matrix ...")
+  # Discover Causal Rules ---------------------------------------------------
+  logger::log_info("1.4 Discover Causal Rules")
   rules_matrix_std <- standardize_rules_matrix(rules_matrix)
-
-  # 2.4 LASSO
-  logger::log_info("LASSO ...")
   rules_list <- as.character(discover_causal_rules(rules_matrix_std,
                                                    rules_list,
                                                    ite_std,

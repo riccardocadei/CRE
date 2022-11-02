@@ -109,6 +109,7 @@
 cre <- function(y, z, X, method_params, hyper_params){
 
   # Input checks ---------------------------------------------------------------
+  logger::log_info("Load dataset")
   check_input_data(y = y, z = z, X = X)
   method_params <- check_method_params(y = y, params = method_params)
   check_hyper_params(params = hyper_params)
@@ -118,8 +119,8 @@ cre <- function(y, z, X, method_params, hyper_params){
   list2env(method_params, envir = environment())
   list2env(hyper_params, envir = environment())
 
-  # Split data -----------------------------------------------------------------
-  logger::log_info("Working on splitting data ... ")
+  # Honest Splitting -----------------------------------------------------------
+  logger::log_info("Honest Splitting")
   X_names <- names(as.data.frame(X))
   X <- as.matrix(X)
   y <- as.matrix(y)
@@ -141,10 +142,10 @@ cre <- function(y, z, X, method_params, hyper_params){
 
   # Discovery ------------------------------------------------------------------
 
-  logger::log_info("Conducting Discovery Subsample Analysis ... ")
+  logger::log_info("1. Causal Rules Discovery")
 
   # Estimate ITE -----------------------
-  logger::log_info("Estimating ITE ... ")
+  logger::log_info("1.1 Estimating ITE")
   st_ite_t <- proc.time()
   ite_list_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
                                ite_method = getElement(method_params,"ite_method_dis"),
@@ -173,11 +174,11 @@ cre <- function(y, z, X, method_params, hyper_params){
 
   # Inference ------------------------------------------------------------------
 
-  logger::log_info("Conducting Inference Subsample Analysis ...")
-  message("Conducting Inference Subsample Analysis")
+  logger::log_info("2. CATE Inference")
+  #message("Conducting Inference Subsample Analysis")
 
   # Estimate ITE -----------------------
-  logger::log_info("Estimating ITE ... ")
+  logger::log_info("2.1 Estimating ITE") ---------------------------------------
   ite_list_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
                                ite_method = getElement(method_params,"ite_method_inf"),
                                is_y_binary = getElement(method_params,"is_y_binary"),
@@ -193,9 +194,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
-  # Generate rules matrix --------------
-  logger::log_info("Generating Causal Rules Matrix ...")
-
+  # Generate rules matrix ------------------------------------------------------
   if (length(select_rules_dis)==0){
     rules_matrix_inf <- NA
     select_rules_interpretable <- NA
@@ -204,8 +203,8 @@ cre <- function(y, z, X, method_params, hyper_params){
     select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
   }
 
-  # Estimate CATE ----------------------
-  logger::log_info("Estimating CATE ...")
+  # Estimate CATE --------------------------------------------------------------
+  logger::log_info("2.2 Estimating CATE")
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
                             getElement(method_params,"include_offset"),
                             getElement(method_params,"offset_name"),
@@ -224,8 +223,11 @@ cre <- function(y, z, X, method_params, hyper_params){
   results[["cate_method"]] <- getElement(method_params,"cate_method")
   attr(results, "class") <- "cre"
 
-  # Return Results
-  logger::log_info("CRE method complete. Returning results.")
+  # Sensitivity Analysis -------------------------------------------------------
+  #logger::log_info("3 Sensitivity Analysis")
+  # TO DO
 
+  # Return Results -------------------------------------------------------------
+  logger::log_info("CRE method complete. Returning results.")
   return(results)
 }
