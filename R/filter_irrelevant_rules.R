@@ -1,9 +1,10 @@
 #' @title
-#' Prune (Causal) Decision Rules
+#' Filter Irrelevant Decision Rules
 #'
 #' @description
-#' Method for pruning (Causal) Decision Rules extracted from the Random Forest or
-#' Gradient Boosting algorithms.
+#' Filter Irrelevant Decision Rules extracted evaluating the performance
+#' reduction removing a specific rule at the time
+#' (see 'Interpreting tree ensembles with inTrees' by Houtao Deng, 2019)
 #'
 #' @param rules A list of decision rules.
 #' @param X The features matrix.
@@ -14,9 +15,9 @@
 #' @keywords internal
 #'
 #' @return
-#' A list of (Causal) Decision Rules.
+#' A list of the selected Decision Rules.
 #'
-prune_rules <- function(rules, X, ite_std, max_decay, type_decay){
+filter_irrelevant_rules <- function(rules, X, ite_std, max_decay, type_decay){
 
   rules_matrix <- matrix(rules)
   colnames(rules_matrix) <- "condition"

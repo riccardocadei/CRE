@@ -71,7 +71,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
                                       node_size, max_nodes, max_depth, replace,
                                       random_state = 981)
 
-  rules_list_dis <- prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Step 4: Generate rules matrix
   rules_matrix_dis <- generate_rules_matrix(X_dis, rules_list_dis)
@@ -193,7 +193,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
                                             ntrees_gbm, node_size, max_nodes,
                                             max_depth, replace, random_state = 214)
 
-  rules_list_dis <- CRE:::prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
@@ -313,7 +313,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                             ntrees_gbm, node_size, max_nodes,
                                             max_depth, replace, random_state = 214)
 
-  rules_list_dis <- CRE:::prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
@@ -431,7 +431,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                             ntrees_gbm, node_size, max_nodes,
                                             max_depth, replace, random_state = 214)
 
-  rules_list_dis <- CRE:::prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
@@ -550,7 +550,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
                                             ntrees_gbm, node_size, max_nodes,
                                             max_depth, replace, random_state = 214)
 
-  rules_list_dis <- CRE:::prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
@@ -670,7 +670,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
                                             ntrees_gbm, node_size, max_nodes,
                                             max_depth, replace, random_state = 214)
 
-  rules_list_dis <- CRE:::prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)

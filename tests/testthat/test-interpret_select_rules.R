@@ -45,7 +45,7 @@ test_that("Rules Interpreted Correctly", {
                                   max_nodes, max_depth, replace,
                                   random_state = 812)
 
-  rules_list <- prune_rules(initial_rules, X, ite_std, max_decay, type_decay)
+  rules_list <- filter_irrelevant_rules(initial_rules, X, ite_std, max_decay, type_decay)
 
   # Step 4: Generate rules matrix
   rules_matrix <- generate_rules_matrix(X, rules_list)

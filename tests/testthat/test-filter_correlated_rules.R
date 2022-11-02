@@ -43,25 +43,19 @@ test_that("Correlated Rules Discarded Correctly", {
   initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
                                   max_nodes, max_depth, replace, random_state = 2389)
 
-  rules_list <- prune_rules(initial_rules, X, ite_std, max_decay, type_decay)
+  rules_list <- filter_irrelevant_rules(initial_rules, X, ite_std, max_decay, type_decay)
   rules_matrix <- generate_rules_matrix(X, rules_list)
 
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(discard_anomalous_rules(rules_matrix = "test", rules_list, t_corr))
+  expect_error(filter_extreme_rules(rules_matrix = "test", rules_list, t_corr))
 
   # Correct outputs
-  results <- discard_correlated_rules(rules_matrix, rules_list, t_corr)
-  expect_true(length(results) == 2)
-  expect_identical(class(results[[1]]), c("matrix", "array"))
-  expect_true(class(results[[2]]) == "character")
-  expect_true(ncol(results[[1]]) == length(results[[2]]))
+  results <- filter_correlated_rules(rules_matrix, rules_list, t_corr)
+  expect_identical(class(results), c("matrix", "array"))
 
   t_corr <- 10
-  results <- discard_correlated_rules(rules_matrix, rules_list, t_corr)
-  expect_true(length(results) == 2)
-  expect_identical(class(results[[1]]), c("matrix", "array"))
-  expect_true(class(results[[2]]) == "character")
-  expect_true(ncol(results[[1]]) == length(results[[2]]))
+  results <- filter_correlated_rules(rules_matrix, rules_list, t_corr)
+  expect_identical(class(results), c("matrix", "array"))
 })

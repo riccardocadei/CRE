@@ -12,7 +12,10 @@
 
 ### Changed
 
-* Removed value test on `test-estimate_ite_oreg`.
+* Rename `prune_rules()` in ``filter_irrelevant_rules()`
+* Rename `discard_correlated_rules()` in `filter_correlated_rules()`
+* Rename `discard_anomalous_rules()` in `filter_extreme_rules()`
+* Removed value test on `test-estimate_ite_oreg`
 
 ## CRE 0.1.0 (2022-10-17)
 

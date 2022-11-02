@@ -42,7 +42,7 @@ test_that("Rules Extracted Correctly", {
   initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
                                   max_nodes, max_depth, replace, random_state = 2389)
 
-  rules <- prune_rules(initial_rules, X, ite_std, max_decay, type_decay)
+  rules <- filter_irrelevant_rules(initial_rules, X, ite_std, max_decay, type_decay)
 
 
   ###### Run Tests ######
