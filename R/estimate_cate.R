@@ -295,8 +295,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                                   P_Value = cate_reg_orig[,2])
       row.names(cate_reg_orig) <- 1:nrow(cate_reg_orig)
       if (filter_cate) {
-        cate_final <- subset(cate_reg_orig, cate_reg_orig$P_Value <= 0.05 &
-                                            cate_reg_orig$Rule != "(ATE)")
+        cate_final <- subset(cate_reg_orig, cate_reg_orig$P_Value <= 0.05 |
+                                            cate_reg_orig$Rule == "(ATE)")
       } else {
         cate_final <- cate_reg_orig
       }
