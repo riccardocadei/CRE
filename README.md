@@ -45,7 +45,7 @@ __Other Parameters__
 - **`cate_SL_library`** The library used if cate_method is set to DRLearner.    
 - **`filter_cate`** Whether or not to filter rules with p-value <= 0.05.   
 **`hyper_params`** The list of parameters required to tune the functions, including:    
-- **`effect_modifiers`** Effect Modifiers for Rules Generation.     
+- **`intervention_vars`** Intervention-able variables used for Rules Generation.     
 - **`ntrees_rf`** The number of decision trees for randomForest.     
 - **`ntrees_gbm`** The number of decision trees for gradient boosting.     
 - **`node_size`** The minimum size of the trees' terminal nodes.      
@@ -54,11 +54,11 @@ __Other Parameters__
 - **`replace`** Boolean variable for replacement in bootstrapping.     
 - **`max_decay`** Decay Threshold for pruning the rules.     
 - **`type_decay`** Decay Type for pruning the rules (1: relative error; 2: error).     
-- **`t_anom`** The threshold to define too generic or too specific (anomalous) rules.     
+- **`t_ext`** The threshold to define too generic or too specific (extreme) rules.     
 - **`t_corr`** The threshold to define correlated rules.     
-- **`q`** Number of (unique) selected rules per subsample in stability selection.     
-- **`stability_selection`** Whether or not using stability selection for selecting the causal rules.    
-- **`pfer_val`** The Per-Family Error Rate, the expected number of false discoveries.      
+- **`stability_selection`** Whether or not using stability selection for selecting the causal rules.
+- **'cutoff'**:  Threshold defining the minimum cutoff value for the stability scores.   
+- **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules).    
 
 ### A note on the parameters
 
@@ -80,12 +80,11 @@ The CRE package can generate synthetic data that can be used to test different f
 
 ```r
   set.seed(9687)
-  dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+  dataset <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 2, binary = FALSE)
-  y <- dataset_cont[["y"]]
-  z <- dataset_cont[["z"]]
-  X <- as.data.frame(dataset_cont[["X"]])
-  X_names <- names(as.data.frame(X))
+  y <- dataset[["y"]]
+  z <- dataset[["z"]]
+  X <- dataset[["X"]]
 
   method_params = list(ratio_dis = 0.25,
                        ite_method_dis="bart",
@@ -103,19 +102,20 @@ The CRE package can generate synthetic data that can be used to test different f
                        offset_name = NA,
                        random_state = 3591)
 
- hyper_params = list(ntrees_rf = 100,
+ hyper_params = list(intervention_vars = c(),
+                     ntrees_rf = 100,
                      ntrees_gbm = 50,
                      node_size = 20,
                      max_nodes = 5,
                      max_depth = 15,
                      max_decay = 0.025,
                      type_decay = 2,
-                     t_anom = 0.025,
+                     t_ext = 0.025,
                      t_corr = 1,
                      replace = FALSE,
-                     q = 0.8,
                      stability_selection = TRUE,
-                     pfer_val = 0.1)
+                     cutoff = 0.8,
+                     pfer = 0.1)
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
 
