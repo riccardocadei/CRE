@@ -4,7 +4,7 @@
 #' @description
 #' Discover Causal Decision Rules by randomization-based tests
 #'
-#' @param rules_matrix_std The standardized causal rules matrix.
+#' @param rules_matrix The causal rules matrix.
 #' @param rules_list A vector of causal rules.
 #' @param ite_std The standardized ITE.
 #' @param stability_selection Whether or not using stability selection to
@@ -21,7 +21,7 @@
 #'
 #' @keywords internal
 #'
-discover_causal_rules <- function(rules_matrix_std, rules_list, ite_std,
+discover_causal_rules <- function(rules_matrix, rules_list, ite_std,
                                   stability_selection, cutoff, pfer,
                                   penalty_lr = 1) {
 
@@ -32,7 +32,7 @@ discover_causal_rules <- function(rules_matrix_std, rules_list, ite_std,
       rule_weight <- rules_length^penalty_lr
       rules_weight <- append(rules_weight,rule_weight)
     }
-    rules_matrix_std = t(t(rules_matrix_std)/rules_weight)
+    rules_matrix = t(t(rules_matrix)/rules_weight)
   }
 
   `%>%` <- magrittr::`%>%`
@@ -41,8 +41,8 @@ discover_causal_rules <- function(rules_matrix_std, rules_list, ite_std,
 
     if (stability_selection) {
       # Stability Selection
-      # TO DO: replace LASSO with randomization-based tests
-      stab_mod <- stabs::stabsel(x = rules_matrix_std,
+      # TODO: replace LASSO with randomization-based tests
+      stab_mod <- stabs::stabsel(x = rules_matrix,
                                  y = ite_std,
                                  fitfun = "glmnet.lasso",
                                  cutoff = cutoff,
@@ -52,8 +52,8 @@ discover_causal_rules <- function(rules_matrix_std, rules_list, ite_std,
 
     } else {
       # vanilla
-      # TO DO: replace LASSO with randomization-based tests
-      cv_lasso <- glmnet::cv.glmnet(x = rules_matrix_std,
+      # TODO: replace LASSO with randomization-based tests
+      cv_lasso <- glmnet::cv.glmnet(x = rules_matrix,
                                     y = ite_std,
                                     alpha = 1,
                                     intercept = FALSE)
