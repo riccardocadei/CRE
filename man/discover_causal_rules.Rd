@@ -10,7 +10,8 @@ discover_causal_rules(
   ite_std,
   stability_selection,
   cutoff,
-  pfer
+  pfer,
+  penalty_lr = 1
 )
 }
 \arguments{
@@ -28,6 +29,9 @@ scores.}
 
 \item{pfer}{Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules).}
+
+\item{penalty_lr}{Order of penalty for long rules during LASSO for Causal
+Rules discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)}
 }
 \value{
 List of the Causal Decision Rules discovered

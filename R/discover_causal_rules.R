@@ -13,6 +13,8 @@
 #' scores.
 #' @param pfer Upper bound for the per-family error rate (tolerated amount of
 #' falsely selected rules).
+#' @param penalty_lr Order of penalty for long rules during LASSO for Causal
+#' Rules discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
 #'
 #' @return
 #' List of the Causal Decision Rules discovered
@@ -20,7 +22,18 @@
 #' @keywords internal
 #'
 discover_causal_rules <- function(rules_matrix_std, rules_list, ite_std,
-                                stability_selection, cutoff, pfer) {
+                                  stability_selection, cutoff, pfer,
+                                  penalty_lr = 1) {
+
+  if (penalty_lr>0){
+    rules_weight = c()
+    for (rule in rules_list){
+      rules_length = lengths(regmatches(rule, gregexpr("&", rule)))+1
+      rule_weight <- rules_length^penalty_lr
+      rules_weight <- append(rules_weight,rule_weight)
+    }
+    rules_matrix_std = t(t(rules_matrix_std)/rules_weight)
+  }
 
   `%>%` <- magrittr::`%>%`
   rules <- NULL
