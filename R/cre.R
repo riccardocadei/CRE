@@ -113,7 +113,7 @@
 cre <- function(y, z, X, method_params, hyper_params){
 
   # Input checks ---------------------------------------------------------------
-  logger::log_info("Load dataset")
+  logger::log_info("Loading dataset...")
   check_input_data(y = y, z = z, X = X)
   method_params <- check_method_params(y = y, params = method_params)
   check_hyper_params(params = hyper_params)
@@ -124,7 +124,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   list2env(hyper_params, envir = environment())
 
   # Honest Splitting -----------------------------------------------------------
-  logger::log_info("Honest Splitting")
+  logger::log_info("(Honest) Splitting the dataset...")
   X_names <- names(as.data.frame(X))
   X <- as.matrix(X)
   y <- as.matrix(y)
@@ -146,10 +146,10 @@ cre <- function(y, z, X, method_params, hyper_params){
 
   # Discovery ------------------------------------------------------------------
 
-  logger::log_info("1. Causal Rules Discovery")
+  logger::log_info("Starting Causal Rules Discovery")
 
   # Estimate ITE -----------------------
-  logger::log_info("1.1 Estimating ITE")
+  logger::log_info("Estimating ITE...")
   st_ite_t <- proc.time()
   ite_list_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
                                ite_method = getElement(method_params,"ite_method_dis"),
@@ -180,11 +180,11 @@ cre <- function(y, z, X, method_params, hyper_params){
 
   # Inference ------------------------------------------------------------------
 
-  logger::log_info("2. CATE Inference")
+  logger::log_info("Starting CATE Inference")
   #message("Conducting Inference Subsample Analysis")
 
   # Estimate ITE ---------------------------------------------------------------
-  logger::log_info("2.1 Estimating ITE")
+  logger::log_info("Estimating ITE...")
   ite_list_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
                                ite_method = getElement(method_params,"ite_method_inf"),
                                is_y_binary = getElement(method_params,"is_y_binary"),
@@ -210,7 +210,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   }
 
   # Estimate CATE --------------------------------------------------------------
-  logger::log_info("2.2 Estimating CATE")
+  logger::log_info("Estimating CATE...")
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
                             getElement(method_params,"include_offset"),
                             getElement(method_params,"offset_name"),
@@ -234,6 +234,6 @@ cre <- function(y, z, X, method_params, hyper_params){
   # TO DO
 
   # Return Results -------------------------------------------------------------
-  logger::log_info("CRE method complete. Returning results.")
+  logger::log_info("CRE method complete")
   return(results)
 }
