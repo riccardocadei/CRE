@@ -19,6 +19,7 @@ test_that("Correlated Rules Discarded Correctly", {
   max_decay <- 0.025
   type_decay <- 2
   t_corr <- 1
+  t_ext <- 0.01
   intervention_vars <- c()
 
   # Check for binary outcome
@@ -48,10 +49,13 @@ test_that("Correlated Rules Discarded Correctly", {
   rules_list <- filter_irrelevant_rules(initial_rules, X, ite_std, max_decay, type_decay)
   rules_matrix <- generate_rules_matrix(X, rules_list)
 
+  rules_matrix <- filter_extreme_rules(rules_matrix, rules_list, t_ext)
+  rules_list <- colnames(rules_matrix)
+
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(filter_extreme_rules(rules_matrix = "test", rules_list, t_corr))
+  expect_error(filter_correlated_rules(rules_matrix = "test", rules_list, t_corr))
 
   # Correct outputs
   results <- filter_correlated_rules(rules_matrix, rules_list, t_corr)
