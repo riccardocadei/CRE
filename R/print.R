@@ -69,10 +69,11 @@ summary.cre <- function(object, ...) {
       cat("\n    - Threshold (Correlated)      :", getElement(params, "t_corr"))
       cat("\n    - Stat. Significant (CATE)    :", getElement(params, "filter_cate"))
       cat("\n  - Causal Rules Discovery")
-      cat("\n    - Stability Selection:", getElement(params, "stability_selection"))
+      cat("\n    - Penalty Rules Length:", getElement(params, "penalty_rl"))
+      cat("\n    - Stability Selection :", getElement(params, "stability_selection"))
       if (getElement(params, "stability_selection")){
-        cat("\n    - Cutoff             :", getElement(params, "cutoff"))
-        cat("\n    - PFER               :", getElement(params, "pfer"))
+        cat("\n    - Cutoff              :", getElement(params, "cutoff"))
+        cat("\n    - PFER                :", getElement(params, "pfer"))
       }
     }
 
