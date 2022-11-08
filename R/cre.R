@@ -34,7 +34,7 @@
 #'     - *offset_name*: The name of the offset, if it is to be included.
 #'     - *cate_method*: The method to estimate the CATE values.
 #'     - *cate_SL_library*: The library used if cate_method is set to DRLearner.
-#'     - *filter_cate*: Whether or not to filter rules with p-value <= 0.05.
+#'
 #' @param hyper_params The list of parameters required to tune the functions,
 #' including:
 #'  - *intervention_vars*: Intervention-able variables used for Rules Generation.
@@ -50,6 +50,8 @@
 #'  - *type_decay*: Decay Type for pruning the rules (1: relative error; 2: error).
 #'  - *t_ext*: The threshold to define too generic or too specific (extreme) rules.
 #'  - *t_corr*: The threshold to define correlated rules.
+#'  - *t_pvalue*: the threshold to define statistically significant rules
+#' (filter only causal decision rules with p-value <= t_pvalue).
 #'  - *stability_selection*: Whether or not using stability selection for
 #'  selecting the causal rules.
 #'  - *cutoff*:  Threshold defining the minimum cutoff value for the stability
@@ -87,7 +89,6 @@
 #'                       include_offset = FALSE,
 #'                       cate_method = "DRLearner",
 #'                       cate_SL_library = "SL.xgboost",
-#'                       filter_cate = FALSE,
 #'                       offset_name = NA,
 #'                       random_state = 3591)
 #'
@@ -100,6 +101,7 @@
 #'                      type_decay = 2,
 #'                      t_ext = 0.025,
 #'                      t_corr = 1,
+#'                      t_pvalue = 0.05,
 #'                      replace = FALSE,
 #'                      stability_selection = TRUE,
 #'                      cutoff = 0.6,
@@ -216,9 +218,9 @@ cre <- function(y, z, X, method_params, hyper_params){
                             getElement(method_params,"cate_method"),
                             ite_inf, sd_ite_inf,
                             getElement(method_params,"cate_SL_library"),
-                            getElement(method_params,"filter_cate"))
+                            getElement(hyper_params,"t_pvalue"))
 
-  M["Causal (significant)"] <- as.integer(length(cate_inf$Rule[cate_inf$Rule %in% "(ATE)" == FALSE]))
+  M["Causal (significant)"] <- as.integer(length(cate_inf$Rule))-1
 
   # Generate final results S3 object
   results <- list()

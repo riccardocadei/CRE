@@ -17,7 +17,7 @@ estimate_cate(
   ite_inf,
   sd_ite_inf,
   cate_SL_library,
-  filter_cate
+  t_pvalue
 )
 }
 \arguments{
@@ -49,7 +49,8 @@ inference subsample}
 
 \item{cate_SL_library}{the library used if cate_method = DRLearner}
 
-\item{filter_cate}{whether or not to filter rules with p-value <= 0.05}
+\item{t_pvalue}{the threshold to define statistically significant rules
+(filter only causal decision rules with p-value <= t_pvalue).}
 }
 \value{
 a matrix of CATE estimates

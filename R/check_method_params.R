@@ -160,9 +160,5 @@ check_method_params <- function(y, params){
     }
   }
 
-  if (!(getElement(params, "filter_cate") %in% c(TRUE, FALSE))) {
-    stop("Invalid 'filter_cate' input. Please specify TRUE or FALSE.")
-  }
-
   return(params)
 }

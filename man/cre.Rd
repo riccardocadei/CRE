@@ -45,7 +45,6 @@ the ITE, for Poisson only.
 \item \emph{offset_name}: The name of the offset, if it is to be included.
 \item \emph{cate_method}: The method to estimate the CATE values.
 \item \emph{cate_SL_library}: The library used if cate_method is set to DRLearner.
-\item \emph{filter_cate}: Whether or not to filter rules with p-value <= 0.05.
 }
 }}
 
@@ -65,6 +64,8 @@ to extract conditions.
 \item \emph{type_decay}: Decay Type for pruning the rules (1: relative error; 2: error).
 \item \emph{t_ext}: The threshold to define too generic or too specific (extreme) rules.
 \item \emph{t_corr}: The threshold to define correlated rules.
+\item \emph{t_pvalue}: the threshold to define statistically significant rules
+(filter only causal decision rules with p-value <= t_pvalue).
 \item \emph{stability_selection}: Whether or not using stability selection for
 selecting the causal rules.
 \item \emph{cutoff}:  Threshold defining the minimum cutoff value for the stability
@@ -105,7 +106,6 @@ method_params <- list(ratio_dis = 0.25,
                       include_offset = FALSE,
                       cate_method = "DRLearner",
                       cate_SL_library = "SL.xgboost",
-                      filter_cate = FALSE,
                       offset_name = NA,
                       random_state = 3591)
 
@@ -118,6 +118,7 @@ hyper_params <- list(ntrees_rf = 100,
                      type_decay = 2,
                      t_ext = 0.025,
                      t_corr = 1,
+                     t_pvalue = 0.05,
                      replace = FALSE,
                      stability_selection = TRUE,
                      cutoff = 0.6,

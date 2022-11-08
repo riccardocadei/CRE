@@ -22,7 +22,8 @@
 #' @param sd_ite_inf the standard deviations for the estimated ITEs for the
 #'   inference subsample
 #' @param cate_SL_library the library used if cate_method = DRLearner
-#' @param filter_cate whether or not to filter rules with p-value <= 0.05
+#' @param t_pvalue the threshold to define statistically significant rules
+#' (filter only causal decision rules with p-value <= t_pvalue).
 #'
 #' @return
 #' a matrix of CATE estimates
@@ -35,7 +36,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                           offset_name, rules_matrix_inf,
                           select_rules_interpretable,
                           cate_method, ite_inf, sd_ite_inf,
-                          cate_SL_library, filter_cate) {
+                          cate_SL_library, t_pvalue) {
 
   # TODO: Move different methods to a new function.
   # TODO: Pass the number of cores explicitly.
@@ -95,11 +96,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
         cbind(cate_model)
       colnames(cate_temp) <- c("Rule", "Estimate", "Std_Error",
                                "Z_Value", "P_Value")
-      if (filter_cate) {
-        cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
-      } else {
-        cate_final <- cate_temp
-      }
+      cate_final <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
+                                      cate_temp$Rule == "(ATE)")
       rownames(cate_final) <- 1:nrow(cate_final)
     } else if (cate_method %in% c("DRLearner")) {
       # split the data evenly
@@ -163,11 +161,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
       cate_temp <- data.frame(Rule = cate_names) %>%
         cbind(cate_model)
-      if (filter_cate) {
-        cate_final <- subset(cate_temp, cate_temp$P_Value <= 0.05)
-      } else {
-        cate_final <- cate_temp
-      }
+      cate_final <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
+                                      cate_temp$Rule == "(ATE)")
       rownames(cate_final) <- 1:nrow(cate_final)
     } else if (cate_method == "bart-baggr") {
 
@@ -288,18 +283,14 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       cate_reg_orig_names <- stringr::str_extract(row.names(cate_reg_orig), "`.*`") %>%
         stringr::str_remove_all("`")
       cate_reg_orig_names[1] <- "(ATE)"
-      cate_reg_orig <- data.frame(Rule = cate_reg_orig_names,
-                                  Estimate = cate_reg_orig[,1],
-                                  CI_lower = cate_reg_orig[,3],
-                                  CI_upper = cate_reg_orig[,4],
-                                  P_Value = cate_reg_orig[,2])
-      row.names(cate_reg_orig) <- 1:nrow(cate_reg_orig)
-      if (filter_cate) {
-        cate_final <- subset(cate_reg_orig, cate_reg_orig$P_Value <= 0.05 |
-                                            cate_reg_orig$Rule == "(ATE)")
-      } else {
-        cate_final <- cate_reg_orig
-      }
+      cate_temp <- data.frame(Rule = cate_reg_orig_names,
+                              Estimate = cate_reg_orig[,1],
+                              CI_lower = cate_reg_orig[,3],
+                              CI_upper = cate_reg_orig[,4],
+                              P_Value = cate_reg_orig[,2])
+      row.names(cate_temp) <- 1:nrow(cate_temp)
+      cate_final <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
+                                      cate_temp$Rule == "(ATE)")
     } else {
       stop("Error: No CATE Estimation method specified.")
     }

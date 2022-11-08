@@ -67,13 +67,15 @@ summary.cre <- function(object, ...) {
       cat("\n    - Decay Type (Irrelevant)     :", getElement(params, "type_decay"))
       cat("\n    - Threshold (Extreme)         :", getElement(params, "t_ext"))
       cat("\n    - Threshold (Correlated)      :", getElement(params, "t_corr"))
-      cat("\n    - Stat. Significant (CATE)    :", getElement(params, "filter_cate"))
+      cat("\n    - Threshold (p-Value)         :", getElement(params, "t_pvalue"))
       cat("\n  - Causal Rules Discovery")
       cat("\n    - Penalty Rules Length:", getElement(params, "penalty_rl"))
-      cat("\n    - Stability Selection :", getElement(params, "stability_selection"))
       if (getElement(params, "stability_selection")){
-        cat("\n    - Cutoff              :", getElement(params, "cutoff"))
-        cat("\n    - PFER                :", getElement(params, "pfer"))
+        cat("\n    - Stability Selection")
+        cat("\n      - Cutoff:", getElement(params, "cutoff"))
+        cat("\n      - PFER  :", getElement(params, "pfer"))
+      } else {
+        cat("\n    - Stability Selection : FALSE")
       }
     }
 

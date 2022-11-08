@@ -20,7 +20,6 @@ test_that("generate_causal_rules works as expected!", {
                        include_offset = FALSE,
                        cate_method = "DRLearner",
                        cate_SL_library = "SL.xgboost",
-                       filter_cate = FALSE,
                        offset_name = NA,
                        random_state = 3591)
 
@@ -34,6 +33,7 @@ test_that("generate_causal_rules works as expected!", {
                       type_decay = 2,
                       t_ext = 0.025,
                       t_corr = 1,
+                      t_value = 0.05,
                       replace = FALSE,
                       stability_selection = TRUE,
                       cutoff = 0.8,

@@ -32,7 +32,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   offset_name <- NA
   cate_method <- "DRLearner"
   cate_SL_library <- "SL.xgboost"
-  filter_cate <- FALSE
+  t_pvalue <- 0.5
   intervention_vars <- c()
   penalty_rl <- 1
 
@@ -122,7 +122,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, filter_cate)
+                            sd_ite_inf, cate_SL_library, t_pvalue)
   expect_true(class(cate_inf) == "data.frame")
 })
 
@@ -163,7 +163,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   binary <- FALSE
   cate_method <- "cf-means"
   cate_SL_library <- "SL.xgboost"
-  filter_cate <- FALSE
+  t_pvalue <- 0.5
   intervention_vars <- c()
   penalty_rl <- 1
 
@@ -247,7 +247,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, filter_cate)
+                            sd_ite_inf, cate_SL_library, t_pvalue)
   expect_true(class(cate_inf) == "data.frame")
 })
 
@@ -288,7 +288,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   binary <- FALSE
   cate_method <- "linreg"
   cate_SL_library <- "SL.xgboost"
-  filter_cate <- FALSE
+  t_pvalue <- 0.5
   intervention_vars <- c()
   penalty_rl <- 1
 
@@ -370,7 +370,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, filter_cate)
+                            sd_ite_inf, cate_SL_library, t_pvalue)
   expect_true(class(cate_inf) == "data.frame")
 })
 
@@ -411,7 +411,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   binary <- FALSE
   cate_method <- "linreg"
   cate_SL_library <- "SL.xgboost"
-  filter_cate <- FALSE
+  t_pvalue <- 0.5
   intervention_vars <- c()
   penalty_rl <- 1
 
@@ -494,7 +494,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, filter_cate)
+                            sd_ite_inf, cate_SL_library, t_pvalue)
   expect_true(class(cate_inf) == "data.frame")
 })
 
@@ -536,7 +536,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   binary <- FALSE
   cate_method <- "bart-baggr"
   cate_SL_library <- "SL.xgboost"
-  filter_cate <- FALSE
+  t_pvalue <- 0.5
   intervention_vars <- c()
   penalty_rl <- 1
 
@@ -620,7 +620,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, filter_cate)
+                            sd_ite_inf, cate_SL_library, t_pvalue)
   expect_true(class(cate_inf) == "data.frame")
 
 })
@@ -661,7 +661,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   binary <- FALSE
   cate_method <- "poisson"
   cate_SL_library <- "SL.xgboost"
-  filter_cate <- FALSE
+  t_pvalue <- 0.5
   intervention_vars <- c()
   penalty_rl <- 1
 
@@ -746,7 +746,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, filter_cate)
+                            sd_ite_inf, cate_SL_library, t_pvalue)
   expect_true(class(cate_inf) == "data.frame")
 
   # Poisson (Offset)
@@ -781,6 +781,6 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, filter_cate)
+                            sd_ite_inf, cate_SL_library, t_pvalue)
   expect_true(class(cate_inf) == "data.frame")
 })

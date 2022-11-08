@@ -35,11 +35,15 @@ check_hyper_params <- function(params){
   }
 
   if (!inherits(getElement(params, "t_ext"),"numeric")){
-    stop("Invalid 't' input. Please input a number.")
+    stop("Invalid 't_ext' input. Please input a number.")
   }
 
   if (!inherits(getElement(params, "t_corr"),"numeric")){
-    stop("Invalid 't' input. Please input a number.")
+    stop("Invalid 't_corr' input. Please input a number.")
+  }
+
+  if (!inherits(getElement(params, "t_pvalue"),"numeric")) {
+    stop("Invalid 't_pvalue' input. Please input a number.")
   }
 
   if (!(getElement(params, "stability_selection") %in% c(TRUE, FALSE))) {
