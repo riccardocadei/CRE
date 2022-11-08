@@ -33,7 +33,7 @@ test_that("generate_causal_rules works as expected!", {
                       type_decay = 2,
                       t_ext = 0.025,
                       t_corr = 1,
-                      t_value = 0.05,
+                      t_pvalue = 0.05,
                       replace = FALSE,
                       stability_selection = TRUE,
                       cutoff = 0.8,
