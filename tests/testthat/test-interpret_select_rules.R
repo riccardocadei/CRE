@@ -18,11 +18,11 @@ test_that("Rules Interpreted Correctly", {
   replace <- FALSE
   max_decay = 0.025
   type_decay = 2
-  t <- 0.025
-  q <- 0.8
+  cutoff <- 0.8
   stability_selection <- TRUE
-  pfer_val <- 0.1
+  pfer <- 0.1
   intervention_vars <- c()
+  penalty_rl <- 1
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -55,9 +55,11 @@ test_that("Rules Interpreted Correctly", {
   # Step 5: Select Causal Rules
   select_rules <- as.character(discover_causal_rules(rules_matrix_std,
                                                      rules_list,
-                                                     ite_std, q,
+                                                     ite_std,
+                                                     cutoff,
                                                      stability_selection,
-                                                     pfer_val))
+                                                     pfer,
+                                                     penalty_rl))
 
   ###### Run Tests ######
 

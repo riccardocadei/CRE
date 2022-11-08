@@ -56,6 +56,8 @@
 #' scores.
 #'  - *pfer*: Upper bound for the per-family error rate (tolerated amount of
 #' falsely selected rules).
+#'  - *penalty_rl*: Order of penalty for rules length during LASSO for Causal
+#' Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
 #'
 #' @return
 #' An S3 object containing the matrix of Conditional
@@ -101,7 +103,8 @@
 #'                      replace = FALSE,
 #'                      stability_selection = TRUE,
 #'                      cutoff = 0.6,
-#'                      pfer = 0.1)
+#'                      pfer = 0.1,
+#'                      penalty_rl = 1)
 #'
 #' cre_results <- cre(y, z, X, method_params, hyper_params)
 #'}
@@ -164,7 +167,10 @@ cre <- function(y, z, X, method_params, hyper_params){
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate Causal Decision Rules  -----------------------
-  select_rules_dis_list <- generate_causal_rules(X_dis, ite_std_dis, method_params, hyper_params)
+  select_rules_dis_list <- generate_causal_rules(X_dis,
+                                                 ite_std_dis,
+                                                 method_params,
+                                                 hyper_params)
   select_rules_dis <- select_rules_dis_list[["rules"]]
   M <- select_rules_dis_list[["M"]]
 

@@ -138,7 +138,8 @@ hyper_params = list(intervention_vars = c(),
                     t_corr = 1,
                     stability_selection = TRUE,
                     cutoff = 0.6,
-                    pfer = 1)
+                    pfer = 1,
+                    penalty_rl = 1)
 
 # linreg CATE estimation with bart ITE estimation
 cre_results <- cre(y, z, X, method_params, hyper_params)

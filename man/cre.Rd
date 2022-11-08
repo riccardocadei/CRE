@@ -71,6 +71,8 @@ selecting the causal rules.
 scores.
 \item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules).
+\item \emph{penalty_rl}: Order of penalty for rules length during LASSO for Causal
+Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
 }}
 }
 \value{
@@ -119,7 +121,8 @@ hyper_params <- list(ntrees_rf = 100,
                      replace = FALSE,
                      stability_selection = TRUE,
                      cutoff = 0.6,
-                     pfer = 0.1)
+                     pfer = 0.1,
+                     penalty_rl = 1)
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
 }

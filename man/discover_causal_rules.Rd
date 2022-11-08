@@ -5,17 +5,17 @@
 \title{Discover Causal Decision Rules}
 \usage{
 discover_causal_rules(
-  rules_matrix_std,
+  rules_matrix,
   rules_list,
   ite_std,
   stability_selection,
   cutoff,
   pfer,
-  penalty_lr = 1
+  penalty_rl
 )
 }
 \arguments{
-\item{rules_matrix_std}{The standardized causal rules matrix.}
+\item{rules_matrix}{The causal rules matrix.}
 
 \item{rules_list}{A vector of causal rules.}
 
@@ -30,8 +30,8 @@ scores.}
 \item{pfer}{Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules).}
 
-\item{penalty_lr}{Order of penalty for long rules during LASSO for Causal
-Rules discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)}
+\item{penalty_rl}{Order of penalty for rules length during LASSO for Causal
+Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)}
 }
 \value{
 List of the Causal Decision Rules discovered

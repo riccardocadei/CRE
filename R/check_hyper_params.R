@@ -60,4 +60,8 @@ check_hyper_params <- function(params){
     params[["pfer"]] <- NA
     params[["cutoff"]] <- NA
   }
+
+  if (!inherits(getElement(params, "penalty_rl"),"numeric")){
+    stop("Invalid 'penalty_rl' input. Please input a number.")
+  }
 }

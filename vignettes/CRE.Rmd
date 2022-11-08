@@ -75,6 +75,8 @@ __Other Parameters__
 - **`stability_selection`** Whether or not using stability selection for selecting the causal rules.
 - **`cutoff`** Threshold defining the minimum cutoff value for the stability scores.
 - **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules).
+- **`penalty_rl`** Order of penalty for rules length during LASSO for Causal
+Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
 
 ### A note on the parameters
 
@@ -131,7 +133,8 @@ The CRE package can generate synthetic data that can be used to test different f
                      replace = FALSE,
                      stability_selection = TRUE,
                      cutoff = 0.8,
-                     pfer = 0.1)
+                     pfer = 0.1,
+                     penalty_rl = 1)
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
 summary(cre_results, method_params, hyper_params)

@@ -34,6 +34,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
   intervention_vars <- c()
+  penalty_rl <- 1
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -85,7 +86,8 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
                                                        ite_std_dis,
                                                        stability_selection,
                                                        cutoff,
-                                                       pfer))
+                                                       pfer,
+                                                       penalty_rl))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
                                                        select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in%
@@ -163,6 +165,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
   intervention_vars <- c()
+  penalty_rl <- 1
 
   # Split data
   X <- as.matrix(X)
@@ -210,7 +213,8 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
                                                             ite_std_dis,
                                                             stability_selection,
                                                             cutoff,
-                                                            pfer))
+                                                            pfer,
+                                                            penalty_rl))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
@@ -286,6 +290,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
   intervention_vars <- c()
+  penalty_rl <- 1
 
   # Split data
   X <- as.matrix(X)
@@ -333,7 +338,8 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                                             ite_std_dis,
                                                             stability_selection,
                                                             cutoff,
-                                                            pfer))
+                                                            pfer,
+                                                            penalty_rl))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
@@ -407,6 +413,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
   intervention_vars <- c()
+  penalty_rl <- 1
 
 
   # Split data
@@ -455,7 +462,8 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                                             ite_std_dis,
                                                             stability_selection,
                                                             cutoff,
-                                                            pfer))
+                                                            pfer,
+                                                            penalty_rl))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
@@ -530,6 +538,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
   intervention_vars <- c()
+  penalty_rl <- 1
 
   # Split data
   X <- as.matrix(X)
@@ -577,7 +586,8 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
                                                             ite_std_dis,
                                                             stability_selection,
                                                             cutoff,
-                                                            pfer))
+                                                            pfer,
+                                                            penalty_rl))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
@@ -653,6 +663,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
   intervention_vars <- c()
+  penalty_rl <- 1
 
   # Split data
   X <- as.matrix(X)
@@ -700,7 +711,8 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
                                                             ite_std_dis,
                                                             stability_selection,
                                                             cutoff,
-                                                            pfer))
+                                                            pfer,
+                                                            penalty_rl))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 

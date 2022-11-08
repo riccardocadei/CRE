@@ -37,7 +37,8 @@ test_that("cre Runs Correctly", {
                      replace = FALSE,
                      stability_selection = TRUE,
                      cutoff = 0.6,
-                     pfer = 1)
+                     pfer = 1,
+                     penalty_rl = 1)
 
   method_params[["ratio_dis"]] <- 2
   expect_error(cre(y, z, X, method_params, hyper_params))
@@ -152,8 +153,12 @@ test_that("cre Runs Correctly", {
   hyper_params[["pfer"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  # Correct outputs
   hyper_params[["pfer"]] <- 0.1
+  hyper_params[["penalty_rl"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  # Correct outputs
+  hyper_params[["penalty_rl"]] <- 1
   cre_results <- cre(y, z, X, method_params, hyper_params)
   expect_true(class(cre_results) == "cre")
 

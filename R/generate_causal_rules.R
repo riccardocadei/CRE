@@ -65,14 +65,15 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
                                                    ite_std,
                                                    getElement(hyper_params,"stability_selection"),
                                                    getElement(hyper_params,"cutoff"),
-                                                   getElement(hyper_params,"pfer")))
+                                                   getElement(hyper_params,"pfer"),
+                                                   getElement(hyper_params,"penalty_rl")))
   M_filter4 <- length(rules_list)
 
   M <- list("Initial" = M_initial,
-         "Filter 1 (irrelevant)" = M_filter1,
-         "Filter 2 (extreme)" = M_filter2,
-         "Filter 3 (correlated)" = M_filter3,
-         "Causal" = M_filter4)
+            "Filter 1 (irrelevant)" = M_filter1,
+            "Filter 2 (extreme)" = M_filter2,
+            "Filter 3 (correlated)" = M_filter3,
+            "Causal" = M_filter4)
 
   return(list(rules=rules_list,M=M))
 }
