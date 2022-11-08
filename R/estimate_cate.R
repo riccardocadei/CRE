@@ -97,7 +97,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       colnames(cate_temp) <- c("Rule", "Estimate", "Std_Error",
                                "Z_Value", "P_Value")
       cate_final <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
-                                      cate_temp$Rule == "(ATE)")
+                                      cate_temp$Rule == "(BATE)")
       rownames(cate_final) <- 1:nrow(cate_final)
     } else if (cate_method %in% c("DRLearner")) {
       # split the data evenly
@@ -162,7 +162,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       cate_temp <- data.frame(Rule = cate_names) %>%
         cbind(cate_model)
       cate_final <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
-                                      cate_temp$Rule == "(ATE)")
+                                      cate_temp$Rule == "(BATE)")
       rownames(cate_final) <- 1:nrow(cate_final)
     } else if (cate_method == "bart-baggr") {
 
@@ -282,7 +282,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       cate_reg_orig <- model1_coef %>% cbind(model1_ci)
       cate_reg_orig_names <- stringr::str_extract(row.names(cate_reg_orig), "`.*`") %>%
         stringr::str_remove_all("`")
-      cate_reg_orig_names[1] <- "(ATE)"
+      cate_reg_orig_names[1] <- "(BATE)"
       cate_temp <- data.frame(Rule = cate_reg_orig_names,
                               Estimate = cate_reg_orig[,1],
                               CI_lower = cate_reg_orig[,3],
@@ -290,7 +290,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                               P_Value = cate_reg_orig[,2])
       row.names(cate_temp) <- 1:nrow(cate_temp)
       cate_final <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
-                                      cate_temp$Rule == "(ATE)")
+                                      cate_temp$Rule == "(BATE)")
     } else {
       stop("Error: No CATE Estimation method specified.")
     }
