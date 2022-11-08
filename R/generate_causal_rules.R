@@ -59,8 +59,8 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
 
   # Discover Causal Rules ---------------------------------------------------
   logger::log_info("1.4 Discover Causal Rules")
-  rules_matrix_std <- standardize_rules_matrix(rules_matrix)
-  rules_list <- as.character(discover_causal_rules(rules_matrix_std,
+  #rules_matrix_std <- standardize_rules_matrix(rules_matrix)
+  rules_list <- as.character(discover_causal_rules(rules_matrix,
                                                    rules_list,
                                                    ite_std,
                                                    getElement(hyper_params,"stability_selection"),
