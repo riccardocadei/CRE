@@ -13,6 +13,6 @@ check_hyper_params(params)
 No return value. This function is called for side effects.
 }
 \description{
-Checks input parameters for the cre function.
+Checks consistency in input (hyper) parameters for the cre function.
 }
 \keyword{internal}

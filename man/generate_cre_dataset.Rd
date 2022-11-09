@@ -14,8 +14,8 @@ generate_cre_dataset(
 )
 }
 \arguments{
-\item{n}{An integer number that represents the number of observations. Non-integer
-values will be converted into an integer number.}
+\item{n}{An integer number that represents the number of observations.
+Non-integer values will be converted into an integer number.}
 
 \item{rho}{A positive double number (0,1) that represents the correlation
 within the covariates (default: 0).}
@@ -26,7 +26,8 @@ within the covariates (default: 0).}
 
 \item{effect_size}{The effect size magnitude (default: 2).}
 
-\item{binary_outcome}{Whether to use binary or continuous outcomes (default: TRUE)}
+\item{binary_outcome}{Whether to use binary or continuous outcomes
+(default: TRUE)}
 }
 \value{
 A list of synthetic data containing an outcome vector (y), a treatment

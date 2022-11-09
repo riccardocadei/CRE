@@ -14,9 +14,9 @@ estimate_ite(y, z, X, ite_method, is_y_binary, ...)
 \item{X}{The covariate matrix.}
 
 \item{ite_method}{the method for estimating the Individual Treatment Effect.
-Some methods requires additional parameters. These parameters are mentioned in
-the indented blocks for each method and their definitions are provided at the
-end of this parameters list.
+Some methods requires additional parameters. These parameters are mentioned
+in the indented blocks for each method and their definitions are provided at
+the end of this parameters list.
 \itemize{
 \item \code{ipw}: Inverse Propensity Weighting
 \itemize{

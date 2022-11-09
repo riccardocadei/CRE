@@ -57,7 +57,7 @@ a matrix of CATE estimates
 }
 \description{
 Estimates the Conditional Average Treatment Effect given a standardized
-vector of Individual Treatment Effects, a standardized matrix of causal rules,
-a list of causal rules.
+vector of Individual Treatment Effects, a standardized matrix of causal
+rules, a list of causal rules.
 }
 \keyword{internal}

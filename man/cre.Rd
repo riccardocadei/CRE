@@ -61,8 +61,10 @@ have.
 to extract conditions.
 \item \emph{replace}: Boolean variable for replacement in bootstrapping.
 \item \emph{max_decay}: Decay Threshold for pruning the rules.
-\item \emph{type_decay}: Decay Type for pruning the rules (1: relative error; 2: error).
-\item \emph{t_ext}: The threshold to define too generic or too specific (extreme) rules.
+\item \emph{type_decay}: Decay Type for pruning the rules
+(1: relative error; 2: error).
+\item \emph{t_ext}: The threshold to define too generic or too specific (extreme)
+rules.
 \item \emph{t_corr}: The threshold to define correlated rules.
 \item \emph{t_pvalue}: the threshold to define statistically significant rules
 (filter only causal decision rules with p-value <= t_pvalue).

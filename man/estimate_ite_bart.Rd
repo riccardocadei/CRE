@@ -2,7 +2,8 @@
 % Please edit documentation in R/estimate_ite_bart.R
 \name{estimate_ite_bart}
 \alias{estimate_ite_bart}
-\title{Estimate the Individual Treatment Effect using Bayesian Additive Regression Trees}
+\title{Estimate the Individual Treatment Effect using Bayesian Additive Regression
+Trees}
 \usage{
 estimate_ite_bart(y, z, X, include_ps, ps_method, random_state)
 }

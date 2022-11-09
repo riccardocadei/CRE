@@ -15,7 +15,8 @@ filter_irrelevant_rules(rules, X, ite_std, max_decay, type_decay)
 
 \item{max_decay}{Decay Threshold for pruning the rules.}
 
-\item{type_decay}{Decay Type for pruning the rules (1: relative error; 2: error).}
+\item{type_decay}{Decay Type for pruning the rules
+(1: relative error; 2: error).}
 }
 \value{
 A list of the selected Decision Rules.
