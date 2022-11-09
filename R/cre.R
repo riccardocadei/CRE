@@ -166,12 +166,12 @@ cre <- function(y, z, X, method_params, hyper_params){
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate Causal Decision Rules  -----------------------
-  select_rules_dis_list <- generate_causal_rules(X_dis,
-                                                 ite_std_dis,
-                                                 method_params,
-                                                 hyper_params)
-  select_rules_dis <- select_rules_dis_list[["rules"]]
-  M <- select_rules_dis_list[["M"]]
+  causal_rules_discovery <- generate_causal_rules(X_dis,
+                                                  ite_std_dis,
+                                                  method_params,
+                                                  hyper_params)
+  causal_rules <- causal_rules_discovery[["rules"]]
+  M <- causal_rules_discovery[["M"]]
 
 
 
@@ -198,12 +198,12 @@ cre <- function(y, z, X, method_params, hyper_params){
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
   # Generate rules matrix ------------------------------------------------------
-  if (length(select_rules_dis)==0){
+  if (length(causal_rules)==0){
     rules_matrix_inf <- NA
-    select_rules_interpretable <- NA
+    causal_rules <- NA
   } else {
-    rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+    rules_matrix_inf <- generate_rules_matrix(X_inf, causal_rules)
+    causal_rules <- interpret_select_rules(causal_rules, X_names)
   }
 
   # Estimate CATE --------------------------------------------------------------
@@ -211,7 +211,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
                             getElement(method_params,"include_offset"),
                             getElement(method_params,"offset_name"),
-                            rules_matrix_inf, select_rules_interpretable,
+                            rules_matrix_inf, causal_rules,
                             getElement(method_params,"cate_method"),
                             ite_inf, sd_ite_inf,
                             getElement(method_params,"cate_SL_library"),
