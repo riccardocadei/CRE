@@ -2,7 +2,7 @@
 #' Filter Correlated Decision Rules
 #'
 #' @description
-#' Discard redundant correlated rules.
+#' Discard Decision Rules too correlated (i.e. Cov(rule1,rule2)>t_corr).
 #'
 #' @param rules_matrix The causal rules matrix.
 #' @param rules_list The list of the causal rules.
@@ -22,7 +22,7 @@ filter_correlated_rules <- function(rules_matrix, rules_list, t_corr){
   elim <- c()
   for(i in 1:(nrules - 1)) {
     elim <- c(elim,
-              which(round(abs(C[i, (i + 1):nrules]), digits = 4) >= t_corr + i)
+              which(round(abs(C[i, (i + 1):nrules]), digits = 4) >= t_corr) + i)
   }
   if (length(elim) > 0) {ind <- ind[-elim]}
 
