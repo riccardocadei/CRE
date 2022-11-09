@@ -11,7 +11,7 @@
 #' @param X_names the names of the covariates
 #' @param include_offset whether to include an offset (i.e. model outcome rate)
 #' or not (i.e. model outcome counts)
-#' @param offset_name the name of the offset, if it is to be included
+#' @param offset_name the name of the covariate to use as offset (i.e. 'x1')
 #'
 #' @return
 #' a vector of ITE estimates

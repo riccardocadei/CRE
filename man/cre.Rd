@@ -40,9 +40,9 @@ estimate_ite_aipw on the inference subsample.
 }
 \item \emph{Other Parameters}
 \itemize{
-\item \emph{include_offset}: whether to include an offset (i.e. model outcome
+\item \emph{include_offset}: Whether to include an offset (i.e. model outcome
 rate) or not (i.e. model outcome counts) for Poisson ITE Estimation
-\item \emph{offset_name}: The name of the offset, if it is to be included.
+\item \emph{offset_name}: The name of the covariate to use as offset (i.e. 'x1')
 \item \emph{cate_method}: The method to estimate the CATE values.
 \item \emph{cate_SL_library}: The library used if cate_method is set to DRLearner.
 }
