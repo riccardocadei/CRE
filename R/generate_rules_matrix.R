@@ -31,7 +31,7 @@ generate_rules_matrix <- function(X, rules_list) {
 #' Standardize Rules Matrix
 #'
 #' @description
-#' Standardize the matrix of causal rules given a list.
+#' Standardize (i.e. mean=0 and stdev=1) the rules matrix.
 #'
 #' @param rules_matrix The rules matrix.
 #'
