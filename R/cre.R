@@ -120,11 +120,6 @@ cre <- function(y, z, X, method_params, hyper_params){
   method_params <- check_method_params(y = y, params = method_params)
   check_hyper_params(params = hyper_params)
 
-  # Unlist params into the current environment.
-  # Interim approach.
-  list2env(method_params, envir = environment())
-  list2env(hyper_params, envir = environment())
-
   # Honest Splitting -----------------------------------------------------------
   logger::log_info("(Honest) Splitting the dataset...")
   X_names <- names(as.data.frame(X))
