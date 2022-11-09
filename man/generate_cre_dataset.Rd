@@ -24,8 +24,7 @@ within the covariates (default: 0).}
 
 \item{p}{The number of covariates (default: 10).}
 
-\item{effect_size}{The effect size magnitude (default: 0.5).
-TODO: what is the range of effect size magnitude?}
+\item{effect_size}{The effect size magnitude (default: 2).}
 
 \item{binary}{Whether to use binary or continuous outcomes,
 either TRUE (default) or FALSE.}

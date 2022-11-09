@@ -9,8 +9,7 @@
 #' @param rho A positive double number (0,1) that represents the correlation
 #' within the covariates (default: 0).
 #' @param n_rules The number of causal rules, either 2 (default) or 4.
-#' @param effect_size The effect size magnitude (default: 0.5).
-#' TODO: what is the range of effect size magnitude?
+#' @param effect_size The effect size magnitude (default: 2).
 #' @param p The number of covariates (default: 10).
 #' @param binary Whether to use binary or continuous outcomes,
 #'  either TRUE (default) or FALSE.
