@@ -62,8 +62,10 @@ check_method_params <- function(y, params){
   params[["include_ps_inf"]] <- include_ps_inf
 
   if (!(getElement(params, "ite_method_dis") %in% c("or", "poisson"))) {
-    if (!(class(getElement(params, "ps_method_dis")) %in% c("character", "list"))) {
-      stop("Please specify a string or list of strings for the ps_method_dis argument.")
+    if (!(class(getElement(params, "ps_method_dis"))
+          %in% c("character", "list"))) {
+      stop("Please specify a string or list of strings for the ps_method_dis
+           argument.")
     }
   } else {
     ps_method_dis <- NA
@@ -71,8 +73,10 @@ check_method_params <- function(y, params){
   }
 
   if (!(getElement(params, "ite_method_inf") %in% c("or", "poisson"))) {
-    if (!(class(getElement(params, "ps_method_inf")) %in% c("character", "list"))) {
-      stop("Please specify a string or list of strings for the ps_method_inf argument.")
+    if (!(class(getElement(params, "ps_method_inf"))
+          %in% c("character", "list"))) {
+      stop("Please specify a string or list of strings for the ps_method_inf
+           argument.")
     }
   } else {
     ps_method_inf <- NA
@@ -81,8 +85,10 @@ check_method_params <- function(y, params){
 
   # Check for outcome regression score estimation inputs -----------------------
   if (getElement(params, "ite_method_dis") %in% c("aipw")) {
-    if (!(class(getElement(params, "oreg_method_dis")) %in% c("character", "list"))) {
-      stop("Please specify a string or list of strings for the oreg_method_dis argument.")
+    if (!(class(getElement(params, "oreg_method_dis"))
+          %in% c("character", "list"))) {
+      stop("Please specify a string or list of strings for the oreg_method_dis
+           argument.")
     }
   } else {
     oreg_method_dis <- NA
@@ -90,8 +96,10 @@ check_method_params <- function(y, params){
   }
 
   if (getElement(params, "ite_method_inf") %in% c("aipw")) {
-    if (!(class(getElement(params, "oreg_method_inf")) %in% c("character", "list"))) {
-      stop("Please specify a string or list of strings for the oreg_method_inf argument.")
+    if (!(class(getElement(params, "oreg_method_inf"))
+          %in% c("character", "list"))) {
+      stop("Please specify a string or list of strings for the oreg_method_inf
+           argument.")
     }
   } else {
     oreg_method_inf <- NA
@@ -135,13 +143,14 @@ check_method_params <- function(y, params){
   if (!(getElement(params, "cate_method") %in% c("poisson", "DRLearner",
                                                  "bart-baggr", "cf-means",
                                                  "linreg"))) {
-    stop(paste("Invalid CATE method for Inference Subsample. Please choose from ",
-               "the following: 'poisson', 'DRLearner', 'bart-baggr', ",
-               "'cf-means', or 'linreg'"))
+    stop(paste("Invalid CATE method for Inference Subsample. ",
+               "Please choose from the following: 'poisson', 'DRLearner', ",
+               "'bart-baggr','cf-means', or 'linreg'"))
   }
 
   if (getElement(params, "cate_method") == "DRLearner") {
-    if (!(class(getElement(params, "cate_SL_library")) %in% c("character", "list"))) {
+    if (!(class(getElement(params, "cate_SL_library"))
+          %in% c("character", "list"))) {
       stop("Please specify a string or list for the cate_SL_library argument.")
     }
   }

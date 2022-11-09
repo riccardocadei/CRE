@@ -3,8 +3,8 @@
 #'
 #' @description
 #' Estimates the Conditional Average Treatment Effect given a standardized
-#' vector of Individual Treatment Effects, a standardized matrix of causal rules,
-#' a list of causal rules.
+#' vector of Individual Treatment Effects, a standardized matrix of causal
+#' rules, a list of causal rules.
 #'
 #' @param y_inf the outcome vector for the inference subsample
 #' @param z_inf the treatment vector for the inference subsample
@@ -83,7 +83,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                                     family = stats::poisson(link = "log"))
       } else {
         # Fit gnm model
-        conditional_gnm <- gnm::gnm(y_inf ~ z_inf + z_inf:rules_matrix_inf + X_inf,
+        conditional_gnm <- gnm::gnm(y_inf ~ z_inf + z_inf:rules_matrix_inf
+                                          + X_inf,
                                     family = stats::poisson(link = "log"))
       }
       cate_model <- summary(conditional_gnm)$coefficients
@@ -117,8 +118,11 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       rules_matrix_inf_a <- rules_matrix_inf[split,]
       rules_matrix_inf_b <- rules_matrix_inf[-split,]
 
-      # on set A, train a model to predict Z using X, then make predictions on set B
-      sl_z <- SuperLearner::SuperLearner(Y = z_inf_a, X = X_inf_a, newX = X_inf_b,
+      # on set A, train a model to predict Z using X,
+      # then make predictions on set B
+      sl_z <- SuperLearner::SuperLearner(Y = z_inf_a,
+                                         X = X_inf_a,
+                                         newX = X_inf_b,
                                          family = binomial(),
                                          SL.library = cate_SL_library,
                                          cvControl = list(V=0))
@@ -126,15 +130,18 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
       # generate CATE estimates for set A, predict set B
       sl_y <- SuperLearner::SuperLearner(Y = y_inf_a,
-                                         X = data.frame(X = X_inf_a, Z = z_inf_a),
+                                         X = data.frame(X = X_inf_a,
+                                                        Z = z_inf_a),
                                          family = gaussian(),
                                          SL.library = cate_SL_library,
                                          cvControl = list(V=0))
       pred_0s <- stats::predict(sl_y,
-                                data.frame(X = X_inf_b, Z = rep(0, nrow(X_inf_b))),
+                                data.frame(X = X_inf_b,
+                                           Z = rep(0, nrow(X_inf_b))),
                                 onlySL = TRUE)
       pred_1s <- stats::predict(sl_y,
-                                data.frame(X = X_inf_b, Z = rep(1, nrow(X_inf_b))),
+                                data.frame(X = X_inf_b,
+                                           Z = rep(1, nrow(X_inf_b))),
                                 onlySL = TRUE)
 
       cate <- pred_1s$pred - pred_0s$pred
@@ -151,7 +158,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       colnames(cate_model) <- c("Estimate", "Std_Error", "Z_Value", "P_Value")
       if (length(select_rules_interpretable)==1) {
         cate_names <- rownames(cate_model) %>%
-        stringr::str_replace_all("rules_matrix_inf_b", select_rules_interpretable) %>%
+        stringr::str_replace_all("rules_matrix_inf_b",
+                                 select_rules_interpretable) %>%
         stringr::str_replace_all("(Intercept)", "ATE")
       } else {
         cate_names <- rownames(cate_model) %>%
@@ -205,7 +213,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
         df_temp <- data.frame(tau = ite_inf, se = sd_ite_inf,
                               rule = df_rules_factor[,i]) %>%
           dplyr::filter(rule == 1) %>% dplyr::select(-rule)
-        df_temp <- df_temp %>% dplyr::summarize(group = 1:nrow(df_temp), tau, se)
+        df_temp <- df_temp %>% dplyr::summarize(group = 1:nrow(df_temp),
+                                                tau,
+                                                se)
 
           # TODO: Pass number of cores to baggr. Do not use available cores.
           baggr_ite_temp <- suppressWarnings(
@@ -280,8 +290,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
       # Generate model 1 data frame
       cate_reg_orig <- model1_coef %>% cbind(model1_ci)
-      cate_reg_orig_names <- stringr::str_extract(row.names(cate_reg_orig), "`.*`") %>%
-        stringr::str_remove_all("`")
+      cate_reg_orig_names <- stringr::str_extract(row.names(cate_reg_orig),
+                                                  "`.*`") %>%
+                             stringr::str_remove_all("`")
       cate_reg_orig_names[1] <- "(BATE)"
       cate_temp <- data.frame(Rule = cate_reg_orig_names,
                               Estimate = cate_reg_orig[,1],

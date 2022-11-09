@@ -63,11 +63,16 @@ summary.cre <- function(object, ...) {
       cat("\n    - Node Size             :", getElement(params, "node_size"))
       cat("\n    - Max Nodes             :", getElement(params, "max_nodes"))
       cat("\n  - Filtering")
-      cat("\n    - Threshold Decay (Irrelevant):", getElement(params, "max_decay"))
-      cat("\n    - Decay Type (Irrelevant)     :", getElement(params, "type_decay"))
-      cat("\n    - Threshold (Extreme)         :", getElement(params, "t_ext"))
-      cat("\n    - Threshold (Correlated)      :", getElement(params, "t_corr"))
-      cat("\n    - Threshold (p-Value)         :", getElement(params, "t_pvalue"))
+      cat("\n    - Threshold Decay (Irrelevant):", getElement(params,
+                                                              "max_decay"))
+      cat("\n    - Decay Type (Irrelevant)     :", getElement(params,
+                                                              "type_decay"))
+      cat("\n    - Threshold (Extreme)         :", getElement(params,
+                                                              "t_ext"))
+      cat("\n    - Threshold (Correlated)      :", getElement(params,
+                                                              "t_corr"))
+      cat("\n    - Threshold (p-Value)         :", getElement(params,
+                                                              "t_pvalue"))
       cat("\n  - Causal Rules Discovery")
       cat("\n    - Penalty Rules Length:", getElement(params, "penalty_rl"))
       if (getElement(params, "stability_selection")){
@@ -95,10 +100,16 @@ summary.cre <- function(object, ...) {
   cat("\n\nResults\n")
   if (!is.null(getElement(c(...), "filter_cate"))) {
     if (getElement(params, "filter_cate")) {
-      cat("- Heterogeneity:", object[['M']][['Causal (significant)']], "(significant) Causal Rules discovered\n", sep=" ")
+      cat("- Heterogeneity:",
+          object[['M']][['Causal (significant)']],
+          "(significant) Causal Rules discovered\n",
+          sep=" ")
     }
   } else {
-      cat("- Heterogeneity:", object[['M']][['Causal']], "Causal Rules discovered\n", sep=" ")
+      cat("- Heterogeneity:",
+          object[['M']][['Causal']],
+          "Causal Rules discovered\n",
+          sep=" ")
   }
 
   cat("- CATE         :\n")

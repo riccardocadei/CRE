@@ -47,8 +47,10 @@
 #' to extract conditions.
 #'  - *replace*: Boolean variable for replacement in bootstrapping.
 #'  - *max_decay*: Decay Threshold for pruning the rules.
-#'  - *type_decay*: Decay Type for pruning the rules (1: relative error; 2: error).
-#'  - *t_ext*: The threshold to define too generic or too specific (extreme) rules.
+#'  - *type_decay*: Decay Type for pruning the rules
+#'  (1: relative error; 2: error).
+#'  - *t_ext*: The threshold to define too generic or too specific (extreme)
+#'  rules.
 #'  - *t_corr*: The threshold to define correlated rules.
 #'  - *t_pvalue*: the threshold to define statistically significant rules
 #' (filter only causal decision rules with p-value <= t_pvalue).
@@ -152,15 +154,15 @@ cre <- function(y, z, X, method_params, hyper_params){
   logger::log_info("Estimating ITE...")
   st_ite_t <- proc.time()
   ite_list_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
-                               ite_method = getElement(method_params,"ite_method_dis"),
-                               is_y_binary = getElement(method_params,"is_y_binary"),
-                               include_ps = getElement(method_params,"include_ps_dis"),
-                               ps_method = getElement(method_params,"ps_method_dis"),
-                               oreg_method = getElement(method_params,"oreg_method_dis"),
-                               X_names = X_names,
-                               include_offset = getElement(method_params,"include_offset"),
-                               offset_name = getElement(method_params,"offset_name"),
-                               random_state = getElement(method_params, "random_state"))
+                   ite_method = getElement(method_params,"ite_method_dis"),
+                   is_y_binary = getElement(method_params,"is_y_binary"),
+                   include_ps = getElement(method_params,"include_ps_dis"),
+                   ps_method = getElement(method_params,"ps_method_dis"),
+                   oreg_method = getElement(method_params,"oreg_method_dis"),
+                   X_names = X_names,
+                   include_offset = getElement(method_params,"include_offset"),
+                   offset_name = getElement(method_params,"offset_name"),
+                   random_state = getElement(method_params, "random_state"))
   en_ite_t <- proc.time()
   logger::log_debug("Finished Estimating ITE. ",
                     " Wall clock time: {(en_ite_t - st_ite_t)[[3]]} seconds.")
@@ -186,15 +188,15 @@ cre <- function(y, z, X, method_params, hyper_params){
   # Estimate ITE ---------------------------------------------------------------
   logger::log_info("Estimating ITE...")
   ite_list_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
-                               ite_method = getElement(method_params,"ite_method_inf"),
-                               is_y_binary = getElement(method_params,"is_y_binary"),
-                               include_ps = getElement(method_params,"include_ps_inf"),
-                               ps_method = getElement(method_params,"ps_method_inf"),
-                               oreg_method = getElement(method_params,"oreg_method_inf"),
-                               X_names = X_names,
-                               include_offset = getElement(method_params,"include_offset"),
-                               offset_name = getElement(method_params,"offset_name"),
-                               random_state = getElement(method_params, "random_state"))
+                   ite_method = getElement(method_params,"ite_method_inf"),
+                   is_y_binary = getElement(method_params,"is_y_binary"),
+                   include_ps = getElement(method_params,"include_ps_inf"),
+                   ps_method = getElement(method_params,"ps_method_inf"),
+                   oreg_method = getElement(method_params,"oreg_method_inf"),
+                   X_names = X_names,
+                   include_offset = getElement(method_params,"include_offset"),
+                   offset_name = getElement(method_params,"offset_name"),
+                   random_state = getElement(method_params, "random_state"))
 
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]

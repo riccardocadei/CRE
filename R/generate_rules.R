@@ -7,11 +7,13 @@
 #'
 #' @param X The covariate matrix.
 #' @param ite_std The standardized ITE.
-#' @param intervention_vars Intervention-able variables used for Rules Generation.
+#' @param intervention_vars Intervention-able variables used for Rules
+#' Generation.
 #' @param ntrees_rf The number of decision trees for randomForest.
 #' @param ntrees_gbm The number of decision trees for gradient boosting.
 #' @param node_size The minimum size of the trees' terminal nodes.
-#' @param max_nodes The maximum number of terminal nodes trees in the forest can have.
+#' @param max_nodes The maximum number of terminal nodes trees in the forest can
+#' have.
 #' @param max_depth The number of top levels from each tree considered
 #' to extract conditions.
 #' @param replace Boolean variable for replacement in bootstrapping.

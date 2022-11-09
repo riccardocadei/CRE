@@ -10,7 +10,8 @@
 #' @param X The features matrix.
 #' @param ite_std The standardized ITE.
 #' @param max_decay Decay Threshold for pruning the rules.
-#' @param type_decay Decay Type for pruning the rules (1: relative error; 2: error).
+#' @param type_decay Decay Type for pruning the rules
+#' (1: relative error; 2: error).
 #'
 #' @keywords internal
 #'

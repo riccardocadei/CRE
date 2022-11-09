@@ -19,7 +19,7 @@
 #' @keywords internal
 #'
 #'
-estimate_ite_poisson <- function(y, z, X, X_names, include_offset, offset_name) {
+estimate_ite_poisson <- function(y, z, X, X_names, include_offset, offset_name){
   if (include_offset) {
     X_names = X_names[-which(X_names == offset_name)]
     names(X)[names(X) == offset_name] <- 'offset'

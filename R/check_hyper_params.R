@@ -47,7 +47,8 @@ check_hyper_params <- function(params){
   }
 
   if (!(getElement(params, "stability_selection") %in% c(TRUE, FALSE))) {
-    stop("Please specify 'TRUE' or 'FALSE' for the stability_selection argument.")
+    stop("Please specify 'TRUE' or 'FALSE' for the stability_selection
+         argument.")
   }
 
   if (getElement(params, "stability_selection")) {

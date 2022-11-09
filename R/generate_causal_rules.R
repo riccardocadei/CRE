@@ -60,12 +60,12 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
   logger::log_info("Discovering Causal Rules...")
   #rules_matrix_std <- standardize_rules_matrix(rules_matrix)
   rules_list <- as.character(discover_causal_rules(rules_matrix,
-                                                   rules_list,
-                                                   ite_std,
-                                                   getElement(hyper_params,"stability_selection"),
-                                                   getElement(hyper_params,"cutoff"),
-                                                   getElement(hyper_params,"pfer"),
-                                                   getElement(hyper_params,"penalty_rl")))
+                                 rules_list,
+                                 ite_std,
+                                 getElement(hyper_params,"stability_selection"),
+                                 getElement(hyper_params,"cutoff"),
+                                 getElement(hyper_params,"pfer"),
+                                 getElement(hyper_params,"penalty_rl")))
   M_filter4 <- length(rules_list)
 
   M <- list("Initial" = M_initial,

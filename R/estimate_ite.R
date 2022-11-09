@@ -9,9 +9,9 @@
 #' @param z The observed treatment vector.
 #' @param X The covariate matrix.
 #' @param ite_method the method for estimating the Individual Treatment Effect.
-#' Some methods requires additional parameters. These parameters are mentioned in
-#' the indented blocks for each method and their definitions are provided at the
-#' end of this parameters list.
+#' Some methods requires additional parameters. These parameters are mentioned
+#' in the indented blocks for each method and their definitions are provided at
+#' the end of this parameters list.
 #'   - `ipw`: Inverse Propensity Weighting
 #'     - `ps_method`
 #'   - `sipw`: Stabilized Inverse Propensity Weighting
@@ -117,8 +117,8 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
     sd_ite <- NA
   } else {
     stop(paste("Invalid ITE method. Please choose from the following:\n",
-               "'ipw', 'sipw', 'aipw', 'oreg', 'bart', 'xbart', 'bcf', 'xbcf', ",
-               "'cf', or 'poisson'"))
+               "'ipw', 'sipw', 'aipw', 'oreg', 'bart', 'xbart', 'bcf', 'xbcf'",
+               ", 'cf', or 'poisson'"))
   }
   if (is_y_binary) {
     ite <- round(ite, 0)

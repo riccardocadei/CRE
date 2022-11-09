@@ -4,14 +4,15 @@
 #' @description
 #' Generates synthetic data with continues or binary outcome
 #'
-#' @param n An integer number that represents the number of observations. Non-integer
-#' values will be converted into an integer number.
+#' @param n An integer number that represents the number of observations.
+#' Non-integer values will be converted into an integer number.
 #' @param rho A positive double number (0,1) that represents the correlation
 #' within the covariates (default: 0).
 #' @param n_rules The number of causal rules, either 2 (default) or 4.
 #' @param effect_size The effect size magnitude (default: 2).
 #' @param p The number of covariates (default: 10).
-#' @param binary_outcome Whether to use binary or continuous outcomes (default: TRUE)
+#' @param binary_outcome Whether to use binary or continuous outcomes
+#' (default: TRUE)
 #'
 #' @return
 #' A list of synthetic data containing an outcome vector (y), a treatment

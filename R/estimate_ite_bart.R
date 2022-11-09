@@ -1,5 +1,6 @@
 #' @title
-#' Estimate the Individual Treatment Effect using Bayesian Additive Regression Trees
+#' Estimate the Individual Treatment Effect using Bayesian Additive Regression
+#' Trees
 #'
 #' @description
 #' Estimates the Individual Treatment Effect using Bayesian Additive Regression
