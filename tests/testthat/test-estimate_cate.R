@@ -48,13 +48,13 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   inference <- subgroups[[2]]
 
   # Generate y, z, and X for discovery and inference data
-  y_dis <- discovery[,1]
-  z_dis <- discovery[,2]
-  X_dis <- discovery[,3:ncol(discovery)]
+  y_dis <- discovery$y
+  z_dis <- discovery$z
+  X_dis <- discovery$X
 
-  y_inf <- inference[,1]
-  z_inf <- inference[,2]
-  X_inf <- inference[,3:ncol(inference)]
+  y_inf <- inference$y
+  z_inf <- inference$z
+  X_inf <- inference$X
 
   # Step 2: Estimate ITE
   ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, binary_outcome,
@@ -175,12 +175,12 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
-  y_dis <- discovery[,1]
-  z_dis <- discovery[,2]
-  X_dis <- discovery[,3:ncol(discovery)]
-  y_inf <- inference[,1]
-  z_inf <- inference[,2]
-  X_inf <- inference[,3:ncol(inference)]
+  y_dis <- discovery$y
+  z_dis <- discovery$z
+  X_dis <- discovery$X
+  y_inf <- inference$y
+  z_inf <- inference$z
+  X_inf <- inference$X
   # Estimate ITE on Discovery Subsample
   ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis,
                                ite_method =ite_method_dis,
@@ -300,12 +300,12 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
-  y_dis <- discovery[,1]
-  z_dis <- discovery[,2]
-  X_dis <- discovery[,3:ncol(discovery)]
-  y_inf <- inference[,1]
-  z_inf <- inference[,2]
-  X_inf <- inference[,3:ncol(inference)]
+  y_dis <- discovery$y
+  z_dis <- discovery$z
+  X_dis <- discovery$X
+  y_inf <- inference$y
+  z_inf <- inference$z
+  X_inf <- inference$X
   # Estimate ITE on Discovery Subsample
   ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis,
                                ite_method =ite_method_dis,
@@ -424,12 +424,12 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
-  y_dis <- discovery[,1]
-  z_dis <- discovery[,2]
-  X_dis <- discovery[,3:ncol(discovery)]
-  y_inf <- inference[,1]
-  z_inf <- inference[,2]
-  X_inf <- inference[,3:ncol(inference)]
+  y_dis <- discovery$y
+  z_dis <- discovery$z
+  X_dis <- discovery$X
+  y_inf <- inference$y
+  z_inf <- inference$z
+  X_inf <- inference$X
   # Estimate ITE on Discovery Subsample
   ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis,
                                ite_method =ite_method_dis,
@@ -548,12 +548,12 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
-  y_dis <- discovery[,1]
-  z_dis <- discovery[,2]
-  X_dis <- discovery[,3:ncol(discovery)]
-  y_inf <- inference[,1]
-  z_inf <- inference[,2]
-  X_inf <- inference[,3:ncol(inference)]
+  y_dis <- discovery$y
+  z_dis <- discovery$z
+  X_dis <- discovery$X
+  y_inf <- inference$y
+  z_inf <- inference$z
+  X_inf <- inference$X
   # Estimate ITE on Discovery Subsample
   ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis,
                                ite_method =ite_method_dis,
@@ -673,12 +673,12 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
-  y_dis <- discovery[,1]
-  z_dis <- discovery[,2]
-  X_dis <- discovery[,3:ncol(discovery)]
-  y_inf <- inference[,1]
-  z_inf <- inference[,2]
-  X_inf <- inference[,3:ncol(inference)]
+  y_dis <- discovery$y
+  z_dis <- discovery$z
+  X_dis <- discovery$X
+  y_inf <- inference$y
+  z_inf <- inference$z
+  X_inf <- inference$X
   # Estimate ITE on Discovery Subsample
   ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis,
                                ite_method =ite_method_dis,

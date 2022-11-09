@@ -132,13 +132,13 @@ cre <- function(y, z, X, method_params, hyper_params){
 
   # Generate outcome (y), exposure(z), and covariate matrix (X) for discovery
   # and inference data
-  y_dis <- discovery[,1]
-  z_dis <- discovery[,2]
-  X_dis <- discovery[,3:ncol(discovery)]
+  y_dis <- discovery$y
+  z_dis <- discovery$z
+  X_dis <- discovery$X
 
-  y_inf <- inference[,1]
-  z_inf <- inference[,2]
-  X_inf <- inference[,3:ncol(inference)]
+  y_inf <- inference$y
+  z_inf <- inference$z
+  X_inf <- inference$X
 
 
   # Discovery ------------------------------------------------------------------
