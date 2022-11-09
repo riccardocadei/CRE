@@ -6,23 +6,23 @@
 #' vector of Individual Treatment Effects, a standardized matrix of causal
 #' rules, a list of causal rules.
 #'
-#' @param y_inf the outcome vector for the inference subsample
-#' @param z_inf the treatment vector for the inference subsample
-#' @param X_inf the covariate vector for the inference subsample
-#' @param X_names the names of the covariates
-#' @param include_offset whether or not to include an offset when estimating the
-#'  ITE, for poisson only
-#' @param offset_name the name of the offset, if it is to be included
-#' @param rules_matrix_inf the standardized causal rules matrix for the
-#' inference subsample
-#' @param select_rules_interpretable the list of select causal rules in terms of
-#' coviariate names
-#' @param cate_method the method to estimate the CATE values
-#' @param ite_inf the estimated ITEs for the inference subsample
-#' @param sd_ite_inf the standard deviations for the estimated ITEs for the
-#'   inference subsample
-#' @param cate_SL_library the library used if cate_method = DRLearner
-#' @param t_pvalue the threshold to define statistically significant rules
+#' @param y_inf The outcome vector for the inference subsample.
+#' @param z_inf The treatment vector for the inference subsample.
+#' @param X_inf The covariate vector for the inference subsample.
+#' @param X_names The names of the covariates.
+#' @param include_offset Whether or not to include an offset when estimating the
+#'  ITE, for poisson only.
+#' @param offset_name The name of the offset, if it is to be included.
+#' @param rules_matrix_inf The standardized causal rules matrix for the
+#' inference subsample.
+#' @param select_rules_interpretable The list of select causal rules in terms of
+#' coviariate names.
+#' @param cate_method The method to estimate the CATE values.
+#' @param ite_inf The estimated ITEs for the inference subsample.
+#' @param sd_ite_inf The standard deviations for the estimated ITEs for the
+#'   inference subsample.
+#' @param cate_SL_library The library used if cate_method is DRLearner.
+#' @param t_pvalue The threshold to define statistically significant rules
 #' (filter only causal decision rules with p-value <= t_pvalue).
 #'
 #' @return
