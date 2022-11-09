@@ -29,8 +29,8 @@
 #'     - *or_method_inf*: The estimation model for the outcome regressions in
 #'       estimate_ite_aipw on the inference subsample.
 #'   - *Other Parameters*
-#'     - *include_offset*: Whether or not to include an offset when estimating
-#'  the ITE, for Poisson only.
+#'     - *include_offset*: whether to include an offset (i.e. model outcome
+#'       rate) or not (i.e. model outcome counts) for Poisson ITE Estimation
 #'     - *offset_name*: The name of the offset, if it is to be included.
 #'     - *cate_method*: The method to estimate the CATE values.
 #'     - *cate_SL_library*: The library used if cate_method is set to DRLearner.

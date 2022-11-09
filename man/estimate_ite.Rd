@@ -35,15 +35,7 @@ the end of this parameters list.
 \itemize{
 \item \code{include_ps} and \code{ps_method}
 }
-\item \code{xbart}: Accelerated Bayesian Additive Regression Trees
-\itemize{
-\item \code{include_ps} and \code{ps_method}
-}
 \item \code{bcf}: Bayesian Causal Forest
-\itemize{
-\item \code{ps_method}
-}
-\item \code{xbcf}: Accelerated Bayesian Causal Forest
 \itemize{
 \item \code{ps_method}
 }
