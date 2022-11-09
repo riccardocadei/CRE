@@ -39,9 +39,9 @@ library("CRE")
 
 Input parameters:
 
-**`y`** The observed response (outcome) vector.     
-**`z`** The treatment (exposure, policy) vector.    
-**`X`** The covariate matrix.    
+**`y`** The observed response/outcome vector (binary or continuos).
+**`z`** The treatment/exposure/policy vector (binary).    
+**`X`** The covariate matrix (binary or continuos).    
 **`method_params`** Parameters for estimating the individual treatment effect, including:    
 __Parameters for Discovery__           
 - **`ratio_dis`** The ratio of data delegated to the discovery sub-sample.     
