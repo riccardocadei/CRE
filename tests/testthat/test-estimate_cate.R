@@ -2,7 +2,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   # Generate sample data
   set.seed(2021)
   dataset_cont <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 2, binary = FALSE)
+                                       effect_size = 2, binary_outcome = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- as.data.frame(dataset_cont[["X"]])
@@ -37,7 +37,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   penalty_rl <- 1
 
   # Check for binary outcome
-  binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
+  binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
 
   # Step 1: Split data
   X <- as.matrix(X)
@@ -57,7 +57,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   X_inf <- inference[,3:ncol(inference)]
 
   # Step 2: Estimate ITE
-  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, binary,
+  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, binary_outcome,
                                include_ps = include_ps_dis,
                                ps_method = ps_method_dis,
                                oreg_method = oreg_method_dis,
@@ -94,7 +94,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
                                                                select_rules_dis)]
 
   # Step 6: Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary,
+  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
@@ -131,7 +131,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
 
   set.seed(99687)
   dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
-                                  effect_size = 2, binary = FALSE)
+                                  effect_size = 2, binary_outcome = FALSE)
   # Initialize parameters
   y <- dataset[["y"]]
   z <- dataset[["z"]]
@@ -160,7 +160,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   stability_selection <- TRUE
   include_offset <- FALSE
   offset_name <- NA
-  binary <- FALSE
+  binary_outcome <- FALSE
   cate_method <- "cf-means"
   cate_SL_library <- "SL.xgboost"
   t_pvalue <- 0.5
@@ -187,7 +187,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
                                include_ps = include_ps_dis,
                                ps_method = ps_method_dis,
                                oreg_method = oreg_method_dis,
-                               is_y_binary = binary,
+                               is_y_binary = binary_outcome,
                                X_names = X_names,
                                include_offset = include_offset,
                                offset_name = offset_name,
@@ -219,7 +219,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
   # Step 6: Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary,
+  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
@@ -256,7 +256,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
 
   set.seed(99687)
   dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
-                                  effect_size = 2, binary = FALSE)
+                                  effect_size = 2, binary_outcome = FALSE)
   # Initialize parameters
   y <- dataset[["y"]]
   z <- dataset[["z"]]
@@ -285,7 +285,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   stability_selection <- TRUE
   include_offset <- FALSE
   offset_name <- NA
-  binary <- FALSE
+  binary_outcome <- FALSE
   cate_method <- "linreg"
   cate_SL_library <- "SL.xgboost"
   t_pvalue <- 0.5
@@ -312,7 +312,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                include_ps = include_ps_dis,
                                ps_method = ps_method_dis,
                                oreg_method = oreg_method_dis,
-                               is_y_binary = binary,
+                               is_y_binary = binary_outcome,
                                X_names = X_names,
                                include_offset = include_offset,
                                offset_name = offset_name,
@@ -344,7 +344,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
   # Step 6: Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary,
+  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
@@ -379,7 +379,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
 
   set.seed(99687)
   dataset <- generate_cre_dataset(n = 200, rho = 0, n_rules = 2, p = 10,
-                                  effect_size = 2, binary = FALSE)
+                                  effect_size = 2, binary_outcome = FALSE)
   # Initialize parameters
   y <- dataset[["y"]]
   z <- dataset[["z"]]
@@ -408,7 +408,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   stability_selection <- TRUE
   include_offset <- FALSE
   offset_name <- NA
-  binary <- FALSE
+  binary_outcome <- FALSE
   cate_method <- "linreg"
   cate_SL_library <- "SL.xgboost"
   t_pvalue <- 0.5
@@ -436,7 +436,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                include_ps = include_ps_dis,
                                ps_method = ps_method_dis,
                                oreg_method = oreg_method_dis,
-                               is_y_binary = binary,
+                               is_y_binary = binary_outcome,
                                X_names = X_names,
                                include_offset = include_offset,
                                offset_name = offset_name,
@@ -468,7 +468,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
   # Step 6: Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary,
+  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
@@ -504,7 +504,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   skip_if_not_installed("baggr")
   set.seed(99687)
   dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
-                                  effect_size = 2, binary = FALSE)
+                                  effect_size = 2, binary_outcome = FALSE)
   # Initialize parameters
   y <- dataset[["y"]]
   z <- dataset[["z"]]
@@ -533,7 +533,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   stability_selection <- TRUE
   include_offset <- FALSE
   offset_name <- NA
-  binary <- FALSE
+  binary_outcome <- FALSE
   cate_method <- "bart-baggr"
   cate_SL_library <- "SL.xgboost"
   t_pvalue <- 0.5
@@ -560,7 +560,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
                                include_ps = include_ps_dis,
                                ps_method = ps_method_dis,
                                oreg_method = oreg_method_dis,
-                               is_y_binary = binary,
+                               is_y_binary = binary_outcome,
                                X_names = X_names,
                                include_offset = include_offset,
                                offset_name = offset_name,
@@ -592,7 +592,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
   # Step 6: Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary,
+  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
@@ -629,7 +629,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
 
   set.seed(99687)
   dataset <- generate_cre_dataset(n = 200, rho = 0, n_rules = 2, p = 10,
-                                  effect_size = 2, binary = FALSE)
+                                  effect_size = 2, binary_outcome = FALSE)
   # Initialize parameters
   y <- dataset[["y"]]
   z <- dataset[["z"]]
@@ -658,7 +658,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   stability_selection <- TRUE
   include_offset <- FALSE
   offset_name <- NA
-  binary <- FALSE
+  binary_outcome <- FALSE
   cate_method <- "poisson"
   cate_SL_library <- "SL.xgboost"
   t_pvalue <- 0.5
@@ -685,7 +685,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
                                include_ps = include_ps_dis,
                                ps_method = ps_method_dis,
                                oreg_method = oreg_method_dis,
-                               is_y_binary = binary,
+                               is_y_binary = binary_outcome,
                                X_names = X_names,
                                include_offset = include_offset,
                                offset_name = offset_name,
@@ -718,7 +718,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
 
   # Poisson (Vanilla)
   # Step 6: Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, as.data.frame(X_inf), ite_method_inf, binary,
+  ite_list_inf <- estimate_ite(y_inf, z_inf, as.data.frame(X_inf), ite_method_inf, binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
@@ -753,7 +753,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   # Step 6: Estimate CATE
   include_offset <- TRUE
   offset_name <- "x6"
-  ite_list_inf <- estimate_ite(y_inf, z_inf, as.data.frame(X_inf), ite_method_inf, binary,
+  ite_list_inf <- estimate_ite(y_inf, z_inf, as.data.frame(X_inf), ite_method_inf, binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,

@@ -3,9 +3,9 @@ test_that("ITE Estimated Correctly", {
   #Generate sample data
   set.seed(181)
   dts_1 <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 2, binary = FALSE)
+                                       effect_size = 2, binary_outcome = FALSE)
   dts_2 <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
-                                    effect_size = 2, binary = FALSE)
+                                    effect_size = 2, binary_outcome = FALSE)
 
   ite_method <- "bart"
   include_ps <- TRUE
@@ -17,11 +17,11 @@ test_that("ITE Estimated Correctly", {
   random_state <- 121
 
   # Check for binary outcome
-  binary <- ifelse(length(unique(dts_1$y)) == 2, TRUE, FALSE)
+  binary_outcome <- ifelse(length(unique(dts_1$y)) == 2, TRUE, FALSE)
 
   # Wrong ite estimator
   expect_error(estimate_ite(y = dts_2$y, z=dts_1$z, dts_1$X,
-                            ite_method = "test", binary,
+                            ite_method = "test", binary_outcome,
                             include_ps = include_ps,
                             ps_method = ps_method,
                             oreg_method = oreg_method,
@@ -29,7 +29,7 @@ test_that("ITE Estimated Correctly", {
 
   # Missing arguments
   expect_error(estimate_ite(y = dts_2$y, z=dts_1$z, dts_1$X,
-                            ite_method = "poisson", binary,
+                            ite_method = "poisson", binary_outcome,
                             include_ps = include_ps,
                             ps_method = ps_method,
                             oreg_method = oreg_method,
@@ -37,21 +37,21 @@ test_that("ITE Estimated Correctly", {
 
   # Wrong input size
   expect_error(estimate_ite(y = dts_2$y, z=dts_1$z, dts_1$X,
-                              ite_method, binary,
+                              ite_method, binary_outcome,
                               include_ps = include_ps,
                               ps_method = ps_method,
                               oreg_method = oreg_method,
                               random_state = random_state))
 
   expect_warning(expect_error(estimate_ite(y = dts_1$y, z=dts_2$z, dts_1$X,
-                              ite_method, binary,
+                              ite_method, binary_outcome,
                               include_ps = include_ps,
                               ps_method = ps_method,
                               oreg_method = oreg_method,
                               random_state = random_state)))
 
   expect_warning(expect_error(estimate_ite(y = dts_1$y, z=dts_1$z, dts_2$X,
-                              ite_method, binary,
+                              ite_method, binary_outcome,
                               include_ps = include_ps,
                               ps_method = ps_method,
                               oreg_method = oreg_method,
@@ -68,7 +68,7 @@ test_that("ITE Estimated Correctly", {
 
   # Correct outputs
   ite_result <- estimate_ite(y = dts_1$y, z=dts_1$z, dts_1$X,
-                             ite_method, is_y_binary = binary,
+                             ite_method, is_y_binary = binary_outcome,
                              include_ps = include_ps,
                              ps_method = ps_method,
                              oreg_method = oreg_method,
@@ -83,7 +83,7 @@ test_that("ITE Estimated Correctly", {
 
   ite_method <- "sipw"
   ite_result <- estimate_ite(y = dts_1$y, z=dts_1$z, dts_1$X,
-                             ite_method, is_y_binary = binary,
+                             ite_method, is_y_binary = binary_outcome,
                              include_ps = include_ps,
                              ps_method = ps_method,
                              oreg_method = oreg_method,
@@ -98,7 +98,7 @@ test_that("ITE Estimated Correctly", {
 
   ite_method <- "bcf"
   ite_result <- estimate_ite(y = dts_1$y, z=dts_1$z, as.matrix(dts_1$X),
-                             ite_method, is_y_binary = binary,
+                             ite_method, is_y_binary = binary_outcome,
                              include_ps = include_ps,
                              ps_method = ps_method,
                              oreg_method = oreg_method,
@@ -112,7 +112,7 @@ test_that("ITE Estimated Correctly", {
 
   ite_method <- "poisson"
   ite_result <- estimate_ite(y = round(abs(dts_1$y)+1), z=dts_1$z, dts_1$X,
-                             ite_method, is_y_binary = binary,
+                             ite_method, is_y_binary = binary_outcome,
                              include_ps = include_ps,
                              ps_method = ps_method,
                              oreg_method = oreg_method,
@@ -135,7 +135,7 @@ test_that("ITE (oreg) Estimated Correctly", {
   #Generate sample data
   set.seed(233)
   dts_1 <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
-                                effect_size = 2, binary = FALSE)
+                                effect_size = 2, binary_outcome = FALSE)
 
   ite_method <- "bart"
   include_ps <- TRUE
@@ -147,12 +147,12 @@ test_that("ITE (oreg) Estimated Correctly", {
   random_state <- 121
 
   # Check for binary outcome
-  binary <- ifelse(length(unique(dts_1$y)) == 2, TRUE, FALSE)
+  binary_outcome <- ifelse(length(unique(dts_1$y)) == 2, TRUE, FALSE)
 
 
   ite_method <- "oreg"
   ite_result <- estimate_ite(y = dts_1$y, z=dts_1$z, dts_1$X,
-                             ite_method, is_y_binary = binary,
+                             ite_method, is_y_binary = binary_outcome,
                              include_ps = include_ps,
                              ps_method = ps_method,
                              oreg_method = oreg_method,
@@ -180,10 +180,10 @@ test_that("ITE (cf) Estimated Correctly", {
   random_state <- 121
 
   dts_1 <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
-                                effect_size = 2, binary = TRUE)
-  binary <- ifelse(length(unique(dts_1$y)) == 2, TRUE, FALSE)
+                                effect_size = 2, binary_outcome = TRUE)
+  binary_outcome <- ifelse(length(unique(dts_1$y)) == 2, TRUE, FALSE)
   ite_result <- estimate_ite(y = abs(dts_1$y), z=dts_1$z, dts_1$X,
-                             ite_method, is_y_binary = binary,
+                             ite_method, is_y_binary = binary_outcome,
                              include_ps = include_ps,
                              ps_method = ps_method,
                              oreg_method = oreg_method,

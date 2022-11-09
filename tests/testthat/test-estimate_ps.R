@@ -2,7 +2,7 @@ test_that("Propensity Score Estimated Correctly", {
   # Generate sample data
   set.seed(2021)
   dataset <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 0.5, binary = FALSE)
+                                       effect_size = 0.5, binary_outcome = FALSE)
   z <- dataset[["z"]]
   X <- dataset[["X"]]
   ps_method <- "SL.xgboost"

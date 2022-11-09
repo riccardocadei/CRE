@@ -2,7 +2,7 @@ test_that("Rules Interpreted Correctly", {
   # Generate sample data
   set.seed(152)
   dataset_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 2, binary = FALSE)
+                                       effect_size = 2, binary_outcome = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
