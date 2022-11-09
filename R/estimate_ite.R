@@ -21,11 +21,7 @@
 #'   - `oreg`: Outcome Regression
 #'   - `bart`: Bayesian Additive Regression Trees
 #'     - `include_ps` and `ps_method`
-#'   - `xbart`: Accelerated Bayesian Additive Regression Trees
-#'     - `include_ps` and `ps_method`
 #'   - `bcf`: Bayesian Causal Forest
-#'     - `ps_method`
-#'   - `xbcf`: Accelerated Bayesian Causal Forest
 #'     - `ps_method`
 #'   - `cf`: Causal Forest
 #'     - `include_ps` and `ps_method`
@@ -117,8 +113,8 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
     sd_ite <- NA
   } else {
     stop(paste("Invalid ITE method. Please choose from the following:\n",
-               "'ipw', 'sipw', 'aipw', 'oreg', 'bart', 'xbart', 'bcf', 'xbcf'",
-               ", 'cf', or 'poisson'"))
+               "'ipw', 'sipw', 'aipw', 'oreg', 'bart', 'bcf', 'cf'",
+               " or 'poisson'"))
   }
   if (is_y_binary) {
     ite <- round(ite, 0)
