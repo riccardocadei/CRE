@@ -2,10 +2,12 @@
 #' Generate Rules
 #'
 #' @description
-#' Method for generating (Causal) Decision Rules before Regularization.
+#' Method for generating a set of relevant Decision Rules characterizing the
+#' heterogeneity in the ITE
 #'
 #' @param X The covariate matrix.
 #' @param ite_std The standardized ITE.
+#' @param intervention_vars Intervention-able variables used for Rules Generation.
 #' @param ntrees_rf The number of decision trees for randomForest.
 #' @param ntrees_gbm The number of decision trees for gradient boosting.
 #' @param node_size The minimum size of the trees' terminal nodes.
@@ -16,12 +18,16 @@
 #' @param random_state An integer number that represents a random state.
 #'
 #' @return
-#' A vector of causal rules.
+#' List of generated Decision Rules
 #'
 #' @keywords internal
 #'
-generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
-                           max_nodes, max_depth, replace, random_state) {
+generate_rules <- function(X, ite_std, intervention_vars, ntrees_rf, ntrees_gbm,
+                           node_size, max_nodes, max_depth, replace,
+                           random_state) {
+
+  # Filter only Intervention-able variables ------------------------------------
+  if (!is.null(intervention_vars)) X <- X[,intervention_vars,drop=FALSE]
 
   # generate seed values
   seed_1 <- random_state + 1
@@ -36,6 +42,7 @@ generate_rules <- function(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
   mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
 
   # Random Forest
+  # TO DO: replace splitting criteria
   set.seed(seed_1)
   forest <- randomForest::randomForest(x = X, y = ite_std,
                                                         sampsize = sf * N,

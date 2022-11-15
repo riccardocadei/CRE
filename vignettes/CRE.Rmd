@@ -16,19 +16,25 @@ knitr::opts_chunk$set(
 
 # Installation
 
-Installing the latest developing version. 
-
-```{r, eval=FALSE}
-library(devtools)
-install_github("NSAPH-Software/CRE", ref="develop")
-library("CRE")
-```
-
 Installing from CRAN.
 
 ```{r, eval=FALSE}
 install.packages("CRE")
 ```
+
+Installing the latest developing version. 
+
+```{r, eval=FALSE}
+library(devtools)
+install_github("NSAPH-Software/CRE", ref="develop")
+```
+
+Import.
+
+```{r, eval=FALSE}
+library("CRE")
+```
+
 # Usage
 
 Input parameters:
@@ -64,11 +70,13 @@ __Other Parameters__
 - **`replace`** Boolean variable for replacement in bootstrapping.     
 - **`max_decay`** Decay Threshold for pruning the rules.     
 - **`type_decay`** Decay Type for pruning the rules (1: relative error; 2: error).     
-- **`t_anom`** The threshold to define too generic or too specific (anomalous) rules.     
+- **`t_ext`** The threshold to define too generic or too specific (extreme) rules.     
 - **`t_corr`** The threshold to define correlated rules.     
 - **`stability_selection`** Whether or not using stability selection for selecting the causal rules.
 - **`cutoff`** Threshold defining the minimum cutoff value for the stability scores.
 - **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules).
+- **`penalty_rl`** Order of penalty for rules length during LASSO for Causal
+Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
 
 ### A note on the parameters
 
@@ -90,12 +98,11 @@ The CRE package can generate synthetic data that can be used to test different f
 
 ```R
   set.seed(9687)
-  dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+  dataset <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 2, binary = FALSE)
-  y <- dataset_cont[["y"]]
-  z <- dataset_cont[["z"]]
-  X <- as.data.frame(dataset_cont[["X"]])
-  X_names <- names(as.data.frame(X))
+  y <- dataset[["y"]]
+  z <- dataset[["z"]]
+  X <- dataset[["X"]]
 
   method_params = list(ratio_dis = 0.25,
                        ite_method_dis="bart",
@@ -113,21 +120,24 @@ The CRE package can generate synthetic data that can be used to test different f
                        offset_name = NA,
                        random_state = 3591)
 
- hyper_params = list(ntrees_rf = 100,
+ hyper_params = list(interaction_vars = c(),
+                     ntrees_rf = 100,
                      ntrees_gbm = 50,
                      node_size = 20,
                      max_nodes = 5,
                      max_depth = 15,
                      max_decay = 0.025,
                      type_decay = 2,
-                     t_anom = 0.025,
+                     t_ext = 0.025,
                      t_corr = 1,
                      replace = FALSE,
                      stability_selection = TRUE,
                      cutoff = 0.8,
-                     pfer = 0.1)
+                     pfer = 0.1,
+                     penalty_rl = 1)
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
-
+summary(cre_results, method_params, hyper_params)
+plot(cre_results)
 ```
 

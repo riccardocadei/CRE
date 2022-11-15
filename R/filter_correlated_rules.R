@@ -1,5 +1,5 @@
 #' @title
-#' Discard Correlated (Causal) Decision Rules
+#' Filter Correlated Decision Rules
 #'
 #' @description
 #' Discard redundant correlated rules.
@@ -11,11 +11,9 @@
 #' @keywords internal
 #'
 #' @return
-#' A list with:
-#' - the filtered rules matrix
-#' - the filtered rules list
+#' The rules matrix only with the rules selected
 #'
-discard_correlated_rules <- function(rules_matrix, rules_list, t){
+filter_correlated_rules <- function(rules_matrix, rules_list, t){
 
   # Identify correlated rules
   nrules <- length(rules_list)
@@ -31,6 +29,7 @@ discard_correlated_rules <- function(rules_matrix, rules_list, t){
   # Remove correlated rules
   rules_matrix <- rules_matrix[, ind,drop=FALSE]
   rules_list <- rules_list[ind]
+  colnames(rules_matrix) <- rules_list
 
-  return(list(rules_matrix = rules_matrix, rules_list = rules_list))
+  return(rules_matrix)
 }

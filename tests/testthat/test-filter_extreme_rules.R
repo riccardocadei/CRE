@@ -1,4 +1,4 @@
-test_that("Anomalous Rules Discarded Correctly", {
+test_that("Extreme Rules Discarded Correctly", {
   # Generate sample data
   set.seed(2021)
   dataset_cont <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
@@ -18,7 +18,8 @@ test_that("Anomalous Rules Discarded Correctly", {
   replace <- FALSE
   max_decay <- 0.025
   type_decay <- 2
-  t_anom <- 0.1
+  t_ext <- 0.1
+  intervention_vars <- c()
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -40,28 +41,23 @@ test_that("Anomalous Rules Discarded Correctly", {
   ite_std <- ite_list[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite_std, ntrees_rf, ntrees_gbm, node_size,
-                                  max_nodes, max_depth, replace, random_state = 2389)
+  initial_rules <- generate_rules(X, ite_std, intervention_vars, ntrees_rf,
+                                  ntrees_gbm, node_size, max_nodes, max_depth,
+                                  replace, random_state = 2389)
 
-  rules_list <- prune_rules(initial_rules, X, ite_std, max_decay, type_decay)
+  rules_list <- filter_irrelevant_rules(initial_rules, X, ite_std, max_decay, type_decay)
   rules_matrix <- generate_rules_matrix(X, rules_list)
 
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(discard_anomalous_rules(rules_matrix = "test", rules_list, t_anom))
+  expect_error(filter_extreme_rules(rules_matrix = "test", rules_list, t_ext))
 
   # Correct outputs
-  results <- discard_anomalous_rules(rules_matrix, rules_list, t_anom)
-  expect_true(length(results) == 2)
-  expect_identical(class(results[[1]]), c("matrix", "array"))
-  expect_true(class(results[[2]]) == "character")
-  expect_true(ncol(results[[1]]) == length(results[[2]]))
+  results <- filter_extreme_rules(rules_matrix, rules_list, t_ext)
+  expect_identical(class(results), c("matrix", "array"))
 
-  t_anom <- 0
-  results <- discard_anomalous_rules(rules_matrix, rules_list, t_anom)
-  expect_true(length(results) == 2)
-  expect_identical(class(results[[1]]), c("matrix", "array"))
-  expect_true(class(results[[2]]) == "character")
-  expect_true(ncol(results[[1]]) == length(results[[2]]))
+  t_ext <- 0
+  results <- filter_extreme_rules(rules_matrix, rules_list, t_ext)
+  expect_identical(class(results), c("matrix", "array"))
 })

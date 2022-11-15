@@ -1,10 +1,10 @@
 #' @title
-#' Filter (Causal) Decision Rules by LASSO (with stability selection)
+#' Discover Causal Decision Rules
 #'
 #' @description
-#' Selects the causal rules that are most important.
+#' Discover Causal Decision Rules by randomization-based tests
 #'
-#' @param rules_matrix_std The standardized causal rules matrix.
+#' @param rules_matrix The causal rules matrix.
 #' @param rules_list A vector of causal rules.
 #' @param ite_std The standardized ITE.
 #' @param stability_selection Whether or not using stability selection to
@@ -13,22 +13,35 @@
 #' scores.
 #' @param pfer Upper bound for the per-family error rate (tolerated amount of
 #' falsely selected rules).
+#' @param penalty_rl Order of penalty for rules length during LASSO for Causal
+#' Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
 #'
 #' @return
-#' a vector of causal rules
+#' List of the Causal Decision Rules discovered
 #'
 #' @keywords internal
 #'
-lasso_rules_filter <- function(rules_matrix_std, rules_list, ite_std,
-                                stability_selection, cutoff, pfer) {
+discover_causal_rules <- function(rules_matrix, rules_list, ite_std,
+                                  stability_selection, cutoff, pfer,
+                                  penalty_rl) {
+
+  if (penalty_rl>0){
+    rules_weight = c()
+    for (rule in rules_list){
+      rules_length = lengths(regmatches(rule, gregexpr("&", rule)))+1
+      rule_weight <- rules_length^penalty_rl
+      rules_weight <- append(rules_weight,rule_weight)
+    }
+    rules_matrix = t(t(rules_matrix)/rules_weight)
+  }
 
   `%>%` <- magrittr::`%>%`
   rules <- NULL
   if (length(rules_list)>1){
 
     if (stability_selection) {
-      # LASSO Stability Selection
-      stab_mod <- stabs::stabsel(x = rules_matrix_std,
+      # Stability Selection LASSO
+      stab_mod <- stabs::stabsel(x = rules_matrix,
                                  y = ite_std,
                                  fitfun = "glmnet.lasso",
                                  cutoff = cutoff,
@@ -37,8 +50,8 @@ lasso_rules_filter <- function(rules_matrix_std, rules_list, ite_std,
       select_rules <- rule_stab
 
     } else {
-      # (Vanilla) LASSO
-      cv_lasso <- glmnet::cv.glmnet(x = rules_matrix_std,
+      # vanilla LASSO
+      cv_lasso <- glmnet::cv.glmnet(x = rules_matrix,
                                     y = ite_std,
                                     alpha = 1,
                                     intercept = FALSE)

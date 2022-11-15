@@ -37,7 +37,7 @@
 #'     - *filter_cate*: Whether or not to filter rules with p-value <= 0.05.
 #' @param hyper_params The list of parameters required to tune the functions,
 #' including:
-#'  - *effect_modifiers*: Effect Modifiers for Rules Generation.
+#'  - *intervention_vars*: Intervention-able variables used for Rules Generation.
 #'  - *ntrees_rf*: The number of decision trees for randomForest.
 #'  - *ntrees_gbm*: The number of decision trees for gradient boosting.
 #'  - *node_size*: The minimum size of the trees' terminal nodes.
@@ -48,7 +48,7 @@
 #'  - *replace*: Boolean variable for replacement in bootstrapping.
 #'  - *max_decay*: Decay Threshold for pruning the rules.
 #'  - *type_decay*: Decay Type for pruning the rules (1: relative error; 2: error).
-#'  - *t_anom*: The threshold to define too generic or too specific (anomalous) rules.
+#'  - *t_ext*: The threshold to define too generic or too specific (extreme) rules.
 #'  - *t_corr*: The threshold to define correlated rules.
 #'  - *stability_selection*: Whether or not using stability selection for
 #'  selecting the causal rules.
@@ -56,6 +56,8 @@
 #' scores.
 #'  - *pfer*: Upper bound for the per-family error rate (tolerated amount of
 #' falsely selected rules).
+#'  - *penalty_rl*: Order of penalty for rules length during LASSO for Causal
+#' Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
 #'
 #' @return
 #' An S3 object containing the matrix of Conditional
@@ -67,12 +69,11 @@
 #'
 #' \donttest{
 #' set.seed(2021)
-#' dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+#' dataset <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
 #'                                      effect_size = 2, binary = FALSE)
-#' y <- dataset_cont[["y"]]
-#' z <- dataset_cont[["z"]]
-#' X <- as.data.frame(dataset_cont[["X"]])
-#' X_names <- names(as.data.frame(X))
+#' y <- dataset[["y"]]
+#' z <- dataset[["z"]]
+#' X <- dataset[["X"]]
 #'
 #' method_params <- list(ratio_dis = 0.25,
 #'                       ite_method_dis="bart",
@@ -97,18 +98,20 @@
 #'                      max_depth = 15,
 #'                      max_decay = 0.025,
 #'                      type_decay = 2,
-#'                      t_anom = 0.025,
+#'                      t_ext = 0.025,
 #'                      t_corr = 1,
 #'                      replace = FALSE,
 #'                      stability_selection = TRUE,
 #'                      cutoff = 0.6,
-#'                      pfer = 0.1)
+#'                      pfer = 0.1,
+#'                      penalty_rl = 1)
 #'
 #' cre_results <- cre(y, z, X, method_params, hyper_params)
 #'}
 cre <- function(y, z, X, method_params, hyper_params){
 
   # Input checks ---------------------------------------------------------------
+  logger::log_info("Load dataset")
   check_input_data(y = y, z = z, X = X)
   method_params <- check_method_params(y = y, params = method_params)
   check_hyper_params(params = hyper_params)
@@ -118,13 +121,13 @@ cre <- function(y, z, X, method_params, hyper_params){
   list2env(method_params, envir = environment())
   list2env(hyper_params, envir = environment())
 
-  # Split data -----------------------------------------------------------------
-  logger::log_info("Working on splitting data ... ")
+  # Honest Splitting -----------------------------------------------------------
+  logger::log_info("Honest Splitting")
   X_names <- names(as.data.frame(X))
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  subgroups <- split_data(y, z, X, getElement(method_params,"ratio_dis"))
+  subgroups <- honest_splitting(y, z, X, getElement(method_params,"ratio_dis"))
   discovery <- subgroups[["discovery"]]
   inference <- subgroups[["inference"]]
 
@@ -141,10 +144,10 @@ cre <- function(y, z, X, method_params, hyper_params){
 
   # Discovery ------------------------------------------------------------------
 
-  logger::log_info("Conducting Discovery Subsample Analysis ... ")
+  logger::log_info("1. Causal Rules Discovery")
 
   # Estimate ITE -----------------------
-  logger::log_info("Estimating ITE ... ")
+  logger::log_info("1.1 Estimating ITE")
   st_ite_t <- proc.time()
   ite_list_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
                                ite_method = getElement(method_params,"ite_method_dis"),
@@ -164,20 +167,22 @@ cre <- function(y, z, X, method_params, hyper_params){
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate Causal Decision Rules  -----------------------
-  select_rules_dis_list <- generate_causal_rules(X_dis, ite_std_dis, method_params, hyper_params)
+  select_rules_dis_list <- generate_causal_rules(X_dis,
+                                                 ite_std_dis,
+                                                 method_params,
+                                                 hyper_params)
   select_rules_dis <- select_rules_dis_list[["rules"]]
   M <- select_rules_dis_list[["M"]]
-  M_final <- M[["Filter 4 (LASSO)"]]
-  logger::log_info("{M_final} significant Causal Rules were discovered.")
+
 
 
   # Inference ------------------------------------------------------------------
 
-  logger::log_info("Conducting Inference Subsample Analysis ...")
-  message("Conducting Inference Subsample Analysis")
+  logger::log_info("2. CATE Inference")
+  #message("Conducting Inference Subsample Analysis")
 
-  # Estimate ITE -----------------------
-  logger::log_info("Estimating ITE ... ")
+  # Estimate ITE ---------------------------------------------------------------
+  logger::log_info("2.1 Estimating ITE")
   ite_list_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
                                ite_method = getElement(method_params,"ite_method_inf"),
                                is_y_binary = getElement(method_params,"is_y_binary"),
@@ -193,9 +198,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
-  # Generate rules matrix --------------
-  logger::log_info("Generating Causal Rules Matrix ...")
-
+  # Generate rules matrix ------------------------------------------------------
   if (length(select_rules_dis)==0){
     rules_matrix_inf <- NA
     select_rules_interpretable <- NA
@@ -204,8 +207,8 @@ cre <- function(y, z, X, method_params, hyper_params){
     select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
   }
 
-  # Estimate CATE ----------------------
-  logger::log_info("Estimating CATE ...")
+  # Estimate CATE --------------------------------------------------------------
+  logger::log_info("2.2 Estimating CATE")
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
                             getElement(method_params,"include_offset"),
                             getElement(method_params,"offset_name"),
@@ -215,7 +218,7 @@ cre <- function(y, z, X, method_params, hyper_params){
                             getElement(method_params,"cate_SL_library"),
                             getElement(method_params,"filter_cate"))
 
-  M["Filter 5 (CATE)"] <- as.integer(length(cate_inf$Rule)-1)
+  M["Causal (significant)"] <- as.integer(length(cate_inf$Rule[cate_inf$Rule %in% "(ATE)" == FALSE]))
 
   # Generate final results S3 object
   results <- list()
@@ -224,8 +227,11 @@ cre <- function(y, z, X, method_params, hyper_params){
   results[["cate_method"]] <- getElement(method_params,"cate_method")
   attr(results, "class") <- "cre"
 
-  # Return Results
-  logger::log_info("CRE method complete. Returning results.")
+  # Sensitivity Analysis -------------------------------------------------------
+  #logger::log_info("3 Sensitivity Analysis")
+  # TO DO
 
+  # Return Results -------------------------------------------------------------
+  logger::log_info("CRE method complete. Returning results.")
   return(results)
 }

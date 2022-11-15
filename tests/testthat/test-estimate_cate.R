@@ -33,6 +33,8 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   cate_method <- "DRLearner"
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
+  intervention_vars <- c()
+  penalty_rl <- 1
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -41,7 +43,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  subgroups <- split_data(y, z, X, ratio_dis)
+  subgroups <- honest_splitting(y, z, X, ratio_dis)
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
 
@@ -67,23 +69,25 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Step 3: Generate rules list
-  initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-                                      node_size, max_nodes, max_depth, replace,
+  initial_rules_dis <- generate_rules(X_dis, ite_std_dis, intervention_vars,
+                                      ntrees_rf, ntrees_gbm, node_size,
+                                      max_nodes, max_depth, replace,
                                       random_state = 981)
 
-  rules_list_dis <- prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Step 4: Generate rules matrix
   rules_matrix_dis <- generate_rules_matrix(X_dis, rules_list_dis)
   rules_matrix_std_dis <- standardize_rules_matrix(rules_matrix_dis)
 
   # Step 5: Select important rules
-  select_rules_dis <- as.character(lasso_rules_filter(rules_matrix_std_dis,
+  select_rules_dis <- as.character(discover_causal_rules(rules_matrix_std_dis,
                                                        rules_list_dis,
                                                        ite_std_dis,
                                                        stability_selection,
                                                        cutoff,
-                                                       pfer))
+                                                       pfer,
+                                                       penalty_rl))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
                                                        select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in%
@@ -160,11 +164,14 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   cate_method <- "cf-means"
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
+  intervention_vars <- c()
+  penalty_rl <- 1
+
   # Split data
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  subgroups <- CRE:::split_data(y, z, X, ratio_dis)
+  subgroups <- CRE:::honest_splitting(y, z, X, ratio_dis)
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
@@ -189,23 +196,25 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf,
-                                            ntrees_gbm, node_size, max_nodes,
-                                            max_depth, replace, random_state = 214)
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+                                            ntrees_rf, ntrees_gbm, node_size,
+                                            max_nodes, max_depth, replace,
+                                            random_state = 214)
 
-  rules_list_dis <- CRE:::prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis,
+  select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
                                                             rules_list_dis,
                                                             ite_std_dis,
                                                             stability_selection,
                                                             cutoff,
-                                                            pfer))
+                                                            pfer,
+                                                            penalty_rl))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
@@ -280,11 +289,14 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   cate_method <- "linreg"
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
+  intervention_vars <- c()
+  penalty_rl <- 1
+
   # Split data
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  subgroups <- CRE:::split_data(y, z, X, ratio_dis)
+  subgroups <- CRE:::honest_splitting(y, z, X, ratio_dis)
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
@@ -309,23 +321,25 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf,
-                                            ntrees_gbm, node_size, max_nodes,
-                                            max_depth, replace, random_state = 214)
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+                                            ntrees_rf, ntrees_gbm, node_size,
+                                            max_nodes, max_depth, replace,
+                                            random_state = 214)
 
-  rules_list_dis <- CRE:::prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis,
+  select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
                                                             rules_list_dis,
                                                             ite_std_dis,
                                                             stability_selection,
                                                             cutoff,
-                                                            pfer))
+                                                            pfer,
+                                                            penalty_rl))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
@@ -398,11 +412,15 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   cate_method <- "linreg"
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
+  intervention_vars <- c()
+  penalty_rl <- 1
+
+
   # Split data
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  subgroups <- CRE:::split_data(y, z, X, ratio_dis)
+  subgroups <- CRE:::honest_splitting(y, z, X, ratio_dis)
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
@@ -427,23 +445,25 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf,
-                                            ntrees_gbm, node_size, max_nodes,
-                                            max_depth, replace, random_state = 214)
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+                                            ntrees_rf, ntrees_gbm, node_size,
+                                            max_nodes, max_depth, replace,
+                                            random_state = 214)
 
-  rules_list_dis <- CRE:::prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis,
+  select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
                                                             rules_list_dis,
                                                             ite_std_dis,
                                                             stability_selection,
                                                             cutoff,
-                                                            pfer))
+                                                            pfer,
+                                                            penalty_rl))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
@@ -517,11 +537,14 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   cate_method <- "bart-baggr"
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
+  intervention_vars <- c()
+  penalty_rl <- 1
+
   # Split data
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  subgroups <- CRE:::split_data(y, z, X, ratio_dis)
+  subgroups <- CRE:::honest_splitting(y, z, X, ratio_dis)
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
@@ -546,23 +569,25 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf,
-                                            ntrees_gbm, node_size, max_nodes,
-                                            max_depth, replace, random_state = 214)
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+                                            ntrees_rf, ntrees_gbm, node_size,
+                                            max_nodes, max_depth, replace,
+                                            random_state = 214)
 
-  rules_list_dis <- CRE:::prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis,
+  select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
                                                             rules_list_dis,
                                                             ite_std_dis,
                                                             stability_selection,
                                                             cutoff,
-                                                            pfer))
+                                                            pfer,
+                                                            penalty_rl))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 
@@ -637,11 +662,14 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   cate_method <- "poisson"
   cate_SL_library <- "SL.xgboost"
   filter_cate <- FALSE
+  intervention_vars <- c()
+  penalty_rl <- 1
+
   # Split data
   X <- as.matrix(X)
   y <- abs(round(as.matrix(y)))
   z <- as.matrix(z)
-  subgroups <- CRE:::split_data(y, z, X, ratio_dis)
+  subgroups <- CRE:::honest_splitting(y, z, X, ratio_dis)
   discovery <- subgroups[[1]]
   inference <- subgroups[[2]]
   # Generate y, z, and X for discovery and inference data
@@ -666,23 +694,25 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, ntrees_rf,
-                                            ntrees_gbm, node_size, max_nodes,
-                                            max_depth, replace, random_state = 214)
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+                                            ntrees_rf, ntrees_gbm, node_size,
+                                            max_nodes, max_depth, replace,
+                                            random_state = 214)
 
-  rules_list_dis <- CRE:::prune_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::lasso_rules_filter(rules_matrix_std_dis,
+  select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
                                                             rules_list_dis,
                                                             ite_std_dis,
                                                             stability_selection,
                                                             cutoff,
-                                                            pfer))
+                                                            pfer,
+                                                            penalty_rl))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
 

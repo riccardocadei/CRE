@@ -24,7 +24,7 @@ test_that("generate_causal_rules works as expected!", {
                        offset_name = NA,
                        random_state = 3591)
 
-  hyper_params = list(effect_modifiers = c(),
+  hyper_params = list(intervention_vars = c(),
                       ntrees_rf = 100,
                       ntrees_gbm = 50,
                       node_size = 20,
@@ -32,12 +32,13 @@ test_that("generate_causal_rules works as expected!", {
                       max_depth = 15,
                       max_decay = 0.025,
                       type_decay = 2,
-                      t_anom = 0.025,
+                      t_ext = 0.025,
                       t_corr = 1,
                       replace = FALSE,
                       stability_selection = TRUE,
                       cutoff = 0.8,
-                      pfer = 0.1)
+                      pfer = 0.1,
+                      penalty_rl = 1)
 
   # Input checks
   check_input_data(y = y, z = z, X = X)

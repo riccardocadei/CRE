@@ -1,5 +1,5 @@
 #' @title
-#' Discard Anomalous (Causal) Decision Rules
+#' Filter Extreme Decision Rules
 #'
 #' @description
 #' Discard rules with too few or too many observations.
@@ -11,11 +11,9 @@
 #' @keywords internal
 #'
 #' @return
-#' A list with:
-#' - the filtered rules matrix
-#' - the filtered rules list
+#' The rules matrix only with the rules selected
 #'
-discard_anomalous_rules <- function(rules_matrix, rules_list, t){
+filter_extreme_rules <- function(rules_matrix, rules_list, t){
 
   # Identify rules with too few or too many observations
   ind <- 1:dim(rules_matrix)[2]
@@ -26,6 +24,7 @@ discard_anomalous_rules <- function(rules_matrix, rules_list, t){
   # Remove rules with too few/too many observations
   rules_matrix <- rules_matrix[, ind, drop=FALSE]
   rules_list <- rules_list[ind]
+  colnames(rules_matrix) <- rules_list
 
-  return(list(rules_matrix = rules_matrix, rules_list = rules_list))
+  return(rules_matrix)
 }

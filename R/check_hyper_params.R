@@ -34,7 +34,7 @@ check_hyper_params <- function(params){
     stop("Please specify 'TRUE' or 'FALSE' for the replace argument.")
   }
 
-  if (!inherits(getElement(params, "t_anom"),"numeric")){
+  if (!inherits(getElement(params, "t_ext"),"numeric")){
     stop("Invalid 't' input. Please input a number.")
   }
 
@@ -59,5 +59,9 @@ check_hyper_params <- function(params){
   } else {
     params[["pfer"]] <- NA
     params[["cutoff"]] <- NA
+  }
+
+  if (!inherits(getElement(params, "penalty_rl"),"numeric")){
+    stop("Invalid 'penalty_rl' input. Please input a number.")
   }
 }

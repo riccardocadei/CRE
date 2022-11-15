@@ -273,15 +273,15 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       joined_ite_rules <- cbind(ite_inf, df_rules_factor)
 
       # Fit linear regression model with contr.treatment
-
       old_op <- options()
       on.exit(options(old_op))
 
       # then extract coefficients and confidence intervals
       options(contrasts = rep("contr.treatment", 2))
       model1_cate <- stats::lm(ite_inf ~ ., data = joined_ite_rules)
-      model1_coef <- summary(model1_cate)$coef[,c(1,4)] %>% as.data.frame
+      model1_coef <- summary(model1_cate)$coef[,c(1,4)] %>% as.data.frame()
       model1_ci <- stats::confint(model1_cate) %>% as.data.frame()
+      model1_ci <- model1_ci[!is.na(model1_ci[1]),]
 
       # Generate model 1 data frame
       cate_reg_orig <- model1_coef %>% cbind(model1_ci)
@@ -295,7 +295,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                                   P_Value = cate_reg_orig[,2])
       row.names(cate_reg_orig) <- 1:nrow(cate_reg_orig)
       if (filter_cate) {
-        cate_final <- subset(cate_reg_orig, cate_reg_orig$P_Value <= 0.05)
+        cate_final <- subset(cate_reg_orig, cate_reg_orig$P_Value <= 0.05 |
+                                            cate_reg_orig$Rule == "(ATE)")
       } else {
         cate_final <- cate_reg_orig
       }

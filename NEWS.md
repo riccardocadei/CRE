@@ -12,7 +12,15 @@
 
 ### Changed
 
-* Removed value test on `test-estimate_ite_oreg`.
+* Add weighted LASSO for Causal Rules Discovery (see param `penalty_rl`)
+* Rename `t_anom` parameter in `t_ext`
+* Rename `effect_modifier` parameter in `intervention_vars`
+* Rename `lasso_rules_filter()` in `discover_causal_rules()`
+* Rename `split_data()` in `honest_splitting()`
+* Rename `prune_rules()` in ``filter_irrelevant_rules()`
+* Rename `discard_correlated_rules()` in `filter_correlated_rules()`
+* Rename `discard_anomalous_rules()` in `filter_extreme_rules()`
+* Removed value test on `test-estimate_ite_oreg`
 
 ## CRE 0.1.0 (2022-10-17)
 
