@@ -160,19 +160,17 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
         cate_names <- rownames(cate_model) %>%
         stringr::str_replace_all("rules_matrix_inf_b",
                                  select_rules_interpretable) %>%
-        stringr::str_replace_all("(Intercept)", "(BATE)")
+        stringr::str_replace_all("(Intercept)", "BATE")
       } else {
         cate_names <- rownames(cate_model) %>%
         stringr::str_remove_all("rules_matrix_inf_b") %>%
-        stringr::str_replace_all("(Intercept)", "(BATE)")
+        stringr::str_replace_all("(Intercept)", "BATE")
       }
 
       cate_temp <- data.frame(Rule = cate_names) %>%
         cbind(cate_model)
       cate_final <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
                                       cate_temp$Rule == "(BATE)")
-      print('debug')
-      print(cate_final)
       rownames(cate_final) <- 1:nrow(cate_final)
     } else if (cate_method == "bart-baggr") {
 
