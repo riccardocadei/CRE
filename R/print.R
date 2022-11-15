@@ -98,19 +98,10 @@ summary.cre <- function(object, ...) {
   }
 
   cat("\n\nResults\n")
-  if (!is.null(getElement(c(...), "filter_cate"))) {
-    if (getElement(params, "filter_cate")) {
-      cat("- Heterogeneity:",
-          object[['M']][['Causal (significant)']],
-          "(significant) Causal Rules discovered\n",
-          sep=" ")
-    }
-  } else {
-      cat("- Heterogeneity:",
-          object[['M']][['Causal']],
-          "Causal Rules discovered\n",
-          sep=" ")
-  }
+  cat("- Heterogeneity:",
+      object[['M']][['Causal (significant)']],
+      "(significant) Causal Rules discovered\n",
+      sep=" ")
 
   cat("- CATE         :\n")
   print(object[["CATE"]])
