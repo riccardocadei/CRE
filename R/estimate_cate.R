@@ -160,11 +160,11 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
         cate_names <- rownames(cate_model) %>%
         stringr::str_replace_all("rules_matrix_inf_b",
                                  select_rules_interpretable) %>%
-        stringr::str_replace_all("(Intercept)", "ATE")
+        stringr::str_replace_all("(Intercept)", "(BATE)")
       } else {
         cate_names <- rownames(cate_model) %>%
         stringr::str_remove_all("rules_matrix_inf_b") %>%
-        stringr::str_replace_all("(Intercept)", "ATE")
+        stringr::str_replace_all("(Intercept)", "(BATE)")
       }
 
       cate_temp <- data.frame(Rule = cate_names) %>%
