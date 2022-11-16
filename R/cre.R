@@ -29,12 +29,12 @@
 #'     - *or_method_inf*: The estimation model for the outcome regressions in
 #'       estimate_ite_aipw on the inference subsample.
 #'   - *Other Parameters*
-#'     - *include_offset*: Whether or not to include an offset when estimating
-#'  the ITE, for Poisson only.
-#'     - *offset_name*: The name of the offset, if it is to be included.
+#'     - *include_offset*: Whether to include an offset (i.e. model outcome
+#'       rate) or not (i.e. model outcome counts) for Poisson ITE Estimation
+#'     - *offset_name*: The name of the covariate to use as offset (i.e. 'x1')
 #'     - *cate_method*: The method to estimate the CATE values.
 #'     - *cate_SL_library*: The library used if cate_method is set to DRLearner.
-#'     - *filter_cate*: Whether or not to filter rules with p-value <= 0.05.
+#'
 #' @param hyper_params The list of parameters required to tune the functions,
 #' including:
 #'  - *intervention_vars*: Intervention-able variables used for Rules Generation.
@@ -47,9 +47,13 @@
 #' to extract conditions.
 #'  - *replace*: Boolean variable for replacement in bootstrapping.
 #'  - *max_decay*: Decay Threshold for pruning the rules.
-#'  - *type_decay*: Decay Type for pruning the rules (1: relative error; 2: error).
-#'  - *t_ext*: The threshold to define too generic or too specific (extreme) rules.
+#'  - *type_decay*: Decay Type for pruning the rules
+#'  (1: relative error; 2: error).
+#'  - *t_ext*: The threshold to define too generic or too specific (extreme)
+#'  rules.
 #'  - *t_corr*: The threshold to define correlated rules.
+#'  - *t_pvalue*: the threshold to define statistically significant rules
+#' (filter only causal decision rules with p-value <= t_pvalue).
 #'  - *stability_selection*: Whether or not using stability selection for
 #'  selecting the causal rules.
 #'  - *cutoff*:  Threshold defining the minimum cutoff value for the stability
@@ -87,7 +91,6 @@
 #'                       include_offset = FALSE,
 #'                       cate_method = "DRLearner",
 #'                       cate_SL_library = "SL.xgboost",
-#'                       filter_cate = FALSE,
 #'                       offset_name = NA,
 #'                       random_state = 3591)
 #'
@@ -100,6 +103,7 @@
 #'                      type_decay = 2,
 #'                      t_ext = 0.025,
 #'                      t_corr = 1,
+#'                      t_pvalue = 0.05,
 #'                      replace = FALSE,
 #'                      stability_selection = TRUE,
 #'                      cutoff = 0.6,
@@ -111,18 +115,13 @@
 cre <- function(y, z, X, method_params, hyper_params){
 
   # Input checks ---------------------------------------------------------------
-  logger::log_info("Load dataset")
+  logger::log_info("Loading dataset...")
   check_input_data(y = y, z = z, X = X)
   method_params <- check_method_params(y = y, params = method_params)
   check_hyper_params(params = hyper_params)
 
-  # Unlist params into the current environment.
-  # Interim approach.
-  list2env(method_params, envir = environment())
-  list2env(hyper_params, envir = environment())
-
   # Honest Splitting -----------------------------------------------------------
-  logger::log_info("Honest Splitting")
+  logger::log_info("(Honest) Splitting the dataset...")
   X_names <- names(as.data.frame(X))
   X <- as.matrix(X)
   y <- as.matrix(y)
@@ -133,32 +132,32 @@ cre <- function(y, z, X, method_params, hyper_params){
 
   # Generate outcome (y), exposure(z), and covariate matrix (X) for discovery
   # and inference data
-  y_dis <- discovery[,1]
-  z_dis <- discovery[,2]
-  X_dis <- discovery[,3:ncol(discovery)]
+  y_dis <- discovery$y
+  z_dis <- discovery$z
+  X_dis <- discovery$X
 
-  y_inf <- inference[,1]
-  z_inf <- inference[,2]
-  X_inf <- inference[,3:ncol(inference)]
+  y_inf <- inference$y
+  z_inf <- inference$z
+  X_inf <- inference$X
 
 
   # Discovery ------------------------------------------------------------------
 
-  logger::log_info("1. Causal Rules Discovery")
+  logger::log_info("Starting Causal Rules Discovery")
 
   # Estimate ITE -----------------------
-  logger::log_info("1.1 Estimating ITE")
+  logger::log_info("Estimating ITE...")
   st_ite_t <- proc.time()
   ite_list_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
-                               ite_method = getElement(method_params,"ite_method_dis"),
-                               is_y_binary = getElement(method_params,"is_y_binary"),
-                               include_ps = getElement(method_params,"include_ps_dis"),
-                               ps_method = getElement(method_params,"ps_method_dis"),
-                               oreg_method = getElement(method_params,"oreg_method_dis"),
-                               X_names = X_names,
-                               include_offset = getElement(method_params,"include_offset"),
-                               offset_name = getElement(method_params,"offset_name"),
-                               random_state = getElement(method_params, "random_state"))
+                   ite_method = getElement(method_params,"ite_method_dis"),
+                   is_y_binary = getElement(method_params,"is_y_binary"),
+                   include_ps = getElement(method_params,"include_ps_dis"),
+                   ps_method = getElement(method_params,"ps_method_dis"),
+                   oreg_method = getElement(method_params,"oreg_method_dis"),
+                   X_names = X_names,
+                   include_offset = getElement(method_params,"include_offset"),
+                   offset_name = getElement(method_params,"offset_name"),
+                   random_state = getElement(method_params, "random_state"))
   en_ite_t <- proc.time()
   logger::log_debug("Finished Estimating ITE. ",
                     " Wall clock time: {(en_ite_t - st_ite_t)[[3]]} seconds.")
@@ -167,58 +166,58 @@ cre <- function(y, z, X, method_params, hyper_params){
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate Causal Decision Rules  -----------------------
-  select_rules_dis_list <- generate_causal_rules(X_dis,
-                                                 ite_std_dis,
-                                                 method_params,
-                                                 hyper_params)
-  select_rules_dis <- select_rules_dis_list[["rules"]]
-  M <- select_rules_dis_list[["M"]]
+  causal_rules_discovery <- generate_causal_rules(X_dis,
+                                                  ite_std_dis,
+                                                  method_params,
+                                                  hyper_params)
+  causal_rules <- causal_rules_discovery[["rules"]]
+  M <- causal_rules_discovery[["M"]]
 
 
 
   # Inference ------------------------------------------------------------------
 
-  logger::log_info("2. CATE Inference")
+  logger::log_info("Starting CATE Inference")
   #message("Conducting Inference Subsample Analysis")
 
   # Estimate ITE ---------------------------------------------------------------
-  logger::log_info("2.1 Estimating ITE")
+  logger::log_info("Estimating ITE...")
   ite_list_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
-                               ite_method = getElement(method_params,"ite_method_inf"),
-                               is_y_binary = getElement(method_params,"is_y_binary"),
-                               include_ps = getElement(method_params,"include_ps_inf"),
-                               ps_method = getElement(method_params,"ps_method_inf"),
-                               oreg_method = getElement(method_params,"oreg_method_inf"),
-                               X_names = X_names,
-                               include_offset = getElement(method_params,"include_offset"),
-                               offset_name = getElement(method_params,"offset_name"),
-                               random_state = getElement(method_params, "random_state"))
+                   ite_method = getElement(method_params,"ite_method_inf"),
+                   is_y_binary = getElement(method_params,"is_y_binary"),
+                   include_ps = getElement(method_params,"include_ps_inf"),
+                   ps_method = getElement(method_params,"ps_method_inf"),
+                   oreg_method = getElement(method_params,"oreg_method_inf"),
+                   X_names = X_names,
+                   include_offset = getElement(method_params,"include_offset"),
+                   offset_name = getElement(method_params,"offset_name"),
+                   random_state = getElement(method_params, "random_state"))
 
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
   # Generate rules matrix ------------------------------------------------------
-  if (length(select_rules_dis)==0){
+  if (length(causal_rules)==0){
     rules_matrix_inf <- NA
-    select_rules_interpretable <- NA
+    causal_rules <- NA
   } else {
-    rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+    rules_matrix_inf <- generate_rules_matrix(X_inf, causal_rules)
+    causal_rules <- interpret_select_rules(causal_rules, X_names)
   }
 
   # Estimate CATE --------------------------------------------------------------
-  logger::log_info("2.2 Estimating CATE")
+  logger::log_info("Estimating CATE...")
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
                             getElement(method_params,"include_offset"),
                             getElement(method_params,"offset_name"),
-                            rules_matrix_inf, select_rules_interpretable,
+                            rules_matrix_inf, causal_rules,
                             getElement(method_params,"cate_method"),
                             ite_inf, sd_ite_inf,
                             getElement(method_params,"cate_SL_library"),
-                            getElement(method_params,"filter_cate"))
+                            getElement(hyper_params,"t_pvalue"))
 
-  M["Causal (significant)"] <- as.integer(length(cate_inf$Rule[cate_inf$Rule %in% "(ATE)" == FALSE]))
+  M["Causal (significant)"] <- as.integer(length(cate_inf$Rule))-1
 
   # Generate final results S3 object
   results <- list()
@@ -232,6 +231,6 @@ cre <- function(y, z, X, method_params, hyper_params){
   # TO DO
 
   # Return Results -------------------------------------------------------------
-  logger::log_info("CRE method complete. Returning results.")
+  logger::log_info("CRE method complete")
   return(results)
 }

@@ -4,19 +4,19 @@
 \alias{filter_correlated_rules}
 \title{Filter Correlated Decision Rules}
 \usage{
-filter_correlated_rules(rules_matrix, rules_list, t)
+filter_correlated_rules(rules_matrix, rules_list, t_corr)
 }
 \arguments{
 \item{rules_matrix}{The causal rules matrix.}
 
 \item{rules_list}{The list of the causal rules.}
 
-\item{t}{The threshold to define correlated rules.}
+\item{t_corr}{The threshold to define correlated rules.}
 }
 \value{
 The rules matrix only with the rules selected
 }
 \description{
-Discard redundant correlated rules.
+Discard Decision Rules too correlated (i.e. Cov(rule1,rule2)>t_corr).
 }
 \keyword{internal}

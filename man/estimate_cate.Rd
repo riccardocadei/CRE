@@ -17,46 +17,47 @@ estimate_cate(
   ite_inf,
   sd_ite_inf,
   cate_SL_library,
-  filter_cate
+  t_pvalue
 )
 }
 \arguments{
-\item{y_inf}{the outcome vector for the inference subsample}
+\item{y_inf}{The outcome vector for the inference subsample.}
 
-\item{z_inf}{the treatment vector for the inference subsample}
+\item{z_inf}{The treatment vector for the inference subsample.}
 
-\item{X_inf}{the covariate vector for the inference subsample}
+\item{X_inf}{The covariate vector for the inference subsample.}
 
-\item{X_names}{the names of the covariates}
+\item{X_names}{The names of the covariates.}
 
-\item{include_offset}{whether or not to include an offset when estimating the
-ITE, for poisson only}
+\item{include_offset}{Whether or not to include an offset when estimating the
+ITE, for poisson only.}
 
-\item{offset_name}{the name of the offset, if it is to be included}
+\item{offset_name}{The name of the offset, if it is to be included.}
 
-\item{rules_matrix_inf}{the standardized causal rules matrix for the
-inference subsample}
+\item{rules_matrix_inf}{The standardized causal rules matrix for the
+inference subsample.}
 
-\item{select_rules_interpretable}{the list of select causal rules in terms of
-coviariate names}
+\item{select_rules_interpretable}{The list of select causal rules in terms of
+coviariate names.}
 
-\item{cate_method}{the method to estimate the CATE values}
+\item{cate_method}{The method to estimate the CATE values.}
 
-\item{ite_inf}{the estimated ITEs for the inference subsample}
+\item{ite_inf}{The estimated ITEs for the inference subsample.}
 
-\item{sd_ite_inf}{the standard deviations for the estimated ITEs for the
-inference subsample}
+\item{sd_ite_inf}{The standard deviations for the estimated ITEs for the
+inference subsample.}
 
-\item{cate_SL_library}{the library used if cate_method = DRLearner}
+\item{cate_SL_library}{The library used if cate_method is DRLearner.}
 
-\item{filter_cate}{whether or not to filter rules with p-value <= 0.05}
+\item{t_pvalue}{The threshold to define statistically significant rules
+(filter only causal decision rules with p-value <= t_pvalue).}
 }
 \value{
 a matrix of CATE estimates
 }
 \description{
 Estimates the Conditional Average Treatment Effect given a standardized
-vector of Individual Treatment Effects, a standardized matrix of causal rules,
-a list of causal rules.
+vector of Individual Treatment Effects, a standardized matrix of causal
+rules, a list of causal rules.
 }
 \keyword{internal}

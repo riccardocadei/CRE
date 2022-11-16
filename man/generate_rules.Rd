@@ -22,7 +22,8 @@ generate_rules(
 
 \item{ite_std}{The standardized ITE.}
 
-\item{intervention_vars}{Intervention-able variables used for Rules Generation.}
+\item{intervention_vars}{Intervention-able variables used for Rules
+Generation.}
 
 \item{ntrees_rf}{The number of decision trees for randomForest.}
 
@@ -30,7 +31,8 @@ generate_rules(
 
 \item{node_size}{The minimum size of the trees' terminal nodes.}
 
-\item{max_nodes}{The maximum number of terminal nodes trees in the forest can have.}
+\item{max_nodes}{The maximum number of terminal nodes trees in the forest can
+have.}
 
 \item{max_depth}{The number of top levels from each tree considered
 to extract conditions.}

@@ -2,7 +2,7 @@ test_that("generate_causal_rules works as expected!", {
   # Generate sample data
   set.seed(2021)
   dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 2, binary = FALSE)
+                                       effect_size = 2, binary_outcome = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- as.data.frame(dataset_cont[["X"]])
@@ -20,7 +20,6 @@ test_that("generate_causal_rules works as expected!", {
                        include_offset = FALSE,
                        cate_method = "DRLearner",
                        cate_SL_library = "SL.xgboost",
-                       filter_cate = FALSE,
                        offset_name = NA,
                        random_state = 3591)
 
@@ -34,6 +33,7 @@ test_that("generate_causal_rules works as expected!", {
                       type_decay = 2,
                       t_ext = 0.025,
                       t_corr = 1,
+                      t_pvalue = 0.05,
                       replace = FALSE,
                       stability_selection = TRUE,
                       cutoff = 0.8,

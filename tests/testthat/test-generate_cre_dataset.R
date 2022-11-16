@@ -3,41 +3,41 @@ test_that("generate_cre_dataset works as expected.", {
   # Incorrect n input
   expect_error(generate_cre_dataset(n = -100, rho = 0,
                                     n_rules = 2, p = 10, effect_size = 0.5,
-                                    binary = FALSE))
+                                    binary_outcome = FALSE))
 
   # Incorrect rho input (negative value)
   expect_error(generate_cre_dataset(n = 100, rho = -0.5,
                                     n_rules = 2, p = 10, effect_size = 0.5,
-                                    binary = FALSE))
+                                    binary_outcome = FALSE))
 
   # Incorrect rho input (more than 1)
   expect_error(generate_cre_dataset(n = 100, rho = 1.2,
                                     n_rules = 2, p = 10, effect_size = 0.5,
-                                    binary = FALSE))
+                                    binary_outcome = FALSE))
 
   # Incorrect number of rules
   expect_error(generate_cre_dataset(n = 100, rho = 0,
                                     n_rules = 3, p = 10, effect_size = 0.5,
-                                    binary = FALSE))
+                                    binary_outcome = FALSE))
 
   expect_error(generate_cre_dataset(n = 100, rho = 0,
                                     n_rules = "test", p = 10, effect_size = 0.5,
-                                    binary = FALSE))
+                                    binary_outcome = FALSE))
 
   # Incorrect effect_size input
   expect_error(generate_cre_dataset(n = 100, rho = 0,
                                     n_rules = 2, p = 10, effect_size = "test",
-                                    binary = FALSE))
+                                    binary_outcome = FALSE))
 
   # Incorrect binary input
   expect_error(generate_cre_dataset(n = 100, rho = 0,
                                     n_rules = 2, p = 10, effect_size = 0.5,
-                                    binary = "test"))
+                                    binary_outcome = "test"))
 
   # Correct outputs
   set.seed(2021)
   test_data_1 <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
-                                         effect_size = 0.5, binary = TRUE)
+                                         effect_size = 0.5, binary_outcome = TRUE)
   expect_true(class(test_data_1) == "list")
   expect_true(length(test_data_1) == 3)
   expect_true(class(test_data_1[[1]]) == "numeric")
@@ -53,7 +53,7 @@ test_that("generate_cre_dataset works as expected.", {
   # Correct outputs
   set.seed(2021)
   test_data_1 <- generate_cre_dataset(n = 100, rho = 0, n_rules = 4, p = 10,
-                                      effect_size = 0.5, binary = FALSE)
+                                      effect_size = 0.5, binary_outcome = FALSE)
   expect_true(class(test_data_1) == "list")
   expect_true(length(test_data_1) == 3)
   expect_true(class(test_data_1[[1]]) == "numeric")

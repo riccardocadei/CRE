@@ -4,14 +4,14 @@
 \alias{filter_extreme_rules}
 \title{Filter Extreme Decision Rules}
 \usage{
-filter_extreme_rules(rules_matrix, rules_list, t)
+filter_extreme_rules(rules_matrix, rules_list, t_ext)
 }
 \arguments{
 \item{rules_matrix}{The causal rules matrix.}
 
 \item{rules_list}{The list of the causal rules.}
 
-\item{t}{The threshold to define too generic or too specific rules.}
+\item{t_ext}{The threshold to define too generic or too specific rules.}
 }
 \value{
 The rules matrix only with the rules selected

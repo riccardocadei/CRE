@@ -15,10 +15,10 @@ estimate_ite_poisson(y, z, X, X_names, include_offset, offset_name)
 
 \item{X_names}{the names of the covariates}
 
-\item{include_offset}{whether or not to include an offset when estimating
-the ITE, for poisson only}
+\item{include_offset}{whether to include an offset (i.e. model outcome rate)
+or not (i.e. model outcome counts)}
 
-\item{offset_name}{the name of the offset, if it is to be included}
+\item{offset_name}{the name of the covariate to use as offset (i.e. 'x1')}
 }
 \value{
 a vector of ITE estimates

@@ -2,7 +2,7 @@ test_that("cre Runs Correctly", {
   # Generate sample data
   set.seed(2021)
   dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 2, binary = FALSE)
+                                       effect_size = 2, binary_outcome = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- as.data.frame(dataset_cont[["X"]])
@@ -20,7 +20,6 @@ test_that("cre Runs Correctly", {
                        include_offset = FALSE,
                        cate_method = "DRLearner",
                        cate_SL_library = "SL.xgboost",
-                       filter_cate = FALSE,
                        offset_name = NA,
                        random_state = 3591)
 
@@ -34,6 +33,7 @@ test_that("cre Runs Correctly", {
                      type_decay = 2,
                      t_ext = 0.025,
                      t_corr = 1,
+                     t_pvalue = 0.05,
                      replace = FALSE,
                      stability_selection = TRUE,
                      cutoff = 0.6,
@@ -110,10 +110,6 @@ test_that("cre Runs Correctly", {
 
   method_params[["cate_method"]] <- "DRLearner"
   method_params[["ite_method_inf"]] <- "bart"
-  method_params[["filter_cate"]] <- "test"
-  expect_error(cre(y_temp, z, X, method_params, hyper_params))
-
-  method_params[["filter_cate"]] <- FALSE
   hyper_params[["ntrees_rf"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
@@ -142,6 +138,10 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["t_corr"]] <- 1
+  hyper_params[["t_pvalue"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  hyper_params[["t_pvalue"]] <- 0.05
   hyper_params[["cutoff"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 

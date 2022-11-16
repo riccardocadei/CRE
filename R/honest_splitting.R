@@ -16,12 +16,14 @@
 honest_splitting <- function(y, z, X, ratio_dis) {
 
   n <- check_input_data(y, z, X)
-  total_sample <- cbind(y, z, X)
-
   index <- sample(1:n, round(n*ratio_dis), replace=F)
 
-  discovery <- total_sample[index,]
-  inference <- total_sample[-index,]
+  discovery <- list(y = y[index],
+                    z = z[index],
+                    X = X[index,])
+  inference <- list(y = y[-index],
+                    z = z[-index],
+                    X = X[-index,])
 
   return(list(discovery = discovery, inference = inference))
 }

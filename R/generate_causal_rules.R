@@ -17,7 +17,7 @@
 generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
 
   # Generate rules -------------------------------------------------------------
-  logger::log_info("1.2 Rules generation")
+  logger::log_info("Generating Decision Rules...")
   rules <- generate_rules(X,
                           ite_std,
                           getElement(hyper_params,"intervention_vars"),
@@ -31,10 +31,9 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
   M_initial <- length(rules)
 
   # Filtering ------------------------------------------------------------------
-  logger::log_info("1.3 Filtering")
 
   # Discard irrelevant variable-value pair from a rule condition ---------------
-  logger::log_info("1.3.1 Filter irrelevant rules")
+  logger::log_info("Filtering irrelevant rules...")
   rules_list <- filter_irrelevant_rules(rules, X, ite_std,
                                         getElement(hyper_params,"max_decay"),
                                         getElement(hyper_params,"type_decay"))
@@ -44,29 +43,29 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
   rules_matrix <- generate_rules_matrix(X, rules_list)
 
   # Discard rules with too few or too many observations and correlated rules ---
-  logger::log_info("1.3.2 Filter extreme rules")
+  logger::log_info("Filtering extreme rules...")
   rules_matrix <- filter_extreme_rules(rules_matrix, rules_list,
                                        getElement(hyper_params,"t_ext"))
   rules_list <- colnames(rules_matrix)
   M_filter2 <- length(rules_list)
 
   # Discard correlated rules ---------------------------------------------------
-  logger::log_info("1.3.2 Filter correlated rules")
+  logger::log_info("Filtering correlated rules...")
   rules_matrix <- filter_correlated_rules(rules_matrix, rules_list,
                                            getElement(hyper_params,"t_corr"))
   rules_list <- colnames(rules_matrix)
   M_filter3 <- length(rules_list)
 
   # Discover Causal Rules ---------------------------------------------------
-  logger::log_info("1.4 Discover Causal Rules")
+  logger::log_info("Discovering Causal Rules...")
   #rules_matrix_std <- standardize_rules_matrix(rules_matrix)
   rules_list <- as.character(discover_causal_rules(rules_matrix,
-                                                   rules_list,
-                                                   ite_std,
-                                                   getElement(hyper_params,"stability_selection"),
-                                                   getElement(hyper_params,"cutoff"),
-                                                   getElement(hyper_params,"pfer"),
-                                                   getElement(hyper_params,"penalty_rl")))
+                                 rules_list,
+                                 ite_std,
+                                 getElement(hyper_params,"stability_selection"),
+                                 getElement(hyper_params,"cutoff"),
+                                 getElement(hyper_params,"pfer"),
+                                 getElement(hyper_params,"penalty_rl")))
   M_filter4 <- length(rules_list)
 
   M <- list("Initial" = M_initial,

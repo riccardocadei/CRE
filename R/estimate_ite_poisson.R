@@ -9,9 +9,9 @@
 #' @param z the treatment vector
 #' @param X the features matrix
 #' @param X_names the names of the covariates
-#' @param include_offset whether or not to include an offset when estimating
-#' the ITE, for poisson only
-#' @param offset_name the name of the offset, if it is to be included
+#' @param include_offset whether to include an offset (i.e. model outcome rate)
+#' or not (i.e. model outcome counts)
+#' @param offset_name the name of the covariate to use as offset (i.e. 'x1')
 #'
 #' @return
 #' a vector of ITE estimates
@@ -19,7 +19,7 @@
 #' @keywords internal
 #'
 #'
-estimate_ite_poisson <- function(y, z, X, X_names, include_offset, offset_name) {
+estimate_ite_poisson <- function(y, z, X, X_names, include_offset, offset_name){
   if (include_offset) {
     X_names = X_names[-which(X_names == offset_name)]
     names(X)[names(X) == offset_name] <- 'offset'

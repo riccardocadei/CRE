@@ -10,12 +10,12 @@ generate_cre_dataset(
   n_rules = 2,
   p = 10,
   effect_size = 2,
-  binary = FALSE
+  binary_outcome = FALSE
 )
 }
 \arguments{
-\item{n}{An integer number that represents the number of observations. Non-integer
-values will be converted into an integer number.}
+\item{n}{An integer number that represents the number of observations.
+Non-integer values will be converted into an integer number.}
 
 \item{rho}{A positive double number (0,1) that represents the correlation
 within the covariates (default: 0).}
@@ -24,11 +24,10 @@ within the covariates (default: 0).}
 
 \item{p}{The number of covariates (default: 10).}
 
-\item{effect_size}{The effect size magnitude (default: 0.5).
-TODO: what is the range of effect size magnitude?}
+\item{effect_size}{The effect size magnitude (default: 2).}
 
-\item{binary}{Whether to use binary or continuous outcomes,
-either TRUE (default) or FALSE.}
+\item{binary_outcome}{Whether to use binary or continuous outcomes
+(default: TRUE)}
 }
 \value{
 A list of synthetic data containing an outcome vector (y), a treatment
@@ -40,6 +39,6 @@ Generates synthetic data with continues or binary outcome
 \examples{
 set.seed(123)
 dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-                                effect_size = 2, binary = FALSE)
+                                effect_size = 2, binary_outcome = FALSE)
 
 }

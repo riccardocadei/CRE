@@ -1,10 +1,10 @@
 test_that("check_input_data works as expected.", {
 
   ds_1 <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
-                                  effect_size = 2, binary = FALSE)
+                                  effect_size = 2, binary_outcome = FALSE)
 
   ds_2 <- generate_cre_dataset(n = 200, rho = 0, n_rules = 2, p = 10,
-                                  effect_size = 2, binary = FALSE)
+                                  effect_size = 2, binary_outcome = FALSE)
 
   # invalid size
   expect_error(check_input_data(ds_1$y, ds_2$z, ds_2$X))

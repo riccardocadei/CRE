@@ -4,16 +4,15 @@
 #' @description
 #' Generates synthetic data with continues or binary outcome
 #'
-#' @param n An integer number that represents the number of observations. Non-integer
-#' values will be converted into an integer number.
+#' @param n An integer number that represents the number of observations.
+#' Non-integer values will be converted into an integer number.
 #' @param rho A positive double number (0,1) that represents the correlation
 #' within the covariates (default: 0).
 #' @param n_rules The number of causal rules, either 2 (default) or 4.
-#' @param effect_size The effect size magnitude (default: 0.5).
-#' TODO: what is the range of effect size magnitude?
+#' @param effect_size The effect size magnitude (default: 2).
 #' @param p The number of covariates (default: 10).
-#' @param binary Whether to use binary or continuous outcomes,
-#'  either TRUE (default) or FALSE.
+#' @param binary_outcome Whether to use binary or continuous outcomes
+#' (default: TRUE)
 #'
 #' @return
 #' A list of synthetic data containing an outcome vector (y), a treatment
@@ -22,15 +21,15 @@
 #' @examples
 #' set.seed(123)
 #' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-#'                                 effect_size = 2, binary = FALSE)
+#'                                 effect_size = 2, binary_outcome = FALSE)
 #'
 #' @export
 #'
 generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
-                                 effect_size = 2, binary = FALSE) {
+                                 effect_size = 2, binary_outcome = FALSE) {
 
   # Check for correct binary input
-  if (!(binary %in% c(TRUE, FALSE))) {
+  if (!(binary_outcome %in% c(TRUE, FALSE))) {
     stop("Invalid 'binary' input. Please specify TRUE or FALSE.")
   }
 
@@ -50,7 +49,7 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
   X <- as.data.frame(X)
 
   # Generate Causal Rules and Treatment Effects
-  if (binary == TRUE) {
+  if (binary_outcome == TRUE) {
     y0 <- rep(0, n)
     y0[X$x2 == 1 & X$x3 == 1] <- 1
     y1 <- rep(0, n)

@@ -23,7 +23,6 @@ method_params = list(ratio_dis = 0.25,
                      include_offset = FALSE,
                      cate_method = "linreg",
                      cate_SL_library = "SL.xgboost",
-                     filter_cate = TRUE,
                      offset_name = NA,
                      random_state = 3591)
 
@@ -38,9 +37,11 @@ hyper_params = list(intervention_vars = c(),
                     type_decay = 2,
                     t_ext = 0.01,
                     t_corr = 1,
+                    t_pvalue = 0.05,
                     stability_selection = TRUE,
                     cutoff = 0.6,
-                    pfer = 1)
+                    pfer = 1,
+                    penalty_rl = 1)
 
 
 cre_result <- cre(y, z, X, method_params, hyper_params)
