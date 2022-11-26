@@ -45,16 +45,26 @@ generate_syn_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
 
   # Generate Causal Rules and Potential Outcomes
   stopifnot(n_rules %in% c(2, 4))
-  tau <- rep(0, n)
-  tau[X$x1 == 1 & X$x2 == 0] = effect_size
-  tau[X$x5 == 1 & X$x6 == 0] = - effect_size
-  if (n_rules == 4) {
-    tau[X$x4 == 1] = effect_size
-    tau[X$x5 == 0 & X$x7 == 1 & X$x8 == 0] = - effect_size
+  if (binary == TRUE){
+    y0 <- rep(0, n)
+    y1 <- rep(0, n)
+    y0[X$x1 == 1 & X$x2 == 0] = effect_size
+    y1[X$x5 == 1 & X$x6 == 0] = effect_size
+    if (n_rules == 4) {
+      y0[X$x4 == 1] = effect_size
+      y1[X$x5 == 0 & X$x7 == 1 & X$x8 == 0] = effect_size
+    }
+  } else {
+    tau <- rep(0, n)
+    tau[X$x1 == 1 & X$x2 == 0] = effect_size
+    tau[X$x5 == 1 & X$x6 == 0] = - effect_size
+    if (n_rules == 4) {
+      tau[X$x4 == 1] = effect_size
+      tau[X$x5 == 0 & X$x7 == 1 & X$x8 == 0] = - effect_size
+    }
+    y0 <- stats::rnorm(n, mean = 0, sd = 1)
+    y1 <- y0 + tau
   }
-  if (binary == TRUE) {y0 <- rep(0, n)}
-  else {y0 <- stats::rnorm(n, mean = 0, sd = 1)}
-  y1 <- y0 + tau
 
   # Generate Outcome
   y <- y0 * (1 - z) + y1 * z
@@ -78,8 +88,6 @@ method_params <- list(ratio_dis = 0.5,
                       include_offset = FALSE,
                       cate_method = "linreg",
                       cate_SL_library = "SL.xgboost",
-                      filter_cate = TRUE,
-                      offset_name = NA,
                       random_state = 3591)
 
 hyper_params <- list(intervention_vars = c(),
@@ -92,11 +100,24 @@ hyper_params <- list(intervention_vars = c(),
                      type_decay = 2,
                      t_ext = 0.025,
                      t_corr = 1,
+                     t_pvalue = 0.05,
                      replace = TRUE,
                      stability_selection = TRUE,
                      cutoff = 0.9,
-                     pfer = 1,
-                     penalty_lr = 0)
+                     pfer = 0.1,
+                     penalty_rl = 1)
+
+dataset <- generate_syn_dataset(n = 500, rho = 0,  p = 10, effect_size = 10,
+                                n_rules = 2, binary = TRUE)
+y <- dataset[["y"]]
+z <- dataset[["z"]]
+X <- dataset[["X"]]
+X_names <- colnames(X)
+
+cre_result <- cre(y, z, X, method_params, hyper_params)
+summary(cre_result, method_params, hyper_params)
+plot(cre_result)
+
 
 # Ground Truth
 rules <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5","x4>0.5","x5<=0.5 & x7>0.5 & x8<=0.5")
@@ -106,9 +127,9 @@ exp_names <- c("LASSO w0", "LASSO w1", "LASSO w2")
 dataset_names <- c("C2","B2","C4","B4")
 
 for (j in 1:length(exp_names)){
-  if (grepl("w0", exp_names[j], fixed=TRUE)) {hyper_params['penalty_lr'] <- 0}
-  else if (grepl("w1", exp_names[j], fixed=TRUE)) {hyper_params['penalty_lr'] <- 1}
-  else if (grepl("w2", exp_names[j], fixed=TRUE)) {hyper_params['penalty_lr'] <- 2}
+  if (grepl("w0", exp_names[j], fixed=TRUE)) {hyper_params['penalty_rl'] <- 0}
+  else if (grepl("w1", exp_names[j], fixed=TRUE)) {hyper_params['penalty_rl'] <- 1}
+  else if (grepl("w2", exp_names[j], fixed=TRUE)) {hyper_params['penalty_rl'] <- 2}
   for (i in 1:length(dataset_names)){
     if (grepl("B", dataset_names[i], fixed=TRUE)) {binary=TRUE}
     else if (grepl("C", dataset_names[i], fixed=TRUE)) {binary=FALSE}
