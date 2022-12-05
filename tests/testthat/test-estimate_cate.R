@@ -629,7 +629,8 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
 
   set.seed(99687)
   dataset <- generate_cre_dataset(n = 200, rho = 0, n_rules = 2, p = 10,
-                                  effect_size = 2, binary_outcome = FALSE)
+                                  effect_size = 2, binary_covariates = FALSE,
+                                  binary_outcome = FALSE)
   # Initialize parameters
   y <- dataset[["y"]]
   z <- dataset[["z"]]

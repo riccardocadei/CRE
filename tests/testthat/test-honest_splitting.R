@@ -36,8 +36,8 @@ test_that("split_data works as expected.", {
   z_inf <- inference$z
   X_inf <- inference$X
 
-  expect_equal(y_dis[2], 1.842319, tolerance = 0.00001)
-  expect_equal(z_inf[10], 1, tolerance = 0.00001)
-  expect_equal(X_dis[3,9][[1]], 0.9244026, tolerance = 0.00001)
+  expect_equal(y_dis[2], -0.4007489, tolerance = 0.00001)
+  expect_equal(z_inf[10], 0, tolerance = 0.00001)
+  expect_equal(X_dis[3,9][[1]], 1, tolerance = 0.00001)
 
 })
