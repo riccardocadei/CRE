@@ -12,7 +12,8 @@
 
 ### Changed
 
-* Rename `binary` in `binary_outcome`
+* Add `binary_covariates` parameter (in `generate_cre_dataset`)
+* Rename `binary` parameter in `binary_outcome` (in `generate_cre_dataset`)
 * Rename `filter_cate` parameter in `t_pvalue`
 * Add weighted LASSO for Causal Rules Discovery (see param `penalty_rl`)
 * Rename `t_anom` parameter in `t_ext`

@@ -3,7 +3,7 @@ test_that("Rules Pruned Correctly", {
   # Generate sample data
   set.seed(181)
   dataset_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 2, binary = FALSE)
+                                       effect_size = 2, binary_outcome = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
@@ -39,9 +39,9 @@ test_that("Rules Pruned Correctly", {
   ite <- ite_list[["ite"]]
   ite_std <- ite_list[["ite_std"]]
 
-  expect_equal(ite[10], -4.876697, tolerance = 0.000001)
-  expect_equal(ite[25], -0.9431929, tolerance = 0.000001)
-  expect_equal(ite[70], 7.778598, tolerance = 0.000001)
+  expect_equal(ite[10], -1.240143, tolerance = 0.000001)
+  expect_equal(ite[25], 0.8987101, tolerance = 0.000001)
+  expect_equal(ite[70], 0.3728651, tolerance = 0.000001)
 
 
   # Set parameters
@@ -73,9 +73,9 @@ test_that("Rules Pruned Correctly", {
   expect_equal(length(treelist),2)
   expect_equal(length(treelist[2]$list),100)
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
-  expect_equal(treelist[2]$list[[1]][2,6], 0.6669895, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[2]][3,6], -0.3675594, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[10]][3,6], -1.344871, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[1]][2,6], -0.1813048, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3,6], 0.1571168, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3,6], 0.1571168, tolerance = 0.000001)
 
   rules <- extract_rules(treelist, X, ntrees, max_depth)
 

@@ -10,7 +10,8 @@ generate_cre_dataset(
   n_rules = 2,
   p = 10,
   effect_size = 2,
-  binary_outcome = FALSE
+  binary_covariates = TRUE,
+  binary_outcome = TRUE
 )
 }
 \arguments{
@@ -26,6 +27,9 @@ within the covariates (default: 0).}
 
 \item{effect_size}{The effect size magnitude (default: 2).}
 
+\item{binary_covariates}{Whether to use binary or continuous covariates
+(default: TRUE)}
+
 \item{binary_outcome}{Whether to use binary or continuous outcomes
 (default: TRUE)}
 }
@@ -39,6 +43,7 @@ Generates synthetic data with continues or binary outcome
 \examples{
 set.seed(123)
 dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-                                effect_size = 2, binary_outcome = FALSE)
+                                effect_size = 2, binary_covariates = TRUE,
+                                binary_outcome = TRUE)
 
 }
