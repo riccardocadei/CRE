@@ -11,6 +11,8 @@
 #' @param n_rules The number of causal rules, either 2 (default) or 4.
 #' @param effect_size The effect size magnitude (default: 2).
 #' @param p The number of covariates (default: 10).
+#' @param binary_covariates Whether to use binary or continuous covariates
+#' (default: TRUE)
 #' @param binary_outcome Whether to use binary or continuous outcomes
 #' (default: TRUE)
 #'
@@ -21,12 +23,14 @@
 #' @examples
 #' set.seed(123)
 #' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-#'                                 effect_size = 2, binary_outcome = TRUE)
+#'                                 effect_size = 2, binary_covariates = TRUE,
+#'                                 binary_outcome = TRUE)
 #'
 #' @export
 #'
 generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
-                                 effect_size = 2, binary_outcome = TRUE) {
+                                 effect_size = 2, binary_covariates = TRUE,
+                                 binary_outcome = TRUE) {
 
   # Check for correct binary input
   if (!(binary_outcome %in% c(TRUE, FALSE))) {
@@ -41,7 +45,8 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
   Sigma <- matrix(rho, nrow = p, ncol = p) + diag(p) * (1 - rho)
   rawvars <- MASS::mvrnorm(n = n, mu = mu, Sigma = Sigma)
   pvars <- stats::pnorm(rawvars)
-  X <- stats::qbinom(pvars, 1, 0.5)
+  if (binary_covariates) { X <- stats::qbinom(pvars, 1, 0.5) }
+  else { X <- pvars }
   colnames(X) <- paste("x", 1:p, sep = "")
   X <- as.data.frame(X)
 
