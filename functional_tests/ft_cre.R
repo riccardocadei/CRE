@@ -5,7 +5,8 @@ dataset <- generate_cre_dataset(n = 500,
                                 n_rules = 4,
                                 p = 10,
                                 effect_size = 2,
-                                binary = FALSE)
+                                binary_covariates = TRUE,
+                                binary_outcome = FALSE)
 
 y <- dataset[["y"]]
 z <- dataset[["z"]]
