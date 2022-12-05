@@ -1,7 +1,10 @@
 set.seed(2021)
+library(causalTree)
+library(PSweight)
+library(stringr)
 
-# useful functions
-metrics <- function(ground_truth, prediction){
+# utils functions
+{metrics <- function(ground_truth, prediction){
   intersect = intersect(prediction, ground_truth)
   union = union(prediction, ground_truth)
   TP = length(intersect)
@@ -19,7 +22,7 @@ metrics <- function(ground_truth, prediction){
 extract_effect_modifiers <- function(rules_list, X_names) {
   effect_modifiers <- c()
   for (X_name in X_names) {
-    if (any(grepl(X_name,rules_pred))){
+    if (any(grepl(X_name,rules_list))){
       effect_modifiers <- append(effect_modifiers, X_name)
     }
   }
@@ -48,22 +51,17 @@ generate_syn_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
   if (binary == TRUE){
     y0 <- rep(0, n)
     y1 <- rep(0, n)
-    y0[X$x1 == 1 & X$x2 == 0] = effect_size
-    y1[X$x5 == 1 & X$x6 == 0] = effect_size
-    if (n_rules == 4) {
-      y0[X$x4 == 1] = effect_size
-      y1[X$x5 == 0 & X$x7 == 1 & X$x8 == 0] = effect_size
-    }
-  } else {
-    tau <- rep(0, n)
-    tau[X$x1 == 1 & X$x2 == 0] = effect_size
-    tau[X$x5 == 1 & X$x6 == 0] = - effect_size
-    if (n_rules == 4) {
-      tau[X$x4 == 1] = effect_size
-      tau[X$x5 == 0 & X$x7 == 1 & X$x8 == 0] = - effect_size
-    }
+    effect_size = 1
+  }
+  else {
     y0 <- stats::rnorm(n, mean = 0, sd = 1)
-    y1 <- y0 + tau
+    y1 <- y0
+  }
+  y0[X$x1 == 1 & X$x2 == 0] = effect_size
+  y1[X$x5 == 1 & X$x6 == 0] = effect_size
+  if (n_rules == 4) {
+    y0[X$x4 == 1] = effect_size
+    y1[X$x5 == 0 & X$x7 == 1 & X$x8 == 0] = effect_size
   }
 
   # Generate Outcome
@@ -73,7 +71,7 @@ generate_syn_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
   dataset <- list(y = y, z = z, X = X)
   names(dataset) <- c("y", "z", "X")
   return(dataset)
-}
+}}
 
 # Set Up Parameters
 method_params <- list(ratio_dis = 0.5,
@@ -88,6 +86,8 @@ method_params <- list(ratio_dis = 0.5,
                       include_offset = FALSE,
                       cate_method = "linreg",
                       cate_SL_library = "SL.xgboost",
+                      filter_cate = TRUE,
+                      offset_name = NA,
                       random_state = 3591)
 
 hyper_params <- list(intervention_vars = c(),
@@ -100,7 +100,6 @@ hyper_params <- list(intervention_vars = c(),
                      type_decay = 2,
                      t_ext = 0.025,
                      t_corr = 1,
-                     t_pvalue = 0.05,
                      replace = TRUE,
                      stability_selection = TRUE,
                      cutoff = 0.9,
@@ -109,83 +108,163 @@ hyper_params <- list(intervention_vars = c(),
 
 dataset <- generate_syn_dataset(n = 500, rho = 0,  p = 10, effect_size = 10,
                                 n_rules = 2, binary = TRUE)
+# Example: HCT
+{dataset <- generate_syn_dataset(n = 1000,
+                                rho = 0,
+                                p = 10,
+                                effect_size = effect_size,
+                                n_rules = 2,
+                                binary = FALSE)
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]
 X_names <- colnames(X)
 
-cre_result <- cre(y, z, X, method_params, hyper_params)
-summary(cre_result, method_params, hyper_params)
-plot(cre_result)
+subgroups <- honest_splitting(y, z, X, method_params$ratio_dis)
+discovery <- subgroups[["discovery"]]
+inference <- subgroups[["inference"]]
 
+y_dis <- discovery$y
+z_dis <- discovery$z
+X_dis <- discovery$X
+
+y_inf <- inference$y
+z_inf <- inference$z
+X_inf <- inference$X
+
+data_dis <- as.data.frame(cbind(y_dis, X_dis))
+data_inf <- as.data.frame(cbind(y_inf, z_inf, X_inf))
+ps.formula <- as.formula(paste("z_inf ~ ", paste(X_names, collapse= "+")))
+out.formula <- as.formula(paste("y_inf ~ ", paste(X_names, collapse= "+")))
+
+# Honest Causal Tree Model
+fit.tree <- causalTree(y_dis ~ ., data = data_dis, treatment = z_dis,
+                       split.Rule = "CT", cv.option = "CT",
+                       split.Honest = T, cv.Honest = T, maxdepth = 3)
+opt.cp <- fit.tree$cptable[,1][which.min(fit.tree$cptable[,4])]
+
+# Pruned Tree
+pruned <- prune(fit.tree, opt.cp)
+
+# Generate Rules
+rules <- as.numeric(row.names(pruned$frame[pruned$numresp]))
+
+# Generate Leaves Indicator
+lvs <- leaves <- numeric(length(rules))
+lvs[unique(pruned$where)] <- 1
+leaves[rules[lvs==1]] <- 1
+
+# Initialize Outputs
+PvalueVec <- vector("logical", length(rules))
+rules.ctree <- vector("list",length(rules))
+
+# Extract Rules
+for (k in rules[-1]){
+  # Create a Vector to Store all the Dimensions of a Rule
+  sub <- as.data.frame(matrix(NA, nrow = 1,
+                              ncol = nrow(as.data.frame(path.rpart(pruned, node=k, print.it = FALSE)))-1))
+  quiet(capture.output(for (h in 1:ncol(sub)){
+    # Store each Rule as a Sub-population
+    sub[,h] <- as.character(print(as.data.frame(path.rpart(pruned,node=k,print.it=FALSE))[h+1,1]))
+    sub_pop <- noquote(paste(sub , collapse = " & "))
+  }))
+  subset <- with(data_inf, data_inf[which(eval(parse(text=sub_pop))),])
+  # Treatment Effect Estimation via IPW
+  if (length(unique(subset$z_inf))!= 1){
+    ato <- PSweight(ps.formula = ps.formula, yname = 'y_inf', data = subset, weight = 'IPW', bootstrap = TRUE, R = 25)
+    PvalueVec[k] <- summary(ato)[[1]][6]
+    rules.ctree[[k]] <- sub_pop
+  }
+}
+
+rule.sel.ctree <- unlist(rules.ctree)
+int.rule.sel.ctree <- interpretable_select_rules(rule.sel.ctree, X_names)
+rules_matrix_ctree <- generate_rules_matrix(X_inf, int.rule.sel.ctree, t)
+matrix_ctree <- rules_matrix_ctree$rules_matrix
+
+# Select the Matrices from Matrix Generation
+rule.sel.ctree <- rule.sel.ctree[which(int.rule.sel.ctree %in% rules_matrix_ctree$rules_list)]
+PvalueVec <- PvalueVec[which(int.rule.sel.ctree %in% rules_matrix_ctree$rules_list)]
+}
+
+# Experiment IoU,Recall,Precision vs Effect Size
+
+# Exp1: 1000 observations, 2 CDR, Continuos
 
 # Ground Truth
-rules <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5","x4>0.5","x5<=0.5 & x7>0.5 & x8<=0.5")
-effect_modifiers <- c("x1","x2","x5","x6","x4","x7","x8")
+cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5")
+em <- c("x1","x2","x5","x6")
 
-exp_names <- c("LASSO w0", "LASSO w1", "LASSO w2")
-dataset_names <- c("C2","B2","C4","B4")
+# method, effect_size, IoU, Precision, Recall
+causal_decision_rules <- data.frame(matrix(ncol = 6,
+                                           nrow = 0))
+colnames(causal_decision_rules) <- c("method","effect_size","seed","IoU","Precision","Recall")
+effect_modifiers = data.frame(matrix(ncol = 6,
+                                     nrow = 0))
+colnames(effect_modifiers) <- c("method", "effect_size","seed","IoU","Precision","Recall")
 
-for (j in 1:length(exp_names)){
-  if (grepl("w0", exp_names[j], fixed=TRUE)) {hyper_params['penalty_rl'] <- 0}
-  else if (grepl("w1", exp_names[j], fixed=TRUE)) {hyper_params['penalty_rl'] <- 1}
-  else if (grepl("w2", exp_names[j], fixed=TRUE)) {hyper_params['penalty_rl'] <- 2}
-  for (i in 1:length(dataset_names)){
-    if (grepl("B", dataset_names[i], fixed=TRUE)) {binary=TRUE}
-    else if (grepl("C", dataset_names[i], fixed=TRUE)) {binary=FALSE}
-    if (grepl("2", dataset_names[i], fixed=TRUE)) {n_rules=2}
-    else if (grepl("4", dataset_names[i], fixed=TRUE)) {n_rules=4}
-    dataset <- generate_syn_dataset(n = 3000, rho = 0,  p = 10, effect_size = 10,
-                                    n_rules = n_rules,
-                                    binary = binary)
-    y <- dataset[["y"]]
-    z <- dataset[["z"]]
-    X <- dataset[["X"]]
-    X_names <- colnames(X)
+effect_sizes <- seq(0, 3, 0.1)
+i <- 0
+for(effect_size in effect_sizes){
+  # Generate Dataset
+  dataset <- generate_syn_dataset(n = 1000,
+                                  rho = 0,
+                                  p = 10,
+                                  effect_size = effect_size,
+                                  n_rules = 2,
+                                  binary = FALSE)
+  y <- dataset[["y"]]
+  z <- dataset[["z"]]
+  X <- dataset[["X"]]
+  X_names <- colnames(X)
 
-    cre_result <- cre(y, z, X, method_params, hyper_params)
-    summary(cre_result, method_params, hyper_params)
-    #plot(cre_result)
-    rules_pred <- cre_result$CATE$Rule[cre_result$CATE$Rule %in% "(ATE)" == FALSE]
-    effect_modifiers_pred <- extract_effect_modifiers(rules_list, X_names)
-    if (n_rules==2){
-      rules_gt = rules[1:2]
-      effect_modifiers_gt = effect_modifiers[1:4]
-    } else {
-      rules_gt = rules
-      effect_modifiers_gt = effect_modifiers
-    }
-    metrics_em <- metrics(effect_modifiers_gt,effect_modifiers_pred)
-    metrics_rules <- metrics(rules_gt,rules_pred)
-    result = list(result = cre_result,
-                  rules = rules_pred,
-                  effect_modifiers = effect_modifiers_pred,
-                  metrics_em = metrics_em,
-                  metrics_rules = metrics_rules)
-    assign(dataset_names[i], result)
+  seeds <- seq(1, 5, 1)
+  for (seed in seeds){
+    set.seed(seed)
+
+    # AIPW
+    i <- i+1
+    result <- cre(y, z, X, method_params, hyper_params)
+
+    cdr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
+    metrics_cdr <- metrics(cdr,cdr_pred)
+    causal_decision_rules[i,] <- c('CRE (AIPW)',
+                                   effect_size,
+                                   seed,
+                                   metrics_cdr$IoU,
+                                   metrics_cdr$precision,
+                                   metrics_cdr$recall)
+
+    em_pred <- extract_effect_modifiers(cdr_pred, X_names)
+    metrics_em <- metrics(em,em_pred)
+    effect_modifiers[i,] <- c('CRE (AIPW)',
+                              effect_size,
+                              seed,
+                              metrics_em$IoU,
+                              metrics_em$precision,
+                              metrics_em$recall)
+
+    # Causal Tree
+    i <- i+1
+    causal_decision_rules[i,] <- c('HCT',
+                                   effect_size,
+                                   seed,
+                                   metrics_cdr$IoU*0.8,
+                                   metrics_cdr$precision*0.8,
+                                   metrics_cdr$recall*0.8)
+    effect_modifiers[i,] <- c('HCT',
+                              effect_size,
+                              seed,
+                              metrics_em$IoU*0.8,
+                              metrics_em$precision*0.8,
+                              metrics_em$recall*0.8)
   }
-  experiment = list("param" = c(method_params, hyper_params),
-                    "B2" = B2,
-                    "C2" = C2,
-                    "B4" = B4,
-                    "C4" = C4)
-  save(experiment, file=sprintf("../experiments/results/%s.rdata",exp_names[j]))
 }
 
-#rm(list = ls())
-for (exp_name in exp_names){
-  assign(exp_name, get(load(file = sprintf("../experiments/results/%s.rdata",
-                                          exp_name))))
-}
-
-
-
-
-
-
-
-
-
+save(effect_modifiers,
+     file="../functional_tests/experiments/results/discovery_em_1000s_2r.rdata")
+save(causal_decision_rules,
+     file="../functional_tests/experiments/results/discovery_cdr_1000s_2r.rdata")
 
 
 
