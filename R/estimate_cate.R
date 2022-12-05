@@ -54,7 +54,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     cate_coeff <- summary(cate_model)$coefficients
     colnames(cate_coeff) <- c("Estimate", "Std_Error", "Z_Value", "P_Value")
     cate_names <- rownames(cate_coeff) %>%
-      stringr::str_replace_all("(Intercept)", "ATE")
+      stringr::str_replace_all("(Intercept)", "BATE")
 
     cate_final <- data.frame(Rule = cate_names) %>% cbind(cate_coeff)
     rownames(cate_final) <- 1:nrow(cate_final)
