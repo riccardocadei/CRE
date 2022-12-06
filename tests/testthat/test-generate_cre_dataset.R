@@ -39,7 +39,7 @@ test_that("generate_cre_dataset works as expected.", {
   test_data_1 <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
                                          effect_size = 0.5, binary_outcome = TRUE)
   expect_true(class(test_data_1) == "list")
-  expect_true(length(test_data_1) == 3)
+  expect_true(length(test_data_1) == 4)
   expect_true(class(test_data_1[[1]]) == "numeric")
   expect_true(class(test_data_1[[2]]) == "integer")
   expect_identical(class(test_data_1[[3]]), "data.frame")
@@ -55,7 +55,7 @@ test_that("generate_cre_dataset works as expected.", {
   test_data_1 <- generate_cre_dataset(n = 100, rho = 0, n_rules = 4, p = 10,
                                       effect_size = 0.5, binary_outcome = FALSE)
   expect_true(class(test_data_1) == "list")
-  expect_true(length(test_data_1) == 3)
+  expect_true(length(test_data_1) == 4)
   expect_true(class(test_data_1[[1]]) == "numeric")
   expect_true(class(test_data_1[[2]]) == "integer")
   expect_identical(class(test_data_1[[3]]), "data.frame")

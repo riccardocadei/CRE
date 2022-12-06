@@ -123,7 +123,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
                             sd_ite_inf, cate_SL_library, t_pvalue)
-  expect_true(class(cate_inf) == "data.frame")
+  expect_true(class(cate_inf$summary) == "data.frame")
 })
 
 
@@ -248,7 +248,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
                             sd_ite_inf, cate_SL_library, t_pvalue)
-  expect_true(class(cate_inf) == "data.frame")
+  expect_true(class(cate_inf$summary) == "data.frame")
 })
 
 
@@ -371,7 +371,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
                             sd_ite_inf, cate_SL_library, t_pvalue)
-  expect_true(class(cate_inf) == "data.frame")
+  expect_true(class(cate_inf$summary) == "data.frame")
 })
 
 
@@ -495,7 +495,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
                             sd_ite_inf, cate_SL_library, t_pvalue)
-  expect_true(class(cate_inf) == "data.frame")
+  expect_true(class(cate_inf$summary) == "data.frame")
 })
 
 
@@ -621,7 +621,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
                             sd_ite_inf, cate_SL_library, t_pvalue)
-  expect_true(class(cate_inf) == "data.frame")
+  expect_true(class(cate_inf$summary) == "data.frame")
 
 })
 
@@ -748,7 +748,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
                             sd_ite_inf, cate_SL_library, t_pvalue)
-  expect_true(class(cate_inf) == "data.frame")
+  expect_true(class(cate_inf$summary) == "data.frame")
 
   # Poisson (Offset)
   # Step 6: Estimate CATE
@@ -783,5 +783,5 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
                             offset_name, rules_matrix_inf,
                             select_rules_interpretable, cate_method, ite_inf,
                             sd_ite_inf, cate_SL_library, t_pvalue)
-  expect_true(class(cate_inf) == "data.frame")
+  expect_true(class(cate_inf$summary) == "data.frame")
 })

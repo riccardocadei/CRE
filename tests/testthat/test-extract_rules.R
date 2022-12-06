@@ -38,9 +38,6 @@ test_that("Rules Extracted Correctly", {
   ite <- ite_list[["ite"]]
   ite_std <- ite_list[["ite_std"]]
 
-  print(ite[10])
-  print(ite[25])
-  print(ite[70])
   expect_equal(ite[10], -1.240143, tolerance = 0.000001)
   expect_equal(ite[25], 0.8987101, tolerance = 0.000001)
   expect_equal(ite[70], 0.3728651, tolerance = 0.000001)

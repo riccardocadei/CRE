@@ -108,7 +108,7 @@ test_that("cre Runs Correctly", {
   method_params[["cate_method"]] <- "cf-means"
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
-  method_params[["cate_method"]] <- "DRLearner"
+  method_params[["cate_method"]] <- "linreg"
   method_params[["ite_method_inf"]] <- "bart"
   hyper_params[["ntrees_rf"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
