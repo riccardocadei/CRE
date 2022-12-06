@@ -56,8 +56,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     cate_names <- rownames(cate_coeff) %>%
       stringr::str_replace_all("(Intercept)", "BATE")
 
-    cate_final <- data.frame(Rule = cate_names) %>% cbind(cate_coeff)
-    rownames(cate_final) <- 1:nrow(cate_final)
+    cate_summary <- data.frame(Rule = cate_names) %>% cbind(cate_coeff)
+    rownames(cate_summary) <- 1:nrow(cate_summary)
 
   } else {
     # Estimate CATE
@@ -97,9 +97,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
         cbind(cate_model)
       colnames(cate_temp) <- c("Rule", "Estimate", "Std_Error",
                                "Z_Value", "P_Value")
-      cate_final <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
+      cate_summary <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
                                       cate_temp$Rule == "(BATE)")
-      rownames(cate_final) <- 1:nrow(cate_final)
+      rownames(cate_summary) <- 1:nrow(cate_summary)
     } else if (cate_method %in% c("DRLearner")) {
       # split the data evenly
       split <- sample(nrow(X_inf), nrow(X_inf) * 0.5, replace = FALSE)
@@ -169,9 +169,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
       cate_temp <- data.frame(Rule = cate_names) %>%
         cbind(cate_model)
-      cate_final <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
+      cate_summary <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
                                       cate_temp$Rule == "(BATE)")
-      rownames(cate_final) <- 1:nrow(cate_final)
+      rownames(cate_summary) <- 1:nrow(cate_summary)
     } else if (cate_method == "bart-baggr") {
 
       if (!requireNamespace("baggr", quietly = TRUE)) {
@@ -239,7 +239,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                                 CI_upper = cate_temp + (1.96 * sd_cate_temp))
         cate_means <- rbind(cate_means, cate_temp)
       }
-      cate_final <- cate_means
+      cate_summary <- cate_means
     } else if (cate_method == "cf-means") {
       stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
       df_rules_factor <- as.data.frame(rules_matrix_inf) %>%
@@ -269,7 +269,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                                   (1.96 * mean(df_temp$sd_ite_inf)))
         cate_means <- rbind(cate_means, cate_temp)
       }
-      cate_final <- cate_means
+      cate_summary <- cate_means
     } else if (cate_method == "linreg") {
       stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
       df_rules_factor <- as.data.frame(rules_matrix_inf) %>%
@@ -300,13 +300,15 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                               CI_upper = cate_reg_orig[,4],
                               P_Value = cate_reg_orig[,2])
       row.names(cate_temp) <- 1:nrow(cate_temp)
-      cate_final <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
+      cate_summary <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
                                       cate_temp$Rule == "(BATE)")
+      cate_model <- model1_cate
     } else {
       stop("Error: No CATE Estimation method specified.")
     }
   }
 
   # Return final results
-  return(cate_final)
+  cate = list(summary = cate_summary, model = cate_model)
+  return(cate)
 }

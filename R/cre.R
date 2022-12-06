@@ -201,10 +201,10 @@ cre <- function(y, z, X, method_params, hyper_params){
   # Generate rules matrix ------------------------------------------------------
   if (length(causal_rules)==0){
     rules_matrix_inf <- NA
-    causal_rules <- NA
+    causal_rules_int <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, causal_rules)
-    causal_rules <- interpret_select_rules(causal_rules, X_names)
+    causal_rules_int <- interpret_select_rules(causal_rules, X_names)
   }
 
   # Estimate CATE --------------------------------------------------------------
@@ -212,19 +212,34 @@ cre <- function(y, z, X, method_params, hyper_params){
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
                             getElement(method_params,"include_offset"),
                             getElement(method_params,"offset_name"),
-                            rules_matrix_inf, causal_rules,
+                            rules_matrix_inf, causal_rules_int,
                             getElement(method_params,"cate_method"),
                             ite_inf, sd_ite_inf,
                             getElement(method_params,"cate_SL_library"),
                             getElement(hyper_params,"t_pvalue"))
 
-  M["Causal (significant)"] <- as.integer(length(cate_inf$Rule))-1
+  M["Causal (significant)"] <- as.integer(length(cate_inf$summary$Rule))-1
+
+  # Estimate ITE----------------------------------------------------------------
+  if (!any(is.na(causal_rules_int))){
+    causal_rules_matrix <- generate_rules_matrix(X, causal_rules)
+    causal_rules_matrix <- as.data.frame(causal_rules_matrix) %>%
+      dplyr::transmute_all(as.factor)
+    names(causal_rules_matrix) <- causal_rules_int
+    ite_pred <- predict(cate_inf$model, causal_rules_matrix)
+  } else{
+    ite_pred <- cate_inf$summary$Estimate[1]
+  }
+
+
+  # Performance Evaluation------------------------------------------------------
 
   # Generate final results S3 object
-  results <- list()
-  results[["M"]] <- M
-  results[["CATE"]] <- cate_inf
-  results[["cate_method"]] <- getElement(method_params,"cate_method")
+  results <- list("M" = M,
+                  "CATE" = cate_inf[["summary"]],
+                  "cate_method" = getElement(method_params,"cate_method"),
+                  "model" = cate_inf[["model"]],
+                  "ite_pred" = ite_pred)
   attr(results, "class") <- "cre"
 
   # Sensitivity Analysis -------------------------------------------------------
