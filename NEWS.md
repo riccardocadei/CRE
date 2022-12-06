@@ -12,6 +12,7 @@
 
 ### Changed
 
+* Add `ite_pred` and `model` to CRE results
 * Add `binary_covariates` parameter (in `generate_cre_dataset`)
 * Rename `binary` parameter in `binary_outcome` (in `generate_cre_dataset`)
 * Rename `filter_cate` parameter in `t_pvalue`
