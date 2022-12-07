@@ -69,7 +69,7 @@ registerDoParallel(cl)
 estimation <- data.frame(matrix(ncol = 4, nrow = 0))
 for (ITE_estimator in ITE_estimators){
   time.before = Sys.time()
-  estimation_i <- foreach(seed = seeds) %dopar% {
+  estimation_i <- foreach(seed = seeds, .combine=rbind) %dopar% {
     library("devtools")
     load_all()
     set.seed(seed)
