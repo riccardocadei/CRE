@@ -99,10 +99,10 @@ for(effect_size in effect_sizes){
       result <- cre(y, z, X, method_params, hyper_params)
 
       cdr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
-      metrics_cdr <- metrics(cdr,cdr_pred)
+      metrics_cdr <- evaluate(cdr,cdr_pred)
 
       em_pred <- extract_effect_modifiers(cdr_pred, X_names)
-      metrics_em <- metrics(em,em_pred)
+      metrics_em <- evaluate(em,em_pred)
 
       method <- paste("CRE (",ITE_estimator,")", sep = "")
       return(c(method, effect_size, seed,

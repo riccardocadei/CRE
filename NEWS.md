@@ -12,6 +12,8 @@
 
 ### Changed
 
+* Add `extract_effect_modifiers` function
+* Add `evaluate` function (for discovery evaluation)
 * Add `confounding` parameter (in `generate_cre_dataset`) 
 * Add `ite_pred` and `model` to CRE results
 * Add `binary_covariates` parameter (in `generate_cre_dataset`)

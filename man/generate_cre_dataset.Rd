@@ -11,7 +11,8 @@ generate_cre_dataset(
   p = 10,
   effect_size = 2,
   binary_covariates = TRUE,
-  binary_outcome = TRUE
+  binary_outcome = TRUE,
+  confounding = "nc"
 )
 }
 \arguments{
@@ -32,6 +33,10 @@ within the covariates (default: 0).}
 
 \item{binary_outcome}{Whether to use binary or continuous outcomes
 (default: TRUE)}
+
+\item{confounding}{Only for continuous outcome,add confounding variables:
+linear confounding "lc", non-linear confounding "nlc", no confounding "nc"
+(default: "nc")}
 }
 \value{
 A list of synthetic data containing an outcome vector (y), a treatment
@@ -44,6 +49,6 @@ Generates synthetic data with continues or binary outcome
 set.seed(123)
 dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
                                 effect_size = 2, binary_covariates = TRUE,
-                                binary_outcome = TRUE)
+                                binary_outcome = TRUE, confounding = "nc")
 
 }

@@ -65,7 +65,7 @@ plot(result)
 
 # Discovery
 cdr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
-metrics_cdr <- metrics(cdr,cdr_pred)
+metrics_cdr <- evaluate(cdr,cdr_pred)
 print(paste("Causal Decision Rules: ",
             "IoU=",round(metrics_cdr$IoU,2),
             ", Recall=",round(metrics_cdr$recall,2),
@@ -73,7 +73,7 @@ print(paste("Causal Decision Rules: ",
             sep=""))
 
 em_pred <- extract_effect_modifiers(cdr_pred, X_names)
-metrics_em <- metrics(em,em_pred)
+metrics_em <- evaluate(em,em_pred)
 print(paste("Effect Modifiers:      ",
             "IoU=",round(metrics_em$IoU,2),
             ", Recall=",round(metrics_em$recall,2),
