@@ -109,7 +109,8 @@ dataset <- generate_cre_dataset(n = 1000,
                                 p = 10,
                                 effect_size = 2, 
                                 binary_covariates = TRUE,
-                                binary_outcome = FALSE)
+                                binary_outcome = FALSE,
+                                confounding = "nc")
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]

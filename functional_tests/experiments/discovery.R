@@ -7,16 +7,15 @@ library(doParallel)
 source("../functional_tests/experiments/utils.R")
 
 # Set Experiment Parameter
-sample_size <- 200
+sample_size <- 500
 n_rules <- 2
-n_seeds <- 4
-max_effect_size <- 0.2
+n_seeds <- 20
+max_effect_size <- 10
 delta_effect_size <- 0.2
-confounding <- TRUE
+confounding <- "nc"
 ITE_estimators <- c("ipw","aipw","sipw","bcf","cf")
 
-if (confounding) {exp_name <- paste(sample_size,"s_",n_rules,"r_conf",sep="")
-} else {exp_name <- paste(sample_size,"s_",n_rules,"r_unconf",sep="")}
+exp_name <- paste(sample_size,"s_",n_rules,"r_",confounding, sep="")
 seeds <- seq(1, n_seeds, 1)
 effect_sizes <- seq(0, max_effect_size, delta_effect_size)
 
@@ -73,7 +72,7 @@ for(effect_size in effect_sizes){
   print(paste("Effect Size", effect_size))
 
   # Generate Dataset
-  dataset <- generate_syn_dataset(n = sample_size,
+  dataset <- generate_cre_dataset(n = sample_size,
                                   rho = 0,
                                   p = 10,
                                   effect_size = effect_size,

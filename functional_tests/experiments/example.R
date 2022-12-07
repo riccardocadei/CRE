@@ -44,14 +44,14 @@ if (n_rules==2){
 }
 
 # Generate Dataset
-dataset <- generate_syn_dataset(n = 2000,
+dataset <- generate_cre_dataset(n = 2000,
                                 rho = 0,
                                 p = 10,
                                 effect_size = 1,
                                 n_rules = 2,
                                 binary_covariates = TRUE,
                                 binary_outcome = FALSE,
-                                confounding = FALSE)
+                                confounding = "nc")
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]

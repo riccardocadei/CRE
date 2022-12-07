@@ -3,18 +3,15 @@ library(foreach)
 library(doParallel)
 
 # Set Experiment Parameter
-sample_size <- 1000
+sample_size <- 500
 n_rules <- 2
 effect_size <- 10
 n_seeds <- 100
-confounding <- TRUE
+confounding <- "nc"
 ITE_estimators <- c("ipw","aipw","sipw","bcf","cf")
 
-if (confounding) {
-  exp_name <- paste(sample_size,"s_",n_rules,"r_",effect_size,"es_conf",sep="")
-} else {
-  exp_name <- paste(sample_size,"s_",n_rules,"r_",effect_size,"es_unconf",sep="")
-}
+exp_name <- paste(sample_size,"s_",n_rules,"r_",effect_size,"es_",confounding,
+                  sep="")
 seeds <- seq(1, n_seeds, 1)
 
 # Set Method and Hyper Parameters
@@ -54,7 +51,7 @@ seeds <- seq(1, n_seeds, 1)
 }
 
 # Generate Dataset
-dataset <- generate_syn_dataset(n = sample_size,
+dataset <- generate_cre_dataset(n = sample_size,
                                 rho = 0,
                                 p = 10,
                                 effect_size = effect_size,

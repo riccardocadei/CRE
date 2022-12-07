@@ -15,6 +15,9 @@
 #' (default: TRUE)
 #' @param binary_outcome Whether to use binary or continuous outcomes
 #' (default: TRUE)
+#' @param confounding Only for continuous outcome,add confounding variables:
+#' linear confounding "lc", non-linear confounding "nlc", no confounding "nc"
+#' (default: "nc")
 #'
 #' @return
 #' A list of synthetic data containing an outcome vector (y), a treatment
@@ -24,13 +27,13 @@
 #' set.seed(123)
 #' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
 #'                                 effect_size = 2, binary_covariates = TRUE,
-#'                                 binary_outcome = TRUE)
+#'                                 binary_outcome = TRUE, confounding = "nc")
 #'
 #' @export
 #'
 generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
                                  effect_size = 2, binary_covariates = TRUE,
-                                 binary_outcome = TRUE) {
+                                 binary_outcome = TRUE, confounding = "nc") {
 
   # Check for correct binary input
   if (!(binary_outcome %in% c(TRUE, FALSE))) {
@@ -63,7 +66,17 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
     effect_size = 1
   }
   else {
-    y0 <- stats::rnorm(n, mean = 0, sd = 1)
+    if (confounding=="lc"){
+      mean <- X$x1 + X$x3 + X$x4
+    } else if (confounding=="nlc"){
+      mean <- X$x1 + cos(X$x3)
+    } else if (confounding=="nc"){
+      mean <- 0
+    } else{
+      stop("Invalid 'confounding' input. Please input: 'lc' (linear confounding),
+           'nlc' non-linear confounding, 'nc' no confounding" )
+    }
+    y0 <- stats::rnorm(n, mean = mean, sd = 1)
     y1 <- y0
   }
   y0[X$x1 == 1 & X$x2 == 0] = effect_size
