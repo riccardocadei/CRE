@@ -8,7 +8,7 @@ n_rules <- 2
 effect_size <- 10
 n_seeds <- 100
 confounding <- "nc"
-ITE_estimators <- c("ipw","aipw","sipw","bcf","cf")
+ITE_estimators <- c("ipw","aipw","sipw","cf","bcf")
 
 exp_name <- paste(sample_size,"s_",n_rules,"r_",effect_size,"es_",confounding,
                   sep="")

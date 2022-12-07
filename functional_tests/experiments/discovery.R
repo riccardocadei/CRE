@@ -13,7 +13,7 @@ n_seeds <- 20
 max_effect_size <- 10
 delta_effect_size <- 0.2
 confounding <- "nc"
-ITE_estimators <- c("ipw","aipw","sipw","bcf","cf")
+ITE_estimators <- c("ipw","aipw","sipw","cf","bcf")
 
 exp_name <- paste(sample_size,"s_",n_rules,"r_",confounding, sep="")
 seeds <- seq(1, n_seeds, 1)
