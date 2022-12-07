@@ -77,21 +77,24 @@ generate_rules <- function(X, ite_std, intervention_vars, ntrees_rf, ntrees_gbm,
   }
 
   set.seed(seed_3)
-  model1_GB <- gbm::gbm.fit(x = X, y = ite_std, bag.fraction = sf, n.trees = 1,
-                            interaction.depth = (mn / 2), shrinkage = 0.01,
-                            distribution = dist, verbose = FALSE,
-                            n.minobsinnode = node_size)
+  if (ntrees_gbm>0){
+    model1_GB <- gbm::gbm.fit(x = X, y = ite_std, bag.fraction = sf, n.trees = 1,
+                              interaction.depth = (mn / 2), shrinkage = 0.01,
+                              distribution = dist, verbose = FALSE,
+                              n.minobsinnode = node_size)
 
-  for(i in 2:ntrees_gbm) {
-    model1_GB$interaction_depth <- (mn / 2)
-    model1_GB <- gbm::gbm.more(model1_GB, n.new.trees = 1, verbose = FALSE)
+    for(i in 2:ntrees_gbm) {
+      model1_GB$interaction_depth <- (mn / 2)
+      model1_GB <- gbm::gbm.more(model1_GB, n.new.trees = 1, verbose = FALSE)
+    }
+
+    treelist_GB <- inTrees::GBM2List(model1_GB, X)
+    rules_GB <- extract_rules(treelist_GB, X, ntrees_gbm, max_depth)
+
+    rules <- c(rules_RF, rules_GB)
+  } else{
+    rules <- rules_RF
   }
 
-
-  treelist_GB <- inTrees::GBM2List(model1_GB, X)
-  rules_GB <- extract_rules(treelist_GB, X, ntrees_gbm, max_depth)
-
-
-  rules <- c(rules_RF, rules_GB)
   return(rules)
 }
