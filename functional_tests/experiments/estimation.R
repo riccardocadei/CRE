@@ -7,9 +7,14 @@ sample_size <- 1000
 n_rules <- 2
 effect_size <- 10
 n_seeds <- 100
+confounding <- TRUE
 ITE_estimators <- c("ipw","aipw","sipw","bcf","cf")
 
-exp_name <- paste(sample_size,"s_",n_rules,"r_",effect_size,"es",sep="")
+if (confounding) {
+  exp_name <- paste(sample_size,"s_",n_rules,"r_",effect_size,"es_conf",sep="")
+} else {
+  exp_name <- paste(sample_size,"s_",n_rules,"r_",effect_size,"es_unconf",sep="")
+}
 seeds <- seq(1, n_seeds, 1)
 
 # Set Method and Hyper Parameters
@@ -55,7 +60,8 @@ dataset <- generate_syn_dataset(n = sample_size,
                                 effect_size = effect_size,
                                 n_rules = n_rules,
                                 binary_covariates = TRUE,
-                                binary_outcome = FALSE)
+                                binary_outcome = FALSE,
+                                confounding = confounding)
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]
@@ -76,10 +82,11 @@ for (ITE_estimator in ITE_estimators){
 
     method_params[["ite_method_dis"]]<-ITE_estimator
     method_params[["ite_method_inf"]]<-ITE_estimator
+    hyper_params[["pfer"]] <- 1/((effect_size+1))
     result <- cre(y, z, X, method_params, hyper_params)
 
     rmse <- sqrt(mean((ite - result$ite_pred)^2))
-    method <- paste("CATE (",ITE_estimator,")", sep = "")
+    method <- paste("CRE (",ITE_estimator,")", sep = "")
     return(c(method,effect_size,seed,rmse))
   }
   time.after = Sys.time()

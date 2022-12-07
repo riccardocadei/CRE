@@ -7,14 +7,16 @@ library(doParallel)
 source("../functional_tests/experiments/utils.R")
 
 # Set Experiment Parameter
-sample_size <- 1000
+sample_size <- 200
 n_rules <- 2
-n_seeds <- 20
-max_effect_size <- 5
+n_seeds <- 4
+max_effect_size <- 0.2
 delta_effect_size <- 0.2
+confounding <- TRUE
 ITE_estimators <- c("ipw","aipw","sipw","bcf","cf")
 
-exp_name <- paste(sample_size,"s_",n_rules,"r",sep="")
+if (confounding) {exp_name <- paste(sample_size,"s_",n_rules,"r_conf",sep="")
+} else {exp_name <- paste(sample_size,"s_",n_rules,"r_unconf",sep="")}
 seeds <- seq(1, n_seeds, 1)
 effect_sizes <- seq(0, max_effect_size, delta_effect_size)
 
@@ -77,7 +79,8 @@ for(effect_size in effect_sizes){
                                   effect_size = effect_size,
                                   n_rules = n_rules,
                                   binary_covariates = TRUE,
-                                  binary_outcome = FALSE)
+                                  binary_outcome = FALSE,
+                                  confounding = confounding)
   y <- dataset[["y"]]
   z <- dataset[["z"]]
   X <- dataset[["X"]]
@@ -93,6 +96,7 @@ for(effect_size in effect_sizes){
 
       method_params[["ite_method_dis"]]<-ITE_estimator
       method_params[["ite_method_inf"]]<-ITE_estimator
+      hyper_params[["pfer"]] <- 1/((effect_size+1))
       result <- cre(y, z, X, method_params, hyper_params)
 
       cdr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
@@ -101,7 +105,7 @@ for(effect_size in effect_sizes){
       em_pred <- extract_effect_modifiers(cdr_pred, X_names)
       metrics_em <- metrics(em,em_pred)
 
-      method <- paste("CATE (",ITE_estimator,")", sep = "")
+      method <- paste("CRE (",ITE_estimator,")", sep = "")
       return(c(method, effect_size, seed,
                metrics_cdr$IoU,
                metrics_cdr$precision,
@@ -126,10 +130,3 @@ dir <- paste("../functional_tests/experiments/results/discovery_",
              exp_name,".rdata", sep="")
 save(discovery,
      file=dir)
-
-
-
-
-
-
-

@@ -25,7 +25,7 @@ extract_effect_modifiers <- function(rules_list, X_names) {
 
 generate_syn_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
                                  effect_size = 2, binary_covariates = TRUE,
-                                 binary_outcome = TRUE) {
+                                 binary_outcome = TRUE, confounding=FALSE) {
 
   # Check for correct binary input
   if (!(binary_outcome %in% c(TRUE, FALSE))) {
@@ -58,7 +58,9 @@ generate_syn_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
     effect_size = 1
   }
   else {
-    y0 <- stats::rnorm(n, mean =  X$x1 - X$x2 + X$x3, sd = 1)
+    if (confounding) {mean = X$x1 + X$x3 + X$x4}
+    else {mean = 0}
+    y0 <- stats::rnorm(n, mean = mean, sd = 1)
     y1 <- y0
   }
   y0[X$x1 == 1 & X$x2 == 0] = effect_size

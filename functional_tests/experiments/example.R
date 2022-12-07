@@ -1,13 +1,13 @@
-set.seed(2021)
+set.seed(201)
 source("../functional_tests/experiments/utils.R")
 
 # Set Method and Hyper Parameters
 method_params <- list(ratio_dis = 0.5,
-                      ite_method_dis="aipw",
+                      ite_method_dis="cf",
                       ps_method_dis = "SL.xgboost",
                       oreg_method_dis = "SL.xgboost",
                       include_ps_dis = TRUE,
-                      ite_method_inf = "aipw",
+                      ite_method_inf = "cf",
                       ps_method_inf = "SL.xgboost",
                       oreg_method_inf = "SL.xgboost",
                       include_ps_inf = TRUE,
@@ -20,7 +20,7 @@ method_params <- list(ratio_dis = 0.5,
 
 hyper_params <- list(intervention_vars = c(),
                      ntrees_rf = 100,
-                     ntrees_gbm = 50,
+                     ntrees_gbm = 0,
                      node_size = 20,
                      max_nodes = 5,
                      max_depth = 15,
@@ -35,21 +35,30 @@ hyper_params <- list(intervention_vars = c(),
                      pfer = 0.5,
                      penalty_rl = 1)
 
+# Set Ground Truth
+cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5", "x4<=0", "x5<=0.5 & x7>0.5 & x8<=0.5")
+em <- c("x1","x2","x5","x6","x4","x7","x8")
+if (n_rules==2){
+  cdr <- cdr[1:2]
+  em <- em[1:4]
+}
+
 # Generate Dataset
-dataset <- generate_syn_dataset(n = 1000,
+dataset <- generate_syn_dataset(n = 2000,
                                 rho = 0,
                                 p = 10,
-                                effect_size = 5,
+                                effect_size = 1,
                                 n_rules = 2,
                                 binary_covariates = TRUE,
-                                binary_outcome = FALSE)
+                                binary_outcome = FALSE,
+                                confounding = FALSE)
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]
 ite <- dataset[["ite"]]
 X_names <- colnames(X)
 
-
+hyper_params[["pfer"]] <- 1/((effect_size+1))
 result <- cre(y, z, X, method_params, hyper_params)
 summary(result)
 plot(result)
@@ -58,22 +67,19 @@ plot(result)
 cdr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
 metrics_cdr <- metrics(cdr,cdr_pred)
 print(paste("Causal Decision Rules: ",
-            "IoU=",metrics_cdr$IoU,
-            "Recall=",metrics_cdr$recall,
-            "Precision=",metrics_cdr$precision,
+            "IoU=",round(metrics_cdr$IoU,2),
+            ", Recall=",round(metrics_cdr$recall,2),
+            ", Precision=",round(metrics_cdr$precision,2),
             sep=""))
 
 em_pred <- extract_effect_modifiers(cdr_pred, X_names)
 metrics_em <- metrics(em,em_pred)
-print(paste("EFfect Modifiers:      ",
-            "IoU=",metrics_em$IoU,
-            "Recall=",metrics_em$recall,
-            "Precision=",metrics_em$precision,
+print(paste("Effect Modifiers:      ",
+            "IoU=",round(metrics_em$IoU,2),
+            ", Recall=",round(metrics_em$recall,2),
+            ", Precision=",round(metrics_em$precision,2),
             sep=""))
 
 #Estimation
 rmse <- sqrt(mean((ite - result$ite_pred)^2))
 print(paste("RMSE: ", rmse))
-
-
-
