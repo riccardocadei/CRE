@@ -20,8 +20,8 @@ test_that("AIPW ITE Estimated Correctly", {
   expect_true(class(ite_result) == "numeric")
 
   # Reproducible results
-  expect_equal(ite_result[1], 1.102265, tolerance = 0.00001)
-  expect_equal(ite_result[11], 0.090976, tolerance = 0.00001)
-  expect_equal(ite_result[91], 1.035182, tolerance = 0.00001)
+  expect_equal(ite_result[1], 0.5578771, tolerance = 0.00001)
+  expect_equal(ite_result[11], -1.218074, tolerance = 0.00001)
+  expect_equal(ite_result[91], 1.429128, tolerance = 0.00001)
 })
 

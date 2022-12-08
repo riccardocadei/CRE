@@ -72,9 +72,9 @@ test_that("Rules Extracted Correctly", {
   expect_equal(length(treelist),2)
   expect_equal(length(treelist[2]$list),100)
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
-  expect_equal(treelist[2]$list[[1]][2,6], -0.1813048, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[2]][3,6], 0.1571168, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[10]][3,6], 0.1571168, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[1]][2,6], -0.1368704, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3,6], 0.2046404, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3,6], 0.2046404, tolerance = 0.000001)
 
 
   type_decay <- 2
@@ -91,6 +91,6 @@ test_that("Rules Extracted Correctly", {
   # Correct outputs
   rules_RF <- extract_rules(treelist, X, ntrees, max_depth)
   expect_true(any(class(rules_RF) == "matrix"))
-  expect_equal(length(rules_RF), 399)
+  expect_equal(length(rules_RF), 438)
   expect_equal(rules_RF[3], "X[,5]>0.5 & X[,7]<=0.5")
 })

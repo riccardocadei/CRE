@@ -74,16 +74,17 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
       mean <- 0
     } else{
       stop("Invalid 'confounding' input. Please input: 'lc' (linear confounding),
-           'nlc' non-linear confounding, 'nc' no confounding" )
+           'nlc' non-linear confounding, 'nc' no confounding")
     }
     y0 <- stats::rnorm(n, mean = mean, sd = 1)
     y1 <- y0
   }
-  y0[X$x1 == 1 & X$x2 == 0] = effect_size
-  y1[X$x5 == 1 & X$x6 == 0] = effect_size
+  y0[X$x1 == 1 & X$x2 == 0] = y0[X$x1 == 1 & X$x2 == 0] + effect_size
+  y1[X$x5 == 1 & X$x6 == 0] = y1[X$x5 == 1 & X$x6 == 0] + effect_size
   if (n_rules == 4) {
-    y0[X$x4 == 1] = effect_size
-    y1[X$x5 == 0 & X$x7 == 1 & X$x8 == 0] = effect_size
+    y0[X$x4 == 1] = y0[X$x4 == 1] + effect_size
+    y1[X$x5 == 0 & X$x7 == 1 & X$x8 == 0] =
+        y1[X$x5 == 0 & X$x7 == 1 & X$x8 == 0] + effect_size
   }
 
   # Generate Outcome

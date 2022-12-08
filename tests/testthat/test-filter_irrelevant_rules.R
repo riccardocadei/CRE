@@ -73,9 +73,9 @@ test_that("Rules Pruned Correctly", {
   expect_equal(length(treelist),2)
   expect_equal(length(treelist[2]$list),100)
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
-  expect_equal(treelist[2]$list[[1]][2,6], -0.1813048, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[2]][3,6], 0.1571168, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[10]][3,6], 0.1571168, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[1]][2,6], -0.1368704, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3,6], 0.2046404, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3,6], 0.2046404, tolerance = 0.000001)
 
   rules <- extract_rules(treelist, X, ntrees, max_depth)
 
