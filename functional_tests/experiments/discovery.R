@@ -4,27 +4,26 @@ set.seed(2021)
 #library(stringr)
 library(foreach)
 library(doParallel)
-source("../functional_tests/experiments/utils.R")
 
 # Set Experiment Parameter
-sample_size <- 500
 n_rules <- 2
-n_seeds <- 20
-max_effect_size <- 10
-delta_effect_size <- 0.2
-confounding <- "nc"
+sample_size <- 2000
+effect_sizes <- seq(0, 10, 0.2)
+confoundings <- c("nc","lc","nlc")
 ITE_estimators <- c("ipw","aipw","sipw","cf","bcf")
-
-exp_name <- paste(sample_size,"s_",n_rules,"r_",confounding, sep="")
-seeds <- seq(1, n_seeds, 1)
-effect_sizes <- seq(0, max_effect_size, delta_effect_size)
+n_seeds <- 48
 
 # Set Ground Truth
-cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5", "x4<=0", "x5<=0.5 & x7>0.5 & x8<=0.5")
+{
+cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
+         "x4<=0", "x5<=0.5 & x7>0.5 & x8<=0.5")
 em <- c("x1","x2","x5","x6","x4","x7","x8")
-if (n_rules==2){
-  cdr <- cdr[1:2]
+if (n_rules==2) {
+  cdr<-cdr[1:2]
   em <- em[1:4]
+} else if (n_rules==4) {
+} else {stop(paste("Synthtic dataset with", n_rules,"rules has not been
+                    implemented yet. Set 'n_rules' equal to 2 or 4 (rules)."))}
 }
 
 # Set Method and Hyper Parameters
@@ -63,69 +62,75 @@ hyper_params <- list(intervention_vars = c(),
                      penalty_rl = 1)
 }
 
-
-# Evaluate Discovery Performance (in parallel)
+# Set Cluster
 cl <- makeCluster(detectCores())
 registerDoParallel(cl)
-discovery <- data.frame(matrix(ncol = 9, nrow = 0))
-for(effect_size in effect_sizes){
-  print(paste("Effect Size", effect_size))
 
-  # Generate Dataset
-  dataset <- generate_cre_dataset(n = sample_size,
-                                  rho = 0,
-                                  p = 10,
-                                  effect_size = effect_size,
-                                  n_rules = n_rules,
-                                  binary_covariates = TRUE,
-                                  binary_outcome = FALSE,
-                                  confounding = confounding)
-  y <- dataset[["y"]]
-  z <- dataset[["z"]]
-  X <- dataset[["X"]]
-  X_names <- colnames(X)
+# Run Experiments (confounding x effect_size x method x seed)
+for (confounding in confoundings) {
+  print(paste("Confounding:",confounding))
+  discovery <- data.frame(matrix(ncol = 9, nrow = 0))
+  for(effect_size in effect_sizes){
+    print(paste("Effect Size", effect_size))
 
-  discovery_i <- data.frame(matrix(ncol = 9, nrow = 0))
-  for (ITE_estimator in ITE_estimators){
-    time.before = Sys.time()
-    discovery_i <- foreach(seed = seeds, .combine=rbind) %dopar% {
-      library("devtools")
-      load_all()
-      set.seed(seed)
+    # Generate Dataset
+    dataset <- generate_cre_dataset(n = sample_size,
+                                    rho = 0,
+                                    p = 10,
+                                    effect_size = effect_size,
+                                    n_rules = n_rules,
+                                    binary_covariates = TRUE,
+                                    binary_outcome = FALSE,
+                                    confounding = confounding)
+    y <- dataset[["y"]]
+    z <- dataset[["z"]]
+    X <- dataset[["X"]]
+    X_names <- colnames(X)
 
-      method_params[["ite_method_dis"]]<-ITE_estimator
-      method_params[["ite_method_inf"]]<-ITE_estimator
-      hyper_params[["pfer"]] <- 1/((effect_size+1))
-      result <- cre(y, z, X, method_params, hyper_params)
+    discovery_i <- data.frame(matrix(ncol = 9, nrow = 0))
+    for (ITE_estimator in ITE_estimators){
+      time.before = Sys.time()
+      discovery_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
+        library("devtools")
+        load_all()
+        set.seed(seed)
 
-      cdr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
-      metrics_cdr <- evaluate(cdr,cdr_pred)
+        method_params[["ite_method_dis"]]<-ITE_estimator
+        method_params[["ite_method_inf"]]<-ITE_estimator
+        hyper_params[["pfer"]] <- 1/((effect_size+1))
+        result <- cre(y, z, X, method_params, hyper_params)
 
-      em_pred <- extract_effect_modifiers(cdr_pred, X_names)
-      metrics_em <- evaluate(em,em_pred)
+        cdr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
+        metrics_cdr <- evaluate(cdr,cdr_pred)
 
-      method <- paste("CRE (",ITE_estimator,")", sep = "")
-      return(c(method, effect_size, seed,
-               metrics_cdr$IoU,
-               metrics_cdr$precision,
-               metrics_cdr$recall,
-               metrics_em$IoU,
-               metrics_em$precision,
-               metrics_em$recall))
+        em_pred <- extract_effect_modifiers(cdr_pred, X_names)
+        metrics_em <- evaluate(em,em_pred)
+
+        method <- paste("CRE (",ITE_estimator,")", sep = "")
+        return(c(method, effect_size, seed,
+                 metrics_cdr$IoU,
+                 metrics_cdr$precision,
+                 metrics_cdr$recall,
+                 metrics_em$IoU,
+                 metrics_em$precision,
+                 metrics_em$recall))
+      }
+      discovery <- rbind(discovery,discovery_i)
+      time.after = Sys.time()
+      print(paste(ITE_estimator,"(Time: ",round(time.after - time.before,2), "sec)"))
     }
-    discovery <- rbind(discovery,discovery_i)
-    time.after = Sys.time()
-    print(paste(ITE_estimator,"(Time: ",round(time.after - time.before,2), "sec)"))
   }
-}
-stopCluster(cl)
-colnames(discovery) <- c("method","effect_size","seed",
-                         "cdr_IoU","cdr_Precision","cdr_Recall",
-                         "em_IoU","em_Precision","em_Recall")
-rownames(discovery) <- 1:nrow(discovery)
+  colnames(discovery) <- c("method","effect_size","seed",
+                           "cdr_IoU","cdr_Precision","cdr_Recall",
+                           "em_IoU","em_Precision","em_Recall")
+  rownames(discovery) <- 1:nrow(discovery)
 
-# Save results
-dir <- paste("../functional_tests/experiments/results/discovery_",
-             exp_name,".rdata", sep="")
-save(discovery,
-     file=dir)
+  # Save results
+  exp_name <- paste(sample_size,"s_",n_rules,"r_",confounding, sep="")
+  dir <- paste("../functional_tests/experiments/results/discovery_",
+               exp_name,".rdata", sep="")
+  save(discovery,
+       file=dir)
+}
+
+stopCluster(cl)

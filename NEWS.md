@@ -12,6 +12,7 @@
 
 ### Changed
 
+* Add simulation experiments and corresponding visualizations.
 * Add `extract_effect_modifiers` function
 * Add `evaluate` function (for discovery evaluation)
 * Add `confounding` parameter (in `generate_cre_dataset`) 

@@ -3,16 +3,22 @@ library(foreach)
 library(doParallel)
 
 # Set Experiment Parameter
-sample_size <- 500
 n_rules <- 2
-effect_size <- 10
-n_seeds <- 100
-confounding <- "nc"
-ITE_estimators <- c("ipw","aipw","sipw","cf","bcf")
+sample_size <- 5000
+effect_size <- 5
+confoundings <- c("nc","lc","nlc")
+ite_estimators <- c("ipw","aipw","sipw","cf","bcf")
+n_seeds <- 196
 
-exp_name <- paste(sample_size,"s_",n_rules,"r_",effect_size,"es_",confounding,
-                  sep="")
-seeds <- seq(1, n_seeds, 1)
+# Set Ground Truth
+{
+cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
+         "x4<=0", "x5<=0.5 & x7>0.5 & x8<=0.5")
+if (n_rules==2) { cdr<-cdr[1:2]
+} else if (n_rules==4) {
+} else {stop(paste("Synthtic dataset with", n_rules,"rules has not been
+                    implemented yet. Set 'n_rules' equal to 2 or 4 (rules)."))}
+}
 
 # Set Method and Hyper Parameters
 {
@@ -42,7 +48,7 @@ seeds <- seq(1, n_seeds, 1)
                        type_decay = 2,
                        t_ext = 0.025,
                        t_corr = 1,
-                       t_pvalue = 0.01,
+                       t_pvalue = 1,
                        replace = TRUE,
                        stability_selection = TRUE,
                        cutoff = 0.9,
@@ -50,52 +56,69 @@ seeds <- seq(1, n_seeds, 1)
                        penalty_rl = 1)
 }
 
-# Generate Dataset
-dataset <- generate_cre_dataset(n = sample_size,
-                                rho = 0,
-                                p = 10,
-                                effect_size = effect_size,
-                                n_rules = n_rules,
-                                binary_covariates = TRUE,
-                                binary_outcome = FALSE,
-                                confounding = confounding)
-y <- dataset[["y"]]
-z <- dataset[["z"]]
-X <- dataset[["X"]]
-ite <- dataset[["ite"]]
-X_names <- colnames(X)
-
-# Evaluate Estimation Performance (in parallel)
+# Set Cluster
 cl <- makeCluster(detectCores())
 registerDoParallel(cl)
 
-estimation <- data.frame(matrix(ncol = 4, nrow = 0))
-for (ITE_estimator in ITE_estimators){
-  time.before = Sys.time()
-  estimation_i <- foreach(seed = seeds, .combine=rbind) %dopar% {
-    library("devtools")
-    load_all()
-    set.seed(seed)
+# Run Experiments (confounding x method x seed)
+for (confounding in confoundings) {
+  print(paste("Confounding:",confounding))
+  estimation <- data.frame(matrix(ncol = 9, nrow = 0))
+  for (ite_estimator in ite_estimators){
+    time.before = Sys.time()
+    estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %do% {
+      library("devtools")
+      load_all()
+      set.seed(seed)
+      # Generate Dataset
+      dataset <- generate_cre_dataset(n = sample_size,
+                                      rho = 0,
+                                      p = 10,
+                                      effect_size = effect_size,
+                                      n_rules = n_rules,
+                                      binary_covariates = TRUE,
+                                      binary_outcome = FALSE,
+                                      confounding = confounding)
+      y <- dataset[["y"]]
+      z <- dataset[["z"]]
+      X <- dataset[["X"]]
+      ite <- dataset[["ite"]]
+      X_names <- colnames(X)
 
-    method_params[["ite_method_dis"]]<-ITE_estimator
-    method_params[["ite_method_inf"]]<-ITE_estimator
-    hyper_params[["pfer"]] <- 1/((effect_size+1))
-    result <- cre(y, z, X, method_params, hyper_params)
+      #method_params[["ite_method_dis"]]<-ite_estimator
+      method_params[["ite_method_inf"]]<-ite_estimator
+      hyper_params[["pfer"]] <- 1/((effect_size+1))
+      result <- cre(y, z, X, method_params, hyper_params)
 
-    rmse <- sqrt(mean((ite - result$ite_pred)^2))
-    method <- paste("CRE (",ITE_estimator,")", sep = "")
-    return(c(method,effect_size,seed,rmse))
+      rmse <- sqrt(mean((ite - result$ite_pred)^2))
+      bias <- mean((ite - result$ite_pred))
+
+      method <- paste("CRE (",ite_estimator,")", sep = "")
+      betas <- c()
+      for (rule in cdr){
+        beta <- result$CATE$Estimate[result$CATE$Rule==rule]
+        print(beta)
+        betas <- c(betas,beta)
+      }
+      print(betas)
+      return(c(method, effect_size, seed, rmse, bias,
+               betas[1], betas[2], betas[3], betas[4]))
+    }
+    time.after = Sys.time()
+    print(paste(ite_estimator,"(Time: ",round(time.after - time.before,2), "sec)"))
+    estimation <- rbind(estimation,estimation_i)
   }
-  time.after = Sys.time()
-  print(paste(ITE_estimator,"(Time: ",round(time.after - time.before,2), "sec)"))
-  estimation <- rbind(estimation,estimation_i)
-}
-stopCluster(cl)
-colnames(estimation) <- c("method","effect_size","seed","rmse")
-rownames(estimation) <- 1:nrow(estimation)
+  colnames(estimation) <- c("method","effect_size","seed","rmse","bias",
+                            "beta1", "beta2","beta3","beta4")
+  rownames(estimation) <- 1:nrow(estimation)
 
-# Save results
-dir <- paste("../functional_tests/experiments/results/estimation_",
-             exp_name,".rdata", sep="")
-save(estimation,
-     file=dir)
+  # Save results
+  exp_name <- paste(sample_size,"s_",n_rules,"r_",effect_size,"es_",confounding,
+                    sep="")
+  dir <- paste("../functional_tests/experiments/results/estimation_",
+               exp_name,".rdata", sep="")
+  save(estimation,
+       file=dir)
+}
+
+stopCluster(cl)
