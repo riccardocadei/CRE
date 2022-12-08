@@ -1,13 +1,26 @@
-set.seed(201)
-source("../functional_tests/experiments/utils.R")
+set.seed(2021)
+
+# Set Experiment Parameter
+n_rules <- 2
+sample_size <- 2000
+effect_size <- 10
+confounding <- "nc"
+ite_estimator_dis <- "aipw"
+ite_estimator_inf <- "aipw"
+pfer <- 0.1
+#pfer <- 1/((effect_size+1))
+
+
+
+
 
 # Set Method and Hyper Parameters
 method_params <- list(ratio_dis = 0.5,
-                      ite_method_dis="cf",
+                      ite_method_dis = ite_estimator_dis,
                       ps_method_dis = "SL.xgboost",
                       oreg_method_dis = "SL.xgboost",
                       include_ps_dis = TRUE,
-                      ite_method_inf = "cf",
+                      ite_method_inf = ite_estimator_inf,
                       ps_method_inf = "SL.xgboost",
                       oreg_method_inf = "SL.xgboost",
                       include_ps_inf = TRUE,
@@ -32,33 +45,37 @@ hyper_params <- list(intervention_vars = c(),
                      replace = TRUE,
                      stability_selection = TRUE,
                      cutoff = 0.9,
-                     pfer = 0.5,
+                     pfer = 0.1,
                      penalty_rl = 1)
 
 # Set Ground Truth
-cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5", "x4<=0", "x5<=0.5 & x7>0.5 & x8<=0.5")
-em <- c("x1","x2","x5","x6","x4","x7","x8")
-if (n_rules==2){
-  cdr <- cdr[1:2]
-  em <- em[1:4]
+{
+  cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
+           "x4<=0", "x5<=0.5 & x7>0.5 & x8<=0.5")
+  em <- c("x1","x2","x5","x6","x4","x7","x8")
+  if (n_rules==2) {
+    cdr<-cdr[1:2]
+    em <- em[1:4]
+  } else if (n_rules==4) {
+  } else {stop(paste("Synthtic dataset with", n_rules,"rules has not been
+                    implemented yet. Set 'n_rules' equal to 2 or 4 (rules)."))}
 }
 
 # Generate Dataset
-dataset <- generate_cre_dataset(n = 2000,
+dataset <- generate_cre_dataset(n = sample_size,
                                 rho = 0,
                                 p = 10,
-                                effect_size = 1,
-                                n_rules = 2,
+                                effect_size = effect_size,
+                                n_rules = n_rules,
                                 binary_covariates = TRUE,
                                 binary_outcome = FALSE,
-                                confounding = "nc")
+                                confounding = confounding)
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]
 ite <- dataset[["ite"]]
 X_names <- colnames(X)
 
-hyper_params[["pfer"]] <- 1/((effect_size+1))
 result <- cre(y, z, X, method_params, hyper_params)
 summary(result)
 plot(result)
