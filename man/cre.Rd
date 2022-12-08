@@ -98,16 +98,16 @@ z <- dataset[["z"]]
 X <- dataset[["X"]]
 
 method_params <- list(ratio_dis = 0.25,
-                      ite_method_dis="bart",
+                      ite_method_dis="aipw",
                       ps_method_dis = "SL.xgboost",
                       oreg_method_dis = "SL.xgboost",
                       include_ps_dis = TRUE,
-                      ite_method_inf = "bart",
+                      ite_method_inf = "aipw",
                       ps_method_inf = "SL.xgboost",
                       oreg_method_inf = "SL.xgboost",
                       include_ps_inf = TRUE,
                       include_offset = FALSE,
-                      cate_method = "DRLearner",
+                      cate_method = "linreg",
                       cate_SL_library = "SL.xgboost",
                       offset_name = NA,
                       random_state = 3591)
