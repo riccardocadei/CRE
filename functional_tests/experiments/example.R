@@ -45,7 +45,7 @@ hyper_params <- list(intervention_vars = c(),
                      replace = TRUE,
                      stability_selection = TRUE,
                      cutoff = 0.9,
-                     pfer = 0.1,
+                     pfer = pfer,
                      penalty_rl = 1)
 
 # Set Ground Truth
