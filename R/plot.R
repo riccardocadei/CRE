@@ -42,14 +42,14 @@ autoplot.cre <- function(object, ...){
     g <- ggplot2::ggplot(data = cate_results) +
          ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
          ggplot2::geom_linerange(
-                    ggplot2::aes(x = Predictor,
+                    ggplot2::aes(x = Rule,
                                  ymin = Estimate - Std_Error*interval_95,
                                  ymax = Estimate + Std_Error*interval_95),
                     lwd = 1,
                     position = ggplot2::position_dodge(width = 1/2))
 
     g <- g + ggplot2::geom_pointrange(
-                   ggplot2::aes(x = Predictor,
+                   ggplot2::aes(x = Rule,
                                 y = Estimate,
                                 ymin = Estimate - Std_Error*interval_95,
                                 ymax = Estimate + Std_Error*interval_95),

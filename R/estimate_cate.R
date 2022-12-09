@@ -100,6 +100,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       cate_summary <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
                                       cate_temp$Rule == "(BATE)")
       rownames(cate_summary) <- 1:nrow(cate_summary)
+      cate_model <- conditional_gnm
     } else if (cate_method %in% c("DRLearner")) {
       # split the data evenly
       split <- sample(nrow(X_inf), nrow(X_inf) * 0.5, replace = FALSE)
@@ -203,7 +204,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
       ate <- sum_ate / n_samples
       sd_ate <- sum_sd_ate / n_samples
-      cate_means <- data.frame(Rule = "Average Treatment Effect",
+      cate_means <- data.frame(Rule = "(BATE)",
                                CATE = ate,
                                CI_lower = ate - (1.96 * sd_ate),
                                CI_upper = ate + (1.96 * sd_ate))
@@ -240,6 +241,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
         cate_means <- rbind(cate_means, cate_temp)
       }
       cate_summary <- cate_means
+      # TODO: return CATE model
+      cate_model <- NULL
     } else if (cate_method == "cf-means") {
       stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
       df_rules_factor <- as.data.frame(rules_matrix_inf) %>%
@@ -248,7 +251,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       joined_ite_rules <- cbind(ite_inf, sd_ite_inf, df_rules_factor)
 
       # Generate CATE data frame with ATE
-      cate_means <- data.frame(Rule = "Average Treatment Effect",
+      cate_means <- data.frame(Rule = "()",
                                CATE = mean(ite_inf),
                                CI_lower = mean(ite_inf) -
                                  (1.96 * mean(sd_ite_inf)),
@@ -270,6 +273,8 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
         cate_means <- rbind(cate_means, cate_temp)
       }
       cate_summary <- cate_means
+      # TODO: return CATE model
+      cate_model <- NULL
     } else if (cate_method == "linreg") {
       stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
       df_rules_factor <- as.data.frame(rules_matrix_inf) %>%

@@ -221,14 +221,19 @@ cre <- function(y, z, X, method_params, hyper_params){
   M["Causal (significant)"] <- as.integer(length(cate_inf$summary$Rule))-1
 
   # Estimate ITE----------------------------------------------------------------
-  if (!any(is.na(causal_rules_int))){
-    causal_rules_matrix <- generate_rules_matrix(X, causal_rules)
-    causal_rules_matrix <- as.data.frame(causal_rules_matrix) %>%
-      dplyr::transmute_all(as.factor)
-    names(causal_rules_matrix) <- causal_rules_int
-    ite_pred <- predict(cate_inf$model, causal_rules_matrix)
-  } else{
-    ite_pred <- cate_inf$summary$Estimate[1]
+  if (getElement(method_params,"cate_method")=="linreg"){
+    if (!any(is.na(causal_rules_int))){
+      causal_rules_matrix <- generate_rules_matrix(X, causal_rules)
+      causal_rules_matrix <- as.data.frame(causal_rules_matrix) %>%
+        dplyr::transmute_all(as.factor)
+      names(causal_rules_matrix) <- causal_rules_int
+      ite_pred <- predict(cate_inf$model, causal_rules_matrix)
+    } else{
+      ite_pred <- cate_inf$summary$Estimate[1]
+    }
+  } else {
+    # TODO: return predicted ITEs for other CATE Estimators (i.e. DRLearner,...)
+    ite_pred <- NULL
   }
 
 
