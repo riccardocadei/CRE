@@ -87,8 +87,9 @@ for (confounding in confoundings) {
     X <- dataset[["X"]]
     X_names <- colnames(X)
 
-    discovery_i <- data.frame(matrix(ncol = 9, nrow = 0))
+    # CRE
     for (ITE_estimator in ITE_estimators){
+      # CRE (estimator i)
       time.before = Sys.time()
       discovery_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
         library("devtools")
@@ -117,8 +118,61 @@ for (confounding in confoundings) {
       }
       discovery <- rbind(discovery,discovery_i)
       time.after = Sys.time()
-      print(paste(ITE_estimator,"(Time: ",round(time.after - time.before,2), "sec)"))
+      print(paste("CRE -", ITE_estimator,"(Time: ",round(time.after - time.before,2), "sec)"))
     }
+
+    # HCT
+    time.before = Sys.time()
+    discovery_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
+      library("devtools")
+      load_all()
+      set.seed(seed)
+
+      subgroups <- honest_splitting(y, z, X, ratio_dis)
+      discovery <- subgroups[["discovery"]]
+      inference <- subgroups[["inference"]]
+      y_dis <- discovery$y
+      z_dis <- discovery$z
+      X_dis <- discovery$X
+      y_inf <- inference$y
+      z_inf <- inference$z
+      X_inf <- inference$X
+      data_dis <- as.data.frame(cbind(y_dis, X_dis))
+      data_inf <- as.data.frame(cbind(y_inf, z_inf, X_inf))
+
+      fit.tree <- causalTree(y_dis ~ ., data = data_dis, treatment = z_dis,
+                             split.Rule = "CT", cv.option = "CT",
+                             split.Honest = T, cv.Honest = T, maxdepth = 3)
+      opt.cp <- fit.tree$cptable[,1][which.min(fit.tree$cptable[,4])]
+      pruned <- prune(fit.tree, opt.cp)
+
+      # Extract Causal Decision Rules
+      leaves_dfs <- rep(FALSE,length(rules))
+      leaves_dfs[unique(pruned$where)] <- TRUE
+      cdr_pred <- unlist(rules.ctree[rules[leaves_dfs]])
+      for (i in 1:length(cdr_pred)){
+        cdr_pred[i] <- gsub("< ", "<=", cdr_pred[i])
+        cdr_pred[i] <- gsub(">=", ">", cdr_pred[i])
+      }
+      # Predict
+      ite_pred <- predict(pruned, X)
+
+      metrics_cdr <- evaluate(cdr,cdr_pred)
+
+      em_pred <- extract_effect_modifiers(cdr_pred, X_names)
+      metrics_em <- evaluate(em,em_pred)
+
+      return(c("HCT", effect_size, seed,
+               metrics_cdr$IoU,
+               metrics_cdr$precision,
+               metrics_cdr$recall,
+               metrics_em$IoU,
+               metrics_em$precision,
+               metrics_em$recall))
+    }
+    discovery <- rbind(discovery,discovery_i)
+    time.after = Sys.time()
+    print(paste("HCT (Time: ",round(time.after - time.before,2), "sec)"))
   }
   colnames(discovery) <- c("method","effect_size","seed",
                            "cdr_IoU","cdr_Precision","cdr_Recall",
