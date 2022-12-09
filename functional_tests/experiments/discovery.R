@@ -146,6 +146,20 @@ for (confounding in confoundings) {
       pruned <- prune(fit.tree, opt.cp)
 
       # Extract Causal Decision Rules
+      rules <- as.numeric(row.names(pruned$frame[pruned$numresp]))
+      rules.ctree <- vector("list",length(rules))
+      for (k in rules[-1]){
+        sub <- as.data.frame(matrix(NA, nrow = 1,
+                                    ncol = nrow(as.data.frame(path.rpart(pruned, node=k, print.it = FALSE)))-1))
+        capture.output(for (h in 1:ncol(sub)){
+          sub[,h] <- as.character(print(as.data.frame(path.rpart(pruned,node=k,print.it=FALSE))[h+1,1]))
+          sub_pop <- noquote(paste(sub , collapse = " & "))
+        })
+        subset <- with(data_inf, data_inf[which(eval(parse(text=sub_pop))),])
+        if (length(unique(subset$z_inf))!= 1){
+          rules.ctree[[k]] <- sub_pop
+        }
+      }
       leaves_dfs <- rep(FALSE,length(rules))
       leaves_dfs[unique(pruned$where)] <- TRUE
       cdr_pred <- unlist(rules.ctree[rules[leaves_dfs]])
