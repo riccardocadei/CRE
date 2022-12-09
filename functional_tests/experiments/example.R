@@ -10,10 +10,6 @@ ite_estimator_inf <- "aipw"
 pfer <- 0.1
 #pfer <- 1/((effect_size+1))
 
-
-
-
-
 # Set Method and Hyper Parameters
 method_params <- list(ratio_dis = 0.5,
                       ite_method_dis = ite_estimator_dis,
@@ -98,5 +94,7 @@ print(paste("Effect Modifiers:      ",
             sep=""))
 
 #Estimation
-rmse <- sqrt(mean((ite - result$ite_pred)^2))
+rmse <- sqrt(mean((ite - ite_pred)^2))
 print(paste("RMSE: ", rmse))
+bias <- mean((ite - ite_pred))
+print(paste("Bias: ", bias))
