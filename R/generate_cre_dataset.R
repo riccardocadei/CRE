@@ -20,8 +20,22 @@
 #' (default: "nc")
 #'
 #' @return
-#' A list of synthetic data containing an outcome vector (y), a treatment
-#' vector (z), and a matrix of p covariates (X).
+#' A list of synthetic data containing:
+#' - the outcome vector (y),
+#' - the treatment vector (z),
+#' - the covariates matrix (X) and
+#' - the individual treatment vector (ite)
+#'
+#' @note
+#' Set (binary/continuous) covariates domain (binary_covariates)
+#' Set (binary/continuous) outcome domain (binary_outcome)
+#' Increase complexity of the synthetic data set:
+#' - decreasing the sample size (n)
+#' - adding correlation among variables (rho)
+#' - increasing the number of rules (n_rules)
+#' - increasing the number of covariates (p)
+#' - decreasing the absolute value of the causal effect (effect_size)
+#' - adding linear or not-linear confounders (confounding)
 #'
 #' @examples
 #' set.seed(123)

@@ -39,11 +39,27 @@ linear confounding "lc", non-linear confounding "nlc", no confounding "nc"
 (default: "nc")}
 }
 \value{
-A list of synthetic data containing an outcome vector (y), a treatment
-vector (z), and a matrix of p covariates (X).
+A list of synthetic data containing:
+\itemize{
+\item the outcome vector (y),
+\item the treatment vector (z),
+\item the covariates matrix (X) and
+\item the individual treatment vector (ite)
+}
 }
 \description{
 Generates synthetic data with continues or binary outcome
+}
+\note{
+Increase complexity of the synthetic dataset:
+\itemize{
+\item decreasing the sample size (n)
+\item adding correlation among variables (rho)
+\item increasing the number of rules (n_rules)
+\item increasing the number of covariates (p)
+\item decreasing the absolute value of the causal effect (effect_size)
+\item adding linear or not-linear confounders (confounding)
+}
 }
 \examples{
 set.seed(123)
