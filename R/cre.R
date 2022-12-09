@@ -228,7 +228,7 @@ cre <- function(y, z, X, method_params, hyper_params){
         dplyr::transmute_all(as.factor)
       names(causal_rules_matrix) <- causal_rules_int
       ite_pred <- predict(cate_inf$model, causal_rules_matrix)
-    } else{
+    } else {
       ite_pred <- cate_inf$summary$Estimate[1]
     }
   } else {

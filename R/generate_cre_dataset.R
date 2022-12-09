@@ -68,8 +68,8 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
   X <- as.data.frame(X)
 
   # Generate Treatment Vector
-  logit.prob <- -1 + X$x1 - X$x2 + X$x3
-  prob <- exp(logit.prob) / (1 + exp(logit.prob))
+  logit_prob <- -1 + X$x1 - X$x2 + X$x3
+  prob <- exp(logit_prob) / (1 + exp(logit_prob))
   z <- stats::rbinom(n, 1, prob = prob)
 
   # Generate Causal Rules and Potential Outcomes
@@ -77,9 +77,8 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
   if (binary_outcome == TRUE){
     y0 <- rep(0, n)
     y1 <- rep(0, n)
-    effect_size = 1
-  }
-  else {
+    effect_size <- 1
+  } else {
     if (confounding=="lc"){
       mean <- X$x1 + X$x3 + X$x4
     } else if (confounding=="nlc"){
