@@ -144,7 +144,6 @@ for (confounding in confoundings) {
   time.before = Sys.time()
   estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
     library(devtools)
-    library(causalTree)
     load_all()
     set.seed(seed)
     # Generate Dataset
@@ -268,7 +267,8 @@ for (confounding in confoundings) {
   # HCT
   time.before = Sys.time()
   estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
-    library("devtools")
+    library(devtools)
+    library(causalTree)
     load_all()
     set.seed(seed)
     # Generate Dataset
