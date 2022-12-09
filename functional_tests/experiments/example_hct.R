@@ -1,4 +1,5 @@
 set.seed(2021)
+library(causalTree)
 
 # Set Experiment Parameter
 n_rules <- 2

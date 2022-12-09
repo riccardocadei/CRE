@@ -9,6 +9,7 @@ effect_size <- 5
 confoundings <- c("nc","lc","nlc")
 ite_estimators <- c("ipw","aipw","sipw","cf","bcf")
 n_seeds <- 196
+ratio_dis <- 0.5
 
 # Set Ground Truth
 {
@@ -22,7 +23,7 @@ if (n_rules==2) { cdr<-cdr[1:2]
 
 # Set Method and Hyper Parameters
 {
-  method_params <- list(ratio_dis = 0.5,
+  method_params <- list(ratio_dis = ratio_dis,
                         ite_method_dis="aipw",
                         ps_method_dis = "SL.xgboost",
                         oreg_method_dis = "SL.xgboost",
@@ -142,7 +143,8 @@ for (confounding in confoundings) {
   # BCF
   time.before = Sys.time()
   estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
-    library("devtools")
+    library(devtools)
+    library(causalTree)
     load_all()
     set.seed(seed)
     # Generate Dataset

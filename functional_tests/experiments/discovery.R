@@ -1,7 +1,4 @@
 set.seed(2022)
-#library(causalTree)
-#library(PSweight)
-#library(stringr)
 library(foreach)
 library(doParallel)
 
@@ -12,6 +9,7 @@ effect_sizes <- seq(0, 10, 0.2)
 confoundings <- c("nc","lc","nlc")
 ITE_estimators <- c("ipw","aipw","sipw","cf","bcf")
 n_seeds <- 48
+ratio_dis <- 0.5
 
 # Set Ground Truth
 {
@@ -28,7 +26,7 @@ if (n_rules==2) {
 
 # Set Method and Hyper Parameters
 {
-method_params <- list(ratio_dis = 0.5,
+method_params <- list(ratio_dis = ratio_dis,
                       ite_method_dis="aipw",
                       ps_method_dis = "SL.xgboost",
                       oreg_method_dis = "SL.xgboost",
@@ -124,7 +122,8 @@ for (confounding in confoundings) {
     # HCT
     time.before = Sys.time()
     discovery_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
-      library("devtools")
+      library(devtools)
+      library(causalTree)
       load_all()
       set.seed(seed)
 
