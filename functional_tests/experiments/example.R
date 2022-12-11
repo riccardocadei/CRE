@@ -3,11 +3,11 @@ set.seed(2021)
 # Set Experiment Parameter
 n_rules <- 2
 sample_size <- 2000
-effect_size <- 10
+effect_size <- 5
 confounding <- "nc"
 ite_estimator_dis <- "aipw"
 ite_estimator_inf <- "aipw"
-pfer <- 0.1
+pfer <- 1
 #pfer <- 1/((effect_size+1))
 
 # Set Method and Hyper Parameters
@@ -94,7 +94,7 @@ print(paste("Effect Modifiers:      ",
             sep=""))
 
 #Estimation
-rmse <- sqrt(mean((ite - ite_pred)^2))
+rmse <- sqrt(mean((ite - result$ite_pred)^2))
 print(paste("RMSE: ", rmse))
-bias <- mean((ite - ite_pred))
+bias <- mean((ite - result$ite_pred))
 print(paste("Bias: ", bias))
