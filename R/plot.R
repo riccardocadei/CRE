@@ -28,6 +28,7 @@ autoplot.cre <- function(object, ...){
   cate_results <- object[["CATE"]]
   cate_method <- object[["cate_method"]]
   M <- object[["M"]]
+  if (M["Causal (significant)"]==0){stop("Visualization not available (0 causal decision rules discovered).")}
 
   # Handling global variable error.
   `%>%` <- magrittr::`%>%`
