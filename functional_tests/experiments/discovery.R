@@ -71,20 +71,6 @@ for (confounding in confoundings) {
   for(effect_size in effect_sizes){
     print(paste("Effect Size", effect_size))
 
-    # Generate Dataset
-    dataset <- generate_cre_dataset(n = sample_size,
-                                    rho = 0,
-                                    p = 10,
-                                    effect_size = effect_size,
-                                    n_rules = n_rules,
-                                    binary_covariates = TRUE,
-                                    binary_outcome = FALSE,
-                                    confounding = confounding)
-    y <- dataset[["y"]]
-    z <- dataset[["z"]]
-    X <- dataset[["X"]]
-    X_names <- colnames(X)
-
     # CRE
     for (ITE_estimator in ITE_estimators){
       # CRE (estimator i)
@@ -93,6 +79,20 @@ for (confounding in confoundings) {
         library("devtools")
         load_all()
         set.seed(seed)
+
+        # Generate Dataset
+        dataset <- generate_cre_dataset(n = sample_size,
+                                        rho = 0,
+                                        p = 10,
+                                        effect_size = effect_size,
+                                        n_rules = n_rules,
+                                        binary_covariates = TRUE,
+                                        binary_outcome = FALSE,
+                                        confounding = confounding)
+        y <- dataset[["y"]]
+        z <- dataset[["z"]]
+        X <- dataset[["X"]]
+        X_names <- colnames(X)
 
         method_params[["ite_method_dis"]]<-ITE_estimator
         method_params[["ite_method_inf"]]<-ITE_estimator
@@ -126,6 +126,20 @@ for (confounding in confoundings) {
       library(causalTree)
       load_all()
       set.seed(seed)
+
+      # Generate Dataset
+      dataset <- generate_cre_dataset(n = sample_size,
+                                      rho = 0,
+                                      p = 10,
+                                      effect_size = effect_size,
+                                      n_rules = n_rules,
+                                      binary_covariates = TRUE,
+                                      binary_outcome = FALSE,
+                                      confounding = confounding)
+      y <- dataset[["y"]]
+      z <- dataset[["z"]]
+      X <- dataset[["X"]]
+      X_names <- colnames(X)
 
       subgroups <- honest_splitting(y, z, X, ratio_dis)
       discovery <- subgroups[["discovery"]]
