@@ -2,7 +2,7 @@
 % Please edit documentation in R/evaluate.R
 \name{evaluate}
 \alias{evaluate}
-\title{Evaluate}
+\title{Discovery (performance) Evaluation}
 \usage{
 evaluate(ground_truth, prediction)
 }
@@ -15,6 +15,6 @@ evaluate(ground_truth, prediction)
 Intersection Over Union, Precision, Recall
 }
 \description{
-Compute different metrics for discovery evaluation
+Computes different metrics for discovery evaluation.
 }
 \keyword{internal}

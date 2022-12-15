@@ -15,7 +15,6 @@ extract_effect_modifiers(rules_list, X_names)
 List of the Effect Modifiers.
 }
 \description{
-Method for extracting the Effect Modifiers from a list of (Causal) Decision
-Rules.
+Extracts the Effect Modifiers from a list of (Causal) Decision Rules.
 }
 \keyword{internal}

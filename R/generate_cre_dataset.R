@@ -9,7 +9,7 @@
 #' @param rho A positive double number (0,1) that represents the correlation
 #' within the covariates (default: 0).
 #' @param n_rules The number of causal rules, either 2 (default) or 4.
-#' @param effect_size The effect size magnitude (default: 2).
+#' @param effect_size The effect size magnitude in [0,+inf] (default: 2).
 #' @param p The number of covariates (default: 10).
 #' @param binary_covariates Whether to use binary or continuous covariates
 #' (default: TRUE)
@@ -29,7 +29,7 @@
 #' @note
 #' Set (binary/continuous) covariates domain (binary_covariates)
 #' Set (binary/continuous) outcome domain (binary_outcome)
-#' Increase complexity of the synthetic data set:
+#' Increase complexity in heterogeneity discovery:
 #' - decreasing the sample size (n)
 #' - adding correlation among variables (rho)
 #' - increasing the number of rules (n_rules)
@@ -62,8 +62,11 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
   Sigma <- matrix(rho, nrow = p, ncol = p) + diag(p) * (1 - rho)
   rawvars <- MASS::mvrnorm(n = n, mu = mu, Sigma = Sigma)
   pvars <- stats::pnorm(rawvars)
-  if (binary_covariates) { X <- stats::qbinom(pvars, 1, 0.5) }
-  else { X <- pvars }
+  if (binary_covariates) {
+    X <- stats::qbinom(pvars, 1, 0.5)
+  } else {
+    X <- pvars
+  }
   colnames(X) <- paste("x", 1:p, sep = "")
   X <- as.data.frame(X)
 

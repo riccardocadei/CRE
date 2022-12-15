@@ -74,7 +74,7 @@ for (confounding in confoundings) {
     # CRE
     for (ITE_estimator in ITE_estimators){
       # CRE (estimator i)
-      time.before = Sys.time()
+      time.before <- Sys.time()
       discovery_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
         library("devtools")
         load_all()
@@ -115,12 +115,12 @@ for (confounding in confoundings) {
                  metrics_em$recall))
       }
       discovery <- rbind(discovery,discovery_i)
-      time.after = Sys.time()
+      time.after <- Sys.time()
       print(paste("CRE -", ITE_estimator,"(Time: ",round(time.after - time.before,2), "sec)"))
     }
 
     # HCT
-    time.before = Sys.time()
+    time.before <- Sys.time()
     discovery_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
       library(devtools)
       library(causalTree)
@@ -198,7 +198,7 @@ for (confounding in confoundings) {
                metrics_em$recall))
     }
     discovery <- rbind(discovery,discovery_i)
-    time.after = Sys.time()
+    time.after <- Sys.time()
     print(paste("HCT (Time: ",round(time.after - time.before,2), "sec)"))
   }
   colnames(discovery) <- c("method","effect_size","seed",

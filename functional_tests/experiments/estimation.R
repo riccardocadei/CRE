@@ -68,7 +68,7 @@ for (confounding in confoundings) {
   # CRE
   for (ite_estimator in ite_estimators){
     # CRE (estimator i)
-    time.before = Sys.time()
+    time.before <- Sys.time()
     estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
       library("devtools")
       load_all()
@@ -105,12 +105,12 @@ for (confounding in confoundings) {
       return(c(method, effect_size, seed, rmse, bias,
                betas[1], betas[2], betas[3], betas[4]))
     }
-    time.after = Sys.time()
+    time.after <- Sys.time()
     print(paste("CRE -", ite_estimator,"(Time: ",round(time.after - time.before,2), "sec)"))
     estimation <- rbind(estimation,estimation_i)
   }
   # CF
-  time.before = Sys.time()
+  time.before <- Sys.time()
   estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
     library("devtools")
     load_all()
@@ -137,11 +137,11 @@ for (confounding in confoundings) {
     return(c("CF", effect_size, seed, rmse, bias,
              NA, NA, NA, NA))
   }
-  time.after = Sys.time()
+  time.after <- Sys.time()
   print(paste("CF (Time: ",round(time.after - time.before,2), "sec)"))
   estimation <- rbind(estimation,estimation_i)
   # BCF
-  time.before = Sys.time()
+  time.before <- Sys.time()
   estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
     library(devtools)
     load_all()
@@ -168,11 +168,11 @@ for (confounding in confoundings) {
     return(c("BCF", effect_size, seed, rmse, bias,
              NA, NA, NA, NA))
   }
-  time.after = Sys.time()
+  time.after <- Sys.time()
   print(paste("BCF (Time: ",round(time.after - time.before,2), "sec)"))
   estimation <- rbind(estimation,estimation_i)
   # IPW
-  time.before = Sys.time()
+  time.before <- Sys.time()
   estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
     library("devtools")
     load_all()
@@ -199,11 +199,11 @@ for (confounding in confoundings) {
     return(c("IPW", effect_size, seed, rmse, bias,
              NA, NA, NA, NA))
   }
-  time.after = Sys.time()
+  time.after <- Sys.time()
   print(paste("IPW (Time: ",round(time.after - time.before,2), "sec)"))
   estimation <- rbind(estimation,estimation_i)
   # AIPW
-  time.before = Sys.time()
+  time.before <- Sys.time()
   estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
     library("devtools")
     load_all()
@@ -230,11 +230,11 @@ for (confounding in confoundings) {
     return(c("AIPW", effect_size, seed, rmse, bias,
              NA, NA, NA, NA))
   }
-  time.after = Sys.time()
+  time.after <- Sys.time()
   print(paste("AIPW (Time: ",round(time.after - time.before,2), "sec)"))
   estimation <- rbind(estimation,estimation_i)
   # SIPW
-  time.before = Sys.time()
+  time.before <- Sys.time()
   estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
     library("devtools")
     load_all()
@@ -261,11 +261,11 @@ for (confounding in confoundings) {
     return(c("SIPW", effect_size, seed, rmse, bias,
              NA, NA, NA, NA))
   }
-  time.after = Sys.time()
+  time.after <- Sys.time()
   print(paste("SIPW (Time: ",round(time.after - time.before,2), "sec)"))
   estimation <- rbind(estimation,estimation_i)
   # HCT
-  time.before = Sys.time()
+  time.before <- Sys.time()
   estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
     library(devtools)
     library(causalTree)
@@ -311,7 +311,7 @@ for (confounding in confoundings) {
     return(c("HCT", effect_size, seed, rmse, bias,
              NA, NA, NA, NA))
   }
-  time.after = Sys.time()
+  time.after <- Sys.time()
   print(paste("HCT (Time: ",round(time.after - time.before,2), "sec)"))
   estimation <- rbind(estimation,estimation_i)
 

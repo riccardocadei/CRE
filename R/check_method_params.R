@@ -113,8 +113,8 @@ check_method_params <- function(y, params){
     if (getElement(params, "ite_method_dis") %in% c("bcf", "ipw", "sipw") |
         getElement(params, "ite_method_inf") %in% c("bcf", "ipw", "sipw")) {
       stop(paste("The 'ipw', 'sipw', and 'bcf' methods are not ",
-                 "applicable to data with binary outcomes.Please select a ",
-                 "method from the following: 'or', 'cf', or 'bart'"))
+                 "applicable to data with binary outcomes. Please select a ",
+                 "method from the following: 'aipw',' or', 'cf', or 'bart'"))
     }
   }
 

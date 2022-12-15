@@ -2,8 +2,7 @@
 #' Extract Effect Modifiers
 #'
 #' @description
-#' Method for extracting the Effect Modifiers from a list of (Causal) Decision
-#' Rules.
+#' Extracts the Effect Modifiers from a list of (Causal) Decision Rules.
 #'
 #' @param rules_list A list of (Causal) Decision Rules
 #' @param X_names A list of the Covariate names.

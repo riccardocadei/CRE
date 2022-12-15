@@ -26,7 +26,7 @@ within the covariates (default: 0).}
 
 \item{p}{The number of covariates (default: 10).}
 
-\item{effect_size}{The effect size magnitude (default: 2).}
+\item{effect_size}{The effect size magnitude in \link{0,+inf} (default: 2).}
 
 \item{binary_covariates}{Whether to use binary or continuous covariates
 (default: TRUE)}
@@ -53,7 +53,7 @@ Generates synthetic data with continues or binary outcome
 \note{
 Set (binary/continuous) covariates domain (binary_covariates)
 Set (binary/continuous) outcome domain (binary_outcome)
-Increase complexity of the synthetic data set:
+Increase complexity in heterogeneity discovery:
 \itemize{
 \item decreasing the sample size (n)
 \item adding correlation among variables (rho)
