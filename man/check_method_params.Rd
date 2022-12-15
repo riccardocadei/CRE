@@ -4,10 +4,12 @@
 \alias{check_method_params}
 \title{Check method-related parameters}
 \usage{
-check_method_params(y, params)
+check_method_params(y, X_names, params)
 }
 \arguments{
 \item{y}{The observed response vector.}
+
+\item{X_names}{The observed covariates names.}
 
 \item{params}{The list of parameters required to run the method functions.}
 }

@@ -120,10 +120,9 @@ The CRE package can generate synthetic data that can be used to test different f
                        ps_method_inf = "SL.xgboost",
                        oreg_method_inf = "SL.xgboost",
                        include_ps_inf = TRUE,
-                       include_offset = FALSE,
                        cate_method = "linreg",
                        cate_SL_library = "SL.xgboost",
-                       offset_name = NA,
+                       offset = NULL,
                        random_state = 3591)
 
  hyper_params = list(interaction_vars = c(),

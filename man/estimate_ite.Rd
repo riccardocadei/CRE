@@ -45,13 +45,13 @@ the end of this parameters list.
 }
 \item \code{poisson}: Poisson Estimation
 \itemize{
-\item \code{X_names}, \code{include_offset}, \code{offset_name}
+\item \code{X_names}, \code{offset}
 }
 }}
 
 \item{is_y_binary}{whether or not the outcome is binary}
 
-\item{...}{A dditional parameters passed to different models.}
+\item{...}{Additional parameters passed to different models.}
 }
 \value{
 A list that includes:
@@ -75,9 +75,8 @@ libraries for the SuperLearner package.
 \item \strong{oreg_method}: The estimation model for the outcome regressions. This
 include libraries for the SuperLearner package.
 \item \strong{X_names}: The names of the covariates. (TODO: Remove from input params.)
-\item \strong{include_offset}: Whether or not to include an offset when estimating
-the ITE.
-\item \strong{offset_name}: The name of the offset.
+\item \strong{offset}: Name of the covariate to use as offset (i.e. 'x1') for
+Poisson ITE Estimation. NULL if offset is not used.
 }
 }
 }

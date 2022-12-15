@@ -118,8 +118,7 @@ test_that("ITE Estimated Correctly", {
                              ps_method = ps_method,
                              oreg_method = oreg_method,
                              random_state = random_state,
-                             include_offset = FALSE,
-                             offset_name = NA,
+                             offset = NULL,
                              X_names = names(dts_1$X))
 
   expect_true(length(ite_result) == 3)

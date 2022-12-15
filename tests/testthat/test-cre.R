@@ -17,10 +17,9 @@ test_that("cre Runs Correctly", {
                        ps_method_inf = "SL.xgboost",
                        oreg_method_inf = "SL.xgboost",
                        include_ps_inf = TRUE,
-                       include_offset = FALSE,
                        cate_method = "DRLearner",
                        cate_SL_library = "SL.xgboost",
-                       offset_name = NA,
+                       offset = NULL,
                        random_state = 3591)
 
  hyper_params = list(intervention_vars = c(),
@@ -89,10 +88,10 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
   method_params[["ite_method_dis"]] <- "poisson"
-  method_params[["include_offset"]] <- TRUE
+  method_params[["offset"]] <- "test"
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
-  method_params[["include_offset"]] <- FALSE
+  method_params[["offset"]] <- NULL
   method_params[["cate_method"]] <- "test"
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 

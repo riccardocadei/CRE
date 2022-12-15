@@ -9,8 +9,7 @@ estimate_cate(
   z_inf,
   X_inf,
   X_names,
-  include_offset,
-  offset_name,
+  offset,
   rules_matrix_inf,
   select_rules_interpretable,
   cate_method,
@@ -29,10 +28,8 @@ estimate_cate(
 
 \item{X_names}{The names of the covariates.}
 
-\item{include_offset}{Whether or not to include an offset when estimating the
-ITE, for poisson only.}
-
-\item{offset_name}{The name of the offset, if it is to be included.}
+\item{offset}{Name of the covariate to use as offset (i.e. 'x1') for
+Poisson Estimation. NULL if offset is not used.}
 
 \item{rules_matrix_inf}{The standardized causal rules matrix for the
 inference subsample.}

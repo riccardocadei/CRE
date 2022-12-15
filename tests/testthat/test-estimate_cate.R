@@ -28,8 +28,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   cutoff <- 0.8
   pfer <- 0.1
   stability_selection <- TRUE
-  include_offset <- FALSE
-  offset_name <- NA
+  offset <- NULL
   cate_method <- "DRLearner"
   cate_SL_library <- "SL.xgboost"
   t_pvalue <- 0.5
@@ -62,8 +61,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
                                ps_method = ps_method_dis,
                                oreg_method = oreg_method_dis,
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name,
+                               offset = offset,
                                random_state = 112)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
@@ -99,8 +97,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name,
+                               offset = offset,
                                random_state = 2568)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
@@ -119,10 +116,10 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   # TO DO: add test to check wrong arguments
 
   # Correct outputs
-  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
-                            offset_name, rules_matrix_inf,
-                            select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, t_pvalue)
+  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, offset,
+                            rules_matrix_inf, select_rules_interpretable,
+                            cate_method, ite_inf, sd_ite_inf, cate_SL_library,
+                            t_pvalue)
   expect_true(class(cate_inf$summary) == "data.frame")
 })
 
@@ -158,8 +155,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   cutoff <- 0.8
   pfer <- 0.1
   stability_selection <- TRUE
-  include_offset <- FALSE
-  offset_name <- NA
+  offset <- NULL
   binary_outcome <- FALSE
   cate_method <- "cf-means"
   cate_SL_library <- "SL.xgboost"
@@ -189,8 +185,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
                                oreg_method = oreg_method_dis,
                                is_y_binary = binary_outcome,
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name,
+                               offset = offset,
                                random_state = 234)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
@@ -224,8 +219,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name,
+                               offset = offset,
                                random_state = 2568)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
@@ -244,10 +238,10 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   # TO DO: add test to check wrong arguments
 
   # Correct outputs
-  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
-                            offset_name, rules_matrix_inf,
-                            select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, t_pvalue)
+  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, offset,
+                            rules_matrix_inf, select_rules_interpretable,
+                            cate_method, ite_inf, sd_ite_inf, cate_SL_library,
+                            t_pvalue)
   expect_true(class(cate_inf$summary) == "data.frame")
 })
 
@@ -283,8 +277,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   cutoff <- 0.8
   pfer <- 0.1
   stability_selection <- TRUE
-  include_offset <- FALSE
-  offset_name <- NA
+  offset <- NULL
   binary_outcome <- FALSE
   cate_method <- "linreg"
   cate_SL_library <- "SL.xgboost"
@@ -314,8 +307,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                oreg_method = oreg_method_dis,
                                is_y_binary = binary_outcome,
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name,
+                               offset = offset,
                                random_state = 234)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
@@ -349,8 +341,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name,
+                               offset = offset,
                                random_state = 2568)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
@@ -367,10 +358,10 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   # TO DO: add test to check wrong arguments
 
   # Correct outputs
-  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
-                            offset_name, rules_matrix_inf,
-                            select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, t_pvalue)
+  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, offset,
+                            rules_matrix_inf, select_rules_interpretable,
+                            cate_method, ite_inf, sd_ite_inf, cate_SL_library,
+                            t_pvalue)
   expect_true(class(cate_inf$summary) == "data.frame")
 })
 
@@ -406,8 +397,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   cutoff <- 0.8
   pfer <- 0.1
   stability_selection <- TRUE
-  include_offset <- FALSE
-  offset_name <- NA
+  offset <- NULL
   binary_outcome <- FALSE
   cate_method <- "linreg"
   cate_SL_library <- "SL.xgboost"
@@ -438,8 +428,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                oreg_method = oreg_method_dis,
                                is_y_binary = binary_outcome,
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name,
+                               offset = offset,
                                random_state = 234)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
@@ -473,8 +462,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name,
+                               offset = offset,
                                random_state = 2568)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
@@ -491,10 +479,10 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   # TO DO: add test to check wrong arguments
 
   # Correct outputs
-  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
-                            offset_name, rules_matrix_inf,
-                            select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, t_pvalue)
+  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, offset,
+                            rules_matrix_inf, select_rules_interpretable,
+                            cate_method, ite_inf, sd_ite_inf, cate_SL_library,
+                            t_pvalue)
   expect_true(class(cate_inf$summary) == "data.frame")
 })
 
@@ -531,8 +519,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   cutoff <- 0.8
   pfer <- 0.1
   stability_selection <- TRUE
-  include_offset <- FALSE
-  offset_name <- NA
+  offset <- NULL
   binary_outcome <- FALSE
   cate_method <- "bart-baggr"
   cate_SL_library <- "SL.xgboost"
@@ -562,8 +549,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
                                oreg_method = oreg_method_dis,
                                is_y_binary = binary_outcome,
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name,
+                               offset = offset,
                                random_state = 234)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
@@ -597,8 +583,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name,
+                               offset = offset,
                                random_state = 2568)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
@@ -617,10 +602,10 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   # TO DO: add test to check wrong arguments
 
   # Correct outputs
-  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
-                            offset_name, rules_matrix_inf,
-                            select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, t_pvalue)
+  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, offset,
+                            rules_matrix_inf, select_rules_interpretable,
+                            cate_method, ite_inf, sd_ite_inf, cate_SL_library,
+                            t_pvalue)
   expect_true(class(cate_inf$summary) == "data.frame")
 
 })
@@ -657,8 +642,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   cutoff <- 0.8
   pfer <- 0.1
   stability_selection <- TRUE
-  include_offset <- FALSE
-  offset_name <- NA
+  offset <- NULL
   binary_outcome <- FALSE
   cate_method <- "poisson"
   cate_SL_library <- "SL.xgboost"
@@ -688,8 +672,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
                                oreg_method = oreg_method_dis,
                                is_y_binary = binary_outcome,
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name,
+                               offset = offset,
                                random_state = 234)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
@@ -724,8 +707,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name,
+                               offset = offset,
                                random_state = 2568)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
@@ -744,10 +726,10 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   # TO DO: add test to check wrong arguments
 
   # Correct outputs
-  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
-                            offset_name, rules_matrix_inf,
-                            select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, t_pvalue)
+  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, offset,
+                            rules_matrix_inf, select_rules_interpretable,
+                            cate_method, ite_inf, sd_ite_inf, cate_SL_library,
+                            t_pvalue)
   expect_true(class(cate_inf$summary) == "data.frame")
 
   # Poisson (Offset)
@@ -759,8 +741,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               include_offset = include_offset,
-                               offset_name = offset_name,
+                               offset = offset,
                                random_state = 2568)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
@@ -779,9 +760,9 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   # TO DO: add test to check wrong arguments
 
   # Correct outputs
-  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
-                            offset_name, rules_matrix_inf,
-                            select_rules_interpretable, cate_method, ite_inf,
-                            sd_ite_inf, cate_SL_library, t_pvalue)
+  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, offset,
+                            rules_matrix_inf, select_rules_interpretable,
+                            cate_method, ite_inf, sd_ite_inf, cate_SL_library,
+                            t_pvalue)
   expect_true(class(cate_inf$summary) == "data.frame")
 })

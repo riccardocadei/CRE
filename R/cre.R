@@ -8,32 +8,37 @@
 #' @param y The observed response vector.
 #' @param z The treatment vector.
 #' @param X The covariate matrix.
-#' @param method_params Parameters for individual treatment effect, includig:
+#' @param method_params Parameters for individual treatment effect, including:
+#'   - *Parameters for Honest Splitting*
+#'     - *ratio_dis*: The ratio of data delegated to rules discovery
+#'     (default: 0.5).
 #'   - *Parameters for Discovery*
-#'     - *ratio_dis*: The ratio of data delegated to the discovery sub-sample.
-#'     - *ite_method_dis*: The method to estimate the discovery sample ITE.
+#'     - *ite_method_dis*: The method to estimate the discovery sample ITE
+#'     (default: 'aipw').
 #'     - *include_ps_dis*: Whether or not to include propensity score estimate
 #'       as a covariate in discovery ITE estimation, considered only for BART,
-#'       or CF.
+#'       or CF (default: TRUE).
 #'     - *ps_method_dis*: The estimation model for the propensity score on the
-#'       discovery subsample.
+#'       discovery subsample (default: 'SL.xgboost').
 #'     - *or_method_dis*: The estimation model for the outcome regressions
-#'       estimate_ite_aipw on the discovery subsample.
+#'       estimate_ite_aipw on the discovery subsample (default: 'SL.xgboost').
 #'   - *Parameters for Inference*
-#'     - *ite_method_inf*: The method to estimate the inference sample ITE.
+#'     - *ite_method_inf*: The method to estimate the inference sample ITE
+#'     (default: 'aipw').
 #'     - *include_ps_inf*: Whether or not to include propensity score estimate
 #'       as a covariate in inference ITE estimation, considered only for BART,
-#'       or CF.
+#'       or CF (default: TRUE).
 #'     - *ps_method_inf*: The estimation model for the propensity score on the
-#'       inference subsample.
+#'       inference subsample (default: 'SL.xgboost').
 #'     - *or_method_inf*: The estimation model for the outcome regressions in
-#'       estimate_ite_aipw on the inference subsample.
+#'       estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
+#'     - *cate_method*: The method to estimate the CATE values
+#'     (default: 'linreg').
+#'     - *cate_SL_library*: The library used if cate_method is set to DRLearner
+#'     (default: 'SL.xgboost').
 #'   - *Other Parameters*
-#'     - *include_offset*: Whether to include an offset (i.e. model outcome
-#'       rate) or not (i.e. model outcome counts) for Poisson ITE Estimation
-#'     - *offset_name*: The name of the covariate to use as offset (i.e. 'x1')
-#'     - *cate_method*: The method to estimate the CATE values.
-#'     - *cate_SL_library*: The library used if cate_method is set to DRLearner.
+#'     - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
+#'     Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 #'
 #' @param hyper_params The list of parameters required to tune the functions,
 #' including:
@@ -64,8 +69,12 @@
 #' Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
 #'
 #' @return
-#' An S3 object containing the matrix of Conditional
-#'  Average Treatment Effect estimates
+#' An S3 object containing:
+#' - the number of Decision Rules extracted at each step
+#' - the matrix of Conditional Average Treatment Effect decomposition estimates
+#' - the Conditional Average Treatment Effect estimation method
+#' - the Conditional Average Treatment Effect estimation model
+#' - the Individual Treatment Effect predicted
 #'
 #' @export
 #'
@@ -89,10 +98,9 @@
 #'                       ps_method_inf = "SL.xgboost",
 #'                       oreg_method_inf = "SL.xgboost",
 #'                       include_ps_inf = TRUE,
-#'                       include_offset = FALSE,
 #'                       cate_method = "linreg",
 #'                       cate_SL_library = "SL.xgboost",
-#'                       offset_name = NA,
+#'                       offset = NULL,
 #'                       random_state = 3591)
 #'
 #' hyper_params <- list(ntrees_rf = 100,
@@ -118,7 +126,9 @@ cre <- function(y, z, X, method_params, hyper_params){
   # Input checks ---------------------------------------------------------------
   logger::log_info("Loading dataset...")
   check_input_data(y = y, z = z, X = X)
-  method_params <- check_method_params(y = y, params = method_params)
+  method_params <- check_method_params(y = y,
+                                       X_names = names(X),
+                                       params = method_params)
   check_hyper_params(params = hyper_params)
 
   # Honest Splitting -----------------------------------------------------------
@@ -156,8 +166,7 @@ cre <- function(y, z, X, method_params, hyper_params){
                    ps_method = getElement(method_params,"ps_method_dis"),
                    oreg_method = getElement(method_params,"oreg_method_dis"),
                    X_names = X_names,
-                   include_offset = getElement(method_params,"include_offset"),
-                   offset_name = getElement(method_params,"offset_name"),
+                   offset = getElement(method_params,"offset"),
                    random_state = getElement(method_params, "random_state"))
   en_ite_t <- proc.time()
   logger::log_debug("Finished Estimating ITE. ",
@@ -210,8 +219,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   # Estimate CATE --------------------------------------------------------------
   logger::log_info("Estimating CATE...")
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
-                            getElement(method_params,"include_offset"),
-                            getElement(method_params,"offset_name"),
+                            getElement(method_params,"offset"),
                             rules_matrix_inf, causal_rules_int,
                             getElement(method_params,"cate_method"),
                             ite_inf, sd_ite_inf,

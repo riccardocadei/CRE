@@ -1,8 +1,10 @@
 ## CRE (Developing)
 
 ### Changed
+* Rename  `offset_name` parameters with `offset`.
 
 ### Added
+* Default values for method parameters.
 * Simulation experiments for estimation (`estimation.R`).
 * Simulation experiments for discovery (`discovery.R`).
 * `extract_effect_modifiers` function (util for peroformance evaluation).
@@ -13,6 +15,7 @@
 domain.
 
 ### Removed 
+* `include_offset` method parameter.
 
 
 

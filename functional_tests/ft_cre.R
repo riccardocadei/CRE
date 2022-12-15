@@ -21,10 +21,9 @@ method_params = list(ratio_dis = 0.25,
                      oreg_method_inf = "SL.xgboost",
                      ite_method_inf = "bart",
                      include_ps_inf = TRUE,
-                     include_offset = FALSE,
                      cate_method = "linreg",
                      cate_SL_library = "SL.xgboost",
-                     offset_name = NA,
+                     offset = NULL,
                      random_state = 3591)
 
 hyper_params = list(intervention_vars = c(),

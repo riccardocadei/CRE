@@ -10,9 +10,8 @@
 #' @param z_inf The treatment vector for the inference subsample.
 #' @param X_inf The covariate vector for the inference subsample.
 #' @param X_names The names of the covariates.
-#' @param include_offset Whether or not to include an offset when estimating the
-#'  ITE, for poisson only.
-#' @param offset_name The name of the offset, if it is to be included.
+#' @param offset Name of the covariate to use as offset (i.e. 'x1') for
+#' Poisson Estimation. NULL if offset is not used.
 #' @param rules_matrix_inf The standardized causal rules matrix for the
 #' inference subsample.
 #' @param select_rules_interpretable The list of select causal rules in terms of
@@ -32,8 +31,7 @@
 #' @keywords internal
 #'
 #'
-estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
-                          offset_name, rules_matrix_inf,
+estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf,
                           select_rules_interpretable,
                           cate_method, ite_inf, sd_ite_inf,
                           cate_SL_library, t_pvalue) {
@@ -73,9 +71,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
       colnames(rules_matrix_inf) <- select_rules_interpretable
       colnames(X_inf) <- X_names
-      if (include_offset) {
-        X_offset <- X_inf[,which(X_names == offset_name)]
-        X_inf <- X_inf[,-which(X_names == offset_name)]
+      if (!is.null(offset)) {
+        X_offset <- X_inf[,which(X_names == offset)]
+        X_inf <- X_inf[,-which(X_names == offset)]
 
         # Fit gnm model
         conditional_gnm <- gnm::gnm(y_inf ~ offset(log(X_offset)) + z_inf +

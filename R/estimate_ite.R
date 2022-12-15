@@ -26,9 +26,9 @@
 #'   - `cf`: Causal Forest
 #'     - `include_ps` and `ps_method`
 #'   - `poisson`: Poisson Estimation
-#'     - `X_names`, `include_offset`, `offset_name`
+#'     - `X_names`, `offset`
 #' @param is_y_binary whether or not the outcome is binary
-#' @param ... A dditional parameters passed to different models.
+#' @param ... Additional parameters passed to different models.
 #' @details
 #' ## Additional parameters
 #'   - **include_ps**: Whether or not to include propensity score estimate as a
@@ -38,9 +38,8 @@
 #'   - **oreg_method**: The estimation model for the outcome regressions. This
 #'   include libraries for the SuperLearner package.
 #'   - **X_names**: The names of the covariates. (TODO: Remove from input params.)
-#'   - **include_offset**: Whether or not to include an offset when estimating
-#'   the ITE.
-#'   - **offset_name**: The name of the offset.
+#'   - **offset**: Name of the covariate to use as offset (i.e. 'x1') for
+#'     Poisson ITE Estimation. NULL if offset is not used.
 #'
 #' @return
 #' A list that includes:
@@ -54,7 +53,7 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
 
 
   # Address visible binding error.
-  X_names <- include_offset <- offset_name <- random_state <- NULL
+  X_names <- offset <- random_state <- NULL
   include_ps <- ps_method <- ps_method_dis <- ps_method_inf <- NULL
   oreg_method <- NULL
 
@@ -108,8 +107,8 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
     ite <- ite_results[[1]]
     sd_ite <- ite_results[[2]]
   } else if (ite_method == "poisson") {
-    check_args(c('include_offset', 'offset_name', 'X_names'), arg_names)
-    ite <- estimate_ite_poisson(y, z, X, X_names, include_offset, offset_name)
+    check_args(c('offset', 'X_names'), arg_names)
+    ite <- estimate_ite_poisson(y, z, X, X_names, offset)
     sd_ite <- NA
   } else {
     stop(paste("Invalid ITE method. Please choose from the following:\n",

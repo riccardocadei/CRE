@@ -4,24 +4,23 @@
 \alias{estimate_ite_poisson}
 \title{Estimate the Individual Treatment Effect using Poisson Regression}
 \usage{
-estimate_ite_poisson(y, z, X, X_names, include_offset, offset_name)
+estimate_ite_poisson(y, z, X, X_names, offset)
 }
 \arguments{
-\item{y}{the observed response vector}
+\item{y}{The observed response vector.}
 
-\item{z}{the treatment vector}
+\item{z}{The treatment vector.}
 
-\item{X}{the features matrix}
+\item{X}{The features matrix.}
 
-\item{X_names}{the names of the covariates}
+\item{X_names}{The names of the covariates.}
 
-\item{include_offset}{whether to include an offset (i.e. model outcome rate)
-or not (i.e. model outcome counts)}
-
-\item{offset_name}{the name of the covariate to use as offset (i.e. 'x1')}
+\item{offset}{Name of the covariate to use as offset (i.e. 'x1') to model the
+corresponding outcome rate. NULL to model drectly the outcome counts without
+offset.}
 }
 \value{
-a vector of ITE estimates
+A vector of ITE estimates
 }
 \description{
 Estimates the Individual Treatment Effect using Poisson Regression given a

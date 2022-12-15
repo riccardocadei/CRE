@@ -13,38 +13,45 @@ cre(y, z, X, method_params, hyper_params)
 
 \item{X}{The covariate matrix.}
 
-\item{method_params}{Parameters for individual treatment effect, includig:
+\item{method_params}{Parameters for individual treatment effect, including:
 \itemize{
+\item \emph{Parameters for Honest Splitting}
+\itemize{
+\item \emph{ratio_dis}: The ratio of data delegated to rules discovery
+(default: 0.5).
+}
 \item \emph{Parameters for Discovery}
 \itemize{
-\item \emph{ratio_dis}: The ratio of data delegated to the discovery sub-sample.
-\item \emph{ite_method_dis}: The method to estimate the discovery sample ITE.
+\item \emph{ite_method_dis}: The method to estimate the discovery sample ITE
+(default: 'aipw').
 \item \emph{include_ps_dis}: Whether or not to include propensity score estimate
 as a covariate in discovery ITE estimation, considered only for BART,
-or CF.
+or CF (default: TRUE).
 \item \emph{ps_method_dis}: The estimation model for the propensity score on the
-discovery subsample.
+discovery subsample (default: 'SL.xgboost').
 \item \emph{or_method_dis}: The estimation model for the outcome regressions
-estimate_ite_aipw on the discovery subsample.
+estimate_ite_aipw on the discovery subsample (default: 'SL.xgboost').
 }
 \item \emph{Parameters for Inference}
 \itemize{
-\item \emph{ite_method_inf}: The method to estimate the inference sample ITE.
+\item \emph{ite_method_inf}: The method to estimate the inference sample ITE
+(default: 'aipw').
 \item \emph{include_ps_inf}: Whether or not to include propensity score estimate
 as a covariate in inference ITE estimation, considered only for BART,
-or CF.
+or CF (default: TRUE).
 \item \emph{ps_method_inf}: The estimation model for the propensity score on the
-inference subsample.
+inference subsample (default: 'SL.xgboost').
 \item \emph{or_method_inf}: The estimation model for the outcome regressions in
-estimate_ite_aipw on the inference subsample.
+estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
+\item \emph{cate_method}: The method to estimate the CATE values
+(default: 'linreg').
+\item \emph{cate_SL_library}: The library used if cate_method is set to DRLearner
+(default: 'SL.xgboost').
 }
 \item \emph{Other Parameters}
 \itemize{
-\item \emph{include_offset}: Whether to include an offset (i.e. model outcome
-rate) or not (i.e. model outcome counts) for Poisson ITE Estimation
-\item \emph{offset_name}: The name of the covariate to use as offset (i.e. 'x1')
-\item \emph{cate_method}: The method to estimate the CATE values.
-\item \emph{cate_SL_library}: The library used if cate_method is set to DRLearner.
+\item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
+Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 }
 }}
 
@@ -79,8 +86,14 @@ Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
 }}
 }
 \value{
-An S3 object containing the matrix of Conditional
-Average Treatment Effect estimates
+An S3 object containing:
+\itemize{
+\item the number of Decision Rules extracted at each step
+\item the matrix of Conditional Average Treatment Effect decomposition estimates
+\item the Conditional Average Treatment Effect estimation method
+\item the Conditional Average Treatment Effect estimation model
+\item the Individual Treatment Effect predicted
+}
 }
 \description{
 Performs the Causal Rule Ensemble on a data set with a response variable,
@@ -106,10 +119,9 @@ method_params <- list(ratio_dis = 0.25,
                       ps_method_inf = "SL.xgboost",
                       oreg_method_inf = "SL.xgboost",
                       include_ps_inf = TRUE,
-                      include_offset = FALSE,
                       cate_method = "linreg",
                       cate_SL_library = "SL.xgboost",
-                      offset_name = NA,
+                      offset = NULL,
                       random_state = 3591)
 
 hyper_params <- list(ntrees_rf = 100,
