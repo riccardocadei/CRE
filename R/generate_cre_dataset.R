@@ -16,8 +16,8 @@
 #' @param binary_outcome Whether to use binary or continuous outcomes
 #' (default: TRUE)
 #' @param confounding Only for continuous outcome,add confounding variables:
-#' linear confounding "lc", non-linear confounding "nlc", no confounding "nc"
-#' (default: "nc")
+#' linear confounding "lin", non-linear confounding "nonlin",
+#' no confounding "no" (default: "no")
 #'
 #' @return
 #' A list of synthetic data containing:
@@ -41,13 +41,13 @@
 #' set.seed(123)
 #' dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
 #'                                 effect_size = 2, binary_covariates = TRUE,
-#'                                 binary_outcome = TRUE, confounding = "nc")
+#'                                 binary_outcome = TRUE, confounding = "no")
 #'
 #' @export
 #'
 generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
                                  effect_size = 2, binary_covariates = TRUE,
-                                 binary_outcome = TRUE, confounding = "nc") {
+                                 binary_outcome = TRUE, confounding = "no") {
 
   # Check for correct binary input
   if (!(binary_outcome %in% c(TRUE, FALSE))) {
@@ -79,15 +79,17 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
     y1 <- rep(0, n)
     effect_size <- 1
   } else {
-    if (confounding=="lc"){
+    if (confounding=="lin"){
       mean <- X$x1 + X$x3 + X$x4
-    } else if (confounding=="nlc"){
+    } else if (confounding=="nonlin"){
       mean <- X$x1 + cos(X$x3)
-    } else if (confounding=="nc"){
+    } else if (confounding=="no"){
       mean <- 0
     } else{
-      stop("Invalid 'confounding' input. Please input: 'lc' (linear confounding),
-           'nlc' non-linear confounding, 'nc' no confounding")
+      stop("Invalid 'confounding' input. Please input:
+           'lin' for linear confounding,
+           'nonlin' for non-linear confounding),
+           'no' for no confounding")
     }
     y0 <- stats::rnorm(n, mean = mean, sd = 1)
     y1 <- y0

@@ -106,7 +106,7 @@ The CRE package can generate synthetic data that can be used to test different f
                                   effect_size = 2, 
                                   binary_covariates = TRUE,
                                   binary_outcome = FALSE,
-                                  confounding = "nc")
+                                  confounding = "no")
   y <- dataset[["y"]]
   z <- dataset[["z"]]
   X <- dataset[["X"]]

@@ -92,7 +92,7 @@ a treatment variable, and various features
 set.seed(2021)
 dataset <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
                                 effect_size = 2, binary_covariates = TRUE,
-                                binary_outcome = FALSE)
+                                binary_outcome = FALSE, confounding = "no")
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]

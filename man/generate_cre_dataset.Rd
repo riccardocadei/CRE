@@ -12,7 +12,7 @@ generate_cre_dataset(
   effect_size = 2,
   binary_covariates = TRUE,
   binary_outcome = TRUE,
-  confounding = "nc"
+  confounding = "no"
 )
 }
 \arguments{
@@ -35,8 +35,8 @@ within the covariates (default: 0).}
 (default: TRUE)}
 
 \item{confounding}{Only for continuous outcome,add confounding variables:
-linear confounding "lc", non-linear confounding "nlc", no confounding "nc"
-(default: "nc")}
+linear confounding "lin", non-linear confounding "nonlin",
+no confounding "no" (default: "no")}
 }
 \value{
 A list of synthetic data containing:
@@ -51,7 +51,9 @@ A list of synthetic data containing:
 Generates synthetic data with continues or binary outcome
 }
 \note{
-Increase complexity of the synthetic dataset:
+Set (binary/continuous) covariates domain (binary_covariates)
+Set (binary/continuous) outcome domain (binary_outcome)
+Increase complexity of the synthetic data set:
 \itemize{
 \item decreasing the sample size (n)
 \item adding correlation among variables (rho)
@@ -65,6 +67,6 @@ Increase complexity of the synthetic dataset:
 set.seed(123)
 dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
                                 effect_size = 2, binary_covariates = TRUE,
-                                binary_outcome = TRUE, confounding = "nc")
+                                binary_outcome = TRUE, confounding = "no")
 
 }
