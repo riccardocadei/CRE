@@ -134,12 +134,7 @@ autoplot.cre <- function(object, ...){
 #' @export
 #'
 plot.cre <- function(x, ...){
-
-   ## collect additional arguments
-  dot_args <- list(...)
-  arg_names <- names(dot_args)
-  for (i in arg_names){ assign(i,unlist(dot_args[i],use.names = FALSE))}
-  if (object[["M"]]["Causal (significant)"]==0) {
+  if (x[["M"]]["Causal (significant)"]==0) {
     message("Visualization not available (0 causal decision rules discovered).")
   } else {
     g <- ggplot2::autoplot(x, ...)
