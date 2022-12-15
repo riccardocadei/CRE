@@ -61,16 +61,14 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
                                ps_method = ps_method_dis,
                                oreg_method = oreg_method_dis,
                                X_names = X_names,
-                               offset = offset,
-                               random_state = 112)
+                               offset = offset)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Step 3: Generate rules list
   initial_rules_dis <- generate_rules(X_dis, ite_std_dis, intervention_vars,
                                       ntrees_rf, ntrees_gbm, node_size,
-                                      max_nodes, max_depth, replace,
-                                      random_state = 981)
+                                      max_nodes, max_depth, replace)
 
   rules_list_dis <- filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
@@ -97,8 +95,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               offset = offset,
-                               random_state = 2568)
+                               offset = offset)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
@@ -185,16 +182,14 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
                                oreg_method = oreg_method_dis,
                                is_y_binary = binary_outcome,
                                X_names = X_names,
-                               offset = offset,
-                               random_state = 234)
+                               offset = offset)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
   initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
                                             ntrees_rf, ntrees_gbm, node_size,
-                                            max_nodes, max_depth, replace,
-                                            random_state = 214)
+                                            max_nodes, max_depth, replace)
 
   rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
@@ -219,8 +214,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               offset = offset,
-                               random_state = 2568)
+                               offset = offset)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
@@ -307,16 +301,14 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                oreg_method = oreg_method_dis,
                                is_y_binary = binary_outcome,
                                X_names = X_names,
-                               offset = offset,
-                               random_state = 234)
+                               offset = offset)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
   initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
                                             ntrees_rf, ntrees_gbm, node_size,
-                                            max_nodes, max_depth, replace,
-                                            random_state = 214)
+                                            max_nodes, max_depth, replace)
 
   rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
@@ -341,8 +333,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               offset = offset,
-                               random_state = 2568)
+                               offset = offset)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
@@ -428,16 +419,14 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                oreg_method = oreg_method_dis,
                                is_y_binary = binary_outcome,
                                X_names = X_names,
-                               offset = offset,
-                               random_state = 234)
+                               offset = offset)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
   initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
                                             ntrees_rf, ntrees_gbm, node_size,
-                                            max_nodes, max_depth, replace,
-                                            random_state = 214)
+                                            max_nodes, max_depth, replace)
 
   rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
@@ -462,8 +451,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               offset = offset,
-                               random_state = 2568)
+                               offset = offset)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
@@ -549,16 +537,14 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
                                oreg_method = oreg_method_dis,
                                is_y_binary = binary_outcome,
                                X_names = X_names,
-                               offset = offset,
-                               random_state = 234)
+                               offset = offset)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
   initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
                                             ntrees_rf, ntrees_gbm, node_size,
-                                            max_nodes, max_depth, replace,
-                                            random_state = 214)
+                                            max_nodes, max_depth, replace)
 
   rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
@@ -583,8 +569,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               offset = offset,
-                               random_state = 2568)
+                               offset = offset)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
@@ -672,16 +657,14 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
                                oreg_method = oreg_method_dis,
                                is_y_binary = binary_outcome,
                                X_names = X_names,
-                               offset = offset,
-                               random_state = 234)
+                               offset = offset)
   ite_dis <- ite_list_dis[["ite"]]
   ite_std_dis <- ite_list_dis[["ite_std"]]
 
   # Generate rules list
   initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
                                             ntrees_rf, ntrees_gbm, node_size,
-                                            max_nodes, max_depth, replace,
-                                            random_state = 214)
+                                            max_nodes, max_depth, replace)
 
   rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
 
@@ -707,8 +690,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               offset = offset,
-                               random_state = 2568)
+                               offset = offset)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
@@ -741,8 +723,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
-                               offset = offset,
-                               random_state = 2568)
+                               offset = offset)
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]

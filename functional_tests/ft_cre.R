@@ -43,7 +43,6 @@ hyper_params = list(intervention_vars = c(),
                     pfer = 1,
                     penalty_rl = 1)
 
-
 cre_result <- cre(y, z, X, method_params, hyper_params)
 summary(cre_result, method_params, hyper_params)
 plot(cre_result)

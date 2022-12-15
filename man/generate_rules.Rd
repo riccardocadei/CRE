@@ -13,8 +13,7 @@ generate_rules(
   node_size,
   max_nodes,
   max_depth,
-  replace,
-  random_state
+  replace
 )
 }
 \arguments{
@@ -38,8 +37,6 @@ have.}
 to extract conditions.}
 
 \item{replace}{Boolean variable for replacement in bootstrapping.}
-
-\item{random_state}{An integer number that represents a random state.}
 }
 \value{
 List of generated Decision Rules

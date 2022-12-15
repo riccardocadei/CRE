@@ -121,8 +121,7 @@ method_params <- list(ratio_dis = 0.25,
                       include_ps_inf = TRUE,
                       cate_method = "linreg",
                       cate_SL_library = "SL.xgboost",
-                      offset = NULL,
-                      random_state = 3591)
+                      offset = NULL)
 
 hyper_params <- list(ntrees_rf = 100,
                      ntrees_gbm = 50,

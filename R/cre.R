@@ -100,8 +100,7 @@
 #'                       include_ps_inf = TRUE,
 #'                       cate_method = "linreg",
 #'                       cate_SL_library = "SL.xgboost",
-#'                       offset = NULL,
-#'                       random_state = 3591)
+#'                       offset = NULL)
 #'
 #' hyper_params <- list(ntrees_rf = 100,
 #'                      ntrees_gbm = 50,
@@ -166,8 +165,7 @@ cre <- function(y, z, X, method_params, hyper_params){
                    ps_method = getElement(method_params,"ps_method_dis"),
                    oreg_method = getElement(method_params,"oreg_method_dis"),
                    X_names = X_names,
-                   offset = getElement(method_params,"offset"),
-                   random_state = getElement(method_params, "random_state"))
+                   offset = getElement(method_params,"offset"))
   en_ite_t <- proc.time()
   logger::log_debug("Finished Estimating ITE. ",
                     " Wall clock time: {(en_ite_t - st_ite_t)[[3]]} seconds.")
@@ -200,8 +198,7 @@ cre <- function(y, z, X, method_params, hyper_params){
                    oreg_method = getElement(method_params,"oreg_method_inf"),
                    X_names = X_names,
                    include_offset = getElement(method_params,"include_offset"),
-                   offset_name = getElement(method_params,"offset_name"),
-                   random_state = getElement(method_params, "random_state"))
+                   offset_name = getElement(method_params,"offset_name"))
 
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]

@@ -42,9 +42,10 @@ Input parameters:
 **`y`** The observed response/outcome vector (binary or continuos).
 **`z`** The treatment/exposure/policy vector (binary).    
 **`X`** The covariate matrix (binary or continuos).    
-**`method_params`** Parameters for estimating the individual treatment effect, including:    
+**`method_params`** Parameters for estimating the individual treatment effect, including:  
+__Parameters for Honest Splitting__
+- **`ratio_dis`** The ratio of data delegated to the discovery sub-sample. 
 __Parameters for Discovery__           
-- **`ratio_dis`** The ratio of data delegated to the discovery sub-sample.     
 - **`ite_method_dis`** The method to estimate the discovery sub-sample in estimating individual treatment effect (ITE).    
 - **`include_ps_dis`**  Whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, or CF.    
 - **`ps_method_dis`** The estimation model for the propensity score on the discovery sub-sample.    
@@ -54,11 +55,10 @@ __Parameters for Inference__
 - **`include_ps_inf`** Whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, or CF.     
 - **`ps_method_inf`** The estimation model for the propensity score on the inference subsample.     
 - **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample.     
-__Other Parameters__
-- **`include_offset`** Whether or not to include an offset when estimating the ITE, for Poisson only.     
-- **`offset_name`** The name of the offset, if it is to be included.     
 - **`cate_method`** The method to estimate the conditional average treatment effect (CATE) values.     
 - **`cate_SL_library`** The library used if cate_method is set to DRLearner.    
+__Other Parameters__
+- **`offset`** Name of the covariate to use as offset (i.e. 'x1') for Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 **`hyper_params`** The list of parameters required to tune the functions, including:    
 - **`effect_modifiers`** Effect Modifiers for Rules Generation.     
 - **`ntrees_rf`** The number of decision trees for randomForest.     
@@ -122,8 +122,7 @@ The CRE package can generate synthetic data that can be used to test different f
                        include_ps_inf = TRUE,
                        cate_method = "linreg",
                        cate_SL_library = "SL.xgboost",
-                       offset = NULL,
-                       random_state = 3591)
+                       offset = NULL)
 
  hyper_params = list(interaction_vars = c(),
                      ntrees_rf = 100,

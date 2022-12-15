@@ -5,7 +5,7 @@
 \title{Estimate the Individual Treatment Effect using Bayesian Additive Regression
 Trees}
 \usage{
-estimate_ite_bart(y, z, X, include_ps, ps_method, random_state)
+estimate_ite_bart(y, z, X, include_ps, ps_method)
 }
 \arguments{
 \item{y}{the observed response vector}
@@ -18,8 +18,6 @@ estimate_ite_bart(y, z, X, include_ps, ps_method, random_state)
 covariate in ITE estimation}
 
 \item{ps_method}{method for the estimation of the propensity score}
-
-\item{random_state}{An integer value for random state.}
 }
 \value{
 a list of ITE estimates and standard deviations for the ITE estimates

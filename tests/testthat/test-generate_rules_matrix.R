@@ -42,7 +42,7 @@ test_that("Rules Extracted Correctly", {
   # Step 3: Generate rules list
   initial_rules <- generate_rules(X, ite_std, intervention_vars, ntrees_rf,
                                   ntrees_gbm, node_size, max_nodes, max_depth,
-                                  replace, random_state = 2389)
+                                  replace)
 
   rules <- filter_irrelevant_rules(initial_rules, X, ite_std, max_decay, type_decay)
 

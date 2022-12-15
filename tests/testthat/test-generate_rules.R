@@ -38,7 +38,7 @@ test_that("generate_rules works as expected!", {
 
   # Correct outputs
   rules <- generate_rules(X, ite_std, intervention_vars, ntrees_rf, ntrees_gbm,
-                          node_size, max_nodes, max_depth, replace, random_state = 215)
+                          node_size, max_nodes, max_depth, replace)
 
   expect_true(class(rules) == "character")
 

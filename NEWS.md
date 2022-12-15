@@ -15,6 +15,7 @@
 domain.
 
 ### Removed 
+* `random_state` parameter.
 * `include_offset` method parameter.
 
 
