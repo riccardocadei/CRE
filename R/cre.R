@@ -42,31 +42,35 @@
 #'
 #' @param hyper_params The list of parameters required to tune the functions,
 #' including:
-#'  - *intervention_vars*: Intervention-able variables used for Rules Generation.
-#'  - *ntrees_rf*: The number of decision trees for randomForest.
-#'  - *ntrees_gbm*: The number of decision trees for gradient boosting.
-#'  - *node_size*: The minimum size of the trees' terminal nodes.
+#'  - *intervention_vars*: Intervention-able variables used for Rules Generation
+#'  (default: NULL).
+#'  - *ntrees_rf*: The number of decision trees for randomForest (default: 100).
+#'  - *ntrees_gbm*: The number of decision trees for gradient boosting
+#'  (default: 0).
+#'  - *node_size*: The minimum size of the trees' terminal nodes (default: 20).
 #'  - *max_nodes*: The maximum number of terminal nodes trees in the forest can
-#'   have.
+#'   have (default: 5).
 #'  - *max_depth*: The number of top levels from each tree considered
-#' to extract conditions.
-#'  - *replace*: Boolean variable for replacement in bootstrapping.
-#'  - *max_decay*: Decay Threshold for pruning the rules.
-#'  - *type_decay*: Decay Type for pruning the rules
-#'  (1: relative error; 2: error).
+#' to extract conditions (default: 3).
+#'  - *replace*: Boolean variable for replacement in bootstrapping
+#'  (default: TRUE).
+#'  - *max_decay*: Decay Threshold for pruning the rules (default: 0.025).
+#'  - *type_decay*: Decay Type for pruning the rules: 1 relative error; 2 error
+#'  (default: 2).
 #'  - *t_ext*: The threshold to define too generic or too specific (extreme)
-#'  rules.
-#'  - *t_corr*: The threshold to define correlated rules.
+#'  rules (default: 0.01).
+#'  - *t_corr*: The threshold to define correlated rules (default: 1).
 #'  - *t_pvalue*: the threshold to define statistically significant rules
-#' (filter only causal decision rules with p-value <= t_pvalue).
+#' (default: 0.05).
 #'  - *stability_selection*: Whether or not using stability selection for
-#'  selecting the causal rules.
+#'  selecting the causal rules (default: TRUE).
 #'  - *cutoff*:  Threshold defining the minimum cutoff value for the stability
-#' scores.
+#' scores (default: 0.9).
 #'  - *pfer*: Upper bound for the per-family error rate (tolerated amount of
-#' falsely selected rules).
+#' falsely selected rules) (default: 1).
 #'  - *penalty_rl*: Order of penalty for rules length during LASSO for Causal
 #' Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
+#' (default: 1).
 #'
 #' @return
 #' An S3 object containing:
@@ -120,7 +124,7 @@
 #'
 #' cre_results <- cre(y, z, X, method_params, hyper_params)
 #'}
-cre <- function(y, z, X, method_params, hyper_params){
+cre <- function(y, z, X, method_params=list(), hyper_params=list()){
 
   # Input checks ---------------------------------------------------------------
   logger::log_info("Loading dataset...")
@@ -128,7 +132,7 @@ cre <- function(y, z, X, method_params, hyper_params){
   method_params <- check_method_params(y = y,
                                        X_names = names(X),
                                        params = method_params)
-  check_hyper_params(params = hyper_params)
+  hyper_params <- check_hyper_params(params = hyper_params)
 
   # Honest Splitting -----------------------------------------------------------
   logger::log_info("(Honest) Splitting the dataset...")

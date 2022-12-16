@@ -4,7 +4,7 @@ set.seed(2021)
 n_rules <- 2
 sample_size <- 2000
 effect_size <- 5
-confounding <- "nc"
+confounding <- "no"
 ite_estimator_dis <- "aipw"
 ite_estimator_inf <- "aipw"
 pfer <- 1
@@ -20,19 +20,17 @@ method_params <- list(ratio_dis = 0.5,
                       ps_method_inf = "SL.xgboost",
                       oreg_method_inf = "SL.xgboost",
                       include_ps_inf = TRUE,
-                      include_offset = FALSE,
                       cate_method = "linreg",
                       cate_SL_library = "SL.xgboost",
                       filter_cate = TRUE,
-                      offset_name = NA,
-                      random_state = 3591)
+                      offset = NULL)
 
-hyper_params <- list(intervention_vars = c(),
+hyper_params <- list(intervention_vars = NULL,
                      ntrees_rf = 100,
                      ntrees_gbm = 0,
                      node_size = 20,
                      max_nodes = 5,
-                     max_depth = 15,
+                     max_depth = 3,
                      max_decay = 0,
                      type_decay = 2,
                      t_ext = 0.025,

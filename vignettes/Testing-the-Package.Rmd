@@ -128,7 +128,7 @@ method_params = list(ratio_dis = 0.25,
                      cate_SL_library = "SL.xgboost",
                      offset = NULL)
 
-hyper_params = list(intervention_vars = c(),
+hyper_params = list(intervention_vars = NULL,
                     ntrees_rf = 200,
                     ntrees_gbm = 200,
                     node_size = 20,

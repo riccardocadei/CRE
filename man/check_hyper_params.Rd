@@ -10,7 +10,8 @@ check_hyper_params(params)
 \item{params}{The list of parameters required to run the function.}
 }
 \value{
-No return value. This function is called for side effects.
+A modified input \code{params}. A list of parameters that might be changed during
+the checks.
 }
 \description{
 Checks consistency in input (hyper) parameters for the cre function.

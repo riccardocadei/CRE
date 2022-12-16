@@ -31,7 +31,7 @@ hyper_params = list(intervention_vars = c(),
                     ntrees_gbm = 200,
                     node_size = 20,
                     max_nodes = 5,
-                    max_depth = 15,
+                    max_depth = 3,
                     replace = TRUE,
                     max_decay = 0.025,
                     type_decay = 2,
@@ -43,6 +43,6 @@ hyper_params = list(intervention_vars = c(),
                     pfer = 1,
                     penalty_rl = 1)
 
-cre_result <- cre(y, z, X, method_params, hyper_params)
+cre_result <- cre(y, z, X) #, method_params, hyper_params)
 summary(cre_result, method_params, hyper_params)
 plot(cre_result)

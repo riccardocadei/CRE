@@ -2,8 +2,10 @@
 
 ### Changed
 * Rename  `offset_name` parameters with `offset`.
+* Hyper and Method parameters are no more required arguments for `cre`.
 
 ### Added
+* Default values for hyper parameters.
 * Default values for method parameters.
 * Simulation experiments for estimation (`estimation.R`).
 * Simulation experiments for discovery (`discovery.R`).

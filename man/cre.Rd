@@ -4,7 +4,7 @@
 \alias{cre}
 \title{The Causal Rule Ensemble}
 \usage{
-cre(y, z, X, method_params, hyper_params)
+cre(y, z, X, method_params = list(), hyper_params = list())
 }
 \arguments{
 \item{y}{The observed response vector.}
@@ -58,31 +58,35 @@ Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 \item{hyper_params}{The list of parameters required to tune the functions,
 including:
 \itemize{
-\item \emph{intervention_vars}: Intervention-able variables used for Rules Generation.
-\item \emph{ntrees_rf}: The number of decision trees for randomForest.
-\item \emph{ntrees_gbm}: The number of decision trees for gradient boosting.
-\item \emph{node_size}: The minimum size of the trees' terminal nodes.
+\item \emph{intervention_vars}: Intervention-able variables used for Rules Generation
+(default: NULL).
+\item \emph{ntrees_rf}: The number of decision trees for randomForest (default: 100).
+\item \emph{ntrees_gbm}: The number of decision trees for gradient boosting
+(default: 0).
+\item \emph{node_size}: The minimum size of the trees' terminal nodes (default: 20).
 \item \emph{max_nodes}: The maximum number of terminal nodes trees in the forest can
-have.
+have (default: 5).
 \item \emph{max_depth}: The number of top levels from each tree considered
-to extract conditions.
-\item \emph{replace}: Boolean variable for replacement in bootstrapping.
-\item \emph{max_decay}: Decay Threshold for pruning the rules.
-\item \emph{type_decay}: Decay Type for pruning the rules
-(1: relative error; 2: error).
+to extract conditions (default: 3).
+\item \emph{replace}: Boolean variable for replacement in bootstrapping
+(default: TRUE).
+\item \emph{max_decay}: Decay Threshold for pruning the rules (default: 0.025).
+\item \emph{type_decay}: Decay Type for pruning the rules: 1 relative error; 2 error
+(default: 2).
 \item \emph{t_ext}: The threshold to define too generic or too specific (extreme)
-rules.
-\item \emph{t_corr}: The threshold to define correlated rules.
+rules (default: 0.01).
+\item \emph{t_corr}: The threshold to define correlated rules (default: 1).
 \item \emph{t_pvalue}: the threshold to define statistically significant rules
-(filter only causal decision rules with p-value <= t_pvalue).
+(default: 0.05).
 \item \emph{stability_selection}: Whether or not using stability selection for
-selecting the causal rules.
+selecting the causal rules (default: TRUE).
 \item \emph{cutoff}:  Threshold defining the minimum cutoff value for the stability
-scores.
+scores (default: 0.9).
 \item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
-falsely selected rules).
+falsely selected rules) (default: 1).
 \item \emph{penalty_rl}: Order of penalty for rules length during LASSO for Causal
 Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
+(default: 1).
 }}
 }
 \value{

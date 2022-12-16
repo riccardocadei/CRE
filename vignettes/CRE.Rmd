@@ -37,47 +37,50 @@ library("CRE")
 
 # Usage
 
-Input parameters:
+Input arguments:
 
+__Data (required)__   
 **`y`** The observed response/outcome vector (binary or continuos).
 **`z`** The treatment/exposure/policy vector (binary).    
 **`X`** The covariate matrix (binary or continuos).    
-**`method_params`** Parameters for estimating the individual treatment effect, including:  
-__Parameters for Honest Splitting__
-- **`ratio_dis`** The ratio of data delegated to the discovery sub-sample. 
+
+__Method Parameters (not required)__    
+Parameters for estimating the individual treatment effect, including:
+- **`ratio_dis`** The ratio of data delegated to the discovery sub-sample (default: 0.5). 
 __Parameters for Discovery__           
-- **`ite_method_dis`** The method to estimate the discovery sub-sample in estimating individual treatment effect (ITE).    
-- **`include_ps_dis`**  Whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, or CF.    
-- **`ps_method_dis`** The estimation model for the propensity score on the discovery sub-sample.    
-- **`or_method_dis`** The estimation model for the outcome regressions estimate_ite_aipw on the discovery sub-sample.      
+- **`ite_method_dis`** The method to estimate the discovery sub-sample in estimating individual treatment effect (ITE) (default: 'aipw').    
+- **`include_ps_dis`**  Whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, or CF (default: TRUE).    
+- **`ps_method_dis`** The estimation model for the propensity score on the discovery sub-sample (default: 'SL.xgboost').     
+- **`or_method_dis`** The estimation model for the outcome regressions estimate_ite_aipw on the discovery sub-sample (default: 'SL.xgboost').      
 __Parameters for Inference__     
-- **`ite_method_inf`** The method to estimate the inference sample ITE.    
-- **`include_ps_inf`** Whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, or CF.     
-- **`ps_method_inf`** The estimation model for the propensity score on the inference subsample.     
-- **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample.     
-- **`cate_method`** The method to estimate the conditional average treatment effect (CATE) values.     
-- **`cate_SL_library`** The library used if cate_method is set to DRLearner.    
-__Other Parameters__
+- **`ite_method_inf`** The method to estimate the inference sample ITE (default: 'aipw').    
+- **`include_ps_inf`** Whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, or CF (default: TRUE).     
+- **`ps_method_inf`** The estimation model for the propensity score on the inference subsample (default: 'SL.xgboost').     
+- **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').     
+- **`cate_method`** The method to estimate the conditional average treatment effect (CATE) values (default: 'linreg').     
+- **`cate_SL_library`** The library used if cate_method is set to DRLearner (default: 'SL.xgboost').    
+__Other Parameters__        
 - **`offset`** Name of the covariate to use as offset (i.e. 'x1') for Poisson ITE Estimation. NULL if offset is not used (default: NULL).
-**`hyper_params`** The list of parameters required to tune the functions, including:    
-- **`effect_modifiers`** Effect Modifiers for Rules Generation.     
-- **`ntrees_rf`** The number of decision trees for randomForest.     
-- **`ntrees_gbm`** The number of decision trees for gradient boosting.     
-- **`node_size`** The minimum size of the trees' terminal nodes.      
-- **`max_nodes`** The maximum number of terminal nodes trees in the forest can have.    
-- **`max_depth`** The number of top levels from each tree considered to extract conditions.    
-- **`replace`** Boolean variable for replacement in bootstrapping.     
-- **`max_decay`** Decay Threshold for pruning the rules.     
-- **`type_decay`** Decay Type for pruning the rules (1: relative error; 2: error).     
-- **`t_ext`** The threshold to define too generic or too specific (extreme) rules.     
-- **`t_corr`** The threshold to define correlated rules. 
-- **`t_pvalue`** The threshold to define statistically significant rules (filter 
-only causal decision rules with p-value <= t_pvalue).
-- **`stability_selection`** Whether or not using stability selection for selecting the causal rules.
-- **`cutoff`** Threshold defining the minimum cutoff value for the stability scores.
-- **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules).
+
+__Hyper Parameters (not required)__     
+The list of parameters required to tune the functions, including
+- **`intervention_vars`** Intervention-able variables used for Rules Generation (default: NULL).     
+- **`ntrees_rf`** The number of decision trees for randomForest (default: 100).     
+- **`ntrees_gbm`** The number of decision trees for gradient boosting (default: 0).     
+- **`node_size`** The minimum size of the trees' terminal nodes (default: 20).      
+- **`max_nodes`** The maximum number of terminal nodes trees in the forest can have (default: 5).    
+- **`max_depth`** The number of top levels from each tree considered to extract conditions (default: 3).    
+- **`replace`** Boolean variable for replacement in bootstrapping (default: TRUE).     
+- **`max_decay`** Decay Threshold for pruning the rules (default: 0.025).     
+- **`type_decay`** Decay Type for pruning the rules: 1 relative error; 2 error (default: 2).     
+- **`t_ext`** The threshold to define too generic or too specific (extreme) rules (default: 0.01).     
+- **`t_corr`** The threshold to define correlated rules (default: 1). 
+- **`t_pvalue`** The threshold to define statistically significant rules (default: 0.05).
+- **`stability_selection`** Whether or not using stability selection for selecting the causal rules (default: TRUE).
+- **`cutoff`** Threshold defining the minimum cutoff value for the stability scores (default: 0.9).
+- **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).
 - **`penalty_rl`** Order of penalty for rules length during LASSO for Causal
-Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
+Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2) (default: 1).
 
 ### A note on the parameters
 
@@ -90,13 +93,32 @@ Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
 - Bayesian Additive Regression Trees (`bart`)
 - Bayesian Causal Forests (`bcf`)
 - Causal Forests (`cf`)
-- Poisson Regression (`poisson`)
-
-**(2)** The `include_ps_dis` and `include_ps_inf` arguments will only be considered if the ITE method selected is `bart`, `cf`.
+- Poisson Regression (`poisson`).
 
 
 The CRE package can generate synthetic data that can be used to test different features of the package. At the current implementation, the code can generate data with continuous or binary outcomes. 
 
+Example 1 (default parameters).
+```R
+  set.seed(9687)
+  dataset <- generate_cre_dataset(n = 300, 
+                                  rho = 0, 
+                                  n_rules = 2, 
+                                  p = 10,
+                                  effect_size = 2, 
+                                  binary_covariates = TRUE,
+                                  binary_outcome = FALSE,
+                                  confounding = "no")
+  y <- dataset[["y"]]
+  z <- dataset[["z"]]
+  X <- dataset[["X"]]
+
+cre_results <- cre(y, z, X)
+summary(cre_results, method_params, hyper_params)
+plot(cre_results)
+```
+
+Example 2 (setting parameters). 
 ```R
   set.seed(9687)
   dataset <- generate_cre_dataset(n = 300, 
@@ -124,7 +146,7 @@ The CRE package can generate synthetic data that can be used to test different f
                        cate_SL_library = "SL.xgboost",
                        offset = NULL)
 
- hyper_params = list(interaction_vars = c(),
+ hyper_params = list(interaction_vars = NULL,
                      ntrees_rf = 100,
                      ntrees_gbm = 50,
                      node_size = 20,
