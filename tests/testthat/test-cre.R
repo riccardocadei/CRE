@@ -156,8 +156,12 @@ test_that("cre Runs Correctly", {
   hyper_params[["penalty_rl"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  # Correct outputs
   hyper_params[["penalty_rl"]] <- 1
+  hyper_params[["intervention_vars"]] <- c("test")
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  # Correct outputs
+  hyper_params[["intervention_vars"]] <- c("x1","x2","x5")
   cre_results <- cre(y, z, X, method_params, hyper_params)
   expect_true(class(cre_results) == "cre")
 

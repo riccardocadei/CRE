@@ -132,7 +132,8 @@ cre <- function(y, z, X, method_params=list(), hyper_params=list()){
   method_params <- check_method_params(y = y,
                                        X_names = names(X),
                                        params = method_params)
-  hyper_params <- check_hyper_params(params = hyper_params)
+  hyper_params <- check_hyper_params(X_names = names(X),
+                                     params = hyper_params)
 
   # Honest Splitting -----------------------------------------------------------
   logger::log_info("(Honest) Splitting the dataset...")

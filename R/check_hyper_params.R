@@ -4,6 +4,7 @@
 #' @description
 #' Checks consistency in input (hyper) parameters for the cre function.
 #'
+#' @param X_names The observed covariates names.
 #' @param params The list of parameters required to run the function.
 #'
 #' @keywords internal
@@ -12,7 +13,7 @@
 #' A modified input `params`. A list of parameters that might be changed during
 #' the checks.
 #'
-check_hyper_params <- function(params){
+check_hyper_params <- function(X_names, params){
 
   # Input params checks --------------------------------------------------------
   ntrees_rf <- getElement(params, "ntrees_rf")
@@ -171,7 +172,12 @@ check_hyper_params <- function(params){
   if (length(intervention_vars)==0) {
     intervention_vars <- NULL
   } else {
-    # TODO: check the list is contained in X_names
+    for (intervention_var in intervention_vars) {
+      if (!(intervention_var %in% X_names))
+        stop(paste(intervention_var,
+                  "variable is not observed. Please input a set of",
+                  "'intervention_vars' included among the observed covariates."))
+    }
   }
   params[["intervention_vars"]] <- intervention_vars
 

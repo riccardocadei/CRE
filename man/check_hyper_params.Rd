@@ -4,9 +4,11 @@
 \alias{check_hyper_params}
 \title{Check input parameters}
 \usage{
-check_hyper_params(params)
+check_hyper_params(X_names, params)
 }
 \arguments{
+\item{X_names}{The observed covariates names.}
+
 \item{params}{The list of parameters required to run the function.}
 }
 \value{
