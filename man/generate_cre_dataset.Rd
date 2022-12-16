@@ -26,7 +26,7 @@ within the covariates (default: 0).}
 
 \item{p}{The number of covariates (default: 10).}
 
-\item{effect_size}{The effect size magnitude in \link{0,+inf} (default: 2).}
+\item{effect_size}{The effect size magnitude in (0,+inf) (default: 2).}
 
 \item{binary_covariates}{Whether to use binary or continuous covariates
 (default: TRUE)}
