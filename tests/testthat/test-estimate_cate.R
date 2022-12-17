@@ -63,14 +63,14 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
                                X_names = X_names,
                                offset = offset)
   ite_dis <- ite_list_dis[["ite"]]
-  ite_std_dis <- ite_list_dis[["ite_std"]]
+
 
   # Step 3: Generate rules list
-  initial_rules_dis <- generate_rules(X_dis, ite_std_dis, intervention_vars,
+  initial_rules_dis <- generate_rules(X_dis, ite_dis, intervention_vars,
                                       ntrees_rf, ntrees_gbm, node_size,
                                       max_nodes, max_depth, replace)
 
-  rules_list_dis <- filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- filter_irrelevant_rules(initial_rules_dis, X_dis, ite_dis, max_decay, type_decay)
 
   # Step 4: Generate rules matrix
   rules_matrix_dis <- generate_rules_matrix(X_dis, rules_list_dis)
@@ -79,7 +79,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   # Step 5: Select important rules
   select_rules_dis <- as.character(discover_causal_rules(rules_matrix_std_dis,
                                                        rules_list_dis,
-                                                       ite_std_dis,
+                                                       ite_dis,
                                                        stability_selection,
                                                        cutoff,
                                                        pfer,
@@ -184,14 +184,14 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
                                X_names = X_names,
                                offset = offset)
   ite_dis <- ite_list_dis[["ite"]]
-  ite_std_dis <- ite_list_dis[["ite_std"]]
+
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_dis, intervention_vars,
                                             ntrees_rf, ntrees_gbm, node_size,
                                             max_nodes, max_depth, replace)
 
-  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
@@ -200,7 +200,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   # Select important rules
   select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
                                                             rules_list_dis,
-                                                            ite_std_dis,
+                                                            ite_dis,
                                                             stability_selection,
                                                             cutoff,
                                                             pfer,
@@ -303,14 +303,14 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                X_names = X_names,
                                offset = offset)
   ite_dis <- ite_list_dis[["ite"]]
-  ite_std_dis <- ite_list_dis[["ite_std"]]
+
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_dis, intervention_vars,
                                             ntrees_rf, ntrees_gbm, node_size,
                                             max_nodes, max_depth, replace)
 
-  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
@@ -319,7 +319,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   # Select important rules
   select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
                                                             rules_list_dis,
-                                                            ite_std_dis,
+                                                            ite_dis,
                                                             stability_selection,
                                                             cutoff,
                                                             pfer,
@@ -421,14 +421,14 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                X_names = X_names,
                                offset = offset)
   ite_dis <- ite_list_dis[["ite"]]
-  ite_std_dis <- ite_list_dis[["ite_std"]]
+
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_dis, intervention_vars,
                                             ntrees_rf, ntrees_gbm, node_size,
                                             max_nodes, max_depth, replace)
 
-  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
@@ -437,7 +437,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   # Select important rules
   select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
                                                             rules_list_dis,
-                                                            ite_std_dis,
+                                                            ite_dis,
                                                             stability_selection,
                                                             cutoff,
                                                             pfer,
@@ -539,14 +539,14 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
                                X_names = X_names,
                                offset = offset)
   ite_dis <- ite_list_dis[["ite"]]
-  ite_std_dis <- ite_list_dis[["ite_std"]]
+
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_dis, intervention_vars,
                                             ntrees_rf, ntrees_gbm, node_size,
                                             max_nodes, max_depth, replace)
 
-  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
@@ -555,7 +555,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   # Select important rules
   select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
                                                             rules_list_dis,
-                                                            ite_std_dis,
+                                                            ite_dis,
                                                             stability_selection,
                                                             cutoff,
                                                             pfer,
@@ -659,14 +659,14 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
                                X_names = X_names,
                                offset = offset)
   ite_dis <- ite_list_dis[["ite"]]
-  ite_std_dis <- ite_list_dis[["ite_std"]]
+
 
   # Generate rules list
-  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_std_dis, intervention_vars,
+  initial_rules_dis <- CRE:::generate_rules(X_dis, ite_dis, intervention_vars,
                                             ntrees_rf, ntrees_gbm, node_size,
                                             max_nodes, max_depth, replace)
 
-  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_std_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_dis, max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
@@ -675,7 +675,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   # Select important rules
   select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
                                                             rules_list_dis,
-                                                            ite_std_dis,
+                                                            ite_dis,
                                                             stability_selection,
                                                             cutoff,
                                                             pfer,
