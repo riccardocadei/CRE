@@ -44,7 +44,6 @@
 #' @return
 #' A list that includes:
 #'   -  raw ITE estimates
-#'   -  standardized ITE estimates, and
 #'   -  standard deviations for the ITE estimates.
 #'
 #' @keywords internal
@@ -116,8 +115,7 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
   }
   if (is_y_binary) {
     ite <- round(ite, 0)
+    # TODO: clip in {-1,0,+1}
   }
-  ite_std <- (ite - mean(ite)) / stats::sd(ite)
-  return(list(ite = as.vector(ite), ite_std = as.vector(ite_std),
-              sd_ite = as.vector(sd_ite)))
+  return(list(ite = as.vector(ite), sd_ite = as.vector(sd_ite)))
 }

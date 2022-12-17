@@ -57,7 +57,6 @@ the end of this parameters list.
 A list that includes:
 \itemize{
 \item raw ITE estimates
-\item standardized ITE estimates, and
 \item standard deviations for the ITE estimates.
 }
 }

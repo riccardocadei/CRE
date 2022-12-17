@@ -172,15 +172,13 @@ cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
                                  offset = getElement(method_params,"offset"))
 
     ite_dis <- ite_list_dis[["ite"]]
-    ite_std_dis <- ite_list_dis[["ite_std"]]
   } else {
     logger::log_info("Using the provided ITE estimations ...")
-    ite_std_dis <- (ite_dis - mean(ite_dis)) / stats::sd(ite_dis)
   }
 
   # Generate Causal Decision Rules
   causal_rules_discovery <- generate_causal_rules(X_dis,
-                                                  ite_std_dis,
+                                                  ite_dis,
                                                   method_params,
                                                   hyper_params)
   causal_rules <- causal_rules_discovery[["rules"]]

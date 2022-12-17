@@ -3,12 +3,12 @@ set.seed(2021)
 # Set Experiment Parameter
 n_rules <- 2
 sample_size <- 2000
-effect_size <- 5
+effect_size <- 2
 confounding <- "no"
 ite_estimator_dis <- "aipw"
 ite_estimator_inf <- "aipw"
-pfer <- 1
-#pfer <- 1/((effect_size+1))
+#pfer <- 1
+pfer <- 1/((effect_size+1))
 
 # Set Method and Hyper Parameters
 method_params <- list(ratio_dis = 0.5,
@@ -71,7 +71,7 @@ ite <- dataset[["ite"]]
 X_names <- colnames(X)
 
 result <- cre(y, z, X, method_params, hyper_params)
-summary(result)
+summary(result, method_params, hyper_params)
 plot(result)
 
 # Discovery

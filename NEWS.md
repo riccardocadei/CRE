@@ -19,6 +19,7 @@ estimations.
 domain.
 
 ### Removed 
+* ite standardization for Rules Generation
 * `random_state` parameter.
 * `include_offset` method parameter.
 
