@@ -5,7 +5,7 @@
 #' Method for generating Causal Decision Rules.
 #'
 #' @param X The covariate matrix.
-#' @param ite_std The standardized ITE.
+#' @param ite The estimated ITE.
 #' @param method_params Method Parameters.
 #' @param hyper_params Hyper Parameters.
 #'
@@ -14,12 +14,12 @@
 #'
 #' @keywords internal
 #'
-generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
+generate_causal_rules <- function(X, ite, method_params, hyper_params) {
 
   # Generate rules -------------------------------------------------------------
   logger::log_info("Generating Decision Rules...")
   rules <- generate_rules(X,
-                          ite_std,
+                          ite,
                           getElement(hyper_params,"intervention_vars"),
                           getElement(hyper_params,"ntrees_rf"),
                           getElement(hyper_params,"ntrees_gbm"),
@@ -33,7 +33,7 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
 
   # Discard irrelevant variable-value pair from a rule condition ---------------
   logger::log_info("Filtering irrelevant rules...")
-  rules_list <- filter_irrelevant_rules(rules, X, ite_std,
+  rules_list <- filter_irrelevant_rules(rules, X, ite,
                                         getElement(hyper_params,"max_decay"),
                                         getElement(hyper_params,"type_decay"))
   M_filter1 <- length(rules_list)
@@ -60,7 +60,7 @@ generate_causal_rules <- function(X, ite_std, method_params, hyper_params) {
   #rules_matrix_std <- standardize_rules_matrix(rules_matrix)
   rules_list <- as.character(discover_causal_rules(rules_matrix,
                                  rules_list,
-                                 ite_std,
+                                 ite,
                                  getElement(hyper_params,"stability_selection"),
                                  getElement(hyper_params,"cutoff"),
                                  getElement(hyper_params,"pfer"),

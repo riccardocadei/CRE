@@ -6,7 +6,7 @@
 #' heterogeneity in the ITE
 #'
 #' @param X The covariate matrix.
-#' @param ite_std The standardized ITE.
+#' @param ite The estimated ITE.
 #' @param intervention_vars Intervention-able variables used for Rules
 #' Generation.
 #' @param ntrees_rf The number of decision trees for randomForest.
@@ -23,7 +23,7 @@
 #'
 #' @keywords internal
 #'
-generate_rules <- function(X, ite_std, intervention_vars, ntrees_rf, ntrees_gbm,
+generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
                            node_size, max_nodes, max_depth, replace) {
 
   # Filter only Intervention-able variables ------------------------------------
@@ -37,7 +37,7 @@ generate_rules <- function(X, ite_std, intervention_vars, ntrees_rf, ntrees_gbm,
   # Random Forest
   # TO DO: replace splitting criteria enforcing heterogeneity
   forest <- randomForest::randomForest(x = X,
-                                       y = ite_std,
+                                       y = ite,
                                        sampsize = sf * N,
                                        replace = replace,
                                        ntree = 1,
@@ -46,7 +46,7 @@ generate_rules <- function(X, ite_std, intervention_vars, ntrees_rf, ntrees_gbm,
   for(i in 2:ntrees_rf) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
     model1_RF <- randomForest::randomForest(x = X,
-                                            y = ite_std,
+                                            y = ite,
                                             sampsize = sf * N ,
                                             replace = replace,
                                             ntree = 1,
@@ -60,15 +60,15 @@ generate_rules <- function(X, ite_std, intervention_vars, ntrees_rf, ntrees_gbm,
   rules_RF <- extract_rules(treelist_RF, X, ntrees_rf, max_depth)
 
   # Gradient Boosting
-  dist <- ifelse(is.numeric(ite_std), "gaussian", "bernoulli")
+  dist <- ifelse(is.numeric(ite), "gaussian", "bernoulli")
 
-  if (is.numeric(ite_std) == FALSE) {
-    ite_std <- as.numeric(ite_std) - 1
+  if (is.numeric(ite) == FALSE) {
+    ite <- as.numeric(ite) - 1
   }
 
   if (ntrees_gbm>0){
     model1_GB <- gbm::gbm.fit(x = X,
-                              y = ite_std,
+                              y = ite,
                               bag.fraction = sf,
                               n.trees = 1,
                               interaction.depth = (mn / 2),

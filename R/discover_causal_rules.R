@@ -6,7 +6,7 @@
 #'
 #' @param rules_matrix The causal rules matrix.
 #' @param rules_list A vector of causal rules.
-#' @param ite_std The standardized ITE.
+#' @param ite The estimated ITE.
 #' @param stability_selection Whether or not using stability selection to
 #' select the causal rules.
 #' @param cutoff  Threshold defining the minimum cutoff value for the stability
@@ -21,7 +21,7 @@
 #'
 #' @keywords internal
 #'
-discover_causal_rules <- function(rules_matrix, rules_list, ite_std,
+discover_causal_rules <- function(rules_matrix, rules_list, ite,
                                   stability_selection, cutoff, pfer,
                                   penalty_rl) {
 
@@ -42,7 +42,7 @@ discover_causal_rules <- function(rules_matrix, rules_list, ite_std,
     if (stability_selection) {
       # Stability Selection LASSO
       stab_mod <- stabs::stabsel(x = rules_matrix,
-                                 y = ite_std,
+                                 y = ite,
                                  fitfun = "glmnet.lasso",
                                  cutoff = cutoff,
                                  PFER = pfer)
@@ -52,7 +52,7 @@ discover_causal_rules <- function(rules_matrix, rules_list, ite_std,
     } else {
       # vanilla LASSO
       cv_lasso <- glmnet::cv.glmnet(x = rules_matrix,
-                                    y = ite_std,
+                                    y = ite,
                                     alpha = 1,
                                     intercept = FALSE)
       aa <- stats::coef(cv_lasso, s = cv_lasso$lambda.1se)
