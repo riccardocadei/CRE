@@ -33,11 +33,9 @@ test_that("generate_rules works as expected!", {
                            or_method = or_method,
                            random_state = 298)
   ite <- ite_list[["ite"]]
-  ite_std <- ite_list[["ite_std"]]
-
 
   # Correct outputs
-  rules <- generate_rules(X, ite_std, intervention_vars, ntrees_rf, ntrees_gbm,
+  rules <- generate_rules(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
                           node_size, max_nodes, max_depth, replace)
 
   expect_true(class(rules) == "character")

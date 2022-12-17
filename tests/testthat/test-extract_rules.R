@@ -36,7 +36,6 @@ test_that("Rules Extracted Correctly", {
                            oreg_method = oreg_method,
                            random_state = random_state)
   ite <- ite_list[["ite"]]
-  ite_std <- ite_list[["ite_std"]]
 
   expect_equal(ite[10], -1.240143, tolerance = 0.000001)
   expect_equal(ite[25], 0.8987101, tolerance = 0.000001)
@@ -52,7 +51,7 @@ test_that("Rules Extracted Correctly", {
 
   # Random Forest
   set.seed(seed_vector[1])
-  forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
+  forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite,
                                                         sampsize = sf * N,
                                                         replace = FALSE,
                                                         ntree = 1, maxnodes = mn,
@@ -60,7 +59,7 @@ test_that("Rules Extracted Correctly", {
   for(i in 2:ntrees) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
     set.seed(seed_vector[i])
-    model1_RF <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
+    model1_RF <- suppressWarnings(randomForest::randomForest(x = X, y = ite,
                                                              sampsize = sf * N,
                                                              replace = FALSE,
                                                              ntree = 1, maxnodes = mn,
@@ -72,9 +71,9 @@ test_that("Rules Extracted Correctly", {
   expect_equal(length(treelist),2)
   expect_equal(length(treelist[2]$list),100)
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
-  expect_equal(treelist[2]$list[[1]][2,6], -0.1368704, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[2]][3,6], 0.2046404, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[10]][3,6], 0.2046404, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[1]][2,6], -0.3252457, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3,6], 0.8240253, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3,6], 0.8240253, tolerance = 0.000001)
 
 
   type_decay <- 2

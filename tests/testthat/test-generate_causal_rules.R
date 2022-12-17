@@ -58,13 +58,12 @@ test_that("generate_causal_rules works as expected!", {
                                offset_name = getElement(method_params,"offset_name"),
                                random_state = getElement(method_params, "random_state"))
   ite <- ite_list[["ite"]]
-  ite_std <- ite_list[["ite_std"]]
 
   # Generate Causal Decision Rules
-  select_rules <- generate_causal_rules(X, ite_std, method_params, hyper_params)
+  select_rules <- generate_causal_rules(X, ite, method_params, hyper_params)
   expect_true(class(select_rules[[1]]) == "character")
 
   hyper_params[["effect_modifiers"]] <- X_names[c(5,7,8,9)]
-  select_rules <- generate_causal_rules(X, ite_std, method_params, hyper_params)
+  select_rules <- generate_causal_rules(X, ite, method_params, hyper_params)
   expect_true(class(select_rules[[1]]) == "character")
 })

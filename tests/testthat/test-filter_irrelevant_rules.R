@@ -37,7 +37,6 @@ test_that("Rules Pruned Correctly", {
                            oreg_method = oreg_method,
                            random_state = random_state)
   ite <- ite_list[["ite"]]
-  ite_std <- ite_list[["ite_std"]]
 
   expect_equal(ite[10], -1.240143, tolerance = 0.000001)
   expect_equal(ite[25], 0.8987101, tolerance = 0.000001)
@@ -53,7 +52,7 @@ test_that("Rules Pruned Correctly", {
 
   # Random Forest
   set.seed(seed_vector[1])
-  forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
+  forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite,
                                                         sampsize = sf * N,
                                                         replace = FALSE,
                                                         ntree = 1, maxnodes = mn,
@@ -61,7 +60,7 @@ test_that("Rules Pruned Correctly", {
   for(i in 2:ntrees) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
     set.seed(seed_vector[i])
-    model1_RF <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
+    model1_RF <- suppressWarnings(randomForest::randomForest(x = X, y = ite,
                                                              sampsize = sf * N,
                                                              replace = FALSE,
                                                              ntree = 1, maxnodes = mn,
@@ -73,9 +72,9 @@ test_that("Rules Pruned Correctly", {
   expect_equal(length(treelist),2)
   expect_equal(length(treelist[2]$list),100)
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
-  expect_equal(treelist[2]$list[[1]][2,6], -0.1368704, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[2]][3,6], 0.2046404, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[10]][3,6], 0.2046404, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[1]][2,6], -0.3252457, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3,6], 0.8240253, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3,6], 0.8240253, tolerance = 0.000001)
 
   rules <- extract_rules(treelist, X, ntrees, max_depth)
 
@@ -85,15 +84,15 @@ test_that("Rules Pruned Correctly", {
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(filter_irrelevant_rules(rules = NA, X, ite_std, max_decay, type_decay))
-  expect_error(filter_irrelevant_rules(rules, X = NA, ite_std, max_decay, type_decay))
-  expect_error(filter_irrelevant_rules(rules, X, ite_std = NA, max_decay, type_decay))
-  expect_error(filter_irrelevant_rules(rules, X, ite_std, max_decay = NA, type_decay))
-  expect_error(filter_irrelevant_rules(rules, X, ite_std, max_decay, type_decay = NA))
+  expect_error(filter_irrelevant_rules(rules = NA, X, ite, max_decay, type_decay))
+  expect_error(filter_irrelevant_rules(rules, X = NA, ite, max_decay, type_decay))
+  expect_error(filter_irrelevant_rules(rules, X, ite = NA, max_decay, type_decay))
+  expect_error(filter_irrelevant_rules(rules, X, ite, max_decay = NA, type_decay))
+  expect_error(filter_irrelevant_rules(rules, X, ite, max_decay, type_decay = NA))
 
 
   # Correct outputs
-  rules_RF <- filter_irrelevant_rules(rules, X, ite_std, max_decay, type_decay)
+  rules_RF <- filter_irrelevant_rules(rules, X, ite, max_decay, type_decay)
   expect_true(class(rules_RF) == "character")
   #expect_equal(length(rules_RF), 155)
   #expect_equal(rules_RF[3], "X[,3]<=0.5 & X[,8]>0.39 & X[,9]>0.1")
