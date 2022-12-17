@@ -8,7 +8,8 @@
 #' @param y The observed response vector.
 #' @param z The treatment vector.
 #' @param X The covariate matrix.
-#' @param method_params Parameters for individual treatment effect, including:
+#' @param method_params The list of parameters to define the models used,
+#' including:
 #'   - *Parameters for Honest Splitting*
 #'     - *ratio_dis*: The ratio of data delegated to rules discovery
 #'     (default: 0.5).
@@ -39,8 +40,7 @@
 #'   - *Other Parameters*
 #'     - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
 #'     Poisson ITE Estimation. NULL if offset is not used (default: NULL).
-#'
-#' @param hyper_params The list of parameters required to tune the functions,
+#' @param hyper_params The list of hyper parameters to finetune the method,
 #' including:
 #'  - *intervention_vars*: Intervention-able variables used for Rules Generation
 #'  (default: NULL).
@@ -71,6 +71,8 @@
 #'  - *penalty_rl*: Order of penalty for rules length during LASSO for Causal
 #' Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
 #' (default: 1).
+#' @param ite The estimated ITE vector. If given both the ITE estimation steps
+#' in Discovery and Inference are skipped (deault: NULL).
 #'
 #' @return
 #' An S3 object containing:
@@ -124,11 +126,10 @@
 #'
 #' cre_results <- cre(y, z, X, method_params, hyper_params)
 #'}
-cre <- function(y, z, X, method_params=list(), hyper_params=list()){
+cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
 
   # Input checks ---------------------------------------------------------------
-  logger::log_info("Loading dataset...")
-  check_input_data(y = y, z = z, X = X)
+  logger::log_info("Checking Parameters...")
   method_params <- check_method_params(y = y,
                                        X_names = names(X),
                                        params = method_params)
@@ -138,47 +139,45 @@ cre <- function(y, z, X, method_params=list(), hyper_params=list()){
   # Honest Splitting -----------------------------------------------------------
   logger::log_info("(Honest) Splitting the dataset...")
   X_names <- names(as.data.frame(X))
-  X <- as.matrix(X)
-  y <- as.matrix(y)
-  z <- as.matrix(z)
-  subgroups <- honest_splitting(y, z, X, getElement(method_params,"ratio_dis"))
+  subgroups <- honest_splitting(y, z, X,
+                                getElement(method_params,"ratio_dis"), ite)
   discovery <- subgroups[["discovery"]]
   inference <- subgroups[["inference"]]
 
-  # Generate outcome (y), exposure(z), and covariate matrix (X) for discovery
-  # and inference data
   y_dis <- discovery$y
   z_dis <- discovery$z
   X_dis <- discovery$X
+  ite_dis <- discovery$ite
 
   y_inf <- inference$y
   z_inf <- inference$z
   X_inf <- inference$X
+  ite_inf <- inference$ite
 
 
   # Discovery ------------------------------------------------------------------
-
   logger::log_info("Starting Causal Rules Discovery")
 
-  # Estimate ITE -----------------------
-  logger::log_info("Estimating ITE...")
-  st_ite_t <- proc.time()
-  ite_list_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
-                   ite_method = getElement(method_params,"ite_method_dis"),
-                   is_y_binary = getElement(method_params,"is_y_binary"),
-                   include_ps = getElement(method_params,"include_ps_dis"),
-                   ps_method = getElement(method_params,"ps_method_dis"),
-                   oreg_method = getElement(method_params,"oreg_method_dis"),
-                   X_names = X_names,
-                   offset = getElement(method_params,"offset"))
-  en_ite_t <- proc.time()
-  logger::log_debug("Finished Estimating ITE. ",
-                    " Wall clock time: {(en_ite_t - st_ite_t)[[3]]} seconds.")
+  # Estimate ITE
+  if (is.null(ite)) {
+    logger::log_info("Estimating ITE...")
+    ite_list_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
+                                 ite_method = getElement(method_params,"ite_method_dis"),
+                                 is_y_binary = getElement(method_params,"is_y_binary"),
+                                 include_ps = getElement(method_params,"include_ps_dis"),
+                                 ps_method = getElement(method_params,"ps_method_dis"),
+                                 oreg_method = getElement(method_params,"oreg_method_dis"),
+                                 X_names = X_names,
+                                 offset = getElement(method_params,"offset"))
 
-  ite_dis <- ite_list_dis[["ite"]]
-  ite_std_dis <- ite_list_dis[["ite_std"]]
+    ite_dis <- ite_list_dis[["ite"]]
+    ite_std_dis <- ite_list_dis[["ite_std"]]
+  } else {
+    logger::log_info("Using the provided ITE estimations ...")
+    ite_std_dis <- (ite_dis - mean(ite_dis)) / stats::sd(ite_dis)
+  }
 
-  # Generate Causal Decision Rules  -----------------------
+  # Generate Causal Decision Rules
   causal_rules_discovery <- generate_causal_rules(X_dis,
                                                   ite_std_dis,
                                                   method_params,
@@ -189,27 +188,29 @@ cre <- function(y, z, X, method_params=list(), hyper_params=list()){
 
 
   # Inference ------------------------------------------------------------------
-
   logger::log_info("Starting CATE Inference")
-  #message("Conducting Inference Subsample Analysis")
 
-  # Estimate ITE ---------------------------------------------------------------
-  logger::log_info("Estimating ITE...")
-  ite_list_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
-                   ite_method = getElement(method_params,"ite_method_inf"),
-                   is_y_binary = getElement(method_params,"is_y_binary"),
-                   include_ps = getElement(method_params,"include_ps_inf"),
-                   ps_method = getElement(method_params,"ps_method_inf"),
-                   oreg_method = getElement(method_params,"oreg_method_inf"),
-                   X_names = X_names,
-                   include_offset = getElement(method_params,"include_offset"),
-                   offset_name = getElement(method_params,"offset_name"))
+  # Estimate ITE
+  if (is.null(ite)) {
+    logger::log_info("Estimating ITE...")
+    ite_list_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
+                                 ite_method = getElement(method_params,"ite_method_inf"),
+                                 is_y_binary = getElement(method_params,"is_y_binary"),
+                                 include_ps = getElement(method_params,"include_ps_inf"),
+                                 ps_method = getElement(method_params,"ps_method_inf"),
+                                 oreg_method = getElement(method_params,"oreg_method_inf"),
+                                 X_names = X_names,
+                                 include_offset = getElement(method_params,"include_offset"),
+                                 offset_name = getElement(method_params,"offset_name"))
 
-  ite_inf <- ite_list_inf[["ite"]]
-  ite_std_inf <- ite_list_inf[["ite_std"]]
-  sd_ite_inf <- ite_list_inf[["sd_ite"]]
+    ite_inf <- ite_list_inf[["ite"]]
+    sd_ite_inf <- ite_list_inf[["sd_ite"]]
+  } else {
+    sd_ite_inf <- NULL
+  }
 
-  # Generate rules matrix ------------------------------------------------------
+
+  # Generate rules matrix
   if (length(causal_rules)==0){
     rules_matrix_inf <- NA
     causal_rules_int <- NA
@@ -218,7 +219,7 @@ cre <- function(y, z, X, method_params=list(), hyper_params=list()){
     causal_rules_int <- interpret_select_rules(causal_rules, X_names)
   }
 
-  # Estimate CATE --------------------------------------------------------------
+  # Estimate CATE
   logger::log_info("Estimating CATE...")
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
                             getElement(method_params,"offset"),
@@ -230,7 +231,7 @@ cre <- function(y, z, X, method_params=list(), hyper_params=list()){
 
   M["Causal (significant)"] <- as.integer(length(cate_inf$summary$Rule))-1
 
-  # Estimate ITE----------------------------------------------------------------
+  # Estimate ITE
   if (getElement(method_params,"cate_method")=="linreg"){
     if (!any(is.na(causal_rules_int))){
       causal_rules_matrix <- generate_rules_matrix(X, causal_rules)
@@ -246,9 +247,6 @@ cre <- function(y, z, X, method_params=list(), hyper_params=list()){
     ite_pred <- NULL
   }
 
-
-  # Performance Evaluation------------------------------------------------------
-
   # Generate final results S3 object
   results <- list("M" = M,
                   "CATE" = cate_inf[["summary"]],
@@ -258,7 +256,7 @@ cre <- function(y, z, X, method_params=list(), hyper_params=list()){
   attr(results, "class") <- "cre"
 
   # Sensitivity Analysis -------------------------------------------------------
-  #logger::log_info("3 Sensitivity Analysis")
+  #logger::log_info("Starting Sensitivity Analysis")
   # TO DO
 
   # Return Results -------------------------------------------------------------

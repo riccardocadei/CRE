@@ -5,6 +5,8 @@
 * Hyper and Method parameters are no more required arguments for `cre`.
 
 ### Added
+* `ite`, additional input parameter to feed CRE with personalized ite 
+estimations.
 * Default values for hyper parameters.
 * Default values for method parameters.
 * Simulation experiments for estimation (`estimation.R`).

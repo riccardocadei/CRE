@@ -45,7 +45,7 @@ __Data (required)__
 **`X`** The covariate matrix (binary or continuos).    
 
 __Method Parameters (not required)__    
-Parameters for estimating the individual treatment effect, including:
+The list of parameters to define the models used, including:
 - **`ratio_dis`** The ratio of data delegated to the discovery sub-sample (default: 0.5). 
 __Parameters for Discovery__           
 - **`ite_method_dis`** The method to estimate the discovery sub-sample in estimating individual treatment effect (ITE) (default: 'aipw').    
@@ -63,7 +63,7 @@ __Other Parameters__
 - **`offset`** Name of the covariate to use as offset (i.e. 'x1') for Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 
 __Hyper Parameters (not required)__     
-The list of parameters required to tune the functions, including
+The list of hyper parameters to finetune the method, including:
 - **`intervention_vars`** Intervention-able variables used for Rules Generation (default: NULL).     
 - **`ntrees_rf`** The number of decision trees for randomForest (default: 100).     
 - **`ntrees_gbm`** The number of decision trees for gradient boosting (default: 0).     
@@ -81,6 +81,8 @@ The list of parameters required to tune the functions, including
 - **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).
 - **`penalty_rl`** Order of penalty for rules length during LASSO for Causal
 Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2) (default: 1).
+
+**`ite`** The estimated ITE vector. If given both the ITE estimation steps in Discovery and Inference are skipped (deault: NULL).
 
 ### A note on the parameters
 
@@ -100,25 +102,47 @@ The CRE package can generate synthetic data that can be used to test different f
 
 Example 1 (default parameters).
 ```R
-  set.seed(9687)
-  dataset <- generate_cre_dataset(n = 300, 
-                                  rho = 0, 
-                                  n_rules = 2, 
-                                  p = 10,
-                                  effect_size = 2, 
-                                  binary_covariates = TRUE,
-                                  binary_outcome = FALSE,
-                                  confounding = "no")
-  y <- dataset[["y"]]
-  z <- dataset[["z"]]
-  X <- dataset[["X"]]
+set.seed(9687)
+dataset <- generate_cre_dataset(n = 300, 
+                                rho = 0, 
+                                n_rules = 2, 
+                                p = 10,
+                                effect_size = 2, 
+                                binary_covariates = TRUE,
+                                binary_outcome = FALSE,
+                                confounding = "no")
+y <- dataset[["y"]]
+z <- dataset[["z"]]
+X <- dataset[["X"]]
 
 cre_results <- cre(y, z, X)
 summary(cre_results, method_params, hyper_params)
 plot(cre_results)
 ```
 
-Example 2 (setting parameters). 
+Example 2 (personalized ite estimation).
+```R
+set.seed(9687)
+dataset <- generate_cre_dataset(n = 300, 
+                                rho = 0, 
+                                n_rules = 2, 
+                                p = 10,
+                                effect_size = 2, 
+                                binary_covariates = TRUE,
+                                binary_outcome = FALSE,
+                                confounding = "no")
+  y <- dataset[["y"]]
+  z <- dataset[["z"]]
+  X <- dataset[["X"]]
+
+ite_pred <- ... # personalized ite estimation
+cre_results <- cre(y, z, X, ite=ite_pred)
+summary(cre_results, method_params, hyper_params)
+plot(cre_results)
+```
+
+
+Example 3 (setting parameters). 
 ```R
   set.seed(9687)
   dataset <- generate_cre_dataset(n = 300, 
@@ -151,7 +175,7 @@ Example 2 (setting parameters).
                      ntrees_gbm = 50,
                      node_size = 20,
                      max_nodes = 5,
-                     max_depth = 15,
+                     max_depth = 3,
                      max_decay = 0.025,
                      type_decay = 2,
                      t_ext = 0.025,

@@ -4,7 +4,7 @@
 \alias{check_input_data}
 \title{Check Input Data}
 \usage{
-check_input_data(y, z, X)
+check_input_data(y, z, X, ite = NULL)
 }
 \arguments{
 \item{y}{The observed response vector.}
@@ -12,6 +12,8 @@ check_input_data(y, z, X)
 \item{z}{The treatment vector.}
 
 \item{X}{The features matrix.}
+
+\item{ite}{The estimated ITE vector.}
 }
 \value{
 Number of data samples.

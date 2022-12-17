@@ -4,7 +4,7 @@
 \alias{cre}
 \title{The Causal Rule Ensemble}
 \usage{
-cre(y, z, X, method_params = list(), hyper_params = list())
+cre(y, z, X, method_params = NULL, hyper_params = NULL, ite = NULL)
 }
 \arguments{
 \item{y}{The observed response vector.}
@@ -13,7 +13,8 @@ cre(y, z, X, method_params = list(), hyper_params = list())
 
 \item{X}{The covariate matrix.}
 
-\item{method_params}{Parameters for individual treatment effect, including:
+\item{method_params}{The list of parameters to define the models used,
+including:
 \itemize{
 \item \emph{Parameters for Honest Splitting}
 \itemize{
@@ -55,7 +56,7 @@ Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 }
 }}
 
-\item{hyper_params}{The list of parameters required to tune the functions,
+\item{hyper_params}{The list of hyper parameters to finetune the method,
 including:
 \itemize{
 \item \emph{intervention_vars}: Intervention-able variables used for Rules Generation
@@ -88,6 +89,9 @@ falsely selected rules) (default: 1).
 Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
 (default: 1).
 }}
+
+\item{ite}{The estimated ITE vector. If given both the ITE estimation steps
+in Discovery and Inference are skipped (deault: NULL).}
 }
 \value{
 An S3 object containing:
