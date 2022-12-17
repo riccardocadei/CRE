@@ -132,6 +132,7 @@ cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
   logger::log_info("Checking Parameters...")
   method_params <- check_method_params(y = y,
                                        X_names = names(X),
+                                       ite = ite,
                                        params = method_params)
   hyper_params <- check_hyper_params(X_names = names(X),
                                      params = hyper_params)

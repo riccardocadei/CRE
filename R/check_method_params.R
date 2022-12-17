@@ -6,6 +6,7 @@
 #'
 #' @param y The observed response vector.
 #' @param X_names The observed covariates names.
+#' @param ite The estimated ITE vector.
 #' @param params The list of parameters required to run the method functions.
 #'
 #' @keywords internal
@@ -14,7 +15,7 @@
 #' A modified input `params`. A list of parameters that might be changed during
 #' the checks.
 #'
-check_method_params <- function(y, X_names, params){
+check_method_params <- function(y, X_names, ite, params){
 
   # Honest Splitting Parameters Check ------------------------------------------
   ratio_dis <- getElement(params, "ratio_dis")
@@ -210,6 +211,18 @@ check_method_params <- function(y, X_names, params){
     offset <- NA
   }
   params[["offset"]] <- offset
+
+  # Discard ITE Parameters if ITE estimates are provided
+  if (!is.null(ite)) {
+    params[["ite_method_dis"]] <- NA
+    params[["include_ps_dis"]] <- NA
+    params[["ps_method_dis"]] <- NA
+    params[["or_method_dis"]] <- NA
+    params[["ite_method_inf"]] <- NA
+    params[["include_ps_inf"]] <- NA
+    params[["ps_method_inf"]] <- NA
+    params[["or_method_inf"]] <- NA
+  }
 
   return(params)
 }

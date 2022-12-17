@@ -5,7 +5,7 @@
 * Hyper and Method parameters are no more required arguments for `cre`.
 
 ### Added
-* `ite`, additional input parameter to feed CRE with personalized ite 
+* `ite`, additional `cre` input parameter to use personalized ite 
 estimations.
 * Default values for hyper parameters.
 * Default values for method parameters.
