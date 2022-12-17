@@ -42,7 +42,7 @@ test_that("generate_causal_rules works as expected!", {
 
   # Input checks
   check_input_data(y = y, z = z, X = X)
-  method_params <- check_method_params(y = y, X_names = names(X),
+  method_params <- check_method_params(y = y, X_names = names(X), ite=NULL,
                                        params = method_params)
   check_hyper_params(params = hyper_params)
 
