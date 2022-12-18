@@ -4,12 +4,13 @@
 \alias{print.cre}
 \title{Extend print function for the CRE object}
 \usage{
-\method{print}{cre}(x, ...)
+\method{print}{cre}(x, verbose = 2)
 }
 \arguments{
-\item{x}{A CRE object from running the CRE function}
+\item{x}{A cre object from running the CRE function.}
 
-\item{...}{Additional arguments passed to customize the plot.}
+\item{verbose}{Set level of results description details: only results summary
+0, results+parameters summary 1, results+parameters+rules summary (default 2).}
 }
 \value{
 No return value. This function is called for side effects.

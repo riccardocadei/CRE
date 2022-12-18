@@ -97,9 +97,10 @@ in Discovery and Inference are skipped (deault: NULL).}
 An S3 object containing:
 \itemize{
 \item the number of Decision Rules extracted at each step
-\item the matrix of Conditional Average Treatment Effect decomposition estimates
-\item the Conditional Average Treatment Effect estimation method
-\item the Conditional Average Treatment Effect estimation model
+\item the data.frame of Conditional Average Treatment Effect decomposition
+estimates with corresponding uncertanty quantification
+\item the list of Method Parameters
+\item the list of Hyper Parameters
 \item the Individual Treatment Effect predicted
 }
 }

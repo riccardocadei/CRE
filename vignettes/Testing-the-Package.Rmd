@@ -147,6 +147,6 @@ hyper_params = list(intervention_vars = NULL,
 
 # linreg CATE estimation with aipw ITE estimation
 cre_results <- cre(y, z, X, method_params, hyper_params)
-summary(cre_results, method_params, hyper_params)
+summary(cre_results)
 plot(cre_results)
 ```

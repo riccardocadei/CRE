@@ -3,23 +3,27 @@
 ### Changed
 * Rename  `offset_name` parameters with `offset`.
 * Hyper and Method parameters are no more required arguments for `cre`.
+* `cre` object: added parameters and ite estimation.
 
 ### Added
+* Rules Selection description in `summary.cre`
+* `verbose` parameter in `summary.cre`.
 * `ite`, additional `cre` input parameter to use personalized ite 
 estimations.
 * Default values for hyper parameters.
 * Default values for method parameters.
 * Simulation experiments for estimation (`estimation.R`).
 * Simulation experiments for discovery (`discovery.R`).
-* `extract_effect_modifiers` function (util for peroformance evaluation).
+* `extract_effect_modifiers` function (util for performance evaluation).
 * `evaluate` function for discovery evaluation.
 * `confounding` parameter in `generate_cre_dataset` to set confounding type.
 * `ite_pred` and `model` in CRE results.
 * `binary_covariates` parameter in `generate_cre_dataset` to set covariates 
 domain.
 
-### Removed 
-* ite standardization for Rules Generation
+### Removed
+* `method_params` and `hyper_params` additional parameters in `summary.cre`.
+* ite standardization for Rules Generation.
 * `random_state` parameter.
 * `include_offset` method parameter.
 
