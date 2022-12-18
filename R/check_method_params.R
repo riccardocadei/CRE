@@ -68,7 +68,7 @@ check_method_params <- function(y, X_names, ite, params){
       }
     }
   } else {
-    include_ps_dis <- NA
+    include_ps_dis <- TRUE
   }
   params[["include_ps_dis"]] <- include_ps_dis
 
@@ -82,7 +82,7 @@ check_method_params <- function(y, X_names, ite, params){
       }
     }
   } else {
-    include_ps_inf <- NA
+    include_ps_inf <- TRUE
   }
   params[["include_ps_inf"]] <- include_ps_inf
 
