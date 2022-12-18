@@ -71,7 +71,7 @@ ite <- dataset[["ite"]]
 X_names <- colnames(X)
 
 result <- cre(y, z, X, method_params, hyper_params)
-summary(result, method_params, hyper_params)
+summary(result)
 plot(result)
 
 # Discovery
