@@ -77,9 +77,10 @@
 #' @return
 #' An S3 object containing:
 #' - the number of Decision Rules extracted at each step
-#' - the matrix of Conditional Average Treatment Effect decomposition estimates
-#' - the Conditional Average Treatment Effect estimation method
-#' - the Conditional Average Treatment Effect estimation model
+#' - the data.frame of Conditional Average Treatment Effect decomposition
+#' estimates with corresponding uncertanty quantification
+#' - the list of Method Parameters
+#' - the list of Hyper Parameters
 #' - the Individual Treatment Effect predicted
 #'
 #' @export
@@ -249,8 +250,8 @@ cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
   # Generate final results S3 object
   results <- list("M" = M,
                   "CATE" = cate_inf[["summary"]],
-                  "cate_method" = getElement(method_params,"cate_method"),
-                  "model" = cate_inf[["model"]],
+                  "method_params" = method_params,
+                  "hyper_params" = hyper_params,
                   "ite_pred" = ite_pred)
   attr(results, "class") <- "cre"
 
