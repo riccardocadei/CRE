@@ -17,16 +17,15 @@ autoplot.cre <- function(object, ...){
 
   gg_labs <- gg_title <- NULL
 
-  ## collect additional arguments
+  # collect additional arguments
   dot_args <- list(...)
   arg_names <- names(dot_args)
-
   for (i in arg_names){
     assign(i,unlist(dot_args[i],use.names = FALSE))
   }
 
-  cate_results <- object[["CATE"]]
-  cate_method <- object[["cate_method"]]
+  cate <- object[["CATE"]]
+  cate_method <- object[["method_params"]][["cate_method"]]
 
   # Handling global variable error.
   `%>%` <- magrittr::`%>%`
@@ -38,7 +37,7 @@ autoplot.cre <- function(object, ...){
     interval_95 <- -stats::qnorm((1-0.95)/2)
 
     # Plot
-    g <- ggplot2::ggplot(data = cate_results) +
+    g <- ggplot2::ggplot(data = cate) +
          ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
          ggplot2::geom_linerange(
                     ggplot2::aes(x = Rule,
@@ -55,18 +54,18 @@ autoplot.cre <- function(object, ...){
                                 lwd = 1/2,
                                 position = ggplot2::position_dodge(width = 1/2),
                                 shape = 21, fill = "WHITE") +
-        ggplot2::xlab("Causal Rule") +
+        ggplot2::xlab("Causal Decision Rule") +
         ggplot2::coord_flip() +
         ggplot2::theme_bw() +
         ggplot2::ggtitle(
                    paste("CRE Plot:\nConditional Average Treatment Effects",
-                         "Per Causal Rule",
+                         "Linear Decomposition",
                          "\nwith 95% Confidence Intervals\n\n",
                          "CATE Method: ", cate_method))
 
   } else if (cate_method %in% c("bart-baggr", "cf-means")) {
     # Plot
-    g <- ggplot2::ggplot(data = cate_results) +
+    g <- ggplot2::ggplot(data = cate) +
          ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
          ggplot2::geom_linerange(ggplot2::aes(x = Rule,
                                            ymin = CI_lower,
@@ -80,17 +79,17 @@ autoplot.cre <- function(object, ...){
                                lwd = 1/2,
                                position = ggplot2::position_dodge(width = 1/2),
                                shape = 21, fill = "WHITE") +
-      ggplot2::xlab("Causal Rule") +
+      ggplot2::xlab("Causal Decision Rule") +
       ggplot2::coord_flip() +
       ggplot2::theme_bw() +
       ggplot2::ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects",
-                             "Per Causal Rule",
+                             "Linear Decomposition",
                              "\nwith 95% Confidence Intervals\n\n",
                              "CATE Method: ", cate_method))
 
   } else if (cate_method == "linreg") {
     # Plot
-    g <- ggplot2::ggplot(data = cate_results) +
+    g <- ggplot2::ggplot(data = cate) +
       ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
       ggplot2::geom_linerange(ggplot2::aes(x = Rule,
                                            ymin = CI_lower,
@@ -104,11 +103,11 @@ autoplot.cre <- function(object, ...){
                                lwd = 1/2,
                                position = ggplot2::position_dodge(width = 1/2),
                                shape = 21, fill = "WHITE") +
-      ggplot2::xlab("Causal Rule") +
+      ggplot2::xlab("Causal Decision Rule") +
       ggplot2::coord_flip() +
       ggplot2::theme_bw() +
       ggplot2::ggtitle(paste("CRE Plot:\nConditional Average Treatment Effects",
-                             "Per Causal Rule",
+                             "Linear Decomposition",
                              "\nwith 95% Confidence Intervals\n\n",
                              "CATE Method: Linear Regression"))
 
