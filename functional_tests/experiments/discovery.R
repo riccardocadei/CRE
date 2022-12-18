@@ -5,57 +5,57 @@ library(doParallel)
 # Set Experiment Parameter
 n_rules <- 2
 sample_size <- 2000
-effect_sizes <- seq(0, 10, 0.2)
+effect_sizes <- seq(0, 4, 0.2)
 confoundings <- c("no","lin","nonlin")
-ITE_estimators <- c("ipw","aipw","sipw","cf","bcf")
-n_seeds <- 48
+ITE_estimators <- c("aipw","cf","bcf")
+n_seeds <- 480
 ratio_dis <- 0.5
 
 # Set Ground Truth
 {
-cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
-         "x4<=0", "x5<=0.5 & x7>0.5 & x8<=0.5")
-em <- c("x1","x2","x5","x6","x4","x7","x8")
-if (n_rules==2) {
-  cdr<-cdr[1:2]
-  em <- em[1:4]
-} else if (n_rules==4) {
-} else {stop(paste("Synthtic dataset with", n_rules,"rules has not been
+  cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
+           "x4<=0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
+  em <- c("x1","x2","x5","x6","x4","x7","x8")
+  if (n_rules==2) {
+    cdr<-cdr[1:2]
+    em <- em[1:4]
+  } else if (n_rules==4) {
+  } else {stop(paste("Synthtic dataset with", n_rules,"rules has not been
                     implemented yet. Set 'n_rules' equal to 2 or 4 (rules)."))}
 }
 
 # Set Method and Hyper Parameters
 {
-method_params <- list(ratio_dis = ratio_dis,
-                      ite_method_dis="aipw",
-                      ps_method_dis = "SL.xgboost",
-                      oreg_method_dis = "SL.xgboost",
-                      include_ps_dis = TRUE,
-                      ite_method_inf = "aipw",
-                      ps_method_inf = "SL.xgboost",
-                      oreg_method_inf = "SL.xgboost",
-                      include_ps_inf = TRUE,
-                      cate_method = "linreg",
-                      cate_SL_library = "SL.xgboost",
-                      filter_cate = TRUE,
-                      offset = NULL)
+  method_params <- list(ratio_dis = ratio_dis,
+                        ite_method_dis="aipw",
+                        ps_method_dis = "SL.xgboost",
+                        oreg_method_dis = "SL.xgboost",
+                        include_ps_dis = TRUE,
+                        ite_method_inf = "aipw",
+                        ps_method_inf = "SL.xgboost",
+                        oreg_method_inf = "SL.xgboost",
+                        include_ps_inf = TRUE,
+                        cate_method = "linreg",
+                        cate_SL_library = "SL.xgboost",
+                        filter_cate = TRUE,
+                        offset = NULL)
 
-hyper_params <- list(intervention_vars = NULL,
-                     ntrees_rf = 100,
-                     ntrees_gbm = 50,
-                     node_size = 20,
-                     max_nodes = 5,
-                     max_depth = 3,
-                     max_decay = 0.025,
-                     type_decay = 2,
-                     t_ext = 0.01,
-                     t_corr = 1,
-                     t_pvalue = 0.05,
-                     replace = TRUE,
-                     stability_selection = TRUE,
-                     cutoff = 0.9,
-                     pfer = 1,
-                     penalty_rl = 1)
+  hyper_params <- list(intervention_vars = NULL,
+                       ntrees_rf = 100,
+                       ntrees_gbm = 50,
+                       node_size = 20,
+                       max_nodes = 5,
+                       max_depth = 3,
+                       max_decay = 0.025,
+                       type_decay = 2,
+                       t_ext = 0.01,
+                       t_corr = 1,
+                       t_pvalue = 0.05,
+                       replace = TRUE,
+                       stability_selection = TRUE,
+                       cutoff = 0.9,
+                       pfer = 1,
+                       penalty_rl = 1)
 }
 
 # Set Cluster
@@ -205,11 +205,14 @@ for (confounding in confoundings) {
   rownames(discovery) <- 1:nrow(discovery)
 
   # Save results
+  results_dir <- "functional_tests/experiments/results/"
+  if (!dir.exists(results_dir)) {
+    dir.create(results_dir)
+  }
   exp_name <- paste(sample_size,"s_",n_rules,"r_",confounding, sep="")
-  dir <- paste("../functional_tests/experiments/results/discovery_",
-               exp_name,".rdata", sep="")
+  file_dir <- paste(results_dir,"discovery_",exp_name,".RData", sep="")
   save(discovery,
-       file=dir)
+       file=file_dir)
 }
 
 stopCluster(cl)

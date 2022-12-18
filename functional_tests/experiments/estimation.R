@@ -8,16 +8,16 @@ sample_size <- 5000
 effect_size <- 5
 confoundings <- c("no","lin","nonlin")
 ite_estimators <- c("ipw","aipw","sipw","cf","bcf")
-n_seeds <- 196
+n_seeds <- 480
 ratio_dis <- 0.5
 
 # Set Ground Truth
 {
-cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
-         "x4<=0", "x5<=0.5 & x7>0.5 & x8<=0.5")
-if (n_rules==2) { cdr<-cdr[1:2]
-} else if (n_rules==4) {
-} else {stop(paste("Synthtic dataset with", n_rules,"rules has not been
+  cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
+           "x4<=0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
+  if (n_rules==2) { cdr<-cdr[1:2]
+  } else if (n_rules==4) {
+  } else {stop(paste("Synthtic dataset with", n_rules,"rules has not been
                     implemented yet. Set 'n_rules' equal to 2 or 4 (rules)."))}
 }
 
@@ -319,12 +319,15 @@ for (confounding in confoundings) {
   rownames(estimation) <- 1:nrow(estimation)
 
   # Save results
+  results_dir <- "functional_tests/experiments/results/"
+  if (!dir.exists(results_dir)) {
+    dir.create(results_dir)
+  }
   exp_name <- paste(sample_size,"s_",n_rules,"r_",effect_size,"es_",confounding,
                     sep="")
-  dir <- paste("../functional_tests/experiments/results/estimation_",
-               exp_name,".rdata", sep="")
+  file_dir <- paste(results_dir,"estimation_",exp_name,".RData", sep="")
   save(estimation,
-       file=dir)
+       file=file_dir)
 }
 
 stopCluster(cl)
