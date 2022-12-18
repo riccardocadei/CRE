@@ -6,7 +6,7 @@
 * `cre` object: added parameters and ite estimation.
 
 ### Added
-* Rules Selection description in `summary.cre`
+* Rules Selection description in `summary.cre`.
 * `verbose` parameter in `summary.cre`.
 * `ite`, additional `cre` input parameter to use personalized ite 
 estimations.
