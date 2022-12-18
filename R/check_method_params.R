@@ -214,14 +214,14 @@ check_method_params <- function(y, X_names, ite, params){
 
   # Discard ITE Parameters if ITE estimates are provided
   if (!is.null(ite)) {
-    params[["ite_method_dis"]] <- NA
-    params[["include_ps_dis"]] <- NA
-    params[["ps_method_dis"]] <- NA
-    params[["or_method_dis"]] <- NA
-    params[["ite_method_inf"]] <- NA
-    params[["include_ps_inf"]] <- NA
-    params[["ps_method_inf"]] <- NA
-    params[["or_method_inf"]] <- NA
+    params[["ite_method_dis"]] <- "personalized"
+    params[["include_ps_dis"]] <- FALSE
+    params[["ps_method_dis"]] <- FALSE
+    params[["or_method_dis"]] <- FALSE
+    params[["ite_method_inf"]] <- "personalized"
+    params[["include_ps_inf"]] <- FALSE
+    params[["ps_method_inf"]] <- FALSE
+    params[["or_method_inf"]] <- FALSE
   }
 
   return(params)
