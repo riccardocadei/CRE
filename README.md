@@ -31,9 +31,71 @@ Import.
 library("CRE")
 ```
 
-## Usage
 
-Example 1 (*default parameters*)
+## Arguments
+
+__Data (required)__   
+**`y`** The observed response/outcome vector (binary or continuos).
+
+**`z`** The treatment/exposure/policy vector (binary).  
+
+**`X`** The covariate matrix (binary or continuos).    
+
+__Parameters (not required)__    
+**`method_parameters`** The list of parameters to define the models used, including:
+- **`ratio_dis`** The ratio of data delegated to the discovery sub-sample (default: 0.5). 
+- **`ite_method_dis`** The method to estimate the individual treatment effect (ITE) on the discovery sub-sample (default: 'aipw') [1].    
+- **`include_ps_dis`**  Whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, or CF (default: TRUE).    
+- **`ps_method_dis`** The estimation model for the propensity score on the discovery sub-sample (default: 'SL.xgboost').     
+- **`or_method_dis`** The estimation model for the outcome regressions estimate_ite_aipw on the discovery sub-sample (default: 'SL.xgboost').      
+- **`ite_method_inf`** The method to estimate the individual treatment effect (ITE) on the infernce sub-sample (default: 'aipw') [1].    
+- **`include_ps_inf`** Whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, or CF (default: TRUE).     
+- **`ps_method_inf`** The estimation model for the propensity score on the inference subsample (default: 'SL.xgboost').     
+- **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').     
+- **`cate_method`** The method to estimate the conditional average treatment effect (CATE) values (default: 'linreg').     
+- **`cate_SL_library`** The library used if cate_method is set to DRLearner (default: 'SL.xgboost').    
+- **`offset`** Name of the covariate to use as offset (i.e. 'x1') for Poisson ITE Estimation. NULL if offset is not used (default: NULL).
+
+**`hyper_params`** The list of hyper parameters to finetune the method, including:
+- **`intervention_vars`** Intervention-able variables used for Rules Generation (default: NULL).     
+- **`ntrees_rf`** The number of decision trees for randomForest (default: 100).     
+- **`ntrees_gbm`** The number of decision trees for gradient boosting (default: 0).     
+- **`node_size`** The minimum size of the trees' terminal nodes (default: 20).      
+- **`max_nodes`** The maximum number of terminal nodes trees in the forest can have (default: 5).    
+- **`max_depth`** The number of top levels from each tree considered to extract conditions (default: 3).    
+- **`replace`** Boolean variable for replacement in bootstrapping (default: TRUE).     
+- **`max_decay`** Decay Threshold for pruning the rules (default: 0.025).     
+- **`type_decay`** Decay Type for pruning the rules: 1 relative error; 2 error (default: 2).     
+- **`t_ext`** The threshold to define too generic or too specific (extreme) rules (default: 0.01).     
+- **`t_corr`** The threshold to define correlated rules (default: 1). 
+- **`t_pvalue`** The threshold to define statistically significant rules (default: 0.05).
+- **`stability_selection`** Whether or not using stability selection for selecting the causal rules (default: TRUE).
+- **`cutoff`** Threshold defining the minimum cutoff value for the stability scores (default: 0.9).
+- **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).
+- **`penalty_rl`** Order of penalty for rules length during LASSO for Causal
+Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2) (default: 1).
+
+__Additional Estimates (not required)__    
+**`ite`** The estimated ITE vector. If given, both the ITE estimation steps in Discovery and Inference are skipped (deault: NULL).
+
+
+## Notes
+
+**[1]** Options for the ITE estimation are as follows: 
+- Inverse Propensity Weighting (`ipw`)
+- Stabilized Inverse Propensity Weighting (`sipw`)
+- Augmented Inverse Propensity Weighting (`aipw`)
+- Outcome Regression (`oreg`)
+- Bayesian Additive Regression Trees (`bart`)
+- Bayesian Causal Forests (`bcf`)
+- Causal Forests (`cf`)
+- Poisson Regression (`poisson`)
+if other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.
+
+
+## Examples
+
+**Example 1** (*default parameters*)
 ```R
 set.seed(9687)
 dataset <- generate_cre_dataset(n = 1000, 
@@ -53,7 +115,7 @@ summary(cre_results, method_params, hyper_params)
 plot(cre_results)
 ```
 
-Example 2 (*personalized ite estimation*)
+**Example 2** (*personalized ite estimation*)
 ```R
 set.seed(9687)
 dataset <- generate_cre_dataset(n = 1000, 
@@ -74,7 +136,7 @@ summary(cre_results)
 plot(cre_results)
 ```
 
-Example 3 (*setting parameters*)
+**Example 3** (*setting parameters*)
 ```R
   set.seed(9687)
   dataset <- generate_cre_dataset(n = 1000, 
@@ -130,66 +192,6 @@ More synthetic data sets can be generated using `generate_cre_dataset()`.
 ## Simulations
 
 TODO
-
-
-## Arguments
-
-__Data (required)__   
-**`y`** The observed response/outcome vector (binary or continuos).
-**`z`** The treatment/exposure/policy vector (binary).    
-**`X`** The covariate matrix (binary or continuos).    
-
-__Parameters (not required)__    
-**`method_parameters`** The list of parameters to define the models used, including:
-- **`ratio_dis`** The ratio of data delegated to the discovery sub-sample (default: 0.5). 
-__Parameters for Discovery__           
-- **`ite_method_dis`** The method to estimate the individual treatment effect (ITE) on the discovery sub-sample (default: 'aipw') [1].    
-- **`include_ps_dis`**  Whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, or CF (default: TRUE).    
-- **`ps_method_dis`** The estimation model for the propensity score on the discovery sub-sample (default: 'SL.xgboost').     
-- **`or_method_dis`** The estimation model for the outcome regressions estimate_ite_aipw on the discovery sub-sample (default: 'SL.xgboost').      
-__Parameters for Inference__     
-- **`ite_method_inf`** The method to estimate the individual treatment effect (ITE) on the infernce sub-sample (default: 'aipw') [1].    
-- **`include_ps_inf`** Whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, or CF (default: TRUE).     
-- **`ps_method_inf`** The estimation model for the propensity score on the inference subsample (default: 'SL.xgboost').     
-- **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').     
-- **`cate_method`** The method to estimate the conditional average treatment effect (CATE) values (default: 'linreg').     
-- **`cate_SL_library`** The library used if cate_method is set to DRLearner (default: 'SL.xgboost').    
-- **`offset`** Name of the covariate to use as offset (i.e. 'x1') for Poisson ITE Estimation. NULL if offset is not used (default: NULL).
-**`hyper_params`** The list of hyper parameters to finetune the method, including:
-- **`intervention_vars`** Intervention-able variables used for Rules Generation (default: NULL).     
-- **`ntrees_rf`** The number of decision trees for randomForest (default: 100).     
-- **`ntrees_gbm`** The number of decision trees for gradient boosting (default: 0).     
-- **`node_size`** The minimum size of the trees' terminal nodes (default: 20).      
-- **`max_nodes`** The maximum number of terminal nodes trees in the forest can have (default: 5).    
-- **`max_depth`** The number of top levels from each tree considered to extract conditions (default: 3).    
-- **`replace`** Boolean variable for replacement in bootstrapping (default: TRUE).     
-- **`max_decay`** Decay Threshold for pruning the rules (default: 0.025).     
-- **`type_decay`** Decay Type for pruning the rules: 1 relative error; 2 error (default: 2).     
-- **`t_ext`** The threshold to define too generic or too specific (extreme) rules (default: 0.01).     
-- **`t_corr`** The threshold to define correlated rules (default: 1). 
-- **`t_pvalue`** The threshold to define statistically significant rules (default: 0.05).
-- **`stability_selection`** Whether or not using stability selection for selecting the causal rules (default: TRUE).
-- **`cutoff`** Threshold defining the minimum cutoff value for the stability scores (default: 0.9).
-- **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).
-- **`penalty_rl`** Order of penalty for rules length during LASSO for Causal
-Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2) (default: 1).
-
-__Additional Estimates (not required)__    
-**`ite`** The estimated ITE vector. If given, both the ITE estimation steps in Discovery and Inference are skipped (deault: NULL).
-
-
-## Notes
-
-**[1]** Options for the ITE estimation are as follows: 
-- Inverse Propensity Weighting (`ipw`)
-- Stabilized Inverse Propensity Weighting (`sipw`)
-- Augmented Inverse Propensity Weighting (`aipw`)
-- Outcome Regression (`oreg`)
-- Bayesian Additive Regression Trees (`bart`)
-- Bayesian Causal Forests (`bcf`)
-- Causal Forests (`cf`)
-- Poisson Regression (`poisson`)
-if other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.
 
 
 ## References

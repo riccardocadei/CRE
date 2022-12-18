@@ -15,7 +15,7 @@
 #' @export
 #'
 print.cre <- function(x, verbose=2) {
-  print(x, verbose)
+  summary(x, verbose)
 }
 
 
