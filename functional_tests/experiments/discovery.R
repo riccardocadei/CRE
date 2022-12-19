@@ -205,7 +205,7 @@ for (confounding in confoundings) {
   rownames(discovery) <- 1:nrow(discovery)
 
   # Save results
-  results_dir <- "functional_tests/experiments/results/"
+  results_dir <- "../functional_tests/experiments/results/"
   if (!dir.exists(results_dir)) {
     dir.create(results_dir)
   }

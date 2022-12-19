@@ -319,7 +319,7 @@ for (confounding in confoundings) {
   rownames(estimation) <- 1:nrow(estimation)
 
   # Save results
-  results_dir <- "functional_tests/experiments/results/"
+  results_dir <- "../functional_tests/experiments/results/"
   if (!dir.exists(results_dir)) {
     dir.create(results_dir)
   }
