@@ -6,14 +6,18 @@
 #' Estimates the Individual Treatment Effect using Bayesian Additive Regression
 #' Trees given a response vector, a treatment vector, and a features matrix.
 #'
-#' @param y the observed response vector
-#' @param z the treatment vector
-#' @param X the features matrix
-#' @param include_ps whether or not to include propensity score estimate as a
-#' covariate in ITE estimation
-#' @param ps_method method for the estimation of the propensity score
+#' @param y The observed response vector.
+#' @param z The treatment vector.
+#' @param X The features matrix.
+#' @param include_ps Whether or not to include propensity score estimate as a
+#' covariate in ITE estimation.
+#' @param ps_method Method for the estimation of the propensity score.
 #'
-#' @return a list of ITE estimates and standard deviations for the ITE estimates
+#' @return A list of ITE estimates and standard deviations for the ITE
+#' estimates.
+#'
+#' @note The number of samples and the number of burn are set by default equal
+#' to 500.
 #'
 #' @keywords internal
 #'

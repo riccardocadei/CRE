@@ -35,7 +35,7 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
   mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
 
   # Random Forest
-  # TO DO: replace splitting criteria enforcing heterogeneity
+  # TODO: replace splitting criteria enforcing heterogeneity
   forest <- randomForest::randomForest(x = X,
                                        y = ite,
                                        sampsize = sf * N,

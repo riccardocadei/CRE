@@ -8,22 +8,27 @@ Trees}
 estimate_ite_bart(y, z, X, include_ps, ps_method)
 }
 \arguments{
-\item{y}{the observed response vector}
+\item{y}{The observed response vector.}
 
-\item{z}{the treatment vector}
+\item{z}{The treatment vector.}
 
-\item{X}{the features matrix}
+\item{X}{The features matrix.}
 
-\item{include_ps}{whether or not to include propensity score estimate as a
-covariate in ITE estimation}
+\item{include_ps}{Whether or not to include propensity score estimate as a
+covariate in ITE estimation.}
 
-\item{ps_method}{method for the estimation of the propensity score}
+\item{ps_method}{Method for the estimation of the propensity score.}
 }
 \value{
-a list of ITE estimates and standard deviations for the ITE estimates
+A list of ITE estimates and standard deviations for the ITE
+estimates.
 }
 \description{
 Estimates the Individual Treatment Effect using Bayesian Additive Regression
 Trees given a response vector, a treatment vector, and a features matrix.
+}
+\note{
+The number of samples and the number of burn are set by default equal
+to 500.
 }
 \keyword{internal}

@@ -6,7 +6,9 @@
 #'
 #' @param x A cre object from running the CRE function.
 #' @param verbose Set level of results description details: only results summary
-#' 0, results+parameters summary 1, results+parameters+rules summary (default 2).
+#' 0, results+parameters summary 1, results+parameters+rules summary
+#' (default 2).
+#' @param ... Additional arguments passed to customize the results description.
 #'
 #'
 #' @return
@@ -14,8 +16,8 @@
 #'
 #' @export
 #'
-print.cre <- function(x, verbose=2) {
-  summary(x, verbose)
+print.cre <- function(x, verbose=2, ...) {
+  summary(x, verbose, ...)
 }
 
 
@@ -28,13 +30,18 @@ print.cre <- function(x, verbose=2) {
 #'
 #' @param object A cre object from running the CRE function.
 #' @param verbose Set level of results description details: only results summary
-#' 0, results+parameters summary 1, results+parameters+rules summary (default 2).
+#' 0, results+parameters summary 1, results+parameters+rules summary
+#' (default 2).
+#' @param ... Additional arguments passed to customize the results description.
 #'
 #' @return
 #' A summary of the CRE object
 #'
 #' @export
-summary.cre <- function(object, verbose=2) {
+summary.cre <- function(object, verbose=2, ...) {
+
+  object <- unclass(object)
+  summary_options <- c(...)
 
   M <- object[['M']]
   CATE <- object[["CATE"]]

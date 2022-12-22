@@ -14,7 +14,7 @@
 #' offset.
 #'
 #' @return
-#' A vector of ITE estimates
+#' A vector of ITE estimates.
 #'
 #' @keywords internal
 #'

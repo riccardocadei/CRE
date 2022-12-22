@@ -20,7 +20,7 @@ corresponding outcome rate. NULL to model drectly the outcome counts without
 offset.}
 }
 \value{
-A vector of ITE estimates
+A vector of ITE estimates.
 }
 \description{
 Estimates the Individual Treatment Effect using Poisson Regression given a

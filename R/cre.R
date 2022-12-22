@@ -129,6 +129,8 @@
 #'}
 cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
 
+  '%>%' <- magrittr::'%>%'
+
   # Input checks ---------------------------------------------------------------
   logger::log_info("Checking Parameters...")
   method_params <- check_method_params(y = y,
@@ -158,7 +160,7 @@ cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
 
 
   # Discovery ------------------------------------------------------------------
-  logger::log_info("Starting Causal Rules Discovery")
+  logger::log_info("Starting Causal Rules Discovery...")
 
   # Estimate ITE
   if (is.null(ite)) {
@@ -174,7 +176,7 @@ cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
 
     ite_dis <- ite_list_dis[["ite"]]
   } else {
-    logger::log_info("Using the provided ITE estimations ...")
+    logger::log_info("Using the provided ITE estimations...")
   }
 
   # Generate Causal Decision Rules
@@ -188,7 +190,7 @@ cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
 
 
   # Inference ------------------------------------------------------------------
-  logger::log_info("Starting CATE Inference")
+  logger::log_info("Starting CATE Inference...")
 
   # Estimate ITE
   if (is.null(ite)) {
@@ -256,10 +258,10 @@ cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
   attr(results, "class") <- "cre"
 
   # Sensitivity Analysis -------------------------------------------------------
-  #logger::log_info("Starting Sensitivity Analysis")
+  #logger::log_info("Starting Sensitivity Analysis...")
   # TO DO
 
   # Return Results -------------------------------------------------------------
-  logger::log_info("CRE method complete")
+  logger::log_info("CRE method complete!")
   return(results)
 }
