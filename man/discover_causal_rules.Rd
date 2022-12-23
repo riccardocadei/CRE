@@ -24,8 +24,8 @@ discover_causal_rules(
 \item{stability_selection}{Whether or not using stability selection to
 select the causal rules.}
 
-\item{cutoff}{Threshold defining the minimum cutoff value for the stability
-scores.}
+\item{cutoff}{Threshold (percentage) defining the minimum cutoff value for
+the stability scores.}
 
 \item{pfer}{Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules).}

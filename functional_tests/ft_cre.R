@@ -28,7 +28,7 @@ method_params = list(ratio_dis = 0.25,
 
 hyper_params = list(intervention_vars = c(),
                     ntrees_rf = 200,
-                    ntrees_gbm = 200,
+                    ntrees_gbm = 0,
                     node_size = 20,
                     max_nodes = 5,
                     max_depth = 3,
@@ -40,9 +40,9 @@ hyper_params = list(intervention_vars = c(),
                     t_pvalue = 0.05,
                     stability_selection = TRUE,
                     cutoff = 0.6,
-                    pfer = 1,
+                    pfer = 0.1,
                     penalty_rl = 1)
 
-cre_result <- cre(y, z, X) #, method_params, hyper_params)
-summary(cre_result, method_params, hyper_params)
+cre_result <- cre(y, z, X, method_params, hyper_params)
+summary(cre_result)
 plot(cre_result)

@@ -64,8 +64,8 @@
 #' (default: 0.05).
 #'  - *stability_selection*: Whether or not using stability selection for
 #'  selecting the causal rules (default: TRUE).
-#'  - *cutoff*:  Threshold defining the minimum cutoff value for the stability
-#' scores (default: 0.9).
+#'  - *cutoff*:  Threshold (percentage) defining the minimum cutoff value for t
+#'  he stability scores (default: 0.9).
 #'  - *pfer*: Upper bound for the per-family error rate (tolerated amount of
 #' falsely selected rules) (default: 1).
 #'  - *penalty_rl*: Order of penalty for rules length during LASSO for Causal
