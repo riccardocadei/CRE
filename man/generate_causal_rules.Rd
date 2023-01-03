@@ -16,7 +16,7 @@ generate_causal_rules(X, ite, method_params, hyper_params)
 \item{hyper_params}{Hyper Parameters.}
 }
 \value{
-A vector of Causal Rules.
+A vector of causal rules.
 }
 \description{
 Method for generating Causal Decision Rules.

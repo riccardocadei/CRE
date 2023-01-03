@@ -41,10 +41,10 @@ no confounding "no" (default: "no")}
 \value{
 A list of synthetic data containing:
 \itemize{
-\item the outcome vector (y),
-\item the treatment vector (z),
-\item the covariates matrix (X) and
-\item the individual treatment vector (ite)
+\item the outcome vector (\code{y}),
+\item the treatment vector (\code{z}),
+\item the covariates matrix (\code{X}) and
+\item the individual treatment vector (\code{ite})
 }
 }
 \description{

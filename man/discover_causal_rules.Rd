@@ -31,12 +31,12 @@ the stability scores.}
 falsely selected rules).}
 
 \item{penalty_rl}{Order of penalty for rules length during LASSO for Causal
-Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)}
+Rules Discovery (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2)}
 }
 \value{
 List of the Causal Decision Rules discovered
 }
 \description{
-Discover Causal Decision Rules by randomization-based tests
+Discovers Causal Decision Rules by randomization-based tests
 }
 \keyword{internal}

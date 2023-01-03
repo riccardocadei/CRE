@@ -21,10 +21,10 @@
 #'
 #' @return
 #' A list of synthetic data containing:
-#' - the outcome vector (y),
-#' - the treatment vector (z),
-#' - the covariates matrix (X) and
-#' - the individual treatment vector (ite)
+#' - the outcome vector (`y`),
+#' - the treatment vector (`z`),
+#' - the covariates matrix (`X`) and
+#' - the individual treatment vector (`ite`)
 #'
 #' @note
 #' Set (binary/continuous) covariates domain (binary_covariates)

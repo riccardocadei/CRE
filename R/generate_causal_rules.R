@@ -10,7 +10,7 @@
 #' @param hyper_params Hyper Parameters.
 #'
 #' @return
-#' A vector of Causal Rules.
+#' A vector of causal rules.
 #'
 #' @keywords internal
 #'
@@ -73,6 +73,6 @@ generate_causal_rules <- function(X, ite, method_params, hyper_params) {
             "Filter 3 (correlated)" = M_filter3,
             "Causal" = M_filter4)
 
-  return(list(rules=rules_list,M=M))
+  return(list(rules=rules_list, M=M))
 }
 

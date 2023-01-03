@@ -2,7 +2,7 @@
 #' Discover Causal Decision Rules
 #'
 #' @description
-#' Discover Causal Decision Rules by randomization-based tests
+#' Discovers Causal Decision Rules by randomization-based tests
 #'
 #' @param rules_matrix The causal rules matrix.
 #' @param rules_list A vector of causal rules.
@@ -14,7 +14,7 @@
 #' @param pfer Upper bound for the per-family error rate (tolerated amount of
 #' falsely selected rules).
 #' @param penalty_rl Order of penalty for rules length during LASSO for Causal
-#' Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
+#' Rules Discovery (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2)
 #'
 #' @return
 #' List of the Causal Decision Rules discovered
@@ -25,10 +25,10 @@ discover_causal_rules <- function(rules_matrix, rules_list, ite,
                                   stability_selection, cutoff, pfer,
                                   penalty_rl) {
 
-  if (penalty_rl>0){
-    rules_weight = c()
+  if (penalty_rl > 0){
+    rules_weight <- c()
     for (rule in rules_list){
-      rules_length = lengths(regmatches(rule, gregexpr("&", rule)))+1
+      rules_length <- lengths(regmatches(rule, gregexpr("&", rule)))+1
       rule_weight <- rules_length^penalty_rl
       rules_weight <- append(rules_weight,rule_weight)
     }

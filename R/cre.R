@@ -3,11 +3,11 @@
 #'
 #' @description
 #' Performs the Causal Rule Ensemble on a data set with a response variable,
-#'  a treatment variable, and various features
+#'  a treatment variable, and various features.
 #'
-#' @param y The observed response vector.
-#' @param z The treatment vector.
-#' @param X The covariate matrix.
+#' @param y An observed response vector.
+#' @param z A treatment vector.
+#' @param X A covariate matrix (or a data frame).
 #' @param method_params The list of parameters to define the models used,
 #' including:
 #'   - *Parameters for Honest Splitting*
@@ -76,12 +76,12 @@
 #'
 #' @return
 #' An S3 object containing:
-#' - the number of Decision Rules extracted at each step
-#' - the data.frame of Conditional Average Treatment Effect decomposition
-#' estimates with corresponding uncertanty quantification
-#' - the list of Method Parameters
-#' - the list of Hyper Parameters
-#' - the Individual Treatment Effect predicted
+#' - A number of Decision Rules extracted at each step (`M`).
+#' - A data.frame of Conditional Average Treatment Effect decomposition
+#' estimates with corresponding uncertainty quantification (`CATE`).
+#' - A list of Method Parameters (`method_params`).
+#' - A list of Hyper Parameters (`hyper_params`).
+#' - An Individual Treatment Effect predicted (`ite_pred`).
 #'
 #' @export
 #'

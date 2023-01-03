@@ -17,6 +17,6 @@ filter_extreme_rules(rules_matrix, rules_list, t_ext)
 The rules matrix only with the rules selected
 }
 \description{
-Discard rules with too few or too many observations.
+Discards rules with too few or too many observations.
 }
 \keyword{internal}

@@ -2,7 +2,7 @@
 #' Filter Extreme Decision Rules
 #'
 #' @description
-#' Discard rules with too few or too many observations.
+#' Discards rules with too few or too many observations.
 #'
 #' @param rules_matrix The causal rules matrix.
 #' @param rules_list The list of the causal rules.

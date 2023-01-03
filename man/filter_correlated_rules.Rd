@@ -17,6 +17,6 @@ filter_correlated_rules(rules_matrix, rules_list, t_corr)
 The rules matrix only with the rules selected
 }
 \description{
-Discard Decision Rules too correlated (i.e. Cov(rule1,rule2)>t_corr).
+Discard Decision Rules too correlated (i.e. \code{Cov(rule1,rule2) > t_corr}).
 }
 \keyword{internal}
