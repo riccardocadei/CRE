@@ -67,41 +67,38 @@ response vector, a treatment vector, and a features matrix.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">estimate_ite_poisson</span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">X_names</span>, <span class="va">include_offset</span>, <span class="va">offset_name</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">estimate_ite_poisson</span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">X_names</span>, <span class="va">offset</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>y</dt>
-<dd><p>the observed response vector</p></dd>
+<dd><p>The observed response vector.</p></dd>
 
 
 <dt>z</dt>
-<dd><p>the treatment vector</p></dd>
+<dd><p>The treatment vector.</p></dd>
 
 
 <dt>X</dt>
-<dd><p>the features matrix</p></dd>
+<dd><p>The features matrix.</p></dd>
 
 
 <dt>X_names</dt>
-<dd><p>the names of the covariates</p></dd>
+<dd><p>The names of the covariates.</p></dd>
 
 
-<dt>include_offset</dt>
-<dd><p>whether or not to include an offset when estimating
-the ITE, for poisson only</p></dd>
-
-
-<dt>offset_name</dt>
-<dd><p>the name of the offset, if it is to be included</p></dd>
+<dt>offset</dt>
+<dd><p>Name of the covariate to use as offset (i.e. 'x1') to model the
+corresponding outcome rate. NULL to model drectly the outcome counts without
+offset.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>a vector of ITE estimates</p>
+<p>A vector of ITE estimates.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
