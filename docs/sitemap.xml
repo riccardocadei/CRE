@@ -76,6 +76,9 @@
     <loc>https://github.com/fasrc/CRE/reference/discard_correlated_rules.html</loc>
   </url>
   <url>
+    <loc>https://github.com/fasrc/CRE/reference/discover_causal_rules.html</loc>
+  </url>
+  <url>
     <loc>https://github.com/fasrc/CRE/reference/estimate_cate.html</loc>
   </url>
   <url>
@@ -121,7 +124,22 @@
     <loc>https://github.com/fasrc/CRE/reference/estimate_ps.html</loc>
   </url>
   <url>
+    <loc>https://github.com/fasrc/CRE/reference/evaluate.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/fasrc/CRE/reference/extract_effect_modifiers.html</loc>
+  </url>
+  <url>
     <loc>https://github.com/fasrc/CRE/reference/extract_rules.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/fasrc/CRE/reference/filter_correlated_rules.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/fasrc/CRE/reference/filter_extreme_rules.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/fasrc/CRE/reference/filter_irrelevant_rules.html</loc>
   </url>
   <url>
     <loc>https://github.com/fasrc/CRE/reference/generate_causal_rules.html</loc>
@@ -140,6 +158,9 @@
   </url>
   <url>
     <loc>https://github.com/fasrc/CRE/reference/get_logger.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/fasrc/CRE/reference/honest_splitting.html</loc>
   </url>
   <url>
     <loc>https://github.com/fasrc/CRE/reference/index.html</loc>
