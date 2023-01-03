@@ -6,21 +6,20 @@
 \usage{
 generate_rules(
   X,
-  ite_std,
+  ite,
   intervention_vars,
   ntrees_rf,
   ntrees_gbm,
   node_size,
   max_nodes,
   max_depth,
-  replace,
-  random_state
+  replace
 )
 }
 \arguments{
 \item{X}{The covariate matrix.}
 
-\item{ite_std}{The standardized ITE.}
+\item{ite}{The estimated ITE.}
 
 \item{intervention_vars}{Intervention-able variables used for Rules
 Generation.}
@@ -38,8 +37,6 @@ have.}
 to extract conditions.}
 
 \item{replace}{Boolean variable for replacement in bootstrapping.}
-
-\item{random_state}{An integer number that represents a random state.}
 }
 \value{
 List of generated Decision Rules

@@ -4,12 +4,12 @@
 \alias{generate_causal_rules}
 \title{Generate Causal Rules}
 \usage{
-generate_causal_rules(X, ite_std, method_params, hyper_params)
+generate_causal_rules(X, ite, method_params, hyper_params)
 }
 \arguments{
 \item{X}{The covariate matrix.}
 
-\item{ite_std}{The standardized ITE.}
+\item{ite}{The estimated ITE.}
 
 \item{method_params}{Method Parameters.}
 

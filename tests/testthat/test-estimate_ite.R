@@ -3,9 +3,10 @@ test_that("ITE Estimated Correctly", {
   #Generate sample data
   set.seed(181)
   dts_1 <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 2, binary_outcome = FALSE)
+                                effect_size = 2, binary_covariates = FALSE,
+                                binary_outcome = FALSE)
   dts_2 <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
-                                    effect_size = 2, binary_outcome = FALSE)
+                                effect_size = 2, binary_outcome = FALSE)
 
   ite_method <- "bart"
   include_ps <- TRUE
@@ -74,11 +75,9 @@ test_that("ITE Estimated Correctly", {
                              oreg_method = oreg_method,
                              random_state = random_state)
 
-  expect_true(length(ite_result) == 3)
+  expect_true(length(ite_result) == 2)
   expect_true(class(ite_result[[1]]) == "numeric")
-  expect_true(class(ite_result[[2]]) == "numeric")
   expect_true(length(ite_result[[1]]) == length(dts_1$y))
-  expect_true(length(ite_result[[2]]) == length(dts_1$y))
 
 
   ite_method <- "sipw"
@@ -89,11 +88,9 @@ test_that("ITE Estimated Correctly", {
                              oreg_method = oreg_method,
                              random_state = random_state)
 
-  expect_true(length(ite_result) == 3)
+  expect_true(length(ite_result) == 2)
   expect_true(class(ite_result[[1]]) == "numeric")
-  expect_true(class(ite_result[[2]]) == "numeric")
   expect_true(length(ite_result[[1]]) == length(dts_1$y))
-  expect_true(length(ite_result[[2]]) == length(dts_1$y))
 
 
   ite_method <- "bcf"
@@ -104,11 +101,9 @@ test_that("ITE Estimated Correctly", {
                              oreg_method = oreg_method,
                              random_state = random_state)
 
-  expect_true(length(ite_result) == 3)
+  expect_true(length(ite_result) == 2)
   expect_true(class(ite_result[[1]]) == "numeric")
-  expect_true(class(ite_result[[2]]) == "numeric")
   expect_true(length(ite_result[[1]]) == length(dts_1$y))
-  expect_true(length(ite_result[[2]]) == length(dts_1$y))
 
   ite_method <- "poisson"
   ite_result <- estimate_ite(y = round(abs(dts_1$y)+1), z=dts_1$z, dts_1$X,
@@ -117,15 +112,12 @@ test_that("ITE Estimated Correctly", {
                              ps_method = ps_method,
                              oreg_method = oreg_method,
                              random_state = random_state,
-                             include_offset = FALSE,
-                             offset_name = NA,
+                             offset = NULL,
                              X_names = names(dts_1$X))
 
-  expect_true(length(ite_result) == 3)
+  expect_true(length(ite_result) == 2)
   expect_true(class(ite_result[[1]]) == "numeric")
-  expect_true(class(ite_result[[2]]) == "numeric")
   expect_true(length(ite_result[[1]]) == length(dts_1$y))
-  expect_true(length(ite_result[[2]]) == length(dts_1$y))
 })
 
 
@@ -158,11 +150,9 @@ test_that("ITE (oreg) Estimated Correctly", {
                              oreg_method = oreg_method,
                              random_state = random_state)
 
-  expect_true(length(ite_result) == 3)
+  expect_true(length(ite_result) == 2)
   expect_true(class(ite_result[[1]]) == "numeric")
-  expect_true(class(ite_result[[2]]) == "numeric")
   expect_true(length(ite_result[[1]]) == length(dts_1$y))
-  expect_true(length(ite_result[[2]]) == length(dts_1$y))
 })
 
 
@@ -189,9 +179,9 @@ test_that("ITE (cf) Estimated Correctly", {
                              oreg_method = oreg_method,
                              random_state = random_state)
 
-  expect_true(length(ite_result) == 3)
+  expect_true(length(ite_result) == 2)
   expect_true(class(ite_result[[1]]) == "numeric")
-  expect_true(class(ite_result[[2]]) == "numeric")
   expect_true(length(ite_result[[1]]) == length(dts_1$y))
-  expect_true(length(ite_result[[2]]) == length(dts_1$y))
+
+  # TODO: add tests on standard deviation
 })

@@ -17,10 +17,9 @@ test_that("cre Runs Correctly", {
                        ps_method_inf = "SL.xgboost",
                        oreg_method_inf = "SL.xgboost",
                        include_ps_inf = TRUE,
-                       include_offset = FALSE,
                        cate_method = "DRLearner",
                        cate_SL_library = "SL.xgboost",
-                       offset_name = NA,
+                       offset = NULL,
                        random_state = 3591)
 
  hyper_params = list(intervention_vars = c(),
@@ -89,10 +88,10 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
   method_params[["ite_method_dis"]] <- "poisson"
-  method_params[["include_offset"]] <- TRUE
+  method_params[["offset"]] <- "test"
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
-  method_params[["include_offset"]] <- FALSE
+  method_params[["offset"]] <- NULL
   method_params[["cate_method"]] <- "test"
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
@@ -108,7 +107,7 @@ test_that("cre Runs Correctly", {
   method_params[["cate_method"]] <- "cf-means"
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
-  method_params[["cate_method"]] <- "DRLearner"
+  method_params[["cate_method"]] <- "linreg"
   method_params[["ite_method_inf"]] <- "bart"
   hyper_params[["ntrees_rf"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
@@ -157,8 +156,12 @@ test_that("cre Runs Correctly", {
   hyper_params[["penalty_rl"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  # Correct outputs
   hyper_params[["penalty_rl"]] <- 1
+  hyper_params[["intervention_vars"]] <- c("test")
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  # Correct outputs
+  hyper_params[["intervention_vars"]] <- c("x1","x2","x5")
   cre_results <- cre(y, z, X, method_params, hyper_params)
   expect_true(class(cre_results) == "cre")
 

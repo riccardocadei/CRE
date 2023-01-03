@@ -10,9 +10,8 @@
 #' @param z_inf The treatment vector for the inference subsample.
 #' @param X_inf The covariate vector for the inference subsample.
 #' @param X_names The names of the covariates.
-#' @param include_offset Whether or not to include an offset when estimating the
-#'  ITE, for poisson only.
-#' @param offset_name The name of the offset, if it is to be included.
+#' @param offset Name of the covariate to use as offset (i.e. 'x1') for
+#' Poisson Estimation. NULL if offset is not used.
 #' @param rules_matrix_inf The standardized causal rules matrix for the
 #' inference subsample.
 #' @param select_rules_interpretable The list of select causal rules in terms of
@@ -32,8 +31,7 @@
 #' @keywords internal
 #'
 #'
-estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
-                          offset_name, rules_matrix_inf,
+estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf,
                           select_rules_interpretable,
                           cate_method, ite_inf, sd_ite_inf,
                           cate_SL_library, t_pvalue) {
@@ -54,10 +52,10 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
     cate_coeff <- summary(cate_model)$coefficients
     colnames(cate_coeff) <- c("Estimate", "Std_Error", "Z_Value", "P_Value")
     cate_names <- rownames(cate_coeff) %>%
-      stringr::str_replace_all("(Intercept)", "ATE")
+      stringr::str_replace_all("(Intercept)", "BATE")
 
-    cate_final <- data.frame(Rule = cate_names) %>% cbind(cate_coeff)
-    rownames(cate_final) <- 1:nrow(cate_final)
+    cate_summary <- data.frame(Rule = cate_names) %>% cbind(cate_coeff)
+    rownames(cate_summary) <- 1:nrow(cate_summary)
 
   } else {
     # Estimate CATE
@@ -73,9 +71,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
       colnames(rules_matrix_inf) <- select_rules_interpretable
       colnames(X_inf) <- X_names
-      if (include_offset) {
-        X_offset <- X_inf[,which(X_names == offset_name)]
-        X_inf <- X_inf[,-which(X_names == offset_name)]
+      if (!is.null(offset)) {
+        X_offset <- X_inf[,which(X_names == offset)]
+        X_inf <- X_inf[,-which(X_names == offset)]
 
         # Fit gnm model
         conditional_gnm <- gnm::gnm(y_inf ~ offset(log(X_offset)) + z_inf +
@@ -97,9 +95,10 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
         cbind(cate_model)
       colnames(cate_temp) <- c("Rule", "Estimate", "Std_Error",
                                "Z_Value", "P_Value")
-      cate_final <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
+      cate_summary <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
                                       cate_temp$Rule == "(BATE)")
-      rownames(cate_final) <- 1:nrow(cate_final)
+      rownames(cate_summary) <- 1:nrow(cate_summary)
+      cate_model <- conditional_gnm
     } else if (cate_method %in% c("DRLearner")) {
       # split the data evenly
       split <- sample(nrow(X_inf), nrow(X_inf) * 0.5, replace = FALSE)
@@ -169,9 +168,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
       cate_temp <- data.frame(Rule = cate_names) %>%
         cbind(cate_model)
-      cate_final <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
+      cate_summary <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
                                       cate_temp$Rule == "(BATE)")
-      rownames(cate_final) <- 1:nrow(cate_final)
+      rownames(cate_summary) <- 1:nrow(cate_summary)
     } else if (cate_method == "bart-baggr") {
 
       if (!requireNamespace("baggr", quietly = TRUE)) {
@@ -203,7 +202,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
 
       ate <- sum_ate / n_samples
       sd_ate <- sum_sd_ate / n_samples
-      cate_means <- data.frame(Rule = "Average Treatment Effect",
+      cate_means <- data.frame(Rule = "(BATE)",
                                CATE = ate,
                                CI_lower = ate - (1.96 * sd_ate),
                                CI_upper = ate + (1.96 * sd_ate))
@@ -239,7 +238,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                                 CI_upper = cate_temp + (1.96 * sd_cate_temp))
         cate_means <- rbind(cate_means, cate_temp)
       }
-      cate_final <- cate_means
+      cate_summary <- cate_means
+      # TODO: return CATE model
+      cate_model <- NULL
     } else if (cate_method == "cf-means") {
       stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
       df_rules_factor <- as.data.frame(rules_matrix_inf) %>%
@@ -248,7 +249,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
       joined_ite_rules <- cbind(ite_inf, sd_ite_inf, df_rules_factor)
 
       # Generate CATE data frame with ATE
-      cate_means <- data.frame(Rule = "Average Treatment Effect",
+      cate_means <- data.frame(Rule = "()",
                                CATE = mean(ite_inf),
                                CI_lower = mean(ite_inf) -
                                  (1.96 * mean(sd_ite_inf)),
@@ -269,7 +270,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                                   (1.96 * mean(df_temp$sd_ite_inf)))
         cate_means <- rbind(cate_means, cate_temp)
       }
-      cate_final <- cate_means
+      cate_summary <- cate_means
+      # TODO: return CATE model
+      cate_model <- NULL
     } else if (cate_method == "linreg") {
       stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
       df_rules_factor <- as.data.frame(rules_matrix_inf) %>%
@@ -300,13 +303,15 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, include_offset,
                               CI_upper = cate_reg_orig[,4],
                               P_Value = cate_reg_orig[,2])
       row.names(cate_temp) <- 1:nrow(cate_temp)
-      cate_final <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
+      cate_summary <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
                                       cate_temp$Rule == "(BATE)")
+      cate_model <- model1_cate
     } else {
       stop("Error: No CATE Estimation method specified.")
     }
   }
 
   # Return final results
-  return(cate_final)
+  cate = list(summary = cate_summary, model = cate_model)
+  return(cate)
 }

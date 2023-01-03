@@ -4,7 +4,7 @@
 \alias{honest_splitting}
 \title{Honest Splitting}
 \usage{
-honest_splitting(y, z, X, ratio_dis)
+honest_splitting(y, z, X, ratio_dis, ite = NULL)
 }
 \arguments{
 \item{y}{The observed response vector.}
@@ -13,10 +13,12 @@ honest_splitting(y, z, X, ratio_dis)
 
 \item{X}{The features matrix.}
 
-\item{ratio_dis}{the ratio of data delegated to the discovery subsample}
+\item{ratio_dis}{The ratio of data delegated to the discovery subsample.}
+
+\item{ite}{The estimated ITE.}
 }
 \value{
-A list containing the discovery and inference subsamples
+A list containing the discovery and inference subsamples.
 }
 \description{
 Splits data into discovery and inference subsamples.

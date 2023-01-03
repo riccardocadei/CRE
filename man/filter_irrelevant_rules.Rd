@@ -4,14 +4,14 @@
 \alias{filter_irrelevant_rules}
 \title{Filter Irrelevant Decision Rules}
 \usage{
-filter_irrelevant_rules(rules, X, ite_std, max_decay, type_decay)
+filter_irrelevant_rules(rules, X, ite, max_decay, type_decay)
 }
 \arguments{
 \item{rules}{A list of decision rules.}
 
 \item{X}{The features matrix.}
 
-\item{ite_std}{The standardized ITE.}
+\item{ite}{The estimated ITE.}
 
 \item{max_decay}{Decay Threshold for pruning the rules.}
 

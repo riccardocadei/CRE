@@ -42,7 +42,8 @@ test_that("generate_causal_rules works as expected!", {
 
   # Input checks
   check_input_data(y = y, z = z, X = X)
-  method_params <- check_method_params(y = y, params = method_params)
+  method_params <- check_method_params(y = y, X_names = names(X), ite=NULL,
+                                       params = method_params)
   check_hyper_params(params = hyper_params)
 
   # Estimate ITE
@@ -57,13 +58,12 @@ test_that("generate_causal_rules works as expected!", {
                                offset_name = getElement(method_params,"offset_name"),
                                random_state = getElement(method_params, "random_state"))
   ite <- ite_list[["ite"]]
-  ite_std <- ite_list[["ite_std"]]
 
   # Generate Causal Decision Rules
-  select_rules <- generate_causal_rules(X, ite_std, method_params, hyper_params)
+  select_rules <- generate_causal_rules(X, ite, method_params, hyper_params)
   expect_true(class(select_rules[[1]]) == "character")
 
   hyper_params[["effect_modifiers"]] <- X_names[c(5,7,8,9)]
-  select_rules <- generate_causal_rules(X, ite_std, method_params, hyper_params)
+  select_rules <- generate_causal_rules(X, ite, method_params, hyper_params)
   expect_true(class(select_rules[[1]]) == "character")
 })

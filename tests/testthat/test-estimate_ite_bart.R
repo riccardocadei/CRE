@@ -12,15 +12,15 @@ test_that("BART ITE Estimated Correctly", {
   random_state <- 761
 
   # Incorrect data inputs
-  expect_error(estimate_ite_bart(y = "test", z, X, include_ps, ps_method, random_state = random_state))
-  expect_error(estimate_ite_bart(y, z = "test", X, include_ps, ps_method, random_state = random_state))
-  expect_error(estimate_ite_bart(y, z, X = NA, include_ps, ps_method, random_state = random_state))
-  expect_error(estimate_ite_bart(y, z, X = NA, include_ps = "test", ps_method, random_state = random_state))
-  expect_error(estimate_ite_bart(y, z, X = NA, include_ps = NA, ps_method, random_state = random_state))
+  expect_error(estimate_ite_bart(y = "test", z, X, include_ps, ps_method))
+  expect_error(estimate_ite_bart(y, z = "test", X, include_ps, ps_method))
+  expect_error(estimate_ite_bart(y, z, X = NA, include_ps, ps_method))
+  expect_error(estimate_ite_bart(y, z, X = NA, include_ps = "test", ps_method))
+  expect_error(estimate_ite_bart(y, z, X = NA, include_ps = NA, ps_method))
 
   # Correct outputs
   set.seed(9976)
-  ite_result <- estimate_ite_bart(y, z, X, include_ps, ps_method, random_state = random_state)
+  ite_result <- estimate_ite_bart(y, z, X, include_ps, ps_method)
   expect_true(length(ite_result) == 2)
   expect_true(length(ite_result[[1]]) == length(y))
   expect_true(class(ite_result[[1]]) == "numeric")

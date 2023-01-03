@@ -4,7 +4,7 @@
 \alias{cre}
 \title{The Causal Rule Ensemble}
 \usage{
-cre(y, z, X, method_params, hyper_params)
+cre(y, z, X, method_params = NULL, hyper_params = NULL, ite = NULL)
 }
 \arguments{
 \item{y}{The observed response vector.}
@@ -13,74 +13,96 @@ cre(y, z, X, method_params, hyper_params)
 
 \item{X}{The covariate matrix.}
 
-\item{method_params}{Parameters for individual treatment effect, includig:
+\item{method_params}{The list of parameters to define the models used,
+including:
 \itemize{
+\item \emph{Parameters for Honest Splitting}
+\itemize{
+\item \emph{ratio_dis}: The ratio of data delegated to rules discovery
+(default: 0.5).
+}
 \item \emph{Parameters for Discovery}
 \itemize{
-\item \emph{ratio_dis}: The ratio of data delegated to the discovery sub-sample.
-\item \emph{ite_method_dis}: The method to estimate the discovery sample ITE.
+\item \emph{ite_method_dis}: The method to estimate the discovery sample ITE
+(default: 'aipw').
 \item \emph{include_ps_dis}: Whether or not to include propensity score estimate
 as a covariate in discovery ITE estimation, considered only for BART,
-or CF.
+or CF (default: TRUE).
 \item \emph{ps_method_dis}: The estimation model for the propensity score on the
-discovery subsample.
+discovery subsample (default: 'SL.xgboost').
 \item \emph{or_method_dis}: The estimation model for the outcome regressions
-estimate_ite_aipw on the discovery subsample.
+estimate_ite_aipw on the discovery subsample (default: 'SL.xgboost').
 }
 \item \emph{Parameters for Inference}
 \itemize{
-\item \emph{ite_method_inf}: The method to estimate the inference sample ITE.
+\item \emph{ite_method_inf}: The method to estimate the inference sample ITE
+(default: 'aipw').
 \item \emph{include_ps_inf}: Whether or not to include propensity score estimate
 as a covariate in inference ITE estimation, considered only for BART,
-or CF.
+or CF (default: TRUE).
 \item \emph{ps_method_inf}: The estimation model for the propensity score on the
-inference subsample.
+inference subsample (default: 'SL.xgboost').
 \item \emph{or_method_inf}: The estimation model for the outcome regressions in
-estimate_ite_aipw on the inference subsample.
+estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
+\item \emph{cate_method}: The method to estimate the CATE values
+(default: 'linreg').
+\item \emph{cate_SL_library}: The library used if cate_method is set to DRLearner
+(default: 'SL.xgboost').
 }
 \item \emph{Other Parameters}
 \itemize{
-\item \emph{include_offset}: Whether to include an offset (i.e. model outcome
-rate) or not (i.e. model outcome counts) for Poisson ITE Estimation
-\item \emph{offset_name}: The name of the covariate to use as offset (i.e. 'x1')
-\item \emph{cate_method}: The method to estimate the CATE values.
-\item \emph{cate_SL_library}: The library used if cate_method is set to DRLearner.
+\item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
+Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 }
 }}
 
-\item{hyper_params}{The list of parameters required to tune the functions,
+\item{hyper_params}{The list of hyper parameters to finetune the method,
 including:
 \itemize{
-\item \emph{intervention_vars}: Intervention-able variables used for Rules Generation.
-\item \emph{ntrees_rf}: The number of decision trees for randomForest.
-\item \emph{ntrees_gbm}: The number of decision trees for gradient boosting.
-\item \emph{node_size}: The minimum size of the trees' terminal nodes.
+\item \emph{intervention_vars}: Intervention-able variables used for Rules Generation
+(default: NULL).
+\item \emph{ntrees_rf}: The number of decision trees for randomForest (default: 100).
+\item \emph{ntrees_gbm}: The number of decision trees for gradient boosting
+(default: 0).
+\item \emph{node_size}: The minimum size of the trees' terminal nodes (default: 20).
 \item \emph{max_nodes}: The maximum number of terminal nodes trees in the forest can
-have.
+have (default: 5).
 \item \emph{max_depth}: The number of top levels from each tree considered
-to extract conditions.
-\item \emph{replace}: Boolean variable for replacement in bootstrapping.
-\item \emph{max_decay}: Decay Threshold for pruning the rules.
-\item \emph{type_decay}: Decay Type for pruning the rules
-(1: relative error; 2: error).
+to extract conditions (default: 3).
+\item \emph{replace}: Boolean variable for replacement in bootstrapping
+(default: TRUE).
+\item \emph{max_decay}: Decay Threshold for pruning the rules (default: 0.025).
+\item \emph{type_decay}: Decay Type for pruning the rules: 1 relative error; 2 error
+(default: 2).
 \item \emph{t_ext}: The threshold to define too generic or too specific (extreme)
-rules.
-\item \emph{t_corr}: The threshold to define correlated rules.
+rules (default: 0.01).
+\item \emph{t_corr}: The threshold to define correlated rules (default: 1).
 \item \emph{t_pvalue}: the threshold to define statistically significant rules
-(filter only causal decision rules with p-value <= t_pvalue).
+(default: 0.05).
 \item \emph{stability_selection}: Whether or not using stability selection for
-selecting the causal rules.
-\item \emph{cutoff}:  Threshold defining the minimum cutoff value for the stability
-scores.
+selecting the causal rules (default: TRUE).
+\item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for t
+he stability scores (default: 0.9).
 \item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
-falsely selected rules).
+falsely selected rules) (default: 1).
 \item \emph{penalty_rl}: Order of penalty for rules length during LASSO for Causal
 Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
+(default: 1).
 }}
+
+\item{ite}{The estimated ITE vector. If given both the ITE estimation steps
+in Discovery and Inference are skipped (deault: NULL).}
 }
 \value{
-An S3 object containing the matrix of Conditional
-Average Treatment Effect estimates
+An S3 object containing:
+\itemize{
+\item the number of Decision Rules extracted at each step
+\item the data.frame of Conditional Average Treatment Effect decomposition
+estimates with corresponding uncertanty quantification
+\item the list of Method Parameters
+\item the list of Hyper Parameters
+\item the Individual Treatment Effect predicted
+}
 }
 \description{
 Performs the Causal Rule Ensemble on a data set with a response variable,
@@ -91,25 +113,24 @@ a treatment variable, and various features
 \donttest{
 set.seed(2021)
 dataset <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
-                                     effect_size = 2, binary = FALSE)
+                                effect_size = 2, binary_covariates = TRUE,
+                                binary_outcome = FALSE, confounding = "no")
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]
 
 method_params <- list(ratio_dis = 0.25,
-                      ite_method_dis="bart",
+                      ite_method_dis="aipw",
                       ps_method_dis = "SL.xgboost",
                       oreg_method_dis = "SL.xgboost",
                       include_ps_dis = TRUE,
-                      ite_method_inf = "bart",
+                      ite_method_inf = "aipw",
                       ps_method_inf = "SL.xgboost",
                       oreg_method_inf = "SL.xgboost",
                       include_ps_inf = TRUE,
-                      include_offset = FALSE,
-                      cate_method = "DRLearner",
+                      cate_method = "linreg",
                       cate_SL_library = "SL.xgboost",
-                      offset_name = NA,
-                      random_state = 3591)
+                      offset = NULL)
 
 hyper_params <- list(ntrees_rf = 100,
                      ntrees_gbm = 50,

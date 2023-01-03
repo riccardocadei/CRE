@@ -7,7 +7,7 @@
 discover_causal_rules(
   rules_matrix,
   rules_list,
-  ite_std,
+  ite,
   stability_selection,
   cutoff,
   pfer,
@@ -19,13 +19,13 @@ discover_causal_rules(
 
 \item{rules_list}{A vector of causal rules.}
 
-\item{ite_std}{The standardized ITE.}
+\item{ite}{The estimated ITE.}
 
 \item{stability_selection}{Whether or not using stability selection to
 select the causal rules.}
 
-\item{cutoff}{Threshold defining the minimum cutoff value for the stability
-scores.}
+\item{cutoff}{Threshold (percentage) defining the minimum cutoff value for
+the stability scores.}
 
 \item{pfer}{Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules).}

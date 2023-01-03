@@ -6,7 +6,7 @@
 #' heterogeneity in the ITE
 #'
 #' @param X The covariate matrix.
-#' @param ite_std The standardized ITE.
+#' @param ite The estimated ITE.
 #' @param intervention_vars Intervention-able variables used for Rules
 #' Generation.
 #' @param ntrees_rf The number of decision trees for randomForest.
@@ -17,26 +17,17 @@
 #' @param max_depth The number of top levels from each tree considered
 #' to extract conditions.
 #' @param replace Boolean variable for replacement in bootstrapping.
-#' @param random_state An integer number that represents a random state.
 #'
 #' @return
 #' List of generated Decision Rules
 #'
 #' @keywords internal
 #'
-generate_rules <- function(X, ite_std, intervention_vars, ntrees_rf, ntrees_gbm,
-                           node_size, max_nodes, max_depth, replace,
-                           random_state) {
+generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
+                           node_size, max_nodes, max_depth, replace) {
 
   # Filter only Intervention-able variables ------------------------------------
   if (!is.null(intervention_vars)) X <- X[,intervention_vars,drop=FALSE]
-
-  # generate seed values
-  seed_1 <- random_state + 1
-  set.seed(random_state + 100)
-  seed_2 <- sample(100000, ntrees_rf)
-  set.seed(random_state + 1000)
-  seed_3 <- sample(100000, 1)
 
   # Set parameters
   N <- dim(X)[1]
@@ -44,24 +35,23 @@ generate_rules <- function(X, ite_std, intervention_vars, ntrees_rf, ntrees_gbm,
   mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
 
   # Random Forest
-  # TO DO: replace splitting criteria
-  set.seed(seed_1)
-  forest <- randomForest::randomForest(x = X, y = ite_std,
-                                                        sampsize = sf * N,
-                                                        replace = replace,
-                                                        ntree = 1,
-                                                        maxnodes = mn,
-                                                        nodesize = node_size)
+  # TODO: replace splitting criteria enforcing heterogeneity
+  forest <- randomForest::randomForest(x = X,
+                                       y = ite,
+                                       sampsize = sf * N,
+                                       replace = replace,
+                                       ntree = 1,
+                                       maxnodes = mn,
+                                       nodesize = node_size)
   for(i in 2:ntrees_rf) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
-    set.seed(seed_2[i])
     model1_RF <- randomForest::randomForest(x = X,
-                                             y = ite_std,
-                                             sampsize = sf * N ,
-                                             replace = replace,
-                                             ntree = 1,
-                                             maxnodes = mn,
-                                             nodesize = node_size)
+                                            y = ite,
+                                            sampsize = sf * N ,
+                                            replace = replace,
+                                            ntree = 1,
+                                            maxnodes = mn,
+                                            nodesize = node_size)
 
     forest <- randomForest::combine(forest, model1_RF)
   }
@@ -70,28 +60,37 @@ generate_rules <- function(X, ite_std, intervention_vars, ntrees_rf, ntrees_gbm,
   rules_RF <- extract_rules(treelist_RF, X, ntrees_rf, max_depth)
 
   # Gradient Boosting
-  dist <- ifelse(is.numeric(ite_std), "gaussian", "bernoulli")
+  dist <- ifelse(is.numeric(ite), "gaussian", "bernoulli")
 
-  if (is.numeric(ite_std) == FALSE) {
-    ite_std <- as.numeric(ite_std) - 1
+  if (is.numeric(ite) == FALSE) {
+    ite <- as.numeric(ite) - 1
   }
 
-  set.seed(seed_3)
-  model1_GB <- gbm::gbm.fit(x = X, y = ite_std, bag.fraction = sf, n.trees = 1,
-                            interaction.depth = (mn / 2), shrinkage = 0.01,
-                            distribution = dist, verbose = FALSE,
-                            n.minobsinnode = node_size)
+  if (ntrees_gbm>0){
+    model1_GB <- gbm::gbm.fit(x = X,
+                              y = ite,
+                              bag.fraction = sf,
+                              n.trees = 1,
+                              interaction.depth = (mn / 2),
+                              shrinkage = 0.01,
+                              distribution = dist,
+                              verbose = FALSE,
+                              n.minobsinnode = node_size)
 
-  for(i in 2:ntrees_gbm) {
-    model1_GB$interaction_depth <- (mn / 2)
-    model1_GB <- gbm::gbm.more(model1_GB, n.new.trees = 1, verbose = FALSE)
+    for(i in 2:ntrees_gbm) {
+      model1_GB$interaction_depth <- (mn / 2)
+      model1_GB <- gbm::gbm.more(model1_GB,
+                                 n.new.trees = 1,
+                                 verbose = FALSE)
+    }
+
+    treelist_GB <- inTrees::GBM2List(model1_GB, X)
+    rules_GB <- extract_rules(treelist_GB, X, ntrees_gbm, max_depth)
+
+    rules <- c(rules_RF, rules_GB)
+  } else{
+    rules <- rules_RF
   }
 
-
-  treelist_GB <- inTrees::GBM2List(model1_GB, X)
-  rules_GB <- extract_rules(treelist_GB, X, ntrees_gbm, max_depth)
-
-
-  rules <- c(rules_RF, rules_GB)
   return(rules)
 }
