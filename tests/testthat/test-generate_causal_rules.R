@@ -9,7 +9,7 @@ test_that("generate_causal_rules works as expected!", {
   X_names <- names(as.data.frame(X))
 
   method_params <- list(ratio_dis = 0.25,
-                        ite_method_dis="bart",
+                        ite_method_dis = "bart",
                         ps_method_dis = "SL.xgboost",
                         oreg_method_dis = "SL.xgboost",
                         include_ps_dis = TRUE,
@@ -42,7 +42,7 @@ test_that("generate_causal_rules works as expected!", {
 
   # Input checks
   check_input_data(y = y, z = z, X = X)
-  method_params <- check_method_params(y = y, X_names = names(X), ite=NULL,
+  method_params <- check_method_params(y = y, X_names = names(X), ite = NULL,
                                        params = method_params)
   check_hyper_params(params = hyper_params)
 

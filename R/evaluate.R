@@ -18,8 +18,8 @@ evaluate <- function(ground_truth, prediction) {
   TP <- length(intersect)
   FP <- length(setdiff(prediction, ground_truth))
   FN <- length(setdiff(ground_truth, prediction))
-  recall <- TP/(TP+FN) # quantity
-  precision <- TP/(TP+FP) # quality
+  recall <- TP / (TP + FN) # quantity
+  precision <- TP / (TP + FP) # quality
   IoU <- length(intersect) / length(union)
   evaluate <- list(recall = recall,
                    precision = precision,

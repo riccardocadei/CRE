@@ -42,7 +42,7 @@ set_logger <- function(logger_file_path = "CRE.log",
   set_options("logger_level", logger_level)
 
   if (!is.null(logger_level)) {
-    if (is.element(logger_level, available_levels)){
+    if (is.element(logger_level, available_levels)) {
 
       logger::log_threshold(logger_level)
 
@@ -51,7 +51,7 @@ set_logger <- function(logger_file_path = "CRE.log",
                  paste(available_levels, collapse = " ")))
     }
   } else {
-    logger::log_threshold(logger::INFO,index = 1)
+    logger::log_threshold(logger::INFO, index = 1)
   }
 }
 

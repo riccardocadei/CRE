@@ -8,36 +8,36 @@ test_that("cre Runs Correctly", {
   X <- as.data.frame(dataset_cont[["X"]])
   X_names <- names(as.data.frame(X))
 
-  method_params = list(ratio_dis = 0.25,
-                       ite_method_dis="bart",
-                       ps_method_dis = "SL.xgboost",
-                       oreg_method_dis = "SL.xgboost",
-                       include_ps_dis = TRUE,
-                       ite_method_inf = "bart",
-                       ps_method_inf = "SL.xgboost",
-                       oreg_method_inf = "SL.xgboost",
-                       include_ps_inf = TRUE,
-                       cate_method = "DRLearner",
-                       cate_SL_library = "SL.xgboost",
-                       offset = NULL,
-                       random_state = 3591)
+  method_params <- list(ratio_dis = 0.25,
+                        ite_method_dis = "bart",
+                        ps_method_dis = "SL.xgboost",
+                        oreg_method_dis = "SL.xgboost",
+                        include_ps_dis = TRUE,
+                        ite_method_inf = "bart",
+                        ps_method_inf = "SL.xgboost",
+                        oreg_method_inf = "SL.xgboost",
+                        include_ps_inf = TRUE,
+                        cate_method = "DRLearner",
+                        cate_SL_library = "SL.xgboost",
+                        offset = NULL,
+                        random_state = 3591)
 
- hyper_params = list(intervention_vars = c(),
-                     ntrees_rf = 100,
-                     ntrees_gbm = 50,
-                     node_size = 20,
-                     max_nodes = 5,
-                     max_depth = 15,
-                     max_decay = 0.025,
-                     type_decay = 2,
-                     t_ext = 0.025,
-                     t_corr = 1,
-                     t_pvalue = 0.05,
-                     replace = FALSE,
-                     stability_selection = TRUE,
-                     cutoff = 0.6,
-                     pfer = 1,
-                     penalty_rl = 1)
+ hyper_params <- list(intervention_vars = c(),
+                      ntrees_rf = 100,
+                      ntrees_gbm = 50,
+                      node_size = 20,
+                      max_nodes = 5,
+                      max_depth = 15,
+                      max_decay = 0.025,
+                      type_decay = 2,
+                      t_ext = 0.025,
+                      t_corr = 1,
+                      t_pvalue = 0.05,
+                      replace = FALSE,
+                      stability_selection = TRUE,
+                      cutoff = 0.6,
+                      pfer = 1,
+                      penalty_rl = 1)
 
   method_params[["ratio_dis"]] <- 2
   expect_error(cre(y, z, X, method_params, hyper_params))
@@ -84,7 +84,7 @@ test_that("cre Runs Correctly", {
   method_params[["ite_method_inf"]] <- "bart"
   method_params[["oreg_method_inf"]] <- "SL.xgboost"
   method_params[["ite_method_dis"]] <- "bcf"
-  y_temp <- ifelse(y>0,1,0)
+  y_temp <- ifelse(y > 0, 1, 0)
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
   method_params[["ite_method_dis"]] <- "poisson"
@@ -161,7 +161,7 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   # Correct outputs
-  hyper_params[["intervention_vars"]] <- c("x1","x2","x5")
+  hyper_params[["intervention_vars"]] <- c("x1", "x2", "x5")
   cre_results <- cre(y, z, X, method_params, hyper_params)
   expect_true(class(cre_results) == "cre")
 

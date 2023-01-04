@@ -21,7 +21,7 @@ estimate_ps <- function(z, X, ps_method = "SL.xgboost") {
                                           newX = as.data.frame(X),
                                           family = binomial(),
                                           SL.library = ps_method,
-                                          cvControl = list(V=0))
+                                          cvControl = list(V = 0))
   est_ps <- as.numeric(sl_pscore$SL.predict)
   return(est_ps)
 }

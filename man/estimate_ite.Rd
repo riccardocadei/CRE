@@ -73,7 +73,8 @@ covariate in ITE estimation.
 includes libraries for the SuperLearner package.
 \item \strong{oreg_method}: An estimation model for the outcome regressions. This
 includes libraries for the SuperLearner package.
-\item \strong{X_names}: The names of the covariates. (TODO: Remove from input params.)
+\item \strong{X_names}: The names of the covariates.
+(TODO: Remove from input params.)
 \item \strong{offset}: Name of the covariate to use as offset (i.e. 'x1') for
 Poisson ITE Estimation. \code{NULL} if offset is not used.
 }

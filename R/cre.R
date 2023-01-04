@@ -146,7 +146,7 @@ cre <- function(y, z, X,
   logger::log_info("(Honest) Splitting the dataset...")
   X_names <- names(as.data.frame(X))
   subgroups <- honest_splitting(y, z, X,
-                                getElement(method_params,"ratio_dis"), ite)
+                                getElement(method_params, "ratio_dis"), ite)
   discovery <- subgroups[["discovery"]]
   inference <- subgroups[["inference"]]
 
@@ -172,7 +172,8 @@ cre <- function(y, z, X,
                       is_y_binary = getElement(method_params, "is_y_binary"),
                       include_ps = getElement(method_params, "include_ps_dis"),
                       ps_method = getElement(method_params, "ps_method_dis"),
-                      oreg_method = getElement(method_params, "oreg_method_dis"),
+                      oreg_method = getElement(method_params,
+                                               "oreg_method_dis"),
                       X_names = X_names,
                       offset = getElement(method_params, "offset"))
 
@@ -235,7 +236,7 @@ cre <- function(y, z, X,
   M["Causal (significant)"] <- as.integer(length(cate_inf$summary$Rule)) - 1
 
   # Estimate ITE
-  if (getElement(method_params,"cate_method") == "linreg") {
+  if (getElement(method_params, "cate_method") == "linreg") {
     if (!any(is.na(causal_rules_int))) {
       causal_rules_matrix <- generate_rules_matrix(X, causal_rules)
       causal_rules_matrix <- as.data.frame(causal_rules_matrix) %>%
@@ -259,8 +260,7 @@ cre <- function(y, z, X,
   attr(results, "class") <- "cre"
 
   # Sensitivity Analysis -------------------------------------------------------
-  #logger::log_info("Starting Sensitivity Analysis...")
-  # TO DO
+  # TODO
 
   # Return Results -------------------------------------------------------------
   logger::log_info("CRE method complete!")

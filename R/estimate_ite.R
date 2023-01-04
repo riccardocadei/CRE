@@ -37,7 +37,8 @@
 #'   includes libraries for the SuperLearner package.
 #'   - **oreg_method**: An estimation model for the outcome regressions. This
 #'   includes libraries for the SuperLearner package.
-#'   - **X_names**: The names of the covariates. (TODO: Remove from input params.)
+#'   - **X_names**: The names of the covariates.
+#'   (TODO: Remove from input params.)
 #'   - **offset**: Name of the covariate to use as offset (i.e. 'x1') for
 #'     Poisson ITE Estimation. `NULL` if offset is not used.
 #'
@@ -48,7 +49,7 @@
 #'
 #' @keywords internal
 #'
-estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
+estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...) {
 
 
   # Address visible binding error.
@@ -62,14 +63,14 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
   arg_names <- names(dot_args)
 
   for (i in arg_names){
-    assign(i,unlist(dot_args[i],use.names = FALSE))
+    assign(i, unlist(dot_args[i], use.names = FALSE))
   }
 
-  check_args <- function(required_args, arg_names){
+  check_args <- function(required_args, arg_names) {
     for (arg in required_args){
-      if (!is.element(arg,arg_names)){
-        stop(paste('At least one argument is not provided. Missing argument: ',
-                   arg, '.'))
+      if (!is.element(arg, arg_names)) {
+        stop(paste("At least one argument is not provided. Missing argument: ",
+                   arg, "."))
       }
     }
   }
@@ -79,18 +80,18 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
     ite <- estimate_ite_ipw(y, z, X, ps_method)
     sd_ite <- NA
   } else if (ite_method == "sipw") {
-    check_args(c('ps_method'), arg_names)
+    check_args(c("ps_method"), arg_names)
     ite <- estimate_ite_sipw(y, z, X, ps_method)
     sd_ite <- NA
   } else if (ite_method == "aipw") {
-    check_args(c('ps_method', 'oreg_method'), arg_names)
+    check_args(c("ps_method", "oreg_method"), arg_names)
     ite <- estimate_ite_aipw(y, z, X, ps_method, oreg_method)
     sd_ite <- NA
   } else if (ite_method == "oreg") {
     ite <- estimate_ite_oreg(y, z, X)
     sd_ite <- NA
   } else if (ite_method == "bart") {
-    check_args(c('include_ps', 'ps_method'), arg_names)
+    check_args(c("include_ps", "ps_method"), arg_names)
     ite_results <- estimate_ite_bart(y, z, X, include_ps, ps_method)
     ite <- ite_results[[1]]
     sd_ite <- ite_results[[2]]
@@ -100,12 +101,12 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
     ite <- ite_results[[1]]
     sd_ite <- ite_results[[2]]
   } else if (ite_method == "cf") {
-    check_args(c('include_ps', 'ps_method'), arg_names)
+    check_args(c("include_ps", "ps_method"), arg_names)
     ite_results <- estimate_ite_cf(y, z, X, include_ps, ps_method)
     ite <- ite_results[[1]]
     sd_ite <- ite_results[[2]]
   } else if (ite_method == "poisson") {
-    check_args(c('offset', 'X_names'), arg_names)
+    check_args(c("offset", "X_names"), arg_names)
     ite <- estimate_ite_poisson(y, z, X, X_names, offset)
     sd_ite <- NA
   } else {

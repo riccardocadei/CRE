@@ -28,7 +28,7 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
                            node_size, max_nodes, max_depth, replace) {
 
   # Filter only Intervention-able variables ------------------------------------
-  if (!is.null(intervention_vars)) X <- X[,intervention_vars,drop=FALSE]
+  if (!is.null(intervention_vars)) X <- X[, intervention_vars, drop = FALSE]
 
   # Set parameters
   N <- dim(X)[1]
@@ -44,11 +44,11 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
                                        ntree = 1,
                                        maxnodes = mn,
                                        nodesize = node_size)
-  for(i in 2:ntrees_rf) {
+  for (i in 2:ntrees_rf) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
     model1_RF <- randomForest::randomForest(x = X,
                                             y = ite,
-                                            sampsize = sf * N ,
+                                            sampsize = sf * N,
                                             replace = replace,
                                             ntree = 1,
                                             maxnodes = mn,
@@ -67,7 +67,7 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
     ite <- as.numeric(ite) - 1
   }
 
-  if (ntrees_gbm>0){
+  if (ntrees_gbm > 0) {
     model1_GB <- gbm::gbm.fit(x = X,
                               y = ite,
                               bag.fraction = sf,
@@ -78,7 +78,7 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
                               verbose = FALSE,
                               n.minobsinnode = node_size)
 
-    for(i in 2:ntrees_gbm) {
+    for (i in 2:ntrees_gbm) {
       model1_GB$interaction_depth <- (mn / 2)
       model1_GB <- gbm::gbm.more(model1_GB,
                                  n.new.trees = 1,
@@ -89,7 +89,7 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
     rules_GB <- extract_rules(treelist_GB, X, ntrees_gbm, max_depth)
 
     rules <- c(rules_RF, rules_GB)
-  } else{
+  } else {
     rules <- rules_RF
   }
 

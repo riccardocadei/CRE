@@ -34,7 +34,7 @@ check_input_data <- function(y, z, X, ite = NULL) {
   # Treatment
   if (is.matrix(z)) {
     if (ncol(z)!=1 | !(is.numeric(z[,1]) | is.integer(z[,1]))
-        | length(unique(z)) != 2){
+        | length(unique(z)) != 2) {
       stop("Treatment vector (z) input values should be a numerical binary
            vector, not a matrix")
     }
@@ -43,7 +43,8 @@ check_input_data <- function(y, z, X, ite = NULL) {
              & length(unique(z)) == 2) {
     N_check <- length(z)
   } else {
-    stop("Treatment vector (z) input values should be a numerical binary vector")
+    stop(paste0("Treatment vector (z) input values should be",
+                " a numerical binary vector"))
   }
   if (N != N_check) {
     stop(paste("Response and treatment vectors should be the same size.",
@@ -53,12 +54,12 @@ check_input_data <- function(y, z, X, ite = NULL) {
   # ITE (if provided)
   if (!is.null(ite)) {
     if (is.matrix(ite)) {
-      if (ncol(ite) != 1 | !(is.numeric(ite[,1]) | is.integer(ite[,1]))) {
+      if (ncol(ite) != 1 | !(is.numeric(ite[, 1]) | is.integer(ite[, 1]))) {
         stop("ITE vector (ite) input values should be a numerical
            vector, not a matrix")
       }
       N_check <- nrow(ite)
-    } else if (is.vector(ite) & (is.numeric(ite) | is.integer(ite))){
+    } else if (is.vector(ite) & (is.numeric(ite) | is.integer(ite))) {
       N_check <- length(ite)
     } else {
       stop("ITE vector (ite) input values should be a numerical vector")
@@ -78,7 +79,7 @@ check_input_data <- function(y, z, X, ite = NULL) {
     stop(paste("Invalid 'X' input. Please input a matrix or data frame",
                " of numeric variables"))
   }
-  if (!all(apply(X, 2, class) %in% c("integer", "numeric"))){
+  if (!all(apply(X, 2, class) %in% c("integer", "numeric"))) {
     stop(paste("Invalid 'X' input. Please input a matrix or data frame",
                " of numeric variables"))
   }

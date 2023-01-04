@@ -15,7 +15,7 @@
 extract_effect_modifiers <- function(rules_list, X_names) {
   effect_modifiers <- c()
   for (X_name in X_names) {
-    if (any(grepl(X_name,rules_list))){
+    if (any(grepl(X_name, rules_list))) {
       effect_modifiers <- append(effect_modifiers, X_name)
     }
   }

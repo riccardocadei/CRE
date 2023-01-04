@@ -114,7 +114,7 @@ dataset <- generate_cre_dataset(n = 1000,
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]
-          
+
 method_params <- list(ratio_dis = 0.25,
                       ite_method_dis = "aipw",
                       include_ps_dis = TRUE,

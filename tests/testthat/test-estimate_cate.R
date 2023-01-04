@@ -56,7 +56,8 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   X_inf <- inference$X
 
   # Step 2: Estimate ITE
-  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis, binary_outcome,
+  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis,
+                               binary_outcome,
                                include_ps = include_ps_dis,
                                ps_method = ps_method_dis,
                                oreg_method = oreg_method_dis,
@@ -70,7 +71,8 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
                                       ntrees_rf, ntrees_gbm, node_size,
                                       max_nodes, max_depth, replace)
 
-  rules_list_dis <- filter_irrelevant_rules(initial_rules_dis, X_dis, ite_dis, max_decay, type_decay)
+  rules_list_dis <- filter_irrelevant_rules(initial_rules_dis, X_dis,
+                                            ite_dis, max_decay, type_decay)
 
   # Step 4: Generate rules matrix
   rules_matrix_dis <- generate_rules_matrix(X_dis, rules_list_dis)
@@ -84,13 +86,16 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
                                                        cutoff,
                                                        pfer,
                                                        penalty_rl))
-  select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
+  select_rules_matrix_dis <- rules_matrix_dis[,
+                                              which(rules_list_dis %in%
                                                        select_rules_dis)]
-  select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in%
-                                                               select_rules_dis)]
+  select_rules_matrix_std_dis <- rules_matrix_std_dis[,
+                                              which(rules_list_dis %in%
+                                                       select_rules_dis)]
 
   # Step 6: Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary_outcome,
+  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
+                               binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
@@ -105,7 +110,8 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+                                                         X_names)
   }
 
   ###### Run Tests ######
@@ -191,25 +197,31 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
                                             ntrees_rf, ntrees_gbm, node_size,
                                             max_nodes, max_depth, replace)
 
-  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis,
+                                                  X_dis, ite_dis,
+                                                  max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
-                                                            rules_list_dis,
-                                                            ite_dis,
-                                                            stability_selection,
-                                                            cutoff,
-                                                            pfer,
-                                                            penalty_rl))
-  select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
-  select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
+  select_rules_dis <- as.character(CRE:::discover_causal_rules(
+                                           rules_matrix_std_dis,
+                                           rules_list_dis,
+                                           ite_dis,
+                                           stability_selection,
+                                           cutoff,
+                                           pfer,
+                                           penalty_rl))
+  select_rules_matrix_dis <- rules_matrix_dis[,
+                              which(rules_list_dis %in% select_rules_dis)]
+  select_rules_matrix_std_dis <- rules_matrix_std_dis[,
+                              which(rules_list_dis %in% select_rules_dis)]
 
   # Step 6: Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary_outcome,
+  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
+                               binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
@@ -224,7 +236,8 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+                                                         X_names)
   }
 
   ###### Run Tests ######
@@ -310,22 +323,27 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                             ntrees_rf, ntrees_gbm, node_size,
                                             max_nodes, max_depth, replace)
 
-  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis,
+                                                  ite_dis,
+                                                  max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
-                                                            rules_list_dis,
-                                                            ite_dis,
-                                                            stability_selection,
-                                                            cutoff,
-                                                            pfer,
-                                                            penalty_rl))
-  select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
-  select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
+  select_rules_dis <- as.character(CRE:::discover_causal_rules(
+                                           rules_matrix_std_dis,
+                                           rules_list_dis,
+                                           ite_dis,
+                                           stability_selection,
+                                           cutoff,
+                                           pfer,
+                                           penalty_rl))
+  select_rules_matrix_dis <- rules_matrix_dis[,
+                               which(rules_list_dis %in% select_rules_dis)]
+  select_rules_matrix_std_dis <- rules_matrix_std_dis[,
+                               which(rules_list_dis %in% select_rules_dis)]
 
   # Step 6: Estimate CATE
   ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary_outcome,
@@ -338,12 +356,13 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
-  if (length(select_rules_dis)==0){
+  if (length(select_rules_dis) == 0) {
     rules_matrix_inf <- NA
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+                                                         X_names)
   }
 
   # TO DO: add test to check wrong arguments
@@ -428,25 +447,31 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
                                             ntrees_rf, ntrees_gbm, node_size,
                                             max_nodes, max_depth, replace)
 
-  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis,
+                                                  ite_dis,
+                                                  max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
-                                                            rules_list_dis,
-                                                            ite_dis,
-                                                            stability_selection,
-                                                            cutoff,
-                                                            pfer,
-                                                            penalty_rl))
-  select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
-  select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
+  select_rules_dis <- as.character(CRE:::discover_causal_rules(
+                                           rules_matrix_std_dis,
+                                           rules_list_dis,
+                                           ite_dis,
+                                           stability_selection,
+                                           cutoff,
+                                           pfer,
+                                           penalty_rl))
+  select_rules_matrix_dis <- rules_matrix_dis[,
+                                  which(rules_list_dis %in% select_rules_dis)]
+  select_rules_matrix_std_dis <- rules_matrix_std_dis[,
+                                  which(rules_list_dis %in% select_rules_dis)]
 
   # Step 6: Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary_outcome,
+  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
+                               binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
@@ -456,12 +481,13 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
-  if (length(select_rules_dis)==0){
+  if (length(select_rules_dis) == 0) {
     rules_matrix_inf <- NA
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+                                                         X_names)
   }
 
   # TO DO: add test to check wrong arguments
@@ -531,7 +557,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   X_inf <- inference$X
   # Estimate ITE on Discovery Subsample
   ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis,
-                               ite_method =ite_method_dis,
+                               ite_method = ite_method_dis,
                                include_ps = include_ps_dis,
                                ps_method = ps_method_dis,
                                oreg_method = oreg_method_dis,
@@ -546,25 +572,31 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
                                             ntrees_rf, ntrees_gbm, node_size,
                                             max_nodes, max_depth, replace)
 
-  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis,
+                                                  X_dis, ite_dis,
+                                                  max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
-                                                            rules_list_dis,
-                                                            ite_dis,
-                                                            stability_selection,
-                                                            cutoff,
-                                                            pfer,
-                                                            penalty_rl))
-  select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
-  select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
+  select_rules_dis <- as.character(CRE:::discover_causal_rules(
+                                           rules_matrix_std_dis,
+                                           rules_list_dis,
+                                           ite_dis,
+                                           stability_selection,
+                                           cutoff,
+                                           pfer,
+                                           penalty_rl))
+  select_rules_matrix_dis <- rules_matrix_dis[,
+                                    which(rules_list_dis %in% select_rules_dis)]
+  select_rules_matrix_std_dis <- rules_matrix_std_dis[,
+                                    which(rules_list_dis %in% select_rules_dis)]
 
   # Step 6: Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf, binary_outcome,
+  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
+                               binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
@@ -574,12 +606,13 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
-  if (length(select_rules_dis)==0){
+  if (length(select_rules_dis) == 0) {
     rules_matrix_inf <- NA
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+                                                         X_names)
   }
 
   ###### Run Tests ######
@@ -651,7 +684,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   X_inf <- inference$X
   # Estimate ITE on Discovery Subsample
   ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis,
-                               ite_method =ite_method_dis,
+                               ite_method = ite_method_dis,
                                include_ps = include_ps_dis,
                                ps_method = ps_method_dis,
                                oreg_method = oreg_method_dis,
@@ -666,26 +699,33 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
                                             ntrees_rf, ntrees_gbm, node_size,
                                             max_nodes, max_depth, replace)
 
-  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis, ite_dis, max_decay, type_decay)
+  rules_list_dis <- CRE:::filter_irrelevant_rules(initial_rules_dis, X_dis,
+                                                  ite_dis,
+                                                  max_decay, type_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- CRE:::generate_rules_matrix(X_dis, rules_list_dis)
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::discover_causal_rules(rules_matrix_std_dis,
-                                                            rules_list_dis,
-                                                            ite_dis,
-                                                            stability_selection,
-                                                            cutoff,
-                                                            pfer,
-                                                            penalty_rl))
-  select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in% select_rules_dis)]
-  select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in% select_rules_dis)]
+  select_rules_dis <- as.character(CRE:::discover_causal_rules(
+                                           rules_matrix_std_dis,
+                                           rules_list_dis,
+                                           ite_dis,
+                                           stability_selection,
+                                           cutoff,
+                                           pfer,
+                                           penalty_rl))
+
+  select_rules_matrix_dis <- rules_matrix_dis[,
+                                which(rules_list_dis %in% select_rules_dis)]
+  select_rules_matrix_std_dis <- rules_matrix_std_dis[,
+                                which(rules_list_dis %in% select_rules_dis)]
 
   # Poisson (Vanilla)
   # Step 6: Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, as.data.frame(X_inf), ite_method_inf, binary_outcome,
+  ite_list_inf <- estimate_ite(y_inf, z_inf, as.data.frame(X_inf),
+                               ite_method_inf, binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
@@ -695,12 +735,13 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
-  if (length(select_rules_dis)==0){
+  if (length(select_rules_dis) == 0) {
     rules_matrix_inf <- NA
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+                                                         X_names)
   }
 
   ###### Run Tests ######
@@ -718,7 +759,8 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   # Step 6: Estimate CATE
   include_offset <- TRUE
   offset_name <- "x6"
-  ite_list_inf <- estimate_ite(y_inf, z_inf, as.data.frame(X_inf), ite_method_inf, binary_outcome,
+  ite_list_inf <- estimate_ite(y_inf, z_inf, as.data.frame(X_inf),
+                               ite_method_inf, binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
@@ -728,12 +770,13 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
-  if (length(select_rules_dis)==0){
+  if (length(select_rules_dis) == 0) {
     rules_matrix_inf <- NA
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis, X_names)
+    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+                                                         X_names)
   }
 
   ###### Run Tests ######

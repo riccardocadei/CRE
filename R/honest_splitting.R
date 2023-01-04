@@ -16,24 +16,26 @@
 #'
 #' @keywords internal
 #'
-honest_splitting <- function(y, z, X, ratio_dis, ite=NULL) {
+honest_splitting <- function(y, z, X, ratio_dis, ite = NULL) {
 
   n <- check_input_data(y, z, X, ite)
-  index <- sample(1:n, round(n*ratio_dis), replace=F)
+  index <- sample(1:n, round(n * ratio_dis), replace = FALSE)
 
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
-  if (!is.null(ite)) { ite <- as.matrix(ite) }
+  if (!is.null(ite)) {
+    ite <- as.matrix(ite)
+  }
 
   discovery <- list(y = y[index],
                     z = z[index],
-                    X = X[index,],
-                    ite = ite[index,])
+                    X = X[index, ],
+                    ite = ite[index, ])
   inference <- list(y = y[-index],
                     z = z[-index],
-                    X = X[-index,],
-                    ite = ite[-index,])
+                    X = X[-index, ],
+                    ite = ite[-index, ])
 
   return(list(discovery = discovery, inference = inference))
 }

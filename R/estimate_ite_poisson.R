@@ -18,21 +18,21 @@
 #'
 #' @keywords internal
 #'
-estimate_ite_poisson <- function(y, z, X, X_names, offset){
+estimate_ite_poisson <- function(y, z, X, X_names, offset) {
   if (!is.null(offset)) {
-    if (!(offset %in% X_names)){
+    if (!(offset %in% X_names)) {
       stop("Offset varible is not observed. Please replace `offset` with an
            observed varibale.")
     } else {
-      X_names = X_names[-which(X_names == offset)]
-      names(X)[names(X) == offset] <- 'offset'
-      y_treated <- data.frame(y = y[z==1])
-      X_treated <- as.data.frame(X[z==1,])
-      y_control <- data.frame(y = y[z==0])
-      X_control <- as.data.frame(X[z==0,])
+      X_names <- X_names[-which(X_names == offset)]
+      names(X)[names(X) == offset] <- "offset"
+      y_treated <- data.frame(y = y[z == 1])
+      X_treated <- as.data.frame(X[z == 1, ])
+      y_control <- data.frame(y = y[z == 0])
+      X_control <- as.data.frame(X[z == 0, ])
       data_treated <- cbind(y_treated, X_treated)
       data_control <- cbind(y_control, X_control)
-      formula = as.formula(paste("y ~ ", paste(X_names, collapse= "+")))
+      formula = as.formula(paste("y ~ ", paste(X_names, collapse = "+")))
       temp1 <- stats::glm(formula,
                           data = data_treated,
                           offset = log(offset),
@@ -43,10 +43,10 @@ estimate_ite_poisson <- function(y, z, X, X_names, offset){
                           family = stats::poisson(link = "log"))
     }
   } else {
-    y_treated <- data.frame(y = y[z==1])
-    X_treated <- as.data.frame(X[z==1,])
-    y_control <- data.frame(y = y[z==0])
-    X_control <- as.data.frame(X[z==0,])
+    y_treated <- data.frame(y = y[z == 1])
+    X_treated <- as.data.frame(X[z == 1, ])
+    y_control <- data.frame(y = y[z == 0])
+    X_control <- as.data.frame(X[z ==0, ])
     data_treated <- cbind(y_treated, X_treated)
     data_control <- cbind(y_control, X_control)
     temp1 <- stats::glm(y ~ .,

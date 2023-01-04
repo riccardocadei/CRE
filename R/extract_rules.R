@@ -17,7 +17,7 @@
 #' @return
 #' A vector of (causal) decision rules.
 #'
-extract_rules <- function(treelist, X, ntrees, max_depth, digits=2) {
+extract_rules <- function(treelist, X, ntrees, max_depth, digits = 2) {
 
   rules <- inTrees::extractRules(treeList = treelist,
                                  X = X,

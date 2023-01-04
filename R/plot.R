@@ -21,7 +21,7 @@ autoplot.cre <- function(object, ...) {
   dot_args <- list(...)
   arg_names <- names(dot_args)
   for (i in arg_names) {
-    assign(i,unlist(dot_args[i],use.names = FALSE))
+    assign(i, unlist(dot_args[i], use.names = FALSE))
   }
 
   cate <- object[["CATE"]]
@@ -34,25 +34,26 @@ autoplot.cre <- function(object, ...) {
 
   if (cate_method %in% c("poisson", "DRLearner")) {
     # Specify the width of the 95% confidence intervals
-    interval_95 <- -stats::qnorm((1-0.95)/2)
+    interval_95 <- -stats::qnorm((1 - 0.95) / 2)
 
     # Plot
     g <- ggplot2::ggplot(data = cate) +
          ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
          ggplot2::geom_linerange(
                     ggplot2::aes(x = Rule,
-                                 ymin = Estimate - Std_Error*interval_95,
-                                 ymax = Estimate + Std_Error*interval_95),
+                                 ymin = Estimate - Std_Error * interval_95,
+                                 ymax = Estimate + Std_Error * interval_95),
                     lwd = 1,
-                    position = ggplot2::position_dodge(width = 1/2))
+                    position = ggplot2::position_dodge(width = 1 / 2))
 
     g <- g + ggplot2::geom_pointrange(
                    ggplot2::aes(x = Rule,
                                 y = Estimate,
-                                ymin = Estimate - Std_Error*interval_95,
-                                ymax = Estimate + Std_Error*interval_95),
-                                lwd = 1/2,
-                                position = ggplot2::position_dodge(width = 1/2),
+                                ymin = Estimate - Std_Error * interval_95,
+                                ymax = Estimate + Std_Error * interval_95),
+                                lwd = 1 / 2,
+                                position = ggplot2::position_dodge(
+                                                      width = 1 / 2),
                                 shape = 21, fill = "WHITE") +
         ggplot2::xlab("Causal Decision Rule") +
         ggplot2::coord_flip() +
@@ -71,13 +72,15 @@ autoplot.cre <- function(object, ...) {
                                            ymin = CI_lower,
                                            ymax = CI_upper),
                               lwd = 1,
-                              position = ggplot2::position_dodge(width = 1/2)) +
+                              position = ggplot2::position_dodge(
+                                                    width = 1 / 2)) +
       ggplot2::geom_pointrange(ggplot2::aes(x = Rule,
                                             y = CATE,
                                             ymin = CI_lower,
                                             ymax = CI_upper),
-                               lwd = 1/2,
-                               position = ggplot2::position_dodge(width = 1/2),
+                               lwd = 1 / 2,
+                               position = ggplot2::position_dodge(
+                                                     width = 1 / 2),
                                shape = 21, fill = "WHITE") +
       ggplot2::xlab("Causal Decision Rule") +
       ggplot2::coord_flip() +
@@ -95,13 +98,15 @@ autoplot.cre <- function(object, ...) {
                                            ymin = CI_lower,
                                            ymax = CI_upper),
                               lwd = 1,
-                              position = ggplot2::position_dodge(width = 1/2)) +
+                              position = ggplot2::position_dodge(
+                                                    width = 1 / 2)) +
       ggplot2::geom_pointrange(ggplot2::aes(x = Rule,
                                             y = Estimate,
                                             ymin = CI_lower,
                                             ymax = CI_upper),
-                               lwd = 1/2,
-                               position = ggplot2::position_dodge(width = 1/2),
+                               lwd = 1 / 2,
+                               position = ggplot2::position_dodge(
+                                                     width = 1 / 2),
                                shape = 21, fill = "WHITE") +
       ggplot2::xlab("Causal Decision Rule") +
       ggplot2::coord_flip() +
@@ -128,12 +133,13 @@ autoplot.cre <- function(object, ...) {
 #' @param ... Additional arguments passed to customize the plot.
 #'
 #' @return
-#' Returns a ggplot2 object, invisibly. This function is called for side effects.
+#' Returns a ggplot2 object, invisibly. This function is called for side
+#' effects.
 #'
 #' @export
 #'
-plot.cre <- function(x, ...){
-  if (x[["M"]]["Causal (significant)"]==0) {
+plot.cre <- function(x, ...) {
+  if (x[["M"]]["Causal (significant)"] == 0) {
     message("Visualization not available (0 causal decision rules discovered).")
   } else {
     g <- ggplot2::autoplot(x, ...)

@@ -19,7 +19,7 @@
 #' @return
 #' A list of the selected decision rules.
 #'
-filter_irrelevant_rules <- function(rules, X, ite, max_decay, type_decay){
+filter_irrelevant_rules <- function(rules, X, ite, max_decay, type_decay) {
 
   rules_matrix <- matrix(rules)
   colnames(rules_matrix) <- "condition"

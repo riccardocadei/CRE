@@ -177,7 +177,7 @@ check_method_params <- function(y, X_names, ite, params) {
   if (length(cate_method) == 0) {
     cate_method <- "linreg"
   } else {
-    if (!(cate_method %in% c("poisson", "DRLearner","bart-baggr",
+    if (!(cate_method %in% c("poisson", "DRLearner", "bart-baggr",
                              "cf-means", "linreg"))) {
       stop(paste("Invalid CATE method for Inference Subsample.",
                  "Please choose from the following: 'poisson', 'DRLearner',",
