@@ -90,7 +90,7 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
 
     rules <- c(rules_RF, rules_GB)
   } else {
-    rules <- rules_RF
+    rules <- rules_RF[, 1]
   }
 
   return(rules)
