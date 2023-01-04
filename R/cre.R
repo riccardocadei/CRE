@@ -33,8 +33,12 @@
 #'       inference subsample (default: 'SL.xgboost').
 #'     - *or_method_inf*: The estimation model for the outcome regressions in
 #'       estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
-#'     - *cate_method*: The method to estimate the CATE values
-#'     (default: 'linreg').
+#'     - *cate_method*: The method to estimate the CATE values, includes:
+#'       - `Poisson`
+#'       - `DRLearner`
+#'       - `bart-baggr`
+#'       - `cf-means`
+#'       - `linreg` (default)
 #'     - *cate_SL_library*: The library used if cate_method is set to DRLearner
 #'     (default: 'SL.xgboost').
 #'   - *Other Parameters*

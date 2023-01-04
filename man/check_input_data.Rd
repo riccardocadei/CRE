@@ -16,7 +16,7 @@ check_input_data(y, z, X, ite = NULL)
 \item{ite}{The estimated ITE vector.}
 }
 \value{
-Number of data samples.
+The number of data samples.
 }
 \description{
 Conducts sanity checks for the input data
