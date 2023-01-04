@@ -44,8 +44,14 @@ or CF (default: TRUE).
 inference subsample (default: 'SL.xgboost').
 \item \emph{or_method_inf}: The estimation model for the outcome regressions in
 estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
-\item \emph{cate_method}: The method to estimate the CATE values
-(default: 'linreg').
+\item \emph{cate_method}: The method to estimate the CATE values, includes:
+\itemize{
+\item \code{Poisson}
+\item \code{DRLearner}
+\item \code{bart-baggr}
+\item \code{cf-means}
+\item \code{linreg} (default)
+}
 \item \emph{cate_SL_library}: The library used if cate_method is set to DRLearner
 (default: 'SL.xgboost').
 }

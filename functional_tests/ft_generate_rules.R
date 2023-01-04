@@ -1,55 +1,79 @@
-#' @examples
-#'
-#' set.seed(213)
-#' dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
-#'                                 effect_size = 2, binary = FALSE)
-#'
-#' # Initialize parameters
-#' y <- dataset[["y"]]
-#' z <- dataset[["z"]]
-#' X <- as.data.frame(dataset[["X"]])
-#' X_names <- names(as.data.frame(X))
-#' ratio_dis <- 0.25
-#' ite_method_dis <- "oreg"
-#' include_ps_dis <- TRUE
-#' ps_method_dis <- "SL.xgboost"
-#' oreg_method_dis <- NA
-#' ntrees_rf <- 100
-#' ntrees_gbm <- 50
-#' min_nodes <- 20
-#' max_nodes <- 5
-#' include_offset <- FALSE
-#' offset_name <- NA
-#' binary <- FALSE
-#'
-#' # Split data
-#' X <- as.matrix(X)
-#' y <- as.matrix(y)
-#' z <- as.matrix(z)
-#' subgroups <- CRE:::split_data(y, z, X, ratio_dis)
-#' discovery <- subgroups[[1]]
-#' inference <- subgroups[[2]]
-#'
-#' # Generate y, z, and X for discovery and inference data
-#' y_dis <- discovery[,1]
-#' z_dis <- discovery[,2]
-#' X_dis <- discovery[,3:ncol(discovery)]
-#'
-#' # Estimate ITE on Discovery Subsample
-#'
-#' ite_list_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
-#'                              ite_method = ite_method_dis,
-#'                              include_ps = include_ps_dis,
-#'                              ps_method = ps_method_dis,
-#'                              oreg_method = oreg_method_dis,
-#'                              is_y_binary = binary,
-#'                              X_names = X_names,
-#'                              include_offset = include_offset,
-#'                              offset_name = offset_name)
-#' ite_dis <- ite_list_dis[["ite"]]
-#' ite_std_dis <- ite_list_dis[["ite_std"]]
-#'
-#' # Generate rules list
-#' initial_rules_dis <- generate_rules(X_dis, ite_std_dis, ntrees_rf, ntrees_gbm,
-#'                                     min_nodes, max_nodes, random_state = 100)
-#'
+# Generate sample data
+set.seed(3784)
+dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+                                     effect_size = 0.5,
+                                     binary_outcome = FALSE)
+y <- dataset_cont[["y"]]
+z <- dataset_cont[["z"]]
+X <- dataset_cont[["X"]]
+
+
+ite_method <- "bart"
+include_ps <- "TRUE"
+ps_method <- "SL.xgboost"
+or_method <- NA
+ntrees_rf <- 100
+ntrees_gbm <- 50
+node_size <- 20
+max_nodes <- 5
+max_depth <- 15
+replace <- FALSE
+intervention_vars <- c()
+
+# Check for binary outcome
+binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
+
+# Step 1: Split data
+X <- as.matrix(X)
+y <- as.matrix(y)
+z <- as.matrix(z)
+
+# Step 2: Estimate ITE
+ite_list <- estimate_ite(y, z, X, ite_method, binary,
+                         include_ps = include_ps,
+                         ps_method = ps_method,
+                         or_method = or_method,
+                         random_state = 298)
+ite <- ite_list[["ite"]]
+
+# Correct outputs
+rules_1 <- generate_rules(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
+                        node_size, max_nodes, max_depth, replace)
+
+expect_true(class(rules_1) == "character")
+
+
+
+ite_method <- "bart"
+include_ps <- "TRUE"
+ps_method <- "SL.xgboost"
+or_method <- NA
+ntrees_rf <- 100
+ntrees_gbm <- 0
+node_size <- 20
+max_nodes <- 5
+max_depth <- 15
+replace <- FALSE
+intervention_vars <- c()
+
+# Check for binary outcome
+binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
+
+# Step 1: Split data
+X <- as.matrix(X)
+y <- as.matrix(y)
+z <- as.matrix(z)
+
+# Step 2: Estimate ITE
+ite_list <- estimate_ite(y, z, X, ite_method, binary,
+                         include_ps = include_ps,
+                         ps_method = ps_method,
+                         or_method = or_method,
+                         random_state = 697)
+ite <- ite_list[["ite"]]
+
+# Correct outputs
+rules_2 <- generate_rules(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
+                        node_size, max_nodes, max_depth, replace)
+
+expect_true(class(rules_2) == "character")
