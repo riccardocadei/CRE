@@ -12,8 +12,7 @@
 #' @keywords internal
 #'
 #' @return
-#' Number of data samples.
-#'
+#' The number of data samples.
 #'
 check_input_data <- function(y, z, X, ite = NULL) {
 
