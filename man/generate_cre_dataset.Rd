@@ -2,7 +2,7 @@
 % Please edit documentation in R/generate_cre_dataset.R
 \name{generate_cre_dataset}
 \alias{generate_cre_dataset}
-\title{Generate CRE Synthetic Data}
+\title{Generate CRE synthetic data}
 \usage{
 generate_cre_dataset(
   n = 1000,
@@ -29,33 +29,36 @@ within the covariates (default: 0).}
 \item{effect_size}{The effect size magnitude in (0,+inf) (default: 2).}
 
 \item{binary_covariates}{Whether to use binary or continuous covariates
-(default: TRUE)}
+(default: TRUE).}
 
 \item{binary_outcome}{Whether to use binary or continuous outcomes
-(default: TRUE)}
+(default: TRUE).}
 
 \item{confounding}{Only for continuous outcome,add confounding variables:
-linear confounding "lin", non-linear confounding "nonlin",
-no confounding "no" (default: "no")}
+\itemize{
+\item Linear confounding "lin".
+\item Non-linear confounding "nonlin".
+\item No confounding "no" (default).
+}}
 }
 \value{
 A list of synthetic data containing:
 \itemize{
-\item the outcome vector (y),
-\item the treatment vector (z),
-\item the covariates matrix (X) and
-\item the individual treatment vector (ite)
+\item An outcome vector (\code{y}),
+\item A treatment vector (\code{z}),
+\item A covariates matrix (\code{X}) and
+\item An individual treatment vector (\code{ite})
 }
 }
 \description{
-Generates synthetic data with continues or binary outcome
+Generates synthetic data with continues or binary outcome.
 }
 \note{
 Set (binary/continuous) covariates domain (binary_covariates)
 Set (binary/continuous) outcome domain (binary_outcome)
 Increase complexity in heterogeneity discovery:
 \itemize{
-\item decreasing the sample size (n)
+\item Decreasing the sample size (n)
 \item adding correlation among variables (rho)
 \item increasing the number of rules (n_rules)
 \item increasing the number of covariates (p)

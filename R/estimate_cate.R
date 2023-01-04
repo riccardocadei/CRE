@@ -1,5 +1,5 @@
 #' @title
-#' Estimate the Conditional Average Treatment Effect
+#' Estimate the Conditional Average Treatment Effect (CATE)
 #'
 #' @description
 #' Estimates the Conditional Average Treatment Effect given a standardized
@@ -31,7 +31,8 @@
 #' @keywords internal
 #'
 #'
-estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf,
+estimate_cate <- function(y_inf, z_inf, X_inf, X_names,
+                          offset, rules_matrix_inf,
                           select_rules_interpretable,
                           cate_method, ite_inf, sd_ite_inf,
                           cate_SL_library, t_pvalue) {
@@ -72,18 +73,21 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
       colnames(rules_matrix_inf) <- select_rules_interpretable
       colnames(X_inf) <- X_names
       if (!is.null(offset)) {
-        X_offset <- X_inf[,which(X_names == offset)]
-        X_inf <- X_inf[,-which(X_names == offset)]
+        X_offset <- X_inf[, which(X_names == offset)]
+        X_inf <- X_inf[, -which(X_names == offset)]
 
         # Fit gnm model
-        conditional_gnm <- gnm::gnm(y_inf ~ offset(log(X_offset)) + z_inf +
-                                      z_inf:rules_matrix_inf + X_inf,
-                                    family = stats::poisson(link = "log"))
+        conditional_gnm <- gnm::gnm(y_inf ~ offset(log(X_offset)) +
+                                      z_inf +
+                                      z_inf:rules_matrix_inf +
+                                      X_inf,
+                                      family = stats::poisson(link = "log"))
       } else {
         # Fit gnm model
-        conditional_gnm <- gnm::gnm(y_inf ~ z_inf + z_inf:rules_matrix_inf
-                                          + X_inf,
-                                    family = stats::poisson(link = "log"))
+        conditional_gnm <- gnm::gnm(y_inf ~ z_inf +
+                                      z_inf:rules_matrix_inf +
+                                      X_inf,
+                                      family = stats::poisson(link = "log"))
       }
       cate_model <- summary(conditional_gnm)$coefficients
       cate_names <- rownames(cate_model) %>%
@@ -110,12 +114,12 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
       # generate new data frames
       y_inf_a <- y_inf[split]
       y_inf_b <- y_inf[-split]
-      X_inf_a <- as.data.frame(X_inf[split,])
-      X_inf_b <- as.data.frame(X_inf[-split,])
+      X_inf_a <- as.data.frame(X_inf[split, ])
+      X_inf_b <- as.data.frame(X_inf[-split, ])
       z_inf_a <- z_inf[split]
       z_inf_b <- z_inf[-split]
-      rules_matrix_inf_a <- rules_matrix_inf[split,]
-      rules_matrix_inf_b <- rules_matrix_inf[-split,]
+      rules_matrix_inf_a <- rules_matrix_inf[split, ]
+      rules_matrix_inf_b <- rules_matrix_inf[-split, ]
 
       # on set A, train a model to predict Z using X,
       # then make predictions on set B
@@ -124,7 +128,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
                                          newX = X_inf_b,
                                          family = binomial(),
                                          SL.library = cate_SL_library,
-                                         cvControl = list(V=0))
+                                         cvControl = list(V = 0))
       phat <- sl_z$SL.predict
 
       # generate CATE estimates for set A, predict set B
@@ -133,7 +137,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
                                                         Z = z_inf_a),
                                          family = gaussian(),
                                          SL.library = cate_SL_library,
-                                         cvControl = list(V=0))
+                                         cvControl = list(V = 0))
       pred_0s <- stats::predict(sl_y,
                                 data.frame(X = X_inf_b,
                                            Z = rep(0, nrow(X_inf_b))),
@@ -146,8 +150,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
       cate <- pred_1s$pred - pred_0s$pred
 
       # generate AIPW estimate
-      apo_1 <- pred_1s$pred + (z_inf_b*(y_inf_b - pred_1s$pred)/(phat))
-      apo_0 <- pred_0s$pred + ((1 - z_inf_b)*(y_inf_b - pred_0s$pred)/(1-phat))
+      apo_1 <- pred_1s$pred + (z_inf_b * (y_inf_b - pred_1s$pred) / (phat))
+      apo_0 <- pred_0s$pred +
+               ((1 - z_inf_b) * (y_inf_b - pred_0s$pred) / (1 - phat))
 
       delta <- apo_1 - apo_0
 
@@ -155,7 +160,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
       DRLearner <- stats::lm(delta ~ rules_matrix_inf_b)
       cate_model <- summary(DRLearner)$coefficients
       colnames(cate_model) <- c("Estimate", "Std_Error", "Z_Value", "P_Value")
-      if (length(select_rules_interpretable)==1) {
+      if (length(select_rules_interpretable) == 1) {
         cate_names <- rownames(cate_model) %>%
         stringr::str_replace_all("rules_matrix_inf_b",
                                  select_rules_interpretable) %>%
@@ -179,7 +184,6 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
           call. = FALSE
         )
       }
-
 
       stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
       df_rules_factor <- as.data.frame(rules_matrix_inf) %>%
@@ -210,8 +214,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
       # Determine CATE manually for each rule
       for (i in 1:length(select_rules_interpretable)) {
         df_temp <- data.frame(tau = ite_inf, se = sd_ite_inf,
-                              rule = df_rules_factor[,i]) %>%
-          dplyr::filter(rule == 1) %>% dplyr::select(-rule)
+                              rule = df_rules_factor[, i]) %>%
+                              dplyr::filter(rule == 1) %>%
+                              dplyr::select(-rule)
         df_temp <- df_temp %>% dplyr::summarize(group = 1:nrow(df_temp),
                                                 tau,
                                                 se)
@@ -258,9 +263,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
 
       # Determine CATE manually for each rule
       for (i in 1:length(select_rules_interpretable)) {
-        df_temp <- data.frame(ite_inf = joined_ite_rules[,1],
-                              sd_ite_inf = joined_ite_rules[,2],
-                              rule = joined_ite_rules[,i + 2]) %>%
+        df_temp <- data.frame(ite_inf = joined_ite_rules[, 1],
+                              sd_ite_inf = joined_ite_rules[, 2],
+                              rule = joined_ite_rules[, i + 2]) %>%
           dplyr::filter(rule == 1)
         cate_temp <- data.frame(Rule = select_rules_interpretable[i],
                                 CATE = mean(df_temp$ite),
@@ -287,9 +292,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
       # then extract coefficients and confidence intervals
       options(contrasts = rep("contr.treatment", 2))
       model1_cate <- stats::lm(ite_inf ~ ., data = joined_ite_rules)
-      model1_coef <- summary(model1_cate)$coef[,c(1,4)] %>% as.data.frame()
+      model1_coef <- summary(model1_cate)$coef[, c(1, 4)] %>% as.data.frame()
       model1_ci <- stats::confint(model1_cate) %>% as.data.frame()
-      model1_ci <- model1_ci[!is.na(model1_ci[1]),]
+      model1_ci <- model1_ci[!is.na(model1_ci[1]), ]
 
       # Generate model 1 data frame
       cate_reg_orig <- model1_coef %>% cbind(model1_ci)
@@ -298,10 +303,10 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
                              stringr::str_remove_all("`")
       cate_reg_orig_names[1] <- "(BATE)"
       cate_temp <- data.frame(Rule = cate_reg_orig_names,
-                              Estimate = cate_reg_orig[,1],
-                              CI_lower = cate_reg_orig[,3],
-                              CI_upper = cate_reg_orig[,4],
-                              P_Value = cate_reg_orig[,2])
+                              Estimate = cate_reg_orig[, 1],
+                              CI_lower = cate_reg_orig[, 3],
+                              CI_upper = cate_reg_orig[, 4],
+                              P_Value = cate_reg_orig[, 2])
       row.names(cate_temp) <- 1:nrow(cate_temp)
       cate_summary <- subset(cate_temp, cate_temp$P_Value <= t_pvalue |
                                       cate_temp$Rule == "(BATE)")
@@ -312,6 +317,6 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
   }
 
   # Return final results
-  cate = list(summary = cate_summary, model = cate_model)
+  cate <- list(summary = cate_summary, model = cate_model)
   return(cate)
 }

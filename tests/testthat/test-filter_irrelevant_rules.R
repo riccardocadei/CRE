@@ -18,9 +18,9 @@ test_that("Rules Pruned Correctly", {
 
   set.seed(349)
   seed_vector <- 1000 + sample.int(n = 10000000,
-                                   size = ntrees+2,
+                                   size = ntrees + 2,
                                    replace = FALSE)
-  random_state <- seed_vector[ntrees+1]
+  random_state <- seed_vector[ntrees + 1]
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -52,29 +52,35 @@ test_that("Rules Pruned Correctly", {
 
   # Random Forest
   set.seed(seed_vector[1])
-  forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite,
-                                                        sampsize = sf * N,
-                                                        replace = FALSE,
-                                                        ntree = 1, maxnodes = mn,
-                                                        nodesize = node_size))
-  for(i in 2:ntrees) {
+  forest <- suppressWarnings(randomForest::randomForest(
+                              x = X,
+                              y = ite,
+                              sampsize = sf * N,
+                              replace = FALSE,
+                              ntree = 1,
+                              maxnodes = mn,
+                              nodesize = node_size))
+  for (i in 2:ntrees) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
     set.seed(seed_vector[i])
-    model1_RF <- suppressWarnings(randomForest::randomForest(x = X, y = ite,
-                                                             sampsize = sf * N,
-                                                             replace = FALSE,
-                                                             ntree = 1, maxnodes = mn,
-                                                             nodesize = node_size))
+    model1_RF <- suppressWarnings(randomForest::randomForest(
+                                   x = X,
+                                   y = ite,
+                                   sampsize = sf * N,
+                                   replace = FALSE,
+                                   ntree = 1,
+                                   maxnodes = mn,
+                                   nodesize = node_size))
     forest <- randomForest::combine(forest, model1_RF)
   }
   treelist <- inTrees::RF2List(forest)
 
-  expect_equal(length(treelist),2)
-  expect_equal(length(treelist[2]$list),100)
+  expect_equal(length(treelist), 2)
+  expect_equal(length(treelist[2]$list), 100)
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
-  expect_equal(treelist[2]$list[[1]][2,6], -0.3252457, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[2]][3,6], 0.8240253, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[10]][3,6], 0.8240253, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[1]][2, 6], -0.3252457, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3, 6], 0.8240253, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3, 6], 0.8240253, tolerance = 0.000001)
 
   rules <- extract_rules(treelist, X, ntrees, max_depth)
 
@@ -84,11 +90,16 @@ test_that("Rules Pruned Correctly", {
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(filter_irrelevant_rules(rules = NA, X, ite, max_decay, type_decay))
-  expect_error(filter_irrelevant_rules(rules, X = NA, ite, max_decay, type_decay))
-  expect_error(filter_irrelevant_rules(rules, X, ite = NA, max_decay, type_decay))
-  expect_error(filter_irrelevant_rules(rules, X, ite, max_decay = NA, type_decay))
-  expect_error(filter_irrelevant_rules(rules, X, ite, max_decay, type_decay = NA))
+  expect_error(filter_irrelevant_rules(rules = NA, X, ite, max_decay,
+                                       type_decay))
+  expect_error(filter_irrelevant_rules(rules, X = NA, ite, max_decay,
+                                       type_decay))
+  expect_error(filter_irrelevant_rules(rules, X, ite = NA, max_decay,
+                                       type_decay))
+  expect_error(filter_irrelevant_rules(rules, X, ite, max_decay = NA,
+                                       type_decay))
+  expect_error(filter_irrelevant_rules(rules, X, ite, max_decay,
+                                       type_decay = NA))
 
 
   # Correct outputs

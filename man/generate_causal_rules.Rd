@@ -2,23 +2,23 @@
 % Please edit documentation in R/generate_causal_rules.R
 \name{generate_causal_rules}
 \alias{generate_causal_rules}
-\title{Generate Causal Rules}
+\title{Generate causal rules}
 \usage{
 generate_causal_rules(X, ite, method_params, hyper_params)
 }
 \arguments{
-\item{X}{The covariate matrix.}
+\item{X}{A covariate matrix.}
 
-\item{ite}{The estimated ITE.}
+\item{ite}{An estimated ITE.}
 
-\item{method_params}{Method Parameters.}
+\item{method_params}{A vector of method parameters.}
 
-\item{hyper_params}{Hyper Parameters.}
+\item{hyper_params}{A vector of hyper parameters.}
 }
 \value{
-A vector of Causal Rules.
+A vector of causal rules.
 }
 \description{
-Method for generating Causal Decision Rules.
+Generates causal decision rules.
 }
 \keyword{internal}

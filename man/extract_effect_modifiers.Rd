@@ -2,19 +2,19 @@
 % Please edit documentation in R/extract_effect_modifiers.R
 \name{extract_effect_modifiers}
 \alias{extract_effect_modifiers}
-\title{Extract Effect Modifiers}
+\title{Extract effect modifiers}
 \usage{
 extract_effect_modifiers(rules_list, X_names)
 }
 \arguments{
-\item{rules_list}{A list of (Causal) Decision Rules}
+\item{rules_list}{A list of (causal) decision rules.}
 
-\item{X_names}{A list of the Covariate names.}
+\item{X_names}{A list of the covariate names.}
 }
 \value{
-List of the Effect Modifiers.
+A list of the Effect Modifiers.
 }
 \description{
-Extracts the Effect Modifiers from a list of (Causal) Decision Rules.
+Extracts the effect modifiers from a list of (causal) decision rules.
 }
 \keyword{internal}

@@ -15,23 +15,23 @@ test_that("check_input_data works as expected.", {
   expect_error(check_input_data(l_y, ds_1$z, ds_1$X))
 
   # non-binary treatment
-  z_3 <- sample(c(1,2,3), 100, replace = TRUE)
+  z_3 <- sample(c(1, 2, 3), 100, replace = TRUE)
   expect_error(check_input_data(ds_1$y, z_3, ds_1$X))
 
   # non-numeric response
-  y <- sample(c("a","b","c"), 100, replace = TRUE)
+  y <- sample(c("a", "b", "c"), 100, replace = TRUE)
   expect_error(check_input_data(y, ds_1$z, ds_1$X))
 
   # non-numeric treatment
-  z <- sample(c("a","b","c"), 100, replace = TRUE)
+  z <- sample(c("a", "b", "c"), 100, replace = TRUE)
   expect_error(check_input_data(ds_1$y, z, ds_1$X))
 
   # non-matrix covariates
-  X <- c(1,2,3)
+  X <- c(1, 2, 3)
   expect_error(check_input_data(ds_1$y, ds_1$z, X))
 
   # non-numeric covariates
-  X <- matrix(c("a","b","c"))
+  X <- matrix(c("a", "b", "c"))
   expect_error(check_input_data(ds_1$y, ds_1$z, X))
 
 })

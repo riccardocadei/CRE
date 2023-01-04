@@ -1,5 +1,5 @@
 #' @title
-#' Discovery (performance) Evaluation
+#' Discovery (performance) evaluation
 #'
 #' @description
 #' Computes different metrics for discovery evaluation.
@@ -10,16 +10,16 @@
 #' @keywords internal
 #'
 #' @return
-#' Intersection Over Union, Precision, Recall
+#' Intersection over union, precision, recall.
 #'
-evaluate <- function(ground_truth, prediction){
+evaluate <- function(ground_truth, prediction) {
   intersect <- intersect(prediction, ground_truth)
   union <- union(prediction, ground_truth)
   TP <- length(intersect)
   FP <- length(setdiff(prediction, ground_truth))
   FN <- length(setdiff(ground_truth, prediction))
-  recall <- TP/(TP+FN) # quantity
-  precision <- TP/(TP+FP) # quality
+  recall <- TP / (TP + FN) # quantity
+  precision <- TP / (TP + FP) # quality
   IoU <- length(intersect) / length(union)
   evaluate <- list(recall = recall,
                    precision = precision,

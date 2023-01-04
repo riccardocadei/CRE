@@ -1,8 +1,8 @@
 #' @title
-#' Generate CRE Synthetic Data
+#' Generate CRE synthetic data
 #'
 #' @description
-#' Generates synthetic data with continues or binary outcome
+#' Generates synthetic data with continues or binary outcome.
 #'
 #' @param n An integer number that represents the number of observations.
 #' Non-integer values will be converted into an integer number.
@@ -12,25 +12,26 @@
 #' @param effect_size The effect size magnitude in (0,+inf) (default: 2).
 #' @param p The number of covariates (default: 10).
 #' @param binary_covariates Whether to use binary or continuous covariates
-#' (default: TRUE)
+#' (default: TRUE).
 #' @param binary_outcome Whether to use binary or continuous outcomes
-#' (default: TRUE)
+#' (default: TRUE).
 #' @param confounding Only for continuous outcome,add confounding variables:
-#' linear confounding "lin", non-linear confounding "nonlin",
-#' no confounding "no" (default: "no")
+#' - Linear confounding "lin".
+#' - Non-linear confounding "nonlin".
+#' - No confounding "no" (default).
 #'
 #' @return
 #' A list of synthetic data containing:
-#' - the outcome vector (y),
-#' - the treatment vector (z),
-#' - the covariates matrix (X) and
-#' - the individual treatment vector (ite)
+#' - An outcome vector (`y`),
+#' - A treatment vector (`z`),
+#' - A covariates matrix (`X`) and
+#' - An individual treatment vector (`ite`)
 #'
 #' @note
 #' Set (binary/continuous) covariates domain (binary_covariates)
 #' Set (binary/continuous) outcome domain (binary_outcome)
 #' Increase complexity in heterogeneity discovery:
-#' - decreasing the sample size (n)
+#' - Decreasing the sample size (n)
 #' - adding correlation among variables (rho)
 #' - increasing the number of rules (n_rules)
 #' - increasing the number of covariates (p)
@@ -53,7 +54,7 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
   if (!(binary_outcome %in% c(TRUE, FALSE))) {
     stop("Invalid 'binary' input. Please specify TRUE or FALSE.")
   }
-  if (is.numeric(n) & !is.integer(n)){
+  if (is.numeric(n) & !is.integer(n)) {
     n <- as.integer(n)
   }
 
@@ -77,18 +78,18 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
 
   # Generate Causal Rules and Potential Outcomes
   stopifnot(n_rules %in% c(2, 4))
-  if (binary_outcome == TRUE){
+  if (binary_outcome == TRUE) {
     y0 <- rep(0, n)
     y1 <- rep(0, n)
     effect_size <- 1
   } else {
-    if (confounding=="lin"){
+    if (confounding == "lin") {
       mean <- X$x1 + X$x3 + X$x4
-    } else if (confounding=="nonlin"){
+    } else if (confounding == "nonlin") {
       mean <- X$x1 + cos(X$x3)
-    } else if (confounding=="no"){
+    } else if (confounding == "no") {
       mean <- 0
-    } else{
+    } else {
       stop("Invalid 'confounding' input. Please input:
            'lin' for linear confounding,
            'nonlin' for non-linear confounding),
@@ -97,11 +98,11 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
     y0 <- stats::rnorm(n, mean = mean, sd = 1)
     y1 <- y0
   }
-  y0[X$x1 == 1 & X$x2 == 0] = y0[X$x1 == 1 & X$x2 == 0] + effect_size
-  y1[X$x5 == 1 & X$x6 == 0] = y1[X$x5 == 1 & X$x6 == 0] + effect_size
+  y0[X$x1 == 1 & X$x2 == 0] <- y0[X$x1 == 1 & X$x2 == 0] + effect_size
+  y1[X$x5 == 1 & X$x6 == 0] <- y1[X$x5 == 1 & X$x6 == 0] + effect_size
   if (n_rules == 4) {
-    y0[X$x4 == 1] = y0[X$x4 == 1] + effect_size
-    y1[X$x5 == 0 & X$x7 == 1 & X$x8 == 0] =
+    y0[X$x4 == 1] <- y0[X$x4 == 1] + effect_size
+    y1[X$x5 == 0 & X$x7 == 1 & X$x8 == 0] <-
         y1[X$x5 == 0 & X$x7 == 1 & X$x8 == 0] + effect_size
   }
 

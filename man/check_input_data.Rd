@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_input_data.R
 \name{check_input_data}
 \alias{check_input_data}
-\title{Check Input Data}
+\title{Check input data}
 \usage{
 check_input_data(y, z, X, ite = NULL)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/evaluate.R
 \name{evaluate}
 \alias{evaluate}
-\title{Discovery (performance) Evaluation}
+\title{Discovery (performance) evaluation}
 \usage{
 evaluate(ground_truth, prediction)
 }
@@ -12,7 +12,7 @@ evaluate(ground_truth, prediction)
 \item{prediction}{List of predicted (CDR/EM) values.}
 }
 \value{
-Intersection Over Union, Precision, Recall
+Intersection over union, precision, recall.
 }
 \description{
 Computes different metrics for discovery evaluation.

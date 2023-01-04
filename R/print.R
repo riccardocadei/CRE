@@ -16,7 +16,7 @@
 #'
 #' @export
 #'
-print.cre <- function(x, verbose=2, ...) {
+print.cre <- function(x, verbose = 2, ...) {
   summary(x, verbose, ...)
 }
 
@@ -38,12 +38,12 @@ print.cre <- function(x, verbose=2, ...) {
 #' A summary of the CRE object
 #'
 #' @export
-summary.cre <- function(object, verbose=2, ...) {
+summary.cre <- function(object, verbose = 2, ...) {
 
   object <- unclass(object)
   summary_options <- c(...)
 
-  M <- object[['M']]
+  M <- object[["M"]]
   CATE <- object[["CATE"]]
   hyper_params <- object[["hyper_params"]]
   method_params <- object[["method_params"]]
@@ -51,13 +51,13 @@ summary.cre <- function(object, verbose=2, ...) {
 
   cat("CAUSAL RULE ENSAMBLE - Summary")
 
-  if (verbose>0) {
+  if (verbose > 0) {
     cat("\n\nMethods")
 
     cat("\n- Causal Rules Discovery")
     cat("\n  - ITE")
     cat("\n    - Estimator       :", getElement(params, "ite_method_dis"))
-    if (getElement(params, "ite_method_dis")=='aipw') {
+    if (getElement(params, "ite_method_dis") == "aipw") {
       cat("\n    - Outcome         :", getElement(params, "oreg_method_dis"))
     }
     if (getElement(params, "include_ps_dis")) {
@@ -68,9 +68,11 @@ summary.cre <- function(object, verbose=2, ...) {
     cat("\n  - Rules Generation")
     if (!is.null(getElement(params, "intervention_vars"))) {
       cat("\n    - Intervention Variables:", getElement(params, "node_size"))
-    } else {cat("\n    - Intervention Variables: All")}
+    } else {
+      cat("\n    - Intervention Variables: All")
+    }
     cat("\n    - Number of Trees       :", getElement(params, "ntrees_rf"),
-        "RF +",getElement(params, "ntrees_gbm"), "GBM")
+        "RF +", getElement(params, "ntrees_gbm"), "GBM")
     cat("\n    - Node Size             :", getElement(params, "node_size"))
     cat("\n    - Max Nodes             :", getElement(params, "max_nodes"))
     cat("\n    - Max Depth             :", getElement(params, "max_depth"))
@@ -87,7 +89,7 @@ summary.cre <- function(object, verbose=2, ...) {
                                                             "t_pvalue"))
     cat("\n  - Causal Rules Discovery")
     cat("\n    - Penalty Rules Length:", getElement(params, "penalty_rl"))
-    if (getElement(params, "stability_selection")){
+    if (getElement(params, "stability_selection")) {
       cat("\n    - Stability Selection")
       cat("\n      - Cutoff:", getElement(params, "cutoff"))
       cat("\n      - PFER  :", getElement(params, "pfer"))
@@ -99,7 +101,7 @@ summary.cre <- function(object, verbose=2, ...) {
     cat("\n- CATE Inference")
     cat("\n  - ITE")
     cat("\n    - Estimator       :", getElement(params, "ite_method_inf"))
-    if (getElement(params, "ite_method_inf")=='aipw') {
+    if (getElement(params, "ite_method_inf") == "aipw") {
       cat("\n    - Outcome         :", getElement(params, "oreg_method_inf"))
     }
     if (getElement(params, "include_ps_inf")) {
@@ -109,7 +111,7 @@ summary.cre <- function(object, verbose=2, ...) {
     cat("\n    - Estimator:", getElement(params, "cate_method"))
   }
 
-  if (verbose>1) {
+  if (verbose > 1) {
     cat("\n\nRules")
     cat("\n  - Intial               :", getElement(M, "Initial"))
     cat("\n  - Filter 1 (irrelevant):", getElement(M, "Filter 1 (irrelevant)"))

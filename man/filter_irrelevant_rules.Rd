@@ -2,28 +2,29 @@
 % Please edit documentation in R/filter_irrelevant_rules.R
 \name{filter_irrelevant_rules}
 \alias{filter_irrelevant_rules}
-\title{Filter Irrelevant Decision Rules}
+\title{Filter irrelevant decision rules}
 \usage{
 filter_irrelevant_rules(rules, X, ite, max_decay, type_decay)
 }
 \arguments{
 \item{rules}{A list of decision rules.}
 
-\item{X}{The features matrix.}
+\item{X}{A features matrix.}
 
-\item{ite}{The estimated ITE.}
+\item{ite}{An estimated ITE.}
 
-\item{max_decay}{Decay Threshold for pruning the rules.}
+\item{max_decay}{A decay Threshold for pruning the rules.}
 
-\item{type_decay}{Decay Type for pruning the rules
+\item{type_decay}{A decay type for pruning the rules
 (1: relative error; 2: error).}
 }
 \value{
-A list of the selected Decision Rules.
+A list of the selected decision rules.
 }
 \description{
-Filter Irrelevant Decision Rules extracted evaluating the performance
+Filter irrelevant decision rules extracted evaluating the performance
 reduction removing a specific rule at the time
-(see 'Interpreting tree ensembles with inTrees' by Houtao Deng, 2019)
+(see 'Interpreting tree ensembles with the inTrees package'
+by Houtao Deng, 2019).
 }
 \keyword{internal}

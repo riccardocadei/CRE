@@ -5,50 +5,51 @@
 #' Estimates the Individual Treatment Effect given a response vector,
 #' a treatment vector, a covariate matrix, and a desired algorithm.
 #'
-#' @param y The observed response vector.
-#' @param z The observed treatment vector.
-#' @param X The covariate matrix.
-#' @param ite_method the method for estimating the Individual Treatment Effect.
+#' @param y An observed response vector.
+#' @param z An observed treatment vector.
+#' @param X A covariate matrix.
+#' @param ite_method A method for estimating the Individual Treatment Effect.
 #' Some methods requires additional parameters. These parameters are mentioned
 #' in the indented blocks for each method and their definitions are provided at
 #' the end of this parameters list.
-#'   - `ipw`: Inverse Propensity Weighting
+#'   - `ipw`: Inverse Propensity Weighting.
 #'     - `ps_method`
-#'   - `sipw`: Stabilized Inverse Propensity Weighting
+#'   - `sipw`: Stabilized Inverse Propensity Weighting.
 #'     - `ps_method`
-#'   - `aipw`: Augmented Inverse Propensity Weighting
+#'   - `aipw`: Augmented Inverse Propensity Weighting.
 #'     - `ps_method` and  `oreg_method`
-#'   - `oreg`: Outcome Regression
-#'   - `bart`: Bayesian Additive Regression Trees
+#'   - `oreg`: Outcome Regression.
+#'   - `bart`: Bayesian Additive Regression Trees.
 #'     - `include_ps` and `ps_method`
-#'   - `bcf`: Bayesian Causal Forest
+#'   - `bcf`: Bayesian Causal Forest.
 #'     - `ps_method`
-#'   - `cf`: Causal Forest
+#'   - `cf`: Causal Forest.
 #'     - `include_ps` and `ps_method`
-#'   - `poisson`: Poisson Estimation
+#'   - `poisson`: Poisson Estimation.
 #'     - `X_names`, `offset`
-#' @param is_y_binary whether or not the outcome is binary
+#' @param is_y_binary Whether or not the outcome is binary.
 #' @param ... Additional parameters passed to different models.
 #' @details
 #' ## Additional parameters
 #'   - **include_ps**: Whether or not to include propensity score estimate as a
 #'   covariate in ITE estimation.
-#'   - **ps_method**: Estimation method for the propensity score. This include
-#'   libraries for the SuperLearner package.
-#'   - **oreg_method**: The estimation model for the outcome regressions. This
-#'   include libraries for the SuperLearner package.
-#'   - **X_names**: The names of the covariates. (TODO: Remove from input params.)
+#'   - **ps_method**: An estimation method for the propensity score. This
+#'   includes libraries for the SuperLearner package.
+#'   - **oreg_method**: An estimation model for the outcome regressions. This
+#'   includes libraries for the SuperLearner package.
+#'   - **X_names**: The names of the covariates.
+#'   (TODO: Remove from input params.)
 #'   - **offset**: Name of the covariate to use as offset (i.e. 'x1') for
-#'     Poisson ITE Estimation. NULL if offset is not used.
+#'     Poisson ITE Estimation. `NULL` if offset is not used.
 #'
 #' @return
 #' A list that includes:
-#'   -  raw ITE estimates
-#'   -  standard deviations for the ITE estimates.
+#'   -  Raw ITE estimates.
+#'   -  Standard deviations for the ITE estimates.
 #'
 #' @keywords internal
 #'
-estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
+estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...) {
 
 
   # Address visible binding error.
@@ -62,14 +63,14 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
   arg_names <- names(dot_args)
 
   for (i in arg_names){
-    assign(i,unlist(dot_args[i],use.names = FALSE))
+    assign(i, unlist(dot_args[i], use.names = FALSE))
   }
 
-  check_args <- function(required_args, arg_names){
+  check_args <- function(required_args, arg_names) {
     for (arg in required_args){
-      if (!is.element(arg,arg_names)){
-        stop(paste('At least one argument is not provided. Missing argument: ',
-                   arg, '.'))
+      if (!is.element(arg, arg_names)) {
+        stop(paste("At least one argument is not provided. Missing argument: ",
+                   arg, "."))
       }
     }
   }
@@ -79,18 +80,18 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
     ite <- estimate_ite_ipw(y, z, X, ps_method)
     sd_ite <- NA
   } else if (ite_method == "sipw") {
-    check_args(c('ps_method'), arg_names)
+    check_args(c("ps_method"), arg_names)
     ite <- estimate_ite_sipw(y, z, X, ps_method)
     sd_ite <- NA
   } else if (ite_method == "aipw") {
-    check_args(c('ps_method', 'oreg_method'), arg_names)
+    check_args(c("ps_method", "oreg_method"), arg_names)
     ite <- estimate_ite_aipw(y, z, X, ps_method, oreg_method)
     sd_ite <- NA
   } else if (ite_method == "oreg") {
     ite <- estimate_ite_oreg(y, z, X)
     sd_ite <- NA
   } else if (ite_method == "bart") {
-    check_args(c('include_ps', 'ps_method'), arg_names)
+    check_args(c("include_ps", "ps_method"), arg_names)
     ite_results <- estimate_ite_bart(y, z, X, include_ps, ps_method)
     ite <- ite_results[[1]]
     sd_ite <- ite_results[[2]]
@@ -100,12 +101,12 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...){
     ite <- ite_results[[1]]
     sd_ite <- ite_results[[2]]
   } else if (ite_method == "cf") {
-    check_args(c('include_ps', 'ps_method'), arg_names)
+    check_args(c("include_ps", "ps_method"), arg_names)
     ite_results <- estimate_ite_cf(y, z, X, include_ps, ps_method)
     ite <- ite_results[[1]]
     sd_ite <- ite_results[[2]]
   } else if (ite_method == "poisson") {
-    check_args(c('offset', 'X_names'), arg_names)
+    check_args(c("offset", "X_names"), arg_names)
     ite <- estimate_ite_poisson(y, z, X, X_names, offset)
     sd_ite <- NA
   } else {

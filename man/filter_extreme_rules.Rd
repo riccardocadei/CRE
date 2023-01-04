@@ -2,21 +2,21 @@
 % Please edit documentation in R/filter_extreme_rules.R
 \name{filter_extreme_rules}
 \alias{filter_extreme_rules}
-\title{Filter Extreme Decision Rules}
+\title{Filter extreme decision rules}
 \usage{
 filter_extreme_rules(rules_matrix, rules_list, t_ext)
 }
 \arguments{
-\item{rules_matrix}{The causal rules matrix.}
+\item{rules_matrix}{A causal rules matrix.}
 
-\item{rules_list}{The list of the causal rules.}
+\item{rules_list}{A list of the causal rules.}
 
-\item{t_ext}{The threshold to define too generic or too specific rules.}
+\item{t_ext}{A threshold to define too generic or too specific rules.}
 }
 \value{
-The rules matrix only with the rules selected
+A rules matrix only with the rules selected
 }
 \description{
-Discard rules with too few or too many observations.
+Discards rules with too few or too many observations.
 }
 \keyword{internal}

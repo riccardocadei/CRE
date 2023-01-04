@@ -2,7 +2,7 @@
 % Please edit documentation in R/generate_rules.R
 \name{generate_rules}
 \alias{generate_rules}
-\title{Generate Rules}
+\title{Generate rules}
 \usage{
 generate_rules(
   X,
@@ -17,32 +17,33 @@ generate_rules(
 )
 }
 \arguments{
-\item{X}{The covariate matrix.}
+\item{X}{A covariate matrix.}
 
-\item{ite}{The estimated ITE.}
+\item{ite}{A vector of estimated ITE.}
 
-\item{intervention_vars}{Intervention-able variables used for Rules
-Generation.}
+\item{intervention_vars}{A vector of intervention-able variables used for
+rules generation.}
 
-\item{ntrees_rf}{The number of decision trees for randomForest.}
+\item{ntrees_rf}{A number of decision trees for the random forest algorithm.}
 
-\item{ntrees_gbm}{The number of decision trees for gradient boosting.}
+\item{ntrees_gbm}{A number of decision trees for the gradient boosting
+algorithm.}
 
-\item{node_size}{The minimum size of the trees' terminal nodes.}
+\item{node_size}{A minimum size of the trees' terminal nodes.}
 
-\item{max_nodes}{The maximum number of terminal nodes trees in the forest can
-have.}
+\item{max_nodes}{A maximum allowed number of terminal nodes per a tree in the
+forest.}
 
-\item{max_depth}{The number of top levels from each tree considered
+\item{max_depth}{A number of top levels from each tree considered
 to extract conditions.}
 
-\item{replace}{Boolean variable for replacement in bootstrapping.}
+\item{replace}{A Boolean variable for replacement in bootstrapping.}
 }
 \value{
-List of generated Decision Rules
+A list of generated decision rules
 }
 \description{
-Method for generating a set of relevant Decision Rules characterizing the
-heterogeneity in the ITE
+Generates a set of relevant decision rules characterizing the
+heterogeneity in the ITE.
 }
 \keyword{internal}

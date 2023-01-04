@@ -1,23 +1,22 @@
 #' @title
-#' Estimate the Individual Treatment Effect using Causal Forest
+#' Estimate the Individual Treatment Effect (ITE) using Causal Forest (CF)
 #'
 #' @description
 #' Estimates the Individual Treatment Effect using Causal Forest given a
-#' response vector, a treatment vector, and a features matrix
+#' response vector, a treatment vector, and a features matrix.
 #'
-#' @param y the observed response vector
-#' @param z the treatment vector
-#' @param X the features matrix
+#' @param y An observed response vector.
+#' @param z A treatment vector.
+#' @param X A features matrix.
 #' @param include_ps whether or not to include propensity score estimate as a
-#' covariate in ITE estimation
-#' @param ps_method method for the estimation of the propensity score
+#' covariate in ITE estimation.
+#' @param ps_method A method for the estimation of the propensity score.
 #'
 #' @return
-#' a list of ITE estimates and standard deviations for the ITE estimates
+#' A list of ITE estimates and standard deviations for the ITE estimates.
 #'
 #' @keywords internal
 #'
-
 estimate_ite_cf <- function(y, z, X, include_ps, ps_method) {
 
   if (!requireNamespace("grf", quietly = TRUE)) {

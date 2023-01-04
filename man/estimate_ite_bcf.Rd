@@ -2,21 +2,22 @@
 % Please edit documentation in R/estimate_ite_bcf.R
 \name{estimate_ite_bcf}
 \alias{estimate_ite_bcf}
-\title{Estimate the Individual Treatment Effect using Bayesian Causal Forest}
+\title{Estimate the Individual Treatment Effect (ITE) using Bayesian Causal Forest
+(BCF)}
 \usage{
 estimate_ite_bcf(y, z, X, ps_method)
 }
 \arguments{
-\item{y}{the observed response vector}
+\item{y}{An observed response vector.}
 
-\item{z}{the treatment vector}
+\item{z}{A treatment vector.}
 
-\item{X}{the features matrix}
+\item{X}{A features matrix.}
 
-\item{ps_method}{method for the estimation of the propensity score}
+\item{ps_method}{A method for the estimation of the propensity score.}
 }
 \value{
-a list of ITE estimates and standard deviations for the ITE estimates
+A list of ITE estimates and standard deviations for the ITE estimates.
 }
 \description{
 Estimates the Individual Treatment Effect using Bayesian Causal Forest given

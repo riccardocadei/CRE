@@ -1,25 +1,26 @@
 #' @title
-#' Generate Rules
+#' Generate rules
 #'
 #' @description
-#' Method for generating a set of relevant Decision Rules characterizing the
-#' heterogeneity in the ITE
+#' Generates a set of relevant decision rules characterizing the
+#' heterogeneity in the ITE.
 #'
-#' @param X The covariate matrix.
-#' @param ite The estimated ITE.
-#' @param intervention_vars Intervention-able variables used for Rules
-#' Generation.
-#' @param ntrees_rf The number of decision trees for randomForest.
-#' @param ntrees_gbm The number of decision trees for gradient boosting.
-#' @param node_size The minimum size of the trees' terminal nodes.
-#' @param max_nodes The maximum number of terminal nodes trees in the forest can
-#' have.
-#' @param max_depth The number of top levels from each tree considered
+#' @param X A covariate matrix.
+#' @param ite A vector of estimated ITE.
+#' @param intervention_vars A vector of intervention-able variables used for
+#' rules generation.
+#' @param ntrees_rf A number of decision trees for the random forest algorithm.
+#' @param ntrees_gbm A number of decision trees for the gradient boosting
+#' algorithm.
+#' @param node_size A minimum size of the trees' terminal nodes.
+#' @param max_nodes A maximum allowed number of terminal nodes per a tree in the
+#' forest.
+#' @param max_depth A number of top levels from each tree considered
 #' to extract conditions.
-#' @param replace Boolean variable for replacement in bootstrapping.
+#' @param replace A Boolean variable for replacement in bootstrapping.
 #'
 #' @return
-#' List of generated Decision Rules
+#' A list of generated decision rules
 #'
 #' @keywords internal
 #'
@@ -27,7 +28,7 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
                            node_size, max_nodes, max_depth, replace) {
 
   # Filter only Intervention-able variables ------------------------------------
-  if (!is.null(intervention_vars)) X <- X[,intervention_vars,drop=FALSE]
+  if (!is.null(intervention_vars)) X <- X[, intervention_vars, drop = FALSE]
 
   # Set parameters
   N <- dim(X)[1]
@@ -43,11 +44,11 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
                                        ntree = 1,
                                        maxnodes = mn,
                                        nodesize = node_size)
-  for(i in 2:ntrees_rf) {
+  for (i in 2:ntrees_rf) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
     model1_RF <- randomForest::randomForest(x = X,
                                             y = ite,
-                                            sampsize = sf * N ,
+                                            sampsize = sf * N,
                                             replace = replace,
                                             ntree = 1,
                                             maxnodes = mn,
@@ -66,7 +67,7 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
     ite <- as.numeric(ite) - 1
   }
 
-  if (ntrees_gbm>0){
+  if (ntrees_gbm > 0) {
     model1_GB <- gbm::gbm.fit(x = X,
                               y = ite,
                               bag.fraction = sf,
@@ -77,7 +78,7 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
                               verbose = FALSE,
                               n.minobsinnode = node_size)
 
-    for(i in 2:ntrees_gbm) {
+    for (i in 2:ntrees_gbm) {
       model1_GB$interaction_depth <- (mn / 2)
       model1_GB <- gbm::gbm.more(model1_GB,
                                  n.new.trees = 1,
@@ -88,7 +89,7 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
     rules_GB <- extract_rules(treelist_GB, X, ntrees_gbm, max_depth)
 
     rules <- c(rules_RF, rules_GB)
-  } else{
+  } else {
     rules <- rules_RF
   }
 

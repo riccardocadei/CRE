@@ -2,16 +2,16 @@
 % Please edit documentation in R/cre.R
 \name{cre}
 \alias{cre}
-\title{The Causal Rule Ensemble}
+\title{Causal rule ensemble}
 \usage{
 cre(y, z, X, method_params = NULL, hyper_params = NULL, ite = NULL)
 }
 \arguments{
-\item{y}{The observed response vector.}
+\item{y}{An observed response vector.}
 
-\item{z}{The treatment vector.}
+\item{z}{A treatment vector.}
 
-\item{X}{The covariate matrix.}
+\item{X}{A covariate matrix (or a data frame).}
 
 \item{method_params}{The list of parameters to define the models used,
 including:
@@ -81,32 +81,32 @@ rules (default: 0.01).
 (default: 0.05).
 \item \emph{stability_selection}: Whether or not using stability selection for
 selecting the causal rules (default: TRUE).
-\item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for t
-he stability scores (default: 0.9).
+\item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for
+the stability scores (default: 0.9).
 \item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules) (default: 1).
 \item \emph{penalty_rl}: Order of penalty for rules length during LASSO for Causal
-Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2)
+Rules Discovery (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2)
 (default: 1).
 }}
 
 \item{ite}{The estimated ITE vector. If given both the ITE estimation steps
-in Discovery and Inference are skipped (deault: NULL).}
+in Discovery and Inference are skipped (default: NULL).}
 }
 \value{
 An S3 object containing:
 \itemize{
-\item the number of Decision Rules extracted at each step
-\item the data.frame of Conditional Average Treatment Effect decomposition
-estimates with corresponding uncertanty quantification
-\item the list of Method Parameters
-\item the list of Hyper Parameters
-\item the Individual Treatment Effect predicted
+\item A number of Decision Rules extracted at each step (\code{M}).
+\item A data.frame of Conditional Average Treatment Effect decomposition
+estimates with corresponding uncertainty quantification (\code{CATE}).
+\item A list of Method Parameters (\code{method_params}).
+\item A list of Hyper Parameters (\code{hyper_params}).
+\item An Individual Treatment Effect predicted (\code{ite_pred}).
 }
 }
 \description{
 Performs the Causal Rule Ensemble on a data set with a response variable,
-a treatment variable, and various features
+a treatment variable, and various features.
 }
 \examples{
 
@@ -150,4 +150,5 @@ hyper_params <- list(ntrees_rf = 100,
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
 }
+
 }

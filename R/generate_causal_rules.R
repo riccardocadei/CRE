@@ -1,16 +1,16 @@
 #' @title
-#' Generate Causal Rules
+#' Generate causal rules
 #'
 #' @description
-#' Method for generating Causal Decision Rules.
+#' Generates causal decision rules.
 #'
-#' @param X The covariate matrix.
-#' @param ite The estimated ITE.
-#' @param method_params Method Parameters.
-#' @param hyper_params Hyper Parameters.
+#' @param X A covariate matrix.
+#' @param ite An estimated ITE.
+#' @param method_params A vector of method parameters.
+#' @param hyper_params A vector of hyper parameters.
 #'
 #' @return
-#' A vector of Causal Rules.
+#' A vector of causal rules.
 #'
 #' @keywords internal
 #'
@@ -20,13 +20,13 @@ generate_causal_rules <- function(X, ite, method_params, hyper_params) {
   logger::log_info("Generating Decision Rules...")
   rules <- generate_rules(X,
                           ite,
-                          getElement(hyper_params,"intervention_vars"),
-                          getElement(hyper_params,"ntrees_rf"),
-                          getElement(hyper_params,"ntrees_gbm"),
-                          getElement(hyper_params,"node_size"),
-                          getElement(hyper_params,"max_nodes"),
-                          getElement(hyper_params,"max_depth"),
-                          getElement(hyper_params,"replace"))
+                          getElement(hyper_params, "intervention_vars"),
+                          getElement(hyper_params, "ntrees_rf"),
+                          getElement(hyper_params, "ntrees_gbm"),
+                          getElement(hyper_params, "node_size"),
+                          getElement(hyper_params, "max_nodes"),
+                          getElement(hyper_params, "max_depth"),
+                          getElement(hyper_params, "replace"))
   M_initial <- length(rules)
 
   # Filtering ------------------------------------------------------------------
@@ -34,8 +34,8 @@ generate_causal_rules <- function(X, ite, method_params, hyper_params) {
   # Discard irrelevant variable-value pair from a rule condition ---------------
   logger::log_info("Filtering irrelevant rules...")
   rules_list <- filter_irrelevant_rules(rules, X, ite,
-                                        getElement(hyper_params,"max_decay"),
-                                        getElement(hyper_params,"type_decay"))
+                                        getElement(hyper_params, "max_decay"),
+                                        getElement(hyper_params, "type_decay"))
   M_filter1 <- length(rules_list)
 
   # Generate rules matrix ------------------------------------------------------
@@ -44,27 +44,26 @@ generate_causal_rules <- function(X, ite, method_params, hyper_params) {
   # Discard rules with too few or too many observations and correlated rules ---
   logger::log_info("Filtering extreme rules...")
   rules_matrix <- filter_extreme_rules(rules_matrix, rules_list,
-                                       getElement(hyper_params,"t_ext"))
+                                       getElement(hyper_params, "t_ext"))
   rules_list <- colnames(rules_matrix)
   M_filter2 <- length(rules_list)
 
   # Discard correlated rules ---------------------------------------------------
   logger::log_info("Filtering correlated rules...")
   rules_matrix <- filter_correlated_rules(rules_matrix, rules_list,
-                                           getElement(hyper_params,"t_corr"))
+                                           getElement(hyper_params, "t_corr"))
   rules_list <- colnames(rules_matrix)
   M_filter3 <- length(rules_list)
 
   # Discover Causal Rules ---------------------------------------------------
   logger::log_info("Discovering Causal Rules...")
-  #rules_matrix_std <- standardize_rules_matrix(rules_matrix)
   rules_list <- as.character(discover_causal_rules(rules_matrix,
-                                 rules_list,
-                                 ite,
-                                 getElement(hyper_params,"stability_selection"),
-                                 getElement(hyper_params,"cutoff"),
-                                 getElement(hyper_params,"pfer"),
-                                 getElement(hyper_params,"penalty_rl")))
+                               rules_list,
+                               ite,
+                               getElement(hyper_params, "stability_selection"),
+                               getElement(hyper_params, "cutoff"),
+                               getElement(hyper_params, "pfer"),
+                               getElement(hyper_params, "penalty_rl")))
   M_filter4 <- length(rules_list)
 
   M <- list("Initial" = M_initial,
@@ -73,6 +72,5 @@ generate_causal_rules <- function(X, ite, method_params, hyper_params) {
             "Filter 3 (correlated)" = M_filter3,
             "Causal" = M_filter4)
 
-  return(list(rules=rules_list,M=M))
+  return(list(rules = rules_list, M = M))
 }
-

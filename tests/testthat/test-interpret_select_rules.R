@@ -14,10 +14,10 @@ test_that("Rules Interpreted Correctly", {
   ntrees_gbm <- 50
   node_size <- 20
   max_nodes <- 5
-  max_depth = 15
+  max_depth <- 15
   replace <- FALSE
-  max_decay = 0.025
-  type_decay = 2
+  max_decay <- 0.025
+  type_decay <- 2
   cutoff <- 0.8
   stability_selection <- TRUE
   pfer <- 0.1
@@ -45,7 +45,8 @@ test_that("Rules Interpreted Correctly", {
                                   ntrees_gbm, node_size, max_nodes, max_depth,
                                   replace)
 
-  rules_list <- filter_irrelevant_rules(initial_rules, X, ite, max_decay, type_decay)
+  rules_list <- filter_irrelevant_rules(initial_rules, X, ite, max_decay,
+                                        type_decay)
 
   # Step 4: Generate rules matrix
   rules_matrix <- generate_rules_matrix(X, rules_list)
@@ -69,7 +70,7 @@ test_that("Rules Interpreted Correctly", {
   # Correct outputs
   select_rules_interpretable <- interpret_select_rules(select_rules, X_names)
   expect_true(class(select_rules_interpretable) == "character")
-  if (!is.na(select_rules_interpretable)){
+  if (!is.na(select_rules_interpretable)) {
     expect_true(length(select_rules_interpretable) == length(select_rules))
   } else {
     expect_true(identical(select_rules, character(0)))

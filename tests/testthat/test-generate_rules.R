@@ -2,7 +2,8 @@ test_that("generate_rules works as expected!", {
   # Generate sample data
   set.seed(3784)
   dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 0.5, binary_outcome = FALSE)
+                                       effect_size = 0.5,
+                                       binary_outcome = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]

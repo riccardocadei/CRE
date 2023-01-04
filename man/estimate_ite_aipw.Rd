@@ -2,8 +2,8 @@
 % Please edit documentation in R/estimate_ite_aipw.R
 \name{estimate_ite_aipw}
 \alias{estimate_ite_aipw}
-\title{Estimate the Individual Treatment Effect using Augmented Inverse Propensity
-Weighting}
+\title{Estimate the Individual Treatment Effect (ITE) using Augmented Inverse
+Propensity Weighting (AIPW)}
 \usage{
 estimate_ite_aipw(
   y,
@@ -14,18 +14,18 @@ estimate_ite_aipw(
 )
 }
 \arguments{
-\item{y}{the observed response vector}
+\item{y}{An observed response vector.}
 
-\item{z}{the treatment vector}
+\item{z}{A treatment vector.}
 
-\item{X}{the features matrix}
+\item{X}{A features matrix.}
 
-\item{ps_method}{the estimation model for the propensity score}
+\item{ps_method}{A estimation model for the propensity score.}
 
-\item{oreg_method}{the estimation model for the outcome regressions}
+\item{oreg_method}{A estimation model for the outcome regressions.}
 }
 \value{
-a list of ITE estimates and standard deviations for the ITE estimates
+A list of ITE estimates and standard deviations for the ITE estimates.
 }
 \description{
 Estimates the Individual Treatment Effect using Augmented Inverse Propensity

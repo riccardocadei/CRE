@@ -2,27 +2,27 @@
 % Please edit documentation in R/estimate_ite_cf.R
 \name{estimate_ite_cf}
 \alias{estimate_ite_cf}
-\title{Estimate the Individual Treatment Effect using Causal Forest}
+\title{Estimate the Individual Treatment Effect (ITE) using Causal Forest (CF)}
 \usage{
 estimate_ite_cf(y, z, X, include_ps, ps_method)
 }
 \arguments{
-\item{y}{the observed response vector}
+\item{y}{An observed response vector.}
 
-\item{z}{the treatment vector}
+\item{z}{A treatment vector.}
 
-\item{X}{the features matrix}
+\item{X}{A features matrix.}
 
 \item{include_ps}{whether or not to include propensity score estimate as a
-covariate in ITE estimation}
+covariate in ITE estimation.}
 
-\item{ps_method}{method for the estimation of the propensity score}
+\item{ps_method}{A method for the estimation of the propensity score.}
 }
 \value{
-a list of ITE estimates and standard deviations for the ITE estimates
+A list of ITE estimates and standard deviations for the ITE estimates.
 }
 \description{
 Estimates the Individual Treatment Effect using Causal Forest given a
-response vector, a treatment vector, and a features matrix
+response vector, a treatment vector, and a features matrix.
 }
 \keyword{internal}

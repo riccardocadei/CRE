@@ -2,25 +2,26 @@
 % Please edit documentation in R/honest_splitting.R
 \name{honest_splitting}
 \alias{honest_splitting}
-\title{Honest Splitting}
+\title{Honest splitting}
 \usage{
 honest_splitting(y, z, X, ratio_dis, ite = NULL)
 }
 \arguments{
-\item{y}{The observed response vector.}
+\item{y}{An observed response vector.}
 
-\item{z}{The treatment vector.}
+\item{z}{A treatment vector.}
 
-\item{X}{The features matrix.}
+\item{X}{A features matrix.}
 
-\item{ratio_dis}{The ratio of data delegated to the discovery subsample.}
+\item{ratio_dis}{A double number indicating the ratio of data delegated to
+the discovery sub-sample.}
 
-\item{ite}{The estimated ITE.}
+\item{ite}{A vector of estimated ITE.}
 }
 \value{
-A list containing the discovery and inference subsamples.
+A list containing the discovery and inference sub-samples.
 }
 \description{
-Splits data into discovery and inference subsamples.
+Splits data into discovery and inference sub-samples.
 }
 \keyword{internal}
