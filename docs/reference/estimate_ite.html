@@ -73,41 +73,41 @@ a treatment vector, a covariate matrix, and a desired algorithm.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>y</dt>
-<dd><p>The observed response vector.</p></dd>
+<dd><p>An observed response vector.</p></dd>
 
 
 <dt>z</dt>
-<dd><p>The observed treatment vector.</p></dd>
+<dd><p>An observed treatment vector.</p></dd>
 
 
 <dt>X</dt>
-<dd><p>The covariate matrix.</p></dd>
+<dd><p>A covariate matrix.</p></dd>
 
 
 <dt>ite_method</dt>
-<dd><p>the method for estimating the Individual Treatment Effect.
+<dd><p>A method for estimating the Individual Treatment Effect.
 Some methods requires additional parameters. These parameters are mentioned
 in the indented blocks for each method and their definitions are provided at
-the end of this parameters list.</p><ul><li><p><code>ipw</code>: Inverse Propensity Weighting</p><ul><li><p><code>ps_method</code></p></li>
+the end of this parameters list.</p><ul><li><p><code>ipw</code>: Inverse Propensity Weighting.</p><ul><li><p><code>ps_method</code></p></li>
 </ul></li>
-<li><p><code>sipw</code>: Stabilized Inverse Propensity Weighting</p><ul><li><p><code>ps_method</code></p></li>
+<li><p><code>sipw</code>: Stabilized Inverse Propensity Weighting.</p><ul><li><p><code>ps_method</code></p></li>
 </ul></li>
-<li><p><code>aipw</code>: Augmented Inverse Propensity Weighting</p><ul><li><p><code>ps_method</code> and  <code>oreg_method</code></p></li>
+<li><p><code>aipw</code>: Augmented Inverse Propensity Weighting.</p><ul><li><p><code>ps_method</code> and  <code>oreg_method</code></p></li>
 </ul></li>
-<li><p><code>oreg</code>: Outcome Regression</p></li>
-<li><p><code>bart</code>: Bayesian Additive Regression Trees</p><ul><li><p><code>include_ps</code> and <code>ps_method</code></p></li>
+<li><p><code>oreg</code>: Outcome Regression.</p></li>
+<li><p><code>bart</code>: Bayesian Additive Regression Trees.</p><ul><li><p><code>include_ps</code> and <code>ps_method</code></p></li>
 </ul></li>
-<li><p><code>bcf</code>: Bayesian Causal Forest</p><ul><li><p><code>ps_method</code></p></li>
+<li><p><code>bcf</code>: Bayesian Causal Forest.</p><ul><li><p><code>ps_method</code></p></li>
 </ul></li>
-<li><p><code>cf</code>: Causal Forest</p><ul><li><p><code>include_ps</code> and <code>ps_method</code></p></li>
+<li><p><code>cf</code>: Causal Forest.</p><ul><li><p><code>include_ps</code> and <code>ps_method</code></p></li>
 </ul></li>
-<li><p><code>poisson</code>: Poisson Estimation</p><ul><li><p><code>X_names</code>, <code>offset</code></p></li>
+<li><p><code>poisson</code>: Poisson Estimation.</p><ul><li><p><code>X_names</code>, <code>offset</code></p></li>
 </ul></li>
 </ul></dd>
 
 
 <dt>is_y_binary</dt>
-<dd><p>whether or not the outcome is binary</p></dd>
+<dd><p>Whether or not the outcome is binary.</p></dd>
 
 
 <dt>...</dt>
@@ -118,8 +118,8 @@ the end of this parameters list.</p><ul><li><p><code>ipw</code>: Inverse Propens
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A list that includes:</p><ul><li><p>raw ITE estimates</p></li>
-<li><p>standard deviations for the ITE estimates.</p></li>
+<p>A list that includes:</p><ul><li><p>Raw ITE estimates.</p></li>
+<li><p>Standard deviations for the ITE estimates.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -129,13 +129,14 @@ the end of this parameters list.</p><ul><li><p><code>ipw</code>: Inverse Propens
 
 <ul><li><p><strong>include_ps</strong>: Whether or not to include propensity score estimate as a
 covariate in ITE estimation.</p></li>
-<li><p><strong>ps_method</strong>: Estimation method for the propensity score. This include
-libraries for the SuperLearner package.</p></li>
-<li><p><strong>oreg_method</strong>: The estimation model for the outcome regressions. This
-include libraries for the SuperLearner package.</p></li>
-<li><p><strong>X_names</strong>: The names of the covariates. (TODO: Remove from input params.)</p></li>
+<li><p><strong>ps_method</strong>: An estimation method for the propensity score. This
+includes libraries for the SuperLearner package.</p></li>
+<li><p><strong>oreg_method</strong>: An estimation model for the outcome regressions. This
+includes libraries for the SuperLearner package.</p></li>
+<li><p><strong>X_names</strong>: The names of the covariates.
+(TODO: Remove from input params.)</p></li>
 <li><p><strong>offset</strong>: Name of the covariate to use as offset (i.e. 'x1') for
-Poisson ITE Estimation. NULL if offset is not used.</p></li>
+Poisson ITE Estimation. <code>NULL</code> if offset is not used.</p></li>
 </ul></div>
 
     </div>
