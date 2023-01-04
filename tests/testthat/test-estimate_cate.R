@@ -1,7 +1,7 @@
 test_that("CATE (DRLearner) Estimation Runs Correctly", {
   # Generate sample data
   set.seed(2021)
-  dataset_cont <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
+  dataset_cont <- generate_cre_dataset(n = 2000, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 2, binary_outcome = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
@@ -124,13 +124,20 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
                             cate_method, ite_inf, sd_ite_inf, cate_SL_library,
                             t_pvalue)
   expect_true(class(cate_inf$summary) == "data.frame")
+
+  cate_method <- NULL
+  expect_error(estimate_cate(y_inf, z_inf, X_inf, X_names, offset,
+                             rules_matrix_inf, select_rules_interpretable,
+                             cate_method, ite_inf, sd_ite_inf, cate_SL_library,
+                             t_pvalue))
+
 })
 
 
 test_that("CATE (cf-means) Estimation Runs Correctly", {
 
   set.seed(99687)
-  dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
+  dataset <- generate_cre_dataset(n = 2000, rho = 0, n_rules = 2, p = 10,
                                   effect_size = 2, binary_outcome = FALSE)
   # Initialize parameters
   y <- dataset[["y"]]
@@ -256,7 +263,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
 test_that("CATE (linreg) Estimation Runs Correctly", {
 
   set.seed(99687)
-  dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
+  dataset <- generate_cre_dataset(n = 2000, rho = 0, n_rules = 2, p = 10,
                                   effect_size = 2, binary_outcome = FALSE)
   # Initialize parameters
   y <- dataset[["y"]]
@@ -379,7 +386,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
 test_that("CATE (linreg) Estimation Runs Correctly", {
 
   set.seed(99687)
-  dataset <- generate_cre_dataset(n = 200, rho = 0, n_rules = 2, p = 10,
+  dataset <- generate_cre_dataset(n = 2000, rho = 0, n_rules = 2, p = 10,
                                   effect_size = 2, binary_outcome = FALSE)
   # Initialize parameters
   y <- dataset[["y"]]
@@ -505,7 +512,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
 
   skip_if_not_installed("baggr")
   set.seed(99687)
-  dataset <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
+  dataset <- generate_cre_dataset(n = 2000, rho = 0, n_rules = 2, p = 10,
                                   effect_size = 2, binary_outcome = FALSE)
   # Initialize parameters
   y <- dataset[["y"]]
@@ -631,7 +638,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
 test_that("CATE (Poisson) Estimation Runs Correctly", {
 
   set.seed(99687)
-  dataset <- generate_cre_dataset(n = 200, rho = 0, n_rules = 2, p = 10,
+  dataset <- generate_cre_dataset(n = 2000, rho = 0, n_rules = 2, p = 10,
                                   effect_size = 2, binary_covariates = FALSE,
                                   binary_outcome = FALSE)
   # Initialize parameters

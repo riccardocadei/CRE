@@ -19,12 +19,12 @@ check_input_data <- function(y, z, X, ite = NULL) {
 
   # Observed Outcome
   if (is.matrix(y)) {
-    if (ncol(y)!=1 | !(is.numeric(y[,1]) | is.integer(y[,1]))) {
+    if (ncol(y)!=1 || !(is.numeric(y[,1]) || is.integer(y[,1]))) {
       stop("Observed response vector (y) input values should be a numerical
            vector, not a matrix")
     }
     N <- nrow(y)
-  } else if (is.vector(y) & (is.numeric(y) | is.integer(y))) {
+  } else if (is.vector(y) && (is.numeric(y) || is.integer(y))) {
     N <- length(y)
   } else {
     stop("Observed response vector (y) input values should be a numerical
@@ -33,13 +33,13 @@ check_input_data <- function(y, z, X, ite = NULL) {
 
   # Treatment
   if (is.matrix(z)) {
-    if (ncol(z)!=1 | !(is.numeric(z[,1]) | is.integer(z[,1]))
+    if (ncol(z)!=1 || !(is.numeric(z[,1]) || is.integer(z[,1]))
         | length(unique(z)) != 2) {
       stop("Treatment vector (z) input values should be a numerical binary
            vector, not a matrix")
     }
     N_check <- nrow(z)
-  } else if (is.vector(z) & (is.numeric(z) | is.integer(z))
+  } else if (is.vector(z) & (is.numeric(z) || is.integer(z))
              & length(unique(z)) == 2) {
     N_check <- length(z)
   } else {
@@ -54,12 +54,12 @@ check_input_data <- function(y, z, X, ite = NULL) {
   # ITE (if provided)
   if (!is.null(ite)) {
     if (is.matrix(ite)) {
-      if (ncol(ite) != 1 | !(is.numeric(ite[, 1]) | is.integer(ite[, 1]))) {
+      if (ncol(ite) != 1 || !(is.numeric(ite[, 1]) || is.integer(ite[, 1]))) {
         stop("ITE vector (ite) input values should be a numerical
            vector, not a matrix")
       }
       N_check <- nrow(ite)
-    } else if (is.vector(ite) & (is.numeric(ite) | is.integer(ite))) {
+    } else if (is.vector(ite) && (is.numeric(ite) || is.integer(ite))) {
       N_check <- length(ite)
     } else {
       stop("ITE vector (ite) input values should be a numerical vector")
