@@ -1,11 +1,11 @@
-## CRE (Developing)
+# CRE (Developing)
 
-### Changed
+## Changed
 * Rename  `offset_name` parameters with `offset`.
 * Hyper and Method parameters are no more required arguments for `cre`.
 * `cre` object: added parameters and ite estimation.
 
-### Added
+## Added
 * Rules Selection description in `summary.cre`.
 * `verbose` parameter in `summary.cre`.
 * `ite`, additional `cre` input parameter to use personalized ite 
@@ -21,7 +21,7 @@ estimations.
 * `binary_covariates` parameter in `generate_cre_dataset` to set covariates 
 domain.
 
-### Removed
+## Removed
 * `method_params` and `hyper_params` additional parameters in `summary.cre`.
 * ite standardization for Rules Generation.
 * `random_state` parameter.
@@ -29,9 +29,9 @@ domain.
 
 
 
-## CRE 0.1.1 (2022-10-18)
+# CRE 0.1.1 (2022-10-18)
 
-### Changed
+## Changed
 
 * Rename `binary` parameter in `binary_outcome` (in `generate_cre_dataset`).
 * Rename `filter_cate` parameter in `t_pvalue`.
@@ -43,13 +43,13 @@ domain.
 * Rename `discard_correlated_rules` function in `filter_correlated_rules`.
 * Rename `discard_anomalous_rules` fucntion in `filter_extreme_rules`.
 
-### Added
+## Added
 * Weighted LASSO for Causal Rules Discovery (by `penalty_rl`hyper-parameter).
 
 
-## CRE 0.1.0 (2022-10-17)
+# CRE 0.1.0 (2022-10-17)
 
-### Changed
+## Changed
 
 * Update examples and tests for all functions.
 * Rename `q` hyper-parameter in `cutoff`.
@@ -63,7 +63,7 @@ function.
 convention).
 * `cre` returns an S3 object.
 
-### Added
+## Added
 * Examples and tests for all functions.
 * `prune_rules` function to discard unpredictive rules.
 * `discard_anomalous_rules` function to discard anomalous rules (see `t_corr` 
@@ -92,24 +92,24 @@ covariates.
 * `test-cre_functional.R` to test the functionality of the package.
 * `stability_selection` function for causal rules selection.
 
-### Removed
+## Removed
 * `estimate_ite_blp` function.
 * `take1()` function.
 
-### Solved
+## Solved
 * Undesired 'All' Decision Rule Issue.
 * No Causal Rule Selected Issue.
 
 
-## CRE 0.0.1 (2021-10-20)
+# CRE 0.0.1 (2021-10-20)
 
-### Changed
+## Changed
 * `estimate_cate` include two methods for estimating the CATE values.
 * `cre` added initial checks for binary outcome and whether to include the 
 propensity score in the ITE estimation.
 * `estimate_ite_xyz` conduct propensity score estimation using helper function.
 
-### Added
+## Added
 * Example for `generate_cre_dataset`.
 * `set_logger` and `get_logger`.
 * `check_input_data` function.
@@ -146,5 +146,5 @@ to select only the most important ones.
 subsamples.
 * `take1` function to create a subsample of indices.
 
-### Removed
+## Removed
 * `seed` argument in `generate_cre_datase` function.

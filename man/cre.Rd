@@ -2,7 +2,7 @@
 % Please edit documentation in R/cre.R
 \name{cre}
 \alias{cre}
-\title{The Causal Rule Ensemble}
+\title{Causal rule ensemble}
 \usage{
 cre(y, z, X, method_params = NULL, hyper_params = NULL, ite = NULL)
 }

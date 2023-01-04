@@ -1,18 +1,18 @@
 #' @title
-#' Interpret Select Rules
+#' Interpret select rules
 #'
 #' @description
-#' Replace the column numbers in the Select Rules vector with their real names
+#' Replaces the column numbers in the select rules vector with their real names.
 #'
-#' @param select_rules_dis a vector of select causal rules
-#' @param X_names the real names of the covariates
+#' @param select_rules_dis A vector of select causal rules.
+#' @param X_names A vector of real names of the covariates.
 #'
-#' @return a vector of select causal rules that are interpretable
+#' @return
+#' A vector of select causal rules that are interpretable.
 #'
 #'
 #'@keywords internal
 #'
-
 interpret_select_rules <- function(select_rules_dis, X_names) {
   replacements <- X_names
   names(replacements) <- paste("X[,", 1:length(X_names), "]", sep = "")

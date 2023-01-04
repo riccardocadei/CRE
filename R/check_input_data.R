@@ -1,5 +1,5 @@
 #' @title
-#' Check Input Data
+#' Check input data
 #'
 #' @description
 #' Conducts sanity checks for the input data

@@ -5,46 +5,46 @@
 #' Estimates the Individual Treatment Effect given a response vector,
 #' a treatment vector, a covariate matrix, and a desired algorithm.
 #'
-#' @param y The observed response vector.
-#' @param z The observed treatment vector.
-#' @param X The covariate matrix.
-#' @param ite_method the method for estimating the Individual Treatment Effect.
+#' @param y An observed response vector.
+#' @param z An observed treatment vector.
+#' @param X A covariate matrix.
+#' @param ite_method A method for estimating the Individual Treatment Effect.
 #' Some methods requires additional parameters. These parameters are mentioned
 #' in the indented blocks for each method and their definitions are provided at
 #' the end of this parameters list.
-#'   - `ipw`: Inverse Propensity Weighting
+#'   - `ipw`: Inverse Propensity Weighting.
 #'     - `ps_method`
-#'   - `sipw`: Stabilized Inverse Propensity Weighting
+#'   - `sipw`: Stabilized Inverse Propensity Weighting.
 #'     - `ps_method`
-#'   - `aipw`: Augmented Inverse Propensity Weighting
+#'   - `aipw`: Augmented Inverse Propensity Weighting.
 #'     - `ps_method` and  `oreg_method`
-#'   - `oreg`: Outcome Regression
-#'   - `bart`: Bayesian Additive Regression Trees
+#'   - `oreg`: Outcome Regression.
+#'   - `bart`: Bayesian Additive Regression Trees.
 #'     - `include_ps` and `ps_method`
-#'   - `bcf`: Bayesian Causal Forest
+#'   - `bcf`: Bayesian Causal Forest.
 #'     - `ps_method`
-#'   - `cf`: Causal Forest
+#'   - `cf`: Causal Forest.
 #'     - `include_ps` and `ps_method`
-#'   - `poisson`: Poisson Estimation
+#'   - `poisson`: Poisson Estimation.
 #'     - `X_names`, `offset`
-#' @param is_y_binary whether or not the outcome is binary
+#' @param is_y_binary Whether or not the outcome is binary.
 #' @param ... Additional parameters passed to different models.
 #' @details
 #' ## Additional parameters
 #'   - **include_ps**: Whether or not to include propensity score estimate as a
 #'   covariate in ITE estimation.
-#'   - **ps_method**: Estimation method for the propensity score. This include
-#'   libraries for the SuperLearner package.
-#'   - **oreg_method**: The estimation model for the outcome regressions. This
-#'   include libraries for the SuperLearner package.
+#'   - **ps_method**: An estimation method for the propensity score. This
+#'   includes libraries for the SuperLearner package.
+#'   - **oreg_method**: An estimation model for the outcome regressions. This
+#'   includes libraries for the SuperLearner package.
 #'   - **X_names**: The names of the covariates. (TODO: Remove from input params.)
 #'   - **offset**: Name of the covariate to use as offset (i.e. 'x1') for
-#'     Poisson ITE Estimation. NULL if offset is not used.
+#'     Poisson ITE Estimation. `NULL` if offset is not used.
 #'
 #' @return
 #' A list that includes:
-#'   -  raw ITE estimates
-#'   -  standard deviations for the ITE estimates.
+#'   -  Raw ITE estimates.
+#'   -  Standard deviations for the ITE estimates.
 #'
 #' @keywords internal
 #'

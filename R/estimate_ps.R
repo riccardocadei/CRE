@@ -1,14 +1,14 @@
 #' @title
-#' Estimate the Propensity Score
+#' Estimate the propensity score
 #'
 #' @description
-#' Method for estimating the Propensity Score given a treatment vector and
-#' features data.frame.
+#' Estimates the Propensity Score given a treatment vector and
+#' features data frame.
 #'
-#' @param z The treatment vector.
-#' @param X The features data frame.
-#' @param ps_method The estimation model for the propensity score
-#' (default: SL.xgboost).
+#' @param z A treatment vector.
+#' @param X A features data frame.
+#' @param ps_method An estimation model for the propensity score
+#' (default: `SL.xgboost`).
 #'
 #' @return
 #' A vector of propensity score estimates.
@@ -17,7 +17,7 @@
 #'
 #' @keywords internal
 estimate_ps <- function(z, X, ps_method = "SL.xgboost") {
-  sl_pscore <- SuperLearner(Y = z, X = as.data.frame(X),
+  sl_pscore <- SuperLearner::SuperLearner(Y = z, X = as.data.frame(X),
                                           newX = as.data.frame(X),
                                           family = binomial(),
                                           SL.library = ps_method,

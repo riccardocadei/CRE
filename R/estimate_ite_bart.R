@@ -1,14 +1,14 @@
 #' @title
-#' Estimate the Individual Treatment Effect using Bayesian Additive Regression
-#' Trees
+#' Estimate the Individual Treatment Effect (ITE) using Bayesian Additive
+#' Regression Trees (BART)
 #'
 #' @description
 #' Estimates the Individual Treatment Effect using Bayesian Additive Regression
 #' Trees given a response vector, a treatment vector, and a features matrix.
 #'
-#' @param y The observed response vector.
-#' @param z The treatment vector.
-#' @param X The features matrix.
+#' @param y An observed response vector.
+#' @param z A treatment vector.
+#' @param X A features matrix.
 #' @param include_ps Whether or not to include propensity score estimate as a
 #' covariate in ITE estimation.
 #' @param ps_method Method for the estimation of the propensity score.

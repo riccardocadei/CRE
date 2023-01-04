@@ -2,22 +2,22 @@
 % Please edit documentation in R/estimate_ite_poisson.R
 \name{estimate_ite_poisson}
 \alias{estimate_ite_poisson}
-\title{Estimate the Individual Treatment Effect using Poisson Regression}
+\title{Estimate the Individual Treatment Effect (ITE) using Poisson Regression}
 \usage{
 estimate_ite_poisson(y, z, X, X_names, offset)
 }
 \arguments{
-\item{y}{The observed response vector.}
+\item{y}{An observed response vector.}
 
-\item{z}{The treatment vector.}
+\item{z}{A treatment vector.}
 
-\item{X}{The features matrix.}
+\item{X}{A features matrix.}
 
-\item{X_names}{The names of the covariates.}
+\item{X_names}{A vector that includes the names of the covariates.}
 
-\item{offset}{Name of the covariate to use as offset (i.e. 'x1') to model the
-corresponding outcome rate. NULL to model drectly the outcome counts without
-offset.}
+\item{offset}{A name of the covariate to use as offset (i.e. 'x1') to model
+the corresponding outcome rate. \code{NULL} to model directly the outcome counts
+without offset.}
 }
 \value{
 A vector of ITE estimates.

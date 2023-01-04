@@ -2,17 +2,17 @@
 % Please edit documentation in R/estimate_ite_bart.R
 \name{estimate_ite_bart}
 \alias{estimate_ite_bart}
-\title{Estimate the Individual Treatment Effect using Bayesian Additive Regression
-Trees}
+\title{Estimate the Individual Treatment Effect (ITE) using Bayesian Additive
+Regression Trees (BART)}
 \usage{
 estimate_ite_bart(y, z, X, include_ps, ps_method)
 }
 \arguments{
-\item{y}{The observed response vector.}
+\item{y}{An observed response vector.}
 
-\item{z}{The treatment vector.}
+\item{z}{A treatment vector.}
 
-\item{X}{The features matrix.}
+\item{X}{A features matrix.}
 
 \item{include_ps}{Whether or not to include propensity score estimate as a
 covariate in ITE estimation.}

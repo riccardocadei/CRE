@@ -1,8 +1,8 @@
 #' @title
-#' Generate CRE Synthetic Data
+#' Generate CRE synthetic data
 #'
 #' @description
-#' Generates synthetic data with continues or binary outcome
+#' Generates synthetic data with continues or binary outcome.
 #'
 #' @param n An integer number that represents the number of observations.
 #' Non-integer values will be converted into an integer number.
@@ -12,25 +12,26 @@
 #' @param effect_size The effect size magnitude in (0,+inf) (default: 2).
 #' @param p The number of covariates (default: 10).
 #' @param binary_covariates Whether to use binary or continuous covariates
-#' (default: TRUE)
+#' (default: TRUE).
 #' @param binary_outcome Whether to use binary or continuous outcomes
-#' (default: TRUE)
+#' (default: TRUE).
 #' @param confounding Only for continuous outcome,add confounding variables:
-#' linear confounding "lin", non-linear confounding "nonlin",
-#' no confounding "no" (default: "no")
+#' - Linear confounding "lin".
+#' - Non-linear confounding "nonlin".
+#' - No confounding "no" (default).
 #'
 #' @return
 #' A list of synthetic data containing:
-#' - the outcome vector (`y`),
-#' - the treatment vector (`z`),
-#' - the covariates matrix (`X`) and
-#' - the individual treatment vector (`ite`)
+#' - An outcome vector (`y`),
+#' - A treatment vector (`z`),
+#' - A covariates matrix (`X`) and
+#' - An individual treatment vector (`ite`)
 #'
 #' @note
 #' Set (binary/continuous) covariates domain (binary_covariates)
 #' Set (binary/continuous) outcome domain (binary_outcome)
 #' Increase complexity in heterogeneity discovery:
-#' - decreasing the sample size (n)
+#' - Decreasing the sample size (n)
 #' - adding correlation among variables (rho)
 #' - increasing the number of rules (n_rules)
 #' - increasing the number of covariates (p)

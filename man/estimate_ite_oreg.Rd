@@ -2,22 +2,23 @@
 % Please edit documentation in R/estimate_ite_oreg.R
 \name{estimate_ite_oreg}
 \alias{estimate_ite_oreg}
-\title{Estimate the Individual Treatment Effect using Outcome Regression}
+\title{Estimate the Individual Treatment Effect (ITE) using Outcome Regression
+(OREG)}
 \usage{
 estimate_ite_oreg(y, z, X)
 }
 \arguments{
-\item{y}{the observed response vector}
+\item{y}{An observed response vector.}
 
-\item{z}{the treatment vector}
+\item{z}{A treatment vector.}
 
-\item{X}{the features matrix}
+\item{X}{A features matrix.}
 }
 \value{
-a vector of ITE estimates
+A vector of ITE estimates
 }
 \description{
-Method for estimating the Individual Treatment Effect using Outcome
-Regression given a response vector, a treatment vector, and a features matrix.
+Estimates the Individual Treatment Effect (ITE) using Outcome Regression
+given a response vector, a treatment vector, and a features matrix.
 }
 \keyword{internal}

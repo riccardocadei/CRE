@@ -2,7 +2,7 @@
 % Please edit documentation in R/logger_utils.R
 \name{get_logger}
 \alias{get_logger}
-\title{Get Logger Settings}
+\title{Get Logger settings}
 \usage{
 get_logger()
 }

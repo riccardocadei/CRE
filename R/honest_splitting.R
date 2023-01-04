@@ -1,16 +1,18 @@
 #' @title
-#' Honest Splitting
+#' Honest splitting
 #'
 #' @description
-#' Splits data into discovery and inference subsamples.
+#' Splits data into discovery and inference sub-samples.
 #'
-#' @param y The observed response vector.
-#' @param z The treatment vector.
-#' @param X The features matrix.
-#' @param ratio_dis The ratio of data delegated to the discovery subsample.
-#' @param ite The estimated ITE.
+#' @param y An observed response vector.
+#' @param z A treatment vector.
+#' @param X A features matrix.
+#' @param ratio_dis A double number indicating the ratio of data delegated to
+#' the discovery sub-sample.
+#' @param ite A vector of estimated ITE.
 #'
-#' @return A list containing the discovery and inference subsamples.
+#' @return
+#' A list containing the discovery and inference sub-samples.
 #'
 #' @keywords internal
 #'

@@ -1,25 +1,26 @@
 #' @title
-#' Generate Rules
+#' Generate rules
 #'
 #' @description
-#' Method for generating a set of relevant Decision Rules characterizing the
-#' heterogeneity in the ITE
+#' Generates a set of relevant decision rules characterizing the
+#' heterogeneity in the ITE.
 #'
-#' @param X The covariate matrix.
-#' @param ite The estimated ITE.
-#' @param intervention_vars Intervention-able variables used for Rules
-#' Generation.
-#' @param ntrees_rf The number of decision trees for randomForest.
-#' @param ntrees_gbm The number of decision trees for gradient boosting.
-#' @param node_size The minimum size of the trees' terminal nodes.
-#' @param max_nodes The maximum number of terminal nodes trees in the forest can
-#' have.
-#' @param max_depth The number of top levels from each tree considered
+#' @param X A covariate matrix.
+#' @param ite A vector of estimated ITE.
+#' @param intervention_vars A vector of intervention-able variables used for
+#' rules generation.
+#' @param ntrees_rf A number of decision trees for the random forest algorithm.
+#' @param ntrees_gbm A number of decision trees for the gradient boosting
+#' algorithm.
+#' @param node_size A minimum size of the trees' terminal nodes.
+#' @param max_nodes A maximum allowed number of terminal nodes per a tree in the
+#' forest.
+#' @param max_depth A number of top levels from each tree considered
 #' to extract conditions.
-#' @param replace Boolean variable for replacement in bootstrapping.
+#' @param replace A Boolean variable for replacement in bootstrapping.
 #'
 #' @return
-#' List of generated Decision Rules
+#' A list of generated decision rules
 #'
 #' @keywords internal
 #'

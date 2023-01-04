@@ -1,5 +1,5 @@
 #' @title
-#' The 'CRE' package.
+#' The 'CRE' package
 #'
 #' @description
 #' Provides an interpretable identification of subgroups with

@@ -2,7 +2,7 @@
 % Please edit documentation in R/estimate_cate.R
 \name{estimate_cate}
 \alias{estimate_cate}
-\title{Estimate the Conditional Average Treatment Effect}
+\title{Estimate the Conditional Average Treatment Effect (CATE)}
 \usage{
 estimate_cate(
   y_inf,

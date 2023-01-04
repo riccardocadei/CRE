@@ -2,19 +2,19 @@
 % Please edit documentation in R/interpret_select_rules.R
 \name{interpret_select_rules}
 \alias{interpret_select_rules}
-\title{Interpret Select Rules}
+\title{Interpret select rules}
 \usage{
 interpret_select_rules(select_rules_dis, X_names)
 }
 \arguments{
-\item{select_rules_dis}{a vector of select causal rules}
+\item{select_rules_dis}{A vector of select causal rules.}
 
-\item{X_names}{the real names of the covariates}
+\item{X_names}{A vector of real names of the covariates.}
 }
 \value{
-a vector of select causal rules that are interpretable
+A vector of select causal rules that are interpretable.
 }
 \description{
-Replace the column numbers in the Select Rules vector with their real names
+Replaces the column numbers in the select rules vector with their real names.
 }
 \keyword{internal}

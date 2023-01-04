@@ -13,14 +13,14 @@
 #' @keywords internal
 #' @importFrom ggplot2 autoplot
 #'
-autoplot.cre <- function(object, ...){
+autoplot.cre <- function(object, ...) {
 
   gg_labs <- gg_title <- NULL
 
   # collect additional arguments
   dot_args <- list(...)
   arg_names <- names(dot_args)
-  for (i in arg_names){
+  for (i in arg_names) {
     assign(i,unlist(dot_args[i],use.names = FALSE))
   }
 

@@ -1,5 +1,5 @@
 #' @title
-#' Estimate the Conditional Average Treatment Effect
+#' Estimate the Conditional Average Treatment Effect (CATE)
 #'
 #' @description
 #' Estimates the Conditional Average Treatment Effect given a standardized

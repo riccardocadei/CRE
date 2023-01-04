@@ -1,17 +1,18 @@
 #' @title
-#' Generate Rules Matrix
+#' Generate rules matrix
 #'
 #' @description
 #' Generates a matrix of causal rules given a list.
 #'
-#' @param X The features matrix.
+#' @param X Features matrix.
 #' @param rules_list A vector of causal rules.
 #'
 #'
 #' @return
-#' the causal rules matrix.
+#' A causal rules matrix.
 #'
 #' @keywords internal
+#'
 generate_rules_matrix <- function(X, rules_list) {
 
 

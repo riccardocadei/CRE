@@ -1,4 +1,4 @@
-.onLoad <- function(libname, pkgname){
+.onLoad <- function(libname, pkgname) {
 
   flogger <- logger::layout_glue_generator(format =
                                              paste('{time} {node} {pid} ',

@@ -1,16 +1,16 @@
 #' @title
-#' Extract Effect Modifiers
+#' Extract effect modifiers
 #'
 #' @description
-#' Extracts the Effect Modifiers from a list of (Causal) Decision Rules.
+#' Extracts the effect modifiers from a list of (causal) decision rules.
 #'
-#' @param rules_list A list of (Causal) Decision Rules
-#' @param X_names A list of the Covariate names.
+#' @param rules_list A list of (causal) decision rules.
+#' @param X_names A list of the covariate names.
 #'
 #' @keywords internal
 #'
 #' @return
-#' List of the Effect Modifiers.
+#' A list of the Effect Modifiers.
 #'
 extract_effect_modifiers <- function(rules_list, X_names) {
   effect_modifiers <- c()

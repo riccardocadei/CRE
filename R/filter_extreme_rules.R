@@ -1,19 +1,19 @@
 #' @title
-#' Filter Extreme Decision Rules
+#' Filter extreme decision rules
 #'
 #' @description
 #' Discards rules with too few or too many observations.
 #'
-#' @param rules_matrix The causal rules matrix.
-#' @param rules_list The list of the causal rules.
-#' @param t_ext The threshold to define too generic or too specific rules.
+#' @param rules_matrix A causal rules matrix.
+#' @param rules_list A list of the causal rules.
+#' @param t_ext A threshold to define too generic or too specific rules.
 #'
 #' @keywords internal
 #'
 #' @return
-#' The rules matrix only with the rules selected
+#' A rules matrix only with the rules selected
 #'
-filter_extreme_rules <- function(rules_matrix, rules_list, t_ext){
+filter_extreme_rules <- function(rules_matrix, rules_list, t_ext) {
 
   # Identify rules with too few or too many observations
   ind <- 1:dim(rules_matrix)[2]

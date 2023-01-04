@@ -1,5 +1,5 @@
 #' @title
-#' The Causal Rule Ensemble
+#' Causal rule ensemble
 #'
 #' @description
 #' Performs the Causal Rule Ensemble on a data set with a response variable,

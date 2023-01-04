@@ -2,7 +2,7 @@
 % Please edit documentation in R/discover_causal_rules.R
 \name{discover_causal_rules}
 \alias{discover_causal_rules}
-\title{Discover Causal Decision Rules}
+\title{Discover causal decision rules}
 \usage{
 discover_causal_rules(
   rules_matrix,
@@ -37,6 +37,6 @@ Rules Discovery (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2)}
 List of the Causal Decision Rules discovered
 }
 \description{
-Discovers Causal Decision Rules by randomization-based tests
+Discovers Causal Decision Rules by randomization-based tests.
 }
 \keyword{internal}

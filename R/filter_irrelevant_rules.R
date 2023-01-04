@@ -1,22 +1,23 @@
 #' @title
-#' Filter Irrelevant Decision Rules
+#' Filter irrelevant decision rules
 #'
 #' @description
-#' Filter Irrelevant Decision Rules extracted evaluating the performance
+#' Filter irrelevant decision rules extracted evaluating the performance
 #' reduction removing a specific rule at the time
-#' (see 'Interpreting tree ensembles with inTrees' by Houtao Deng, 2019)
+#' (see 'Interpreting tree ensembles with the inTrees package'
+#' by Houtao Deng, 2019).
 #'
 #' @param rules A list of decision rules.
-#' @param X The features matrix.
-#' @param ite The estimated ITE.
-#' @param max_decay Decay Threshold for pruning the rules.
-#' @param type_decay Decay Type for pruning the rules
+#' @param X A features matrix.
+#' @param ite An estimated ITE.
+#' @param max_decay A decay Threshold for pruning the rules.
+#' @param type_decay A decay type for pruning the rules
 #' (1: relative error; 2: error).
 #'
 #' @keywords internal
 #'
 #' @return
-#' A list of the selected Decision Rules.
+#' A list of the selected decision rules.
 #'
 filter_irrelevant_rules <- function(rules, X, ite, max_decay, type_decay){
 

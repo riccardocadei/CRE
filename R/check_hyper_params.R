@@ -13,11 +13,11 @@
 #' A modified input `params`. A list of parameters that might be changed during
 #' the checks.
 #'
-check_hyper_params <- function(X_names, params){
+check_hyper_params <- function(X_names, params) {
 
   # Input params checks --------------------------------------------------------
   ntrees_rf <- getElement(params, "ntrees_rf")
-  if (length(ntrees_rf)==0) {
+  if (length(ntrees_rf) == 0) {
     ntrees_rf <- 100
   } else {
     if (!inherits(ntrees_rf,"numeric")){

@@ -1,13 +1,13 @@
 #' @title
-#' Generate Causal Rules
+#' Generate causal rules
 #'
 #' @description
-#' Method for generating Causal Decision Rules.
+#' Generates causal decision rules.
 #'
-#' @param X The covariate matrix.
-#' @param ite The estimated ITE.
-#' @param method_params Method Parameters.
-#' @param hyper_params Hyper Parameters.
+#' @param X A covariate matrix.
+#' @param ite An estimated ITE.
+#' @param method_params A vector of method parameters.
+#' @param hyper_params A vector of hyper parameters.
 #'
 #' @return
 #' A vector of causal rules.

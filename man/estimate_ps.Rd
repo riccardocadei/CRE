@@ -2,23 +2,23 @@
 % Please edit documentation in R/estimate_ps.R
 \name{estimate_ps}
 \alias{estimate_ps}
-\title{Estimate the Propensity Score}
+\title{Estimate the propensity score}
 \usage{
 estimate_ps(z, X, ps_method = "SL.xgboost")
 }
 \arguments{
-\item{z}{The treatment vector.}
+\item{z}{A treatment vector.}
 
-\item{X}{The features data frame.}
+\item{X}{A features data frame.}
 
-\item{ps_method}{The estimation model for the propensity score
-(default: SL.xgboost).}
+\item{ps_method}{An estimation model for the propensity score
+(default: \code{SL.xgboost}).}
 }
 \value{
 A vector of propensity score estimates.
 }
 \description{
-Method for estimating the Propensity Score given a treatment vector and
-features data.frame.
+Estimates the Propensity Score given a treatment vector and
+features data frame.
 }
 \keyword{internal}
