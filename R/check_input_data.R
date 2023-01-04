@@ -15,7 +15,7 @@
 #' Number of data samples.
 #'
 #'
-check_input_data <- function(y, z, X, ite=NULL){
+check_input_data <- function(y, z, X, ite = NULL) {
 
   # Observed Outcome
   if (is.matrix(y)) {
@@ -24,7 +24,7 @@ check_input_data <- function(y, z, X, ite=NULL){
            vector, not a matrix")
     }
     N <- nrow(y)
-  } else if (is.vector(y) & (is.numeric(y) | is.integer(y))){
+  } else if (is.vector(y) & (is.numeric(y) | is.integer(y))) {
     N <- length(y)
   } else {
     stop("Observed response vector (y) input values should be a numerical
@@ -34,18 +34,18 @@ check_input_data <- function(y, z, X, ite=NULL){
   # Treatment
   if (is.matrix(z)) {
     if (ncol(z)!=1 | !(is.numeric(z[,1]) | is.integer(z[,1]))
-        | length(unique(z))!=2){
+        | length(unique(z)) != 2){
       stop("Treatment vector (z) input values should be a numerical binary
            vector, not a matrix")
     }
     N_check <- nrow(z)
   } else if (is.vector(z) & (is.numeric(z) | is.integer(z))
-             & length(unique(z))==2){
+             & length(unique(z)) == 2) {
     N_check <- length(z)
   } else {
     stop("Treatment vector (z) input values should be a numerical binary vector")
   }
-  if (N!=N_check) {
+  if (N != N_check) {
     stop(paste("Response and treatment vectors should be the same size.",
                "Current values:", N, ",", N_check))
   }
@@ -53,7 +53,7 @@ check_input_data <- function(y, z, X, ite=NULL){
   # ITE (if provided)
   if (!is.null(ite)) {
     if (is.matrix(ite)) {
-      if (ncol(ite)!=1 | !(is.numeric(ite[,1]) | is.integer(ite[,1]))) {
+      if (ncol(ite) != 1 | !(is.numeric(ite[,1]) | is.integer(ite[,1]))) {
         stop("ITE vector (ite) input values should be a numerical
            vector, not a matrix")
       }
@@ -63,7 +63,7 @@ check_input_data <- function(y, z, X, ite=NULL){
     } else {
       stop("ITE vector (ite) input values should be a numerical vector")
     }
-    if (N!=N_check) {
+    if (N != N_check) {
       stop(paste("Response and ITE vectors should be the same size.",
                  "Current values:", N, ",", N_check))
     }
@@ -82,8 +82,9 @@ check_input_data <- function(y, z, X, ite=NULL){
     stop(paste("Invalid 'X' input. Please input a matrix or data frame",
                " of numeric variables"))
   }
-  if (N!=N_check) {
-    stop(paste("Response and X dataframe should have the some number of observations.",
+  if (N != N_check) {
+    stop(paste("Response and X dataframe should have the ",
+               "same number of observations.",
                "Current values:", N, ",", N_check))
   }
 

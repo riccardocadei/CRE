@@ -2,7 +2,8 @@ test_that("Extreme Rules Discarded Correctly", {
   # Generate sample data
   set.seed(2021)
   dataset_cont <- generate_cre_dataset(n = 500, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 0.5, binary_outcome = FALSE)
+                                       effect_size = 0.5,
+                                       binary_outcome = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
@@ -44,7 +45,8 @@ test_that("Extreme Rules Discarded Correctly", {
                                   ntrees_gbm, node_size, max_nodes, max_depth,
                                   replace)
 
-  rules_list <- filter_irrelevant_rules(initial_rules, X, ite, max_decay, type_decay)
+  rules_list <- filter_irrelevant_rules(initial_rules, X, ite,
+                                        max_decay, type_decay)
   rules_matrix <- generate_rules_matrix(X, rules_list)
 
   ###### Run Tests ######

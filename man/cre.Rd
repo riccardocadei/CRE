@@ -150,4 +150,5 @@ hyper_params <- list(ntrees_rf = 100,
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
 }
+
 }

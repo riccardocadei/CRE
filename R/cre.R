@@ -127,9 +127,11 @@
 #'
 #' cre_results <- cre(y, z, X, method_params, hyper_params)
 #'}
-cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
+#'
+cre <- function(y, z, X,
+                method_params = NULL, hyper_params = NULL, ite = NULL) {
 
-  '%>%' <- magrittr::'%>%'
+  "%>%" <- magrittr::"%>%"
 
   # Input checks ---------------------------------------------------------------
   logger::log_info("Checking Parameters...")
@@ -166,13 +168,13 @@ cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
   if (is.null(ite)) {
     logger::log_info("Estimating ITE...")
     ite_list_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
-                                 ite_method = getElement(method_params,"ite_method_dis"),
-                                 is_y_binary = getElement(method_params,"is_y_binary"),
-                                 include_ps = getElement(method_params,"include_ps_dis"),
-                                 ps_method = getElement(method_params,"ps_method_dis"),
-                                 oreg_method = getElement(method_params,"oreg_method_dis"),
-                                 X_names = X_names,
-                                 offset = getElement(method_params,"offset"))
+                      ite_method = getElement(method_params, "ite_method_dis"),
+                      is_y_binary = getElement(method_params, "is_y_binary"),
+                      include_ps = getElement(method_params, "include_ps_dis"),
+                      ps_method = getElement(method_params, "ps_method_dis"),
+                      oreg_method = getElement(method_params, "oreg_method_dis"),
+                      X_names = X_names,
+                      offset = getElement(method_params, "offset"))
 
     ite_dis <- ite_list_dis[["ite"]]
   } else {
@@ -187,8 +189,6 @@ cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
   causal_rules <- causal_rules_discovery[["rules"]]
   M <- causal_rules_discovery[["M"]]
 
-
-
   # Inference ------------------------------------------------------------------
   logger::log_info("Starting CATE Inference...")
 
@@ -196,14 +196,16 @@ cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
   if (is.null(ite)) {
     logger::log_info("Estimating ITE...")
     ite_list_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
-                                 ite_method = getElement(method_params,"ite_method_inf"),
-                                 is_y_binary = getElement(method_params,"is_y_binary"),
-                                 include_ps = getElement(method_params,"include_ps_inf"),
-                                 ps_method = getElement(method_params,"ps_method_inf"),
-                                 oreg_method = getElement(method_params,"oreg_method_inf"),
-                                 X_names = X_names,
-                                 include_offset = getElement(method_params,"include_offset"),
-                                 offset_name = getElement(method_params,"offset_name"))
+                      ite_method = getElement(method_params, "ite_method_inf"),
+                      is_y_binary = getElement(method_params, "is_y_binary"),
+                      include_ps = getElement(method_params, "include_ps_inf"),
+                      ps_method = getElement(method_params, "ps_method_inf"),
+                      oreg_method = getElement(method_params,
+                                               "oreg_method_inf"),
+                      X_names = X_names,
+                      include_offset = getElement(method_params,
+                                                  "include_offset"),
+                      offset_name = getElement(method_params, "offset_name"))
 
     ite_inf <- ite_list_inf[["ite"]]
     sd_ite_inf <- ite_list_inf[["sd_ite"]]
@@ -211,9 +213,8 @@ cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
     sd_ite_inf <- NULL
   }
 
-
   # Generate rules matrix
-  if (length(causal_rules)==0){
+  if (length(causal_rules) == 0) {
     rules_matrix_inf <- NA
     causal_rules_int <- NA
   } else {
@@ -224,18 +225,18 @@ cre <- function(y, z, X, method_params=NULL, hyper_params=NULL, ite=NULL) {
   # Estimate CATE
   logger::log_info("Estimating CATE...")
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
-                            getElement(method_params,"offset"),
+                            getElement(method_params, "offset"),
                             rules_matrix_inf, causal_rules_int,
-                            getElement(method_params,"cate_method"),
+                            getElement(method_params, "cate_method"),
                             ite_inf, sd_ite_inf,
-                            getElement(method_params,"cate_SL_library"),
-                            getElement(hyper_params,"t_pvalue"))
+                            getElement(method_params, "cate_SL_library"),
+                            getElement(hyper_params, "t_pvalue"))
 
-  M["Causal (significant)"] <- as.integer(length(cate_inf$summary$Rule))-1
+  M["Causal (significant)"] <- as.integer(length(cate_inf$summary$Rule)) - 1
 
   # Estimate ITE
-  if (getElement(method_params,"cate_method")=="linreg"){
-    if (!any(is.na(causal_rules_int))){
+  if (getElement(method_params,"cate_method") == "linreg") {
+    if (!any(is.na(causal_rules_int))) {
       causal_rules_matrix <- generate_rules_matrix(X, causal_rules)
       causal_rules_matrix <- as.data.frame(causal_rules_matrix) %>%
         dplyr::transmute_all(as.factor)

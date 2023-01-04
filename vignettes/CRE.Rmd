@@ -26,7 +26,7 @@ Installing the latest developing version.
 
 ```{r, eval=FALSE}
 library(devtools)
-install_github("NSAPH-Software/CRE", ref="develop")
+install_github("NSAPH-Software/CRE", ref = "develop")
 ```
 
 Import.

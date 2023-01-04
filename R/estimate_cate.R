@@ -31,7 +31,8 @@
 #' @keywords internal
 #'
 #'
-estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf,
+estimate_cate <- function(y_inf, z_inf, X_inf, X_names,
+                          offset, rules_matrix_inf,
                           select_rules_interpretable,
                           cate_method, ite_inf, sd_ite_inf,
                           cate_SL_library, t_pvalue) {
@@ -76,14 +77,17 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
         X_inf <- X_inf[,-which(X_names == offset)]
 
         # Fit gnm model
-        conditional_gnm <- gnm::gnm(y_inf ~ offset(log(X_offset)) + z_inf +
-                                      z_inf:rules_matrix_inf + X_inf,
-                                    family = stats::poisson(link = "log"))
+        conditional_gnm <- gnm::gnm(y_inf ~ offset(log(X_offset)) +
+                                      z_inf +
+                                      z_inf:rules_matrix_inf +
+                                      X_inf,
+                                      family = stats::poisson(link = "log"))
       } else {
         # Fit gnm model
-        conditional_gnm <- gnm::gnm(y_inf ~ z_inf + z_inf:rules_matrix_inf
-                                          + X_inf,
-                                    family = stats::poisson(link = "log"))
+        conditional_gnm <- gnm::gnm(y_inf ~ z_inf +
+                                      z_inf:rules_matrix_inf +
+                                      X_inf,
+                                      family = stats::poisson(link = "log"))
       }
       cate_model <- summary(conditional_gnm)$coefficients
       cate_names <- rownames(cate_model) %>%
@@ -146,8 +150,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
       cate <- pred_1s$pred - pred_0s$pred
 
       # generate AIPW estimate
-      apo_1 <- pred_1s$pred + (z_inf_b*(y_inf_b - pred_1s$pred)/(phat))
-      apo_0 <- pred_0s$pred + ((1 - z_inf_b)*(y_inf_b - pred_0s$pred)/(1-phat))
+      apo_1 <- pred_1s$pred + (z_inf_b * (y_inf_b - pred_1s$pred) / (phat))
+      apo_0 <- pred_0s$pred +
+               ((1 - z_inf_b) * (y_inf_b - pred_0s$pred) / (1 - phat))
 
       delta <- apo_1 - apo_0
 
@@ -155,7 +160,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
       DRLearner <- stats::lm(delta ~ rules_matrix_inf_b)
       cate_model <- summary(DRLearner)$coefficients
       colnames(cate_model) <- c("Estimate", "Std_Error", "Z_Value", "P_Value")
-      if (length(select_rules_interpretable)==1) {
+      if (length(select_rules_interpretable) == 1) {
         cate_names <- rownames(cate_model) %>%
         stringr::str_replace_all("rules_matrix_inf_b",
                                  select_rules_interpretable) %>%
@@ -179,7 +184,6 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names, offset, rules_matrix_inf
           call. = FALSE
         )
       }
-
 
       stopifnot(ncol(rules_matrix_inf) == length(select_rules_interpretable))
       df_rules_factor <- as.data.frame(rules_matrix_inf) %>%
