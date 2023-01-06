@@ -25,21 +25,20 @@ estimate_ite_poisson <- function(y, z, X, X_names, offset) {
            observed varibale.")
     } else {
       X_names <- X_names[-which(X_names == offset)]
-      names(X)[names(X) == offset] <- "offset"
+      colnames(X)[colnames(X) == offset] <- "offset_var"
       y_treated <- data.frame(y = y[z == 1])
       X_treated <- as.data.frame(X[z == 1, ])
       y_control <- data.frame(y = y[z == 0])
       X_control <- as.data.frame(X[z == 0, ])
       data_treated <- cbind(y_treated, X_treated)
       data_control <- cbind(y_control, X_control)
-      formula = as.formula(paste("y ~ ", paste(X_names, collapse = "+")))
+      formula = as.formula(paste("y ~ ", paste(X_names, collapse = "+"),
+                                 "+ offset(log(offset_var))"))
       temp1 <- stats::glm(formula,
                           data = data_treated,
-                          offset = log(offset),
                           family = stats::poisson(link = "log"))
       temp0 <- stats::glm(formula,
                           data = data_control,
-                          offset = log(offset),
                           family = stats::poisson(link = "log"))
     }
   } else {
@@ -56,8 +55,8 @@ estimate_ite_poisson <- function(y, z, X, X_names, offset) {
                         data = data_control,
                         family = stats::poisson(link = "log"))
   }
-  y1hat <- stats::predict(temp1, as.data.frame(X))
-  y0hat <- stats::predict(temp0, as.data.frame(X))
+  y1hat <- stats::predict(temp1, as.data.frame(X), type="response")
+  y0hat <- stats::predict(temp0, as.data.frame(X), type="response")
   ite <- y1hat - y0hat
   return(ite)
 }

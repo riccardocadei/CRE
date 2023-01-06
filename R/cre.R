@@ -205,12 +205,9 @@ cre <- function(y, z, X,
                       is_y_binary = getElement(method_params, "is_y_binary"),
                       include_ps = getElement(method_params, "include_ps_inf"),
                       ps_method = getElement(method_params, "ps_method_inf"),
-                      oreg_method = getElement(method_params,
-                                               "oreg_method_inf"),
+                      oreg_method = getElement(method_params, "oreg_method_inf"),
                       X_names = X_names,
-                      include_offset = getElement(method_params,
-                                                  "include_offset"),
-                      offset_name = getElement(method_params, "offset_name"))
+                      offset = getElement(method_params,"offset"))
 
     ite_inf <- ite_list_inf[["ite"]]
     sd_ite_inf <- ite_list_inf[["sd_ite"]]

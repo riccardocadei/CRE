@@ -254,7 +254,7 @@ estimate_cate <- function(y_inf, z_inf, X_inf, X_names,
       joined_ite_rules <- cbind(ite_inf, sd_ite_inf, df_rules_factor)
 
       # Generate CATE data frame with ATE
-      cate_means <- data.frame(Rule = "()",
+      cate_means <- data.frame(Rule = "(BATE)",
                                CATE = mean(ite_inf),
                                CI_lower = mean(ite_inf) -
                                  (1.96 * mean(sd_ite_inf)),
