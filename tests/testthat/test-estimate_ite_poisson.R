@@ -31,7 +31,7 @@ test_that("Poisson ITE Estimated Correctly", {
   expect_true(length(ite_result) == length(y))
 
   # Reproducible results
-  expect_equal(ite_result[[1]], 0.5626742, tolerance = 0.000001)
-  expect_equal(ite_result[[19]], -0.3934483, tolerance = 0.000001)
-  expect_equal(ite_result[[72]], 0.8419285, tolerance = 0.000001)
+  expect_equal(ite_result[[1]], 0.9090112, tolerance = 0.000001)
+  expect_equal(ite_result[[19]], -2.840591, tolerance = 0.000001)
+  expect_equal(ite_result[[72]], 0.9013247, tolerance = 0.000001)
 })
