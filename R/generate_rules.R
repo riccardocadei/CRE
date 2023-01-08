@@ -2,8 +2,9 @@
 #' Generate rules
 #'
 #' @description
-#' Generates a set of relevant decision rules characterizing the
-#' heterogeneity in the ITE.
+#' Generate a list of Rules characterizing the heterogeneity in the Conditional
+#' Average Treatment Effect (CATE) by tree-based metods (Random Forest and
+#' XGBoost).
 #'
 #' @param X A covariate matrix.
 #' @param ite A vector of estimated ITE.
@@ -20,7 +21,7 @@
 #' @param replace A Boolean variable for replacement in bootstrapping.
 #'
 #' @return
-#' A list of generated decision rules
+#' A list of Rules.
 #'
 #' @keywords internal
 #'

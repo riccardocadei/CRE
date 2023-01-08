@@ -40,10 +40,11 @@ to extract conditions.}
 \item{replace}{A Boolean variable for replacement in bootstrapping.}
 }
 \value{
-A list of generated decision rules
+A list of Rules.
 }
 \description{
-Generates a set of relevant decision rules characterizing the
-heterogeneity in the ITE.
+Generate a list of Rules characterizing the heterogeneity in the Conditional
+Average Treatment Effect (CATE) by tree-based metods (Random Forest and
+XGBoost).
 }
 \keyword{internal}
