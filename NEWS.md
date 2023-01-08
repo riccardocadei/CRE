@@ -1,6 +1,9 @@
 # CRE (Developing)
 
 ## Changed
+* Rename `interpret_select_rules` in `interpret_rules`.
+* Rename `generate_causal_rules` in `discover_rules`.
+* Rename `discover_causal_rules` in `select_rules`.
 * Rename  `offset_name` parameters with `offset`.
 * Hyper and Method parameters are no more required arguments for `cre`.
 * `cre` object: added parameters and ite estimation.
