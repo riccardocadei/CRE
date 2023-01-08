@@ -86,13 +86,13 @@ rules (default: 0.01).
 \item \emph{t_pvalue}: the threshold to define statistically significant rules
 (default: 0.05).
 \item \emph{stability_selection}: Whether or not using stability selection for
-selecting the causal rules (default: TRUE).
+selecting the rules (default: TRUE).
 \item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for
 the stability scores (default: 0.9).
 \item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules) (default: 1).
-\item \emph{penalty_rl}: Order of penalty for rules length during LASSO for Causal
-Rules Discovery (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2)
+\item \emph{penalty_rl}: Order of penalty for rules length during LASSO
+regularization (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2)
 (default: 1).
 }}
 

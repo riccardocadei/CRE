@@ -3,7 +3,7 @@
 #'
 #' @description
 #' Performs the Causal Rule Ensemble on a data set with a response variable,
-#'  a treatment variable, and various features.
+#' a treatment variable, and various features.
 #'
 #' @param y An observed response vector.
 #' @param z A treatment vector.
@@ -67,13 +67,13 @@
 #'  - *t_pvalue*: the threshold to define statistically significant rules
 #' (default: 0.05).
 #'  - *stability_selection*: Whether or not using stability selection for
-#'  selecting the causal rules (default: TRUE).
+#'  selecting the rules (default: TRUE).
 #'  - *cutoff*:  Threshold (percentage) defining the minimum cutoff value for
 #'  the stability scores (default: 0.9).
 #'  - *pfer*: Upper bound for the per-family error rate (tolerated amount of
 #' falsely selected rules) (default: 1).
-#'  - *penalty_rl*: Order of penalty for rules length during LASSO for Causal
-#' Rules Discovery (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2)
+#'  - *penalty_rl*: Order of penalty for rules length during LASSO
+#'  regularization (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2)
 #' (default: 1).
 #' @param ite The estimated ITE vector. If given both the ITE estimation steps
 #' in Discovery and Inference are skipped (default: NULL).
@@ -166,7 +166,7 @@ cre <- function(y, z, X,
 
 
   # Discovery ------------------------------------------------------------------
-  logger::log_info("Starting Causal Rules Discovery...")
+  logger::log_info("Starting Rules Discovery...")
 
   # Estimate ITE
   if (is.null(ite)) {
@@ -186,13 +186,13 @@ cre <- function(y, z, X,
     logger::log_info("Using the provided ITE estimations...")
   }
 
-  # Generate Causal Decision Rules
-  causal_rules_discovery <- generate_causal_rules(X_dis,
-                                                  ite_dis,
-                                                  method_params,
-                                                  hyper_params)
-  causal_rules <- causal_rules_discovery[["rules"]]
-  M <- causal_rules_discovery[["M"]]
+  # Generate Decision Rules
+  discovery <- discover_rules(X_dis,
+                              ite_dis,
+                              method_params,
+                              hyper_params)
+  rules <- discovery[["rules"]]
+  M <- discovery[["M"]]
 
   # Inference ------------------------------------------------------------------
   logger::log_info("Starting CATE Inference...")
@@ -216,34 +216,34 @@ cre <- function(y, z, X,
   }
 
   # Generate rules matrix
-  if (length(causal_rules) == 0) {
+  if (length(rules) == 0) {
     rules_matrix_inf <- NA
-    causal_rules_int <- NA
+    rules_explicit <- NA
   } else {
-    rules_matrix_inf <- generate_rules_matrix(X_inf, causal_rules)
-    causal_rules_int <- interpret_select_rules(causal_rules, X_names)
+    rules_matrix_inf <- generate_rules_matrix(X_inf, rules)
+    rules_explicit <- interpret_rules(rules, X_names)
   }
 
   # Estimate CATE
   logger::log_info("Estimating CATE...")
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
                             getElement(method_params, "offset"),
-                            rules_matrix_inf, causal_rules_int,
+                            rules_matrix_inf, rules_explicit,
                             getElement(method_params, "cate_method"),
                             ite_inf, sd_ite_inf,
                             getElement(method_params, "cate_SL_library"),
                             getElement(hyper_params, "t_pvalue"))
 
-  M["Causal (significant)"] <- as.integer(length(cate_inf$summary$Rule)) - 1
+  M["Select (significant)"] <- as.integer(length(cate_inf$summary$Rule)) - 1
 
   # Estimate ITE
   if (getElement(method_params, "cate_method") == "linreg") {
-    if (!any(is.na(causal_rules_int))) {
-      causal_rules_matrix <- generate_rules_matrix(X, causal_rules)
-      causal_rules_matrix <- as.data.frame(causal_rules_matrix) %>%
+    if (!any(is.na(rules_explicit))) {
+      rules_matrix <- generate_rules_matrix(X, rules)
+      rules_matrix <- as.data.frame(rules_matrix) %>%
         dplyr::transmute_all(as.factor)
-      names(causal_rules_matrix) <- causal_rules_int
-      ite_pred <- predict(cate_inf$model, causal_rules_matrix)
+      names(rules_matrix) <- rules_explicit
+      ite_pred <- predict(cate_inf$model, rules_matrix)
     } else {
       ite_pred <- cate_inf$summary$Estimate[1]
     }
