@@ -113,12 +113,12 @@ summary.cre <- function(object, verbose = 2, ...) {
 
   if (verbose > 1) {
     cat("\n\nRules")
-    cat("\n  - Intial               :", getElement(M, "Initial"))
-    cat("\n  - Filter 1 (irrelevant):", getElement(M, "Filter 1 (irrelevant)"))
-    cat("\n  - Filter 2 (extreme)   :", getElement(M, "Filter 2 (extreme)"))
-    cat("\n  - Filter 3 (correlated):", getElement(M, "Filter 3 (correlated)"))
-    cat("\n  - Causal               :", getElement(M, "Causal"))
-    cat("\n  - Causal (significant) :", getElement(M, "Causal (significant)"))
+    cat("\n  - Intial              :", getElement(M, "Initial"))
+    cat("\n  - Filter (irrelevant) :", getElement(M, "Filter (irrelevant)"))
+    cat("\n  - Filter (extreme)    :", getElement(M, "Filter (extreme)"))
+    cat("\n  - Filter (correlated) :", getElement(M, "Filter (correlated)"))
+    cat("\n  - Select (LASSO)      :", getElement(M, "Select (LASSO)"))
+    cat("\n  - Select (significant):", getElement(M, "Select (significant)"))
   }
 
   cat("\n\nResults\n")
