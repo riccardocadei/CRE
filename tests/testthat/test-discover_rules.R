@@ -1,4 +1,4 @@
-test_that("generate_causal_rules works as expected!", {
+test_that("discover_rules works as expected!", {
   # Generate sample data
   set.seed(2021)
   dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
@@ -60,10 +60,10 @@ test_that("generate_causal_rules works as expected!", {
   ite <- ite_list[["ite"]]
 
   # Generate Causal Decision Rules
-  select_rules <- generate_causal_rules(X, ite, method_params, hyper_params)
+  select_rules <- discover_rules(X, ite, method_params, hyper_params)
   expect_true(class(select_rules[[1]]) == "character")
 
   hyper_params[["effect_modifiers"]] <- X_names[c(5, 7, 8, 9)]
-  select_rules <- generate_causal_rules(X, ite, method_params, hyper_params)
+  select_rules <- discover_rules(X, ite, method_params, hyper_params)
   expect_true(class(select_rules[[1]]) == "character")
 })

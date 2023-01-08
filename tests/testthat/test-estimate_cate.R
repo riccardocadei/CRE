@@ -79,7 +79,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
   rules_matrix_std_dis <- standardize_rules_matrix(rules_matrix_dis)
 
   # Step 5: Select important rules
-  select_rules_dis <- as.character(discover_causal_rules(rules_matrix_std_dis,
+  select_rules_dis <- as.character(select_rules(rules_matrix_std_dis,
                                                        rules_list_dis,
                                                        ite_dis,
                                                        stability_selection,
@@ -110,7 +110,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+    select_rules_interpretable <- interpret_rules(select_rules_dis,
                                                          X_names)
   }
 
@@ -213,7 +213,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::discover_causal_rules(
+  select_rules_dis <- as.character(CRE:::select_rules(
                                            rules_matrix_std_dis,
                                            rules_list_dis,
                                            ite_dis,
@@ -243,7 +243,7 @@ test_that("CATE (cf-means) Estimation Runs Correctly", {
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+    select_rules_interpretable <- interpret_rules(select_rules_dis,
                                                          X_names)
   }
 
@@ -339,7 +339,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::discover_causal_rules(
+  select_rules_dis <- as.character(CRE:::select_rules(
                                            rules_matrix_std_dis,
                                            rules_list_dis,
                                            ite_dis,
@@ -368,7 +368,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+    select_rules_interpretable <- interpret_rules(select_rules_dis,
                                                          X_names)
   }
 
@@ -463,7 +463,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::discover_causal_rules(
+  select_rules_dis <- as.character(CRE:::select_rules(
                                            rules_matrix_std_dis,
                                            rules_list_dis,
                                            ite_dis,
@@ -493,7 +493,7 @@ test_that("CATE (linreg) Estimation Runs Correctly", {
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+    select_rules_interpretable <- interpret_rules(select_rules_dis,
                                                          X_names)
   }
 
@@ -588,7 +588,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::discover_causal_rules(
+  select_rules_dis <- as.character(CRE:::select_rules(
                                            rules_matrix_std_dis,
                                            rules_list_dis,
                                            ite_dis,
@@ -618,7 +618,7 @@ test_that("CATE (bart-baggr) Estimation Runs Correctly", {
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+    select_rules_interpretable <- interpret_rules(select_rules_dis,
                                                          X_names)
   }
 
@@ -715,7 +715,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
   rules_matrix_std_dis <- CRE:::standardize_rules_matrix(rules_matrix_dis)
 
   # Select important rules
-  select_rules_dis <- as.character(CRE:::discover_causal_rules(
+  select_rules_dis <- as.character(CRE:::select_rules(
                                            rules_matrix_std_dis,
                                            rules_list_dis,
                                            ite_dis,
@@ -747,7 +747,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+    select_rules_interpretable <- interpret_rules(select_rules_dis,
                                                          X_names)
   }
 
@@ -782,7 +782,7 @@ test_that("CATE (Poisson) Estimation Runs Correctly", {
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_select_rules(select_rules_dis,
+    select_rules_interpretable <- interpret_rules(select_rules_dis,
                                                          X_names)
   }
 
