@@ -3,7 +3,7 @@
 \name{estimate_ite_sipw}
 \alias{estimate_ite_sipw}
 \title{Estimate the Individual Treatment Effect (ITE) using Stabilized Inverse
-Propensity Weighting (SIPW)}
+Probability Weighting (SIPW)}
 \usage{
 estimate_ite_sipw(y, z, X, ps_method)
 }
@@ -20,7 +20,8 @@ estimate_ite_sipw(y, z, X, ps_method)
 A vector of ITE estimates.
 }
 \description{
-Estimates the Individual Treatment Effect using Stabilized Inverse Propensity
-Weighting given a response vector, a treatment vector, and a features matrix.
+Estimates the Individual Treatment Effect using Stabilized Inverse
+Probability Weighting given a response vector, a treatment vector, and a
+features matrix.
 }
 \keyword{internal}

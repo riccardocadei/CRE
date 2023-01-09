@@ -1,12 +1,12 @@
 #' @title
 #' Estimate the Individual Treatment Effect (ITE) using Augmented Inverse
-#' Propensity Weighting (AIPW)
+#' Probability Weighting (AIPW)
 #'
 #' @description
-#' Estimates the Individual Treatment Effect using Augmented Inverse Propensity
+#' Estimates the Individual Treatment Effect using Augmented Inverse Probability
 #' Weighting given a response vector, a treatment vector, a features matrix,
 #' an estimation model for the propensity score and estimation model for the
-#' outcome regressions
+#' outcome regressions.
 #'
 #' @param y An observed response vector.
 #' @param z A treatment vector.

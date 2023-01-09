@@ -84,9 +84,9 @@ __Additional Estimates (not required)__
 ## Notes
 
 **[1]** Options for the ITE estimation are as follows: 
-- Inverse Propensity Weighting (`ipw`)
-- Stabilized Inverse Propensity Weighting (`sipw`)
-- Augmented Inverse Propensity Weighting (`aipw`)
+- Inverse Probability Weighting (`ipw`)
+- Stabilized Inverse Probability Weighting (`sipw`)
+- Augmented Inverse Probability Weighting (`aipw`)
 - Outcome Regression (`oreg`)
 - Bayesian Additive Regression Trees (`bart`)
 - Bayesian Causal Forests (`bcf`)
