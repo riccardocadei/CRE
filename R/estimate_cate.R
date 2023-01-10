@@ -2,8 +2,8 @@
 #' Estimate the Conditional Average Treatment Effect
 #'
 #' @description
-#' Estimates the Conditional Average Treatment Effect (CATE) by Linear by
-#' Linearly Modeling the Individual Treatment Effect on the Inference subsample
+#' Estimates the Conditional Average Treatment Effect (CATE) by
+#' linearly modeling the Individual Treatment Effect on the Inference subsample
 #' via the rules selected in the Discovery step.
 #'
 #' @param y_inf The outcome vector for the inference subsample.
@@ -18,11 +18,11 @@
 #' (filter only rules with p-value <= t_pvalue).
 #'
 #' @return
-#' A dataframe summarizing the CATE Linear Decomposition:
-#' - 'Rule': Rule name,
-#' - 'Estimate': Linear Contribution to CATE,
-#' - 'CI_lower`: Lower Bound 95% Confidence Interval on the estimate,
-#' - 'CI_upper`: Upper Bound 95% Confidence Interval on the estimate,
+#' A dataframe summarizing the CATE linear decomposition:
+#' - 'Rule': rule name,
+#' - 'Estimate': linear contribution to CATE,
+#' - 'CI_lower`: lower bound 95% confidence interval on the estimate,
+#' - 'CI_upper`: upper bound 95% confidence interval on the estimate,
 #' - `P-Value`: p-value (from Z-test).
 #'
 #' @import stats

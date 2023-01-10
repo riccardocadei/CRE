@@ -33,18 +33,18 @@ coviariate names (explicit).}
 (filter only rules with p-value <= t_pvalue).}
 }
 \value{
-A dataframe summarizing the CATE Linear Decomposition:
+A dataframe summarizing the CATE linear decomposition:
 \itemize{
-\item 'Rule': Rule name,
-\item 'Estimate': Linear Contribution to CATE,
-\item 'CI_lower`: Lower Bound 95\% Confidence Interval on the estimate,
-\item 'CI_upper`: Upper Bound 95\% Confidence Interval on the estimate,
+\item 'Rule': rule name,
+\item 'Estimate': linear contribution to CATE,
+\item 'CI_lower`: lower bound 95\% confidence interval on the estimate,
+\item 'CI_upper`: upper bound 95\% confidence interval on the estimate,
 \item \code{P-Value}: p-value (from Z-test).
 }
 }
 \description{
-Estimates the Conditional Average Treatment Effect (CATE) by Linear by
-Linearly Modeling the Individual Treatment Effect on the Inference subsample
+Estimates the Conditional Average Treatment Effect (CATE) by
+linearly modeling the Individual Treatment Effect on the Inference subsample
 via the rules selected in the Discovery step.
 }
 \keyword{internal}
