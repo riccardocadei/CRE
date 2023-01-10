@@ -1,6 +1,7 @@
 # CRE (Developing)
 
 ## Changed
+* `max_dacay` hyper-parameter -> `t_decay`.
 * `interpret_select_rules` function -> `interpret_rules`.
 * `generate_causal_rules` function -> `discover_rules`.
 * `discover_causal_rules` function ->`select_rules`.
@@ -25,6 +26,7 @@ estimations.
 domain.
 
 ## Removed
+* `type_decay` hyper-parameter.
 * Keep only `linreg` for CATE estimation (remove `cate_method` and 
 `cate_SL_library` parameters).
 * `method_params` and `hyper_params` additional parameters in `summary.cre`.

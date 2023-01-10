@@ -84,27 +84,17 @@ test_that("Rules Pruned Correctly", {
 
   rules <- extract_rules(treelist, X, ntrees, max_depth)
 
-  max_decay <- 0.025
-  type_decay <- 2
+  t_decay <- 0.025
 
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_error(filter_irrelevant_rules(rules = NA, X, ite, max_decay,
-                                       type_decay))
-  expect_error(filter_irrelevant_rules(rules, X = NA, ite, max_decay,
-                                       type_decay))
-  expect_error(filter_irrelevant_rules(rules, X, ite = NA, max_decay,
-                                       type_decay))
-  expect_error(filter_irrelevant_rules(rules, X, ite, max_decay = NA,
-                                       type_decay))
-  expect_error(filter_irrelevant_rules(rules, X, ite, max_decay,
-                                       type_decay = NA))
-
+  expect_error(filter_irrelevant_rules(rules = NA, X, ite, t_decay))
+  expect_error(filter_irrelevant_rules(rules, X = NA, ite, t_decay))
+  expect_error(filter_irrelevant_rules(rules, X, ite = NA, t_decay))
+  expect_error(filter_irrelevant_rules(rules, X, ite, t_decay = NA))
 
   # Correct outputs
-  rules_RF <- filter_irrelevant_rules(rules, X, ite, max_decay, type_decay)
+  rules_RF <- filter_irrelevant_rules(rules, X, ite, t_decay)
   expect_true(class(rules_RF) == "character")
-  #expect_equal(length(rules_RF), 155)
-  #expect_equal(rules_RF[3], "X[,3]<=0.5 & X[,8]>0.39 & X[,9]>0.1")
 })

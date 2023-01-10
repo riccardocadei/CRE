@@ -22,8 +22,7 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
   max_nodes <- 5
   max_depth <- 3
   replace <- FALSE
-  max_decay <- 0.025
-  type_decay <- 2
+  t_decay <- 0.025
   t_ext <- 0.02
   t_corr <- 0
   t_pvalue <- 0.05
@@ -72,7 +71,7 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
                                       max_nodes, max_depth, replace)
 
   rules_list_dis <- filter_irrelevant_rules(initial_rules_dis, X_dis,
-                                            ite_dis, max_decay, type_decay)
+                                            ite_dis, t_decay)
 
   # Generate rules matrix
   rules_matrix_dis <- generate_rules_matrix(X_dis, rules_list_dis)
@@ -144,8 +143,7 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
   max_nodes <- 5
   max_depth <- 3
   replace <- FALSE
-  max_decay <- 0.025
-  type_decay <- 2
+  t_decay <- 0.025
   t_ext <- 0.02
   t_corr <- 0
   t_pvalue <- 0.05

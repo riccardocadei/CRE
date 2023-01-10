@@ -4,7 +4,7 @@
 \alias{filter_irrelevant_rules}
 \title{Filter irrelevant decision rules}
 \usage{
-filter_irrelevant_rules(rules, X, ite, max_decay, type_decay)
+filter_irrelevant_rules(rules, X, ite, t_decay)
 }
 \arguments{
 \item{rules}{A list of rules.}
@@ -13,10 +13,7 @@ filter_irrelevant_rules(rules, X, ite, max_decay, type_decay)
 
 \item{ite}{An estimated ITE.}
 
-\item{max_decay}{A decay Threshold for pruning the rules.}
-
-\item{type_decay}{A decay type for pruning the rules
-(1: relative error; 2: error).}
+\item{t_decay}{The decay threshold for rules pruning.}
 }
 \value{
 A list of 'relevant' rules.

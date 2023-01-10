@@ -10,16 +10,14 @@
 #' @param rules A list of rules.
 #' @param X A features matrix.
 #' @param ite An estimated ITE.
-#' @param max_decay A decay Threshold for pruning the rules.
-#' @param type_decay A decay type for pruning the rules
-#' (1: relative error; 2: error).
+#' @param t_decay The decay threshold for rules pruning.
 #'
 #' @keywords internal
 #'
 #' @return
 #' A list of 'relevant' rules.
 #'
-filter_irrelevant_rules <- function(rules, X, ite, max_decay, type_decay) {
+filter_irrelevant_rules <- function(rules, X, ite, t_decay) {
 
   rules_matrix <- matrix(rules)
   colnames(rules_matrix) <- "condition"
@@ -30,8 +28,7 @@ filter_irrelevant_rules <- function(rules, X, ite, max_decay, type_decay) {
   pruned <- inTrees::pruneRule(rules = metric,
                                X = X,
                                target = ite,
-                               maxDecay = max_decay,
-                               typeDecay = type_decay)
+                               maxDecay = t_decay)
   rules <- unique(pruned[, 4])
   return(rules)
 }

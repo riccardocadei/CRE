@@ -16,8 +16,7 @@ test_that("Rules Interpreted Correctly", {
   max_nodes <- 5
   max_depth <- 15
   replace <- FALSE
-  max_decay <- 0.025
-  type_decay <- 2
+  t_decay <- 0.025
   cutoff <- 0.8
   stability_selection <- TRUE
   pfer <- 0.1
@@ -45,8 +44,7 @@ test_that("Rules Interpreted Correctly", {
                                   ntrees_gbm, node_size, max_nodes, max_depth,
                                   replace)
 
-  rules_list <- filter_irrelevant_rules(initial_rules, X, ite, max_decay,
-                                        type_decay)
+  rules_list <- filter_irrelevant_rules(initial_rules, X, ite, t_decay)
 
   # Step 4: Generate rules matrix
   rules_matrix <- generate_rules_matrix(X, rules_list)

@@ -71,25 +71,15 @@ check_hyper_params <- function(X_names, params) {
   }
   params[["max_depth"]] <- max_depth
 
-  max_decay <- getElement(params, "max_decay")
-  if (length(max_decay) == 0) {
-    max_decay <- 0.025
+  t_decay <- getElement(params, "t_decay")
+  if (length(t_decay) == 0) {
+    t_decay <- 0.025
   } else {
-    if (!inherits(max_decay, "numeric")) {
-      stop("Invalid 'max_decay' input. Please input a number.")
+    if (!inherits(t_decay, "numeric")) {
+      stop("Invalid 't_decay' input. Please input a number.")
     }
   }
-  params[["max_decay"]] <- max_decay
-
-  type_decay <- getElement(params, "type_decay")
-  if (length(type_decay) == 0) {
-    type_decay <- 2
-  } else {
-    if (!inherits(type_decay, "numeric")) {
-      stop("Invalid 'type_decay' input. Please input a number.")
-    }
-  }
-  params[["type_decay"]] <- type_decay
+  params[["t_decay"]] <- t_decay
 
   replace <- getElement(params, "replace")
   if (length(replace) == 0) {

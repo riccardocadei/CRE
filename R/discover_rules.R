@@ -36,8 +36,7 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
   # Discard irrelevant variable-value pair from a rule condition ---------------
   logger::log_info("Filtering irrelevant rules...")
   rules_list <- filter_irrelevant_rules(rules, X, ite,
-                                        getElement(hyper_params, "max_decay"),
-                                        getElement(hyper_params, "type_decay"))
+                                        getElement(hyper_params, "t_decay"))
   M_filter1 <- length(rules_list)
 
   # Generate rules matrix ------------------------------------------------------

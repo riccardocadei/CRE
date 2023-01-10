@@ -62,8 +62,7 @@ __Parameters (not required)__
 - **`max_nodes`** Maximum number of terminal nodes per tree (default: 5).  
 - **`max_depth`** Maximum rules length (default: 3).  
 - **`replace`** Boolean variable for replacement in bootstrapping (default: TRUE).     
-- **`max_decay`** Decay Threshold for pruning the rules (default: 0.025).     
-- **`type_decay`** Decay Type for pruning the rules: 1 relative error; 2 error (default: 2).     
+- **`t_decay`** The decay threshold for rules pruning (default: 0.025).          
 - **`t_ext`** The threshold to define too generic or too specific (extreme) rules (default: 0.01).     
 - **`t_corr`** The threshold to define correlated rules (default: 1). 
 - **`t_pvalue`** The threshold to define statistically significant rules (default: 0.05).
@@ -166,8 +165,7 @@ plot(cre_results)
                      node_size = 20,
                      max_nodes = 5,
                      max_depth = 3,
-                     max_decay = 0.025,
-                     type_decay = 2,
+                     t_decay = 0.025
                      t_ext = 0.025,
                      t_corr = 1,
                      t_pvalue = 0.05,
