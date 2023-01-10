@@ -57,14 +57,13 @@ including:
 \itemize{
 \item \emph{intervention_vars}: Intervention-able variables used for Rules Generation
 (default: NULL).
-\item \emph{ntrees_rf}: The number of decision trees for randomForest (default: 100).
-\item \emph{ntrees_gbm}: The number of decision trees for gradient boosting
-(default: 0).
-\item \emph{node_size}: The minimum size of the trees' terminal nodes (default: 20).
-\item \emph{max_nodes}: The maximum number of terminal nodes trees in the forest can
-have (default: 5).
-\item \emph{max_depth}: The number of top levels from each tree considered
-to extract conditions (default: 3).
+\item \emph{ntrees_rf}: A number of decision trees for random forest (default: 20).
+\item \emph{ntrees_gbm}: A number of decision trees for the generalized boosted
+regression modeling algorithm.
+(default: 20).
+\item \emph{node_size}: Minimum size of the trees' terminal nodes (default: 20).
+\item \emph{max_nodes}: Maximum number of terminal nodes per tree (default: 5).
+\item \emph{max_depth}: Maximum rules length (default: 3).
 \item \emph{replace}: Boolean variable for replacement in bootstrapping
 (default: TRUE).
 \item \emph{max_decay}: Decay Threshold for pruning the rules (default: 0.025).

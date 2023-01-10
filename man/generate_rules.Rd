@@ -26,25 +26,23 @@ rules generation.}
 
 \item{ntrees_rf}{A number of decision trees for the random forest algorithm.}
 
-\item{ntrees_gbm}{A number of decision trees for the gradient boosting
-algorithm.}
+\item{ntrees_gbm}{A number of decision trees for the generalized boosted
+regression modeling algorithm.}
 
-\item{node_size}{A minimum size of the trees' terminal nodes.}
+\item{node_size}{Minimum size of the trees' terminal nodes.}
 
-\item{max_nodes}{A maximum allowed number of terminal nodes per a tree in the
-forest.}
+\item{max_nodes}{Maximum number of terminal nodes per tree.}
 
-\item{max_depth}{A number of top levels from each tree considered
-to extract conditions.}
+\item{max_depth}{Maximum rules length.}
 
-\item{replace}{A Boolean variable for replacement in bootstrapping.}
+\item{replace}{A boolean variable for replacement in bootstrapping.}
 }
 \value{
 A list of rules (names).
 }
 \description{
-Generate a list of Rules characterizing the heterogeneity in the Conditional
-Average Treatment Effect (CATE) by tree-based metods (random forest and
-XGBoost).
+Generates a list of rules characterizing the heterogeneity in the Conditional
+Average Treatment Effect (CATE) by tree-based metods: random forest (RF) and
+generalized boosted regression modeling (GBM).
 }
 \keyword{internal}

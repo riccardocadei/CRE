@@ -19,7 +19,7 @@
 discover_rules <- function(X, ite, method_params, hyper_params) {
 
   # Generate rules -------------------------------------------------------------
-  logger::log_info("Generating (candidate) Rules...")
+  logger::log_info("Generating (candidate) rules...")
   rules <- generate_rules(X,
                           ite,
                           getElement(hyper_params, "intervention_vars"),
