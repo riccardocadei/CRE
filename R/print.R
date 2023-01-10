@@ -107,8 +107,6 @@ summary.cre <- function(object, verbose = 2, ...) {
     if (getElement(params, "include_ps_inf")) {
       cat("\n    - Propensity Score:", getElement(params, "ps_method_inf"))
     }
-    cat("\n  - CATE")
-    cat("\n    - Estimator:", getElement(params, "cate_method"))
   }
 
   if (verbose > 1) {
@@ -122,6 +120,6 @@ summary.cre <- function(object, verbose = 2, ...) {
   }
 
   cat("\n\nResults\n")
-  cat("- CATE Linear Deccomposition:\n")
+  cat("- CATE Linear Decomposition:\n")
   print(CATE)
 }

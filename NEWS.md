@@ -25,6 +25,8 @@ estimations.
 domain.
 
 ## Removed
+* Keep only `linreg` for CATE estimation (remove `cate_method` and 
+`cate_SL_library` parameters).
 * `method_params` and `hyper_params` additional parameters in `summary.cre`.
 * ite standardization for Rules Generation.
 * `random_state` parameter.

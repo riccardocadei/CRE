@@ -44,16 +44,6 @@ or CF (default: TRUE).
 inference subsample (default: 'SL.xgboost').
 \item \emph{or_method_inf}: The estimation model for the outcome regressions in
 estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
-\item \emph{cate_method}: The method to estimate the CATE values, includes:
-\itemize{
-\item \code{Poisson}
-\item \code{DRLearner}
-\item \code{bart-baggr}
-\item \code{cf-means}
-\item \code{linreg} (default)
-}
-\item \emph{cate_SL_library}: The library used if cate_method is set to DRLearner
-(default: 'SL.xgboost').
 }
 \item \emph{Other Parameters}
 \itemize{
@@ -81,10 +71,11 @@ to extract conditions (default: 3).
 \item \emph{type_decay}: Decay Type for pruning the rules: 1 relative error; 2 error
 (default: 2).
 \item \emph{t_ext}: The threshold to define too generic or too specific (extreme)
-rules (default: 0.01).
-\item \emph{t_corr}: The threshold to define correlated rules (default: 1).
+rules (default: 0.01, range: (0,0.5)).
+\item \emph{t_corr}: The threshold to define correlated rules (default: 1,
+range: (0,+inf)).
 \item \emph{t_pvalue}: the threshold to define statistically significant rules
-(default: 0.05).
+(default: 0.05, range: (0,1)).
 \item \emph{stability_selection}: Whether or not using stability selection for
 selecting the rules (default: TRUE).
 \item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for
@@ -134,8 +125,6 @@ method_params <- list(ratio_dis = 0.25,
                       ps_method_inf = "SL.xgboost",
                       oreg_method_inf = "SL.xgboost",
                       include_ps_inf = TRUE,
-                      cate_method = "linreg",
-                      cate_SL_library = "SL.xgboost",
                       offset = NULL)
 
 hyper_params <- list(ntrees_rf = 100,

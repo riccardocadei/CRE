@@ -52,8 +52,6 @@ __Parameters (not required)__
 - **`include_ps_inf`** Whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, or CF (default: TRUE).     
 - **`ps_method_inf`** The estimation model for the propensity score on the inference subsample (default: 'SL.xgboost').     
 - **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').     
-- **`cate_method`** The method to estimate the conditional average treatment effect (CATE) values (default: 'linreg').     
-- **`cate_SL_library`** The library used if cate_method is set to DRLearner (default: 'SL.xgboost').    
 - **`offset`** Name of the covariate to use as offset (i.e. 'x1') for Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 
 **`hyper_params`** The list of hyper parameters to finetune the method, including:
@@ -160,8 +158,6 @@ plot(cre_results)
                        ps_method_inf = "SL.xgboost",
                        oreg_method_inf = "SL.xgboost",
                        include_ps_inf = TRUE,
-                       cate_method = "linreg",
-                       cate_SL_library = "SL.xgboost",
                        offset = NULL)
 
  hyper_params = list(interaction_vars = NULL,

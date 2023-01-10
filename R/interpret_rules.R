@@ -19,8 +19,7 @@ interpret_rules <- function(rules, X_names) {
   n_rules <- length(rules)
   rules_explicit <- vector(length = n_rules)
   for (j in 1:n_rules) {
-    rules_explicit[j] <- stringr::str_replace_all(
-                                                  rules[j],
+    rules_explicit[j] <- stringr::str_replace_all(rules[j],
                                                   stringr::fixed(replacements))
   }
   return(rules_explicit)

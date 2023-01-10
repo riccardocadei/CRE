@@ -33,14 +33,6 @@
 #'       inference subsample (default: 'SL.xgboost').
 #'     - *or_method_inf*: The estimation model for the outcome regressions in
 #'       estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
-#'     - *cate_method*: The method to estimate the CATE values, includes:
-#'       - `Poisson`
-#'       - `DRLearner`
-#'       - `bart-baggr`
-#'       - `cf-means`
-#'       - `linreg` (default)
-#'     - *cate_SL_library*: The library used if cate_method is set to DRLearner
-#'     (default: 'SL.xgboost').
 #'   - *Other Parameters*
 #'     - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
 #'     Poisson ITE Estimation. NULL if offset is not used (default: NULL).
@@ -62,10 +54,11 @@
 #'  - *type_decay*: Decay Type for pruning the rules: 1 relative error; 2 error
 #'  (default: 2).
 #'  - *t_ext*: The threshold to define too generic or too specific (extreme)
-#'  rules (default: 0.01).
-#'  - *t_corr*: The threshold to define correlated rules (default: 1).
+#'  rules (default: 0.01, range: (0,0.5)).
+#'  - *t_corr*: The threshold to define correlated rules (default: 1,
+#'  range: (0,+inf)).
 #'  - *t_pvalue*: the threshold to define statistically significant rules
-#' (default: 0.05).
+#' (default: 0.05, range: (0,1)).
 #'  - *stability_selection*: Whether or not using stability selection for
 #'  selecting the rules (default: TRUE).
 #'  - *cutoff*:  Threshold (percentage) defining the minimum cutoff value for
@@ -109,8 +102,6 @@
 #'                       ps_method_inf = "SL.xgboost",
 #'                       oreg_method_inf = "SL.xgboost",
 #'                       include_ps_inf = TRUE,
-#'                       cate_method = "linreg",
-#'                       cate_SL_library = "SL.xgboost",
 #'                       offset = NULL)
 #'
 #' hyper_params <- list(ntrees_rf = 100,
@@ -226,30 +217,22 @@ cre <- function(y, z, X,
 
   # Estimate CATE
   logger::log_info("Estimating CATE...")
-  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names,
-                            getElement(method_params, "offset"),
+  cate_inf <- estimate_cate(y_inf, z_inf, X_inf,
                             rules_matrix_inf, rules_explicit,
-                            getElement(method_params, "cate_method"),
-                            ite_inf, sd_ite_inf,
-                            getElement(method_params, "cate_SL_library"),
-                            getElement(hyper_params, "t_pvalue"))
-
+                            ite_inf, getElement(hyper_params, "t_pvalue"))
   M["Select (significant)"] <- as.integer(length(cate_inf$summary$Rule)) - 1
+  print(cate_inf)
 
   # Estimate ITE
-  if (getElement(method_params, "cate_method") == "linreg") {
-    if (!any(is.na(rules_explicit))) {
-      rules_matrix <- generate_rules_matrix(X, rules)
-      rules_matrix <- as.data.frame(rules_matrix) %>%
-        dplyr::transmute_all(as.factor)
-      names(rules_matrix) <- rules_explicit
-      ite_pred <- predict(cate_inf$model, rules_matrix)
-    } else {
-      ite_pred <- cate_inf$summary$Estimate[1]
-    }
+  if (M[5]>0) {
+    rules_matrix <- generate_rules_matrix(X, rules)
+    filter <- rules_explicit %in%
+              cate_inf$summary$Rule[2:length(cate_inf$summary$Rule)]
+    rules_df <- as.data.frame(rules_matrix[,filter])
+    names(rules_df) <- rules_explicit[filter]
+    ite_pred <- predict(cate_inf$model, rules_df)
   } else {
-    # TODO: return predicted ITEs for other CATE Estimators (i.e. DRLearner,...)
-    ite_pred <- NULL
+    ite_pred <- cate_inf$summary$Estimate[1]
   }
 
   # Generate final results S3 object
