@@ -1,4 +1,4 @@
-test_that("Rules Pruned Correctly", {
+test_that("Filter ireelevant rules run correctly", {
 
   # Generate sample data
   set.seed(181)
@@ -17,13 +17,6 @@ test_that("Rules Pruned Correctly", {
   max_depth <- 15
 
   set.seed(349)
-  seed_vector <- 1000 + sample.int(n = 10000000,
-                                   size = ntrees + 2,
-                                   replace = FALSE)
-  random_state <- seed_vector[ntrees + 1]
-
-  # Check for binary outcome
-  binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
 
   # Step 1: Split data
   X <- as.matrix(X)
@@ -31,11 +24,10 @@ test_that("Rules Pruned Correctly", {
   z <- as.matrix(z)
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method, binary,
+  ite_list <- estimate_ite(y, z, X, ite_method,
                            include_ps = include_ps,
                            ps_method = ps_method,
-                           oreg_method = oreg_method,
-                           random_state = random_state)
+                           oreg_method = oreg_method)
   ite <- ite_list[["ite"]]
 
   expect_equal(ite[10], -1.240143, tolerance = 0.000001)

@@ -23,7 +23,7 @@ test_that("Correlated Rules Discarded Correctly", {
   intervention_vars <- c()
 
   # Check for binary outcome
-  binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
+  binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
 
   # Step 1: Split data
   X <- as.matrix(X)
@@ -33,11 +33,11 @@ test_that("Correlated Rules Discarded Correctly", {
   ###### Discovery ######
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method, binary,
+  ite_list <- estimate_ite(y, z, X, ite_method,
+                           binary_outcome = binary_outcome,
                            include_ps = include_ps,
                            ps_method = ps_method,
-                           oreg_method = oreg_method,
-                           random_state = 376)
+                           oreg_method = oreg_method)
   ite <- ite_list[["ite"]]
 
   # Step 3: Generate rules list

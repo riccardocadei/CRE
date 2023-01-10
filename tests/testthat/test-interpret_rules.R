@@ -23,16 +23,13 @@ test_that("Rules Interpreted Correctly", {
   intervention_vars <- c()
   penalty_rl <- 1
 
-  # Check for binary outcome
-  binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
-
   X_names <- names(as.data.frame(X))
   X <- as.matrix(X)
   y <- as.matrix(y)
   z <- as.matrix(z)
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method, binary,
+  ite_list <- estimate_ite(y, z, X, ite_method,
                            include_ps = include_ps,
                            ps_method = ps_method,
                            oreg_method = oreg_method,

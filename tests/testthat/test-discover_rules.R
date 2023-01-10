@@ -44,13 +44,12 @@ test_that("discover_rules works as expected!", {
   # Estimate ITE
   ite_list <- estimate_ite(y = y, z = z, X = X,
                 ite_method = getElement(method_params, "ite_method_dis"),
-                is_y_binary = getElement(method_params, "is_y_binary"),
+                binary_outcome = getElement(method_params, "binary_outcome"),
                 include_ps = getElement(method_params, "include_ps_dis"),
                 ps_method = getElement(method_params, "ps_method_dis"),
                 oreg_method = getElement(method_params, "oreg_method_dis"),
                 X_names = X_names,
-                offset = getElement(method_params, "offset"),
-                random_state = getElement(method_params, "random_state"))
+                offset = getElement(method_params, "offset"))
   ite <- ite_list[["ite"]]
 
   # Generate Causal Decision Rules

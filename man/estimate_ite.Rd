@@ -4,7 +4,7 @@
 \alias{estimate_ite}
 \title{Estimate the Individual Treatment Effect (ITE)}
 \usage{
-estimate_ite(y, z, X, ite_method, is_y_binary, ...)
+estimate_ite(y, z, X, ite_method, ...)
 }
 \arguments{
 \item{y}{An observed response vector.}
@@ -48,8 +48,6 @@ the end of this parameters list.
 \item \code{X_names}, \code{offset}
 }
 }}
-
-\item{is_y_binary}{Whether or not the outcome is binary.}
 
 \item{...}{Additional parameters passed to different models.}
 }

@@ -22,7 +22,7 @@ test_that("Rules Extracted Correctly", {
   random_state <- seed_vector[ntrees + 1]
 
   # Check for binary outcome
-  binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
+  binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
 
   # Step 1: Split data
   X <- as.matrix(X)
@@ -30,7 +30,8 @@ test_that("Rules Extracted Correctly", {
   z <- as.matrix(z)
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method, binary,
+  ite_list <- estimate_ite(y, z, X, ite_method,
+                           binary_outcome = binary_outcome,
                            include_ps = include_ps,
                            ps_method = ps_method,
                            oreg_method = oreg_method,

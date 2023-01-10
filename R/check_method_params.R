@@ -160,8 +160,8 @@ check_method_params <- function(y, X_names, ite, params) {
   params[["oreg_method_inf"]] <- oreg_method_inf
 
   # Check Outcome Domain -------------------------------------------------------
-  is_y_binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
-  if (is_y_binary) {
+  binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
+  if (binary_outcome) {
     if (ite_method_dis %in% c("bcf", "ipw", "sipw") |
         ite_method_inf %in% c("bcf", "ipw", "sipw")) {
       stop(paste("The 'ipw', 'sipw', and 'bcf' methods are not ",
@@ -169,7 +169,6 @@ check_method_params <- function(y, X_names, ite, params) {
                  "method from the following: 'aipw',' or', 'cf', or 'bart'"))
     }
   }
-  params[["is_y_binary"]] <- is_y_binary
 
   # Offset Parameter Check------------------------------------------------------
 

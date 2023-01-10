@@ -19,10 +19,7 @@ test_that("generate_rules works as expected!", {
   max_nodes <- 5
   max_depth <- 15
   replace <- FALSE
-  intervention_vars <- c()
-
-  # Check for binary outcome
-  binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
+  intervention_vars <- NULL
 
   # Step 1: Split data
   X <- as.matrix(X)
@@ -30,7 +27,7 @@ test_that("generate_rules works as expected!", {
   z <- as.matrix(z)
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method, binary,
+  ite_list <- estimate_ite(y, z, X, ite_method,
                            include_ps = include_ps,
                            ps_method = ps_method,
                            or_method = or_method,

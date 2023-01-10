@@ -27,7 +27,6 @@
 #'     - `include_ps` and `ps_method`
 #'   - `poisson`: Poisson Estimation.
 #'     - `X_names`, `offset`
-#' @param is_y_binary Whether or not the outcome is binary.
 #' @param ... Additional parameters passed to different models.
 #' @details
 #' ## Additional parameters
@@ -49,13 +48,13 @@
 #'
 #' @keywords internal
 #'
-estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...) {
+estimate_ite <- function(y, z, X, ite_method, ...) {
 
 
   # Address visible binding error.
-  X_names <- offset  <- NULL
+  X_names <- offset <- oreg_method <- NULL
   include_ps <- ps_method <- ps_method_dis <- ps_method_inf <- NULL
-  oreg_method <- NULL
+
 
 
   ## collect additional arguments
@@ -114,7 +113,9 @@ estimate_ite <- function(y, z, X, ite_method, is_y_binary, ...) {
                "'ipw', 'sipw', 'aipw', 'oreg', 'bart', 'bcf', 'cf'",
                " or 'poisson'"))
   }
-  if (is_y_binary) {
+
+  binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
+  if (binary_outcome) {
     ite <- round(ite, 0)
     # TODO: clip in {-1,0,+1}
   }
