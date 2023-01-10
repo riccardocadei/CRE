@@ -174,8 +174,7 @@ check_method_params <- function(y, X_names, ite, params) {
   # Offset Parameter Check------------------------------------------------------
 
   offset <- getElement(params, "offset")
-  if ((ite_method_dis == "poisson") | (ite_method_inf == "poisson") |
-      (cate_method == "poisson")) {
+  if ((ite_method_dis == "poisson") | (ite_method_inf == "poisson")) {
     if (length(offset) == 0) {
       offset <- NULL
     } else {
