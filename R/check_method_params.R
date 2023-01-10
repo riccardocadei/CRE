@@ -171,42 +171,6 @@ check_method_params <- function(y, X_names, ite, params) {
   }
   params[["is_y_binary"]] <- is_y_binary
 
-  # CATE Estimation Parameters Check--------------------------------------------
-  cate_method <- getElement(params, "cate_method")
-  cate_SL_library <- NA
-  if (length(cate_method) == 0) {
-    cate_method <- "linreg"
-  } else {
-    if (!(cate_method %in% c("poisson", "DRLearner", "bart-baggr",
-                             "cf-means", "linreg"))) {
-      stop(paste("Invalid CATE method for Inference Subsample.",
-                 "Please choose from the following: 'poisson', 'DRLearner',",
-                 "'bart-baggr','cf-means', or 'linreg'"))
-    } else if (cate_method == "DRLearner") {
-      cate_SL_library <- getElement(params, "cate_SL_library")
-      if (length(cate_SL_library) == 0) {
-        cate_SL_library <- "SL.xgboost"
-      } else {
-        if (!(class(cate_SL_library) %in% c("character", "list"))) {
-          stop(paste("Please specify a string or list for the cate_SL_library",
-                     "argument."))
-        }
-      }
-    } else if (cate_method == "bart-baggr") {
-      if (!(ite_method_inf %in% c("bart"))) {
-        stop(paste("Please choose 'bart' for ite_method_inf ",
-                   "if you wish to use 'bart-baggr' as the cate_method"))
-      }
-    } else if (cate_method == "cf-means") {
-      if (!(ite_method_inf %in% c("cf", "bcf"))) {
-        stop(paste("Please choose 'cf', or 'bcf' for ite_method_inf ",
-                   "if you wish to use 'cf-means' as the cate_method"))
-      }
-    }
-  }
-  params[["cate_SL_library"]] <- cate_SL_library
-  params[["cate_method"]] <- cate_method
-
   # Offset Parameter Check------------------------------------------------------
 
   offset <- getElement(params, "offset")

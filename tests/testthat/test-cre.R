@@ -91,23 +91,6 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
   method_params[["offset"]] <- NULL
-  method_params[["cate_method"]] <- "test"
-  expect_error(cre(y_temp, z, X, method_params, hyper_params))
-
-  method_params[["ite_method_dis"]] <- "bart"
-  method_params[["cate_SL_library"]] <- 1
-  expect_error(cre(y_temp, z, X, method_params, hyper_params))
-
-  method_params[["cate_SL_library"]] <- "SL.xgboost"
-  method_params[["cate_method"]] <- "bart-baggr"
-  method_params[["ite_method_inf"]] <- "aipw"
-  expect_error(cre(y_temp, z, X, method_params, hyper_params))
-
-  method_params[["cate_method"]] <- "cf-means"
-  expect_error(cre(y_temp, z, X, method_params, hyper_params))
-
-  method_params[["cate_method"]] <- "linreg"
-  method_params[["ite_method_inf"]] <- "bart"
   hyper_params[["ntrees_rf"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
