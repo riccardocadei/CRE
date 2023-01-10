@@ -94,6 +94,7 @@ test_that("cre Runs Correctly", {
   hyper_params[["ntrees_rf"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
+  method_params[["ite_method_dis"]] <- "aipw"
   hyper_params[["ntrees_rf"]] <- 100
   hyper_params[["ntrees_gbm"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
