@@ -2,7 +2,7 @@
 #' Generate rules
 #'
 #' @description
-#' Generate a list of Rules characterizing the heterogeneity in the Conditional
+#' Generates a list of rules characterizing the heterogeneity in the Conditional
 #' Average Treatment Effect (CATE) by tree-based metods (random forest and
 #' XGBoost).
 #'

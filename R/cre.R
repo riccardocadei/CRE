@@ -129,7 +129,7 @@ cre <- function(y, z, X,
   "%>%" <- magrittr::"%>%"
 
   # Input checks ---------------------------------------------------------------
-  logger::log_info("Checking Parameters...")
+  logger::log_info("Checking parameters...")
   method_params <- check_method_params(y = y,
                                        X_names = names(X),
                                        ite = ite,
@@ -157,7 +157,7 @@ cre <- function(y, z, X,
 
 
   # Discovery ------------------------------------------------------------------
-  logger::log_info("Starting Rules Discovery...")
+  logger::log_info("Starting rules discovery...")
 
   # Estimate ITE
   if (is.null(ite)) {
@@ -186,7 +186,7 @@ cre <- function(y, z, X,
   M <- discovery[["M"]]
 
   # Inference ------------------------------------------------------------------
-  logger::log_info("Starting CATE Inference...")
+  logger::log_info("Starting CATE inference...")
 
   # Estimate ITE
   if (is.null(ite)) {
@@ -222,11 +222,11 @@ cre <- function(y, z, X,
   M["select_significant"] <- as.integer(length(cate_inf$summary$Rule)) - 1
 
   # Estimate ITE
-  if (M["select_significant"]>0) {
+  if (M["select_significant"] > 0) {
     rules_matrix <- generate_rules_matrix(X, rules)
     filter <- rules_explicit %in%
               cate_inf$summary$Rule[2:length(cate_inf$summary$Rule)]
-    rules_df <- as.data.frame(rules_matrix[,filter])
+    rules_df <- as.data.frame(rules_matrix[, filter])
     names(rules_df) <- rules_explicit[filter]
     ite_pred <- predict(cate_inf$model, rules_df)
   } else {

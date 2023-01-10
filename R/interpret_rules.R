@@ -8,7 +8,7 @@
 #' @param X_names A vector of real names of the covariates.
 #'
 #' @return
-#' A List of explicit (human-readable) rules.
+#' A list of explicit (human-readable) rules.
 #'
 #'
 #'@keywords internal
