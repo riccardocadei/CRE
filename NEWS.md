@@ -32,6 +32,9 @@ domain.
 * `random_state` parameter.
 * `include_offset` method parameter.
 
+## Solved
+* Rules Generation Issue.
+
 
 
 # CRE 0.1.1 (2022-10-18)

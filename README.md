@@ -56,11 +56,11 @@ __Parameters (not required)__
 
 **`hyper_params`** The list of hyper parameters to finetune the method, including:
 - **`intervention_vars`** Intervention-able variables used for Rules Generation (default: NULL).     
-- **`ntrees_rf`** The number of decision trees for randomForest (default: 100).     
-- **`ntrees_gbm`** The number of decision trees for gradient boosting (default: 0).     
-- **`node_size`** The minimum size of the trees' terminal nodes (default: 20).      
-- **`max_nodes`** The maximum number of terminal nodes trees in the forest can have (default: 5).    
-- **`max_depth`** The number of top levels from each tree considered to extract conditions (default: 3).    
+- **`ntrees_rf`** A number of decision trees for random forest (default: 20).   
+- **`ntrees_gbm`** A number of decision trees for the generalized boosted regression modeling algorithm. (default: 20).     
+- **`node_size`** Minimum size of the trees' terminal nodes (default: 20).
+- **`max_nodes`** Maximum number of terminal nodes per tree (default: 5).  
+- **`max_depth`** Maximum rules length (default: 3).  
 - **`replace`** Boolean variable for replacement in bootstrapping (default: TRUE).     
 - **`max_decay`** Decay Threshold for pruning the rules (default: 0.025).     
 - **`type_decay`** Decay Type for pruning the rules: 1 relative error; 2 error (default: 2).     
@@ -161,8 +161,8 @@ plot(cre_results)
                        offset = NULL)
 
  hyper_params = list(interaction_vars = NULL,
-                     ntrees_rf = 100,
-                     ntrees_gbm = 50,
+                     ntrees_rf = 20,
+                     ntrees_gbm = 20,
                      node_size = 20,
                      max_nodes = 5,
                      max_depth = 3,

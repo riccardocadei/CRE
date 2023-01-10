@@ -60,6 +60,9 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
       if (sum(filter_pvalue[2:M])<M-1) {
         rules_matrix <- rules_matrix[,filter_pvalue[2:M]]
         rules_explicit <- rules_explicit[filter_pvalue[2:M]]
+        if (length(rules_explicit)==0) {
+          rules_explicit <- NA
+        }
         return(estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue))
       }
     }

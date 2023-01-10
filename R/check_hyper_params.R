@@ -18,7 +18,7 @@ check_hyper_params <- function(X_names, params) {
   # Input params checks --------------------------------------------------------
   ntrees_rf <- getElement(params, "ntrees_rf")
   if (length(ntrees_rf) == 0) {
-    ntrees_rf <- 100
+    ntrees_rf <- 20
   } else {
     if (!inherits(ntrees_rf, "numeric")) {
       stop("Invalid 'ntrees_rf' input. Please input a number.")
@@ -28,13 +28,18 @@ check_hyper_params <- function(X_names, params) {
 
   ntrees_gbm <- getElement(params, "ntrees_gbm")
   if (length(ntrees_gbm) == 0) {
-    ntrees_gbm <- 0
+    ntrees_gbm <- 20
   } else {
     if (!inherits(ntrees_gbm, "numeric")) {
       stop("Invalid 'ntrees_gbm' input. Please input a number.")
     }
   }
   params[["ntrees_gbm"]] <- ntrees_gbm
+
+  if (params[["ntrees_gbm"]]+params[["ntrees_rf"]] == 0) {
+    stop("The total number of trees (ntrees_rf+ntrees_gbm) has to be
+         greater than 0")
+  }
 
   node_size <- getElement(params, "node_size")
   if (length(node_size) == 0) {

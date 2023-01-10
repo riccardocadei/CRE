@@ -12,7 +12,7 @@ interpret_rules(rules, X_names)
 \item{X_names}{A vector of real names of the covariates.}
 }
 \value{
-A List of explicit (human-readable) rules.
+A list of explicit (human-readable) rules.
 }
 \description{
 Replaces the column numbers in the rules vector with their real names.
