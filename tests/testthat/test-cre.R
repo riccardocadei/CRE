@@ -1,7 +1,7 @@
 test_that("cre Runs Correctly", {
   # Generate sample data
   set.seed(2021)
-  dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+  dataset_cont <- generate_cre_dataset(n = 400, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 2, binary_outcome = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
@@ -21,10 +21,10 @@ test_that("cre Runs Correctly", {
                         cate_SL_library = "SL.xgboost",
                         offset = NULL)
 
- hyper_params <- list(intervention_vars = c(),
-                      ntrees_rf = 100,
-                      ntrees_gbm = 50,
-                      node_size = 20,
+ hyper_params <- list(intervention_vars = NULL,
+                      ntrees_rf = 20,
+                      ntrees_gbm = 20,
+                      node_size = 10,
                       max_nodes = 5,
                       max_depth = 3,
                       max_decay = 0.025,
@@ -97,6 +97,10 @@ test_that("cre Runs Correctly", {
   method_params[["ite_method_dis"]] <- "aipw"
   hyper_params[["ntrees_rf"]] <- 100
   hyper_params[["ntrees_gbm"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  hyper_params[["ntrees_rf"]] <- 0
+  hyper_params[["ntrees_gbm"]] <- 0
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["ntrees_gbm"]] <- 50
