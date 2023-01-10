@@ -63,11 +63,10 @@ test_that("generate_rules works as expected!", {
   z <- as.matrix(z)
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method, binary,
+  ite_list <- estimate_ite(y, z, X, ite_method,
                            include_ps = include_ps,
                            ps_method = ps_method,
-                           or_method = or_method,
-                           random_state = 697)
+                           or_method = or_method)
   ite <- ite_list[["ite"]]
 
   # Correct outputs

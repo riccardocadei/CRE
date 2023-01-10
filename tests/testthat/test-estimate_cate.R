@@ -92,7 +92,6 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
 
   # Estimate CATE
   ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
-                               binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,

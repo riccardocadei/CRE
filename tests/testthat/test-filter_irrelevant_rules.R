@@ -14,9 +14,7 @@ test_that("Filter ireelevant rules run correctly", {
   ntrees <- 100
   node_size <- 20
   max_nodes <- 5
-  max_depth <- 15
-
-  set.seed(349)
+  max_depth <- 3
 
   # Step 1: Split data
   X <- as.matrix(X)
@@ -40,10 +38,7 @@ test_that("Filter ireelevant rules run correctly", {
   sf <- min(1, (11 * sqrt(N) + 1) / N)
   mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
 
-
-
   # Random Forest
-  set.seed(seed_vector[1])
   forest <- suppressWarnings(randomForest::randomForest(
                               x = X,
                               y = ite,
@@ -54,7 +49,6 @@ test_that("Filter ireelevant rules run correctly", {
                               nodesize = node_size))
   for (i in 2:ntrees) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
-    set.seed(seed_vector[i])
     model1_RF <- suppressWarnings(randomForest::randomForest(
                                    x = X,
                                    y = ite,
@@ -70,9 +64,9 @@ test_that("Filter ireelevant rules run correctly", {
   expect_equal(length(treelist), 2)
   expect_equal(length(treelist[2]$list), 100)
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
-  expect_equal(treelist[2]$list[[1]][2, 6], -0.3252457, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[2]][3, 6], 0.8240253, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[10]][3, 6], 0.8240253, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[1]][2, 6], 0.23361, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3, 6], 0.4554385, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3, 6], 0.2910133, tolerance = 0.000001)
 
   rules <- extract_rules(treelist, X, ntrees, max_depth)
 

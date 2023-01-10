@@ -90,7 +90,6 @@ test_that("ITE Estimated Correctly", {
                              include_ps = include_ps,
                              ps_method = ps_method,
                              oreg_method = oreg_method,
-                             random_state = random_state,
                              offset = NULL,
                              X_names = names(dts_1$X))
 
@@ -121,8 +120,7 @@ test_that("ITE (oreg) Estimated Correctly", {
                              ite_method,
                              include_ps = include_ps,
                              ps_method = ps_method,
-                             oreg_method = oreg_method,
-                             random_state = random_state)
+                             oreg_method = oreg_method)
 
   expect_true(length(ite_result) == 2)
   expect_true(class(ite_result[[1]]) == "numeric")
@@ -141,7 +139,6 @@ test_that("ITE (cf) Estimated Correctly", {
   ntrees <- 100
   node_size <- 20
   max_nodes <- 5
-  random_state <- 121
 
   dts_1 <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
                                 effect_size = 2, binary_outcome = TRUE)
@@ -150,8 +147,7 @@ test_that("ITE (cf) Estimated Correctly", {
                              ite_method,
                              include_ps = include_ps,
                              ps_method = ps_method,
-                             oreg_method = oreg_method,
-                             random_state = random_state)
+                             oreg_method = oreg_method)
 
   expect_true(length(ite_result) == 2)
   expect_true(class(ite_result[[1]]) == "numeric")
