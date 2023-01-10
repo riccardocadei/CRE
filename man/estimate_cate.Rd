@@ -4,30 +4,14 @@
 \alias{estimate_cate}
 \title{Estimate the Conditional Average Treatment Effect}
 \usage{
-estimate_cate(
-  y_inf,
-  z_inf,
-  X_inf,
-  rules_matrix_inf,
-  rules_explicit,
-  ite_inf,
-  t_pvalue
-)
+estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue)
 }
 \arguments{
-\item{y_inf}{The outcome vector for the inference subsample.}
+\item{rules_matrix}{A rules matrix,}
 
-\item{z_inf}{The treatment vector for the inference subsample.}
+\item{rules_explicit}{A list of select rules in terms of coviariate names.}
 
-\item{X_inf}{The covariate vector for the inference subsample.}
-
-\item{rules_matrix_inf}{The rules matrix for the
-inference subsample.}
-
-\item{rules_explicit}{The list of select rules in terms of
-coviariate names (explicit).}
-
-\item{ite_inf}{The estimated ITEs for the inference subsample.}
+\item{ite}{The estimated ITEs.}
 
 \item{t_pvalue}{The threshold to define statistically significant rules
 (filter only rules with p-value <= t_pvalue).}
@@ -44,7 +28,6 @@ A dataframe summarizing the CATE linear decomposition:
 }
 \description{
 Estimates the Conditional Average Treatment Effect (CATE) by
-linearly modeling the Individual Treatment Effect on the Inference subsample
-via the rules selected in the Discovery step.
+linearly modeling the Individual Treatment Effect by a set of rules.
 }
 \keyword{internal}

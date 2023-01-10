@@ -217,8 +217,7 @@ cre <- function(y, z, X,
 
   # Estimate CATE
   logger::log_info("Estimating CATE...")
-  cate_inf <- estimate_cate(y_inf, z_inf, X_inf,
-                            rules_matrix_inf, rules_explicit,
+  cate_inf <- estimate_cate(rules_matrix_inf, rules_explicit,
                             ite_inf, getElement(hyper_params, "t_pvalue"))
   M["select_significant"] <- as.integer(length(cate_inf$summary$Rule)) - 1
 

@@ -3,17 +3,11 @@
 #'
 #' @description
 #' Estimates the Conditional Average Treatment Effect (CATE) by
-#' linearly modeling the Individual Treatment Effect on the Inference subsample
-#' via the rules selected in the Discovery step.
+#' linearly modeling the Individual Treatment Effect by a set of rules.
 #'
-#' @param y_inf The outcome vector for the inference subsample.
-#' @param z_inf The treatment vector for the inference subsample.
-#' @param X_inf The covariate vector for the inference subsample.
-#' @param rules_matrix_inf The rules matrix for the
-#' inference subsample.
-#' @param rules_explicit The list of select rules in terms of
-#' coviariate names (explicit).
-#' @param ite_inf The estimated ITEs for the inference subsample.
+#' @param rules_matrix A rules matrix,
+#' @param rules_explicit A list of select rules in terms of coviariate names.
+#' @param ite The estimated ITEs.
 #' @param t_pvalue The threshold to define statistically significant rules
 #' (filter only rules with p-value <= t_pvalue).
 #'
@@ -29,15 +23,13 @@
 #' @keywords internal
 #'
 #'
-estimate_cate <- function(y_inf, z_inf, X_inf,
-                          rules_matrix_inf, rules_explicit,
-                          ite_inf, t_pvalue) {
+estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
 
   `%>%` <- magrittr::`%>%`
 
   if (any(is.na(rules_explicit))) {
     # Estimate ATE (if No Rules Selected)
-    cate_model <- stats::lm(ite_inf ~ 1)
+    cate_model <- stats::lm(ite ~ 1)
     cate_coeff <- summary(cate_model)$coefficients
     cate_ci <- stats::confint(cate_model)
     cate_summary <- data.frame(Rule = "(BATE)",
@@ -49,10 +41,10 @@ estimate_cate <- function(y_inf, z_inf, X_inf,
 
   } else {
     # Estimate CATE
-    rules_df_inf <- as.data.frame(rules_matrix_inf)
+    rules_df_inf <- as.data.frame(rules_matrix)
     names(rules_df_inf) <- rules_explicit
-    dataset_inf <- cbind(ite_inf, rules_df_inf)
-    cate_model <- stats::lm(ite_inf ~ ., data = dataset_inf)
+    dataset <- cbind(ite, rules_df_inf)
+    cate_model <- stats::lm(ite ~ ., data = dataset)
     cate_coeff <- summary(cate_model)$coef[, c(1, 4)] %>% as.data.frame()
     cate_ci <- stats::confint(cate_model) %>% as.data.frame()
     cate_summary <- data.frame(Rule = c("(BATE)", rules_explicit),
@@ -66,10 +58,9 @@ estimate_cate <- function(y_inf, z_inf, X_inf,
       filter_pvalue <- cate_summary$P_Value <= t_pvalue
       M <- length(filter_pvalue)
       if (sum(filter_pvalue[2:M])<M-1) {
-        rules_matrix_inf <- rules_matrix_inf[,filter_pvalue[2:M]]
+        rules_matrix <- rules_matrix[,filter_pvalue[2:M]]
         rules_explicit <- rules_explicit[filter_pvalue[2:M]]
-        return(estimate_cate(y_inf, z_inf, X_inf, rules_matrix_inf,
-                             rules_explicit, ite_inf, t_pvalue))
+        return(estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue))
       }
     }
   }

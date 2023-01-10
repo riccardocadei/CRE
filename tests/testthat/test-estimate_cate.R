@@ -114,8 +114,7 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
   # TO DO: add test to check wrong arguments
 
   # Correct outputs
-  cate_inf <- estimate_cate(y_inf, z_inf, X_inf,
-                            rules_matrix_inf, select_rules_interpretable,
+  cate_inf <- estimate_cate(rules_matrix_inf, select_rules_interpretable,
                             ite_inf, t_pvalue)
   expect_true(class(cate_inf$summary) == "data.frame")
 })
@@ -205,8 +204,7 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
   # TO DO: add test to check wrong arguments
 
   # Correct outputs
-  cate_inf <- estimate_cate(y_inf, z_inf, X_inf,
-                            rules_matrix_inf, select_rules_interpretable,
+  cate_inf <- estimate_cate(rules_matrix_inf, select_rules_interpretable,
                             ite_inf, t_pvalue)
   expect_true(class(cate_inf$summary) == "data.frame")
 })
