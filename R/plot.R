@@ -17,6 +17,8 @@ autoplot.cre <- function(object, ...) {
 
   `%>%` <- magrittr::`%>%`
 
+  Rule <- Estimate <- CI_lower <- CI_upper <- NULL
+
   gg_labs <- gg_title <- NULL
 
   # collect additional arguments

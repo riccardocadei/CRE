@@ -108,7 +108,7 @@ a treatment variable, and various features.
 
 \donttest{
 set.seed(2021)
-dataset <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+dataset <- generate_cre_dataset(n = 400, rho = 0, n_rules = 2, p = 10,
                                 effect_size = 2, binary_covariates = TRUE,
                                 binary_outcome = FALSE, confounding = "no")
 y <- dataset[["y"]]
@@ -127,10 +127,10 @@ method_params <- list(ratio_dis = 0.25,
                       offset = NULL)
 
 hyper_params <- list(ntrees_rf = 100,
-                     ntrees_gbm = 50,
+                     ntrees_gbm = 20,
                      node_size = 20,
                      max_nodes = 5,
-                     max_depth = 15,
+                     max_depth = 3,
                      max_decay = 0.025,
                      type_decay = 2,
                      t_ext = 0.025,
