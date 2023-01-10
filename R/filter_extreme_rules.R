@@ -5,7 +5,7 @@
 #' Discards rules with too few or too many observations.
 #'
 #' @param rules_matrix A rules matrix.
-#' @param rules_list The list of rules.
+#' @param rules_list A list of rules (names).
 #' @param t_ext A threshold to define too generic or too specific rules.
 #'
 #' @keywords internal

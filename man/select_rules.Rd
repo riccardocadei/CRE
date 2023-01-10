@@ -2,7 +2,7 @@
 % Please edit documentation in R/select_rules.R
 \name{select_rules}
 \alias{select_rules}
-\title{Select Rules}
+\title{Select rules}
 \usage{
 select_rules(
   rules_matrix,
@@ -17,26 +17,26 @@ select_rules(
 \arguments{
 \item{rules_matrix}{The rules matrix.}
 
-\item{rules_list}{A list of Rules.}
+\item{rules_list}{A list of rules.}
 
 \item{ite}{The estimated ITE.}
 
 \item{stability_selection}{Whether or not using stability selection.}
 
 \item{cutoff}{Threshold (percentage) defining the minimum cutoff value for
-the stability scores Only for Stability Selection.}
+the stability scores. Only for stability selection.}
 
 \item{pfer}{Upper bound for the per-family error rate (tolerated amount of
-falsely selected rules). Only for Stability Selection.}
+falsely selected rules). Only for stability selection.}
 
 \item{penalty_rl}{Order of penalty for rules length during LASSO
 regularization (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2).}
 }
 \value{
-The minimal set of Rules Linearly Decomposing the CATE.
+A minimal set of rules linearly decomposing the CATE.
 }
 \description{
-Given a set of Rules, select the minimal set Linearly Decomposing the
+Given a set of rules, selects the minimal set linearly decomposing the
 Conditional Average Treatment Effect (CATE) by LASSO (optionally with
 Stability Selection).
 }

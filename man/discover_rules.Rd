@@ -2,7 +2,7 @@
 % Please edit documentation in R/discover_rules.R
 \name{discover_rules}
 \alias{discover_rules}
-\title{Discover Rules}
+\title{Discover rules}
 \usage{
 discover_rules(X, ite, method_params, hyper_params)
 }
@@ -16,10 +16,11 @@ discover_rules(X, ite, method_params, hyper_params)
 \item{hyper_params}{A vector of hyper parameters.}
 }
 \value{
-The minimal set of Rules Linearly Decomposing the CATE.
+A minimal set of rules linearly decomposing the Conditional Average
+Treatment Effect (CATE).
 }
 \description{
-Discover the minimal set of Rules Linearly Decomposing the Conditional
+Discover the minimal set of rules linearly decomposing the Conditional
 Average Treatment Effect (CATE).
 }
 \keyword{internal}

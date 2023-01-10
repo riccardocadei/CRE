@@ -1,8 +1,8 @@
 #' @title
-#' Discover Rules
+#' Discover rules
 #'
 #' @description
-#' Discover the minimal set of Rules Linearly Decomposing the Conditional
+#' Discover the minimal set of rules linearly decomposing the Conditional
 #' Average Treatment Effect (CATE).
 #'
 #' @param X A covariate matrix.
@@ -11,7 +11,8 @@
 #' @param hyper_params A vector of hyper parameters.
 #'
 #' @return
-#' The minimal set of Rules Linearly Decomposing the CATE.
+#' A minimal set of rules linearly decomposing the Conditional Average
+#' Treatment Effect (CATE).
 #'
 #' @keywords internal
 #'
@@ -33,7 +34,7 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
   # Filtering ------------------------------------------------------------------
 
   # Discard irrelevant variable-value pair from a rule condition ---------------
-  logger::log_info("Filtering Irrelevant Rules...")
+  logger::log_info("Filtering irrelevant rules...")
   rules_list <- filter_irrelevant_rules(rules, X, ite,
                                         getElement(hyper_params, "max_decay"),
                                         getElement(hyper_params, "type_decay"))
@@ -43,21 +44,21 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
   rules_matrix <- generate_rules_matrix(X, rules_list)
 
   # Discard rules with too few or too many observations and correlated rules ---
-  logger::log_info("Filtering Extreme Rules...")
+  logger::log_info("Filtering extreme rules...")
   rules_matrix <- filter_extreme_rules(rules_matrix, rules_list,
                                        getElement(hyper_params, "t_ext"))
   rules_list <- colnames(rules_matrix)
   M_filter2 <- length(rules_list)
 
   # Discard correlated rules ---------------------------------------------------
-  logger::log_info("Filtering Correlated Rules...")
+  logger::log_info("Filtering correlated rules...")
   rules_matrix <- filter_correlated_rules(rules_matrix, rules_list,
                                            getElement(hyper_params, "t_corr"))
   rules_list <- colnames(rules_matrix)
   M_filter3 <- length(rules_list)
 
   # Select Rules ---------------------------------------------------
-  logger::log_info("Selecting Rules...")
+  logger::log_info("Selecting rules...")
   rules_list <- as.character(select_rules(rules_matrix,
                                rules_list,
                                ite,
@@ -67,11 +68,11 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
                                getElement(hyper_params, "penalty_rl")))
   M_select1 <- length(rules_list)
 
-  M <- list("Initial" = M_initial,
-            "Filter (irrelevant)" = M_filter1,
-            "Filter (extreme)" = M_filter2,
-            "Filter (correlated)" = M_filter3,
-            "Select (LASSO)" = M_select1)
+  M <- list("initial" = M_initial,
+            "filter_irrelevant" = M_filter1,
+            "filter_extreme" = M_filter2,
+            "filter_correlated" = M_filter3,
+            "select_LASSO" = M_select1)
 
   return(list(rules = rules_list, M = M))
 }

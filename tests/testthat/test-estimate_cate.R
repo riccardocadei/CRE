@@ -80,17 +80,15 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
 
   # Step 5: Select important rules
   select_rules_dis <- as.character(select_rules(rules_matrix_std_dis,
-                                                       rules_list_dis,
-                                                       ite_dis,
-                                                       stability_selection,
-                                                       cutoff,
-                                                       pfer,
-                                                       penalty_rl))
-  select_rules_matrix_dis <- rules_matrix_dis[,
-                                              which(rules_list_dis %in%
+                                                rules_list_dis,
+                                                ite_dis,
+                                                stability_selection,
+                                                cutoff,
+                                                pfer,
+                                                penalty_rl))
+  select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
                                                        select_rules_dis)]
-  select_rules_matrix_std_dis <- rules_matrix_std_dis[,
-                                              which(rules_list_dis %in%
+  select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in%
                                                        select_rules_dis)]
 
   # Step 6: Estimate CATE
@@ -110,8 +108,7 @@ test_that("CATE (DRLearner) Estimation Runs Correctly", {
     select_rules_interpretable <- NA
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
-    select_rules_interpretable <- interpret_rules(select_rules_dis,
-                                                         X_names)
+    select_rules_interpretable <- interpret_rules(select_rules_dis, X_names)
   }
 
   ###### Run Tests ######

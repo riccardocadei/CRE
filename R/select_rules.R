@@ -1,24 +1,24 @@
 #' @title
-#' Select Rules
+#' Select rules
 #'
 #' @description
-#' Given a set of Rules, select the minimal set Linearly Decomposing the
+#' Given a set of rules, selects the minimal set linearly decomposing the
 #' Conditional Average Treatment Effect (CATE) by LASSO (optionally with
 #' Stability Selection).
 #'
 #' @param rules_matrix The rules matrix.
-#' @param rules_list A list of Rules.
+#' @param rules_list A list of rules.
 #' @param ite The estimated ITE.
 #' @param stability_selection Whether or not using stability selection.
 #' @param cutoff  Threshold (percentage) defining the minimum cutoff value for
-#' the stability scores Only for Stability Selection.
+#' the stability scores. Only for stability selection.
 #' @param pfer Upper bound for the per-family error rate (tolerated amount of
-#' falsely selected rules). Only for Stability Selection.
+#' falsely selected rules). Only for stability selection.
 #' @param penalty_rl Order of penalty for rules length during LASSO
 #' regularization (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2).
 #'
 #' @return
-#' The minimal set of Rules Linearly Decomposing the CATE.
+#' A minimal set of rules linearly decomposing the CATE.
 #'
 #' @keywords internal
 #'

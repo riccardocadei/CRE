@@ -220,11 +220,10 @@ cre <- function(y, z, X,
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf,
                             rules_matrix_inf, rules_explicit,
                             ite_inf, getElement(hyper_params, "t_pvalue"))
-  M["Select (significant)"] <- as.integer(length(cate_inf$summary$Rule)) - 1
-  print(cate_inf)
+  M["select_significant"] <- as.integer(length(cate_inf$summary$Rule)) - 1
 
   # Estimate ITE
-  if (M[5]>0) {
+  if (M["select_significant"]>0) {
     rules_matrix <- generate_rules_matrix(X, rules)
     filter <- rules_explicit %in%
               cate_inf$summary$Rule[2:length(cate_inf$summary$Rule)]

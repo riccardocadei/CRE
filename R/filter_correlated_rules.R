@@ -2,10 +2,10 @@
 #' Filter correlated rules
 #'
 #' @description
-#' Discard highly correlated rules (i.e. `Cov(rule1,rule2) > t_corr`).
+#' Discards highly correlated rules (i.e. `Cov(rule1,rule2) > t_corr`).
 #'
 #' @param rules_matrix A rules matrix.
-#' @param rules_list The list of rules.
+#' @param rules_list A list of rules (names).
 #' @param t_corr A threshold to define correlated rules.
 #'
 #' @keywords internal

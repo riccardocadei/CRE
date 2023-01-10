@@ -3,7 +3,7 @@
 #'
 #' @description
 #' Generate a list of Rules characterizing the heterogeneity in the Conditional
-#' Average Treatment Effect (CATE) by tree-based metods (Random Forest and
+#' Average Treatment Effect (CATE) by tree-based metods (random forest and
 #' XGBoost).
 #'
 #' @param X A covariate matrix.
@@ -21,7 +21,7 @@
 #' @param replace A Boolean variable for replacement in bootstrapping.
 #'
 #' @return
-#' A list of Rules.
+#' A list of rules (names).
 #'
 #' @keywords internal
 #'

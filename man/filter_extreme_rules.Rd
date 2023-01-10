@@ -9,7 +9,7 @@ filter_extreme_rules(rules_matrix, rules_list, t_ext)
 \arguments{
 \item{rules_matrix}{A rules matrix.}
 
-\item{rules_list}{The list of rules.}
+\item{rules_list}{A list of rules (names).}
 
 \item{t_ext}{A threshold to define too generic or too specific rules.}
 }

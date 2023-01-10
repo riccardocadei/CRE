@@ -71,7 +71,7 @@ autoplot.cre <- function(object, ...) {
 #' @export
 #'
 plot.cre <- function(x, ...) {
-  if (x[["M"]]["Select (significant)"] == 0) {
+  if (x[["M"]]["select_significant"] == 0) {
     message("Visualization not available (0 causal decision rules discovered).")
   } else {
     g <- ggplot2::autoplot(x, ...)
