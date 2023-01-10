@@ -1,17 +1,17 @@
 #' @title
-#' Filter correlated decision rules
+#' Filter correlated rules
 #'
 #' @description
-#' Discard higly correlated decision rules (i.e. `Cov(rule1,rule2) > t_corr`).
+#' Discards highly correlated rules (i.e. `Cov(rule1,rule2) > t_corr`).
 #'
-#' @param rules_matrix A causal rules matrix.
-#' @param rules_list A list of the causal rules.
+#' @param rules_matrix A rules matrix.
+#' @param rules_list A list of rules (names).
 #' @param t_corr A threshold to define correlated rules.
 #'
 #' @keywords internal
 #'
 #' @return
-#' A rules matrix only with the rules selected.
+#' A rules matrix (without the highly correlated columns).
 #'
 filter_correlated_rules <- function(rules_matrix, rules_list, t_corr) {
 

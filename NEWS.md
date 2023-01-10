@@ -1,8 +1,11 @@
 # CRE (Developing)
 
 ## Changed
-* Rename  `offset_name` parameters with `offset`.
-* Hyper and Method parameters are no more required arguments for `cre`.
+* `interpret_select_rules` function -> `interpret_rules`.
+* `generate_causal_rules` function -> `discover_rules`.
+* `discover_causal_rules` function ->`select_rules`.
+* `offset_name` method parameter -> `offset`.
+* Hyper and method parameters are no more required arguments for `cre`.
 * `cre` object: added parameters and ite estimation.
 
 ## Added
@@ -22,6 +25,8 @@ estimations.
 domain.
 
 ## Removed
+* Keep only `linreg` for CATE estimation (remove `cate_method` and 
+`cate_SL_library` parameters).
 * `method_params` and `hyper_params` additional parameters in `summary.cre`.
 * ite standardization for Rules Generation.
 * `random_state` parameter.
@@ -33,18 +38,18 @@ domain.
 
 ## Changed
 
-* Rename `binary` parameter in `binary_outcome` (in `generate_cre_dataset`).
-* Rename `filter_cate` parameter in `t_pvalue`.
-* Rename `t_anom` parameter in `t_ext`.
-* Rename `effect_modifier` parameter in `intervention_vars`.
-* Rename `lasso_rules_filter` function in `discover_causal_rules`.
-* Rename `split_data` function in `honest_splitting`.
-* Rename `prune_rules` function in ``filter_irrelevant_rules`.
-* Rename `discard_correlated_rules` function in `filter_correlated_rules`.
-* Rename `discard_anomalous_rules` fucntion in `filter_extreme_rules`.
+* `binary` parameter in `generate_cre_dataset` -> `binary_outcome` .
+* `filter_cate` hyper-parameter -> `t_pvalue`.
+* `t_anom` hyper-parameter -> `t_ext`.
+* `effect_modifier` hyper-parameter -> `intervention_vars`.
+* `lasso_rules_filter` function -> `discover_causal_rules`.
+* `split_data` function -> `honest_splitting`.
+* `prune_rules` function -> ``filter_irrelevant_rules`.
+* `discard_correlated_rules` function -> `filter_correlated_rules`.
+* `discard_anomalous_rules` function -> `filter_extreme_rules`.
 
 ## Added
-* Weighted LASSO for Causal Rules Discovery (by `penalty_rl`hyper-parameter).
+* Weighted LASSO for Causal Rules Discovery (by `penalty_rl` hyper-parameter).
 
 
 # CRE 0.1.0 (2022-10-17)
@@ -52,15 +57,14 @@ domain.
 ## Changed
 
 * Update examples and tests for all functions.
-* Rename `q` hyper-parameter in `cutoff`.
-* Rename `pfer_val` hyper-param in `pfer`.
-* Rename `select_causal_rules` function in `lasso_rules_filter`.
-* Rename `t` hyper-parameter in `t_anom`.
+* `q` hyper-parameter -> `cutoff`.
+* `pfer_val` hyper-parameter -> `pfer`.
+* `select_causal_rules` function -> `lasso_rules_filter`.
+* `t` hyper-parameter -> `t_anom`.
 * Separate standardization, and remove filtering from `generate_rules_matrix` 
 function.
 * `summary.cre` function to describe results.
-* Rename `min_nodes` parameter in `node_size` (following the `randomForest `
-convention).
+* `min_nodes` hyper-parameter -> `node_size` (`randomForest` convention).
 * `cre` returns an S3 object.
 
 ## Added

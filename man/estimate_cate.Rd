@@ -2,59 +2,32 @@
 % Please edit documentation in R/estimate_cate.R
 \name{estimate_cate}
 \alias{estimate_cate}
-\title{Estimate the Conditional Average Treatment Effect (CATE)}
+\title{Estimate the Conditional Average Treatment Effect}
 \usage{
-estimate_cate(
-  y_inf,
-  z_inf,
-  X_inf,
-  X_names,
-  offset,
-  rules_matrix_inf,
-  select_rules_interpretable,
-  cate_method,
-  ite_inf,
-  sd_ite_inf,
-  cate_SL_library,
-  t_pvalue
-)
+estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue)
 }
 \arguments{
-\item{y_inf}{The outcome vector for the inference subsample.}
+\item{rules_matrix}{A rules matrix,}
 
-\item{z_inf}{The treatment vector for the inference subsample.}
+\item{rules_explicit}{A list of select rules in terms of coviariate names.}
 
-\item{X_inf}{The covariate vector for the inference subsample.}
-
-\item{X_names}{The names of the covariates.}
-
-\item{offset}{Name of the covariate to use as offset (i.e. 'x1') for
-Poisson Estimation. NULL if offset is not used.}
-
-\item{rules_matrix_inf}{The standardized causal rules matrix for the
-inference subsample.}
-
-\item{select_rules_interpretable}{The list of select causal rules in terms of
-coviariate names.}
-
-\item{cate_method}{The method to estimate the CATE values.}
-
-\item{ite_inf}{The estimated ITEs for the inference subsample.}
-
-\item{sd_ite_inf}{The standard deviations for the estimated ITEs for the
-inference subsample.}
-
-\item{cate_SL_library}{The library used if cate_method is DRLearner.}
+\item{ite}{The estimated ITEs.}
 
 \item{t_pvalue}{The threshold to define statistically significant rules
-(filter only causal decision rules with p-value <= t_pvalue).}
+(filter only rules with p-value <= t_pvalue).}
 }
 \value{
-a matrix of CATE estimates
+A dataframe summarizing the CATE linear decomposition:
+\itemize{
+\item 'Rule': rule name,
+\item 'Estimate': linear contribution to CATE,
+\item 'CI_lower`: lower bound 95\% confidence interval on the estimate,
+\item 'CI_upper`: upper bound 95\% confidence interval on the estimate,
+\item \code{P-Value}: p-value (from Z-test).
+}
 }
 \description{
-Estimates the Conditional Average Treatment Effect given a standardized
-vector of Individual Treatment Effects, a standardized matrix of causal
-rules, a list of causal rules.
+Estimates the Conditional Average Treatment Effect (CATE) by
+linearly modeling the Individual Treatment Effect by a set of rules.
 }
 \keyword{internal}

@@ -19,15 +19,14 @@ test_that("cre Runs Correctly", {
                         include_ps_inf = TRUE,
                         cate_method = "DRLearner",
                         cate_SL_library = "SL.xgboost",
-                        offset = NULL,
-                        random_state = 3591)
+                        offset = NULL)
 
  hyper_params <- list(intervention_vars = c(),
                       ntrees_rf = 100,
                       ntrees_gbm = 50,
                       node_size = 20,
                       max_nodes = 5,
-                      max_depth = 15,
+                      max_depth = 3,
                       max_decay = 0.025,
                       type_decay = 2,
                       t_ext = 0.025,
@@ -92,26 +91,10 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
   method_params[["offset"]] <- NULL
-  method_params[["cate_method"]] <- "test"
-  expect_error(cre(y_temp, z, X, method_params, hyper_params))
-
-  method_params[["ite_method_dis"]] <- "bart"
-  method_params[["cate_SL_library"]] <- 1
-  expect_error(cre(y_temp, z, X, method_params, hyper_params))
-
-  method_params[["cate_SL_library"]] <- "SL.xgboost"
-  method_params[["cate_method"]] <- "bart-baggr"
-  method_params[["ite_method_inf"]] <- "aipw"
-  expect_error(cre(y_temp, z, X, method_params, hyper_params))
-
-  method_params[["cate_method"]] <- "cf-means"
-  expect_error(cre(y_temp, z, X, method_params, hyper_params))
-
-  method_params[["cate_method"]] <- "linreg"
-  method_params[["ite_method_inf"]] <- "bart"
   hyper_params[["ntrees_rf"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
+  method_params[["ite_method_dis"]] <- "aipw"
   hyper_params[["ntrees_rf"]] <- 100
   hyper_params[["ntrees_gbm"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
@@ -144,7 +127,7 @@ test_that("cre Runs Correctly", {
   hyper_params[["cutoff"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["cutoff"]] <- 0.8
+  hyper_params[["cutoff"]] <- 0.6
   hyper_params[["stability_selection"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
@@ -152,7 +135,7 @@ test_that("cre Runs Correctly", {
   hyper_params[["pfer"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["pfer"]] <- 0.1
+  hyper_params[["pfer"]] <- 1
   hyper_params[["penalty_rl"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 

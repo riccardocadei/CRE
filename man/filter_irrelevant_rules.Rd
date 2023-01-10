@@ -7,7 +7,7 @@
 filter_irrelevant_rules(rules, X, ite, max_decay, type_decay)
 }
 \arguments{
-\item{rules}{A list of decision rules.}
+\item{rules}{A list of rules.}
 
 \item{X}{A features matrix.}
 
@@ -19,7 +19,7 @@ filter_irrelevant_rules(rules, X, ite, max_decay, type_decay)
 (1: relative error; 2: error).}
 }
 \value{
-A list of the selected decision rules.
+A list of 'relevant' rules.
 }
 \description{
 Filter irrelevant decision rules extracted evaluating the performance

@@ -2,10 +2,10 @@
 #' Generate rules matrix
 #'
 #' @description
-#' Generates a matrix of causal rules given a list.
+#' Generates the rules matrix from the feature matrix and a vector of rules.
 #'
 #' @param X Features matrix.
-#' @param rules_list A vector of causal rules.
+#' @param rules_list A vector of rules.
 #'
 #'
 #' @return
@@ -23,7 +23,6 @@ generate_rules_matrix <- function(X, rules_list) {
   for (i in 1:nrules){
     rules_matrix[eval(parse(text = rules_list[i]), list(X = X)), i] <- 1
   }
-
   return(rules_matrix)
 }
 

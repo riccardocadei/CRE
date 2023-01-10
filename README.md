@@ -52,8 +52,6 @@ __Parameters (not required)__
 - **`include_ps_inf`** Whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, or CF (default: TRUE).     
 - **`ps_method_inf`** The estimation model for the propensity score on the inference subsample (default: 'SL.xgboost').     
 - **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').     
-- **`cate_method`** The method to estimate the conditional average treatment effect (CATE) values (default: 'linreg').     
-- **`cate_SL_library`** The library used if cate_method is set to DRLearner (default: 'SL.xgboost').    
 - **`offset`** Name of the covariate to use as offset (i.e. 'x1') for Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 
 **`hyper_params`** The list of hyper parameters to finetune the method, including:
@@ -73,7 +71,7 @@ __Parameters (not required)__
 - **`cutoff`** Threshold defining the minimum cutoff value for the stability scores (default: 0.9).
 - **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).
 - **`penalty_rl`** Order of penalty for rules length during LASSO for Causal
-Rules Discovery (i.e. 0: no penalty, 1: ∝rules_length, 2: ∝rules_length^2) (default: 1).
+Rules Discovery (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2) (default: 1).
 
 __Additional Estimates (not required)__    
 **`ite`** The estimated ITE vector. If given, both the ITE estimation steps in Discovery and Inference are skipped (deault: NULL).
@@ -82,9 +80,9 @@ __Additional Estimates (not required)__
 ## Notes
 
 **[1]** Options for the ITE estimation are as follows: 
-- Inverse Propensity Weighting (`ipw`)
-- Stabilized Inverse Propensity Weighting (`sipw`)
-- Augmented Inverse Propensity Weighting (`aipw`)
+- Inverse Probability Weighting (`ipw`)
+- Stabilized Inverse Probability Weighting (`sipw`)
+- Augmented Inverse Probability Weighting (`aipw`)
 - Outcome Regression (`oreg`)
 - Bayesian Additive Regression Trees (`bart`)
 - Bayesian Causal Forests (`bcf`)
@@ -160,8 +158,6 @@ plot(cre_results)
                        ps_method_inf = "SL.xgboost",
                        oreg_method_inf = "SL.xgboost",
                        include_ps_inf = TRUE,
-                       cate_method = "linreg",
-                       cate_SL_library = "SL.xgboost",
                        offset = NULL)
 
  hyper_params = list(interaction_vars = NULL,

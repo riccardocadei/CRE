@@ -2,7 +2,7 @@
 % Please edit documentation in R/estimate_ite_ipw.R
 \name{estimate_ite_ipw}
 \alias{estimate_ite_ipw}
-\title{Estimate the Individual Treatment Effect (ITE) using Inverse Propensity
+\title{Estimate the Individual Treatment Effect (ITE) using Inverse Probability
 Weighting (IPW)}
 \usage{
 estimate_ite_ipw(y, z, X, ps_method)
@@ -20,7 +20,7 @@ estimate_ite_ipw(y, z, X, ps_method)
 A vector of ITE estimates.
 }
 \description{
-Estimates the Individual Treatment Effect (ITE) using Inverse Propensity
+Estimates the Individual Treatment Effect (ITE) using Inverse Probability
 Weighting (IPW) given a response vector, a treatment vector, and a features
 matrix.
 }

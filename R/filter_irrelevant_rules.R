@@ -7,7 +7,7 @@
 #' (see 'Interpreting tree ensembles with the inTrees package'
 #' by Houtao Deng, 2019).
 #'
-#' @param rules A list of decision rules.
+#' @param rules A list of rules.
 #' @param X A features matrix.
 #' @param ite An estimated ITE.
 #' @param max_decay A decay Threshold for pruning the rules.
@@ -17,7 +17,7 @@
 #' @keywords internal
 #'
 #' @return
-#' A list of the selected decision rules.
+#' A list of 'relevant' rules.
 #'
 filter_irrelevant_rules <- function(rules, X, ite, max_decay, type_decay) {
 

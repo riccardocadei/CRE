@@ -107,21 +107,19 @@ summary.cre <- function(object, verbose = 2, ...) {
     if (getElement(params, "include_ps_inf")) {
       cat("\n    - Propensity Score:", getElement(params, "ps_method_inf"))
     }
-    cat("\n  - CATE")
-    cat("\n    - Estimator:", getElement(params, "cate_method"))
   }
 
   if (verbose > 1) {
     cat("\n\nRules")
-    cat("\n  - Intial               :", getElement(M, "Initial"))
-    cat("\n  - Filter 1 (irrelevant):", getElement(M, "Filter 1 (irrelevant)"))
-    cat("\n  - Filter 2 (extreme)   :", getElement(M, "Filter 2 (extreme)"))
-    cat("\n  - Filter 3 (correlated):", getElement(M, "Filter 3 (correlated)"))
-    cat("\n  - Causal               :", getElement(M, "Causal"))
-    cat("\n  - Causal (significant) :", getElement(M, "Causal (significant)"))
+    cat("\n  - Intial              :", getElement(M, "initial"))
+    cat("\n  - Filter (irrelevant) :", getElement(M, "filter_irrelevant"))
+    cat("\n  - Filter (extreme)    :", getElement(M, "filter_extreme"))
+    cat("\n  - Filter (correlated) :", getElement(M, "filter_correlated"))
+    cat("\n  - Select (LASSO)      :", getElement(M, "select_LASSO"))
+    cat("\n  - Select (significant):", getElement(M, "select_significant"))
   }
 
   cat("\n\nResults\n")
-  cat("- CATE Linear Deccomposition:\n")
+  cat("- CATE Linear Decomposition:\n")
   print(CATE)
 }

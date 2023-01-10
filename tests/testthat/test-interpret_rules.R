@@ -53,22 +53,22 @@ test_that("Rules Interpreted Correctly", {
   rules_matrix_std <- standardize_rules_matrix(rules_matrix)
 
   # Step 5: Select Causal Rules
-  select_rules <- as.character(discover_causal_rules(rules_matrix_std,
-                                                     rules_list,
-                                                     ite,
-                                                     cutoff,
-                                                     stability_selection,
-                                                     pfer,
-                                                     penalty_rl))
+  select_rules <- as.character(select_rules(rules_matrix_std,
+                                            rules_list,
+                                            ite,
+                                            cutoff,
+                                            stability_selection,
+                                            pfer,
+                                            penalty_rl))
 
   ###### Run Tests ######
 
   # Incorrect inputs
-  expect_warning(expect_error(interpret_select_rules(select_rules,
-                                                     X_names = NA)))
+  expect_warning(expect_error(interpret_rules(select_rules,
+                                              X_names = NA)))
 
   # Correct outputs
-  select_rules_interpretable <- interpret_select_rules(select_rules, X_names)
+  select_rules_interpretable <- interpret_rules(select_rules, X_names)
   expect_true(class(select_rules_interpretable) == "character")
   if (!is.na(select_rules_interpretable)) {
     expect_true(length(select_rules_interpretable) == length(select_rules))

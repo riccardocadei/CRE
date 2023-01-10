@@ -1,8 +1,9 @@
 #' @title
-#' Generate causal rules
+#' Discover rules
 #'
 #' @description
-#' Generates causal decision rules.
+#' Discover the minimal set of rules linearly decomposing the Conditional
+#' Average Treatment Effect (CATE).
 #'
 #' @param X A covariate matrix.
 #' @param ite An estimated ITE.
@@ -10,14 +11,15 @@
 #' @param hyper_params A vector of hyper parameters.
 #'
 #' @return
-#' A vector of causal rules.
+#' A minimal set of rules linearly decomposing the Conditional Average
+#' Treatment Effect (CATE).
 #'
 #' @keywords internal
 #'
-generate_causal_rules <- function(X, ite, method_params, hyper_params) {
+discover_rules <- function(X, ite, method_params, hyper_params) {
 
   # Generate rules -------------------------------------------------------------
-  logger::log_info("Generating Decision Rules...")
+  logger::log_info("Generating (candidate) Rules...")
   rules <- generate_rules(X,
                           ite,
                           getElement(hyper_params, "intervention_vars"),
@@ -55,22 +57,23 @@ generate_causal_rules <- function(X, ite, method_params, hyper_params) {
   rules_list <- colnames(rules_matrix)
   M_filter3 <- length(rules_list)
 
-  # Discover Causal Rules ---------------------------------------------------
-  logger::log_info("Discovering Causal Rules...")
-  rules_list <- as.character(discover_causal_rules(rules_matrix,
-                               rules_list,
-                               ite,
-                               getElement(hyper_params, "stability_selection"),
-                               getElement(hyper_params, "cutoff"),
-                               getElement(hyper_params, "pfer"),
-                               getElement(hyper_params, "penalty_rl")))
-  M_filter4 <- length(rules_list)
+  # Select Rules ---------------------------------------------------
+  logger::log_info("Selecting rules...")
+  rules_list <- select_rules(rules_matrix,
+                             rules_list,
+                             ite,
+                             getElement(hyper_params, "stability_selection"),
+                             getElement(hyper_params, "cutoff"),
+                             getElement(hyper_params, "pfer"),
+                             getElement(hyper_params, "penalty_rl"))
+  rules_list <- as.character(rules_list)
+  M_select1 <- length(rules_list)
 
-  M <- list("Initial" = M_initial,
-            "Filter 1 (irrelevant)" = M_filter1,
-            "Filter 2 (extreme)" = M_filter2,
-            "Filter 3 (correlated)" = M_filter3,
-            "Causal" = M_filter4)
+  M <- list("initial" = M_initial,
+            "filter_irrelevant" = M_filter1,
+            "filter_extreme" = M_filter2,
+            "filter_correlated" = M_filter3,
+            "select_LASSO" = M_select1)
 
   return(list(rules = rules_list, M = M))
 }

@@ -3,7 +3,7 @@
 \name{estimate_ite_aipw}
 \alias{estimate_ite_aipw}
 \title{Estimate the Individual Treatment Effect (ITE) using Augmented Inverse
-Propensity Weighting (AIPW)}
+Probability Weighting (AIPW)}
 \usage{
 estimate_ite_aipw(
   y,
@@ -28,9 +28,9 @@ estimate_ite_aipw(
 A list of ITE estimates and standard deviations for the ITE estimates.
 }
 \description{
-Estimates the Individual Treatment Effect using Augmented Inverse Propensity
+Estimates the Individual Treatment Effect using Augmented Inverse Probability
 Weighting given a response vector, a treatment vector, a features matrix,
 an estimation model for the propensity score and estimation model for the
-outcome regressions
+outcome regressions.
 }
 \keyword{internal}

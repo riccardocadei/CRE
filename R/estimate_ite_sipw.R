@@ -1,10 +1,11 @@
 #' @title
 #' Estimate the Individual Treatment Effect (ITE) using Stabilized Inverse
-#' Propensity Weighting (SIPW)
+#' Probability Weighting (SIPW)
 #'
 #' @description
-#' Estimates the Individual Treatment Effect using Stabilized Inverse Propensity
-#' Weighting given a response vector, a treatment vector, and a features matrix.
+#' Estimates the Individual Treatment Effect using Stabilized Inverse
+#' Probability Weighting given a response vector, a treatment vector, and a
+#' features matrix.
 #'
 #' @param y An observed response vector.
 #' @param z A treatment vector.
