@@ -94,7 +94,7 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
     ite <- estimate_ite_cf(y, z, X, include_ps, ps_method)
   } else if (ite_method == "poisson") {
     check_args(c("offset"), arg_names)
-    ite <- estimate_ite_poisson(y, z, X, X_names, offset)
+    ite <- estimate_ite_poisson(y, z, X, offset)
   } else {
     stop(paste("Invalid ITE method. Please choose from the following:\n",
                "'ipw', 'sipw', 'aipw', 'oreg', 'bart', 'bcf', 'cf'",
