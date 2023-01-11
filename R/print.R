@@ -56,10 +56,15 @@ summary.cre <- function(object, verbose = 2, ...) {
 
     cat("\n- Causal Rules Discovery")
     cat("\n  - ITE")
-    cat("\n    - Estimator       :", getElement(params, "ite_method_dis"))
-    cat("\n    - Outcome         :", getElement(params, "oreg_method_dis"))
-    cat("\n    - Propensity Score:", getElement(params, "ps_method_dis"))
-
+    if (getElement(params, "ite_method_dis")=="tpoisson") {
+      cat("\n    - Estimator       : tlearner")
+      cat("\n    - Outcome         : poisson")
+      cat("\n    - Offset          :", getElement(params, "offset"))
+    } else {
+      cat("\n    - Estimator       :", getElement(params, "ite_method_dis"))
+      cat("\n    - Outcome         :", getElement(params, "oreg_method_dis"))
+      cat("\n    - Propensity Score:", getElement(params, "ps_method_dis"))
+    }
 
     cat("\n  - Rules Generation")
     if (!is.null(getElement(params, "intervention_vars"))) {
@@ -93,10 +98,15 @@ summary.cre <- function(object, verbose = 2, ...) {
 
 
     cat("\n- CATE Inference")
-    cat("\n  - ITE")
-    cat("\n    - Estimator       :", getElement(params, "ite_method_inf"))
-    cat("\n    - Outcome         :", getElement(params, "oreg_method_inf"))
-    cat("\n    - Propensity Score:", getElement(params, "ps_method_inf"))
+    if (getElement(params, "ite_method_inf")=="tpoisson") {
+      cat("\n    - Estimator       : tlearner")
+      cat("\n    - Outcome         : poisson")
+      cat("\n    - Offset          :", getElement(params, "offset"))
+    } else {
+      cat("\n    - Estimator       :", getElement(params, "ite_method_inf"))
+      cat("\n    - Outcome         :", getElement(params, "oreg_method_inf"))
+      cat("\n    - Propensity Score:", getElement(params, "ps_method_inf"))
+    }
   }
 
   if (verbose > 1) {
