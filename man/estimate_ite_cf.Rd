@@ -19,7 +19,7 @@ covariate in ITE estimation.}
 \item{ps_method}{A method for the estimation of the propensity score.}
 }
 \value{
-A list of ITE estimates and standard deviations for the ITE estimates.
+A list of ITE estimates.
 }
 \description{
 Estimates the Individual Treatment Effect using Causal Forest given a

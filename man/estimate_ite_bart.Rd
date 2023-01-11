@@ -20,8 +20,7 @@ covariate in ITE estimation.}
 \item{ps_method}{Method for the estimation of the propensity score.}
 }
 \value{
-A list of ITE estimates and standard deviations for the ITE
-estimates.
+A list of ITE estimates.
 }
 \description{
 Estimates the Individual Treatment Effect using Bayesian Additive Regression

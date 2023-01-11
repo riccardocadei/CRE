@@ -18,19 +18,22 @@ Some methods requires additional parameters. These parameters are mentioned
 in the indented blocks for each method and their definitions are provided at
 the end of this parameters list.
 \itemize{
-\item \code{ipw}: Inverse Propensity Weighting.
+\item \code{slearner}: S-Learner.
 \itemize{
-\item \code{ps_method}
+\item \code{oreg_method}
 }
-\item \code{sipw}: Stabilized Inverse Propensity Weighting.
+\item \code{tlearner}: T-Learner.
 \itemize{
-\item \code{ps_method}
+\item \code{oreg_method}
 }
-\item \code{aipw}: Augmented Inverse Propensity Weighting.
+\item \code{xlearner}: X-Learner.
+\itemize{
+\item \code{oreg_method}
+}
+\item \code{aipw}: Augmented Inverse Probability Weighting.
 \itemize{
 \item \code{ps_method} and  \code{oreg_method}
 }
-\item \code{oreg}: Outcome Regression.
 \item \code{bart}: Bayesian Additive Regression Trees.
 \itemize{
 \item \code{include_ps} and \code{ps_method}
@@ -43,7 +46,7 @@ the end of this parameters list.
 \itemize{
 \item \code{include_ps} and \code{ps_method}
 }
-\item \code{poisson}: Poisson Estimation.
+\item \code{poisson}: Poisson Regression.
 \itemize{
 \item \code{X_names}, \code{offset}
 }
@@ -52,11 +55,7 @@ the end of this parameters list.
 \item{...}{Additional parameters passed to different models.}
 }
 \value{
-A list that includes:
-\itemize{
-\item Raw ITE estimates.
-\item Standard deviations for the ITE estimates.
-}
+A list of ITE estimates.
 }
 \description{
 Estimates the Individual Treatment Effect given a response vector,

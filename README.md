@@ -79,11 +79,13 @@ __Additional Estimates (not required)__
 ## Notes
 
 **[1]** Options for the ITE estimation are as follows: 
+- S-Learner (`slearner`)
+- T-Learner (`tlearner`)
+- X-Learner (`xlearner`)
 - Augmented Inverse Probability Weighting (`aipw`)
-- Outcome Regression (`oreg`)
-- Bayesian Additive Regression Trees (`bart`)
-- Bayesian Causal Forests (`bcf`)
 - Causal Forests (`cf`)
+- Bayesian Causal Forests (`bcf`)
+- Bayesian Additive Regression Trees (`bart`)
 - Poisson Regression (`poisson`)
 if other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.
 

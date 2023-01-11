@@ -10,6 +10,9 @@
 * `cre` object: added parameters and ite estimation.
 
 ## Added
+* S-Learner (`slearner`) method for ITE estimation.
+* T-Learner (`tlearner`) method for ITE estimation.
+* X-Learner (`xlearner`) method for ITE estimation.
 * Rules Selection description in `summary.cre`.
 * `verbose` parameter in `summary.cre`.
 * `ite`, additional `cre` input parameter to use personalized ite 
@@ -26,7 +29,9 @@ estimations.
 domain.
 
 ## Removed
-* `ipw` and `sipw` ITE estimators.
+* `oreg` method for ITE estimation.
+* `ipw` method for ITE estimation.
+* `sipw` method for ITE estimation.
 * ITE standard deviation estimation.
 * `type_decay` hyper-parameter.
 * Keep only `linreg` for CATE estimation (remove `cate_method` and 

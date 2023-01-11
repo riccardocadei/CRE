@@ -4,7 +4,7 @@
 \alias{estimate_ite_poisson}
 \title{Estimate the Individual Treatment Effect (ITE) using Poisson Regression}
 \usage{
-estimate_ite_poisson(y, z, X, X_names, offset)
+estimate_ite_poisson(y, z, X, offset)
 }
 \arguments{
 \item{y}{An observed response vector.}
@@ -12,8 +12,6 @@ estimate_ite_poisson(y, z, X, X_names, offset)
 \item{z}{A treatment vector.}
 
 \item{X}{A features matrix.}
-
-\item{X_names}{A vector that includes the names of the covariates.}
 
 \item{offset}{A name of the covariate to use as offset (i.e. 'x1') to model
 the corresponding outcome rate. \code{NULL} to model directly the outcome counts

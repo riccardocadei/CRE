@@ -17,7 +17,7 @@ estimate_ite_bcf(y, z, X, ps_method)
 \item{ps_method}{A method for the estimation of the propensity score.}
 }
 \value{
-A list of ITE estimates and standard deviations for the ITE estimates.
+A list of ITE estimates.
 }
 \description{
 Estimates the Individual Treatment Effect using Bayesian Causal Forest given
