@@ -7,8 +7,8 @@ n_rules <- 2
 sample_size <- 2000
 effect_sizes <- seq(0, 4, 0.2)
 confoundings <- c("no","lin","nonlin")
-ITE_estimators <- c("aipw","cf","bcf")
-n_seeds <- 480
+ITE_estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner")
+n_seeds <- 200
 ratio_dis <- 0.5
 
 # Set Ground Truth
@@ -30,24 +30,18 @@ ratio_dis <- 0.5
                         ite_method_dis="aipw",
                         ps_method_dis = "SL.xgboost",
                         oreg_method_dis = "SL.xgboost",
-                        include_ps_dis = TRUE,
                         ite_method_inf = "aipw",
                         ps_method_inf = "SL.xgboost",
-                        oreg_method_inf = "SL.xgboost",
-                        include_ps_inf = TRUE,
-                        cate_method = "linreg",
-                        cate_SL_library = "SL.xgboost",
-                        filter_cate = TRUE,
-                        offset = NULL)
+                        oreg_method_inf = "SL.xgboost")
 
   hyper_params <- list(intervention_vars = NULL,
-                       ntrees_rf = 100,
-                       ntrees_gbm = 50,
+                       offset = NULL,
+                       ntrees_rf = 40,
+                       ntrees_gbm = 40,
                        node_size = 20,
-                       max_nodes = 5,
-                       max_depth = 3,
-                       max_decay = 0.025,
-                       type_decay = 2,
+                       max_nodes = 4,
+                       max_depth = 2,
+                       t_decay = 0.025,
                        t_ext = 0.01,
                        t_corr = 1,
                        t_pvalue = 0.05,
@@ -92,18 +86,18 @@ for (confounding in confoundings) {
         X <- dataset[["X"]]
         X_names <- colnames(X)
 
-        method_params[["ite_method_dis"]]<-ITE_estimator
-        method_params[["ite_method_inf"]]<-ITE_estimator
+        method_params[["ite_method_dis"]] <- ITE_estimator
+        method_params[["ite_method_inf"]] <- ITE_estimator
         hyper_params[["pfer"]] <- 1/((effect_size+1))
         result <- cre(y, z, X, method_params, hyper_params)
 
         cdr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
-        metrics_cdr <- evaluate(cdr,cdr_pred)
+        metrics_cdr <- evaluate(cdr, cdr_pred)
 
         em_pred <- extract_effect_modifiers(cdr_pred, X_names)
-        metrics_em <- evaluate(em,em_pred)
+        metrics_em <- evaluate(em, em_pred)
 
-        method <- paste("CRE (",ITE_estimator,")", sep = "")
+        method <- paste("CRE (", ITE_estimator, ")", sep = "")
         return(c(method, effect_size, seed,
                  metrics_cdr$IoU,
                  metrics_cdr$precision,
@@ -112,9 +106,10 @@ for (confounding in confoundings) {
                  metrics_em$precision,
                  metrics_em$recall))
       }
-      discovery <- rbind(discovery,discovery_i)
+      discovery <- rbind(discovery, discovery_i)
       time.after <- proc.time()
-      print(paste("CRE -", ITE_estimator,"(Time: ",round((time.after - time.before)[[3]],2), "sec)"))
+      print(paste("CRE -", ITE_estimator,"(Time: ",
+                  round((time.after - time.before)[[3]],2), "sec)"))
     }
 
     # HCT
@@ -153,7 +148,7 @@ for (confounding in confoundings) {
 
       fit.tree <- causalTree(y_dis ~ ., data = data_dis, treatment = z_dis,
                              split.Rule = "CT", cv.option = "CT",
-                             split.Honest = T, cv.Honest = T, maxdepth = 3)
+                             split.Honest = T, cv.Honest = T, maxdepth = 4)
       opt.cp <- fit.tree$cptable[,1][which.min(fit.tree$cptable[,4])]
       pruned <- prune(fit.tree, opt.cp)
 
@@ -161,10 +156,18 @@ for (confounding in confoundings) {
       rules <- as.numeric(row.names(pruned$frame[pruned$numresp]))
       rules.ctree <- vector("list",length(rules))
       for (k in rules[-1]){
-        sub <- as.data.frame(matrix(NA, nrow = 1,
-                                    ncol = nrow(as.data.frame(path.rpart(pruned, node=k, print.it = FALSE)))-1))
+        sub <- as.data.frame(matrix(NA,
+                                    nrow = 1,
+                                    ncol = nrow(as.data.frame(
+                                               path.rpart(pruned,
+                                                          node=k,
+                                                          print.it = FALSE)))-1)
+                                                )
         capture.output(for (h in 1:ncol(sub)){
-          sub[,h] <- as.character(print(as.data.frame(path.rpart(pruned,node=k,print.it=FALSE))[h+1,1]))
+          sub[,h] <- as.character(print(as.data.frame(
+                                            path.rpart(pruned,
+                                                       node=k,
+                                                       print.it=FALSE))[h+1,1]))
           sub_pop <- noquote(paste(sub , collapse = " & "))
         })
         subset <- with(data_inf, data_inf[which(eval(parse(text=sub_pop))),])

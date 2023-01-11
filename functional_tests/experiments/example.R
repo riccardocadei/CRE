@@ -5,8 +5,8 @@ n_rules <- 2
 sample_size <- 2000
 effect_size <- 2
 confounding <- "no"
-ite_estimator_dis <- "aipw"
-ite_estimator_inf <- "aipw"
+ite_estimator_dis <- "xlearner"
+ite_estimator_inf <- "xlearner"
 #pfer <- 1
 pfer <- 1/((effect_size+1))
 
@@ -15,25 +15,19 @@ method_params <- list(ratio_dis = 0.5,
                       ite_method_dis = ite_estimator_dis,
                       ps_method_dis = "SL.xgboost",
                       oreg_method_dis = "SL.xgboost",
-                      include_ps_dis = TRUE,
                       ite_method_inf = ite_estimator_inf,
                       ps_method_inf = "SL.xgboost",
-                      oreg_method_inf = "SL.xgboost",
-                      include_ps_inf = TRUE,
-                      cate_method = "linreg",
-                      cate_SL_library = "SL.xgboost",
-                      filter_cate = TRUE,
-                      offset = NULL)
+                      oreg_method_inf = "SL.xgboost")
 
 hyper_params <- list(intervention_vars = NULL,
-                     ntrees_rf = 100,
-                     ntrees_gbm = 0,
+                     offset = NULL,
+                     ntrees_rf = 50,
+                     ntrees_gbm = 50,
                      node_size = 20,
-                     max_nodes = 5,
+                     max_nodes = 8,
                      max_depth = 3,
-                     max_decay = 0,
-                     type_decay = 2,
-                     t_ext = 0.025,
+                     t_decay = 0.025,
+                     t_ext = 0.01,
                      t_corr = 1,
                      t_pvalue = 0.01,
                      replace = TRUE,

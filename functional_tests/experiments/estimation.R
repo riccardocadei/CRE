@@ -7,8 +7,8 @@ n_rules <- 2
 sample_size <- 5000
 effect_size <- 5
 confoundings <- c("no","lin","nonlin")
-ite_estimators <- c("ipw","aipw","sipw","cf","bcf")
-n_seeds <- 480
+ite_estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner")
+n_seeds <- 200
 ratio_dis <- 0.5
 
 # Set Ground Truth
@@ -27,31 +27,25 @@ ratio_dis <- 0.5
                         ite_method_dis="aipw",
                         ps_method_dis = "SL.xgboost",
                         oreg_method_dis = "SL.xgboost",
-                        include_ps_dis = TRUE,
                         ite_method_inf = "aipw",
                         ps_method_inf = "SL.xgboost",
-                        oreg_method_inf = "SL.xgboost",
-                        include_ps_inf = TRUE,
-                        cate_method = "linreg",
-                        cate_SL_library = "SL.xgboost",
-                        filter_cate = TRUE,
-                        offset = NULL)
+                        oreg_method_inf = "SL.xgboost")
 
   hyper_params <- list(intervention_vars = NULL,
-                       ntrees_rf = 100,
-                       ntrees_gbm = 50,
+                       offset = NULL,
+                       ntrees_rf = 40,
+                       ntrees_gbm = 40,
                        node_size = 20,
-                       max_nodes = 5,
-                       max_depth = 3,
-                       max_decay = 0.025,
-                       type_decay = 2,
+                       max_nodes = 4,
+                       max_depth = 2,
+                       t_decay = 0.025,
                        t_ext = 0.01,
                        t_corr = 1,
                        t_pvalue = 0.05,
                        replace = TRUE,
                        stability_selection = TRUE,
                        cutoff = 0.9,
-                       pfer = 0.5,
+                       pfer = 1,
                        penalty_rl = 1)
 }
 
@@ -84,11 +78,9 @@ for (confounding in confoundings) {
       z <- dataset[["z"]]
       X <- dataset[["X"]]
       ite <- dataset[["ite"]]
-      X_names <- colnames(X)
 
-      #method_params[["ite_method_dis"]]<-ite_estimator
+      method_params[["ite_method_dis"]]<-ite_estimator
       method_params[["ite_method_inf"]]<-ite_estimator
-      hyper_params[["pfer"]] <- 1/((effect_size+1))
       result <- cre(y, z, X, method_params, hyper_params)
 
       rmse <- sqrt(mean((ite - result$ite_pred)^2))
@@ -104,164 +96,45 @@ for (confounding in confoundings) {
                betas[1], betas[2], betas[3], betas[4]))
     }
     time.after <- proc.time()
-    print(paste("CRE -", ite_estimator,"(Time: ",round((time.after - time.before)[[3]],2), "sec)"))
+    print(paste("CRE -", ite_estimator,
+                "(Time: ",round((time.after - time.before)[[3]],2), "sec)"))
     estimation <- rbind(estimation,estimation_i)
   }
-  # CF
-  time.before <- proc.time()
-  estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
-    library("devtools")
-    load_all()
-    set.seed(seed)
-    # Generate Dataset
-    dataset <- generate_cre_dataset(n = sample_size,
-                                    rho = 0,
-                                    p = 10,
-                                    effect_size = effect_size,
-                                    n_rules = n_rules,
-                                    binary_covariates = TRUE,
-                                    binary_outcome = FALSE,
-                                    confounding = confounding)
-    y <- dataset[["y"]]
-    z <- dataset[["z"]]
-    X <- dataset[["X"]]
-    ite <- dataset[["ite"]]
+  # Benchmarks
+  for (ite_estimator in ite_estimators){
+    # estimator i
+    time.before <- proc.time()
+    estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
+      library("devtools")
+      load_all()
+      set.seed(seed)
+      # Generate Dataset
+      dataset <- generate_cre_dataset(n = sample_size,
+                                      rho = 0,
+                                      p = 10,
+                                      effect_size = effect_size,
+                                      n_rules = n_rules,
+                                      binary_covariates = TRUE,
+                                      binary_outcome = FALSE,
+                                      confounding = confounding)
+      y <- dataset[["y"]]
+      z <- dataset[["z"]]
+      X <- dataset[["X"]]
+      ite <- dataset[["ite"]]
 
-    ite_pred <- estimate_ite_cf(y, z, X, TRUE, "SL.xgboost")[[1]]
+      ite_pred <- estimate_ite(y , z, X, ite_estimator,
+                               oreg_method = "SL.xgboost",
+                               ps_method = "SL.xgboost")
 
-    rmse <- sqrt(mean((ite - ite_pred)^2))
-    bias <- mean((ite - ite_pred))
+      rmse <- sqrt(mean((ite - ite_pred)^2))
+      bias <- mean((ite - ite_pred))
 
-    return(c("CF", effect_size, seed, rmse, bias,
-             NA, NA, NA, NA))
+      return(c(ite_estimator, effect_size, seed, rmse, bias, NA, NA, NA, NA))
+    }
+    time.after <- proc.time()
+    print(paste(ite_estimator,"(Time: ",round((time.after - time.before)[[3]],2), "sec)"))
+    estimation <- rbind(estimation,estimation_i)
   }
-  time.after <- proc.time()
-  print(paste("CF (Time: ",round((time.after - time.before)[[3]],2), "sec)"))
-  estimation <- rbind(estimation,estimation_i)
-  # BCF
-  time.before <- proc.time()
-  estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
-    library(devtools)
-    load_all()
-    set.seed(seed)
-    # Generate Dataset
-    dataset <- generate_cre_dataset(n = sample_size,
-                                    rho = 0,
-                                    p = 10,
-                                    effect_size = effect_size,
-                                    n_rules = n_rules,
-                                    binary_covariates = TRUE,
-                                    binary_outcome = FALSE,
-                                    confounding = confounding)
-    y <- dataset[["y"]]
-    z <- dataset[["z"]]
-    X <- dataset[["X"]]
-    ite <- dataset[["ite"]]
-
-    ite_pred <- estimate_ite_bcf(y, z, as.matrix(X), "SL.xgboost")[[1]]
-
-    rmse <- sqrt(mean((ite - ite_pred)^2))
-    bias <- mean((ite - ite_pred))
-
-    return(c("BCF", effect_size, seed, rmse, bias,
-             NA, NA, NA, NA))
-  }
-  time.after <- proc.time()
-  print(paste("BCF (Time: ",round((time.after - time.before)[[3]],2), "sec)"))
-  estimation <- rbind(estimation,estimation_i)
-  # IPW
-  time.before <- proc.time()
-  estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
-    library("devtools")
-    load_all()
-    set.seed(seed)
-    # Generate Dataset
-    dataset <- generate_cre_dataset(n = sample_size,
-                                    rho = 0,
-                                    p = 10,
-                                    effect_size = effect_size,
-                                    n_rules = n_rules,
-                                    binary_covariates = TRUE,
-                                    binary_outcome = FALSE,
-                                    confounding = confounding)
-    y <- dataset[["y"]]
-    z <- dataset[["z"]]
-    X <- dataset[["X"]]
-    ite <- dataset[["ite"]]
-
-    ite_pred <- estimate_ite_ipw(y, z, as.matrix(X), "SL.xgboost")
-
-    rmse <- sqrt(mean((ite - ite_pred)^2))
-    bias <- mean((ite - ite_pred))
-
-    return(c("IPW", effect_size, seed, rmse, bias,
-             NA, NA, NA, NA))
-  }
-  time.after <- proc.time()
-  print(paste("IPW (Time: ",round((time.after - time.before)[[3]],2), "sec)"))
-  estimation <- rbind(estimation,estimation_i)
-  # AIPW
-  time.before <- proc.time()
-  estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
-    library("devtools")
-    load_all()
-    set.seed(seed)
-    # Generate Dataset
-    dataset <- generate_cre_dataset(n = sample_size,
-                                    rho = 0,
-                                    p = 10,
-                                    effect_size = effect_size,
-                                    n_rules = n_rules,
-                                    binary_covariates = TRUE,
-                                    binary_outcome = FALSE,
-                                    confounding = confounding)
-    y <- dataset[["y"]]
-    z <- dataset[["z"]]
-    X <- dataset[["X"]]
-    ite <- dataset[["ite"]]
-
-    ite_pred <- estimate_ite_aipw(y, z, as.matrix(X), "SL.xgboost")
-
-    rmse <- sqrt(mean((ite - ite_pred)^2))
-    bias <- mean((ite - ite_pred))
-
-    return(c("AIPW", effect_size, seed, rmse, bias,
-             NA, NA, NA, NA))
-  }
-  time.after <- proc.time()
-  print(paste("AIPW (Time: ",round((time.after - time.before)[[3]],2), "sec)"))
-  estimation <- rbind(estimation,estimation_i)
-  # SIPW
-  time.before <- proc.time()
-  estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
-    library("devtools")
-    load_all()
-    set.seed(seed)
-    # Generate Dataset
-    dataset <- generate_cre_dataset(n = sample_size,
-                                    rho = 0,
-                                    p = 10,
-                                    effect_size = effect_size,
-                                    n_rules = n_rules,
-                                    binary_covariates = TRUE,
-                                    binary_outcome = FALSE,
-                                    confounding = confounding)
-    y <- dataset[["y"]]
-    z <- dataset[["z"]]
-    X <- dataset[["X"]]
-    ite <- dataset[["ite"]]
-
-    ite_pred <- estimate_ite_sipw(y, z, as.matrix(X), "SL.xgboost")
-
-    rmse <- sqrt(mean((ite - ite_pred)^2))
-    bias <- mean((ite - ite_pred))
-
-    return(c("SIPW", effect_size, seed, rmse, bias,
-             NA, NA, NA, NA))
-  }
-  time.after <- proc.time()
-  print(paste("SIPW (Time: ",round((time.after - time.before)[[3]],2), "sec)"))
-  estimation <- rbind(estimation,estimation_i)
   # HCT
   time.before <- proc.time()
   estimation_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
@@ -313,7 +186,6 @@ for (confounding in confoundings) {
   print(paste("HCT (Time: ",round((time.after - time.before)[[3]],2), "sec)"))
   estimation <- rbind(estimation,estimation_i)
 
-
   colnames(estimation) <- c("method","effect_size","seed","rmse","bias",
                             "beta1", "beta2","beta3","beta4")
   rownames(estimation) <- 1:nrow(estimation)
@@ -326,8 +198,7 @@ for (confounding in confoundings) {
   exp_name <- paste(sample_size,"s_",n_rules,"r_",effect_size,"es_",confounding,
                     sep="")
   file_dir <- paste(results_dir,"estimation_",exp_name,".RData", sep="")
-  save(estimation,
-       file=file_dir)
+  save(estimation, file=file_dir)
 }
 
 stopCluster(cl)
