@@ -12,10 +12,6 @@
 #' Some methods requires additional parameters. These parameters are mentioned
 #' in the indented blocks for each method and their definitions are provided at
 #' the end of this parameters list.
-#'   - `ipw`: Inverse Propensity Weighting.
-#'     - `ps_method`
-#'   - `sipw`: Stabilized Inverse Propensity Weighting.
-#'     - `ps_method`
 #'   - `aipw`: Augmented Inverse Propensity Weighting.
 #'     - `ps_method` and  `oreg_method`
 #'   - `oreg`: Outcome Regression.
@@ -36,8 +32,6 @@
 #'   includes libraries for the SuperLearner package.
 #'   - **oreg_method**: An estimation model for the outcome regressions. This
 #'   includes libraries for the SuperLearner package.
-#'   - **X_names**: The names of the covariates.
-#'   (TODO: Remove from input params.)
 #'   - **offset**: Name of the covariate to use as offset (i.e. 'x1') for
 #'     Poisson ITE Estimation. `NULL` if offset is not used.
 #'
@@ -72,13 +66,7 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
     }
   }
 
-  if (ite_method == "ipw") {
-    check_args(c('ps_method'), arg_names)
-    ite <- estimate_ite_ipw(y, z, X, ps_method)
-  } else if (ite_method == "sipw") {
-    check_args(c("ps_method"), arg_names)
-    ite <- estimate_ite_sipw(y, z, X, ps_method)
-  } else if (ite_method == "aipw") {
+  if (ite_method == "aipw") {
     check_args(c("ps_method", "oreg_method"), arg_names)
     ite <- estimate_ite_aipw(y, z, X, ps_method, oreg_method)
   } else if (ite_method == "oreg") {
@@ -97,8 +85,7 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
     ite <- estimate_ite_poisson(y, z, X, offset)
   } else {
     stop(paste("Invalid ITE method. Please choose from the following:\n",
-               "'ipw', 'sipw', 'aipw', 'oreg', 'bart', 'bcf', 'cf'",
-               " or 'poisson'"))
+               "'aipw', 'oreg', 'bart', 'bcf', 'cf' or 'poisson"))
   }
 
   binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
