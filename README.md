@@ -107,7 +107,7 @@ z <- dataset[["z"]]
 X <- dataset[["X"]]
 
 cre_results <- cre(y, z, X)
-summary(cre_results, method_params, hyper_params)
+summary(cre_results)
 plot(cre_results)
 ```
 
