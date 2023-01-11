@@ -1,6 +1,7 @@
 # CRE (Developing)
 
 ## Changed
+* `estimate_ite_poisson` function -> `estimate_ite_tpoisson`
 * `max_dacay` hyper-parameter -> `t_decay`.
 * `interpret_select_rules` function -> `interpret_rules`.
 * `generate_causal_rules` function -> `discover_rules`.

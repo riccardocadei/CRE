@@ -50,13 +50,13 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   method_params[["ite_method_inf"]] <- "bart"
-  method_params[["ite_method_dis"]] <- "poisson"
+  method_params[["ite_method_dis"]] <- "tpoisson"
   method_params[["ps_method_dis"]] <- 1
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   method_params[["ite_method_dis"]] <- "bart"
   method_params[["ps_method_dis"]] <- "SL.xgboost"
-  method_params[["ite_method_inf"]] <- "poisson"
+  method_params[["ite_method_inf"]] <- "tpoisson"
   method_params[["ps_method_inf"]] <- 1
   expect_error(cre(y, z, X, method_params, hyper_params))
 
@@ -78,7 +78,7 @@ test_that("cre Runs Correctly", {
   y_temp <- ifelse(y > 0, 1, 0)
   expect_warning(expect_error(cre(y_temp, z, X, method_params, hyper_params)))
 
-  method_params[["ite_method_dis"]] <- "poisson"
+  method_params[["ite_method_dis"]] <- "tpoisson"
   method_params[["offset"]] <- "test"
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 

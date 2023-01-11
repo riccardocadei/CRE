@@ -26,6 +26,10 @@ the end of this parameters list.
 \itemize{
 \item \code{oreg_method}
 }
+\item \code{tpoisson}: T-Poisson.
+\itemize{
+\item \code{offset}
+}
 \item \code{xlearner}: X-Learner.
 \itemize{
 \item \code{oreg_method}
@@ -36,7 +40,7 @@ the end of this parameters list.
 }
 \item \code{bart}: Bayesian Additive Regression Trees.
 \itemize{
-\item \code{include_ps} and \code{ps_method}
+\item \code{ps_method}
 }
 \item \code{bcf}: Bayesian Causal Forest.
 \itemize{
@@ -44,11 +48,7 @@ the end of this parameters list.
 }
 \item \code{cf}: Causal Forest.
 \itemize{
-\item \code{include_ps} and \code{ps_method}
-}
-\item \code{poisson}: Poisson Regression.
-\itemize{
-\item \code{X_names}, \code{offset}
+\item \code{ps_method}
 }
 }}
 
@@ -64,14 +64,10 @@ a treatment vector, a covariate matrix, and a desired algorithm.
 \details{
 \subsection{Additional parameters}{
 \itemize{
-\item \strong{include_ps}: Whether or not to include propensity score estimate as a
-covariate in ITE estimation.
 \item \strong{ps_method}: An estimation method for the propensity score. This
 includes libraries for the SuperLearner package.
 \item \strong{oreg_method}: An estimation model for the outcome regressions. This
 includes libraries for the SuperLearner package.
-\item \strong{X_names}: The names of the covariates.
-(TODO: Remove from input params.)
 \item \strong{offset}: Name of the covariate to use as offset (i.e. 'x1') for
 Poisson ITE Estimation. \code{NULL} if offset is not used.
 }

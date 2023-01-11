@@ -53,7 +53,7 @@ __Parameters (not required)__
 - **`ite_method_inf`** The method to estimate the individual treatment effect (ITE) on the infernce sub-sample (default: 'aipw') [1].         
 - **`ps_method_inf`** The estimation model for the propensity score on the inference subsample (default: 'SL.xgboost').     
 - **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
-- **`offset`** Name of the covariate to use as offset (i.e. 'x1') for Poisson ITE Estimation. NULL if offset is not used (default: NULL).
+- **`offset`** Name of the covariate to use as offset (i.e. 'x1') for T-Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 
 **`hyper_params`** The list of hyper parameters to finetune the method, including:
 - **`intervention_vars`** Intervention-able variables used for Rules Generation (default: NULL).     
@@ -81,12 +81,12 @@ __Additional Estimates (not required)__
 **[1]** Options for the ITE estimation are as follows: 
 - S-Learner (`slearner`)
 - T-Learner (`tlearner`)
+- T-Poisson (`tpoisson`)
 - X-Learner (`xlearner`)
 - Augmented Inverse Probability Weighting (`aipw`)
 - Causal Forests (`cf`)
 - Bayesian Causal Forests (`bcf`)
 - Bayesian Additive Regression Trees (`bart`)
-- Poisson Regression (`poisson`)
 if other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.
 
 

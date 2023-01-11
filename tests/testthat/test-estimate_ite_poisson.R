@@ -11,20 +11,20 @@ test_that("Poisson ITE Estimated Correctly", {
   offset <- NULL
 
   # Incorrect data inputs
-  expect_error(estimate_ite_poisson(y = "test", z, X, offset))
-  expect_warning(expect_error(estimate_ite_poisson(y, z = "test", X, offset)))
-  expect_error(estimate_ite_poisson(y, z, X = NA, offset))
-  expect_error(estimate_ite_poisson(y, z, X, offset = "x_1"))
+  expect_error(estimate_ite_tpoisson(y = "test", z, X, offset))
+  expect_warning(expect_error(estimate_ite_tpoisson(y, z = "test", X, offset)))
+  expect_error(estimate_ite_tpoisson(y, z, X = NA, offset))
+  expect_error(estimate_ite_tpoisson(y, z, X, offset = "x_1"))
 
   # Correct outputs
   # Poisson (vanila)
-  ite_result <- estimate_ite_poisson(y, z, X, offset)
+  ite_result <- estimate_ite_tpoisson(y, z, X, offset)
   expect_true(class(ite_result) == "numeric")
   expect_true(length(ite_result) == length(y))
 
   # Poisson + Offset
   offset <- "x9"
-  ite_result <- estimate_ite_poisson(y, z, X, offset)
+  ite_result <- estimate_ite_tpoisson(y, z, X, offset)
   expect_true(class(ite_result) == "numeric")
   expect_true(length(ite_result) == length(y))
 

@@ -152,7 +152,6 @@ cre <- function(y, z, X,
     logger::log_info("Estimating ITE...")
     ite_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
                       ite_method = getElement(method_params, "ite_method_dis"),
-                      include_ps = getElement(method_params, "include_ps_dis"),
                       ps_method = getElement(method_params, "ps_method_dis"),
                       oreg_method = getElement(method_params,"oreg_method_dis"),
                       offset = getElement(method_params, "offset"))
@@ -176,7 +175,6 @@ cre <- function(y, z, X,
     logger::log_info("Estimating ITE...")
     ite_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
                       ite_method = getElement(method_params, "ite_method_inf"),
-                      include_ps = getElement(method_params, "include_ps_inf"),
                       ps_method = getElement(method_params, "ps_method_inf"),
                       oreg_method = getElement(method_params, "oreg_method_inf"),
                       offset = getElement(method_params,"offset"))

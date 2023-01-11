@@ -16,6 +16,8 @@
 #'     - `oreg_method`
 #'   - `tlearner`: T-Learner.
 #'     - `oreg_method`
+#'   - `tpoisson`: T-Poisson.
+#'     - `offset`
 #'   - `xlearner`: X-Learner.
 #'     - `oreg_method`
 #'   - `aipw`: Augmented Inverse Probability Weighting.
@@ -26,8 +28,6 @@
 #'     - `ps_method`
 #'   - `cf`: Causal Forest.
 #'     - `ps_method`
-#'   - `poisson`: Poisson Regression.
-#'     - `X_names`, `offset`
 #' @param ... Additional parameters passed to different models.
 #' @details
 #' ## Additional parameters
@@ -35,8 +35,6 @@
 #'   includes libraries for the SuperLearner package.
 #'   - **oreg_method**: An estimation model for the outcome regressions. This
 #'   includes libraries for the SuperLearner package.
-#'   - **X_names**: The names of the covariates.
-#'   (TODO: Remove from input params.)
 #'   - **offset**: Name of the covariate to use as offset (i.e. 'x1') for
 #'     Poisson ITE Estimation. `NULL` if offset is not used.
 #'
@@ -92,13 +90,13 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
   } else if (ite_method == "cf") {
     check_args(c("ps_method"), arg_names)
     ite <- estimate_ite_cf(y, z, X, ps_method)
-  } else if (ite_method == "poisson") {
+  } else if (ite_method == "tpoisson") {
     check_args(c("offset"), arg_names)
-    ite <- estimate_ite_poisson(y, z, X, offset)
+    ite <- estimate_ite_tpoisson(y, z, X, offset)
   } else {
     stop(paste("Invalid ITE method. Please choose from the following:\n",
                "'slearner', 'tlearner', 'xlearner', 'aipw', 'bart', 'bcf', ",
-               "'cf' or 'poisson'"))
+               "'cf' or 'tpoisson'"))
   }
 
   binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)

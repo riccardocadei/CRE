@@ -1,5 +1,5 @@
 #' @title
-#' Estimate the Individual Treatment Effect (ITE) using Poisson Regression
+#' Estimate the Individual Treatment Effect (ITE) using T-Poisson Regression
 #'
 #' @description
 #' Estimates the Individual Treatment Effect using Poisson Regression given a
@@ -17,7 +17,7 @@
 #'
 #' @keywords internal
 #'
-estimate_ite_poisson <- function(y, z, X, offset) {
+estimate_ite_tpoisson <- function(y, z, X, offset) {
   X_names <- names(X)
   if (!is.null(offset)) {
     if (!(offset %in% X_names)) {
