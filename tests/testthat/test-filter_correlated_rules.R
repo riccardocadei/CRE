@@ -33,12 +33,11 @@ test_that("Correlated Rules Discarded Correctly", {
   ###### Discovery ######
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method,
+  ite <- estimate_ite(y, z, X, ite_method,
                            binary_outcome = binary_outcome,
                            include_ps = include_ps,
                            ps_method = ps_method,
                            oreg_method = oreg_method)
-  ite <- ite_list[["ite"]]
 
   # Step 3: Generate rules list
   initial_rules <- generate_rules(X, ite, intervention_vars, ntrees_rf,

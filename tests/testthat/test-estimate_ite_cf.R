@@ -21,10 +21,7 @@ test_that("CF ITE Estimated Correctly", {
   expect_error(estimate_ite_cf(y, z, X = NA, include_ps = NA, ps_method))
 
   # Correct outputs
-  ite_result <- estimate_ite_cf(y, z, X, include_ps, ps_method)
-  expect_true(length(ite_result) == 2)
-  expect_true(length(ite_result[[1]]) == length(y))
-  expect_true(class(ite_result[[1]]) == "numeric")
-  expect_true(length(ite_result[[2]]) == length(y))
-  expect_true(class(ite_result[[2]]) == "numeric")
+  ite <- estimate_ite_cf(y, z, X, include_ps, ps_method)
+  expect_true(length(ite) == length(y))
+  expect_true(class(ite) == "numeric")
 })

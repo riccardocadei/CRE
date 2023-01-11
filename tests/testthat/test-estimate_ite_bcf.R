@@ -7,7 +7,7 @@ test_that("BCF ITE Estimated Correctly", {
                                        binary_outcome = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
-  X <- as.matrix(dataset_cont[["X"]])
+  X <- dataset_cont[["X"]]
   include_ps <- TRUE
   ps_method <- "SL.xgboost"
 
@@ -17,10 +17,7 @@ test_that("BCF ITE Estimated Correctly", {
   expect_error(estimate_ite_bcf(y, z, X = NA, ps_method))
 
   # Correct outputs
-  ite_result <- estimate_ite_bcf(y, z, X, ps_method)
-  expect_true(length(ite_result) == 2)
-  expect_true(length(ite_result[[1]]) == length(y))
-  expect_true(class(ite_result[[1]]) == "numeric")
-  expect_true(length(ite_result[[2]]) == length(y))
-  expect_true(class(ite_result[[2]]) == "numeric")
+  ite <- estimate_ite_bcf(y, z, X, ps_method)
+  expect_true(length(ite) == length(y))
+  expect_true(class(ite) == "numeric")
 })

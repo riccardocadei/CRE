@@ -55,15 +55,13 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
   X_inf <- inference$X
 
   # Estimate ITE
-  ite_list_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis,
+  ite_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis,
                                binary_outcome = binary_outcome,
                                include_ps = include_ps_dis,
                                ps_method = ps_method_dis,
                                oreg_method = oreg_method_dis,
                                X_names = X_names,
                                offset = offset)
-  ite_dis <- ite_list_dis[["ite"]]
-
 
   # Generate rules list
   initial_rules_dis <- generate_rules(X_dis, ite_dis, intervention_vars,
@@ -91,13 +89,12 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
                                                 penalty_rl))
 
   # Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
+  ite_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
                                offset = offset)
-  ite_inf <- ite_list_inf[["ite"]]
 
   if (length(select_rules_dis)==0){
     rules_matrix_inf <- NA
@@ -179,14 +176,13 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
   select_rules_dis <- c()
 
   # Estimate CATE
-  ite_list_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
+  ite_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
                                binary_outcome = binary_outcome,
                                include_ps = include_ps_inf,
                                ps_method = ps_method_inf,
                                oreg_method = oreg_method_inf,
                                X_names = X_names,
                                offset = offset)
-  ite_inf <- ite_list_inf[["ite"]]
 
   if (length(select_rules_dis)==0){
     rules_matrix_inf <- NA

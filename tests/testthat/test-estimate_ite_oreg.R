@@ -25,5 +25,4 @@ test_that("OREG ITE Estimated Correctly", {
   # Values
   # Not reproducible on M1 mac
   # expect_equal(ite_result[12], -0.5514906, tolerance = 0.00001)
-
 })

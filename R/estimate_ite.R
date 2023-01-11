@@ -42,9 +42,7 @@
 #'     Poisson ITE Estimation. `NULL` if offset is not used.
 #'
 #' @return
-#' A list that includes:
-#'   -  Raw ITE estimates.
-#'   -  Standard deviations for the ITE estimates.
+#' A list of ITE estimates.
 #'
 #' @keywords internal
 #'
@@ -77,37 +75,26 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
   if (ite_method == "ipw") {
     check_args(c('ps_method'), arg_names)
     ite <- estimate_ite_ipw(y, z, X, ps_method)
-    sd_ite <- NA
   } else if (ite_method == "sipw") {
     check_args(c("ps_method"), arg_names)
     ite <- estimate_ite_sipw(y, z, X, ps_method)
-    sd_ite <- NA
   } else if (ite_method == "aipw") {
     check_args(c("ps_method", "oreg_method"), arg_names)
     ite <- estimate_ite_aipw(y, z, X, ps_method, oreg_method)
-    sd_ite <- NA
   } else if (ite_method == "oreg") {
     ite <- estimate_ite_oreg(y, z, X)
-    sd_ite <- NA
   } else if (ite_method == "bart") {
     check_args(c("include_ps", "ps_method"), arg_names)
-    ite_results <- estimate_ite_bart(y, z, X, include_ps, ps_method)
-    ite <- ite_results[[1]]
-    sd_ite <- ite_results[[2]]
+    ite <- estimate_ite_bart(y, z, X, include_ps, ps_method)
   } else if (ite_method == "bcf") {
     check_args(c('ps_method'), arg_names)
-    ite_results <- estimate_ite_bcf(y, z, X, ps_method)
-    ite <- ite_results[[1]]
-    sd_ite <- ite_results[[2]]
+    ite <- estimate_ite_bcf(y, z, X, ps_method)
   } else if (ite_method == "cf") {
     check_args(c("include_ps", "ps_method"), arg_names)
-    ite_results <- estimate_ite_cf(y, z, X, include_ps, ps_method)
-    ite <- ite_results[[1]]
-    sd_ite <- ite_results[[2]]
+    ite <- estimate_ite_cf(y, z, X, include_ps, ps_method)
   } else if (ite_method == "poisson") {
     check_args(c("offset", "X_names"), arg_names)
     ite <- estimate_ite_poisson(y, z, X, X_names, offset)
-    sd_ite <- NA
   } else {
     stop(paste("Invalid ITE method. Please choose from the following:\n",
                "'ipw', 'sipw', 'aipw', 'oreg', 'bart', 'bcf', 'cf'",
@@ -123,5 +110,6 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
     zero <- ite>=-0.5 & ite<=0.5
     ite[zero] <- 0
   }
-  return(list(ite = as.vector(ite), sd_ite = as.vector(sd_ite)))
+
+  return(ite)
 }

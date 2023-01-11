@@ -29,12 +29,10 @@ test_that("Extreme Rules Discarded Correctly", {
   ###### Discovery ######
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method,
+  ite <- estimate_ite(y, z, X, ite_method,
                            include_ps = include_ps,
                            ps_method = ps_method,
-                           oreg_method = oreg_method,
-                           random_state = 376)
-  ite <- ite_list[["ite"]]
+                           oreg_method = oreg_method)
 
   # Step 3: Generate rules list
   initial_rules <- generate_rules(X, ite, intervention_vars, ntrees_rf,

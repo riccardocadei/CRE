@@ -30,13 +30,12 @@ test_that("Rules Extracted Correctly", {
   z <- as.matrix(z)
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method,
+  ite <- estimate_ite(y, z, X, ite_method,
                            binary_outcome = binary_outcome,
                            include_ps = include_ps,
                            ps_method = ps_method,
                            oreg_method = oreg_method,
                            random_state = random_state)
-  ite <- ite_list[["ite"]]
 
   expect_equal(ite[10], -1.240143, tolerance = 0.000001)
   expect_equal(ite[25], 0.8987101, tolerance = 0.000001)

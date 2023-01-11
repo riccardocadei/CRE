@@ -13,7 +13,7 @@
 #' @param ps_method A method for the estimation of the propensity score.
 #'
 #' @return
-#' A list of ITE estimates and standard deviations for the ITE estimates.
+#' A list of ITE estimates.
 #'
 #' @keywords internal
 #'
@@ -33,8 +33,6 @@ estimate_ite_cf <- function(y, z, X, include_ps, ps_method) {
 
   tau_forest <- grf::causal_forest(X, y, z)
   ite <- stats::predict(tau_forest)$predictions
-  sd_ite <- sqrt(stats::predict(tau_forest,
-                                estimate.variance = TRUE)$variance.estimates)
 
-  return(list(ite, sd_ite))
+  return(ite)
 }

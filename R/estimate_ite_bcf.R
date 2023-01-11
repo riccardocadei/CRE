@@ -12,15 +12,15 @@
 #' @param ps_method A method for the estimation of the propensity score.
 #'
 #' @return
-#' A list of ITE estimates and standard deviations for the ITE estimates.
+#' A list of ITE estimates.
 #'
 #' @keywords internal
 #'
 estimate_ite_bcf <- function(y, z, X, ps_method) {
+  X <- as.matrix(X)
   est_ps <- estimate_ps(z, X, ps_method)
   bcf_model <- bcf::bcf(y, z, X, X, est_ps, nburn = 500, nsim = 500)
   pd_ite <- bcf_model$tau
   ite <- apply(pd_ite, 2, mean)
-  sd_ite <- apply(pd_ite, 2, stats::sd)
-  return(list(ite, sd_ite))
+  return(ite)
 }

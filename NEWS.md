@@ -26,6 +26,7 @@ estimations.
 domain.
 
 ## Removed
+* ITE standard deviation estimation.
 * `type_decay` hyper-parameter.
 * Keep only `linreg` for CATE estimation (remove `cate_method` and 
 `cate_SL_library` parameters).
