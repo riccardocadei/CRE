@@ -50,7 +50,7 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
 
 
   # Address visible binding error.
-  X_names <- offset <- oreg_method <- NULL
+  offset <- oreg_method <- NULL
   include_ps <- ps_method <- ps_method_dis <- ps_method_inf <- NULL
 
 
@@ -93,7 +93,7 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
     check_args(c("include_ps", "ps_method"), arg_names)
     ite <- estimate_ite_cf(y, z, X, include_ps, ps_method)
   } else if (ite_method == "poisson") {
-    check_args(c("offset", "X_names"), arg_names)
+    check_args(c("offset"), arg_names)
     ite <- estimate_ite_poisson(y, z, X, X_names, offset)
   } else {
     stop(paste("Invalid ITE method. Please choose from the following:\n",

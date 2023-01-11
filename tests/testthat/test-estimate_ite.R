@@ -77,8 +77,7 @@ test_that("ITE Estimated Correctly", {
                       include_ps = include_ps,
                       ps_method = ps_method,
                       oreg_method = oreg_method,
-                      offset = NULL,
-                      X_names = names(dts_1$X))
+                      offset = NULL)
   expect_true(class(ite) == "numeric")
   expect_true(length(ite) == length(dts_1$y))
 

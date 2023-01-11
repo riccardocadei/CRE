@@ -163,7 +163,6 @@ cre <- function(y, z, X,
                       include_ps = getElement(method_params, "include_ps_dis"),
                       ps_method = getElement(method_params, "ps_method_dis"),
                       oreg_method = getElement(method_params,"oreg_method_dis"),
-                      X_names = X_names,
                       offset = getElement(method_params, "offset"))
   } else {
     logger::log_info("Using the provided ITE estimations...")
@@ -188,7 +187,6 @@ cre <- function(y, z, X,
                       include_ps = getElement(method_params, "include_ps_inf"),
                       ps_method = getElement(method_params, "ps_method_inf"),
                       oreg_method = getElement(method_params, "oreg_method_inf"),
-                      X_names = X_names,
                       offset = getElement(method_params,"offset"))
   } else {
     logger::log_info("Using the provided ITE estimations...")
