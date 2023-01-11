@@ -6,6 +6,7 @@ test_that("cre Runs Correctly", {
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- as.data.frame(dataset_cont[["X"]])
+  ite <- dataset_cont[["ite"]]
   X_names <- names(as.data.frame(X))
 
   method_params <- list(ratio_dis = 0.25,
@@ -147,5 +148,8 @@ test_that("cre Runs Correctly", {
   method_params[["ite_method_dis"]] <- "aipw"
   method_params[["ite_method_inf"]] <- "aipw"
   cre_results <- cre(y, z, X, method_params, hyper_params)
+  expect_true(class(cre_results) == "cre")
+
+  cre_results <- cre(y, z, X, method_params, hyper_params, ite)
   expect_true(class(cre_results) == "cre")
 })
