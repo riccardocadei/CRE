@@ -87,6 +87,7 @@ __Additional Estimates (not required)__
 - Causal Forests (`cf`)
 - Bayesian Causal Forests (`bcf`)
 - Bayesian Additive Regression Trees (`bart`)
+
 if other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.
 
 
@@ -128,7 +129,7 @@ dataset <- generate_cre_dataset(n = 1000,
   X <- dataset[["X"]]
 
 ite_pred <- ... # personalized ite estimation
-cre_results <- cre(y, z, X, ite=ite_pred)
+cre_results <- cre(y, z, X, ite = ite_pred)
 summary(cre_results)
 plot(cre_results)
 ```
