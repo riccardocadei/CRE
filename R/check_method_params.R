@@ -34,12 +34,12 @@ check_method_params <- function(y, X_names, ite, params) {
   if (length(ite_method_dis) == 0) {
     ite_method_dis <- "aipw"
   } else {
-    if (!(ite_method_dis %in% c("aipw", "oreg",
-                                "bart","bcf", "cf", "poisson"))) {
+    if (!(ite_method_dis %in% c("aipw", "slearner","tlearner","xlearner",
+                                "bart","bcf","cf","poisson"))) {
       stop(paste(
         "Invalid ITE method for Discovery Subsample. Please choose ",
-        "from the following:\n", "'aipw', oreg', 'bart', ",
-        "'bcf', 'cf', or 'poisson'"
+        "from the following:\n", "'aipw', 'bart', 'slearner','tlearner', ",
+        "'xlearner', 'bcf', 'cf', or 'poisson'"
       ))
     }
   }
@@ -49,12 +49,12 @@ check_method_params <- function(y, X_names, ite, params) {
   if (length(ite_method_inf) == 0) {
     ite_method_inf <- "aipw"
   } else {
-    if (!(ite_method_dis %in% c("aipw", "oreg",
+    if (!(ite_method_dis %in% c("aipw", "slearner","tlearner","xlearner",
                                 "bart","bcf", "cf", "poisson"))) {
       stop(paste(
         "Invalid ITE method for Inference Subsample. Please choose ",
-        "from the following:\n", "'aipw', oreg', 'bart', ",
-        "'bcf', 'cf', or 'poisson'"
+        "from the following:\n", "'aipw', 'bart', 'slearner','tlearner', ",
+        "'xlearner', 'bcf', 'cf', or 'poisson'"
       ))
     }
   }
@@ -95,7 +95,7 @@ check_method_params <- function(y, X_names, ite, params) {
   params[["include_ps_inf"]] <- include_ps_inf
 
   ps_method_dis <- getElement(params, "ps_method_dis")
-  if (!(ite_method_dis %in% c("or", "poisson"))) {
+  if (!(ite_method_dis %in% c("slearner", "tlearner", "xlearner", "poisson"))) {
     if (length(ps_method_dis) == 0) {
       ps_method_dis <- "SL.xgboost"
     } else {
@@ -110,7 +110,7 @@ check_method_params <- function(y, X_names, ite, params) {
   params[["ps_method_dis"]] <- ps_method_dis
 
   ps_method_inf <- getElement(params, "ps_method_inf")
-  if (!(ite_method_inf %in% c("or", "poisson"))) {
+  if (!(ite_method_inf %in% c("slearner", "tlearner", "xlearner", "poisson"))) {
     if (length(ps_method_inf) == 0) {
       ps_method_inf <- "SL.xgboost"
     } else {
@@ -126,7 +126,7 @@ check_method_params <- function(y, X_names, ite, params) {
 
   # Outcome Regression Score Estimation Parameters Check -----------------------
   oreg_method_dis <- getElement(params, "oreg_method_dis")
-  if (ite_method_dis %in% c("aipw")) {
+  if (ite_method_dis %in% c("slearner", "tlearner", "xlearner", "aipw")) {
     if (length(oreg_method_dis) == 0) {
       oreg_method_dis <- "SL.xgboost"
     } else {
@@ -141,7 +141,7 @@ check_method_params <- function(y, X_names, ite, params) {
   params[["oreg_method_dis"]] <- oreg_method_dis
 
   oreg_method_inf <- getElement(params, "oreg_method_inf")
-  if (ite_method_inf %in% c("aipw")) {
+  if (ite_method_inf %in% c("slearner", "tlearner", "xlearner", "aipw")) {
     if (length(oreg_method_inf) == 0) {
       oreg_method_inf <- "SL.xgboost"
     } else {
@@ -154,17 +154,6 @@ check_method_params <- function(y, X_names, ite, params) {
     oreg_method_inf <- NA
   }
   params[["oreg_method_inf"]] <- oreg_method_inf
-
-  # Check Outcome Domain -------------------------------------------------------
-  binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
-  if (binary_outcome) {
-    if (ite_method_dis %in% c("bcf") |
-        ite_method_inf %in% c("bcf")) {
-      stop(paste("The 'bcf' methods is not ",
-                 "applicable to data with binary outcomes. Please select a ",
-                 "method from the following: 'aipw',' or', 'cf', or 'bart'"))
-    }
-  }
 
   # Offset Parameter Check------------------------------------------------------
 

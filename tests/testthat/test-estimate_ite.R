@@ -44,6 +44,33 @@ test_that("ITE Estimated Correctly", {
                               oreg_method = oreg_method)))
 
   # Correct outputs
+  ite_method <- "slearner"
+  ite <- estimate_ite(y = dts_1$y, z = dts_1$z, X = dts_1$X,
+                      ite_method,
+                      include_ps = include_ps,
+                      ps_method = ps_method,
+                      oreg_method = oreg_method)
+  expect_true(class(ite) == "numeric")
+  expect_true(length(ite) == length(dts_1$y))
+
+  ite_method <- "tlearner"
+  ite <- estimate_ite(y = dts_1$y, z = dts_1$z, X = dts_1$X,
+                      ite_method,
+                      include_ps = include_ps,
+                      ps_method = ps_method,
+                      oreg_method = oreg_method)
+  expect_true(class(ite) == "numeric")
+  expect_true(length(ite) == length(dts_1$y))
+
+  ite_method <- "xlearner"
+  ite <- estimate_ite(y = dts_1$y, z = dts_1$z, X = dts_1$X,
+                      ite_method,
+                      include_ps = include_ps,
+                      ps_method = ps_method,
+                      oreg_method = oreg_method)
+  expect_true(class(ite) == "numeric")
+  expect_true(length(ite) == length(dts_1$y))
+
   ite_method <- "bart"
   ite <- estimate_ite(y = dts_1$y, z = dts_1$z, X = dts_1$X,
                       ite_method,
@@ -69,15 +96,6 @@ test_that("ITE Estimated Correctly", {
                       ps_method = ps_method,
                       oreg_method = oreg_method,
                       offset = NULL)
-  expect_true(class(ite) == "numeric")
-  expect_true(length(ite) == length(dts_1$y))
-
-  ite_method <- "oreg"
-  ite <- estimate_ite(y = dts_1$y, z = dts_1$z, X = dts_1$X,
-                      ite_method,
-                      include_ps = include_ps,
-                      ps_method = ps_method,
-                      oreg_method = oreg_method)
   expect_true(class(ite) == "numeric")
   expect_true(length(ite) == length(dts_1$y))
 

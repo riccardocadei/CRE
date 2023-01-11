@@ -12,16 +12,21 @@
 #' Some methods requires additional parameters. These parameters are mentioned
 #' in the indented blocks for each method and their definitions are provided at
 #' the end of this parameters list.
-#'   - `aipw`: Augmented Inverse Propensity Weighting.
+#'   - `slearner`: S-Learner.
+#'     - `oreg_method`
+#'   - `tlearner`: T-Learner.
+#'     - `oreg_method`
+#'   - `xlearner`: X-Learner.
+#'     - `oreg_method`
+#'   - `aipw`: Augmented Inverse Probability Weighting.
 #'     - `ps_method` and  `oreg_method`
-#'   - `oreg`: Outcome Regression.
 #'   - `bart`: Bayesian Additive Regression Trees.
 #'     - `include_ps` and `ps_method`
 #'   - `bcf`: Bayesian Causal Forest.
 #'     - `ps_method`
 #'   - `cf`: Causal Forest.
 #'     - `include_ps` and `ps_method`
-#'   - `poisson`: Poisson Estimation.
+#'   - `poisson`: Poisson Regression.
 #'     - `X_names`, `offset`
 #' @param ... Additional parameters passed to different models.
 #' @details
@@ -32,6 +37,8 @@
 #'   includes libraries for the SuperLearner package.
 #'   - **oreg_method**: An estimation model for the outcome regressions. This
 #'   includes libraries for the SuperLearner package.
+#'   - **X_names**: The names of the covariates.
+#'   (TODO: Remove from input params.)
 #'   - **offset**: Name of the covariate to use as offset (i.e. 'x1') for
 #'     Poisson ITE Estimation. `NULL` if offset is not used.
 #'
@@ -66,11 +73,18 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
     }
   }
 
-  if (ite_method == "aipw") {
+  if (ite_method == "slearner") {
+    check_args(c('oreg_method'), arg_names)
+    ite <- estimate_ite_slearner(y, z, X, ps_method)
+  } else if (ite_method == "tlearner") {
+    check_args(c("oreg_method"), arg_names)
+    ite <- estimate_ite_tlearner(y, z, X, ps_method)
+  } else if (ite_method == "xlearner") {
+    check_args(c("oreg_method"), arg_names)
+    ite <- estimate_ite_xlearner(y, z, X, ps_method)
+  }else if (ite_method == "aipw") {
     check_args(c("ps_method", "oreg_method"), arg_names)
     ite <- estimate_ite_aipw(y, z, X, ps_method, oreg_method)
-  } else if (ite_method == "oreg") {
-    ite <- estimate_ite_oreg(y, z, X)
   } else if (ite_method == "bart") {
     check_args(c("include_ps", "ps_method"), arg_names)
     ite <- estimate_ite_bart(y, z, X, include_ps, ps_method)
@@ -85,7 +99,8 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
     ite <- estimate_ite_poisson(y, z, X, offset)
   } else {
     stop(paste("Invalid ITE method. Please choose from the following:\n",
-               "'aipw', 'oreg', 'bart', 'bcf', 'cf' or 'poisson"))
+               "'slearner', 'tlearner', 'xlearner', 'aipw', 'bart', 'bcf', ",
+               "'cf' or 'poisson'"))
   }
 
   binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)

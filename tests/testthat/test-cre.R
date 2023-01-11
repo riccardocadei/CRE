@@ -84,7 +84,7 @@ test_that("cre Runs Correctly", {
   method_params[["oreg_method_inf"]] <- "SL.xgboost"
   method_params[["ite_method_dis"]] <- "bcf"
   y_temp <- ifelse(y > 0, 1, 0)
-  expect_error(cre(y_temp, z, X, method_params, hyper_params))
+  expect_warning(expect_error(cre(y_temp, z, X, method_params, hyper_params)))
 
   method_params[["ite_method_dis"]] <- "poisson"
   method_params[["offset"]] <- "test"
