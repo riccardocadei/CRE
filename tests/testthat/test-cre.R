@@ -12,16 +12,12 @@ test_that("cre Runs Correctly", {
                         ite_method_dis = "bart",
                         ps_method_dis = "SL.xgboost",
                         oreg_method_dis = "SL.xgboost",
-                        include_ps_dis = TRUE,
                         ite_method_inf = "bart",
                         ps_method_inf = "SL.xgboost",
-                        oreg_method_inf = "SL.xgboost",
-                        include_ps_inf = TRUE,
-                        cate_method = "DRLearner",
-                        cate_SL_library = "SL.xgboost",
-                        offset = NULL)
+                        oreg_method_inf = "SL.xgboost")
 
  hyper_params <- list(intervention_vars = NULL,
+                      offset = NULL,
                       ntrees_rf = 20,
                       ntrees_gbm = 20,
                       node_size = 10,
@@ -79,10 +75,10 @@ test_that("cre Runs Correctly", {
   expect_warning(expect_error(cre(y_temp, z, X, method_params, hyper_params)))
 
   method_params[["ite_method_dis"]] <- "tpoisson"
-  method_params[["offset"]] <- "test"
+  hyper_params[["offset"]] <- "test"
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
-  method_params[["offset"]] <- NULL
+  hyper_params[["offset"]] <- NULL
   hyper_params[["ntrees_rf"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 

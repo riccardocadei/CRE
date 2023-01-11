@@ -171,11 +171,22 @@ check_hyper_params <- function(X_names, params) {
     for (intervention_var in intervention_vars) {
       if (!(intervention_var %in% X_names))
         stop(paste(intervention_var,
-              "variable is not observed. Please input a set of",
+              "variable is not observed. Please select a set of",
               "'intervention_vars' included among the observed covariates."))
     }
   }
   params[["intervention_vars"]] <- intervention_vars
+
+  # Check for correct offset input
+  offset <- getElement(params, "offset")
+  if (!is.null(offset)) {
+    if (!(offset %in% X_names)) {
+      stop(paste(offset,
+                 "variable is not observed. Please select a ",
+                 "'offset' included among the observed covariates."))
+    }
+  }
+  params[["offset"]] <- offset
 
   return(params)
 }

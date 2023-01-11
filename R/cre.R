@@ -27,13 +27,12 @@
 #'       inference subsample (default: 'SL.xgboost').
 #'     - *or_method_inf*: The estimation model for the outcome regressions in
 #'       estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
-#'   - *Other Parameters*
-#'     - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
-#'     Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 #' @param hyper_params The list of hyper parameters to finetune the method,
 #' including:
 #'  - *intervention_vars*: Intervention-able variables used for Rules Generation
 #'  (default: NULL).
+#'  - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
+#'     T-Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 #'  - *ntrees_rf*: A number of decision trees for random forest (default: 20).
 #'  - *ntrees_gbm*: A number of decision trees for the generalized boosted
 #' regression modeling algorithm.
@@ -90,10 +89,11 @@
 #'                       oreg_method_dis = "SL.xgboost",
 #'                       ite_method_inf = "aipw",
 #'                       ps_method_inf = "SL.xgboost",
-#'                       oreg_method_inf = "SL.xgboost",
-#'                       offset = NULL)
+#'                       oreg_method_inf = "SL.xgboost")
 #'
-#' hyper_params <- list(ntrees_rf = 100,
+#' hyper_params <- list(intervention_vars = NULL,
+#'                      offset = NULL,
+#'                      ntrees_rf = 20,
 #'                      ntrees_gbm = 20,
 #'                      node_size = 20,
 #'                      max_nodes = 5,
@@ -119,7 +119,6 @@ cre <- function(y, z, X,
   # Input checks ---------------------------------------------------------------
   logger::log_info("Checking parameters...")
   method_params <- check_method_params(y = y,
-                                       X_names = names(X),
                                        ite = ite,
                                        params = method_params)
   hyper_params <- check_hyper_params(X_names = names(X),

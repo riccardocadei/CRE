@@ -5,7 +5,6 @@
 #' Checks method-related parameters.
 #'
 #' @param y The observed response vector.
-#' @param X_names The observed covariates names.
 #' @param ite The estimated ITE vector.
 #' @param params The list of parameters required to run the method functions.
 #'
@@ -15,7 +14,7 @@
 #' A modified input `params`. A list of parameters that might be changed during
 #' the checks.
 #'
-check_method_params <- function(y, X_names, ite, params) {
+check_method_params <- function(y, ite, params) {
 
   # Honest Splitting Parameters Check ------------------------------------------
   ratio_dis <- getElement(params, "ratio_dis")
@@ -124,23 +123,8 @@ check_method_params <- function(y, X_names, ite, params) {
   }
   params[["oreg_method_inf"]] <- oreg_method_inf
 
-  # Offset Parameter Check------------------------------------------------------
 
-  offset <- getElement(params, "offset")
-  if ((ite_method_dis == "poisson") | (ite_method_inf == "poisson")) {
-    if (length(offset) == 0) {
-      offset <- NULL
-    } else {
-      if (!(offset %in% X_names))
-        stop("Offset varible is not observed. Please replace `offset` with an
-           observed varibale.")
-    }
-  } else {
-    offset <- NA
-  }
-  params[["offset"]] <- offset
-
-  # Discard ITE Parameters if ITE estimates are provided
+  # Discard ITE Parameters if ITE estimates are provided------------------------
   if (!is.null(ite)) {
     params[["ite_method_dis"]] <- "personalized"
     params[["ps_method_dis"]] <- NULL

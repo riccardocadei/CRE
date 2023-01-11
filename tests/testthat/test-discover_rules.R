@@ -12,14 +12,12 @@ test_that("discover_rules works as expected!", {
                         ite_method_dis = "bart",
                         ps_method_dis = "SL.xgboost",
                         oreg_method_dis = "SL.xgboost",
-                        include_ps_dis = TRUE,
                         ite_method_inf = "bart",
                         ps_method_inf = "SL.xgboost",
-                        oreg_method_inf = "SL.xgboost",
-                        include_ps_inf = TRUE,
-                        offset = NA)
+                        oreg_method_inf = "SL.xgboost")
 
-  hyper_params <- list(intervention_vars = c(),
+  hyper_params <- list(intervention_vars = NULL,
+                       offset = NULL,
                        ntrees_rf = 100,
                        ntrees_gbm = 50,
                        node_size = 20,
@@ -37,7 +35,7 @@ test_that("discover_rules works as expected!", {
 
   # Input checks
   check_input_data(y = y, z = z, X = X)
-  method_params <- check_method_params(y = y, X_names = names(X), ite = NULL,
+  method_params <- check_method_params(y = y, ite = NULL,
                                        params = method_params)
   check_hyper_params(params = hyper_params)
 

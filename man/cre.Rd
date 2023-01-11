@@ -39,11 +39,6 @@ inference subsample (default: 'SL.xgboost').
 \item \emph{or_method_inf}: The estimation model for the outcome regressions in
 estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
 }
-\item \emph{Other Parameters}
-\itemize{
-\item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
-Poisson ITE Estimation. NULL if offset is not used (default: NULL).
-}
 }}
 
 \item{hyper_params}{The list of hyper parameters to finetune the method,
@@ -51,6 +46,8 @@ including:
 \itemize{
 \item \emph{intervention_vars}: Intervention-able variables used for Rules Generation
 (default: NULL).
+\item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
+T-Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 \item \emph{ntrees_rf}: A number of decision trees for random forest (default: 20).
 \item \emph{ntrees_gbm}: A number of decision trees for the generalized boosted
 regression modeling algorithm.
@@ -113,10 +110,11 @@ method_params <- list(ratio_dis = 0.25,
                       oreg_method_dis = "SL.xgboost",
                       ite_method_inf = "aipw",
                       ps_method_inf = "SL.xgboost",
-                      oreg_method_inf = "SL.xgboost",
-                      offset = NULL)
+                      oreg_method_inf = "SL.xgboost")
 
-hyper_params <- list(ntrees_rf = 100,
+hyper_params <- list(intervention_vars = NULL,
+                     offset = NULL,
+                     ntrees_rf = 20,
                      ntrees_gbm = 20,
                      node_size = 20,
                      max_nodes = 5,
