@@ -9,8 +9,6 @@
 #' @param y An observed response vector.
 #' @param z A treatment vector.
 #' @param X A features matrix.
-#' @param include_ps Whether or not to include propensity score estimate as a
-#' covariate in ITE estimation.
 #' @param ps_method Method for the estimation of the propensity score.
 #'
 #' @return A list of ITE estimates.
@@ -20,9 +18,9 @@
 #'
 #' @keywords internal
 #'
-estimate_ite_bart <- function(y, z, X, include_ps, ps_method) {
+estimate_ite_bart <- function(y, z, X, ps_method) {
 
-  if (include_ps) {
+  if (!is.null(ps_method)) {
     est_ps <- estimate_ps(z, X, ps_method)
     X <- cbind(X, est_ps)
   }

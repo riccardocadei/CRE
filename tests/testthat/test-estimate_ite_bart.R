@@ -12,14 +12,13 @@ test_that("BART ITE Estimated Correctly", {
   ps_method <- "SL.xgboost"
 
   # Incorrect data inputs
-  expect_error(estimate_ite_bart(y = "test", z, X, include_ps, ps_method))
-  expect_error(estimate_ite_bart(y, z = "test", X, include_ps, ps_method))
-  expect_error(estimate_ite_bart(y, z, X = NA, include_ps, ps_method))
-  expect_error(estimate_ite_bart(y, z, X = NA, include_ps = "test", ps_method))
-  expect_error(estimate_ite_bart(y, z, X = NA, include_ps = NA, ps_method))
+  expect_error(estimate_ite_bart(y = "test", z, X, ps_method))
+  expect_error(estimate_ite_bart(y, z = "test", X, ps_method))
+  expect_error(estimate_ite_bart(y, z, X = NA, ps_method))
+  expect_error(estimate_ite_bart(y, z, X, ps_method = NA))
 
   # Correct outputs
-  ite <- estimate_ite_bart(y, z, X, include_ps, ps_method)
+  ite <- estimate_ite_bart(y, z, X, ps_method)
   expect_true(length(ite) == length(y))
   expect_true(class(ite) == "numeric")
 })

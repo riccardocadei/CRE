@@ -29,6 +29,8 @@ estimations.
 domain.
 
 ## Removed
+* `include_ps_inf` method-parameter.
+* `include_ps_dis` method-parameter.
 * `oreg` method for ITE estimation.
 * `ipw` method for ITE estimation.
 * `sipw` method for ITE estimation.

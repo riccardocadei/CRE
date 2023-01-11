@@ -16,9 +16,6 @@
 #'   - *Parameters for Discovery*
 #'     - *ite_method_dis*: The method to estimate the discovery sample ITE
 #'     (default: 'aipw').
-#'     - *include_ps_dis*: Whether or not to include propensity score estimate
-#'       as a covariate in discovery ITE estimation, considered only for BART,
-#'       or CF (default: TRUE).
 #'     - *ps_method_dis*: The estimation model for the propensity score on the
 #'       discovery subsample (default: 'SL.xgboost').
 #'     - *or_method_dis*: The estimation model for the outcome regressions
@@ -26,9 +23,6 @@
 #'   - *Parameters for Inference*
 #'     - *ite_method_inf*: The method to estimate the inference sample ITE
 #'     (default: 'aipw').
-#'     - *include_ps_inf*: Whether or not to include propensity score estimate
-#'       as a covariate in inference ITE estimation, considered only for BART,
-#'       or CF (default: TRUE).
 #'     - *ps_method_inf*: The estimation model for the propensity score on the
 #'       inference subsample (default: 'SL.xgboost').
 #'     - *or_method_inf*: The estimation model for the outcome regressions in
@@ -94,11 +88,9 @@
 #'                       ite_method_dis="aipw",
 #'                       ps_method_dis = "SL.xgboost",
 #'                       oreg_method_dis = "SL.xgboost",
-#'                       include_ps_dis = TRUE,
 #'                       ite_method_inf = "aipw",
 #'                       ps_method_inf = "SL.xgboost",
 #'                       oreg_method_inf = "SL.xgboost",
-#'                       include_ps_inf = TRUE,
 #'                       offset = NULL)
 #'
 #' hyper_params <- list(ntrees_rf = 100,

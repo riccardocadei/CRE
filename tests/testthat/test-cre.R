@@ -50,14 +50,6 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   method_params[["ite_method_inf"]] <- "bart"
-  method_params[["include_ps_dis"]] <- "test"
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  method_params[["include_ps_dis"]] <- TRUE
-  method_params[["include_ps_inf"]] <- "test"
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  method_params[["include_ps_inf"]] <- TRUE
   method_params[["ite_method_dis"]] <- "poisson"
   method_params[["ps_method_dis"]] <- 1
   expect_error(cre(y, z, X, method_params, hyper_params))

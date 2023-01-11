@@ -12,7 +12,7 @@ test_that("ITE Estimated Correctly", {
   ite_method <- "bart"
   include_ps <- TRUE
   ps_method <- "SL.xgboost"
-  oreg_method <- NA
+  oreg_method <- "SL.xgboost"
   ntrees <- 100
   node_size <- 20
   max_nodes <- 5
@@ -47,8 +47,6 @@ test_that("ITE Estimated Correctly", {
   ite_method <- "slearner"
   ite <- estimate_ite(y = dts_1$y, z = dts_1$z, X = dts_1$X,
                       ite_method,
-                      include_ps = include_ps,
-                      ps_method = ps_method,
                       oreg_method = oreg_method)
   expect_true(class(ite) == "numeric")
   expect_true(length(ite) == length(dts_1$y))
@@ -56,8 +54,6 @@ test_that("ITE Estimated Correctly", {
   ite_method <- "tlearner"
   ite <- estimate_ite(y = dts_1$y, z = dts_1$z, X = dts_1$X,
                       ite_method,
-                      include_ps = include_ps,
-                      ps_method = ps_method,
                       oreg_method = oreg_method)
   expect_true(class(ite) == "numeric")
   expect_true(length(ite) == length(dts_1$y))
@@ -65,8 +61,6 @@ test_that("ITE Estimated Correctly", {
   ite_method <- "xlearner"
   ite <- estimate_ite(y = dts_1$y, z = dts_1$z, X = dts_1$X,
                       ite_method,
-                      include_ps = include_ps,
-                      ps_method = ps_method,
                       oreg_method = oreg_method)
   expect_true(class(ite) == "numeric")
   expect_true(length(ite) == length(dts_1$y))

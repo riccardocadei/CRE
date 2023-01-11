@@ -21,18 +21,16 @@
 #'   - `aipw`: Augmented Inverse Probability Weighting.
 #'     - `ps_method` and  `oreg_method`
 #'   - `bart`: Bayesian Additive Regression Trees.
-#'     - `include_ps` and `ps_method`
+#'     - `ps_method`
 #'   - `bcf`: Bayesian Causal Forest.
 #'     - `ps_method`
 #'   - `cf`: Causal Forest.
-#'     - `include_ps` and `ps_method`
+#'     - `ps_method`
 #'   - `poisson`: Poisson Regression.
 #'     - `X_names`, `offset`
 #' @param ... Additional parameters passed to different models.
 #' @details
 #' ## Additional parameters
-#'   - **include_ps**: Whether or not to include propensity score estimate as a
-#'   covariate in ITE estimation.
 #'   - **ps_method**: An estimation method for the propensity score. This
 #'   includes libraries for the SuperLearner package.
 #'   - **oreg_method**: An estimation model for the outcome regressions. This
@@ -52,7 +50,7 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
 
   # Address visible binding error.
   offset <- oreg_method <- NULL
-  include_ps <- ps_method <- ps_method_dis <- ps_method_inf <- NULL
+  ps_method <- ps_method_dis <- ps_method_inf <- NULL
 
 
 
@@ -75,25 +73,25 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
 
   if (ite_method == "slearner") {
     check_args(c('oreg_method'), arg_names)
-    ite <- estimate_ite_slearner(y, z, X, ps_method)
+    ite <- estimate_ite_slearner(y, z, X, oreg_method)
   } else if (ite_method == "tlearner") {
     check_args(c("oreg_method"), arg_names)
-    ite <- estimate_ite_tlearner(y, z, X, ps_method)
+    ite <- estimate_ite_tlearner(y, z, X, oreg_method)
   } else if (ite_method == "xlearner") {
     check_args(c("oreg_method"), arg_names)
-    ite <- estimate_ite_xlearner(y, z, X, ps_method)
+    ite <- estimate_ite_xlearner(y, z, X, oreg_method)
   }else if (ite_method == "aipw") {
     check_args(c("ps_method", "oreg_method"), arg_names)
     ite <- estimate_ite_aipw(y, z, X, ps_method, oreg_method)
   } else if (ite_method == "bart") {
-    check_args(c("include_ps", "ps_method"), arg_names)
-    ite <- estimate_ite_bart(y, z, X, include_ps, ps_method)
+    check_args(c("ps_method"), arg_names)
+    ite <- estimate_ite_bart(y, z, X, ps_method)
   } else if (ite_method == "bcf") {
     check_args(c('ps_method'), arg_names)
     ite <- estimate_ite_bcf(y, z, X, ps_method)
   } else if (ite_method == "cf") {
-    check_args(c("include_ps", "ps_method"), arg_names)
-    ite <- estimate_ite_cf(y, z, X, include_ps, ps_method)
+    check_args(c("ps_method"), arg_names)
+    ite <- estimate_ite_cf(y, z, X, ps_method)
   } else if (ite_method == "poisson") {
     check_args(c("offset"), arg_names)
     ite <- estimate_ite_poisson(y, z, X, offset)

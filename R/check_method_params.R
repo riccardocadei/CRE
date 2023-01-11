@@ -62,37 +62,6 @@ check_method_params <- function(y, X_names, ite, params) {
 
 
   # Propensity Score Estimation Parameters Check--------------------------------
-  include_ps_dis <- toupper(getElement(params, "include_ps_dis"))
-  if (ite_method_dis %in% c("bart", "cf")) {
-    if (length(include_ps_dis) == 0) {
-      include_ps_dis <- TRUE
-    } else {
-      if (!(include_ps_dis %in% c(TRUE, FALSE))) {
-        stop(
-          "Please specify 'TRUE' or 'FALSE' for the include_ps_dis argument."
-          )
-      }
-    }
-  } else {
-    include_ps_dis <- TRUE
-  }
-  params[["include_ps_dis"]] <- include_ps_dis
-
-  include_ps_inf <- toupper(getElement(params, "include_ps_inf"))
-  if (ite_method_inf %in% c("bart", "cf")) {
-    if (length(include_ps_inf) == 0) {
-      include_ps_inf <- TRUE
-    } else {
-      if (!(include_ps_inf %in% c(TRUE, FALSE))) {
-        stop(
-          "Please specify 'TRUE' or 'FALSE' for the include_ps_inf argument."
-          )
-      }
-    }
-  } else {
-    include_ps_inf <- TRUE
-  }
-  params[["include_ps_inf"]] <- include_ps_inf
 
   ps_method_dis <- getElement(params, "ps_method_dis")
   if (!(ite_method_dis %in% c("slearner", "tlearner", "xlearner", "poisson"))) {
@@ -174,13 +143,11 @@ check_method_params <- function(y, X_names, ite, params) {
   # Discard ITE Parameters if ITE estimates are provided
   if (!is.null(ite)) {
     params[["ite_method_dis"]] <- "personalized"
-    params[["include_ps_dis"]] <- FALSE
-    params[["ps_method_dis"]] <- FALSE
-    params[["or_method_dis"]] <- FALSE
+    params[["ps_method_dis"]] <- NULL
+    params[["or_method_dis"]] <- NULL
     params[["ite_method_inf"]] <- "personalized"
-    params[["include_ps_inf"]] <- FALSE
-    params[["ps_method_inf"]] <- FALSE
-    params[["or_method_inf"]] <- FALSE
+    params[["ps_method_inf"]] <- NULL
+    params[["or_method_inf"]] <- NULL
   }
 
   return(params)

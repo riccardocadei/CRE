@@ -13,14 +13,12 @@ z <- dataset[["z"]]
 X <- dataset[["X"]]
 
 method_params = list(ratio_dis = 0.25,
-                     ite_method_dis = "aipw",
-                     include_ps_dis = TRUE,
+                     ite_method_dis = "xlearner",
                      ps_method_dis = "SL.xgboost",
                      ps_method_inf = "SL.xgboost",
                      oreg_method_dis = "SL.xgboost",
                      oreg_method_inf = "SL.xgboost",
-                     ite_method_inf = "aipw",
-                     include_ps_inf = TRUE,
+                     ite_method_inf = "xlearner",
                      offset = NULL)
 
 hyper_params = list(intervention_vars = c(),

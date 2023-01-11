@@ -44,12 +44,10 @@ __Data (required)__
 __Parameters (not required)__    
 **`method_parameters`** The list of parameters to define the models used, including:
 - **`ratio_dis`** The ratio of data delegated to the discovery sub-sample (default: 0.5). 
-- **`ite_method_dis`** The method to estimate the individual treatment effect (ITE) on the discovery sub-sample (default: 'aipw') [1].    
-- **`include_ps_dis`**  Whether or not to include propensity score estimate as a covariate in discovery ITE estimation, considered only for BART, or CF (default: TRUE).    
+- **`ite_method_dis`** The method to estimate the individual treatment effect (ITE) on the discovery sub-sample (default: 'aipw') [1].        
 - **`ps_method_dis`** The estimation model for the propensity score on the discovery sub-sample (default: 'SL.xgboost').     
 - **`or_method_dis`** The estimation model for the outcome regressions estimate_ite_aipw on the discovery sub-sample (default: 'SL.xgboost').      
-- **`ite_method_inf`** The method to estimate the individual treatment effect (ITE) on the infernce sub-sample (default: 'aipw') [1].    
-- **`include_ps_inf`** Whether or not to include propensity score estimate as a covariate in inference ITE estimation, considered only for BART, or CF (default: TRUE).     
+- **`ite_method_inf`** The method to estimate the individual treatment effect (ITE) on the infernce sub-sample (default: 'aipw') [1].       
 - **`ps_method_inf`** The estimation model for the propensity score on the inference subsample (default: 'SL.xgboost').     
 - **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').     
 - **`offset`** Name of the covariate to use as offset (i.e. 'x1') for Poisson ITE Estimation. NULL if offset is not used (default: NULL).
@@ -152,11 +150,9 @@ plot(cre_results)
                        ite_method_dis="aipw",
                        ps_method_dis = "SL.xgboost",
                        oreg_method_dis = "SL.xgboost",
-                       include_ps_dis = TRUE,
                        ite_method_inf = "aipw",
                        ps_method_inf = "SL.xgboost",
                        oreg_method_inf = "SL.xgboost",
-                       include_ps_inf = TRUE,
                        offset = NULL)
 
  hyper_params = list(interaction_vars = NULL,
