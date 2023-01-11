@@ -34,13 +34,11 @@ check_method_params <- function(y, X_names, ite, params) {
   if (length(ite_method_dis) == 0) {
     ite_method_dis <- "aipw"
   } else {
-    if (!(ite_method_dis %in% c(
-      "ipw", "sipw", "aipw", "oreg", "bart",
-      "bcf", "cf", "poisson"
-    ))) {
+    if (!(ite_method_dis %in% c("aipw", "oreg",
+                                "bart","bcf", "cf", "poisson"))) {
       stop(paste(
         "Invalid ITE method for Discovery Subsample. Please choose ",
-        "from the following:\n", "'ipw', 'sipw', 'aipw', oreg', 'bart', ",
+        "from the following:\n", "'aipw', oreg', 'bart', ",
         "'bcf', 'cf', or 'poisson'"
       ))
     }
@@ -51,13 +49,11 @@ check_method_params <- function(y, X_names, ite, params) {
   if (length(ite_method_inf) == 0) {
     ite_method_inf <- "aipw"
   } else {
-    if (!(ite_method_inf %in% c(
-      "ipw", "sipw", "aipw", "oreg", "bart",
-      "bcf", "cf", "poisson"
-    ))) {
+    if (!(ite_method_dis %in% c("aipw", "oreg",
+                                "bart","bcf", "cf", "poisson"))) {
       stop(paste(
         "Invalid ITE method for Inference Subsample. Please choose ",
-        "from the following: 'ipw', 'sipw', 'aipw', 'oreg', 'bart', ",
+        "from the following:\n", "'aipw', oreg', 'bart', ",
         "'bcf', 'cf', or 'poisson'"
       ))
     }
@@ -162,9 +158,9 @@ check_method_params <- function(y, X_names, ite, params) {
   # Check Outcome Domain -------------------------------------------------------
   binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
   if (binary_outcome) {
-    if (ite_method_dis %in% c("bcf", "ipw", "sipw") |
-        ite_method_inf %in% c("bcf", "ipw", "sipw")) {
-      stop(paste("The 'ipw', 'sipw', and 'bcf' methods are not ",
+    if (ite_method_dis %in% c("bcf") |
+        ite_method_inf %in% c("bcf")) {
+      stop(paste("The 'bcf' methods is not ",
                  "applicable to data with binary outcomes. Please select a ",
                  "method from the following: 'aipw',' or', 'cf', or 'bart'"))
     }

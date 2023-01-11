@@ -26,6 +26,7 @@ estimations.
 domain.
 
 ## Removed
+* `ipw` and `sipw` ITE estimators.
 * ITE standard deviation estimation.
 * `type_decay` hyper-parameter.
 * Keep only `linreg` for CATE estimation (remove `cate_method` and 
