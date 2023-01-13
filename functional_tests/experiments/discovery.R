@@ -7,27 +7,29 @@ n_rules <- 2
 sample_size <- 2000
 effect_sizes <- seq(0, 4, 0.2)
 confoundings <- c("no","lin","nonlin")
-ITE_estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner")
+ITE_estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner","bart")
 n_seeds <- 200
 ratio_dis <- 0.5
 
 # Set Ground Truth
 {
-  cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
+  dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
            "x4<=0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
   em <- c("x1","x2","x5","x6","x4","x7","x8")
   if (n_rules==2) {
-    cdr<-cdr[1:2]
+    dr <- dr[1:2]
     em <- em[1:4]
   } else if (n_rules==4) {
-  } else {stop(paste("Synthtic dataset with", n_rules,"rules has not been
-                    implemented yet. Set 'n_rules' equal to 2 or 4 (rules)."))}
+  } else {
+    stop(paste("Synthtic dataset with", n_rules,"rules has not been
+                implemented yet. Set 'n_rules' equal to 2 or 4 (rules)."))
+  }
 }
 
 # Set Method and Hyper Parameters
 {
   method_params <- list(ratio_dis = ratio_dis,
-                        ite_method_dis="aipw",
+                        ite_method_dis = "aipw",
                         ps_method_dis = "SL.xgboost",
                         oreg_method_dis = "SL.xgboost",
                         ite_method_inf = "aipw",
@@ -68,7 +70,7 @@ for (confounding in confoundings) {
       # CRE (estimator i)
       time.before <- proc.time()
       discovery_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
-        library("devtools")
+        library(devtools)
         load_all()
         set.seed(seed)
 
@@ -91,17 +93,17 @@ for (confounding in confoundings) {
         hyper_params[["pfer"]] <- 1/((effect_size+1))
         result <- cre(y, z, X, method_params, hyper_params)
 
-        cdr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
-        metrics_cdr <- evaluate(cdr, cdr_pred)
+        dr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
+        metrics_dr <- evaluate(dr, dr_pred)
 
-        em_pred <- extract_effect_modifiers(cdr_pred, X_names)
+        em_pred <- extract_effect_modifiers(dr_pred, X_names)
         metrics_em <- evaluate(em, em_pred)
 
         method <- paste("CRE (", ITE_estimator, ")", sep = "")
         return(c(method, effect_size, seed,
-                 metrics_cdr$IoU,
-                 metrics_cdr$precision,
-                 metrics_cdr$recall,
+                 metrics_dr$IoU,
+                 metrics_dr$precision,
+                 metrics_dr$recall,
                  metrics_em$IoU,
                  metrics_em$precision,
                  metrics_em$recall))
@@ -177,23 +179,23 @@ for (confounding in confoundings) {
       }
       leaves_dfs <- rep(FALSE,length(rules))
       leaves_dfs[unique(pruned$where)] <- TRUE
-      cdr_pred <- unlist(rules.ctree[rules[leaves_dfs]])
-      for (i in 1:length(cdr_pred)){
-        cdr_pred[i] <- gsub("< ", "<=", cdr_pred[i])
-        cdr_pred[i] <- gsub(">=", ">", cdr_pred[i])
+      dr_pred <- unlist(rules.ctree[rules[leaves_dfs]])
+      for (i in 1:length(dr_pred)){
+        dr_pred[i] <- gsub("< ", "<=", dr_pred[i])
+        dr_pred[i] <- gsub(">=", ">", dr_pred[i])
       }
       # Predict
       ite_pred <- predict(pruned, X)
 
-      metrics_cdr <- evaluate(cdr,cdr_pred)
+      metrics_dr <- evaluate(dr,dr_pred)
 
-      em_pred <- extract_effect_modifiers(cdr_pred, X_names)
+      em_pred <- extract_effect_modifiers(dr_pred, X_names)
       metrics_em <- evaluate(em,em_pred)
 
       return(c("HCT", effect_size, seed,
-               metrics_cdr$IoU,
-               metrics_cdr$precision,
-               metrics_cdr$recall,
+               metrics_dr$IoU,
+               metrics_dr$precision,
+               metrics_dr$recall,
                metrics_em$IoU,
                metrics_em$precision,
                metrics_em$recall))
@@ -203,7 +205,7 @@ for (confounding in confoundings) {
     print(paste("HCT (Time: ",round((time.after - time.before)[[3]],2), "sec)"))
   }
   colnames(discovery) <- c("method","effect_size","seed",
-                           "cdr_IoU","cdr_Precision","cdr_Recall",
+                           "dr_IoU","dr_Precision","dr_Recall",
                            "em_IoU","em_Precision","em_Recall")
   rownames(discovery) <- 1:nrow(discovery)
 

@@ -7,18 +7,20 @@ n_rules <- 2
 sample_size <- 5000
 effect_size <- 5
 confoundings <- c("no","lin","nonlin")
-ite_estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner")
+ite_estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner","bart")
 n_seeds <- 200
 ratio_dis <- 0.5
 
 # Set Ground Truth
 {
-  cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
+  dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
            "x4<=0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
-  if (n_rules==2) { cdr<-cdr[1:2]
+  if (n_rules==2) { dr<-dr[1:2]
   } else if (n_rules==4) {
-  } else {stop(paste("Synthtic dataset with", n_rules,"rules has not been
-                    implemented yet. Set 'n_rules' equal to 2 or 4 (rules)."))}
+  } else {
+    stop(paste("Synthtic dataset with", n_rules,"rules has not been
+                    implemented yet. Set 'n_rules' equal to 2 or 4 (rules)."))
+  }
 }
 
 # Set Method and Hyper Parameters
@@ -88,7 +90,7 @@ for (confounding in confoundings) {
 
       method <- paste("CRE (",ite_estimator,")", sep = "")
       betas <- c()
-      for (rule in cdr){
+      for (rule in dr){
         beta <- result$CATE$Estimate[result$CATE$Rule==rule]
         betas <- c(betas,beta)
       }
