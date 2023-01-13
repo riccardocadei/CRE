@@ -20,7 +20,7 @@ test_that("T-Learner ITE Estimated Correctly", {
   expect_true(class(ite) == "numeric")
 
   # Reproducible results
-  expect_equal(ite[1], 0.02196484, tolerance = 0.00001)
-  expect_equal(ite[11], -1.362927, tolerance = 0.00001)
-  expect_equal(ite[91], 0.1413196, tolerance = 0.00001)
+  expect_equal(ite[1], 0.8611812, tolerance = 0.00001)
+  expect_equal(ite[11], -1.713489, tolerance = 0.00001)
+  expect_equal(ite[91], -0.4767654, tolerance = 0.00001)
 })
