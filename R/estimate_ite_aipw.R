@@ -29,6 +29,7 @@ estimate_ite_aipw <- function(y, z, X, ps_method = "SL.xgboost",
                           family = gaussian(),
                           SL.library = oreg_method,
                           cvControl = list(V=0))
+  if (sum(y_model$coef)==0) y_model$coef[1] <- 1
 
   y_0_hat <- predict(y_model,
                     data.frame(X = X, Z = rep(0, nrow(X))),

@@ -24,6 +24,7 @@ estimate_ite_tlearner <- function(y, z, X, oreg_method = "SL.xgboost") {
                             family = gaussian(),
                             SL.library = oreg_method,
                             cvControl = list(V=0))
+  if (sum(y_0_model$coef)==0) y_0_model$coef[1] <- 1
   y_0_hat <- predict(y_0_model, X, onlySL = TRUE)$pred
 
   y_1_model <- SuperLearner(Y = y[z==1],
@@ -31,6 +32,7 @@ estimate_ite_tlearner <- function(y, z, X, oreg_method = "SL.xgboost") {
                             family = gaussian(),
                             SL.library = oreg_method,
                             cvControl = list(V=0))
+  if (sum(y_1_model$coef)==0) y_1_model$coef[1] <- 1
   y_1_hat <- predict(y_1_model, X, onlySL = TRUE)$pred
 
   ite <- as.vector(y_1_hat - y_0_hat)

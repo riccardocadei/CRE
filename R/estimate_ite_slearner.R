@@ -23,10 +23,12 @@ estimate_ite_slearner <- function(y, z, X, oreg_method = "SL.xgboost") {
                           family = gaussian(),
                           SL.library = oreg_method,
                           cvControl = list(V=0))
+  if (sum(y_model$coef)==0) y_model$coef[1] <- 1
 
   y_0_hat <- predict(y_model,
                      data.frame(X = X, Z = rep(0, nrow(X))),
                      onlySL = TRUE)$pred
+
   y_1_hat <- predict(y_model,
                      data.frame(X = X, Z = rep(1, nrow(X))),
                      onlySL = TRUE)$pred
