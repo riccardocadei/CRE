@@ -24,6 +24,10 @@ test_that("generate_cre_dataset works as expected.", {
                                     n_rules = "test", p = 10, effect_size = 0.5,
                                     binary_outcome = FALSE))
 
+  expect_error(generate_cre_dataset(n = 100, rho = 0,
+                                    n_rules = 3, p = 10, effect_size = 0.5,
+                                    binary_outcome = TRUE))
+
   # Incorrect effect_size input
   expect_error(generate_cre_dataset(n = 100, rho = 0,
                                     n_rules = 2, p = 10, effect_size = "test",

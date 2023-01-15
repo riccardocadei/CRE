@@ -97,24 +97,28 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
     y0 <- stats::rnorm(n, mean = mean, sd = 1)
     y1 <- y0
   }
-  if (n_rules == 1) {
+  if (n_rules >= 1) {
     y0[X$x1 > 0.5 & X$x2 <= 0.5] <- y0[X$x1 > 0.5 & X$x2 <= 0.5] + effect_size
-  } else if (n_rules == 2) {
-    y0[X$x1 > 0.5 & X$x2 <= 0.5] <- y0[X$x1 > 0.5 & X$x2 <= 0.5] + effect_size
+  }
+  if (n_rules >= 2) {
     y1[X$x5 > 0.5 & X$x6 <= 0.5] <- y1[X$x5 > 0.5 & X$x6 <= 0.5] + effect_size
-  } else if (n_rules == 3) {
-    y0[X$x1 > 0.5 & X$x2 <= 0.5] <- y0[X$x1 > 0.5 & X$x2 <= 0.5] + effect_size
-    y1[X$x5 > 0.5 & X$x6 <= 0.5] <- y1[X$x5 > 0.5 & X$x6 <= 0.5] + effect_size
+  }
+  if (n_rules >= 3) {
+    if (binary_outcome) {
+      stop(paste("Synthtic dataset with binary outcome and ", n_rules,
+                 "rules has not been implemented yet. ",
+                 "Available 'n_rules' options: {1,2}."))
+    }
     y0[X$x4 > 0.5] <- y0[X$x4 > 0.5] + 2*effect_size
-  } else if (n_rules == 4) {
-    y0[X$x1 > 0.5 & X$x2 <= 0.5] <- y0[X$x1 > 0.5 & X$x2 <= 0.5] + effect_size
-    y1[X$x5 > 0.5 & X$x6 <= 0.5] <- y1[X$x5 > 0.5 & X$x6 <= 0.5] + effect_size
-    y0[X$x4 > 0.5] <- y0[X$x4 > 0.5] + 2*effect_size
+  }
+  if (n_rules >= 4) {
     y1[X$x5 <= 0.5 & X$x7 > 0.5 & X$x8 <= 0.5] <-
-      y1[X$x5 <= 0.5 & X$x7 > 0.5 & X$x8 <= 0.5] + 2*effect_size
-  } else {
-    stop(paste("Synthtic dataset with", n_rules,"rules has not been",
-              "implemented yet. Available 'n_rules' options: {1,2,3,4}."))
+                y1[X$x5 <= 0.5 & X$x7 > 0.5 & X$x8 <= 0.5] + 2*effect_size
+  }
+  if (n_rules >= 5) {
+    stop(paste("Synthtic dataset with continuos outcome and ", n_rules,
+               "rules has not been implemented yet. ",
+               "Available 'n_rules' options: {1,2,3,4}."))
   }
 
 
