@@ -6,16 +6,16 @@
 #'
 #' @param n An integer number that represents the number of observations.
 #' Non-integer values will be converted into an integer number.
-#' @param rho A positive double number (0,1) that represents the correlation
-#' within the covariates (default: 0).
-#' @param n_rules The number of causal rules, either 2 (default) or 4.
-#' @param effect_size The effect size magnitude in (0,+inf) (default: 2).
+#' @param rho A positive double number that represents the correlation
+#' within the covariates (default: 0, range: (0,1)).
+#' @param n_rules The number of causal rules. (default: 2, range: {1,2,3,4}).
+#' @param effect_size The effect size magnitude in (default: 2, range: >=0).
 #' @param p The number of covariates (default: 10).
 #' @param binary_covariates Whether to use binary or continuous covariates
 #' (default: TRUE).
 #' @param binary_outcome Whether to use binary or continuous outcomes
 #' (default: TRUE).
-#' @param confounding Only for continuous outcome,add confounding variables:
+#' @param confounding Only for continuous outcome, add confounding variables:
 #' - Linear confounding "lin".
 #' - Non-linear confounding "nonlin".
 #' - No confounding "no" (default).
@@ -28,15 +28,15 @@
 #' - An individual treatment vector (`ite`)
 #'
 #' @note
-#' Set (binary/continuous) covariates domain (binary_covariates)
-#' Set (binary/continuous) outcome domain (binary_outcome)
+#' Set (binary/continuous) covariates domain (`binary_covariates`).
+#' Set (binary/continuous) outcome domain (`binary_outcome`).
 #' Increase complexity in heterogeneity discovery:
-#' - Decreasing the sample size (n)
-#' - adding correlation among variables (rho)
-#' - increasing the number of rules (n_rules)
-#' - increasing the number of covariates (p)
-#' - decreasing the absolute value of the causal effect (effect_size)
-#' - adding linear or not-linear confounders (confounding)
+#' - Decreasing the sample size (`n`),
+#' - adding correlation among variables (`rho`),
+#' - increasing the number of rules (`n_rules`),
+#' - increasing the number of covariates (`p`),
+#' - decreasing the absolute value of the causal effect (`effect_size`),
+#' - adding linear or not-linear confounders (`confounding`).
 #'
 #' @examples
 #' set.seed(123)
@@ -77,7 +77,6 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
   z <- stats::rbinom(n, 1, prob = prob)
 
   # Generate Causal Rules and Potential Outcomes
-  stopifnot(n_rules %in% c(2, 4))
   if (binary_outcome == TRUE) {
     y0 <- rep(0, n)
     y1 <- rep(0, n)
@@ -98,13 +97,26 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
     y0 <- stats::rnorm(n, mean = mean, sd = 1)
     y1 <- y0
   }
-  y0[X$x1 > 0.5 & X$x2 <= 0.5] <- y0[X$x1 > 0.5 & X$x2 <= 0.5] + effect_size
-  y1[X$x5 > 0.5 & X$x6 <= 0.5] <- y1[X$x5 > 0.5 & X$x6 <= 0.5] + effect_size
-  if (n_rules == 4) {
-    y0[X$x4 > 0.5] <- y0[X$x4 > 0.5] + effect_size
+  if (n_rules == 1) {
+    y0[X$x1 > 0.5 & X$x2 <= 0.5] <- y0[X$x1 > 0.5 & X$x2 <= 0.5] + effect_size
+  } else if (n_rules == 2) {
+    y0[X$x1 > 0.5 & X$x2 <= 0.5] <- y0[X$x1 > 0.5 & X$x2 <= 0.5] + effect_size
+    y1[X$x5 > 0.5 & X$x6 <= 0.5] <- y1[X$x5 > 0.5 & X$x6 <= 0.5] + effect_size
+  } else if (n_rules == 3) {
+    y0[X$x1 > 0.5 & X$x2 <= 0.5] <- y0[X$x1 > 0.5 & X$x2 <= 0.5] + effect_size
+    y1[X$x5 > 0.5 & X$x6 <= 0.5] <- y1[X$x5 > 0.5 & X$x6 <= 0.5] + effect_size
+    y0[X$x4 > 0.5] <- y0[X$x4 > 0.5] + 2*effect_size
+  } else if (n_rules == 4) {
+    y0[X$x1 > 0.5 & X$x2 <= 0.5] <- y0[X$x1 > 0.5 & X$x2 <= 0.5] + effect_size
+    y1[X$x5 > 0.5 & X$x6 <= 0.5] <- y1[X$x5 > 0.5 & X$x6 <= 0.5] + effect_size
+    y0[X$x4 > 0.5] <- y0[X$x4 > 0.5] + 2*effect_size
     y1[X$x5 <= 0.5 & X$x7 > 0.5 & X$x8 <= 0.5] <-
-        y1[X$x5 <= 0.5 & X$x7 > 0.5 & X$x8 <= 0.5] + effect_size
+      y1[X$x5 <= 0.5 & X$x7 > 0.5 & X$x8 <= 0.5] + 2*effect_size
+  } else {
+    stop(paste("Synthtic dataset with", n_rules,"rules has not been",
+              "implemented yet. Available 'n_rules' options: {1,2,3,4}."))
   }
+
 
   # Generate Outcome
   y <- y0 * (1 - z) + y1 * z

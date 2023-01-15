@@ -12,6 +12,7 @@
 * `cre` object: added parameters and ite estimation.
 
 ## Added
+* Syntethic data set with 1 or 3 rules (`generate_cre_dataset`).
 * S-Learner (`slearner`) method for ITE estimation.
 * T-Learner (`tlearner`) method for ITE estimation.
 * X-Learner (`xlearner`) method for ITE estimation.
