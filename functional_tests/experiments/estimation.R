@@ -10,16 +10,22 @@ confoundings <- c("no","lin","nonlin")
 ite_estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner","bart")
 n_seeds <- 200
 ratio_dis <- 0.5
+pfer <- 1/(effect_size+1)
 
 # Set Ground Truth
 {
-  dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
-           "x4<=0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
-  if (n_rules==2) { dr<-dr[1:2]
+  if (n_rules==1) {
+    dr <- c("x1>0.5 & x2<=0.5")
+  } else if (n_rules==2) {
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5")
+  } else if (n_rules==3) {
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5", "x4>0.5")
   } else if (n_rules==4) {
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
+            "x4>0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
   } else {
-    stop(paste("Synthtic dataset with", n_rules,"rules has not been
-                    implemented yet. Set 'n_rules' equal to 2 or 4 (rules)."))
+    stop(paste("Synthtic dataset with", n_rules,"rules has not been",
+               "implemented yet. Available 'n_rules' options: {1,2,3,4}."))
   }
 }
 
@@ -46,8 +52,8 @@ ratio_dis <- 0.5
                        t_pvalue = 0.05,
                        replace = TRUE,
                        stability_selection = TRUE,
-                       cutoff = 0.9,
-                       pfer = 1,
+                       cutoff = 0.8,
+                       pfer = pfer,
                        penalty_rl = 1)
 }
 
