@@ -53,7 +53,7 @@ __Parameters (not required)__
 
 **`hyper_params`** The list of hyper parameters to finetune the method, including:
 - **`intervention_vars`** Intervention-able variables used for Rules Generation (default: NULL).  
-- **`offset`** Name of the covariate to use as offset (i.e. 'x1') for Poisson ITE Estimation. NULL if offset is not used (default: NULL).
+- **`offset`** Name of the covariate to use as offset (i.e. 'x1') for T-Poisson ITE Estimation. NULL if not used (default: NULL).
 - **`ntrees_rf`** A number of decision trees for random forest (default: 20).   
 - **`ntrees_gbm`** A number of decision trees for the generalized boosted regression modeling algorithm. (default: 20).     
 - **`node_size`** Minimum size of the trees' terminal nodes (default: 20).
@@ -71,7 +71,7 @@ __Parameters (not required)__
 Rules Discovery (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2) (default: 1).
 
 __Additional Estimates (not required)__    
-**`ite`** The estimated ITE vector. If given, both the ITE estimation steps in Discovery and Inference are skipped (deault: NULL).
+**`ite`** The estimated ITE vector. If given, both the ITE estimation steps in Discovery and Inference are skipped (default: NULL).
 
 
 ## Notes
@@ -182,7 +182,17 @@ More synthetic data sets can be generated using `generate_cre_dataset()`.
 
 ## Simulations
 
-TODO
+Discovery.
+
+```r
+`CRE/functional_tests/experiments/discovery.R`
+```
+
+Estimation.
+
+```r
+`CRE/functional_tests/experiments/estimation.R`
+```
 
 
 ## References

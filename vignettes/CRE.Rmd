@@ -56,7 +56,7 @@ __Parameters (not required)__
 
 **`hyper_params`** The list of hyper parameters to finetune the method, including:
 - **`intervention_vars`** Intervention-able variables used for Rules Generation (default: NULL).   
-- **`offset`** Name of the covariate to use as offset (i.e. 'x1') for T-Poisson ITE Estimation. NULL if offset is not used (default: NULL).
+- **`offset`** Name of the covariate to use as offset (i.e. 'x1') for T-Poisson ITE Estimation. NULL if not used (default: NULL).
 - **`ntrees_rf`** A number of decision trees for random forest (default: 20).   
 - **`ntrees_gbm`** A number of decision trees for the generalized boosted regression modeling algorithm. (default: 20).     
 - **`node_size`** Minimum size of the trees' terminal nodes (default: 20).
