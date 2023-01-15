@@ -96,7 +96,7 @@ for (confounding in confoundings) {
 
         method_params[["ite_method_dis"]] <- ITE_estimator
         method_params[["ite_method_inf"]] <- ITE_estimator
-        hyper_params[["pfer"]] <- 1/((effect_size+1))
+        hyper_params[["pfer"]] <- n_rules/(effect_size+1)
         result <- cre(y, z, X, method_params, hyper_params)
 
         dr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]

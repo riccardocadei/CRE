@@ -7,7 +7,7 @@ effect_size <- 2
 confounding <- "no"
 ite_estimator_dis <- "tlearner"
 ite_estimator_inf <- "tlearner"
-pfer <- 1/((effect_size+1))
+pfer <- n_rules/(effect_size+1)
 
 # Set Method and Hyper Parameters
 method_params <- list(ratio_dis = 0.5,

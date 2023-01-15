@@ -10,7 +10,7 @@ confoundings <- c("no","lin","nonlin")
 ite_estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner","bart")
 n_seeds <- 200
 ratio_dis <- 0.5
-pfer <- 1/(effect_size+1)
+pfer <- n_rules/(effect_size+1)
 
 # Set Ground Truth
 {
