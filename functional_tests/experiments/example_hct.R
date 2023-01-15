@@ -10,15 +10,19 @@ ratio_dis <- 0.5
 
 # Set Ground Truth
 {
-  cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
-           "x4<=0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
-  em <- c("x1","x2","x5","x6","x4","x7","x8")
-  if (n_rules==2) {
-    cdr<-cdr[1:2]
-    em <- em[1:4]
+  if (n_rules==1) {
+    dr <- c("x1>0.5 & x2<=0.5")
+  } else if (n_rules==2) {
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5")
+  } else if (n_rules==3) {
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5", "x4>0.5")
   } else if (n_rules==4) {
-  } else {stop(paste("Synthtic dataset with", n_rules,"rules has not been
-                    implemented yet. Set 'n_rules' equal to 2 or 4 (rules)."))}
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
+            "x4>0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
+  } else {
+    stop(paste("Synthtic dataset with", n_rules,"rules has not been
+                implemented yet. Available 'n_rules' options: {1,2,3,4}."))
+  }
 }
 
 # Generate Dataset

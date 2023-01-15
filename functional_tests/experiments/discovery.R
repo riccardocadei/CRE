@@ -8,21 +8,27 @@ sample_size <- 2000
 effect_sizes <- seq(0, 4, 0.2)
 confoundings <- c("no","lin","nonlin")
 ITE_estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner","bart")
-n_seeds <- 200
+n_seeds <- 100
 ratio_dis <- 0.5
 
 # Set Ground Truth
 {
-  dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
-           "x4<=0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
-  em <- c("x1","x2","x5","x6","x4","x7","x8")
-  if (n_rules==2) {
-    dr <- dr[1:2]
-    em <- em[1:4]
+  if (n_rules==1) {
+    dr <- c("x1>0.5 & x2<=0.5")
+    em <- c("x1","x2")
+  } else if (n_rules==2) {
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5")
+    em <- c("x1","x2","x5","x6")
+  } else if (n_rules==3) {
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5", "x4>0.5")
+    em <- c("x1","x2","x5","x6","x4")
   } else if (n_rules==4) {
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
+            "x4>0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
+    em <- c("x1","x2","x5","x6","x4","x7","x8")
   } else {
-    stop(paste("Synthtic dataset with", n_rules,"rules has not been
-                implemented yet. Set 'n_rules' equal to 2 or 4 (rules)."))
+    stop(paste("Synthtic dataset with", n_rules,"rules has not been",
+               "implemented yet. Available 'n_rules' options: {1,2,3,4}."))
   }
 }
 
