@@ -98,16 +98,5 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
                "'slearner', 'tlearner', 'xlearner', 'aipw', 'bart', 'bcf', ",
                "'cf' or 'tpoisson'"))
   }
-
-  binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
-  if (binary_outcome) {
-    negative <- ite < -0.5
-    ite[negative] <- -1
-    positive <- ite > 0.5
-    ite[positive] <- +1
-    zero <- ite>=-0.5 & ite<=0.5
-    ite[zero] <- 0
-  }
-
   return(ite)
 }
