@@ -18,6 +18,7 @@
 #'
 extract_rules <- function(treelist, X, max_depth, digits = 2) {
 
+  if(is.numeric(digits)) digits <- as.integer(abs(digits))
   levelX = list()
   for (iX in 1:ncol(X)) levelX <- c(levelX,list(levels(X[,iX])))
   ntree = min(treelist$ntree)
@@ -28,14 +29,14 @@ extract_rules <- function(treelist, X, max_depth, digits = 2) {
     if (nrow(tree) <= 1) next # skip if there is no split
     ruleSet = vector("list", length(which(tree[,"status"]==-1)))
     res = inTrees::treeVisit(tree,
-                            rowIx = rowIx,
-                            count,
-                            ruleSet,
-                            rule,
-                            levelX,
-                            length = 0,
-                            max_length = max_depth,
-                            digits = digits)
+                             rowIx = rowIx,
+                             count,
+                             ruleSet,
+                             rule,
+                             levelX,
+                             length = 0,
+                             max_length = max_depth,
+                             digits = digits)
     allRulesList = c(allRulesList, res$ruleSet)
   }
 
