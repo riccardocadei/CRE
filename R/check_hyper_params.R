@@ -36,8 +36,8 @@ check_hyper_params <- function(X_names, params) {
   }
   params[["ntrees_gbm"]] <- ntrees_gbm
 
-  if (params[["ntrees_gbm"]]+params[["ntrees_rf"]] == 0) {
-    stop("The total number of trees (ntrees_rf+ntrees_gbm) has to be
+  if (params[["ntrees_gbm"]] + params[["ntrees_rf"]] == 0) {
+    stop("The total number of trees (ntrees_rf + ntrees_gbm) has to be
          greater than 0")
   }
 

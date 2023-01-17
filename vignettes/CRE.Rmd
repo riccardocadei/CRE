@@ -38,13 +38,15 @@ library("CRE")
 # Arguments
 
 __Data (required)__   
+
 **`y`** The observed response/outcome vector (binary or continuos).
 
 **`z`** The treatment/exposure/policy vector (binary).  
 
 **`X`** The covariate matrix (binary or continuos).    
 
-__Parameters (not required)__    
+__Parameters (not required)__   
+
 **`method_parameters`** The list of parameters to define the models used, including:
 - **`ratio_dis`** The ratio of data delegated to the discovery sub-sample (default: 0.5). 
 - **`ite_method_dis`** The method to estimate the individual treatment effect (ITE) on the discovery sub-sample (default: 'aipw') [1].       
@@ -72,7 +74,8 @@ __Parameters (not required)__
 - **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).
 - **`penalty_rl`** Order of penalty for rules length during LASSO for Regularization (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2) (default: 1).
 
-__Additional Estimates (not required)__    
+__Additional Estimates (not required)__  
+
 **`ite`** The estimated ITE vector. If given, both the ITE estimation steps in Discovery and Inference are skipped (default: NULL).
 
 

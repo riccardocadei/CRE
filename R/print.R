@@ -56,7 +56,7 @@ summary.cre <- function(object, verbose = 2, ...) {
 
     cat("\n- Causal Rules Discovery")
     cat("\n  - ITE")
-    if (getElement(params, "ite_method_dis")=="tpoisson") {
+    if (getElement(params, "ite_method_dis") == "tpoisson") {
       cat("\n    - Estimator       : tlearner")
       cat("\n    - Outcome         : poisson")
       cat("\n    - Offset          :", getElement(params, "offset"))

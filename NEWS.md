@@ -46,7 +46,7 @@ domain.
 * `random_state` parameter.
 * `include_offset` method parameter.
 
-## Solved
+## Bug fixes
 * Rules Generation Issue.
 
 
@@ -117,7 +117,7 @@ covariates.
 * `estimate_ite_blp` function.
 * `take1()` function.
 
-## Solved
+## Bug fixes
 * Undesired 'All' Decision Rule Issue.
 * No Causal Rule Selected Issue.
 
