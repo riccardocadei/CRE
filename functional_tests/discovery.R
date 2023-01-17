@@ -55,7 +55,7 @@ ratio_dis <- 0.5
                        t_pvalue = 0.05,
                        replace = TRUE,
                        stability_selection = TRUE,
-                       cutoff = 0.9,
+                       cutoff = 0.8,
                        pfer = 1,
                        penalty_rl = 1)
 }
