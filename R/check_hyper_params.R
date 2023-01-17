@@ -36,8 +36,8 @@ check_hyper_params <- function(X_names, params) {
   }
   params[["ntrees_gbm"]] <- ntrees_gbm
 
-  if (params[["ntrees_gbm"]]+params[["ntrees_rf"]] == 0) {
-    stop("The total number of trees (ntrees_rf+ntrees_gbm) has to be
+  if (params[["ntrees_gbm"]] + params[["ntrees_rf"]] == 0) {
+    stop("The total number of trees (ntrees_rf + ntrees_gbm) has to be
          greater than 0")
   }
 
@@ -126,22 +126,22 @@ check_hyper_params <- function(X_names, params) {
   cutoff <- getElement(params, "cutoff")
   if (length(stability_selection) == 0) {
     stability_selection <- TRUE
-    pfer <- 0.9
-    cutoff <- 1
+    pfer <- 1
+    cutoff <- 0.9
   } else {
     if (!(stability_selection %in% c(TRUE, FALSE))) {
       stop(paste0("Please specify 'TRUE' or 'FALSE' for",
                   " the stability_selection argument."))
     } else if (stability_selection) {
       if (length(pfer) == 0) {
-        pfer <-  0.9
+        pfer <-  1
       } else {
         if (!inherits(pfer, "numeric")) {
           stop("Invalid 'pfer' input. Please input a number.")
         }
       }
       if (length(cutoff) == 0) {
-        cutoff <-  1
+        cutoff <-  0.9
       } else {
         if (!inherits(cutoff, "numeric")) {
           stop("Invalid 'cutoff' input. Please input a number.")

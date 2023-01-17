@@ -38,13 +38,15 @@ library("CRE")
 # Arguments
 
 __Data (required)__   
+
 **`y`** The observed response/outcome vector (binary or continuos).
 
 **`z`** The treatment/exposure/policy vector (binary).  
 
 **`X`** The covariate matrix (binary or continuos).    
 
-__Parameters (not required)__    
+__Parameters (not required)__   
+
 **`method_parameters`** The list of parameters to define the models used, including:
 - **`ratio_dis`** The ratio of data delegated to the discovery sub-sample (default: 0.5). 
 - **`ite_method_dis`** The method to estimate the individual treatment effect (ITE) on the discovery sub-sample (default: 'aipw') [1].       
@@ -62,7 +64,7 @@ __Parameters (not required)__
 - **`node_size`** Minimum size of the trees' terminal nodes (default: 20).
 - **`max_nodes`** Maximum number of terminal nodes per tree (default: 5).  
 - **`max_depth`** Maximum rules length (default: 3).     
-- **`replace`** Boolean variable for replacement in bootstrapping (default: TRUE).     
+- **`replace`** Boolean variable for replacement in bootstrapping for rules generation by random forest (default: TRUE).
 - **`t_decay`** The decay threshold for rules pruning (default: 0.025).      
 - **`t_ext`** The threshold to define too generic or too specific (extreme) rules (default: 0.01).     
 - **`t_corr`** The threshold to define correlated rules (default: 1). 
@@ -72,7 +74,8 @@ __Parameters (not required)__
 - **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).
 - **`penalty_rl`** Order of penalty for rules length during LASSO for Regularization (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2) (default: 1).
 
-__Additional Estimates (not required)__    
+__Additional Estimates (not required)__  
+
 **`ite`** The estimated ITE vector. If given, both the ITE estimation steps in Discovery and Inference are skipped (default: NULL).
 
 
@@ -157,7 +160,7 @@ Example 3 (*setting parameters*)
                        ps_method_inf = "SL.xgboost",
                        oreg_method_inf = "SL.xgboost")
 
- hyper_params = list(interaction_vars = NULL,
+ hyper_params = list(intervention_vars = c("x1","x2","x3","x4"),
                      offset = NULL,
                      ntrees_rf = 20,
                      ntrees_gbm = 20,

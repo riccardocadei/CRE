@@ -155,7 +155,7 @@ plot(cre_results)
                        ps_method_inf = "SL.xgboost",
                        oreg_method_inf = "SL.xgboost")
 
- hyper_params = list(interaction_vars = NULL,
+ hyper_params = list(intervention_vars = c("x1","x2","x3","x4"),
                      offset = NULL,
                      ntrees_rf = 20,
                      ntrees_gbm = 20,

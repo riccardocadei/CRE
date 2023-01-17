@@ -24,11 +24,11 @@ estimate_ite_aipw <- function(y, z, X, ps_method = "SL.xgboost",
 
   ps_hat <- estimate_ps(z, X, ps_method)
 
-  y_model <- SuperLearner(Y = y,
-                          X = data.frame(X = X, Z = z),
-                          family = gaussian(),
-                          SL.library = oreg_method,
-                          cvControl = list(V=0))
+  y_model <- SuperLearner::SuperLearner(Y = y,
+                                        X = data.frame(X = X, Z = z),
+                                        family = gaussian(),
+                                        SL.library = oreg_method,
+                                        cvControl = list(V = 0))
   if (sum(y_model$coef)==0) y_model$coef[1] <- 1
 
   y_0_hat <- predict(y_model,
