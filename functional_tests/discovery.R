@@ -74,6 +74,7 @@ for (confounding in confoundings) {
     # CRE
     for (ITE_estimator in ITE_estimators){
       # CRE (estimator i)
+      method <- paste("CRE (", ITE_estimator, ")", sep = "")
       time.before <- proc.time()
       discovery_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
         library(devtools)
@@ -97,22 +98,22 @@ for (confounding in confoundings) {
         method_params[["ite_method_dis"]] <- ITE_estimator
         method_params[["ite_method_inf"]] <- ITE_estimator
         hyper_params[["pfer"]] <- n_rules/(effect_size+1)
-        result <- cre(y, z, X, method_params, hyper_params)
+        metrics <- tryCatch({
+          result <- cre(y, z, X, method_params, hyper_params)
 
-        dr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
-        metrics_dr <- evaluate(dr, dr_pred)
+          dr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
+          metrics_dr <- evaluate(dr, dr_pred)
+          em_pred <- extract_effect_modifiers(dr_pred, X_names)
+          metrics_em <- evaluate(em, em_pred)
 
-        em_pred <- extract_effect_modifiers(dr_pred, X_names)
-        metrics_em <- evaluate(em, em_pred)
-
-        method <- paste("CRE (", ITE_estimator, ")", sep = "")
-        return(c(method, effect_size, seed,
-                 metrics_dr$IoU,
-                 metrics_dr$precision,
-                 metrics_dr$recall,
-                 metrics_em$IoU,
-                 metrics_em$precision,
-                 metrics_em$recall))
+          c(method, effect_size, seed,
+            metrics_dr$IoU, metrics_dr$precision, metrics_dr$recall,
+            metrics_em$IoU, metrics_em$precision, metrics_em$recall)
+          },
+          error = function(e) {
+            c(method, effect_size, seed, NaN,NaN,NaN,NaN,NaN,NaN)
+          })
+        return(metrics)
       }
       discovery <- rbind(discovery, discovery_i)
       time.after <- proc.time()
