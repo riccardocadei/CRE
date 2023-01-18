@@ -168,7 +168,7 @@ cre <- function(y, z, X,
 
   en_time_rd <- proc.time()
   logger::log_info("Done with rules discovery. ",
-                   "WC: {g_wc_str(st_time_rd, en_time_rd)} ", ".")
+                   "(WC: {g_wc_str(st_time_rd, en_time_rd)} ", ".)")
   # Inference ------------------------------------------------------------------
   logger::log_info("Starting CATE inference...")
 

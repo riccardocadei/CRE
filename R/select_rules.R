@@ -25,6 +25,9 @@
 select_rules <- function(rules_matrix, rules_list, ite,
                          stability_selection, cutoff, pfer,
                          penalty_rl) {
+
+  logger::log_debug("Selecting rules...")
+
   if (penalty_rl > 0) {
     rules_weight <- c()
     for (rule in rules_list) {
@@ -72,6 +75,8 @@ select_rules <- function(rules_matrix, rules_list, ite,
       rules_list <- rule_LASSO$rules
     }
   }
+
+  logger::log_debug("Done with selecting rules...")
 
   return(rules_list)
 }
