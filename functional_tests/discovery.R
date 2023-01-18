@@ -5,11 +5,11 @@ library("devtools")
 
 # Set Experiment Parameter
 n_rules <- 2
-sample_size <- 200
-n_seeds <- 2
-confoundings <- c("no","lin")#,"nonlin")
-effect_sizes <- seq(0, 0.2, 0.2)
-estimators <- c("aipw","cf")#,"bcf","slearner","tlearner","xlearner","bart")
+sample_size <- 2000
+n_seeds <- 200
+confoundings <- c("no","lin","nonlin")
+effect_sizes <- seq(0, 4, 0.2)
+estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner","bart")
 
 # Set Ground Truth
 {
@@ -185,7 +185,7 @@ for(confounding in confoundings) {
                                            metrics_em$precision,
                                            metrics_em$recall)
       results
-      })
+    })
   })
   n_exps <- n_seeds * length(effect_sizes) * (length(estimators)+1)
   discovery <- t(array(unlist(discovery, recursive = TRUE), dim = c(9,n_exps)))
