@@ -149,7 +149,6 @@ cre <- function(y, z, X,
   st_time_rd <- proc.time()
   # Estimate ITE
   if (is.null(ite)) {
-    logger::log_info("Estimating ITE...")
     ite_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
                       ite_method = getElement(method_params, "ite_method_dis"),
                       ps_method = getElement(method_params, "ps_method_dis"),
@@ -227,6 +226,6 @@ cre <- function(y, z, X,
   end_time_cre <- proc.time()
   logger::log_info("Wall clock time to run cre:",
                     " {(end_time_cre -   st_time_cre)[[3]]} seconds.")
-  logger::log_info("CRE method complete!")
+  logger::log_info("Done!")
   return(results)
 }
