@@ -55,8 +55,8 @@ regression modeling algorithm.
 \item \emph{node_size}: Minimum size of the trees' terminal nodes (default: 20).
 \item \emph{max_nodes}: Maximum number of terminal nodes per tree (default: 5).
 \item \emph{max_depth}: Maximum rules length (default: 3).
-\item \emph{replace}: Boolean variable for replacement in bootstrapping
-(default: TRUE).
+\item \emph{replace}: Boolean variable for replacement in bootstrapping for
+rules generation by random forest (default: TRUE).
 \item \emph{t_decay}: The decay threshold for rules pruning (default: 0.025).
 \item \emph{t_ext}: The threshold to define too generic or too specific (extreme)
 rules (default: 0.01, range: (0,0.5)).

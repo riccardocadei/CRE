@@ -116,6 +116,9 @@ cre <- function(y, z, X,
 
   "%>%" <- magrittr::"%>%"
 
+  # timing the function
+  st_time_cre <- proc.time()
+
   # Input checks ---------------------------------------------------------------
   logger::log_info("Checking parameters...")
   method_params <- check_method_params(y = y,
@@ -220,6 +223,9 @@ cre <- function(y, z, X,
   # TODO
 
   # Return Results -------------------------------------------------------------
+  end_time_cre <- proc.time()
+  logger::log_debug("Wall clock time to run cre:",
+                    " {(end_time_cre -   st_time_cre)[[3]]} seconds.")
   logger::log_info("CRE method complete!")
   return(results)
 }
