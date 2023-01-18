@@ -2,9 +2,9 @@
 % Please edit documentation in R/check_input_data.R
 \name{check_input_data}
 \alias{check_input_data}
-\title{Check Input Data}
+\title{Check input data}
 \usage{
-check_input_data(y, z, X)
+check_input_data(y, z, X, ite = NULL)
 }
 \arguments{
 \item{y}{The observed response vector.}
@@ -12,9 +12,11 @@ check_input_data(y, z, X)
 \item{z}{The treatment vector.}
 
 \item{X}{The features matrix.}
+
+\item{ite}{The estimated ITE vector.}
 }
 \value{
-Number of data samples.
+The number of data samples.
 }
 \description{
 Conducts sanity checks for the input data

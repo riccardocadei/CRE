@@ -2,19 +2,19 @@
 % Please edit documentation in R/generate_rules_matrix.R
 \name{generate_rules_matrix}
 \alias{generate_rules_matrix}
-\title{Generate Rules Matrix}
+\title{Generate rules matrix}
 \usage{
 generate_rules_matrix(X, rules_list)
 }
 \arguments{
-\item{X}{The features matrix.}
+\item{X}{Features matrix.}
 
-\item{rules_list}{A vector of causal rules.}
+\item{rules_list}{A vector of rules.}
 }
 \value{
-the causal rules matrix.
+A causal rules matrix.
 }
 \description{
-Generates a matrix of causal rules given a list.
+Generates the rules matrix from the feature matrix and a vector of rules.
 }
 \keyword{internal}

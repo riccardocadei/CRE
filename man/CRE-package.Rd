@@ -4,7 +4,7 @@
 \name{CRE-package}
 \alias{CRE-package}
 \alias{CRE}
-\title{The 'CRE' package.}
+\title{The 'CRE' package}
 \description{
 Provides an interpretable identification of subgroups with
 heterogeneous causal effect. The heterogeneous subgroups are

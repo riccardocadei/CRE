@@ -2,27 +2,25 @@
 % Please edit documentation in R/extract_rules.R
 \name{extract_rules}
 \alias{extract_rules}
-\title{Extract (Causal) Decision Rules}
+\title{Extract (causal) decision rules}
 \usage{
-extract_rules(treelist, X, ntrees, max_depth, digits = 2)
+extract_rules(treelist, X, max_depth, digits = 2)
 }
 \arguments{
 \item{treelist}{A list of decision trees.}
 
-\item{X}{The features matrix.}
+\item{X}{Features matrix.}
 
-\item{ntrees}{The number of (the first) decision trees considered.}
+\item{max_depth}{A number of top levels from each tree considered.}
 
-\item{max_depth}{The number of top levels from each tree considered}
-
-\item{digits}{The Number of digitits for rounding decision rules.
-to extract conditions.}
+\item{digits}{A Number of digits for rounding decision rules to extract
+conditions.}
 }
 \value{
-A vector of (Causal) Decision Rules.
+A vector of (causal) decision rules.
 }
 \description{
-Method for extracting causal rules from the Random Forest or Gradient
-Boosting algorithms.
+Extracts causal rules from the random forest or the gradient
+boosting algorithms.
 }
 \keyword{internal}

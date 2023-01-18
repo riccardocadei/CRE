@@ -2,7 +2,7 @@
 % Please edit documentation in R/generate_cre_dataset.R
 \name{generate_cre_dataset}
 \alias{generate_cre_dataset}
-\title{Generate CRE Synthetic Data}
+\title{Generate CRE synthetic data}
 \usage{
 generate_cre_dataset(
   n = 1000,
@@ -10,36 +10,66 @@ generate_cre_dataset(
   n_rules = 2,
   p = 10,
   effect_size = 2,
-  binary = FALSE
+  binary_covariates = TRUE,
+  binary_outcome = TRUE,
+  confounding = "no"
 )
 }
 \arguments{
-\item{n}{An integer number that represents the number of observations. Non-integer
-values will be converted into an integer number.}
+\item{n}{An integer number that represents the number of observations.
+Non-integer values will be converted into an integer number.}
 
-\item{rho}{A positive double number (0,1) that represents the correlation
-within the covariates (default: 0).}
+\item{rho}{A positive double number that represents the correlation
+within the covariates (default: 0, range: (0,1)).}
 
-\item{n_rules}{The number of causal rules, either 2 (default) or 4.}
+\item{n_rules}{The number of causal rules. (default: 2, range: {1,2,3,4}).}
 
 \item{p}{The number of covariates (default: 10).}
 
-\item{effect_size}{The effect size magnitude (default: 0.5).
-TODO: what is the range of effect size magnitude?}
+\item{effect_size}{The effect size magnitude in (default: 2, range: >=0).}
 
-\item{binary}{Whether to use binary or continuous outcomes,
-either TRUE (default) or FALSE.}
+\item{binary_covariates}{Whether to use binary or continuous covariates
+(default: TRUE).}
+
+\item{binary_outcome}{Whether to use binary or continuous outcomes
+(default: TRUE).}
+
+\item{confounding}{Only for continuous outcome, add confounding variables:
+\itemize{
+\item Linear confounding "lin".
+\item Non-linear confounding "nonlin".
+\item No confounding "no" (default).
+}}
 }
 \value{
-A list of synthetic data containing an outcome vector (y), a treatment
-vector (z), and a matrix of p covariates (X).
+A list of synthetic data containing:
+\itemize{
+\item An outcome vector (\code{y}),
+\item A treatment vector (\code{z}),
+\item A covariates matrix (\code{X}) and
+\item An individual treatment vector (\code{ite})
+}
 }
 \description{
-Generates synthetic data with continues or binary outcome
+Generates synthetic data with continues or binary outcome.
+}
+\note{
+Set (binary/continuous) covariates domain (\code{binary_covariates}).
+Set (binary/continuous) outcome domain (\code{binary_outcome}).
+Increase complexity in heterogeneity discovery:
+\itemize{
+\item Decreasing the sample size (\code{n}),
+\item adding correlation among variables (\code{rho}),
+\item increasing the number of rules (\code{n_rules}),
+\item increasing the number of covariates (\code{p}),
+\item decreasing the absolute value of the causal effect (\code{effect_size}),
+\item adding linear or not-linear confounders (\code{confounding}).
+}
 }
 \examples{
 set.seed(123)
 dataset <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
-                                effect_size = 2, binary = FALSE)
+                                effect_size = 2, binary_covariates = TRUE,
+                                binary_outcome = TRUE, confounding = "no")
 
 }

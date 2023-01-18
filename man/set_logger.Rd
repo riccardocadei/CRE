@@ -2,7 +2,7 @@
 % Please edit documentation in R/logger_utils.R
 \name{set_logger}
 \alias{set_logger}
-\title{Set Logger Settings}
+\title{Set Logger settings}
 \usage{
 set_logger(logger_file_path = "CRE.log", logger_level = "INFO")
 }

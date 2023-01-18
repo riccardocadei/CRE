@@ -1,3 +1,30 @@
-# CRE Functional Tests
+# Causal Rule Ensemble - Functional Tests
 
-Unit tests are addressed under the tests folder; however, time-consuming unit tests and unit tests based on numerous cores can be added here.
+## Tests
+
+Test Causal Rule Example on a syntethic dataset.
+
+### Causal Rule Ensemble
+```r
+`CRE/functional_tests/example_cre.R`
+```
+Benchmark.
+
+### (Honest) Causal Tree 
+```r
+`CRE/functional_tests/example_hct.R`
+```
+
+## Simulations
+
+Reproduce simulation experiments, evaluating Causal Rule Ensemble Discovery and Estimation performances, comparing with different benchmarks.
+
+### Discovery 
+```r
+`CRE/functional_tests/discovery.R`
+```
+
+### Estimation 
+```r
+`CRE/functional_tests/estimation.R`
+```

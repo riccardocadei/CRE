@@ -1,35 +1,40 @@
 #' @title
-#' Filter Irrelevant Decision Rules
+#' Filter irrelevant decision rules
 #'
 #' @description
-#' Filter Irrelevant Decision Rules extracted evaluating the performance
+#' Filter irrelevant decision rules extracted evaluating the performance
 #' reduction removing a specific rule at the time
-#' (see 'Interpreting tree ensembles with inTrees' by Houtao Deng, 2019)
+#' (see 'Interpreting tree ensembles with the inTrees package'
+#' by Houtao Deng, 2019).
 #'
-#' @param rules A list of decision rules.
-#' @param X The features matrix.
-#' @param ite_std The standardized ITE.
-#' @param max_decay Decay Threshold for pruning the rules.
-#' @param type_decay Decay Type for pruning the rules (1: relative error; 2: error).
+#' @param rules A list of rules.
+#' @param X A features matrix.
+#' @param ite An estimated ITE.
+#' @param t_decay The decay threshold for rules pruning.
 #'
 #' @keywords internal
 #'
 #' @return
-#' A list of the selected Decision Rules.
+#' A list of 'relevant' rules.
 #'
-filter_irrelevant_rules <- function(rules, X, ite_std, max_decay, type_decay){
+filter_irrelevant_rules <- function(rules, X, ite, t_decay) {
 
   rules_matrix <- matrix(rules)
   colnames(rules_matrix) <- "condition"
   metric <- inTrees::getRuleMetric(rules_matrix,
                                    X,
-                                   ite_std)
+                                   ite)
 
   pruned <- inTrees::pruneRule(rules = metric,
                                X = X,
-                               target = ite_std,
-                               maxDecay = max_decay,
-                               typeDecay = type_decay)
+                               target = ite,
+                               maxDecay = t_decay)
   rules <- unique(pruned[, 4])
-  return(rules)
+
+  for (i in 1:length(rules)) {
+    if (!grepl("&", rules[i]) & grepl("<=", rules[i])) {
+      rules[i] <- sub("<=", ">", rules[i])
+    }
+  }
+  return(unique(rules))
 }

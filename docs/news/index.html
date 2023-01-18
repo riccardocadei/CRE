@@ -58,63 +58,90 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.1" id="cre-011-2022-10-18">CRE 0.1.1 (2022-10-18)<a class="anchor" aria-label="anchor" href="#cre-011-2022-10-18"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.1.1" id="cre-011-2022-10-18">CRE 0.1.1 (2022-10-18)<a class="anchor" aria-label="anchor" href="#cre-011-2022-10-18"></a></h2><p class="text-muted">CRAN release: 2022-10-22</p>
 <div class="section level3">
 <h3 id="changed-0-1-1">Changed<a class="anchor" aria-label="anchor" href="#changed-0-1-1"></a></h3>
-<ul><li>Removed value test on <code>test-estimate_ite_oreg</code>.</li>
+<ul><li>Rename <code>binary</code> parameter in <code>binary_outcome</code> (in <code>generate_cre_dataset</code>).</li>
+<li>Rename <code>filter_cate</code> parameter in <code>t_pvalue</code>.</li>
+<li>Rename <code>t_anom</code> parameter in <code>t_ext</code>.</li>
+<li>Rename <code>effect_modifier</code> parameter in <code>intervention_vars</code>.</li>
+<li>Rename <code>lasso_rules_filter</code> function in <code>discover_causal_rules</code>.</li>
+<li>Rename <code>split_data</code> function in <code>honest_splitting</code>.</li>
+<li>Rename <code>prune_rules</code> function in `<code>filter_irrelevant_rules</code>.</li>
+<li>Rename <code>discard_correlated_rules</code> function in <code>filter_correlated_rules</code>.</li>
+<li>Rename <code>discard_anomalous_rules</code> fucntion in <code>filter_extreme_rules</code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="added-0-1-1">Added<a class="anchor" aria-label="anchor" href="#added-0-1-1"></a></h3>
+<ul><li>Weighted LASSO for Causal Rules Discovery (by <code>penalty_rl</code>hyper-parameter).</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="cre-010-2022-10-17">CRE 0.1.0 (2022-10-17)<a class="anchor" aria-label="anchor" href="#cre-010-2022-10-17"></a></h2><p class="text-muted">CRAN release: 2022-10-18</p>
 <div class="section level3">
 <h3 id="changed-0-1-0">Changed<a class="anchor" aria-label="anchor" href="#changed-0-1-0"></a></h3>
-<ul><li>
-<code>select_causal_rules()</code> is now <code><a href="../reference/lasso_rules_filter.html">lasso_rules_filter()</a></code>
-</li>
-<li>rules generation now accepts replace parameter to set replacement in bootstrapping</li>
-<li>rename parameter <code>t</code> with <code>t_anom</code>
-</li>
-<li>add parameter <code>t_corr</code> discard correlation threshold</li>
-<li>define <code><a href="../reference/discard_anomalous_rules.html">discard_anomalous_rules()</a></code> and <code>discard_corre_rules()</code> functions and and relative tests</li>
-<li>reorganize <code><a href="../reference/generate_rules_matrix.html">generate_rules_matrix()</a></code> (separate standardization, and remove filtering)</li>
-<li>explicit <code><a href="../reference/prune_rules.html">prune_rules()</a></code> function and add relative tests</li>
-<li>remove <code>take1()</code> function for random Rule Selection</li>
-<li>add effect modifiers filter for Rule Generation</li>
-<li>add <code><a href="../reference/generate_causal_rules.html">generate_causal_rules()</a></code> function and relative tests</li>
-<li>solve Undesired ‘All’ Decision Rule Issue</li>
-<li>solve No Causal Rule Selected Issue</li>
-<li>improve <code>cre.summary()</code> function</li>
+<ul><li>Update examples and tests for all functions.</li>
+<li>Rename <code>q</code> hyper-parameter in <code>cutoff</code>.</li>
+<li>Rename <code>pfer_val</code> hyper-param in <code>pfer</code>.</li>
+<li>Rename <code>select_causal_rules</code> function in <code>lasso_rules_filter</code>.</li>
+<li>Rename <code>t</code> hyper-parameter in <code>t_anom</code>.</li>
+<li>Separate standardization, and remove filtering from <code>generate_rules_matrix</code> function.</li>
 <li>
-<code>min_nodes</code> –&gt; <code>node_size</code> (following the randomForest convention)</li>
+<code>summary.cre</code> function to describe results.</li>
+<li>Rename <code>min_nodes</code> parameter in <code>node_size</code> (following the <code>randomForest</code> convention).</li>
 <li>
-<code>estimate_cate</code> include five methods for estimating the CATE values (<code>poisson</code>, <code>DRLearner</code>, <code>bart-baggr</code>, <code>cf-means</code>, <code>linreg</code>)</li>
-<li>
-<code>cre</code> added new arguments to (1) complement <code>SuperLearner</code> package (<code>ps_method_dis</code>, <code>ps_method_inf</code>, <code>or_method_dis</code>, <code>or_method_inf</code>, <code>cate_SL_library</code>) and to (2) select CATE method and (3) whether to filter CATE p-values (<code>cate_method</code> and <code>filter_cate</code>). Now returns an S3 object.</li>
-<li>
-<code>estimate_ite_xyz</code> conduct propensity score estimation using helper function with <code>SuperLearner</code> package</li>
-<li>
-<code>generate_cre_dataset</code> make number of covariates an argument of the function</li>
-<li>improve examples and update tests for all functions</li>
+<code>cre</code> returns an S3 object.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="added-0-1-0">Added<a class="anchor" aria-label="anchor" href="#added-0-1-0"></a></h3>
-<ul><li>
-<code>print</code> and <code>summary</code> generic functions.</li>
+<ul><li>Examples and tests for all functions.</li>
+<li>
+<code>prune_rules</code> function to discard unpredictive rules.</li>
+<li>
+<code>discard_anomalous_rules</code> function to discard anomalous rules (see <code>t_corr</code> hyper-parameter.).</li>
+<li>
+<code>discard_correlated_rules</code> function to discard correlated rules (see <code>t_anom</code> hyper-parameter).</li>
+<li>
+<code>effect_modifiers</code> parameter in <code>generate_rules</code> function for covariates filtering.</li>
+<li>
+<code>generate_causal_rules</code> function.</li>
+<li>Helper function with <code>SuperLearner</code> package for propensity score estimation in <code>estimate_ite_xyz</code>.</li>
+<li>Five methods for CATE estimation (<code>poisson</code>, <code>DRLearner</code>, <code>bart-baggr</code>, <code>cf-means</code>, <code>linreg</code>) in <code>estimate_cate</code> function.</li>
+<li>(<code>ps_method_dis</code>, <code>ps_method_inf</code>, <code>or_method_dis</code>, <code>or_method_inf</code>, <code>cate_SL_library</code>) method-parameters to complement <code>SuperLearner</code> package.</li>
+<li>
+<code>cate_method</code> method-parameter to select CATE estimation method.</li>
+<li>
+<code>filter_cate</code> method-parameter for estimation filtering.</li>
+<li>
+<code>p</code> parameter (in <code>generate_cre_dataset</code> function) to set the number of covariates.</li>
+<li>
+<code>replace</code> parameter (in <code>generate_rules</code> function) to allow bootstrapping.</li>
+<li>
+<code>cre.print</code> generic function to print <code>cre</code> S3 object results.</li>
+<li>
+<code>cre.summary</code> generic functions to summarize <code>cre</code> S3 object Results.</li>
 <li>
 <code>check_input</code> function to isolate input checks.</li>
 <li>
-<code>estimate_ite_aipw</code> function for augmented inverse propensity weighting</li>
+<code>estimate_ite_aipw</code> function for augmented inverse propensity weighting.</li>
 <li>
-<code>plot.cre</code> generic function to plot CRE S3 object Results</li>
+<code>plot.cre</code> generic function to plot <code>cre</code> S3 object results.</li>
 <li>
-<code>test-cre_functional.R</code> tests the functionality of the package</li>
+<code>test-cre_functional.R</code> to test the functionality of the package.</li>
 <li>
-<code>stability_selection</code> function for causal rules selection</li>
+<code>stability_selection</code> function for causal rules selection.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="removed-0-1-0">Removed<a class="anchor" aria-label="anchor" href="#removed-0-1-0"></a></h3>
 <ul><li>
-<code>estimate_ite_blp</code> function</li>
+<code>estimate_ite_blp</code> function.</li>
+<li>
+<code>take1()</code> function.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="solved-0-1-0">Solved<a class="anchor" aria-label="anchor" href="#solved-0-1-0"></a></h3>
+<ul><li>Undesired ‘All’ Decision Rule Issue.</li>
+<li>No Causal Rule Selected Issue.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -122,64 +149,66 @@
 <div class="section level3">
 <h3 id="changed-0-0-1">Changed<a class="anchor" aria-label="anchor" href="#changed-0-0-1"></a></h3>
 <ul><li>
-<code>estimate_cate</code> include two methods for estimating the CATE values</li>
+<code>estimate_cate</code> include two methods for estimating the CATE values.</li>
 <li>
-<code>cre</code> added initial checks for binary outcome and whether to include the propensity score in the ITE estimation</li>
+<code>cre</code> added initial checks for binary outcome and whether to include the propensity score in the ITE estimation.</li>
 <li>
-<code>estimate_ite_xyz</code> conduct propensity score estimation using helper function</li>
-<li>Removed <code>seed</code> as an input from <code>generate_cre_dataset</code> function.</li>
+<code>estimate_ite_xyz</code> conduct propensity score estimation using helper function.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="added-0-0-1">Added<a class="anchor" aria-label="anchor" href="#added-0-0-1"></a></h3>
+<ul><li>Example for <code>generate_cre_dataset</code>.</li>
+<li>
+<code>set_logger</code> and <code>get_logger</code>.</li>
+<li>
+<code>check_input_data</code> function.</li>
+<li>
+<code>generate_cre_dataset</code> function to generate synthetic data for testing the package.</li>
+<li>
+<code>test-generate_cre_dataset</code> function test.</li>
+<li>
+<code>estimate_ps</code> function to estimate the propensity score.</li>
+<li>
+<code>estimate_ite_xbart</code> function to generate ITE estimates using accelerated BART.</li>
+<li>
+<code>estimate_ite_xbcf</code> function to generate ITE estimates using accelerated BCF.</li>
+<li>
+<code>analyze_sensitivity</code> function to conduct sensitivity analysis for unmeasured confounding.</li>
+<li>
+<code>cre</code> function to perform the entire Causal Rule Ensemble method.</li>
+<li>
+<code>estimate_cate</code> function to generate CATE estimates from the ITE estimates and select rules.</li>
+<li>
+<code>estimate_ite</code> function to generate ITE estimates using the user-specified method (calls the other <code>estimate_ite_xyz</code> functions).</li>
+<li>
+<code>estimate_ite_bart</code> function to generate ITE estimates using BART.</li>
+<li>
+<code>estimate_ite_bcf</code> function to generate ITE estimates using Bayesian Causal Forests.</li>
+<li>
+<code>estimate_ite_cf</code> function to generate ITE estimates using Causal Forests.</li>
+<li>
+<code>estimate_ite_ipw</code> function to generate ITE estimates using IPW.</li>
+<li>
+<code>estimate_ite_or</code> function to generate ITE estimates using Outcome Regression.</li>
+<li>
+<code>estimate_ite_sipw</code> function to generate ITE estimates using SIPW.</li>
+<li>
+<code>extract_rules</code> function to extract a list of causal rules from randomForest and GBM models.</li>
+<li>
+<code>generate_rules</code> function to generate causal rule models using randomForest and GBM methods.</li>
+<li>
+<code>generate_rules_matrix</code> function to convert a list of causal rules into a matrix.</li>
+<li>
+<code>select_causal_rules</code> function to apply penalized regression to causal rules. to select only the most important ones.</li>
+<li>
+<code>split_data</code> function to split input data into discovery and inference subsamples.</li>
+<li>
+<code>take1</code> function to create a subsample of indices.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="removed-0-0-1">Removed<a class="anchor" aria-label="anchor" href="#removed-0-0-1"></a></h3>
 <ul><li>
-<code>set_logger</code> and <code>get_logger</code>
-</li>
-<li>
-<code>check_input_data</code> function</li>
-<li>example to <code>generate_cre_dataset</code>
-</li>
-<li>
-<code>generate_cre_dataset</code> function to generate synthetic data for testing the package</li>
-<li>
-<code>test-generate_cre_dataset</code> function test</li>
-<li>
-<code>estimate_ps</code> function to estimate the propensity score</li>
-<li>
-<code>estimate_ite_xbart</code> function to generate ITE estimates using accelerated BART</li>
-<li>
-<code>estimate_ite_xbcf</code> function to generate ITE estimates using accelerated BCF</li>
-<li>
-<code>analyze_sensitivity</code> function to conduct sensitivity analysis for unmeasured confounding</li>
-<li>
-<code>cre</code> function to perform the entire Causal Rule Ensemble method</li>
-<li>
-<code>estimate_cate</code> function to generate CATE estimates from the ITE estimates and select rules</li>
-<li>
-<code>estimate_ite</code> function to generate ITE estimates using the user-specified method (calls the other <code>estimate_ite_xyz</code> functions)</li>
-<li>
-<code>estimate_ite_bart</code> function to generate ITE estimates using BART</li>
-<li>
-<code>estimate_ite_bcf</code> function to generate ITE estimates using Bayesian Causal Forests</li>
-<li>
-<code>estimate_ite_cf</code> function to generate ITE estimates using Causal Forests</li>
-<li>
-<code>estimate_ite_ipw</code> function to generate ITE estimates using IPW</li>
-<li>
-<code>estimate_ite_or</code> function to generate ITE estimates using Outcome Regression</li>
-<li>
-<code>estimate_ite_sipw</code> function to generate ITE estimates using SIPW</li>
-<li>
-<code>extract_rules</code> function to extract a list of causal rules from randomForest and GBM models</li>
-<li>
-<code>generate_rules</code> function to generate causal rule models using randomForest and GBM methods</li>
-<li>
-<code>generate_rules_matrix</code> function to convert a list of causal rules into a matrix</li>
-<li>
-<code>select_causal_rules</code> function to apply penalized regression to causal rules to select only the most important ones</li>
-<li>
-<code>split_data</code> function to split input data into discovery and inference subsamples</li>
-<li>
-<code>take1</code> function to create a subsample of indices</li>
+<code>seed</code> argument in <code>generate_cre_datase</code> function.</li>
 </ul></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

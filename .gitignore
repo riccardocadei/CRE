@@ -1,6 +1,6 @@
 .Rproj.user
 .Rhistory
-.RData
+*.RData
 .Ruserdata
 inst/doc
 doc
@@ -10,3 +10,5 @@ src/.DS_Store
 /Meta/
 src-i386
 .DS_Store
+*.ipynb
+*.pdf

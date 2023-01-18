@@ -13,6 +13,6 @@ standardize_rules_matrix(rules_matrix)
 Standardized rules matrix
 }
 \description{
-Standardize the matrix of causal rules given a list.
+Standardize (i.e. mean=0 and stdev=1) the rules matrix.
 }
 \keyword{internal}

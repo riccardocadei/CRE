@@ -4,70 +4,58 @@
 \alias{estimate_ite}
 \title{Estimate the Individual Treatment Effect (ITE)}
 \usage{
-estimate_ite(y, z, X, ite_method, is_y_binary, ...)
+estimate_ite(y, z, X, ite_method, ...)
 }
 \arguments{
-\item{y}{The observed response vector.}
+\item{y}{An observed response vector.}
 
-\item{z}{The observed treatment vector.}
+\item{z}{An observed treatment vector.}
 
-\item{X}{The covariate matrix.}
+\item{X}{A covariate matrix.}
 
-\item{ite_method}{the method for estimating the Individual Treatment Effect.
-Some methods requires additional parameters. These parameters are mentioned in
-the indented blocks for each method and their definitions are provided at the
-end of this parameters list.
+\item{ite_method}{A method for estimating the Individual Treatment Effect.
+Some methods requires additional parameters. These parameters are mentioned
+in the indented blocks for each method and their definitions are provided at
+the end of this parameters list.
 \itemize{
-\item \code{ipw}: Inverse Propensity Weighting
+\item \code{slearner}: S-Learner.
 \itemize{
-\item \code{ps_method}
+\item \code{oreg_method}
 }
-\item \code{sipw}: Stabilized Inverse Propensity Weighting
+\item \code{tlearner}: T-Learner.
 \itemize{
-\item \code{ps_method}
+\item \code{oreg_method}
 }
-\item \code{aipw}: Augmented Inverse Propensity Weighting
+\item \code{tpoisson}: T-Poisson.
+\itemize{
+\item \code{offset}
+}
+\item \code{xlearner}: X-Learner.
+\itemize{
+\item \code{oreg_method}
+}
+\item \code{aipw}: Augmented Inverse Probability Weighting.
 \itemize{
 \item \code{ps_method} and  \code{oreg_method}
 }
-\item \code{oreg}: Outcome Regression
-\item \code{bart}: Bayesian Additive Regression Trees
-\itemize{
-\item \code{include_ps} and \code{ps_method}
-}
-\item \code{xbart}: Accelerated Bayesian Additive Regression Trees
-\itemize{
-\item \code{include_ps} and \code{ps_method}
-}
-\item \code{bcf}: Bayesian Causal Forest
+\item \code{bart}: Bayesian Additive Regression Trees.
 \itemize{
 \item \code{ps_method}
 }
-\item \code{xbcf}: Accelerated Bayesian Causal Forest
+\item \code{bcf}: Bayesian Causal Forest.
 \itemize{
 \item \code{ps_method}
 }
-\item \code{cf}: Causal Forest
+\item \code{cf}: Causal Forest.
 \itemize{
-\item \code{include_ps} and \code{ps_method}
-}
-\item \code{poisson}: Poisson Estimation
-\itemize{
-\item \code{X_names}, \code{include_offset}, \code{offset_name}
+\item \code{ps_method}
 }
 }}
 
-\item{is_y_binary}{whether or not the outcome is binary}
-
-\item{...}{A dditional parameters passed to different models.}
+\item{...}{Additional parameters passed to different models.}
 }
 \value{
-A list that includes:
-\itemize{
-\item raw ITE estimates
-\item standardized ITE estimates, and
-\item standard deviations for the ITE estimates.
-}
+A list of ITE estimates.
 }
 \description{
 Estimates the Individual Treatment Effect given a response vector,
@@ -76,16 +64,12 @@ a treatment vector, a covariate matrix, and a desired algorithm.
 \details{
 \subsection{Additional parameters}{
 \itemize{
-\item \strong{include_ps}: Whether or not to include propensity score estimate as a
-covariate in ITE estimation.
-\item \strong{ps_method}: Estimation method for the propensity score. This include
-libraries for the SuperLearner package.
-\item \strong{oreg_method}: The estimation model for the outcome regressions. This
-include libraries for the SuperLearner package.
-\item \strong{X_names}: The names of the covariates. (TODO: Remove from input params.)
-\item \strong{include_offset}: Whether or not to include an offset when estimating
-the ITE.
-\item \strong{offset_name}: The name of the offset.
+\item \strong{ps_method}: An estimation method for the propensity score. This
+includes libraries for the SuperLearner package.
+\item \strong{oreg_method}: An estimation model for the outcome regressions. This
+includes libraries for the SuperLearner package.
+\item \strong{offset}: Name of the covariate to use as offset (i.e. 'x1') for
+Poisson ITE Estimation. \code{NULL} if offset is not used.
 }
 }
 }

@@ -171,104 +171,56 @@ successful Git Branching Model</a> for branching convention.</p>
 </h2>
 <p>Run the following command to test the package.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/NSAPH-Software/CRE" class="external-link">CRE</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/NSAPH-Software/CRE" class="external-link">CRE</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Generate sample data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1358</span><span class="op">)</span></span>
-<span><span class="va">dataset_cont</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, rho <span class="op">=</span> <span class="fl">0</span>, n_rules <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>                                     effect_size <span class="op">=</span> <span class="fl">2</span>, binary <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">dataset_cont</span><span class="op">[[</span><span class="st">"y"</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="va">z</span> <span class="op">&lt;-</span> <span class="va">dataset_cont</span><span class="op">[[</span><span class="st">"z"</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">dataset_cont</span><span class="op">[[</span><span class="st">"X"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="va">X_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>                                rho <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>                                n_rules <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                                p <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                                effect_size <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                                binary_covariates <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                binary_outcome <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                confounding <span class="op">=</span> <span class="st">"no"</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">dataset</span><span class="op">[[</span><span class="st">"y"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">z</span> <span class="op">&lt;-</span> <span class="va">dataset</span><span class="op">[[</span><span class="st">"z"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="va">dataset</span><span class="op">[[</span><span class="st">"X"</span><span class="op">]</span><span class="op">]</span></span>
 <span></span>
+<span><span class="va">method_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ratio_dis <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>                      ite_method_dis <span class="op">=</span> <span class="st">"aipw"</span>,</span>
+<span>                      include_ps_dis <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                      ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
+<span>                      ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
+<span>                      oreg_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
+<span>                      oreg_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
+<span>                      ite_method_inf <span class="op">=</span> <span class="st">"aipw"</span>,</span>
+<span>                      include_ps_inf <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                      cate_method <span class="op">=</span> <span class="st">"linreg"</span>,</span>
+<span>                      cate_SL_library <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
+<span>                      offset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Run parameters</span></span>
-<span><span class="va">method_params_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ratio_dis <span class="op">=</span> <span class="fl">0.25</span>,</span>
-<span>                       rules_method <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>                       include_offset <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                       offset_name <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>                       filter_cate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                       ite_method_dis <span class="op">=</span> <span class="st">"poisson"</span>,</span>
-<span>                       include_ps_dis <span class="op">=</span> <span class="cn">NA</span>, </span>
-<span>                       ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                       ite_method_inf <span class="op">=</span> <span class="st">"poisson"</span>,</span>
-<span>                       include_ps_inf <span class="op">=</span> <span class="cn">NA</span>, </span>
-<span>                       ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                       oreg_method_inf <span class="op">=</span> <span class="cn">NA</span>, </span>
-<span>                       cate_method <span class="op">=</span> <span class="st">"poisson"</span>, </span>
-<span>                       cate_SL_library <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="va">hyper_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>intervention_vars <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                     ntrees_rf <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>                     ntrees_gbm <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>                     node_size <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>                     max_nodes <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                     max_depth <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>                     replace <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                     max_decay <span class="op">=</span> <span class="fl">0.025</span>,</span>
+<span>                     type_decay <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                     t_ext <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>                     t_corr <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                     t_pvalue <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>                     stability_selection <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                     cutoff <span class="op">=</span> <span class="fl">0.6</span>,</span>
+<span>                     pfer <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                     penalty_rl <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">hyper_params_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ntrees_rf <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>                       ntrees_gbm <span class="op">=</span> <span class="fl">50</span>,</span>
-<span>                       min_nodes <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                       max_nodes <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>                       t <span class="op">=</span> <span class="fl">0.025</span>,</span>
-<span>                       q <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Poisson CATE estimation with Poisson ITE estimation</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Testing Poisson CATE estimation with Poisson ITE estimation"</span><span class="op">)</span></span>
-<span><span class="va">cre_results_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cre.html">cre</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">method_params_1</span>, <span class="va">hyper_params_1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">cre_results_1</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
-<span><span class="va">cre_results_1</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># DRLearner CATE estimation with AIPW ITE estimation</span></span>
-<span></span>
-<span><span class="va">method_params_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ratio_dis <span class="op">=</span> <span class="fl">0.25</span>,</span>
-<span>                        rules_method <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>                        include_offset <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                        offset_name <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>                        filter_cate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                        ite_method_dis <span class="op">=</span> <span class="st">"aipw"</span>,</span>
-<span>                        include_ps_dis <span class="op">=</span> <span class="cn">NA</span>, </span>
-<span>                        ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                        oreg_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                        ite_method_inf <span class="op">=</span> <span class="st">"aipw"</span>,</span>
-<span>                        include_ps_inf <span class="op">=</span> <span class="cn">NA</span>, </span>
-<span>                        ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                        oreg_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>, </span>
-<span>                        cate_method <span class="op">=</span> <span class="st">"DRLearner"</span>, </span>
-<span>                        cate_SL_library <span class="op">=</span><span class="st">"SL.xgboost"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">hyper_params_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ntrees_rf <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>                       ntrees_gbm <span class="op">=</span> <span class="fl">50</span>,</span>
-<span>                       min_nodes <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                       max_nodes <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>                       t <span class="op">=</span> <span class="fl">0.025</span>,</span>
-<span>                       q <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Testing DRLearner CATE estimation with AIPW ITE estimation"</span><span class="op">)</span></span>
-<span><span class="va">cre_results_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cre.html">cre</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">method_params_2</span>, <span class="va">hyper_params_2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">cre_results_2</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
-<span><span class="va">cre_results_2</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># CF-means CATE estimation with BCF ITE estimation</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Testing CF-means CATE estimation with BCF ITE estimation"</span><span class="op">)</span></span>
-<span><span class="va">cre_results_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cre.html">cre</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">ratio_dis</span>, ite_method_dis <span class="op">=</span> <span class="st">"bcf"</span>,</span>
-<span>                     include_ps_dis <span class="op">=</span> <span class="cn">NA</span>, ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                     or_method_dis <span class="op">=</span> <span class="cn">NA</span>, ite_method_inf <span class="op">=</span> <span class="st">"bcf"</span>,</span>
-<span>                     include_ps_inf <span class="op">=</span> <span class="cn">NA</span>, ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                     or_method_inf <span class="op">=</span> <span class="cn">NA</span>, <span class="va">ntrees_rf</span>, <span class="va">ntrees_gbm</span>, <span class="va">min_nodes</span>,</span>
-<span>                     <span class="va">max_nodes</span>, <span class="va">t</span>, <span class="va">q</span>, <span class="va">rules_method</span>, <span class="va">include_offset</span>, <span class="va">offset_name</span>,</span>
-<span>                     cate_method <span class="op">=</span> <span class="st">"cf-means"</span>, cate_SL_library <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">cre_results_3</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
-<span><span class="va">cre_results_3</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cre_results_3</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cre_results_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cre.html">cre</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">ratio_dis</span>, ite_method_dis <span class="op">=</span> <span class="st">"bart"</span>,</span>
-<span>                     include_ps_dis <span class="op">=</span> <span class="cn">TRUE</span>, ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                     or_method_dis <span class="op">=</span> <span class="cn">NA</span>, ite_method_inf <span class="op">=</span> <span class="st">"bart"</span>,</span>
-<span>                     include_ps_inf <span class="op">=</span> <span class="cn">TRUE</span>, ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                     or_method_inf <span class="op">=</span> <span class="cn">NA</span>, <span class="va">ntrees_rf</span>, <span class="va">ntrees_gbm</span>, <span class="va">min_nodes</span>,</span>
-<span>                     <span class="va">max_nodes</span>, <span class="va">t</span>, <span class="va">q</span>, <span class="va">rules_method</span>, <span class="va">include_offset</span>,</span>
-<span>                     <span class="va">offset_name</span>, cate_method <span class="op">=</span> <span class="st">"linreg"</span>, cate_SL_library <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">cre_results_4</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
-<span><span class="va">cre_results_4</span><span class="op">[[</span><span class="st">"CATE_results"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<span><span class="co"># linreg CATE estimation with aipw ITE estimation</span></span>
+<span><span class="va">cre_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cre.html">cre</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, <span class="va">method_params</span>, <span class="va">hyper_params</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cre_results</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cre_results</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

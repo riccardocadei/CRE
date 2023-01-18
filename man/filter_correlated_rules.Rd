@@ -2,21 +2,21 @@
 % Please edit documentation in R/filter_correlated_rules.R
 \name{filter_correlated_rules}
 \alias{filter_correlated_rules}
-\title{Filter Correlated Decision Rules}
+\title{Filter correlated rules}
 \usage{
-filter_correlated_rules(rules_matrix, rules_list, t)
+filter_correlated_rules(rules_matrix, rules_list, t_corr)
 }
 \arguments{
-\item{rules_matrix}{The causal rules matrix.}
+\item{rules_matrix}{A rules matrix.}
 
-\item{rules_list}{The list of the causal rules.}
+\item{rules_list}{A list of rules (names).}
 
-\item{t}{The threshold to define correlated rules.}
+\item{t_corr}{A threshold to define correlated rules.}
 }
 \value{
-The rules matrix only with the rules selected
+A rules matrix (without the highly correlated columns).
 }
 \description{
-Discard redundant correlated rules.
+Discards highly correlated rules (i.e. \code{Cov(rule1,rule2) > t_corr}).
 }
 \keyword{internal}
