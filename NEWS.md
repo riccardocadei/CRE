@@ -50,11 +50,9 @@ domain.
 * Rules Generation Issue (set rules length and fix bootstrapping).
 
 
-
 # CRE 0.1.1 (2022-10-18)
 
 ## Changed
-
 * `binary` parameter in `generate_cre_dataset` -> `binary_outcome` .
 * `filter_cate` hyper-parameter -> `t_pvalue`.
 * `t_anom` hyper-parameter -> `t_ext`.
@@ -72,7 +70,6 @@ domain.
 # CRE 0.1.0 (2022-10-17)
 
 ## Changed
-
 * Update examples and tests for all functions.
 * `q` hyper-parameter -> `cutoff`.
 * `pfer_val` hyper-parameter -> `pfer`.
