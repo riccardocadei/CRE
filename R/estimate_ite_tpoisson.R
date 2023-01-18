@@ -1,5 +1,5 @@
 #' @title
-#' Estimate the Individual Treatment Effect (ITE) using Poisson Regression
+#' Estimate the Individual Treatment Effect (ITE) using T-Poisson Regression
 #'
 #' @description
 #' Estimates the Individual Treatment Effect using Poisson Regression given a
@@ -8,7 +8,6 @@
 #' @param y An observed response vector.
 #' @param z A treatment vector.
 #' @param X A features matrix.
-#' @param X_names A vector that includes the names of the covariates.
 #' @param offset A name of the covariate to use as offset (i.e. 'x1') to model
 #' the corresponding outcome rate. `NULL` to model directly the outcome counts
 #' without offset.
@@ -18,7 +17,8 @@
 #'
 #' @keywords internal
 #'
-estimate_ite_poisson <- function(y, z, X, X_names, offset) {
+estimate_ite_tpoisson <- function(y, z, X, offset) {
+  X_names <- names(X)
   if (!is.null(offset)) {
     if (!(offset %in% X_names)) {
       stop("Offset varible is not observed. Please replace `offset` with an

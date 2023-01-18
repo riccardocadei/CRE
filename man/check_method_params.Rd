@@ -4,12 +4,10 @@
 \alias{check_method_params}
 \title{Check method-related parameters}
 \usage{
-check_method_params(y, X_names, ite, params)
+check_method_params(y, ite, params)
 }
 \arguments{
 \item{y}{The observed response vector.}
-
-\item{X_names}{The observed covariates names.}
 
 \item{ite}{The estimated ITE vector.}
 

@@ -16,9 +16,6 @@
 #'   - *Parameters for Discovery*
 #'     - *ite_method_dis*: The method to estimate the discovery sample ITE
 #'     (default: 'aipw').
-#'     - *include_ps_dis*: Whether or not to include propensity score estimate
-#'       as a covariate in discovery ITE estimation, considered only for BART,
-#'       or CF (default: TRUE).
 #'     - *ps_method_dis*: The estimation model for the propensity score on the
 #'       discovery subsample (default: 'SL.xgboost').
 #'     - *or_method_dis*: The estimation model for the outcome regressions
@@ -26,33 +23,26 @@
 #'   - *Parameters for Inference*
 #'     - *ite_method_inf*: The method to estimate the inference sample ITE
 #'     (default: 'aipw').
-#'     - *include_ps_inf*: Whether or not to include propensity score estimate
-#'       as a covariate in inference ITE estimation, considered only for BART,
-#'       or CF (default: TRUE).
 #'     - *ps_method_inf*: The estimation model for the propensity score on the
 #'       inference subsample (default: 'SL.xgboost').
 #'     - *or_method_inf*: The estimation model for the outcome regressions in
 #'       estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
-#'   - *Other Parameters*
-#'     - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
-#'     Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 #' @param hyper_params The list of hyper parameters to finetune the method,
 #' including:
 #'  - *intervention_vars*: Intervention-able variables used for Rules Generation
 #'  (default: NULL).
-#'  - *ntrees_rf*: The number of decision trees for randomForest (default: 100).
-#'  - *ntrees_gbm*: The number of decision trees for gradient boosting
-#'  (default: 0).
-#'  - *node_size*: The minimum size of the trees' terminal nodes (default: 20).
-#'  - *max_nodes*: The maximum number of terminal nodes trees in the forest can
-#'   have (default: 5).
-#'  - *max_depth*: The number of top levels from each tree considered
-#' to extract conditions (default: 3).
-#'  - *replace*: Boolean variable for replacement in bootstrapping
-#'  (default: TRUE).
-#'  - *max_decay*: Decay Threshold for pruning the rules (default: 0.025).
-#'  - *type_decay*: Decay Type for pruning the rules: 1 relative error; 2 error
-#'  (default: 2).
+#'  - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
+#'     T-Poisson ITE Estimation. NULL if offset is not used (default: NULL).
+#'  - *ntrees_rf*: A number of decision trees for random forest (default: 20).
+#'  - *ntrees_gbm*: A number of decision trees for the generalized boosted
+#' regression modeling algorithm.
+#'  (default: 20).
+#'  - *node_size*: Minimum size of the trees' terminal nodes (default: 20).
+#'  - *max_nodes*: Maximum number of terminal nodes per tree (default: 5).
+#'  - *max_depth*: Maximum rules length (default: 3).
+#'  - *replace*: Boolean variable for replacement in bootstrapping for
+#'  rules generation by random forest (default: TRUE).
+#'  - *t_decay*: The decay threshold for rules pruning (default: 0.025).
 #'  - *t_ext*: The threshold to define too generic or too specific (extreme)
 #'  rules (default: 0.01, range: (0,0.5)).
 #'  - *t_corr*: The threshold to define correlated rules (default: 1,
@@ -86,7 +76,7 @@
 #'
 #' \donttest{
 #' set.seed(2021)
-#' dataset <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+#' dataset <- generate_cre_dataset(n = 400, rho = 0, n_rules = 2, p = 10,
 #'                                 effect_size = 2, binary_covariates = TRUE,
 #'                                 binary_outcome = FALSE, confounding = "no")
 #' y <- dataset[["y"]]
@@ -97,20 +87,18 @@
 #'                       ite_method_dis="aipw",
 #'                       ps_method_dis = "SL.xgboost",
 #'                       oreg_method_dis = "SL.xgboost",
-#'                       include_ps_dis = TRUE,
 #'                       ite_method_inf = "aipw",
 #'                       ps_method_inf = "SL.xgboost",
-#'                       oreg_method_inf = "SL.xgboost",
-#'                       include_ps_inf = TRUE,
-#'                       offset = NULL)
+#'                       oreg_method_inf = "SL.xgboost")
 #'
-#' hyper_params <- list(ntrees_rf = 100,
-#'                      ntrees_gbm = 50,
+#' hyper_params <- list(intervention_vars = NULL,
+#'                      offset = NULL,
+#'                      ntrees_rf = 20,
+#'                      ntrees_gbm = 20,
 #'                      node_size = 20,
 #'                      max_nodes = 5,
-#'                      max_depth = 15,
-#'                      max_decay = 0.025,
-#'                      type_decay = 2,
+#'                      max_depth = 3,
+#'                      t_decay = 0.025,
 #'                      t_ext = 0.025,
 #'                      t_corr = 1,
 #'                      t_pvalue = 0.05,
@@ -131,7 +119,6 @@ cre <- function(y, z, X,
   # Input checks ---------------------------------------------------------------
   logger::log_info("Checking parameters...")
   method_params <- check_method_params(y = y,
-                                       X_names = names(X),
                                        ite = ite,
                                        params = method_params)
   hyper_params <- check_hyper_params(X_names = names(X),
@@ -162,17 +149,11 @@ cre <- function(y, z, X,
   # Estimate ITE
   if (is.null(ite)) {
     logger::log_info("Estimating ITE...")
-    ite_list_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
+    ite_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
                       ite_method = getElement(method_params, "ite_method_dis"),
-                      is_y_binary = getElement(method_params, "is_y_binary"),
-                      include_ps = getElement(method_params, "include_ps_dis"),
                       ps_method = getElement(method_params, "ps_method_dis"),
-                      oreg_method = getElement(method_params,
-                                               "oreg_method_dis"),
-                      X_names = X_names,
+                      oreg_method = getElement(method_params,"oreg_method_dis"),
                       offset = getElement(method_params, "offset"))
-
-    ite_dis <- ite_list_dis[["ite"]]
   } else {
     logger::log_info("Using the provided ITE estimations...")
   }
@@ -191,19 +172,13 @@ cre <- function(y, z, X,
   # Estimate ITE
   if (is.null(ite)) {
     logger::log_info("Estimating ITE...")
-    ite_list_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
+    ite_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
                       ite_method = getElement(method_params, "ite_method_inf"),
-                      is_y_binary = getElement(method_params, "is_y_binary"),
-                      include_ps = getElement(method_params, "include_ps_inf"),
                       ps_method = getElement(method_params, "ps_method_inf"),
                       oreg_method = getElement(method_params, "oreg_method_inf"),
-                      X_names = X_names,
                       offset = getElement(method_params,"offset"))
-
-    ite_inf <- ite_list_inf[["ite"]]
-    sd_ite_inf <- ite_list_inf[["sd_ite"]]
   } else {
-    sd_ite_inf <- NULL
+    logger::log_info("Using the provided ITE estimations...")
   }
 
   # Generate rules matrix

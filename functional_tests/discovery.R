@@ -7,53 +7,55 @@ n_rules <- 2
 sample_size <- 2000
 effect_sizes <- seq(0, 4, 0.2)
 confoundings <- c("no","lin","nonlin")
-ITE_estimators <- c("aipw","cf","bcf")
-n_seeds <- 480
+ITE_estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner","bart")
+n_seeds <- 100
 ratio_dis <- 0.5
 
 # Set Ground Truth
 {
-  cdr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
-           "x4<=0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
-  em <- c("x1","x2","x5","x6","x4","x7","x8")
-  if (n_rules==2) {
-    cdr<-cdr[1:2]
-    em <- em[1:4]
+  if (n_rules==1) {
+    dr <- c("x1>0.5 & x2<=0.5")
+    em <- c("x1","x2")
+  } else if (n_rules==2) {
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5")
+    em <- c("x1","x2","x5","x6")
+  } else if (n_rules==3) {
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5", "x4>0.5")
+    em <- c("x1","x2","x5","x6","x4")
   } else if (n_rules==4) {
-  } else {stop(paste("Synthtic dataset with", n_rules,"rules has not been
-                    implemented yet. Set 'n_rules' equal to 2 or 4 (rules)."))}
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
+            "x4>0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
+    em <- c("x1","x2","x5","x6","x4","x7","x8")
+  } else {
+    stop(paste("Synthtic dataset with", n_rules,"rules has not been",
+               "implemented yet. Available 'n_rules' options: {1,2,3,4}."))
+  }
 }
 
 # Set Method and Hyper Parameters
 {
   method_params <- list(ratio_dis = ratio_dis,
-                        ite_method_dis="aipw",
+                        ite_method_dis = "aipw",
                         ps_method_dis = "SL.xgboost",
                         oreg_method_dis = "SL.xgboost",
-                        include_ps_dis = TRUE,
                         ite_method_inf = "aipw",
                         ps_method_inf = "SL.xgboost",
-                        oreg_method_inf = "SL.xgboost",
-                        include_ps_inf = TRUE,
-                        cate_method = "linreg",
-                        cate_SL_library = "SL.xgboost",
-                        filter_cate = TRUE,
-                        offset = NULL)
+                        oreg_method_inf = "SL.xgboost")
 
   hyper_params <- list(intervention_vars = NULL,
-                       ntrees_rf = 100,
-                       ntrees_gbm = 50,
+                       offset = NULL,
+                       ntrees_rf = 40,
+                       ntrees_gbm = 40,
                        node_size = 20,
-                       max_nodes = 5,
+                       max_nodes = 8,
                        max_depth = 3,
-                       max_decay = 0.025,
-                       type_decay = 2,
+                       t_decay = 0.025,
                        t_ext = 0.01,
                        t_corr = 1,
                        t_pvalue = 0.05,
                        replace = TRUE,
                        stability_selection = TRUE,
-                       cutoff = 0.9,
+                       cutoff = 0.8,
                        pfer = 1,
                        penalty_rl = 1)
 }
@@ -72,9 +74,10 @@ for (confounding in confoundings) {
     # CRE
     for (ITE_estimator in ITE_estimators){
       # CRE (estimator i)
+      method <- paste("CRE (", ITE_estimator, ")", sep = "")
       time.before <- proc.time()
       discovery_i <- foreach(seed = seq(1, n_seeds, 1), .combine=rbind) %dopar% {
-        library("devtools")
+        library(devtools)
         load_all()
         set.seed(seed)
 
@@ -92,29 +95,30 @@ for (confounding in confoundings) {
         X <- dataset[["X"]]
         X_names <- colnames(X)
 
-        method_params[["ite_method_dis"]]<-ITE_estimator
-        method_params[["ite_method_inf"]]<-ITE_estimator
-        hyper_params[["pfer"]] <- 1/((effect_size+1))
-        result <- cre(y, z, X, method_params, hyper_params)
+        method_params[["ite_method_dis"]] <- ITE_estimator
+        method_params[["ite_method_inf"]] <- ITE_estimator
+        hyper_params[["pfer"]] <- n_rules/(effect_size+1)
+        metrics <- tryCatch({
+          result <- cre(y, z, X, method_params, hyper_params)
 
-        cdr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
-        metrics_cdr <- evaluate(cdr,cdr_pred)
+          dr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
+          metrics_dr <- evaluate(dr, dr_pred)
+          em_pred <- extract_effect_modifiers(dr_pred, X_names)
+          metrics_em <- evaluate(em, em_pred)
 
-        em_pred <- extract_effect_modifiers(cdr_pred, X_names)
-        metrics_em <- evaluate(em,em_pred)
-
-        method <- paste("CRE (",ITE_estimator,")", sep = "")
-        return(c(method, effect_size, seed,
-                 metrics_cdr$IoU,
-                 metrics_cdr$precision,
-                 metrics_cdr$recall,
-                 metrics_em$IoU,
-                 metrics_em$precision,
-                 metrics_em$recall))
+          c(method, effect_size, seed,
+            metrics_dr$IoU, metrics_dr$precision, metrics_dr$recall,
+            metrics_em$IoU, metrics_em$precision, metrics_em$recall)
+          },
+          error = function(e) {
+            c(method, effect_size, seed, NaN,NaN,NaN,NaN,NaN,NaN)
+          })
+        return(metrics)
       }
-      discovery <- rbind(discovery,discovery_i)
+      discovery <- rbind(discovery, discovery_i)
       time.after <- proc.time()
-      print(paste("CRE -", ITE_estimator,"(Time: ",round((time.after - time.before)[[3]],2), "sec)"))
+      print(paste("CRE -", ITE_estimator,"(Time: ",
+                  round((time.after - time.before)[[3]],2), "sec)"))
     }
 
     # HCT
@@ -153,7 +157,7 @@ for (confounding in confoundings) {
 
       fit.tree <- causalTree(y_dis ~ ., data = data_dis, treatment = z_dis,
                              split.Rule = "CT", cv.option = "CT",
-                             split.Honest = T, cv.Honest = T, maxdepth = 3)
+                             split.Honest = T, cv.Honest = T, maxdepth = 4)
       opt.cp <- fit.tree$cptable[,1][which.min(fit.tree$cptable[,4])]
       pruned <- prune(fit.tree, opt.cp)
 
@@ -161,10 +165,18 @@ for (confounding in confoundings) {
       rules <- as.numeric(row.names(pruned$frame[pruned$numresp]))
       rules.ctree <- vector("list",length(rules))
       for (k in rules[-1]){
-        sub <- as.data.frame(matrix(NA, nrow = 1,
-                                    ncol = nrow(as.data.frame(path.rpart(pruned, node=k, print.it = FALSE)))-1))
+        sub <- as.data.frame(matrix(NA,
+                                    nrow = 1,
+                                    ncol = nrow(as.data.frame(
+                                               path.rpart(pruned,
+                                                          node=k,
+                                                          print.it = FALSE)))-1)
+                                                )
         capture.output(for (h in 1:ncol(sub)){
-          sub[,h] <- as.character(print(as.data.frame(path.rpart(pruned,node=k,print.it=FALSE))[h+1,1]))
+          sub[,h] <- as.character(print(as.data.frame(
+                                            path.rpart(pruned,
+                                                       node=k,
+                                                       print.it=FALSE))[h+1,1]))
           sub_pop <- noquote(paste(sub , collapse = " & "))
         })
         subset <- with(data_inf, data_inf[which(eval(parse(text=sub_pop))),])
@@ -174,23 +186,23 @@ for (confounding in confoundings) {
       }
       leaves_dfs <- rep(FALSE,length(rules))
       leaves_dfs[unique(pruned$where)] <- TRUE
-      cdr_pred <- unlist(rules.ctree[rules[leaves_dfs]])
-      for (i in 1:length(cdr_pred)){
-        cdr_pred[i] <- gsub("< ", "<=", cdr_pred[i])
-        cdr_pred[i] <- gsub(">=", ">", cdr_pred[i])
+      dr_pred <- unlist(rules.ctree[rules[leaves_dfs]])
+      for (i in 1:length(dr_pred)){
+        dr_pred[i] <- gsub("< ", "<=", dr_pred[i])
+        dr_pred[i] <- gsub(">=", ">", dr_pred[i])
       }
       # Predict
       ite_pred <- predict(pruned, X)
 
-      metrics_cdr <- evaluate(cdr,cdr_pred)
+      metrics_dr <- evaluate(dr,dr_pred)
 
-      em_pred <- extract_effect_modifiers(cdr_pred, X_names)
+      em_pred <- extract_effect_modifiers(dr_pred, X_names)
       metrics_em <- evaluate(em,em_pred)
 
       return(c("HCT", effect_size, seed,
-               metrics_cdr$IoU,
-               metrics_cdr$precision,
-               metrics_cdr$recall,
+               metrics_dr$IoU,
+               metrics_dr$precision,
+               metrics_dr$recall,
                metrics_em$IoU,
                metrics_em$precision,
                metrics_em$recall))
@@ -200,12 +212,12 @@ for (confounding in confoundings) {
     print(paste("HCT (Time: ",round((time.after - time.before)[[3]],2), "sec)"))
   }
   colnames(discovery) <- c("method","effect_size","seed",
-                           "cdr_IoU","cdr_Precision","cdr_Recall",
+                           "dr_IoU","dr_Precision","dr_Recall",
                            "em_IoU","em_Precision","em_Recall")
   rownames(discovery) <- 1:nrow(discovery)
 
   # Save results
-  results_dir <- "../functional_tests/experiments/results/"
+  results_dir <- "../functional_tests/results/"
   if (!dir.exists(results_dir)) {
     dir.create(results_dir)
   }

@@ -54,12 +54,15 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
                                P_Value = cate_coeff[, 2])
     row.names(cate_summary) <- 1:nrow(cate_summary)
     # Filter Not Significant Rules
-    if (t_pvalue<1){
+    if (t_pvalue < 1) {
       filter_pvalue <- cate_summary$P_Value <= t_pvalue
-      M <- length(filter_pvalue)
-      if (sum(filter_pvalue[2:M])<M-1) {
-        rules_matrix <- rules_matrix[,filter_pvalue[2:M]]
-        rules_explicit <- rules_explicit[filter_pvalue[2:M]]
+      M <- length(filter_pvalue) - 1
+      if (sum(filter_pvalue[2:(M + 1)]) < M) {
+        rules_matrix <- rules_matrix[,filter_pvalue[2:(M + 1)], drop=FALSE]
+        rules_explicit <- rules_explicit[filter_pvalue[2:(M + 1)]]
+        if (length(rules_explicit)==0) {
+          rules_explicit <- NA
+        }
         return(estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue))
       }
     }

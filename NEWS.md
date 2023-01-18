@@ -1,6 +1,9 @@
 # CRE (Developing)
 
 ## Changed
+* `offset` method-parameter -> hyper-parameter
+* `estimate_ite_poisson` function -> `estimate_ite_tpoisson`
+* `max_dacay` hyper-parameter -> `t_decay`.
 * `interpret_select_rules` function -> `interpret_rules`.
 * `generate_causal_rules` function -> `discover_rules`.
 * `discover_causal_rules` function ->`select_rules`.
@@ -9,6 +12,10 @@
 * `cre` object: added parameters and ite estimation.
 
 ## Added
+* Syntethic data set with 1 or 3 rules (`generate_cre_dataset`).
+* S-Learner (`slearner`) method for ITE estimation.
+* T-Learner (`tlearner`) method for ITE estimation.
+* X-Learner (`xlearner`) method for ITE estimation.
 * Rules Selection description in `summary.cre`.
 * `verbose` parameter in `summary.cre`.
 * `ite`, additional `cre` input parameter to use personalized ite 
@@ -25,6 +32,13 @@ estimations.
 domain.
 
 ## Removed
+* `include_ps_inf` method-parameter.
+* `include_ps_dis` method-parameter.
+* `oreg` method for ITE estimation.
+* `ipw` method for ITE estimation.
+* `sipw` method for ITE estimation.
+* ITE standard deviation estimation.
+* `type_decay` hyper-parameter.
 * Keep only `linreg` for CATE estimation (remove `cate_method` and 
 `cate_SL_library` parameters).
 * `method_params` and `hyper_params` additional parameters in `summary.cre`.
@@ -32,12 +46,13 @@ domain.
 * `random_state` parameter.
 * `include_offset` method parameter.
 
+## Bug fixes
+* Rules Generation Issue (set rules length and fix bootstrapping).
 
 
 # CRE 0.1.1 (2022-10-18)
 
 ## Changed
-
 * `binary` parameter in `generate_cre_dataset` -> `binary_outcome` .
 * `filter_cate` hyper-parameter -> `t_pvalue`.
 * `t_anom` hyper-parameter -> `t_ext`.
@@ -55,7 +70,6 @@ domain.
 # CRE 0.1.0 (2022-10-17)
 
 ## Changed
-
 * Update examples and tests for all functions.
 * `q` hyper-parameter -> `cutoff`.
 * `pfer_val` hyper-parameter -> `pfer`.
@@ -100,7 +114,7 @@ covariates.
 * `estimate_ite_blp` function.
 * `take1()` function.
 
-## Solved
+## Bug fixes
 * Undesired 'All' Decision Rule Issue.
 * No Causal Rule Selected Issue.
 

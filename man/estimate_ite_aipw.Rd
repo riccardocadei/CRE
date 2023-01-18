@@ -25,7 +25,7 @@ estimate_ite_aipw(
 \item{oreg_method}{A estimation model for the outcome regressions.}
 }
 \value{
-A list of ITE estimates and standard deviations for the ITE estimates.
+A list of ITE estimates.
 }
 \description{
 Estimates the Individual Treatment Effect using Augmented Inverse Probability

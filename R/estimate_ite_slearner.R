@@ -1,17 +1,14 @@
 #' @title
-#' Estimate the Individual Treatment Effect (ITE) using Augmented Inverse
-#' Probability Weighting (AIPW)
+#' Estimate the Individual Treatment Effect (ITE) using S-Learner.
 #'
 #' @description
-#' Estimates the Individual Treatment Effect using Augmented Inverse Probability
-#' Weighting given a response vector, a treatment vector, a features matrix,
-#' an estimation model for the propensity score and estimation model for the
+#' Estimates the Individual Treatment Effect using S-Learner given a response
+#' vector, a treatment vector, a features matrix and estimation model for the
 #' outcome regressions.
 #'
 #' @param y An observed response vector.
 #' @param z A treatment vector.
 #' @param X A features matrix.
-#' @param ps_method A estimation model for the propensity score.
 #' @param oreg_method A estimation model for the outcome regressions.
 #'
 #' @return
@@ -19,10 +16,7 @@
 #'
 #' @keywords internal
 #'
-estimate_ite_aipw <- function(y, z, X, ps_method = "SL.xgboost",
-                              oreg_method = "SL.xgboost") {
-
-  ps_hat <- estimate_ps(z, X, ps_method)
+estimate_ite_slearner <- function(y, z, X, oreg_method = "SL.xgboost") {
 
   y_model <- SuperLearner::SuperLearner(Y = y,
                                         X = data.frame(X = X, Z = z),
@@ -32,16 +26,14 @@ estimate_ite_aipw <- function(y, z, X, ps_method = "SL.xgboost",
   if (sum(y_model$coef)==0) y_model$coef[1] <- 1
 
   y_0_hat <- predict(y_model,
-                    data.frame(X = X, Z = rep(0, nrow(X))),
-                    onlySL = TRUE)$pred
+                     data.frame(X = X, Z = rep(0, nrow(X))),
+                     onlySL = TRUE)$pred
+
   y_1_hat <- predict(y_model,
                      data.frame(X = X, Z = rep(1, nrow(X))),
                      onlySL = TRUE)$pred
 
-  apo_1 <- y_1_hat + z * (y - y_1_hat) / (ps_hat)
-  apo_0 <- y_0_hat + (1 - z) * (y - y_0_hat) / (1 - ps_hat)
-
-  ite <- as.vector(apo_1 - apo_0)
+  ite <- as.vector(y_1_hat - y_0_hat)
 
   return(ite)
 }

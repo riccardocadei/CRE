@@ -25,9 +25,6 @@ including:
 \itemize{
 \item \emph{ite_method_dis}: The method to estimate the discovery sample ITE
 (default: 'aipw').
-\item \emph{include_ps_dis}: Whether or not to include propensity score estimate
-as a covariate in discovery ITE estimation, considered only for BART,
-or CF (default: TRUE).
 \item \emph{ps_method_dis}: The estimation model for the propensity score on the
 discovery subsample (default: 'SL.xgboost').
 \item \emph{or_method_dis}: The estimation model for the outcome regressions
@@ -37,18 +34,10 @@ estimate_ite_aipw on the discovery subsample (default: 'SL.xgboost').
 \itemize{
 \item \emph{ite_method_inf}: The method to estimate the inference sample ITE
 (default: 'aipw').
-\item \emph{include_ps_inf}: Whether or not to include propensity score estimate
-as a covariate in inference ITE estimation, considered only for BART,
-or CF (default: TRUE).
 \item \emph{ps_method_inf}: The estimation model for the propensity score on the
 inference subsample (default: 'SL.xgboost').
 \item \emph{or_method_inf}: The estimation model for the outcome regressions in
 estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
-}
-\item \emph{Other Parameters}
-\itemize{
-\item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
-Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 }
 }}
 
@@ -57,19 +46,18 @@ including:
 \itemize{
 \item \emph{intervention_vars}: Intervention-able variables used for Rules Generation
 (default: NULL).
-\item \emph{ntrees_rf}: The number of decision trees for randomForest (default: 100).
-\item \emph{ntrees_gbm}: The number of decision trees for gradient boosting
-(default: 0).
-\item \emph{node_size}: The minimum size of the trees' terminal nodes (default: 20).
-\item \emph{max_nodes}: The maximum number of terminal nodes trees in the forest can
-have (default: 5).
-\item \emph{max_depth}: The number of top levels from each tree considered
-to extract conditions (default: 3).
+\item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
+T-Poisson ITE Estimation. NULL if offset is not used (default: NULL).
+\item \emph{ntrees_rf}: A number of decision trees for random forest (default: 20).
+\item \emph{ntrees_gbm}: A number of decision trees for the generalized boosted
+regression modeling algorithm.
+(default: 20).
+\item \emph{node_size}: Minimum size of the trees' terminal nodes (default: 20).
+\item \emph{max_nodes}: Maximum number of terminal nodes per tree (default: 5).
+\item \emph{max_depth}: Maximum rules length (default: 3).
 \item \emph{replace}: Boolean variable for replacement in bootstrapping
 (default: TRUE).
-\item \emph{max_decay}: Decay Threshold for pruning the rules (default: 0.025).
-\item \emph{type_decay}: Decay Type for pruning the rules: 1 relative error; 2 error
-(default: 2).
+\item \emph{t_decay}: The decay threshold for rules pruning (default: 0.025).
 \item \emph{t_ext}: The threshold to define too generic or too specific (extreme)
 rules (default: 0.01, range: (0,0.5)).
 \item \emph{t_corr}: The threshold to define correlated rules (default: 1,
@@ -109,7 +97,7 @@ a treatment variable, and various features.
 
 \donttest{
 set.seed(2021)
-dataset <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+dataset <- generate_cre_dataset(n = 400, rho = 0, n_rules = 2, p = 10,
                                 effect_size = 2, binary_covariates = TRUE,
                                 binary_outcome = FALSE, confounding = "no")
 y <- dataset[["y"]]
@@ -120,20 +108,18 @@ method_params <- list(ratio_dis = 0.25,
                       ite_method_dis="aipw",
                       ps_method_dis = "SL.xgboost",
                       oreg_method_dis = "SL.xgboost",
-                      include_ps_dis = TRUE,
                       ite_method_inf = "aipw",
                       ps_method_inf = "SL.xgboost",
-                      oreg_method_inf = "SL.xgboost",
-                      include_ps_inf = TRUE,
-                      offset = NULL)
+                      oreg_method_inf = "SL.xgboost")
 
-hyper_params <- list(ntrees_rf = 100,
-                     ntrees_gbm = 50,
+hyper_params <- list(intervention_vars = NULL,
+                     offset = NULL,
+                     ntrees_rf = 20,
+                     ntrees_gbm = 20,
                      node_size = 20,
                      max_nodes = 5,
-                     max_depth = 15,
-                     max_decay = 0.025,
-                     type_decay = 2,
+                     max_depth = 3,
+                     t_decay = 0.025,
                      t_ext = 0.025,
                      t_corr = 1,
                      t_pvalue = 0.05,

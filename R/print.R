@@ -56,14 +56,15 @@ summary.cre <- function(object, verbose = 2, ...) {
 
     cat("\n- Causal Rules Discovery")
     cat("\n  - ITE")
-    cat("\n    - Estimator       :", getElement(params, "ite_method_dis"))
-    if (getElement(params, "ite_method_dis") == "aipw") {
+    if (getElement(params, "ite_method_dis") == "tpoisson") {
+      cat("\n    - Estimator       : tlearner")
+      cat("\n    - Outcome         : poisson")
+      cat("\n    - Offset          :", getElement(params, "offset"))
+    } else {
+      cat("\n    - Estimator       :", getElement(params, "ite_method_dis"))
       cat("\n    - Outcome         :", getElement(params, "oreg_method_dis"))
-    }
-    if (getElement(params, "include_ps_dis")) {
       cat("\n    - Propensity Score:", getElement(params, "ps_method_dis"))
     }
-
 
     cat("\n  - Rules Generation")
     if (!is.null(getElement(params, "intervention_vars"))) {
@@ -78,9 +79,7 @@ summary.cre <- function(object, verbose = 2, ...) {
     cat("\n    - Max Depth             :", getElement(params, "max_depth"))
     cat("\n  - Filtering")
     cat("\n    - Threshold Decay (Irrelevant):", getElement(params,
-                                                            "max_decay"))
-    cat("\n    - Decay Type (Irrelevant)     :", getElement(params,
-                                                            "type_decay"))
+                                                            "t_decay"))
     cat("\n    - Threshold (Extreme)         :", getElement(params,
                                                             "t_ext"))
     cat("\n    - Threshold (Correlated)      :", getElement(params,
@@ -99,12 +98,13 @@ summary.cre <- function(object, verbose = 2, ...) {
 
 
     cat("\n- CATE Inference")
-    cat("\n  - ITE")
-    cat("\n    - Estimator       :", getElement(params, "ite_method_inf"))
-    if (getElement(params, "ite_method_inf") == "aipw") {
+    if (getElement(params, "ite_method_inf")=="tpoisson") {
+      cat("\n    - Estimator       : tlearner")
+      cat("\n    - Outcome         : poisson")
+      cat("\n    - Offset          :", getElement(params, "offset"))
+    } else {
+      cat("\n    - Estimator       :", getElement(params, "ite_method_inf"))
       cat("\n    - Outcome         :", getElement(params, "oreg_method_inf"))
-    }
-    if (getElement(params, "include_ps_inf")) {
       cat("\n    - Propensity Score:", getElement(params, "ps_method_inf"))
     }
   }

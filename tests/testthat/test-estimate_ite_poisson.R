@@ -8,25 +8,23 @@ test_that("Poisson ITE Estimated Correctly", {
   y <- trunc(abs(dataset_cont[["y"]]) * 10)
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
-  X_names <- names(X)
   offset <- NULL
 
   # Incorrect data inputs
-  expect_error(estimate_ite_poisson(y = "test", z, X, X_names, offset))
-  expect_warning(expect_error(estimate_ite_poisson(y, z = "test", X, X_names,
-                                                   offset)))
-  expect_error(estimate_ite_poisson(y, z, X = NA, X_names, offset))
-  expect_error(estimate_ite_poisson(y, z, X, X_names, offset = "x_1"))
+  expect_error(estimate_ite_tpoisson(y = "test", z, X, offset))
+  expect_warning(expect_error(estimate_ite_tpoisson(y, z = "test", X, offset)))
+  expect_error(estimate_ite_tpoisson(y, z, X = NA, offset))
+  expect_error(estimate_ite_tpoisson(y, z, X, offset = "x_1"))
 
   # Correct outputs
   # Poisson (vanila)
-  ite_result <- estimate_ite_poisson(y, z, X, X_names, offset)
+  ite_result <- estimate_ite_tpoisson(y, z, X, offset)
   expect_true(class(ite_result) == "numeric")
   expect_true(length(ite_result) == length(y))
 
   # Poisson + Offset
   offset <- "x9"
-  ite_result <- estimate_ite_poisson(y, z, X, X_names, offset)
+  ite_result <- estimate_ite_tpoisson(y, z, X, offset)
   expect_true(class(ite_result) == "numeric")
   expect_true(length(ite_result) == length(y))
 

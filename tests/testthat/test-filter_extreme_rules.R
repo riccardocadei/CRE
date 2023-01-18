@@ -17,13 +17,9 @@ test_that("Extreme Rules Discarded Correctly", {
   max_nodes <- 5
   max_depth <- 15
   replace <- FALSE
-  max_decay <- 0.025
-  type_decay <- 2
+  t_decay <- 0.025
   t_ext <- 0.1
-  intervention_vars <- c()
-
-  # Check for binary outcome
-  binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
+  intervention_vars <- NULL
 
   # Step 1: Split data
   X <- as.matrix(X)
@@ -33,20 +29,17 @@ test_that("Extreme Rules Discarded Correctly", {
   ###### Discovery ######
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method, binary,
+  ite <- estimate_ite(y, z, X, ite_method,
                            include_ps = include_ps,
                            ps_method = ps_method,
-                           oreg_method = oreg_method,
-                           random_state = 376)
-  ite <- ite_list[["ite"]]
+                           oreg_method = oreg_method)
 
   # Step 3: Generate rules list
   initial_rules <- generate_rules(X, ite, intervention_vars, ntrees_rf,
                                   ntrees_gbm, node_size, max_nodes, max_depth,
                                   replace)
 
-  rules_list <- filter_irrelevant_rules(initial_rules, X, ite,
-                                        max_decay, type_decay)
+  rules_list <- filter_irrelevant_rules(initial_rules, X, ite, t_decay)
   rules_matrix <- generate_rules_matrix(X, rules_list)
 
   ###### Run Tests ######

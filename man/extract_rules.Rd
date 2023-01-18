@@ -4,14 +4,12 @@
 \alias{extract_rules}
 \title{Extract (causal) decision rules}
 \usage{
-extract_rules(treelist, X, ntrees, max_depth, digits = 2)
+extract_rules(treelist, X, max_depth, digits = 2)
 }
 \arguments{
 \item{treelist}{A list of decision trees.}
 
 \item{X}{Features matrix.}
-
-\item{ntrees}{A number of (the first) decision trees considered.}
 
 \item{max_depth}{A number of top levels from each tree considered.}
 

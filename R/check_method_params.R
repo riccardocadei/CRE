@@ -5,7 +5,6 @@
 #' Checks method-related parameters.
 #'
 #' @param y The observed response vector.
-#' @param X_names The observed covariates names.
 #' @param ite The estimated ITE vector.
 #' @param params The list of parameters required to run the method functions.
 #'
@@ -15,7 +14,7 @@
 #' A modified input `params`. A list of parameters that might be changed during
 #' the checks.
 #'
-check_method_params <- function(y, X_names, ite, params) {
+check_method_params <- function(y, ite, params) {
 
   # Honest Splitting Parameters Check ------------------------------------------
   ratio_dis <- getElement(params, "ratio_dis")
@@ -34,14 +33,12 @@ check_method_params <- function(y, X_names, ite, params) {
   if (length(ite_method_dis) == 0) {
     ite_method_dis <- "aipw"
   } else {
-    if (!(ite_method_dis %in% c(
-      "ipw", "sipw", "aipw", "oreg", "bart",
-      "bcf", "cf", "poisson"
-    ))) {
+    if (!(ite_method_dis %in% c("aipw", "slearner","tlearner","xlearner",
+                                "bart","bcf","cf","tpoisson"))) {
       stop(paste(
         "Invalid ITE method for Discovery Subsample. Please choose ",
-        "from the following:\n", "'ipw', 'sipw', 'aipw', oreg', 'bart', ",
-        "'bcf', 'cf', or 'poisson'"
+        "from the following:\n", "'aipw', 'bart', 'slearner','tlearner', ",
+        "'xlearner', 'bcf', 'cf', or 'tpoisson'"
       ))
     }
   }
@@ -51,14 +48,12 @@ check_method_params <- function(y, X_names, ite, params) {
   if (length(ite_method_inf) == 0) {
     ite_method_inf <- "aipw"
   } else {
-    if (!(ite_method_inf %in% c(
-      "ipw", "sipw", "aipw", "oreg", "bart",
-      "bcf", "cf", "poisson"
-    ))) {
+    if (!(ite_method_dis %in% c("aipw", "slearner","tlearner","xlearner",
+                                "bart","bcf", "cf", "tpoisson"))) {
       stop(paste(
         "Invalid ITE method for Inference Subsample. Please choose ",
-        "from the following: 'ipw', 'sipw', 'aipw', 'oreg', 'bart', ",
-        "'bcf', 'cf', or 'poisson'"
+        "from the following:\n", "'aipw', 'bart', 'slearner','tlearner', ",
+        "'xlearner', 'bcf', 'cf', or 'tpoisson'"
       ))
     }
   }
@@ -66,40 +61,9 @@ check_method_params <- function(y, X_names, ite, params) {
 
 
   # Propensity Score Estimation Parameters Check--------------------------------
-  include_ps_dis <- toupper(getElement(params, "include_ps_dis"))
-  if (ite_method_dis %in% c("bart", "cf")) {
-    if (length(include_ps_dis) == 0) {
-      include_ps_dis <- TRUE
-    } else {
-      if (!(include_ps_dis %in% c(TRUE, FALSE))) {
-        stop(
-          "Please specify 'TRUE' or 'FALSE' for the include_ps_dis argument."
-          )
-      }
-    }
-  } else {
-    include_ps_dis <- TRUE
-  }
-  params[["include_ps_dis"]] <- include_ps_dis
-
-  include_ps_inf <- toupper(getElement(params, "include_ps_inf"))
-  if (ite_method_inf %in% c("bart", "cf")) {
-    if (length(include_ps_inf) == 0) {
-      include_ps_inf <- TRUE
-    } else {
-      if (!(include_ps_inf %in% c(TRUE, FALSE))) {
-        stop(
-          "Please specify 'TRUE' or 'FALSE' for the include_ps_inf argument."
-          )
-      }
-    }
-  } else {
-    include_ps_inf <- TRUE
-  }
-  params[["include_ps_inf"]] <- include_ps_inf
 
   ps_method_dis <- getElement(params, "ps_method_dis")
-  if (!(ite_method_dis %in% c("or", "poisson"))) {
+  if (!(ite_method_dis %in% c("slearner", "tlearner", "xlearner", "tpoisson"))) {
     if (length(ps_method_dis) == 0) {
       ps_method_dis <- "SL.xgboost"
     } else {
@@ -114,7 +78,7 @@ check_method_params <- function(y, X_names, ite, params) {
   params[["ps_method_dis"]] <- ps_method_dis
 
   ps_method_inf <- getElement(params, "ps_method_inf")
-  if (!(ite_method_inf %in% c("or", "poisson"))) {
+  if (!(ite_method_inf %in% c("slearner", "tlearner", "xlearner", "tpoisson"))) {
     if (length(ps_method_inf) == 0) {
       ps_method_inf <- "SL.xgboost"
     } else {
@@ -130,7 +94,7 @@ check_method_params <- function(y, X_names, ite, params) {
 
   # Outcome Regression Score Estimation Parameters Check -----------------------
   oreg_method_dis <- getElement(params, "oreg_method_dis")
-  if (ite_method_dis %in% c("aipw")) {
+  if (ite_method_dis %in% c("slearner", "tlearner", "xlearner", "aipw")) {
     if (length(oreg_method_dis) == 0) {
       oreg_method_dis <- "SL.xgboost"
     } else {
@@ -145,7 +109,7 @@ check_method_params <- function(y, X_names, ite, params) {
   params[["oreg_method_dis"]] <- oreg_method_dis
 
   oreg_method_inf <- getElement(params, "oreg_method_inf")
-  if (ite_method_inf %in% c("aipw")) {
+  if (ite_method_inf %in% c("slearner", "tlearner", "xlearner", "aipw")) {
     if (length(oreg_method_inf) == 0) {
       oreg_method_inf <- "SL.xgboost"
     } else {
@@ -159,44 +123,15 @@ check_method_params <- function(y, X_names, ite, params) {
   }
   params[["oreg_method_inf"]] <- oreg_method_inf
 
-  # Check Outcome Domain -------------------------------------------------------
-  is_y_binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
-  if (is_y_binary) {
-    if (ite_method_dis %in% c("bcf", "ipw", "sipw") |
-        ite_method_inf %in% c("bcf", "ipw", "sipw")) {
-      stop(paste("The 'ipw', 'sipw', and 'bcf' methods are not ",
-                 "applicable to data with binary outcomes. Please select a ",
-                 "method from the following: 'aipw',' or', 'cf', or 'bart'"))
-    }
-  }
-  params[["is_y_binary"]] <- is_y_binary
 
-  # Offset Parameter Check------------------------------------------------------
-
-  offset <- getElement(params, "offset")
-  if ((ite_method_dis == "poisson") | (ite_method_inf == "poisson")) {
-    if (length(offset) == 0) {
-      offset <- NULL
-    } else {
-      if (!(offset %in% X_names))
-        stop("Offset varible is not observed. Please replace `offset` with an
-           observed varibale.")
-    }
-  } else {
-    offset <- NA
-  }
-  params[["offset"]] <- offset
-
-  # Discard ITE Parameters if ITE estimates are provided
+  # Discard ITE Parameters if ITE estimates are provided------------------------
   if (!is.null(ite)) {
     params[["ite_method_dis"]] <- "personalized"
-    params[["include_ps_dis"]] <- FALSE
-    params[["ps_method_dis"]] <- FALSE
-    params[["or_method_dis"]] <- FALSE
+    params[["ps_method_dis"]] <- NULL
+    params[["or_method_dis"]] <- NULL
     params[["ite_method_inf"]] <- "personalized"
-    params[["include_ps_inf"]] <- FALSE
-    params[["ps_method_inf"]] <- FALSE
-    params[["or_method_inf"]] <- FALSE
+    params[["ps_method_inf"]] <- NULL
+    params[["or_method_inf"]] <- NULL
   }
 
   return(params)
