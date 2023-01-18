@@ -12,3 +12,4 @@ src-i386
 .DS_Store
 *.ipynb
 *.pdf
+/check/

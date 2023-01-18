@@ -66,10 +66,20 @@ estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner","bart")
 
 # confounding
 for(confounding in confoundings) {
-  start <- proc.time()
+  start_c <- proc.time()
+
+  # save checks
+  check_dir <- "../functional_tests/check/"
+  if (!dir.exists(check_dir)) {
+    dir.create(check_dir)
+  }
+  exp_name <- paste(sample_size,"s_",n_rules,"r_",confounding, sep="")
+  check_dir <- paste(check_dir,"discovery_",exp_name,".txt", sep="")
 
   # Set Cluster
-  cl <- makeCluster(detectCores())
+  cl <- makeCluster(detectCores(),
+                    type="PSOCK",
+                    outfile=check_dir)
   clusterExport(cl, ls(globalenv()))
   load_packages <- function(){
     library("causalTree")
@@ -83,6 +93,7 @@ for(confounding in confoundings) {
     # effect size
     lapply(effect_sizes, function(effect_size) {
       set.seed(seed)
+      print(paste("Effect Size:", effect_size))
       dataset <- generate_cre_dataset(n = sample_size,
                                       rho = 0,
                                       p = 10,
@@ -99,12 +110,13 @@ for(confounding in confoundings) {
       # CRE - estimator
       results <- lapply(estimators,function(estimator) {
         set.seed(seed)
+        start_ite <- proc.time()
         method <- paste("CRE (", estimator, ")", sep = "")
 
         method_params[["ite_method_dis"]] <- estimator
         method_params[["ite_method_inf"]] <- estimator
         hyper_params[["pfer"]] <- n_rules/(effect_size+1)
-        tryCatch({
+        metrics <- tryCatch({
           result <- cre(y, z, X, method_params, hyper_params)
 
           dr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
@@ -119,10 +131,15 @@ for(confounding in confoundings) {
         error = function(e) {
           c(method, effect_size, seed, NaN,NaN,NaN,NaN,NaN,NaN)
         })
+        end_ite <- proc.time()
+        print(paste("CRE (",estimator,"): (Time: ",
+                    round((end_ite - start_ite)[[3]],2), "sec)"))
+        return (metrics)
       })
 
       # HCT
       set.seed(seed)
+      start_ite <- proc.time()
       subgroups <- honest_splitting(y, z, X, 0.5)
       discovery <- subgroups[["discovery"]]
       inference <- subgroups[["inference"]]
@@ -184,6 +201,8 @@ for(confounding in confoundings) {
                                            metrics_em$IoU,
                                            metrics_em$precision,
                                            metrics_em$recall)
+      end_ite <- proc.time()
+      paste("HCT: (Time: ",round((end_ite - start_ite)[[3]],2), "sec)")
       results
     })
   })
@@ -202,14 +221,13 @@ for(confounding in confoundings) {
   if (!dir.exists(results_dir)) {
     dir.create(results_dir)
   }
-  exp_name <- paste(sample_size,"s_",n_rules,"r_",confounding, sep="")
   file_dir <- paste(results_dir,"discovery_",exp_name,".RData", sep="")
   save(discovery, file = file_dir)
 
   # Stop Cluster
   stopCluster(cl)
 
-  end <- proc.time()
+  end_c <- proc.time()
   print(paste("Confounding: ",confounding,
-              " (Time: ",round((end - start)[[3]],2), "sec)"))
+              " (Time: ",round((end_c - start_c)[[3]],2), "sec)"))
 }
