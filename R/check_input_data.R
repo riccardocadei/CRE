@@ -16,6 +16,8 @@
 #'
 check_input_data <- function(y, z, X, ite = NULL) {
 
+  logger::log_debug("Checking input data...")
+
   # Observed Outcome
   if (is.matrix(y)) {
     if (ncol(y)!=1 || !(is.numeric(y[,1]) || is.integer(y[,1]))) {
@@ -87,6 +89,8 @@ check_input_data <- function(y, z, X, ite = NULL) {
                "same number of observations.",
                "Current values:", N, ",", N_check))
   }
+
+  logger::log_debug("Done with checking input data.")
 
   invisible(N)
 }

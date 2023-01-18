@@ -120,7 +120,6 @@ cre <- function(y, z, X,
   st_time_cre <- proc.time()
 
   # Input checks ---------------------------------------------------------------
-  logger::log_info("Checking parameters...")
   method_params <- check_method_params(y = y,
                                        ite = ite,
                                        params = method_params)
@@ -128,7 +127,6 @@ cre <- function(y, z, X,
                                      params = hyper_params)
 
   # Honest Splitting -----------------------------------------------------------
-  logger::log_info("(Honest) Splitting the dataset...")
   X_names <- names(as.data.frame(X))
   subgroups <- honest_splitting(y, z, X,
                                 getElement(method_params, "ratio_dis"), ite)
@@ -148,7 +146,7 @@ cre <- function(y, z, X,
 
   # Discovery ------------------------------------------------------------------
   logger::log_info("Starting rules discovery...")
-
+  st_time_rd <- proc.time()
   # Estimate ITE
   if (is.null(ite)) {
     logger::log_info("Estimating ITE...")
@@ -169,6 +167,9 @@ cre <- function(y, z, X,
   rules <- discovery[["rules"]]
   M <- discovery[["M"]]
 
+  en_time_rd <- proc.time()
+  logger::log_info("Done with rules discovery. ",
+                   "WC: {(en_time_rd -   st_time_rd)[[3]]} seconds.")
   # Inference ------------------------------------------------------------------
   logger::log_info("Starting CATE inference...")
 
@@ -224,7 +225,7 @@ cre <- function(y, z, X,
 
   # Return Results -------------------------------------------------------------
   end_time_cre <- proc.time()
-  logger::log_debug("Wall clock time to run cre:",
+  logger::log_info("Wall clock time to run cre:",
                     " {(end_time_cre -   st_time_cre)[[3]]} seconds.")
   logger::log_info("CRE method complete!")
   return(results)

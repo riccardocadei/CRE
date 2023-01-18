@@ -16,6 +16,8 @@
 #'
 check_method_params <- function(y, ite, params) {
 
+  logger::log_debug("Checking method parameters...")
+
   # Honest Splitting Parameters Check ------------------------------------------
   ratio_dis <- getElement(params, "ratio_dis")
   if (length(ratio_dis) == 0) {
@@ -133,6 +135,8 @@ check_method_params <- function(y, ite, params) {
     params[["ps_method_inf"]] <- NULL
     params[["or_method_inf"]] <- NULL
   }
+
+  logger::log_debug("Done with checking method parameters.")
 
   return(params)
 }
