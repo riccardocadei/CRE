@@ -4,7 +4,7 @@ library(doParallel)
 
 # Set Experiment Parameter
 n_rules <- 2
-sample_size <- 5000
+sample_size <- 2000
 effect_size <- 5
 confoundings <- c("no","lin","nonlin")
 ite_estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner","bart")
@@ -16,13 +16,21 @@ pfer <- n_rules/(effect_size+1)
 {
   if (n_rules==1) {
     dr <- c("x1>0.5 & x2<=0.5")
+    em <- c("x1","x2")
+    max_depth <- 2
   } else if (n_rules==2) {
     dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5")
+    em <- c("x1","x2","x5","x6")
+    max_depth <- 2
   } else if (n_rules==3) {
     dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5", "x4>0.5")
+    em <- c("x1","x2","x5","x6","x4")
+    max_depth <- 2
   } else if (n_rules==4) {
     dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
             "x4>0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
+    em <- c("x1","x2","x5","x6","x4","x7","x8")
+    max_depth <- 3
   } else {
     stop(paste("Synthtic dataset with", n_rules,"rules has not been",
                "implemented yet. Available 'n_rules' options: {1,2,3,4}."))
@@ -44,8 +52,8 @@ pfer <- n_rules/(effect_size+1)
                        ntrees_rf = 40,
                        ntrees_gbm = 40,
                        node_size = 20,
-                       max_nodes = 4,
-                       max_depth = 2,
+                       max_nodes = 2^max_depth,
+                       max_depth = max_depth,
                        t_decay = 0.025,
                        t_ext = 0.01,
                        t_corr = 1,

@@ -2,10 +2,10 @@ set.seed(2021)
 library(causalTree)
 
 # Set Experiment Parameter
-n_rules <- 2
-sample_size <- 5000
+n_rules <- 4
+sample_size <- 2000
 effect_size <- 2
-confounding <- "nc"
+confounding <- "no"
 ratio_dis <- 0.5
 
 # Set Ground Truth
