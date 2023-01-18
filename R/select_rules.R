@@ -76,7 +76,7 @@ select_rules <- function(rules_matrix, rules_list, ite,
     }
   }
 
-  logger::log_debug("Done with selecting rules...")
+  logger::log_debug("Done with selecting rules.")
 
   return(rules_list)
 }

@@ -27,6 +27,8 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
                            node_size, max_nodes, max_depth, replace) {
 
   logger::log_debug("Generating (candidate) rules...")
+  st_time <- proc.time()
+
   # Filter only Intervention-able variables ------------------------------------
   if (!is.null(intervention_vars)) X <- X[, intervention_vars, drop = FALSE]
 
@@ -67,7 +69,8 @@ generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
   }
 
   rules <- unique(c(rules_RF, rules_GB))
-  logger::log_debug("Done with generating (candidate) rules.")
-
+  en_time <- proc.time()
+  logger::log_debug("Done with generating (candidate) rules.. ",
+                    "(WC: {g_wc_str(st_time, en_time)}", ".)")
   return(rules)
 }
