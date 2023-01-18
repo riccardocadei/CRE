@@ -168,7 +168,7 @@ cre <- function(y, z, X,
 
   en_time_rd <- proc.time()
   logger::log_info("Done with rules discovery. ",
-                   "WC: {(en_time_rd -   st_time_rd)[[3]]} seconds.")
+                   "WC: {g_wc_str(st_time_rd, en_time_rd)} ", ".")
   # Inference ------------------------------------------------------------------
   logger::log_info("Starting CATE inference...")
 
@@ -224,8 +224,7 @@ cre <- function(y, z, X,
 
   # Return Results -------------------------------------------------------------
   end_time_cre <- proc.time()
-  logger::log_info("Wall clock time to run cre:",
-                    " {(end_time_cre -   st_time_cre)[[3]]} seconds.")
-  logger::log_info("Done!")
+  logger::log_info("Done with running CRE function!",
+                   "(WC: {g_wc_str(st_time_cre, end_time_cre)}",".)")
   return(results)
 }

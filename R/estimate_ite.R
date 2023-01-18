@@ -102,7 +102,7 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
 
   en_time <- proc.time()
   logger::log_debug("Done with estimating ITE. ",
-                    "WC: {(en_time -   st_time)[[3]]} seconds.")
+                    "(WC: {g_wc_str(st_time, en_time)}", ".)")
 
   return(ite)
 }
