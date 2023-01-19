@@ -17,6 +17,8 @@
 #'
 estimate_ite_cf <- function(y, z, X, ps_method) {
 
+  logger::log_trace("ps_method: '{ps_method}' was selected.")
+
   if (!requireNamespace("grf", quietly = TRUE)) {
     stop(
       "Package \"grf\" must be installed to use this function.",

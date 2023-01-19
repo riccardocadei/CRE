@@ -27,6 +27,8 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
 
   `%>%` <- magrittr::`%>%`
 
+  logger::log_debug("Estimating CATE ...")
+
   if (any(is.na(rules_explicit))) {
     # Estimate ATE (if No Rules Selected)
     cate_model <- stats::lm(ite ~ 1)
@@ -53,7 +55,11 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
                                CI_upper = cate_ci[, 2],
                                P_Value = cate_coeff[, 2])
     row.names(cate_summary) <- 1:nrow(cate_summary)
+
     # Filter Not Significant Rules
+    # TODO: This section needs refactoring. Calling the function itself, while
+    # while the nature of the function is not recursive is not a good practice.
+
     if (t_pvalue < 1) {
       filter_pvalue <- cate_summary$P_Value <= t_pvalue
       M <- length(filter_pvalue) - 1
@@ -68,5 +74,8 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
     }
   }
   cate <- list(summary = cate_summary, model = cate_model)
+
+  logger::log_debug("Done with estimating CATE.")
+
   return(cate)
 }

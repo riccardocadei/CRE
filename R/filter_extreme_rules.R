@@ -15,6 +15,8 @@
 #'
 filter_extreme_rules <- function(rules_matrix, rules_list, t_ext) {
 
+  logger::log_debug("Filtering extreme rules...")
+
   # Identify rules with too few or too many observations
   ind <- 1:dim(rules_matrix)[2]
   sup <- apply(rules_matrix, 2, mean)
@@ -25,6 +27,8 @@ filter_extreme_rules <- function(rules_matrix, rules_list, t_ext) {
   rules_matrix <- rules_matrix[, ind, drop = FALSE]
   rules_list <- rules_list[ind]
   colnames(rules_matrix) <- rules_list
+
+  logger::log_debug("Done with filtering extreme rules.")
 
   return(rules_matrix)
 }

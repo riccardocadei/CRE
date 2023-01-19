@@ -116,8 +116,10 @@ cre <- function(y, z, X,
 
   "%>%" <- magrittr::"%>%"
 
+  # timing the function
+  st_time_cre <- proc.time()
+
   # Input checks ---------------------------------------------------------------
-  logger::log_info("Checking parameters...")
   method_params <- check_method_params(y = y,
                                        ite = ite,
                                        params = method_params)
@@ -125,7 +127,6 @@ cre <- function(y, z, X,
                                      params = hyper_params)
 
   # Honest Splitting -----------------------------------------------------------
-  logger::log_info("(Honest) Splitting the dataset...")
   X_names <- names(as.data.frame(X))
   subgroups <- honest_splitting(y, z, X,
                                 getElement(method_params, "ratio_dis"), ite)
@@ -145,10 +146,9 @@ cre <- function(y, z, X,
 
   # Discovery ------------------------------------------------------------------
   logger::log_info("Starting rules discovery...")
-
+  st_time_rd <- proc.time()
   # Estimate ITE
   if (is.null(ite)) {
-    logger::log_info("Estimating ITE...")
     ite_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
                       ite_method = getElement(method_params, "ite_method_dis"),
                       ps_method = getElement(method_params, "ps_method_dis"),
@@ -166,19 +166,23 @@ cre <- function(y, z, X,
   rules <- discovery[["rules"]]
   M <- discovery[["M"]]
 
+  en_time_rd <- proc.time()
+  logger::log_info("Done with rules discovery. ",
+                   "(WC: {g_wc_str(st_time_rd, en_time_rd)}", ".)")
   # Inference ------------------------------------------------------------------
-  logger::log_info("Starting CATE inference...")
+  logger::log_info("Starting inference...")
+  st_time_inf <- proc.time()
 
   # Estimate ITE
   if (is.null(ite)) {
-    logger::log_info("Estimating ITE...")
     ite_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
                       ite_method = getElement(method_params, "ite_method_inf"),
                       ps_method = getElement(method_params, "ps_method_inf"),
                       oreg_method = getElement(method_params, "oreg_method_inf"),
                       offset = getElement(method_params,"offset"))
   } else {
-    logger::log_info("Using the provided ITE estimations...")
+    logger::log_info("Skipped generating ITE.",
+                     "The provided ITE will be used.")
   }
 
   # Generate rules matrix
@@ -191,7 +195,6 @@ cre <- function(y, z, X,
   }
 
   # Estimate CATE
-  logger::log_info("Estimating CATE...")
   cate_inf <- estimate_cate(rules_matrix_inf, rules_explicit,
                             ite_inf, getElement(hyper_params, "t_pvalue"))
   M["select_significant"] <- as.integer(length(cate_inf$summary$Rule)) - 1
@@ -208,6 +211,10 @@ cre <- function(y, z, X,
     ite_pred <- cate_inf$summary$Estimate[1]
   }
 
+  en_time_inf <- proc.time()
+  logger::log_info("Done with inference. ",
+                   "(WC: {g_wc_str(st_time_inf, en_time_inf)} ", ".)")
+
   # Generate final results S3 object
   results <- list("M" = M,
                   "CATE" = cate_inf[["summary"]],
@@ -220,6 +227,9 @@ cre <- function(y, z, X,
   # TODO
 
   # Return Results -------------------------------------------------------------
-  logger::log_info("CRE method complete!")
+  end_time_cre <- proc.time()
+  logger::log_info("Done with running CRE function!",
+                   "(WC: {g_wc_str(st_time_cre, end_time_cre)}",".)")
+  logger::log_info("Done!")
   return(results)
 }

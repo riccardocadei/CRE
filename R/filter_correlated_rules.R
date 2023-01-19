@@ -15,6 +15,8 @@
 #'
 filter_correlated_rules <- function(rules_matrix, rules_list, t_corr) {
 
+  logger::log_debug("Filtering correlated rules...")
+
   # Identify correlated rules
   nrules <- length(rules_list)
   ind <- 1:nrules
@@ -30,6 +32,8 @@ filter_correlated_rules <- function(rules_matrix, rules_list, t_corr) {
   rules_matrix <- rules_matrix[, ind, drop = FALSE]
   rules_list <- rules_list[ind]
   colnames(rules_matrix) <- rules_list
+
+  logger::log_debug("Done with filtering correlated rules.")
 
   return(rules_matrix)
 }

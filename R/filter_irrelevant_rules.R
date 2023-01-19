@@ -19,6 +19,8 @@
 #'
 filter_irrelevant_rules <- function(rules, X, ite, t_decay) {
 
+  logger::log_debug("Filtering irrelevant rules...")
+
   rules_matrix <- matrix(rules)
   colnames(rules_matrix) <- "condition"
   metric <- inTrees::getRuleMetric(rules_matrix,
@@ -36,5 +38,8 @@ filter_irrelevant_rules <- function(rules, X, ite, t_decay) {
       rules[i] <- sub("<=", ">", rules[i])
     }
   }
+
+  logger::log_debug("Done with filtering irrelevant rules.")
+
   return(unique(rules))
 }

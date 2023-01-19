@@ -18,6 +18,8 @@
 #'
 estimate_ite_tlearner <- function(y, z, X, oreg_method = "SL.xgboost") {
 
+  logger::log_trace("oreg_method: '{oreg_method}' was selected.")
+
   X<- as.data.frame(X)
   y_0_model <- SuperLearner::SuperLearner(Y = y[z==0],
                                           X = X[z==0,],

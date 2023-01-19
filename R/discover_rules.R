@@ -19,7 +19,6 @@
 discover_rules <- function(X, ite, method_params, hyper_params) {
 
   # Generate rules -------------------------------------------------------------
-  logger::log_info("Generating (candidate) rules...")
   rules <- generate_rules(X,
                           ite,
                           getElement(hyper_params, "intervention_vars"),
@@ -30,34 +29,28 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
                           getElement(hyper_params, "max_depth"),
                           getElement(hyper_params, "replace"))
   M_initial <- length(rules)
-
   # Filtering ------------------------------------------------------------------
 
   # Discard irrelevant variable-value pair from a rule condition ---------------
-  logger::log_info("Filtering irrelevant rules...")
   rules_list <- filter_irrelevant_rules(rules, X, ite,
                                         getElement(hyper_params, "t_decay"))
   M_filter1 <- length(rules_list)
-
   # Generate rules matrix ------------------------------------------------------
   rules_matrix <- generate_rules_matrix(X, rules_list)
 
   # Discard rules with too few or too many observations and correlated rules ---
-  logger::log_info("Filtering extreme rules...")
   rules_matrix <- filter_extreme_rules(rules_matrix, rules_list,
                                        getElement(hyper_params, "t_ext"))
   rules_list <- colnames(rules_matrix)
   M_filter2 <- length(rules_list)
 
   # Discard correlated rules ---------------------------------------------------
-  logger::log_info("Filtering correlated rules...")
   rules_matrix <- filter_correlated_rules(rules_matrix, rules_list,
                                            getElement(hyper_params, "t_corr"))
   rules_list <- colnames(rules_matrix)
   M_filter3 <- length(rules_list)
 
-  # Select Rules ---------------------------------------------------
-  logger::log_info("Selecting rules...")
+  # Select Rules ---------------------------------------------------------------
   rules_list <- select_rules(rules_matrix,
                              rules_list,
                              ite,

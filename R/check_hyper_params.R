@@ -15,6 +15,8 @@
 #'
 check_hyper_params <- function(X_names, params) {
 
+  logger::log_debug("Checking hyper parameters...")
+
   # Input params checks --------------------------------------------------------
   ntrees_rf <- getElement(params, "ntrees_rf")
   if (length(ntrees_rf) == 0) {
@@ -187,6 +189,8 @@ check_hyper_params <- function(X_names, params) {
     }
   }
   params[["offset"]] <- offset
+
+  logger::log_debug("Done with checking hyper parameters.")
 
   return(params)
 }
