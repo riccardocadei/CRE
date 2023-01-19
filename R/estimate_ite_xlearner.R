@@ -36,7 +36,7 @@ estimate_ite_xlearner <- function(y, z, X, oreg_method = "SL.xgboost") {
                                           SL.library = oreg_method,
                                           cvControl = list(V = 0))
 
-  if (sum(y_0_model$coef) == 0) y_0_model$coef[1] <- 1
+  if (sum(y_1_model$coef) == 0) y_1_model$coef[1] <- 1
 
   ite <- array(0, dim = length(y))
   ite[z==0] <- predict(y_1_model, X[z==0,], onlySL = TRUE)$pred - y[z==0]

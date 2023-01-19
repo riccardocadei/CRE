@@ -22,5 +22,5 @@ test_that("X-Learner ITE Estimated Correctly", {
   # Reproducible results
   expect_equal(ite[1], 0.9212638, tolerance = 0.00001)
   expect_equal(ite[11], -1.103585, tolerance = 0.00001)
-  expect_equal(ite[91], 0.391092, tolerance = 0.00001)
+  expect_equal(ite[91], -0.226993, tolerance = 0.00001)
 })
