@@ -22,6 +22,9 @@
 estimate_ite_aipw <- function(y, z, X, ps_method = "SL.xgboost",
                               oreg_method = "SL.xgboost") {
 
+  logger::log_trace("ps_method: {ps_method} and oreg_method: {oreg_method}",
+                    " were selected.")
+
   ps_hat <- estimate_ps(z, X, ps_method)
 
   y_model <- SuperLearner::SuperLearner(Y = y,
@@ -29,7 +32,8 @@ estimate_ite_aipw <- function(y, z, X, ps_method = "SL.xgboost",
                                         family = gaussian(),
                                         SL.library = oreg_method,
                                         cvControl = list(V = 0))
-  if (sum(y_model$coef)==0) y_model$coef[1] <- 1
+
+  if (sum(y_model$coef) == 0) y_model$coef[1] <- 1
 
   y_0_hat <- predict(y_model,
                     data.frame(X = X, Z = rep(0, nrow(X))),
