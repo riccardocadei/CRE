@@ -56,7 +56,7 @@ __Parameters (not required)__
 - **`ps_method_inf`** The estimation model for the propensity score on the inference subsample (default: 'SL.xgboost').     
 - **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').    
 
-**`hyper_params`** The list of hyper parameters to finetune the method, including:    
+**`hyper_params`** The list of hyper parameters to fine tune the method, including:    
 - **`intervention_vars`** Intervention-able variables used for Rules Generation (default: `NULL`).   
 - **`offset`** Name of the covariate to use as offset (i.e. 'x1') for T-Poisson ITE Estimation. `NULL` if not used (default: `NULL`).     
 - **`ntrees_rf`** A number of decision trees for random forest (default: 20).       

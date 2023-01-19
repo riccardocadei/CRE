@@ -1,4 +1,4 @@
-| Resource    |  Github Actions      |  Code Coverage  |
+| Resource    |  GitHub Actions      |  Code Coverage  |
 | ----------  | -------------------- | --------------- |
 | Platforms   | Windows, macOS, Linux|    codecov      |
 | R CMD check | [![R-CMD-check](https://github.com/nsaph-software/CRE/workflows/R-CMD-check/badge.svg)](https://github.com/nsaph-software/CRE/actions) | [![codecov](https://codecov.io/gh/NSAPH-Software/CRE/branch/develop/graph/badge.svg?token=UMSVOYRKGA)](https://app.codecov.io/gh/NSAPH-Software/CRE)|
@@ -35,11 +35,11 @@ library("CRE")
 ## Arguments
 
 __Data (required)__   
-**`y`** The observed response/outcome vector (binary or continuos).
+**`y`** The observed response/outcome vector (binary or continuous).
 
 **`z`** The treatment/exposure/policy vector (binary).  
 
-**`X`** The covariate matrix (binary or continuos).    
+**`X`** The covariate matrix (binary or continuous).    
 
 __Parameters (not required)__    
 **`method_parameters`** The list of parameters to define the models used, including:
@@ -47,7 +47,7 @@ __Parameters (not required)__
 - **`ite_method_dis`** The method to estimate the individual treatment effect (ITE) on the discovery sub-sample (default: 'aipw') [1].        
 - **`ps_method_dis`** The estimation model for the propensity score on the discovery sub-sample (default: 'SL.xgboost').     
 - **`or_method_dis`** The estimation model for the outcome regressions estimate_ite_aipw on the discovery sub-sample (default: 'SL.xgboost').      
-- **`ite_method_inf`** The method to estimate the individual treatment effect (ITE) on the infernce sub-sample (default: 'aipw') [1].       
+- **`ite_method_inf`** The method to estimate the individual treatment effect (ITE) on the inference sub-sample (default: 'aipw') [1].       
 - **`ps_method_inf`** The estimation model for the propensity score on the inference subsample (default: 'SL.xgboost').     
 - **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').   
 
