@@ -181,26 +181,51 @@ both the ITE estimation steps in Discovery and Inference are skipped
 <div class="section level3">
 <h3 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a>
 </h3>
+<div class="section level4">
+<h4 id="options-for-the-ite-estimation">Options for the ITE estimation<a class="anchor" aria-label="anchor" href="#options-for-the-ite-estimation"></a>
+</h4>
 <p><strong>[1]</strong> Options for the ITE estimation are as
-follows:<br>
-- S-Learner (<code>slearner</code>)<br>
-- T-Learner (<code>tlearner</code>)<br>
-- T-Poisson (<code>tpoisson</code>)<br>
-- X-Learner (<code>xlearner</code>)<br>
-- Augmented Inverse Probability Weighting (<code>aipw</code>)<br>
-- Causal Forests (<code>cf</code>)<br>
-- Bayesian Causal Forests (<code>bcf</code>)<br>
-- Bayesian Additive Regression Trees (<code>bart</code>)</p>
+follows:</p>
+<ul>
+<li>S-Learner (<code>slearner</code>)<br>
+</li>
+<li>T-Learner (<code>tlearner</code>)<br>
+</li>
+<li>T-Poisson (<code>tpoisson</code>)<br>
+</li>
+<li>X-Learner (<code>xlearner</code>)<br>
+</li>
+<li>Augmented Inverse Probability Weighting (<code>aipw</code>)<br>
+</li>
+<li>Causal Forests (<code>cf</code>)<br>
+</li>
+<li>Bayesian Causal Forests (<code>bcf</code>)<br>
+</li>
+<li>Bayesian Additive Regression Trees (<code>bart</code>)</li>
+</ul>
 <p>if other estimates of the ITE are provided in <code>ite</code>
 additional argument, both the ITE estimations in discovery and inference
 are skipped and those values estimates are used instead.</p>
+</div>
+<div class="section level4">
+<h4 id="customized-wrapper-for-superlearner">Customized wrapper for SuperLearner<a class="anchor" aria-label="anchor" href="#customized-wrapper-for-superlearner"></a>
+</h4>
+<p>One can create a customized wrapper for SuperLearner internal
+packages. The following is an example of providing the number of cores
+(e.g., 12) for the xgboost package in a shared memory system.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m_xgboost</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">nthread</span> <span class="op">=</span> <span class="fl">12</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">SuperLearner</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SuperLearner/man/SL.xgboost.html" class="external-link">SL.xgboost</a></span><span class="op">(</span>nthread <span class="op">=</span> <span class="va">nthread</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>Then use “m_xgboost”, instead of “SL.xgboost”.</p>
+</div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
 <p>Example 1 (<em>default parameters</em>)</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">9687</span><span class="op">)</span></span>
 <span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, </span>
 <span>                                rho <span class="op">=</span> <span class="fl">0</span>, </span>
@@ -218,7 +243,7 @@ are skipped and those values estimates are used instead.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cre_results</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cre_results</span><span class="op">)</span></span></code></pre></div>
 <p>Example 2 (<em>personalized ite estimation</em>)</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">9687</span><span class="op">)</span></span>
 <span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, </span>
 <span>                                rho <span class="op">=</span> <span class="fl">0</span>, </span>
@@ -237,7 +262,7 @@ are skipped and those values estimates are used instead.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cre_results</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cre_results</span><span class="op">)</span></span></code></pre></div>
 <p>Example 3 (<em>setting parameters</em>)</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">9687</span><span class="op">)</span></span>
 <span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, </span>
 <span>                                  rho <span class="op">=</span> <span class="fl">0</span>, </span>

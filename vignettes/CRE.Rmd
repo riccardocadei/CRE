@@ -81,7 +81,10 @@ __Additional Estimates (not required)__
 
 ## Notes
 
-**[1]** Options for the ITE estimation are as follows:      
+### Options for the ITE estimation
+
+**[1]** Options for the ITE estimation are as follows:    
+
 - S-Learner (`slearner`)      
 - T-Learner (`tlearner`)      
 - T-Poisson (`tpoisson`)     
@@ -93,6 +96,17 @@ __Additional Estimates (not required)__
 
 if other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.    
 
+### Customized wrapper for SuperLearner
+
+One can create a customized wrapper for SuperLearner internal packages. The following is an example of providing the number of cores (e.g., 12) for the xgboost package in a shared memory system. 
+
+```R
+m_xgboost <- function(nthread = 12, ...) {
+  SuperLearner::SL.xgboost(nthread = nthread, ...)
+}
+```
+
+Then use "m_xgboost", instead of "SL.xgboost".  
 
 # Examples
 

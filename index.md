@@ -1,8 +1,10 @@
 # CRE <a href="https://nsaph-software.github.io/CRE/"><img src="man/figures/png/CRE_logo.png" align="right" width="115" /></a>
 
 <!-- badges: start -->
+[![](http://www.r-pkg.org/badges/version-last-release/CRE)](https://CRAN.R-project.org/package=CRE)
 [![R-CMD-check](https://github.com/fasrc/CRE/workflows/R-CMD-check/badge.svg)](https://github.com/fasrc/CRE/actions)
 [![codecov](https://codecov.io/gh/NSAPH-Software/CRE/branch/develop/graph/badge.svg?token=UMSVOYRKGA)](https://codecov.io/gh/NSAPH-Software/CRE)]
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/CRE)](http://www.r-pkg.org/pkg/cre)
 <!-- badges: end -->
 
 # Overview
