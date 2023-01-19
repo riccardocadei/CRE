@@ -84,12 +84,12 @@ Non-integer values will be converted into an integer number.</p></dd>
 
 
 <dt>rho</dt>
-<dd><p>A positive double number (0,1) that represents the correlation
-within the covariates (default: 0).</p></dd>
+<dd><p>A positive double number that represents the correlation
+within the covariates (default: 0, range: (0,1)).</p></dd>
 
 
 <dt>n_rules</dt>
-<dd><p>The number of causal rules, either 2 (default) or 4.</p></dd>
+<dd><p>The number of causal rules. (default: 2, range: 1,2,3,4).</p></dd>
 
 
 <dt>p</dt>
@@ -97,7 +97,7 @@ within the covariates (default: 0).</p></dd>
 
 
 <dt>effect_size</dt>
-<dd><p>The effect size magnitude in (0,+inf) (default: 2).</p></dd>
+<dd><p>The effect size magnitude in (default: 2, range: &gt;=0).</p></dd>
 
 
 <dt>binary_covariates</dt>
@@ -111,7 +111,7 @@ within the covariates (default: 0).</p></dd>
 
 
 <dt>confounding</dt>
-<dd><p>Only for continuous outcome,add confounding variables:</p><ul><li><p>Linear confounding "lin".</p></li>
+<dd><p>Only for continuous outcome, add confounding variables:</p><ul><li><p>Linear confounding "lin".</p></li>
 <li><p>Non-linear confounding "nonlin".</p></li>
 <li><p>No confounding "no" (default).</p></li>
 </ul></dd>
@@ -128,14 +128,14 @@ within the covariates (default: 0).</p></dd>
 </ul></div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
-    <p>Set (binary/continuous) covariates domain (binary_covariates)
-Set (binary/continuous) outcome domain (binary_outcome)
-Increase complexity in heterogeneity discovery:</p><ul><li><p>Decreasing the sample size (n)</p></li>
-<li><p>adding correlation among variables (rho)</p></li>
-<li><p>increasing the number of rules (n_rules)</p></li>
-<li><p>increasing the number of covariates (p)</p></li>
-<li><p>decreasing the absolute value of the causal effect (effect_size)</p></li>
-<li><p>adding linear or not-linear confounders (confounding)</p></li>
+    <p>Set (binary/continuous) covariates domain (<code>binary_covariates</code>).
+Set (binary/continuous) outcome domain (<code>binary_outcome</code>).
+Increase complexity in heterogeneity discovery:</p><ul><li><p>Decreasing the sample size (<code>n</code>),</p></li>
+<li><p>adding correlation among variables (<code>rho</code>),</p></li>
+<li><p>increasing the number of rules (<code>n_rules</code>),</p></li>
+<li><p>increasing the number of covariates (<code>p</code>),</p></li>
+<li><p>decreasing the absolute value of the causal effect (<code>effect_size</code>),</p></li>
+<li><p>adding linear or not-linear confounders (<code>confounding</code>).</p></li>
 </ul></div>
 
     <div class="section level2">
