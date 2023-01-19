@@ -3,26 +3,20 @@ test_that("Rules Extracted Correctly", {
   # Generate sample data
   set.seed(181)
   dataset_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 2, binary = FALSE)
+                                       effect_size = 2, binary_outcome = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
-  ite_method <- "ipw"
+  ite_method <- "aipw"
   include_ps <- "TRUE"
   ps_method <- "SL.xgboost"
-  oreg_method <- NA
+  oreg_method <- "SL.xgboost"
   ntrees <- 100
   node_size <- 20
   max_nodes <- 5
 
-  set.seed(349)
-  seed_vector <- 1000 + sample.int(n = 10000000,
-                                   size = ntrees+2,
-                                   replace = FALSE)
-  random_state <- seed_vector[ntrees+1]
-
   # Check for binary outcome
-  binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
+  binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
 
   # Step 1: Split data
   X <- as.matrix(X)
@@ -30,17 +24,15 @@ test_that("Rules Extracted Correctly", {
   z <- as.matrix(z)
 
   # Step 2: Estimate ITE
-  ite_list <- estimate_ite(y, z, X, ite_method, binary,
+  ite <- estimate_ite(y, z, X, ite_method,
+                           binary_outcome = binary_outcome,
                            include_ps = include_ps,
                            ps_method = ps_method,
-                           oreg_method = oreg_method,
-                           random_state = random_state)
-  ite <- ite_list[["ite"]]
-  ite_std <- ite_list[["ite_std"]]
+                           oreg_method = oreg_method)
 
-  expect_equal(ite[10], -2.586544, tolerance = 0.000001)
-  expect_equal(ite[25], -1.553539, tolerance = 0.000001)
-  expect_equal(ite[70], 1.974034, tolerance = 0.000001)
+  expect_equal(ite[10], 0.6874263, tolerance = 0.000001)
+  expect_equal(ite[25], -0.2175163, tolerance = 0.000001)
+  expect_equal(ite[70], 1.656867, tolerance = 0.000001)
 
 
   # Set parameters
@@ -48,36 +40,34 @@ test_that("Rules Extracted Correctly", {
   sf <- min(1, (11 * sqrt(N) + 1) / N)
   mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
 
-
-
   # Random Forest
-  set.seed(seed_vector[1])
-  forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
+  forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite,
                                                         sampsize = sf * N,
                                                         replace = FALSE,
-                                                        ntree = 1, maxnodes = mn,
+                                                        ntree = 1,
+                                                        maxnodes = mn,
                                                         nodesize = node_size))
-  for(i in 2:ntrees) {
+  for (i in 2:ntrees) {
     mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
-    set.seed(seed_vector[i])
-    model1_RF <- suppressWarnings(randomForest::randomForest(x = X, y = ite_std,
-                                                             sampsize = sf * N,
-                                                             replace = FALSE,
-                                                             ntree = 1, maxnodes = mn,
-                                                             nodesize = node_size))
+    model1_RF <- suppressWarnings(randomForest::randomForest(
+                                   x = X,
+                                   y = ite,
+                                   sampsize = sf * N,
+                                   replace = FALSE,
+                                   ntree = 1,
+                                   maxnodes = mn,
+                                   nodesize = node_size))
     forest <- randomForest::combine(forest, model1_RF)
   }
   treelist <- inTrees::RF2List(forest)
 
-  expect_equal(length(treelist),2)
-  expect_equal(length(treelist[2]$list),100)
+  expect_equal(length(treelist), 2)
+  expect_equal(length(treelist[2]$list), 100)
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
-  #expect_equal(treelist[2]$list[[1]][2,6], 0.1122061, tolerance = 0.000001)
-  #expect_equal(treelist[2]$list[[2]][3,6], -0.02796966, tolerance = 0.000001)
-  #expect_equal(treelist[2]$list[[10]][3,6], -0.750918, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[1]][2, 6], 0.4320062, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3, 6], -0.5863133, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3, 6], 0.06850307, tolerance = 0.000001)
 
-
-  type_decay <- 2
   max_depth <- 15
 
   ###### Run Tests ######
@@ -91,6 +81,6 @@ test_that("Rules Extracted Correctly", {
   # Correct outputs
   rules_RF <- extract_rules(treelist, X, ntrees, max_depth)
   expect_true(any(class(rules_RF) == "matrix"))
-  #expect_equal(length(rules_RF), 446)
-  #expect_equal(rules_RF[3], "X[,3]<=0.878150784662752 & X[,3]>0.801627615753321")
+  expect_equal(length(rules_RF), 428)
+  expect_equal(rules_RF[3], "X[,1]<=0.5 & X[,5]>0.5")
 })

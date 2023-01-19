@@ -1,41 +1,49 @@
 #' @title
-#' Estimate the Individual Treatment Effect using Augmented Inverse Propensity
-#' Weighting
+#' Estimate the Individual Treatment Effect (ITE) using Augmented Inverse
+#' Probability Weighting (AIPW)
 #'
 #' @description
-#' Estimates the Individual Treatment Effect using Augmented Inverse Propensity
+#' Estimates the Individual Treatment Effect using Augmented Inverse Probability
 #' Weighting given a response vector, a treatment vector, a features matrix,
 #' an estimation model for the propensity score and estimation model for the
-#' outcome regressions
+#' outcome regressions.
 #'
-#' @param y the observed response vector
-#' @param z the treatment vector
-#' @param X the features matrix
-#' @param ps_method the estimation model for the propensity score
-#' @param oreg_method the estimation model for the outcome regressions
+#' @param y An observed response vector.
+#' @param z A treatment vector.
+#' @param X A features matrix.
+#' @param ps_method A estimation model for the propensity score.
+#' @param oreg_method A estimation model for the outcome regressions.
 #'
 #' @return
-#' a list of ITE estimates and standard deviations for the ITE estimates
+#' A list of ITE estimates.
 #'
 #' @keywords internal
-#'
 #'
 estimate_ite_aipw <- function(y, z, X, ps_method = "SL.xgboost",
                               oreg_method = "SL.xgboost") {
 
-  phat <- estimate_ps(z, X, ps_method)
+  logger::log_trace("ps_method: '{ps_method}' and oreg_method: '{oreg_method}'",
+                    " were provided.")
 
-  sl_y <- SuperLearner(Y = y,
-                       X = data.frame(X=X, Z=z),
-                       family = gaussian(),
-                       SL.library = oreg_method,
-                       cvControl = list(V=0))
+  ps_hat <- estimate_ps(z, X, ps_method)
 
-  pred_0 <- predict(sl_y, data.frame(X=X, Z=rep(0, nrow(X))), onlySL = T)
-  pred_1 <- predict(sl_y, data.frame(X=X, Z=rep(1, nrow(X))), onlySL = T)
+  y_model <- SuperLearner::SuperLearner(Y = y,
+                                        X = data.frame(X = X, Z = z),
+                                        family = gaussian(),
+                                        SL.library = oreg_method,
+                                        cvControl = list(V = 0))
 
-  apo_1 <- pred_1$pred + z*(y - pred_1$pred)/(phat)
-  apo_0 <- pred_0$pred + (1 - z)*(y - pred_0$pred)/(1 - phat)
+  if (sum(y_model$coef) == 0) y_model$coef[1] <- 1
+
+  y_0_hat <- predict(y_model,
+                    data.frame(X = X, Z = rep(0, nrow(X))),
+                    onlySL = TRUE)$pred
+  y_1_hat <- predict(y_model,
+                     data.frame(X = X, Z = rep(1, nrow(X))),
+                     onlySL = TRUE)$pred
+
+  apo_1 <- y_1_hat + z * (y - y_1_hat) / (ps_hat)
+  apo_0 <- y_0_hat + (1 - z) * (y - y_0_hat) / (1 - ps_hat)
 
   ite <- as.vector(apo_1 - apo_0)
 

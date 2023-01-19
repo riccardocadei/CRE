@@ -2,7 +2,8 @@ test_that("Propensity Score Estimated Correctly", {
   # Generate sample data
   set.seed(2021)
   dataset <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 0.5, binary = FALSE)
+                                  effect_size = 0.5,
+                                  binary_outcome = FALSE)
   z <- dataset[["z"]]
   X <- dataset[["X"]]
   ps_method <- "SL.xgboost"
@@ -18,6 +19,6 @@ test_that("Propensity Score Estimated Correctly", {
   expect_true(is.vector(est_ps))
 
   #values
-  expect_equal(est_ps[2], 0.5607738, tolerance = 0.00001)
-  expect_equal(est_ps[37], 0.2728835, tolerance = 0.00001)
+  expect_equal(est_ps[2], 0.5685197, tolerance = 0.00001)
+  expect_equal(est_ps[37], 0.124416, tolerance = 0.00001)
 })

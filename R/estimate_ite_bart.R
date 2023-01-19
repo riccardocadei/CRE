@@ -1,42 +1,42 @@
 #' @title
-#' Estimate the Individual Treatment Effect using Bayesian Additive Regression Trees
+#' Estimate the Individual Treatment Effect (ITE) using Bayesian Additive
+#' Regression Trees (BART)
 #'
 #' @description
 #' Estimates the Individual Treatment Effect using Bayesian Additive Regression
 #' Trees given a response vector, a treatment vector, and a features matrix.
 #'
-#' @param y the observed response vector
-#' @param z the treatment vector
-#' @param X the features matrix
-#' @param include_ps whether or not to include propensity score estimate as a
-#' covariate in ITE estimation
-#' @param ps_method method for the estimation of the propensity score
-#' @param random_state An integer value for random state.
+#' @param y An observed response vector.
+#' @param z A treatment vector.
+#' @param X A features matrix.
+#' @param ps_method Method for the estimation of the propensity score.
 #'
-#' @return a list of ITE estimates and standard deviations for the ITE estimates
+#' @return A list of ITE estimates.
+#'
+#' @note The number of samples and the number of burn are set by default equal
+#' to 500.
 #'
 #' @keywords internal
 #'
-estimate_ite_bart <- function(y, z, X, include_ps, ps_method, random_state) {
+estimate_ite_bart <- function(y, z, X, ps_method) {
 
-  # generate seed value
-  set.seed(random_state + 2560)
-  seed_vals <- sample(100000, 2)
+  logger::log_trace("ps_method: '{ps_method}' was selected.")
 
-
-  if (include_ps) {
-    set.seed(seed_vals[1])
+  if (!is.null(ps_method)) {
     est_ps <- estimate_ps(z, X, ps_method)
     X <- cbind(X, est_ps)
   }
 
+  n_sample <- 500
+  n_burn <- 500
+  logger::log_trace("In bartCause::bartc command n.samples: {n_sample} ",
+                    "and n.burn: {n_burn} were used.")
 
   bart_fit <- bartCause::bartc(as.matrix(y), as.matrix(z), as.matrix(X),
-                               n.samples = 500, n.burn = 500,
-                               seed = seed_vals[2])
+                               n.samples = n_sample, n.burn = n_burn)
 
   pd_ite <- bartCause::extract(bart_fit, type = "ite")
   ite <- apply(pd_ite, 2, mean)
-  sd_ite <- apply(pd_ite, 2, stats::sd)
-  return(list(ite, sd_ite))
+
+  return(ite)
 }

@@ -1,25 +1,35 @@
 #' @title
-#' Estimate the Individual Treatment Effect using Bayesian Causal Forest
+#' Estimate the Individual Treatment Effect (ITE) using Bayesian Causal Forest
+#' (BCF)
 #'
 #' @description
 #' Estimates the Individual Treatment Effect using Bayesian Causal Forest given
 #' a response vector, a treatment vector, and a features matrix.
 #'
-#' @param y the observed response vector
-#' @param z the treatment vector
-#' @param X the features matrix
-#' @param ps_method method for the estimation of the propensity score
+#' @param y An observed response vector.
+#' @param z A treatment vector.
+#' @param X A features matrix.
+#' @param ps_method A method for the estimation of the propensity score.
 #'
-#' @return a list of ITE estimates and standard deviations for the ITE estimates
+#' @return
+#' A list of ITE estimates.
 #'
 #' @keywords internal
 #'
-
 estimate_ite_bcf <- function(y, z, X, ps_method) {
+
+  logger::log_trace("ps_method: '{ps_method}' was selected.")
+
+  X <- as.matrix(X)
   est_ps <- estimate_ps(z, X, ps_method)
-  bcf_model <- bcf::bcf(y, z, X, X, est_ps, nburn = 500, nsim = 500)
+
+  nburn <- 500
+  nsim <- 500
+  logger::log_trace("In bcf::bcf command nburn: {nburn} ",
+                    "and nsim: {nsim} were used.")
+  bcf_model <- bcf::bcf(y, z, X, X, est_ps, nburn = nburn, nsim = nsim)
   pd_ite <- bcf_model$tau
   ite <- apply(pd_ite, 2, mean)
-  sd_ite <- apply(pd_ite, 2, stats::sd)
-  return(list(ite, sd_ite))
+
+  return(ite)
 }

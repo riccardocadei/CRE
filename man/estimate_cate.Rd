@@ -4,59 +4,30 @@
 \alias{estimate_cate}
 \title{Estimate the Conditional Average Treatment Effect}
 \usage{
-estimate_cate(
-  y_inf,
-  z_inf,
-  X_inf,
-  X_names,
-  include_offset,
-  offset_name,
-  rules_matrix_inf,
-  select_rules_interpretable,
-  cate_method,
-  ite_inf,
-  sd_ite_inf,
-  cate_SL_library,
-  filter_cate
-)
+estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue)
 }
 \arguments{
-\item{y_inf}{the outcome vector for the inference subsample}
+\item{rules_matrix}{A rules matrix,}
 
-\item{z_inf}{the treatment vector for the inference subsample}
+\item{rules_explicit}{A list of select rules in terms of coviariate names.}
 
-\item{X_inf}{the covariate vector for the inference subsample}
+\item{ite}{The estimated ITEs.}
 
-\item{X_names}{the names of the covariates}
-
-\item{include_offset}{whether or not to include an offset when estimating the
-ITE, for poisson only}
-
-\item{offset_name}{the name of the offset, if it is to be included}
-
-\item{rules_matrix_inf}{the standardized causal rules matrix for the
-inference subsample}
-
-\item{select_rules_interpretable}{the list of select causal rules in terms of
-coviariate names}
-
-\item{cate_method}{the method to estimate the CATE values}
-
-\item{ite_inf}{the estimated ITEs for the inference subsample}
-
-\item{sd_ite_inf}{the standard deviations for the estimated ITEs for the
-inference subsample}
-
-\item{cate_SL_library}{the library used if cate_method = DRLearner}
-
-\item{filter_cate}{whether or not to filter rules with p-value <= 0.05}
+\item{t_pvalue}{The threshold to define statistically significant rules
+(filter only rules with p-value <= t_pvalue).}
 }
 \value{
-a matrix of CATE estimates
+A dataframe summarizing the CATE linear decomposition:
+\itemize{
+\item 'Rule': rule name,
+\item 'Estimate': linear contribution to CATE,
+\item 'CI_lower`: lower bound 95\% confidence interval on the estimate,
+\item 'CI_upper`: upper bound 95\% confidence interval on the estimate,
+\item \code{P-Value}: p-value (from Z-test).
+}
 }
 \description{
-Estimates the Conditional Average Treatment Effect given a standardized
-vector of Individual Treatment Effects, a standardized matrix of causal rules,
-a list of causal rules.
+Estimates the Conditional Average Treatment Effect (CATE) by
+linearly modeling the Individual Treatment Effect by a set of rules.
 }
 \keyword{internal}

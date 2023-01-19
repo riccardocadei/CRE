@@ -2,7 +2,8 @@ test_that("AIPW ITE Estimated Correctly", {
   # Generate sample data
   set.seed(8697)
   dataset_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
-                                       effect_size = 0.5, binary = FALSE)
+                                       effect_size = 0.5,
+                                       binary_outcome = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
@@ -20,8 +21,7 @@ test_that("AIPW ITE Estimated Correctly", {
   expect_true(class(ite_result) == "numeric")
 
   # Reproducible results
-  expect_equal(ite_result[1], 0.003285416, tolerance = 0.00001)
-  expect_equal(ite_result[11], -0.01266725, tolerance = 0.00001)
-  expect_equal(ite_result[91], 0.03005526, tolerance = 0.00001)
+  expect_equal(ite_result[1], 0.5578771, tolerance = 0.00001)
+  expect_equal(ite_result[11], -1.218074, tolerance = 0.00001)
+  expect_equal(ite_result[91], 1.429128, tolerance = 0.00001)
 })
-
