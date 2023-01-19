@@ -17,10 +17,18 @@
 #' @keywords internal
 #'
 estimate_ite_bcf <- function(y, z, X, ps_method) {
+
+  logger::log_trace("ps_method: '{ps_method}' was selected.")
+
   X <- as.matrix(X)
   est_ps <- estimate_ps(z, X, ps_method)
-  bcf_model <- bcf::bcf(y, z, X, X, est_ps, nburn = 500, nsim = 500)
+  nburn <- 500
+  nsim <- 500
+  logger::log_trace("In bcf::bcf command nburn: {nburn} ",
+                    "and nsim: {nsim} were used.")
+  bcf_model <- bcf::bcf(y, z, X, X, est_ps, nburn = nburn, nsim = nsim)
   pd_ite <- bcf_model$tau
   ite <- apply(pd_ite, 2, mean)
+
   return(ite)
 }

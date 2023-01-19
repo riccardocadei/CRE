@@ -22,8 +22,8 @@
 estimate_ite_aipw <- function(y, z, X, ps_method = "SL.xgboost",
                               oreg_method = "SL.xgboost") {
 
-  logger::log_trace("ps_method: {ps_method} and oreg_method: {oreg_method}",
-                    " were selected.")
+  logger::log_trace("ps_method: '{ps_method}' and oreg_method: '{oreg_method}'",
+                    " were provided.")
 
   ps_hat <- estimate_ps(z, X, ps_method)
 

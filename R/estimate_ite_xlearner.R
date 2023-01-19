@@ -18,6 +18,8 @@
 #'
 estimate_ite_xlearner <- function(y, z, X, oreg_method = "SL.xgboost") {
 
+  logger::log_trace("oreg_method: '{ps_method}' was selected.")
+
   X <- as.data.frame(X)
 
   y_0_model <- SuperLearner::SuperLearner(Y = y[z==0],
@@ -25,6 +27,7 @@ estimate_ite_xlearner <- function(y, z, X, oreg_method = "SL.xgboost") {
                                           family = gaussian(),
                                           SL.library = oreg_method,
                                           cvControl = list(V = 0))
+
   if (sum(y_0_model$coef) == 0) y_0_model$coef[1] <- 1
 
   y_1_model <- SuperLearner::SuperLearner(Y = y[z==1],
@@ -32,6 +35,7 @@ estimate_ite_xlearner <- function(y, z, X, oreg_method = "SL.xgboost") {
                                           family = gaussian(),
                                           SL.library = oreg_method,
                                           cvControl = list(V = 0))
+
   if (sum(y_0_model$coef) == 0) y_0_model$coef[1] <- 1
 
   ite <- array(0, dim = length(y))
