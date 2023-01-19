@@ -79,6 +79,9 @@
     <loc>https://github.com/fasrc/CRE/reference/discover_causal_rules.html</loc>
   </url>
   <url>
+    <loc>https://github.com/fasrc/CRE/reference/discover_rules.html</loc>
+  </url>
+  <url>
     <loc>https://github.com/fasrc/CRE/reference/estimate_cate.html</loc>
   </url>
   <url>
@@ -115,10 +118,22 @@
     <loc>https://github.com/fasrc/CRE/reference/estimate_ite_sipw.html</loc>
   </url>
   <url>
+    <loc>https://github.com/fasrc/CRE/reference/estimate_ite_slearner.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/fasrc/CRE/reference/estimate_ite_tlearner.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/fasrc/CRE/reference/estimate_ite_tpoisson.html</loc>
+  </url>
+  <url>
     <loc>https://github.com/fasrc/CRE/reference/estimate_ite_xbart.html</loc>
   </url>
   <url>
     <loc>https://github.com/fasrc/CRE/reference/estimate_ite_xbcf.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/fasrc/CRE/reference/estimate_ite_xlearner.html</loc>
   </url>
   <url>
     <loc>https://github.com/fasrc/CRE/reference/estimate_ps.html</loc>
@@ -166,6 +181,9 @@
     <loc>https://github.com/fasrc/CRE/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://github.com/fasrc/CRE/reference/interpret_rules.html</loc>
+  </url>
+  <url>
     <loc>https://github.com/fasrc/CRE/reference/interpret_select_rules.html</loc>
   </url>
   <url>
@@ -185,6 +203,9 @@
   </url>
   <url>
     <loc>https://github.com/fasrc/CRE/reference/select_causal_rules.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/fasrc/CRE/reference/select_rules.html</loc>
   </url>
   <url>
     <loc>https://github.com/fasrc/CRE/reference/set_logger.html</loc>

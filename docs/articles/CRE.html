@@ -104,22 +104,21 @@
 <div class="section level2">
 <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a>
 </h2>
-<p><strong>Data (required)</strong><br><strong><code>y</code></strong> The observed response/outcome vector
+<p><strong>Data (required)</strong></p>
+<p><strong><code>y</code></strong> The observed response/outcome vector
 (binary or continuos).</p>
 <p><strong><code>z</code></strong> The treatment/exposure/policy vector
 (binary).</p>
 <p><strong><code>X</code></strong> The covariate matrix (binary or
 continuos).</p>
-<p><strong>Parameters (not required)</strong><br><strong><code>method_parameters</code></strong> The list of parameters
-to define the models used, including: -
-<strong><code>ratio_dis</code></strong> The ratio of data delegated to
-the discovery sub-sample (default: 0.5). -
-<strong><code>ite_method_dis</code></strong> The method to estimate the
-individual treatment effect (ITE) on the discovery sub-sample (default:
-‘aipw’) [1].<br>
-- <strong><code>include_ps_dis</code></strong> Whether or not to include
-propensity score estimate as a covariate in discovery ITE estimation,
-considered only for BART, or CF (default: TRUE).<br>
+<p><strong>Parameters (not required)</strong></p>
+<p><strong><code>method_parameters</code></strong> The list of
+parameters to define the models used, including:<br>
+- <strong><code>ratio_dis</code></strong> The ratio of data delegated to
+the discovery sub-sample (default: 0.5).<br>
+- <strong><code>ite_method_dis</code></strong> The method to estimate
+the individual treatment effect (ITE) on the discovery sub-sample
+(default: ‘aipw’) [1].<br>
 - <strong><code>ps_method_dis</code></strong> The estimation model for
 the propensity score on the discovery sub-sample (default:
 ‘SL.xgboost’).<br>
@@ -129,73 +128,72 @@ the outcome regressions estimate_ite_aipw on the discovery sub-sample
 - <strong><code>ite_method_inf</code></strong> The method to estimate
 the individual treatment effect (ITE) on the infernce sub-sample
 (default: ‘aipw’) [1].<br>
-- <strong><code>include_ps_inf</code></strong> Whether or not to include
-propensity score estimate as a covariate in inference ITE estimation,
-considered only for BART, or CF (default: TRUE).<br>
 - <strong><code>ps_method_inf</code></strong> The estimation model for
 the propensity score on the inference subsample (default:
 ‘SL.xgboost’).<br>
 - <strong><code>or_method_inf</code></strong> The estimation model for
 the outcome regressions in estimate_ite_aipw on the inference subsample
-(default: ‘SL.xgboost’).<br>
-- <strong><code>cate_method</code></strong> The method to estimate the
-conditional average treatment effect (CATE) values (default:
-‘linreg’).<br>
-- <strong><code>cate_SL_library</code></strong> The library used if
-cate_method is set to DRLearner (default: ‘SL.xgboost’).<br>
-- <strong><code>offset</code></strong> Name of the covariate to use as
-offset (i.e. ‘x1’) for Poisson ITE Estimation. NULL if offset is not
-used (default: NULL).</p>
+(default: ‘SL.xgboost’).</p>
 <p><strong><code>hyper_params</code></strong> The list of hyper
-parameters to finetune the method, including: -
-<strong><code>intervention_vars</code></strong> Intervention-able
-variables used for Rules Generation (default: NULL).<br>
-- <strong><code>ntrees_rf</code></strong> The number of decision trees
-for randomForest (default: 100).<br>
-- <strong><code>ntrees_gbm</code></strong> The number of decision trees
-for gradient boosting (default: 0).<br>
-- <strong><code>node_size</code></strong> The minimum size of the trees’
+parameters to finetune the method, including:<br>
+- <strong><code>intervention_vars</code></strong> Intervention-able
+variables used for Rules Generation (default: <code>NULL</code>).<br>
+- <strong><code>offset</code></strong> Name of the covariate to use as
+offset (i.e. ‘x1’) for T-Poisson ITE Estimation. <code>NULL</code> if
+not used (default: <code>NULL</code>).<br>
+- <strong><code>ntrees_rf</code></strong> A number of decision trees for
+random forest (default: 20).<br>
+- <strong><code>ntrees_gbm</code></strong> A number of decision trees
+for the generalized boosted regression modeling algorithm. (default:
+20).<br>
+- <strong><code>node_size</code></strong> Minimum size of the trees’
 terminal nodes (default: 20).<br>
-- <strong><code>max_nodes</code></strong> The maximum number of terminal
-nodes trees in the forest can have (default: 5).<br>
-- <strong><code>max_depth</code></strong> The number of top levels from
-each tree considered to extract conditions (default: 3).<br>
+- <strong><code>max_nodes</code></strong> Maximum number of terminal
+nodes per tree (default: 5).<br>
+- <strong><code>max_depth</code></strong> Maximum rules length (default:
+3).<br>
 - <strong><code>replace</code></strong> Boolean variable for replacement
-in bootstrapping (default: TRUE).<br>
-- <strong><code>max_decay</code></strong> Decay Threshold for pruning
-the rules (default: 0.025).<br>
-- <strong><code>type_decay</code></strong> Decay Type for pruning the
-rules: 1 relative error; 2 error (default: 2).<br>
+in bootstrapping for rules generation by random forest (default:
+<code>TRUE</code>).<br>
+- <strong><code>t_decay</code></strong> The decay threshold for rules
+pruning (default: 0.025).<br>
 - <strong><code>t_ext</code></strong> The threshold to define too
 generic or too specific (extreme) rules (default: 0.01).<br>
 - <strong><code>t_corr</code></strong> The threshold to define
-correlated rules (default: 1). - <strong><code>t_pvalue</code></strong>
-The threshold to define statistically significant rules (default: 0.05).
+correlated rules (default: 1).<br>
+- <strong><code>t_pvalue</code></strong> The threshold to define
+statistically significant rules (default: 0.05).<br>
 - <strong><code>stability_selection</code></strong> Whether or not using
-stability selection for selecting the causal rules (default: TRUE). -
-<strong><code>cutoff</code></strong> Threshold defining the minimum
-cutoff value for the stability scores (default: 0.9). -
-<strong><code>pfer</code></strong> Upper bound for the per-family error
-rate (tolerated amount of falsely selected rules) (default: 1). -
-<strong><code>penalty_rl</code></strong> Order of penalty for rules
-length during LASSO for Causal Rules Discovery (i.e. 0: no penalty, 1:
-∝rules_length, 2: ∝rules_length^2) (default: 1).</p>
-<p><strong>Additional Estimates (not required)</strong><br><strong><code>ite</code></strong> The estimated ITE vector. If given,
+stability selection for selecting the rules (default:
+<code>TRUE</code>).<br>
+- <strong><code>cutoff</code></strong> Threshold defining the minimum
+cutoff value for the stability scores (default: 0.9).<br>
+- <strong><code>pfer</code></strong> Upper bound for the per-family
+error rate (tolerated amount of falsely selected rules) (default:
+1).<br>
+- <strong><code>penalty_rl</code></strong> Order of penalty for rules
+length during LASSO for Regularization (i.e. 0: no penalty, 1:
+rules_length, 2: rules_length^2) (default: 1).</p>
+<p><strong>Additional Estimates (not required)</strong></p>
+<p><strong><code>ite</code></strong> The estimated ITE vector. If given,
 both the ITE estimation steps in Discovery and Inference are skipped
-(deault: NULL).</p>
+(default: <code>NULL</code>).</p>
 <div class="section level3">
 <h3 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a>
 </h3>
-<p><strong>[1]</strong> Options for the ITE estimation are as follows: -
-Inverse Propensity Weighting (<code>ipw</code>) - Stabilized Inverse
-Propensity Weighting (<code>sipw</code>) - Augmented Inverse Propensity
-Weighting (<code>aipw</code>) - Outcome Regression (<code>oreg</code>) -
-Bayesian Additive Regression Trees (<code>bart</code>) - Bayesian Causal
-Forests (<code>bcf</code>) - Causal Forests (<code>cf</code>) - Poisson
-Regression (<code>poisson</code>) if other estimates of the ITE are
-provided in <code>ite</code> additional argument, both the ITE
-estimations in discovery and inference are skipped and those values
-estimates are used instead.</p>
+<p><strong>[1]</strong> Options for the ITE estimation are as
+follows:<br>
+- S-Learner (<code>slearner</code>)<br>
+- T-Learner (<code>tlearner</code>)<br>
+- T-Poisson (<code>tpoisson</code>)<br>
+- X-Learner (<code>xlearner</code>)<br>
+- Augmented Inverse Probability Weighting (<code>aipw</code>)<br>
+- Causal Forests (<code>cf</code>)<br>
+- Bayesian Causal Forests (<code>bcf</code>)<br>
+- Bayesian Additive Regression Trees (<code>bart</code>)</p>
+<p>if other estimates of the ITE are provided in <code>ite</code>
+additional argument, both the ITE estimations in discovery and inference
+are skipped and those values estimates are used instead.</p>
 </div>
 </div>
 <div class="section level2">
@@ -217,7 +215,7 @@ estimates are used instead.</p>
 <span><span class="va">X</span> <span class="op">&lt;-</span> <span class="va">dataset</span><span class="op">[[</span><span class="st">"X"</span><span class="op">]</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">cre_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cre.html">cre</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cre_results</span>, <span class="va">method_params</span>, <span class="va">hyper_params</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cre_results</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cre_results</span><span class="op">)</span></span></code></pre></div>
 <p>Example 2 (<em>personalized ite estimation</em>)</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -235,13 +233,13 @@ estimates are used instead.</p>
 <span>  <span class="va">X</span> <span class="op">&lt;-</span> <span class="va">dataset</span><span class="op">[[</span><span class="st">"X"</span><span class="op">]</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">ite_pred</span> <span class="op">&lt;-</span> <span class="va">...</span> <span class="co"># personalized ite estimation</span></span>
-<span><span class="va">cre_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cre.html">cre</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, ite<span class="op">=</span><span class="va">ite_pred</span><span class="op">)</span></span>
+<span><span class="va">cre_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cre.html">cre</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">X</span>, ite <span class="op">=</span> <span class="va">ite_pred</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cre_results</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cre_results</span><span class="op">)</span></span></code></pre></div>
 <p>Example 3 (<em>setting parameters</em>)</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">9687</span><span class="op">)</span></span>
-<span>  <span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, </span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">9687</span><span class="op">)</span></span>
+<span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_cre_dataset.html">generate_cre_dataset</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, </span>
 <span>                                  rho <span class="op">=</span> <span class="fl">0</span>, </span>
 <span>                                  n_rules <span class="op">=</span> <span class="fl">2</span>, </span>
 <span>                                  p <span class="op">=</span> <span class="fl">10</span>,</span>
@@ -249,31 +247,26 @@ estimates are used instead.</p>
 <span>                                  binary_covariates <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                                  binary_outcome <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>                                  confounding <span class="op">=</span> <span class="st">"no"</span><span class="op">)</span></span>
-<span>  <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">dataset</span><span class="op">[[</span><span class="st">"y"</span><span class="op">]</span><span class="op">]</span></span>
-<span>  <span class="va">z</span> <span class="op">&lt;-</span> <span class="va">dataset</span><span class="op">[[</span><span class="st">"z"</span><span class="op">]</span><span class="op">]</span></span>
-<span>  <span class="va">X</span> <span class="op">&lt;-</span> <span class="va">dataset</span><span class="op">[[</span><span class="st">"X"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">dataset</span><span class="op">[[</span><span class="st">"y"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">z</span> <span class="op">&lt;-</span> <span class="va">dataset</span><span class="op">[[</span><span class="st">"z"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="va">dataset</span><span class="op">[[</span><span class="st">"X"</span><span class="op">]</span><span class="op">]</span></span>
 <span></span>
-<span>  <span class="va">method_params</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ratio_dis <span class="op">=</span> <span class="fl">0.25</span>,</span>
-<span>                       ite_method_dis<span class="op">=</span><span class="st">"aipw"</span>,</span>
-<span>                       ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                       oreg_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                       include_ps_dis <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                       ite_method_inf <span class="op">=</span> <span class="st">"aipw"</span>,</span>
-<span>                       ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                       oreg_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                       include_ps_inf <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                       cate_method <span class="op">=</span> <span class="st">"linreg"</span>,</span>
-<span>                       cate_SL_library <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
-<span>                       offset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="va">method_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ratio_dis <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>                      ite_method_dis<span class="op">=</span><span class="st">"aipw"</span>,</span>
+<span>                      ps_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
+<span>                      oreg_method_dis <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
+<span>                      ite_method_inf <span class="op">=</span> <span class="st">"aipw"</span>,</span>
+<span>                      ps_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span>,</span>
+<span>                      oreg_method_inf <span class="op">=</span> <span class="st">"SL.xgboost"</span><span class="op">)</span></span>
 <span></span>
-<span> <span class="va">hyper_params</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>interaction_vars <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>                     ntrees_rf <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>                     ntrees_gbm <span class="op">=</span> <span class="fl">50</span>,</span>
+<span><span class="va">hyper_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>intervention_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>,<span class="st">"x2"</span>,<span class="st">"x3"</span>,<span class="st">"x4"</span><span class="op">)</span>,</span>
+<span>                     offset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                     ntrees_rf <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>                     ntrees_gbm <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>                     node_size <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>                     max_nodes <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>                     max_depth <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>                     max_decay <span class="op">=</span> <span class="fl">0.025</span>,</span>
-<span>                     type_decay <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                     t_decay <span class="op">=</span> <span class="fl">0.025</span>,</span>
 <span>                     t_ext <span class="op">=</span> <span class="fl">0.025</span>,</span>
 <span>                     t_corr <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>                     t_pvalue <span class="op">=</span> <span class="fl">0.05</span>,</span>
