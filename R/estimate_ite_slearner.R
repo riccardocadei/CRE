@@ -9,7 +9,7 @@
 #' @param y An observed response vector.
 #' @param z A treatment vector.
 #' @param X A features matrix.
-#' @param oreg_method A estimation model for the outcome regressions.
+#' @param oreg_method An estimation model for the outcome regressions.
 #'
 #' @return
 #' A list of ITE estimates.

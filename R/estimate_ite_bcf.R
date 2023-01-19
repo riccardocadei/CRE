@@ -22,6 +22,7 @@ estimate_ite_bcf <- function(y, z, X, ps_method) {
 
   X <- as.matrix(X)
   est_ps <- estimate_ps(z, X, ps_method)
+
   nburn <- 500
   nsim <- 500
   logger::log_trace("In bcf::bcf command nburn: {nburn} ",
