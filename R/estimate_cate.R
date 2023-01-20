@@ -47,6 +47,12 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
     names(rules_df_inf) <- rules_explicit
     dataset <- cbind(ite, rules_df_inf)
     cate_model <- stats::lm(ite ~ ., data = dataset)
+    filter_na <- is.na(cate_model$coefficients[2:(length(rules_explicit)+1)])
+    if (sum(filter_na)) {
+      rules_matrix <- rules_matrix[,!filter_na]
+      rules_explicit <- rules_explicit[!filter_na]
+      return(estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue))
+    }
     cate_coeff <- summary(cate_model)$coef[, c(1, 4)] %>% as.data.frame()
     cate_ci <- stats::confint(cate_model) %>% as.data.frame()
     cate_summary <- data.frame(Rule = c("(BATE)", rules_explicit),
