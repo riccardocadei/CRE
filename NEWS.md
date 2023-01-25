@@ -1,3 +1,16 @@
+# CRE 0.2.1 (2023-X-X)
+
+## Changed
+* Update `plot()` function (remove BATE and explicit AATEs).
+
+## Added
+
+## Removed
+
+## Bug fixes
+* Rank-Deficient Rule Matrix Issue (redundant rules).
+
+
 # CRE 0.2.0 (2023-1-19)
 
 ## Changed
