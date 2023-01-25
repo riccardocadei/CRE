@@ -1,4 +1,4 @@
-# CRE 0.2.1 (2023-X-X)
+# CRE (Development)
 
 ## Changed
 * Update `plot()` function (remove BATE and explicit AATEs).
