@@ -9,7 +9,7 @@ estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue)
 \arguments{
 \item{rules_matrix}{A rules matrix,}
 
-\item{rules_explicit}{A list of select rules in terms of coviariate names.}
+\item{rules_explicit}{A list of select rules in terms of covariate names.}
 
 \item{ite}{The estimated ITEs.}
 

@@ -69,7 +69,7 @@ check_method_params <- function(y, ite, params) {
     if (length(ps_method_dis) == 0) {
       ps_method_dis <- "SL.xgboost"
     } else {
-      if (!(class(ps_method_dis) %in% c("character", "list","function"))) {
+      if (!(class(ps_method_dis) %in% c("character", "list"))) {
         stop("Please specify a string or list of strings for the ps_method_dis
            argument.")
       }
@@ -84,7 +84,7 @@ check_method_params <- function(y, ite, params) {
     if (length(ps_method_inf) == 0) {
       ps_method_inf <- "SL.xgboost"
     } else {
-      if (!(class(ps_method_inf) %in% c("character", "list","function"))) {
+      if (!(class(ps_method_inf) %in% c("character", "list"))) {
         stop("Please specify a string or list of strings for the ps_method_inf
            argument.")
       }
@@ -100,7 +100,7 @@ check_method_params <- function(y, ite, params) {
     if (length(oreg_method_dis) == 0) {
       oreg_method_dis <- "SL.xgboost"
     } else {
-      if (!(class(oreg_method_dis) %in% c("character", "list","function"))) {
+      if (!(class(oreg_method_dis) %in% c("character", "list"))) {
         stop("Please specify a string or list of strings for the oreg_method_dis
            argument.")
       }
@@ -115,7 +115,7 @@ check_method_params <- function(y, ite, params) {
     if (length(oreg_method_inf) == 0) {
       oreg_method_inf <- "SL.xgboost"
     } else {
-      if (!(class(oreg_method_inf) %in% c("character", "list","function"))) {
+      if (!(class(oreg_method_inf) %in% c("character", "list"))) {
         stop("Please specify a string or list of strings for the oreg_method_inf
            argument.")
       }

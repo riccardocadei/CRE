@@ -23,6 +23,7 @@
 #' @author Falco Joannes Bargagli Stoffi
 #' @import xtable
 #' @import data.table
+#' @import SuperLearner
 #' @importFrom RRF RRF
 #' @importFrom RRF getTree
 #' @importFrom gbm pretty.gbm.tree
