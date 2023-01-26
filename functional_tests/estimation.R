@@ -7,7 +7,6 @@ load_all()
 
 # Set Experiment Parameter
 experiment <- "main"
-cutoff <- 0.9
 
 if (experiment=="main") {
   n_rules <- 2
@@ -94,7 +93,6 @@ if (experiment=="main") {
                        t_pvalue = 0.05,
                        replace = TRUE,
                        stability_selection = TRUE,
-                       cutoff = cutoff,
                        pfer = pfer,
                        penalty_rl = 1)
 }
@@ -218,7 +216,7 @@ if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
 
-exp_name <- paste("estimation",experiment,'cutoff',cutoff,sep="_")
+exp_name <- paste("estimation",pfer,'pfer')
 file_dir <- paste(results_dir,exp_name,".RData", sep="")
 save(estimation, file=file_dir)
 

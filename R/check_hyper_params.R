@@ -125,11 +125,9 @@ check_hyper_params <- function(X_names, params) {
 
   stability_selection <- getElement(params, "stability_selection")
   pfer <- getElement(params, "pfer")
-  cutoff <- getElement(params, "cutoff")
   if (length(stability_selection) == 0) {
     stability_selection <- TRUE
     pfer <- 1
-    cutoff <- 0.9
   } else {
     if (!(stability_selection %in% c(TRUE, FALSE))) {
       stop(paste0("Please specify 'TRUE' or 'FALSE' for",
@@ -142,18 +140,10 @@ check_hyper_params <- function(X_names, params) {
           stop("Invalid 'pfer' input. Please input a number.")
         }
       }
-      if (length(cutoff) == 0) {
-        cutoff <-  0.9
-      } else {
-        if (!inherits(cutoff, "numeric")) {
-          stop("Invalid 'cutoff' input. Please input a number.")
-        }
-      }
     }
   }
   params[["stability_selection"]] <- stability_selection
   params[["pfer"]] <- pfer
-  params[["cutoff"]] <- cutoff
 
 
   penalty_rl <- getElement(params, "penalty_rl")

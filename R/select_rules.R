@@ -10,8 +10,6 @@
 #' @param rules_list A list of rules.
 #' @param ite The estimated ITE.
 #' @param stability_selection Whether or not using stability selection.
-#' @param cutoff  Threshold (percentage) defining the minimum cutoff value for
-#' the stability scores. Only for stability selection.
 #' @param pfer Upper bound for the per-family error rate (tolerated amount of
 #' falsely selected rules). Only for stability selection.
 #' @param penalty_rl Order of penalty for rules length during LASSO
@@ -23,7 +21,7 @@
 #' @keywords internal
 #'
 select_rules <- function(rules_matrix, rules_list, ite,
-                         stability_selection, cutoff, pfer,
+                         stability_selection, pfer,
                          penalty_rl) {
 
   logger::log_debug("Selecting rules...")

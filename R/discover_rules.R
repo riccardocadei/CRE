@@ -55,7 +55,6 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
                              rules_list,
                              ite,
                              getElement(hyper_params, "stability_selection"),
-                             getElement(hyper_params, "cutoff"),
                              getElement(hyper_params, "pfer"),
                              getElement(hyper_params, "penalty_rl"))
   rules_list <- as.character(rules_list)

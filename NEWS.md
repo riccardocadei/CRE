@@ -7,6 +7,7 @@
 ## Added
 
 ## Removed
+* `cutoff` hyper-parameter for stability selection.
 
 ## Bug fixes
 * Rank-Deficient Rule Matrix Issue (redundant rules).

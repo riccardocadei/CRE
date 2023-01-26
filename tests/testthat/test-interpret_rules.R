@@ -17,7 +17,6 @@ test_that("Rules Interpreted Correctly", {
   max_depth <- 15
   replace <- FALSE
   t_decay <- 0.025
-  cutoff <- 0.8
   stability_selection <- TRUE
   pfer <- 0.1
   intervention_vars <- NULL
@@ -49,7 +48,6 @@ test_that("Rules Interpreted Correctly", {
   select_rules <- as.character(select_rules(rules_matrix_std,
                                             rules_list,
                                             ite,
-                                            cutoff,
                                             stability_selection,
                                             pfer,
                                             penalty_rl))

@@ -26,7 +26,6 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
   t_ext <- 0.02
   t_corr <- 0
   t_pvalue <- 0.05
-  cutoff <- 0.8
   pfer <- 0.1
   stability_selection <- TRUE
   offset <- NULL
@@ -84,7 +83,6 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
                                                 rules_list_dis,
                                                 ite_dis,
                                                 stability_selection,
-                                                cutoff,
                                                 pfer,
                                                 penalty_rl))
 
@@ -143,7 +141,6 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
   t_ext <- 0.02
   t_corr <- 0
   t_pvalue <- 0.05
-  cutoff <- 0.8
   pfer <- 1
   stability_selection <- TRUE
   offset <- NULL

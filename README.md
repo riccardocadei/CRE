@@ -65,7 +65,6 @@ __Parameters (not required)__
 - **`t_corr`** The threshold to define correlated rules (default: 1). 
 - **`t_pvalue`** The threshold to define statistically significant rules (default: 0.05).
 - **`stability_selection`** Whether or not using stability selection for selecting the causal rules (default: TRUE).
-- **`cutoff`** Threshold defining the minimum cutoff value for the stability scores (default: 0.9).
 - **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).
 - **`penalty_rl`** Order of penalty for rules length during LASSO for Causal
 Rules Discovery (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2) (default: 1).
@@ -168,7 +167,6 @@ plot(cre_results)
                      t_pvalue = 0.05,
                      replace = FALSE,
                      stability_selection = TRUE,
-                     cutoff = 0.8,
                      pfer = 0.1,
                      penalty_rl = 1)
 

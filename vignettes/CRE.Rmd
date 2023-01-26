@@ -70,7 +70,6 @@ __Parameters (not required)__
 - **`t_corr`** The threshold to define correlated rules (default: 1).    
 - **`t_pvalue`** The threshold to define statistically significant rules (default: 0.05).   
 - **`stability_selection`** Whether or not using stability selection for selecting the rules (default: `TRUE`).    
-- **`cutoff`** Threshold defining the minimum cutoff value for the stability scores (default: 0.9).    
 - **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).   
 - **`penalty_rl`** Order of penalty for rules length during LASSO for Regularization (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2) (default: 1).    
 
@@ -187,7 +186,6 @@ hyper_params <- list(intervention_vars = c("x1","x2","x3","x4"),
                      t_pvalue = 0.05,
                      replace = FALSE,
                      stability_selection = TRUE,
-                     cutoff = 0.8,
                      pfer = 0.1,
                      penalty_rl = 1)
 

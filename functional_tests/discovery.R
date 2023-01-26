@@ -5,7 +5,6 @@ library("CRE")
 
 # Set Experiment Parameter
 experiment <- "main"
-cutoff <- 0.8
 
 if (experiment=="main") {
   n_rules <- 2
@@ -91,7 +90,6 @@ if (experiment=="main") {
                        t_pvalue = 0.05,
                        replace = TRUE,
                        stability_selection = TRUE,
-                       cutoff = cutoff,
                        pfer = 1,
                        penalty_rl = 1)
 
@@ -189,7 +187,7 @@ results_dir <- "~/CRE/functional_tests/results/"
 if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
-exp_name <- paste("discovery",experiment,"cutoff",cutoff, sep="_")
+exp_name <- paste("discovery",experiment)
 file_dir <- paste(results_dir,exp_name,".RData", sep="")
 save(discovery, file=file_dir)
 

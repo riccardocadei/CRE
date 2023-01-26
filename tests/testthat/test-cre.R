@@ -31,7 +31,6 @@ test_that("cre Runs Correctly", {
                       t_pvalue = 0.05,
                       replace = FALSE,
                       stability_selection = TRUE,
-                      cutoff = 0.6,
                       pfer = 1,
                       penalty_rl = 1)
 
@@ -113,10 +112,6 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["t_pvalue"]] <- 0.05
-  hyper_params[["cutoff"]] <- "test"
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  hyper_params[["cutoff"]] <- 0.6
   hyper_params[["stability_selection"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 

@@ -31,7 +31,6 @@ hyper_params <- list(intervention_vars = NULL,
                      t_pvalue = 0.05,
                      replace = TRUE,
                      stability_selection = TRUE,
-                     cutoff = 0.8,
                      pfer = pfer,
                      penalty_rl = 1)
 

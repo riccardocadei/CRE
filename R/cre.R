@@ -51,8 +51,6 @@
 #' (default: 0.05, range: (0,1)).
 #'  - *stability_selection*: Whether or not using stability selection for
 #'  selecting the rules (default: TRUE).
-#'  - *cutoff*:  Threshold (percentage) defining the minimum cutoff value for
-#'  the stability scores (default: 0.9).
 #'  - *pfer*: Upper bound for the per-family error rate (tolerated amount of
 #' falsely selected rules) (default: 1).
 #'  - *penalty_rl*: Order of penalty for rules length during LASSO
