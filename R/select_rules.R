@@ -45,11 +45,9 @@ select_rules <- function(rules_matrix, rules_list, ite,
       # Stability Selection LASSO
       stab_mod <- tryCatch(
         {
-          stabs::stabsel(x = rules_matrix,
-                         y = ite,
-                         fitfun = "glmnet.lasso",
-                         cutoff = cutoff,
-                         PFER = pfer)
+          sharp::VariableSelection(xdata = rules_matrix,
+                                   ydata = ite,
+                                   PFER_thr = pfer)
         },
         error = function(e) {
           stop(paste(
@@ -59,7 +57,7 @@ select_rules <- function(rules_matrix, rules_list, ite,
             "\n\nOriginal Error message:", e))
         }
       )
-      rules_list <- rules_list[stab_mod$selected]
+      rules_list <- rules_list[SelectedVariables(stab_mod)==1]
     } else {
       # vanilla LASSO
       cv_lasso <- glmnet::cv.glmnet(x = rules_matrix,

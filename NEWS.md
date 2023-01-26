@@ -2,6 +2,7 @@
 
 ## Changed
 * Update `plot()` function (remove BATE and explicit AATEs).
+* `stabs` library --> `sharp` library for stability selection.
 
 ## Added
 
