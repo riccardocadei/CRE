@@ -41,20 +41,9 @@ select_rules <- function(rules_matrix, rules_list, ite,
   if (length(rules_list) > 1) {
     if (stability_selection) {
       # Stability Selection LASSO
-      stab_mod <- tryCatch(
-        {
-          sharp::VariableSelection(xdata = rules_matrix,
-                                   ydata = ite,
-                                   PFER_thr = pfer)
-        },
-        error = function(e) {
-          stop(paste(
-            "Combination of `cutoff` and `pfer` not allowed.",
-            "\nTry to decrease the `cutoff` or increase the `pfer`.",
-            "\nSee Stability Selection documentation for further details.",
-            "\n\nOriginal Error message:", e))
-        }
-      )
+      stab_mod <- sharp::VariableSelection(xdata = rules_matrix,
+                                           ydata = ite,
+                                           PFER_thr = pfer)
       rules_list <- rules_list[SelectedVariables(stab_mod)==1]
     } else {
       # vanilla LASSO
