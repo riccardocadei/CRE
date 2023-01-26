@@ -9,7 +9,6 @@ select_rules(
   rules_list,
   ite,
   stability_selection,
-  cutoff,
   pfer,
   penalty_rl
 )
@@ -22,9 +21,6 @@ select_rules(
 \item{ite}{The estimated ITE.}
 
 \item{stability_selection}{Whether or not using stability selection.}
-
-\item{cutoff}{Threshold (percentage) defining the minimum cutoff value for
-the stability scores. Only for stability selection.}
 
 \item{pfer}{Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules). Only for stability selection.}
