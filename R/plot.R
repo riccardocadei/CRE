@@ -53,8 +53,8 @@ autoplot.cre <- function(object, ...) {
     ggplot2::coord_flip() +
     ggplot2::theme_bw() +
     ggplot2::ggtitle(paste("Causal Rule Ensemble: ",
-                           "\nConditional Average Treatment Effect ",
-                           "Linear Decomposition",
+                           "\nConditional Average Treatment Effect",
+                           "\nLinear Decomposition",
                            "\n\nBATE = ", round(bate[["Estimate"]],3),
                            " [", round(bate[["CI_lower"]],3), ",",
                            round(bate[["CI_upper"]],3), "]", sep="")) +
