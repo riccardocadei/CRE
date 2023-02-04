@@ -17,13 +17,15 @@ estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue)
 (filter only rules with p-value <= t_pvalue).}
 }
 \value{
-A dataframe summarizing the CATE linear decomposition:
+A list with 2 elements:
+\code{summary}: A dataframe summarizing the CATE linear decomposition:
 \itemize{
 \item 'Rule': rule name,
 \item 'Estimate': linear contribution to CATE,
 \item 'CI_lower`: lower bound 95\% confidence interval on the estimate,
 \item 'CI_upper`: upper bound 95\% confidence interval on the estimate,
 \item \code{P-Value}: p-value (from Z-test).
+\code{model}: A linear model for CATE-ATE estimation.
 }
 }
 \description{

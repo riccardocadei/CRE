@@ -98,7 +98,7 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
 
   if (length(select_rules_dis)==0){
     rules_matrix_inf <- NA
-    select_rules_interpretable <- NA
+    select_rules_interpretable <- c()
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
     select_rules_interpretable <- interpret_rules(select_rules_dis, X_names)
@@ -186,7 +186,7 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
 
   if (length(select_rules_dis)==0){
     rules_matrix_inf <- NA
-    select_rules_interpretable <- NA
+    select_rules_interpretable <- c()
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
     select_rules_interpretable <- interpret_rules(select_rules_dis, X_names)
