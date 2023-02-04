@@ -188,7 +188,7 @@ cre <- function(y, z, X,
   # Generate rules matrix
   if (length(rules) == 0) {
     rules_matrix_inf <- NA
-    rules_explicit <- NA
+    rules_explicit <- c()
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, rules)
     rules_explicit <- interpret_rules(rules, X_names)
@@ -206,7 +206,7 @@ cre <- function(y, z, X,
               cate_inf$summary$Rule[2:length(cate_inf$summary$Rule)]
     rules_df <- as.data.frame(rules_matrix[, filter])
     names(rules_df) <- rules_explicit[filter]
-    ite_pred <- predict(cate_inf$model, rules_df)
+    ite_pred <- predict(cate_inf$model, rules_df) + cate_inf$summary$Estimate[1]
   } else {
     ite_pred <- cate_inf$summary$Estimate[1]
   }

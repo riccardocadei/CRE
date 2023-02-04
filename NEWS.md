@@ -1,7 +1,8 @@
 # CRE (Development)
 
 ## Changed
-* Update `plot()` function (remove BATE and explicit AATEs).
+* Replace BATE with ATE in CATE Linear Decomposition.
+* Update `plot()` function (remove ATE, old BATE, and explicit AATEs).
 
 ## Added
 
