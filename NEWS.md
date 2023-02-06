@@ -10,6 +10,7 @@
 
 ## Bug fixes
 * Rank-Deficient Rule Matrix Issue (redundant rules).
+* Intervention Variables Filtering (ordered filtering).
 
 
 # CRE 0.2.0 (2023-1-19)
