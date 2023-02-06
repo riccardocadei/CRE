@@ -127,7 +127,6 @@ cre <- function(y, z, X,
                                      params = hyper_params)
 
   # Honest Splitting -----------------------------------------------------------
-  X_names <- names(as.data.frame(X))
   subgroups <- honest_splitting(y, z, X,
                                 getElement(method_params, "ratio_dis"), ite)
   discovery <- subgroups[["discovery"]]
@@ -143,6 +142,7 @@ cre <- function(y, z, X,
   X_inf <- inference$X
   ite_inf <- inference$ite
 
+  intervention_vars <- getElement(hyper_params,"intervention_vars")
 
   # Discovery ------------------------------------------------------------------
   logger::log_info("Starting rules discovery...")
@@ -156,6 +156,11 @@ cre <- function(y, z, X,
                       offset = getElement(method_params, "offset"))
   } else {
     logger::log_info("Using the provided ITE estimations...")
+  }
+
+  # Filter only Intervention-able variables
+  if (!is.null(intervention_vars)) {
+    X_dis <- X_dis[, intervention_vars, drop = FALSE]
   }
 
   # Generate Decision Rules
@@ -185,13 +190,18 @@ cre <- function(y, z, X,
                      "The provided ITE will be used.")
   }
 
+  # Filter only Intervention-able variables
+  if (!is.null(intervention_vars)) {
+    X_inf <- X_inf[, intervention_vars, drop = FALSE]
+  }
+
   # Generate rules matrix
   if (length(rules) == 0) {
     rules_matrix_inf <- NA
     rules_explicit <- c()
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, rules)
-    rules_explicit <- interpret_rules(rules, X_names)
+    rules_explicit <- interpret_rules(rules, colnames(X_inf))
   }
 
   # Estimate CATE
@@ -201,6 +211,8 @@ cre <- function(y, z, X,
 
   # Estimate ITE
   if (M["select_significant"] > 0) {
+    # Filter only Intervention-able variables
+    if (!is.null(intervention_vars)) X <- X[, intervention_vars, drop = FALSE]
     rules_matrix <- generate_rules_matrix(X, rules)
     filter <- rules_explicit %in%
               cate_inf$summary$Rule[2:length(cate_inf$summary$Rule)]

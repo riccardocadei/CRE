@@ -68,7 +68,8 @@ summary.cre <- function(object, verbose = 2, ...) {
 
     cat("\n  - Rules Generation")
     if (!is.null(getElement(params, "intervention_vars"))) {
-      cat("\n    - Intervention Variables:", getElement(params, "node_size"))
+      cat("\n    - Intervention Variables:", getElement(params,
+                                                        "intervention_vars"))
     } else {
       cat("\n    - Intervention Variables: All")
     }

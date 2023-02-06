@@ -15,7 +15,6 @@
 #'
 generate_rules_matrix <- function(X, rules_list) {
 
-
   # Generate and Rules Matrix
   samplesize <- dim(X)[1]
   nrules <- length(rules_list)

@@ -8,8 +8,6 @@
 #'
 #' @param X A covariate matrix.
 #' @param ite A vector of estimated ITE.
-#' @param intervention_vars A vector of intervention-able variables used for
-#' rules generation.
 #' @param ntrees_rf A number of decision trees for the random forest algorithm.
 #' @param ntrees_gbm A number of decision trees for the generalized boosted
 #' regression modeling algorithm.
@@ -23,14 +21,11 @@
 #'
 #' @keywords internal
 #'
-generate_rules <- function(X, ite, intervention_vars, ntrees_rf, ntrees_gbm,
+generate_rules <- function(X, ite, ntrees_rf, ntrees_gbm,
                            node_size, max_nodes, max_depth, replace) {
 
   logger::log_debug("Generating (candidate) rules...")
   st_time <- proc.time()
-
-  # Filter only Intervention-able variables ------------------------------------
-  if (!is.null(intervention_vars)) X <- X[, intervention_vars, drop = FALSE]
 
   # Random Forest
   # TODO: replace splitting criteria enforcing heterogeneity
