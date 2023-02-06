@@ -18,7 +18,6 @@ test_that("Rules Extracted Correctly", {
   max_depth <- 15
   replace <- FALSE
   t_decay <- 0.025
-  intervention_vars <- NULL
 
   # Step 1: Split data
   X <- as.matrix(X)
@@ -34,9 +33,8 @@ test_that("Rules Extracted Correctly", {
                            oreg_method = oreg_method)
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite, intervention_vars, ntrees_rf,
-                                  ntrees_gbm, node_size, max_nodes, max_depth,
-                                  replace)
+  initial_rules <- generate_rules(X, ite, ntrees_rf, ntrees_gbm, node_size,
+                                  max_nodes, max_depth, replace)
 
   rules <- filter_irrelevant_rules(initial_rules, X, ite, t_decay)
 

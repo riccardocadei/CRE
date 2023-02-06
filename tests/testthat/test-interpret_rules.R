@@ -20,7 +20,6 @@ test_that("Rules Interpreted Correctly", {
   cutoff <- 0.8
   stability_selection <- TRUE
   pfer <- 0.1
-  intervention_vars <- NULL
   penalty_rl <- 1
 
   X_names <- names(as.data.frame(X))
@@ -35,7 +34,7 @@ test_that("Rules Interpreted Correctly", {
                            oreg_method = oreg_method)
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite, intervention_vars, ntrees_rf,
+  initial_rules <- generate_rules(X, ite, ntrees_rf,
                                   ntrees_gbm, node_size, max_nodes, max_depth,
                                   replace)
 

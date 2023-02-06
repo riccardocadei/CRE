@@ -40,9 +40,8 @@ test_that("Correlated Rules Discarded Correctly", {
                            oreg_method = oreg_method)
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite, intervention_vars, ntrees_rf,
-                                  ntrees_gbm, node_size, max_nodes, max_depth,
-                                  replace)
+  initial_rules <- generate_rules(X, ite, ntrees_rf, ntrees_gbm, node_size,
+                                  max_nodes, max_depth, replace)
 
   rules_list <- filter_irrelevant_rules(initial_rules, X,
                                         ite, t_decay)

@@ -64,7 +64,7 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
                                offset = offset)
 
   # Generate rules list
-  initial_rules_dis <- generate_rules(X_dis, ite_dis, intervention_vars,
+  initial_rules_dis <- generate_rules(X_dis, ite_dis,
                                       ntrees_rf, ntrees_gbm, node_size,
                                       max_nodes, max_depth, replace)
 
@@ -170,7 +170,6 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
   y_inf <- inference$y
   z_inf <- inference$z
   X_inf <- inference$X
-
 
   # No rule is selected
   select_rules_dis <- c()
