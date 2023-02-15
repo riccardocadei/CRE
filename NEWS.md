@@ -7,6 +7,7 @@
 ## Added
 
 ## Removed
+* Causal Tree benchmark in functional tests.
 
 ## Bug fixes
 * Rank-Deficient Rule Matrix Issue (redundant rules).
