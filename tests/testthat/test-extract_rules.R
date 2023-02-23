@@ -76,7 +76,6 @@ test_that("Rules Extracted Correctly", {
   expect_error(extract_rules(treelist = NA, X, ntrees, max_depth))
   expect_error(extract_rules(treelist, X = NA, ntrees, max_depth))
   expect_error(extract_rules(treelist, X, ntrees = -100, max_depth))
-  #expect_error(extract_rules(treelist, X, ntrees, max_depth = -10))
 
   # Correct outputs
   rules_RF <- extract_rules(treelist, X, ntrees, max_depth)
