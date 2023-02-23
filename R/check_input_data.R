@@ -35,13 +35,13 @@ check_input_data <- function(y, z, X, ite = NULL) {
   # Treatment
   if (is.matrix(z)) {
     if (ncol(z) !=1 || !(is.numeric(z[, 1]) || is.integer(z[, 1]))
-        | length(unique(z)) != 2) {
+        || length(unique(z)) != 2) {
       stop("Treatment vector (z) input values should be a numerical binary
            vector, not a matrix")
     }
     N_check <- nrow(z)
-  } else if (is.vector(z) & (is.numeric(z) || is.integer(z))
-             & length(unique(z)) == 2) {
+  } else if (is.vector(z) && (is.numeric(z) || is.integer(z))
+             && length(unique(z)) == 2) {
     N_check <- length(z)
   } else {
     stop(paste0("Treatment vector (z) input values should be",

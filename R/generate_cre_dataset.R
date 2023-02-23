@@ -54,7 +54,7 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
   if (!(binary_outcome %in% c(TRUE, FALSE))) {
     stop("Invalid 'binary' input. Please specify TRUE or FALSE.")
   }
-  if (is.numeric(n) & !is.integer(n)) {
+  if (is.numeric(n) && !is.integer(n)) {
     n <- as.integer(n)
   }
 

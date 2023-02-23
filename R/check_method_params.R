@@ -23,7 +23,7 @@ check_method_params <- function(y, ite, params) {
   if (length(ratio_dis) == 0) {
     ratio_dis <- 0.5
   } else {
-    if (!inherits(ratio_dis, "numeric") | (ratio_dis < 0) | (ratio_dis > 1)) {
+    if (!inherits(ratio_dis, "numeric") || (ratio_dis < 0) || (ratio_dis > 1)) {
       stop("Invalid 'ratio_dis' input. Please input a number between 0 and 1.")
     }
   }
