@@ -32,8 +32,8 @@ estimate_ite_tpoisson <- function(y, z, X, offset) {
       X_control <- as.data.frame(X[z == 0, ])
       data_treated <- cbind(y_treated, X_treated)
       data_control <- cbind(y_control, X_control)
-      formula = as.formula(paste("y ~ ", paste(X_names, collapse = "+"),
-                                 "+ offset(log(offset_var))"))
+      formula <- as.formula(paste("y ~ ", paste(X_names, collapse = "+"),
+                                  "+ offset(log(offset_var))"))
       temp1 <- stats::glm(formula,
                           data = data_treated,
                           family = stats::poisson(link = "log"))
