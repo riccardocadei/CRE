@@ -57,7 +57,8 @@ regression modeling algorithm.
 \item \emph{max_depth}: Maximum rules length (default: 3).
 \item \emph{replace}: Boolean variable for replacement in bootstrapping for
 rules generation by random forest (default: TRUE).
-\item \emph{t_decay}: The decay threshold for rules pruning (default: 0.025).
+\item \emph{t_decay}: The decay threshold for rules pruning. Higher values will
+carry out an aggressive pruning (default: 0.025).
 \item \emph{t_ext}: The threshold to define too generic or too specific (extreme)
 rules (default: 0.01, range: (0,0.5)).
 \item \emph{t_corr}: The threshold to define correlated rules (default: 1,

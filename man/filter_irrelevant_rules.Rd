@@ -2,7 +2,7 @@
 % Please edit documentation in R/filter_irrelevant_rules.R
 \name{filter_irrelevant_rules}
 \alias{filter_irrelevant_rules}
-\title{Filter irrelevant decision rules}
+\title{Filter irrelevant decision rules using leave-one-out pruning}
 \usage{
 filter_irrelevant_rules(rules, X, ite, t_decay)
 }
@@ -19,9 +19,9 @@ filter_irrelevant_rules(rules, X, ite, t_decay)
 A list of 'relevant' rules.
 }
 \description{
-Filter irrelevant decision rules extracted evaluating the performance
-reduction removing a specific rule at the time
-(see 'Interpreting tree ensembles with the inTrees package'
+Filters the irrelevant decision rules. The irrelevant rules are interpreted
+as an error increase after removing a variable-value pair from the decision rules.
+(see "Interpreting tree ensembles with the inTrees package"
 by Houtao Deng, 2019).
 }
 \keyword{internal}
