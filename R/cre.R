@@ -143,7 +143,7 @@ cre <- function(y, z, X,
   X_inf <- inference$X
   ite_inf <- inference$ite
 
-  intervention_vars <- getElement(hyper_params,"intervention_vars")
+  intervention_vars <- getElement(hyper_params, "intervention_vars")
 
   # Discovery ------------------------------------------------------------------
   logger::log_info("Starting rules discovery...")
@@ -151,10 +151,10 @@ cre <- function(y, z, X,
   # Estimate ITE
   if (is.null(ite)) {
     ite_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
-                      ite_method = getElement(method_params, "ite_method_dis"),
-                      ps_method = getElement(method_params, "ps_method_dis"),
-                      oreg_method = getElement(method_params,"oreg_method_dis"),
-                      offset = getElement(method_params, "offset"))
+                    ite_method = getElement(method_params, "ite_method_dis"),
+                    ps_method = getElement(method_params, "ps_method_dis"),
+                    oreg_method = getElement(method_params, "oreg_method_dis"),
+                    offset = getElement(method_params, "offset"))
   } else {
     logger::log_info("Using the provided ITE estimations...")
   }
@@ -185,7 +185,7 @@ cre <- function(y, z, X,
                       ite_method = getElement(method_params, "ite_method_inf"),
                       ps_method = getElement(method_params, "ps_method_inf"),
                       oreg_method = getElement(method_params, "oreg_method_inf"),
-                      offset = getElement(method_params,"offset"))
+                      offset = getElement(method_params, "offset"))
   } else {
     logger::log_info("Skipped generating ITE.",
                      "The provided ITE will be used.")
@@ -242,7 +242,7 @@ cre <- function(y, z, X,
   # Return Results -------------------------------------------------------------
   end_time_cre <- proc.time()
   logger::log_info("Done with running CRE function!",
-                   "(WC: {g_wc_str(st_time_cre, end_time_cre)}",".)")
+                   "(WC: {g_wc_str(st_time_cre, end_time_cre)}", ".)")
   logger::log_info("Done!")
   return(results)
 }

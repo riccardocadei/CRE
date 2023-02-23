@@ -51,7 +51,7 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
     aate_model <- stats::lm(ite-mean(ite) ~ . -1, data = rules_df_inf)
     filter_na <- is.na(aate_model$coefficients)
     if (sum(filter_na)) {
-      rules_matrix <- rules_matrix[,!filter_na]
+      rules_matrix <- rules_matrix[, !filter_na]
       rules_explicit <- rules_explicit[!filter_na]
       return(estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue))
     }
@@ -66,7 +66,7 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
     if (t_pvalue < 1) {
       filter_pvalue <- aate_summary$P_Value <= t_pvalue
       if (sum(filter_pvalue) < length(filter_pvalue)) {
-        rules_matrix <- rules_matrix[,filter_pvalue, drop=FALSE]
+        rules_matrix <- rules_matrix[, filter_pvalue, drop=FALSE]
         rules_explicit <- rules_explicit[filter_pvalue]
         return(estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue))
       }

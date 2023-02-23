@@ -35,8 +35,8 @@ check_method_params <- function(y, ite, params) {
   if (length(ite_method_dis) == 0) {
     ite_method_dis <- "aipw"
   } else {
-    if (!(ite_method_dis %in% c("aipw", "slearner","tlearner","xlearner",
-                                "bart","bcf","cf","tpoisson"))) {
+    if (!(ite_method_dis %in% c("aipw", "slearner", "tlearner", "xlearner",
+                                "bart", "bcf", "cf", "tpoisson"))) {
       stop(paste(
         "Invalid ITE method for Discovery Subsample. Please choose ",
         "from the following:\n", "'aipw', 'bart', 'slearner','tlearner', ",
@@ -50,8 +50,8 @@ check_method_params <- function(y, ite, params) {
   if (length(ite_method_inf) == 0) {
     ite_method_inf <- "aipw"
   } else {
-    if (!(ite_method_dis %in% c("aipw", "slearner","tlearner","xlearner",
-                                "bart","bcf", "cf", "tpoisson"))) {
+    if (!(ite_method_dis %in% c("aipw", "slearner", "tlearner", "xlearner",
+                                "bart", "bcf", "cf", "tpoisson"))) {
       stop(paste(
         "Invalid ITE method for Inference Subsample. Please choose ",
         "from the following:\n", "'aipw', 'bart', 'slearner','tlearner', ",

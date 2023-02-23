@@ -22,7 +22,7 @@ estimate_ite_tlearner <- function(y, z, X, oreg_method = "SL.xgboost") {
 
   X<- as.data.frame(X)
   y_0_model <- SuperLearner::SuperLearner(Y = y[z==0],
-                                          X = X[z==0,],
+                                          X = X[z==0, ],
                                           family = gaussian(),
                                           SL.library = oreg_method,
                                           cvControl = list(V = 0))
@@ -30,7 +30,7 @@ estimate_ite_tlearner <- function(y, z, X, oreg_method = "SL.xgboost") {
   y_0_hat <- predict(y_0_model, X, onlySL = TRUE)$pred
 
   y_1_model <- SuperLearner::SuperLearner(Y = y[z==1],
-                                          X = X[z==1,],
+                                          X = X[z==1, ],
                                           family = gaussian(),
                                           SL.library = oreg_method,
                                           cvControl = list(V = 0))
