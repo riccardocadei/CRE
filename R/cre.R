@@ -44,12 +44,12 @@
 #'  rules generation by random forest (default: TRUE).
 #'  - *t_decay*: The decay threshold for rules pruning. Higher values will
 #'  carry out an aggressive pruning (default: 0.025).
-#'  - *t_ext*: The threshold to define too generic or too specific (extreme)
-#'  rules (default: 0.01, range: (0,0.5)).
+#'  - *t_ext*: The threshold to truncate too generic or too specific (extreme)
+#'  rules (default: 0.01, range: [0, 0.5)).
 #'  - *t_corr*: The threshold to define correlated rules (default: 1,
 #'  range: (0,+inf)).
 #'  - *t_pvalue*: the threshold to define statistically significant rules
-#' (default: 0.05, range: (0,1)).
+#' (default: 0.05, range: (0, 1)).
 #'  - *stability_selection*: Whether or not using stability selection for
 #'  selecting the rules (default: TRUE).
 #'  - *cutoff*:  Threshold (percentage) defining the minimum cutoff value for

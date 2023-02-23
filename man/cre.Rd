@@ -59,12 +59,12 @@ regression modeling algorithm.
 rules generation by random forest (default: TRUE).
 \item \emph{t_decay}: The decay threshold for rules pruning. Higher values will
 carry out an aggressive pruning (default: 0.025).
-\item \emph{t_ext}: The threshold to define too generic or too specific (extreme)
-rules (default: 0.01, range: (0,0.5)).
+\item \emph{t_ext}: The threshold to truncate too generic or too specific (extreme)
+rules (default: 0.01, range: [0, 0.5)).
 \item \emph{t_corr}: The threshold to define correlated rules (default: 1,
 range: (0,+inf)).
 \item \emph{t_pvalue}: the threshold to define statistically significant rules
-(default: 0.05, range: (0,1)).
+(default: 0.05, range: (0, 1)).
 \item \emph{stability_selection}: Whether or not using stability selection for
 selecting the rules (default: TRUE).
 \item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for
