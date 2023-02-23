@@ -164,7 +164,7 @@ cre <- function(y, z, X,
     X_dis <- X_dis[, intervention_vars, drop = FALSE]
   }
 
-  # Generate Decision Rules
+  # Discover Decision Rules
   discovery <- discover_rules(X_dis,
                               ite_dis,
                               method_params,
