@@ -34,7 +34,7 @@ check_input_data <- function(y, z, X, ite = NULL) {
 
   # Treatment
   if (is.matrix(z)) {
-    if (ncol(z) !=1 || !(is.numeric(z[, 1]) || is.integer(z[, 1]))
+    if (ncol(z) != 1 || !(is.numeric(z[, 1]) || is.integer(z[, 1]))
         || length(unique(z)) != 2) {
       stop("Treatment vector (z) input values should be a numerical binary
            vector, not a matrix")

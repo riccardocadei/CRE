@@ -96,7 +96,7 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
                                X_names = X_names,
                                offset = offset)
 
-  if (length(select_rules_dis) == 0){
+  if (length(select_rules_dis) == 0) {
     rules_matrix_inf <- NA
     select_rules_interpretable <- c()
   } else {
@@ -183,7 +183,7 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
                                X_names = X_names,
                                offset = offset)
 
-  if (length(select_rules_dis) == 0){
+  if (length(select_rules_dis) == 0) {
     rules_matrix_inf <- NA
     select_rules_interpretable <- c()
   } else {
@@ -200,4 +200,3 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
                             ite_inf, t_pvalue)
   expect_true(class(cate_inf$summary) == "data.frame")
 })
-
