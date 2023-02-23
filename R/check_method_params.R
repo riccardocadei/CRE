@@ -65,7 +65,8 @@ check_method_params <- function(y, ite, params) {
   # Propensity Score Estimation Parameters Check--------------------------------
 
   ps_method_dis <- getElement(params, "ps_method_dis")
-  if (!(ite_method_dis %in% c("slearner", "tlearner", "xlearner", "tpoisson"))) {
+  if (!(ite_method_dis %in% c("slearner", "tlearner",
+                              "xlearner", "tpoisson"))) {
     if (length(ps_method_dis) == 0) {
       ps_method_dis <- "SL.xgboost"
     } else {
@@ -80,7 +81,8 @@ check_method_params <- function(y, ite, params) {
   params[["ps_method_dis"]] <- ps_method_dis
 
   ps_method_inf <- getElement(params, "ps_method_inf")
-  if (!(ite_method_inf %in% c("slearner", "tlearner", "xlearner", "tpoisson"))) {
+  if (!(ite_method_inf %in% c("slearner", "tlearner",
+                              "xlearner", "tpoisson"))) {
     if (length(ps_method_inf) == 0) {
       ps_method_inf <- "SL.xgboost"
     } else {

@@ -182,10 +182,10 @@ cre <- function(y, z, X,
   # Estimate ITE
   if (is.null(ite)) {
     ite_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
-                      ite_method = getElement(method_params, "ite_method_inf"),
-                      ps_method = getElement(method_params, "ps_method_inf"),
-                      oreg_method = getElement(method_params, "oreg_method_inf"),
-                      offset = getElement(method_params, "offset"))
+                    ite_method = getElement(method_params, "ite_method_inf"),
+                    ps_method = getElement(method_params, "ps_method_inf"),
+                    oreg_method = getElement(method_params, "oreg_method_inf"),
+                    offset = getElement(method_params, "offset"))
   } else {
     logger::log_info("Skipped generating ITE.",
                      "The provided ITE will be used.")
