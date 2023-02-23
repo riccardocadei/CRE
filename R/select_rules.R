@@ -71,8 +71,17 @@ select_rules <- function(rules_matrix, rules_list, ite,
       index_aa <- which(aa[-1, 1] != 0)
       rule_LASSO <- data.frame(rules = rules_list[index_aa],
                                val = aa[index_aa + 1, 1])
-      rule_LASSO <- rule_LASSO[order(-rule_LASSO[, 2]), ] %>%
-        dplyr::filter(!is.na(rules))
+
+      drop_dplyr <- TRUE
+
+      if (drop_dplyr){
+        rule_LASSO <- rule_LASSO[order(-rule_LASSO[, 2]), ]
+        rule_LASSO <- rule_LASSO[!is.na(rule_LASSO$rules), ]
+      } else {
+        rule_LASSO <- rule_LASSO[order(-rule_LASSO[, 2]), ] %>%
+                        dplyr::filter(!is.na(rules))
+      }
+
       rules_list <- rule_LASSO$rules
     }
   }
