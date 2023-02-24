@@ -121,6 +121,7 @@ cre <- function(y, z, X,
   st_time_cre <- proc.time()
 
   # Input checks ---------------------------------------------------------------
+  check_input_data(y, z, X, ite)
   method_params <- check_method_params(y = y,
                                        ite = ite,
                                        params = method_params)

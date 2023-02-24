@@ -20,8 +20,7 @@ honest_splitting <- function(y, z, X, ratio_dis, ite = NULL) {
 
   logger::log_debug("(Honest) Splitting the dataset...")
 
-  # TODO: This step is redundant. Compute n directly.
-  n <- check_input_data(y, z, X, ite)
+  n <- length(y)
 
   index <- sample(1:n, round(n * ratio_dis), replace = FALSE)
 
