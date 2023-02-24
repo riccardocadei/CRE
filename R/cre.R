@@ -7,7 +7,8 @@
 #'
 #' @param y An observed response vector.
 #' @param z A treatment vector.
-#' @param X A covariate matrix (or a data frame).
+#' @param X A covariate matrix (or a data frame). Should be provided as
+#' numerical values.
 #' @param method_params The list of parameters to define the models used,
 #' including:
 #'   - *Parameters for Honest Splitting*
@@ -27,10 +28,10 @@
 #'       inference subsample (default: 'SL.xgboost').
 #'     - *oreg_method_inf*: The estimation model for the outcome regressions in
 #'       estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
-#' @param hyper_params The list of hyper parameters to finetune the method,
+#' @param hyper_params The list of hyper parameters to fine-tune the method,
 #' including:
-#'  - *intervention_vars*: Intervention-able variables used for Rules Generation
-#'  (default: NULL).
+#'  - *intervention_vars*: Intervention-able variables used for rules
+#'  generation. Use `NULL` to include all variables (default: `NULL`).
 #'  - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
 #'     T-Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 #'  - *ntrees_rf*: A number of decision trees for random forest (default: 20).
@@ -62,6 +63,7 @@
 #' @param ite The estimated ITE vector. If given both the ITE estimation steps
 #' in Discovery and Inference are skipped (default: NULL).
 #'
+#'
 #' @return
 #' An S3 object containing:
 #' - A number of Decision Rules extracted at each step (`M`).
@@ -71,6 +73,9 @@
 #' - A list of Hyper Parameters (`hyper_params`).
 #' - An Individual Treatment Effect predicted (`ite_pred`).
 #'
+#' @note
+#' - If `intervention_vars` are provided, it's important to note that the
+#' individual treatment effect will still be computed using all covariates.
 #' @export
 #'
 #' @examples
