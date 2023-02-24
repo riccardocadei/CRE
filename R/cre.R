@@ -18,14 +18,14 @@
 #'     (default: 'aipw').
 #'     - *ps_method_dis*: The estimation model for the propensity score on the
 #'       discovery subsample (default: 'SL.xgboost').
-#'     - *or_method_dis*: The estimation model for the outcome regressions
+#'     - *oreg_method_dis*: The estimation model for the outcome regressions
 #'       estimate_ite_aipw on the discovery subsample (default: 'SL.xgboost').
 #'   - *Parameters for Inference*
 #'     - *ite_method_inf*: The method to estimate the inference sample ITE
 #'     (default: 'aipw').
 #'     - *ps_method_inf*: The estimation model for the propensity score on the
 #'       inference subsample (default: 'SL.xgboost').
-#'     - *or_method_inf*: The estimation model for the outcome regressions in
+#'     - *oreg_method_inf*: The estimation model for the outcome regressions in
 #'       estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
 #' @param hyper_params The list of hyper parameters to finetune the method,
 #' including:
