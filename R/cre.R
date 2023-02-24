@@ -70,8 +70,8 @@
 #' - A number of Decision Rules extracted at each step (`M`).
 #' - A data.frame of Conditional Average Treatment Effect decomposition
 #' estimates with corresponding uncertainty quantification (`CATE`).
-#' - A list of Method Parameters (`method_params`).
-#' - A list of Hyper Parameters (`hyper_params`).
+#' - A list of method parameters (`method_params`).
+#' - A list of hyper parameters (`hyper_params`).
 #' - An Individual Treatment Effect predicted (`ite_pred`).
 #'
 #' @note

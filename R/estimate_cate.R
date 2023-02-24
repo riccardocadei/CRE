@@ -13,7 +13,7 @@
 #'
 #' @return
 #' A list with 2 elements:
-#' `summary`: A dataframe summarizing the CATE linear decomposition:
+#' `summary`: A data frame summarizing the CATE linear decomposition:
 #' - 'Rule': rule name,
 #' - 'Estimate': linear contribution to CATE,
 #' - 'CI_lower`: lower bound 95% confidence interval on the estimate,
@@ -27,9 +27,9 @@
 #'
 estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
 
-  `%>%` <- magrittr::`%>%`
-
   logger::log_debug("Estimating CATE ...")
+
+  "%>%" <- magrittr::"%>%"
 
   # Estimate ATE (if No Rules Selected)
   ate_model <- stats::lm(ite ~ 1)
