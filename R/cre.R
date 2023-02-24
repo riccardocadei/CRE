@@ -33,7 +33,8 @@
 #'  - *intervention_vars*: Intervention-able variables used for rules
 #'  generation. Use `NULL` to include all variables (default: `NULL`).
 #'  - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
-#'     T-Poisson ITE Estimation. NULL if offset is not used (default: NULL).
+#'     T-Poisson ITE estimation. Use `NULL` if offset is not used
+#'     (default: NULL).
 #'  - *ntrees_rf*: A number of decision trees for random forest (default: 20).
 #'  - *ntrees_gbm*: A number of decision trees for the generalized boosted
 #' regression modeling algorithm.
