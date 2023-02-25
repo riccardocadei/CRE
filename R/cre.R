@@ -7,7 +7,8 @@
 #'
 #' @param y An observed response vector.
 #' @param z A treatment vector.
-#' @param X A covariate matrix (or a data frame).
+#' @param X A covariate matrix (or a data frame). Should be provided as
+#' numerical values.
 #' @param method_params The list of parameters to define the models used,
 #' including:
 #'   - *Parameters for Honest Splitting*
@@ -18,21 +19,22 @@
 #'     (default: 'aipw').
 #'     - *ps_method_dis*: The estimation model for the propensity score on the
 #'       discovery subsample (default: 'SL.xgboost').
-#'     - *or_method_dis*: The estimation model for the outcome regressions
+#'     - *oreg_method_dis*: The estimation model for the outcome regressions
 #'       estimate_ite_aipw on the discovery subsample (default: 'SL.xgboost').
 #'   - *Parameters for Inference*
 #'     - *ite_method_inf*: The method to estimate the inference sample ITE
 #'     (default: 'aipw').
 #'     - *ps_method_inf*: The estimation model for the propensity score on the
 #'       inference subsample (default: 'SL.xgboost').
-#'     - *or_method_inf*: The estimation model for the outcome regressions in
+#'     - *oreg_method_inf*: The estimation model for the outcome regressions in
 #'       estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
-#' @param hyper_params The list of hyper parameters to finetune the method,
+#' @param hyper_params The list of hyper parameters to fine-tune the method,
 #' including:
-#'  - *intervention_vars*: Intervention-able variables used for Rules Generation
-#'  (default: NULL).
+#'  - *intervention_vars*: Intervention-able variables used for rules
+#'  generation. Use `NULL` to include all variables (default: `NULL`).
 #'  - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
-#'     T-Poisson ITE Estimation. NULL if offset is not used (default: NULL).
+#'     T-Poisson ITE estimation. Use `NULL` if offset is not used
+#'     (default: NULL).
 #'  - *ntrees_rf*: A number of decision trees for random forest (default: 20).
 #'  - *ntrees_gbm*: A number of decision trees for the generalized boosted
 #' regression modeling algorithm.
@@ -44,12 +46,12 @@
 #'  rules generation by random forest (default: TRUE).
 #'  - *t_decay*: The decay threshold for rules pruning. Higher values will
 #'  carry out an aggressive pruning (default: 0.025).
-#'  - *t_ext*: The threshold to define too generic or too specific (extreme)
-#'  rules (default: 0.01, range: (0,0.5)).
+#'  - *t_ext*: The threshold to truncate too generic or too specific (extreme)
+#'  rules (default: 0.01, range: [0, 0.5)).
 #'  - *t_corr*: The threshold to define correlated rules (default: 1,
 #'  range: (0,+inf)).
 #'  - *t_pvalue*: the threshold to define statistically significant rules
-#' (default: 0.05, range: (0,1)).
+#' (default: 0.05, range: (0, 1)).
 #'  - *stability_selection*: Whether or not using stability selection for
 #'  selecting the rules (default: TRUE).
 #'  - *cutoff*:  Threshold (percentage) defining the minimum cutoff value for
@@ -62,15 +64,19 @@
 #' @param ite The estimated ITE vector. If given both the ITE estimation steps
 #' in Discovery and Inference are skipped (default: NULL).
 #'
+#'
 #' @return
 #' An S3 object containing:
 #' - A number of Decision Rules extracted at each step (`M`).
 #' - A data.frame of Conditional Average Treatment Effect decomposition
 #' estimates with corresponding uncertainty quantification (`CATE`).
-#' - A list of Method Parameters (`method_params`).
-#' - A list of Hyper Parameters (`hyper_params`).
+#' - A list of method parameters (`method_params`).
+#' - A list of hyper parameters (`hyper_params`).
 #' - An Individual Treatment Effect predicted (`ite_pred`).
 #'
+#' @note
+#' - If `intervention_vars` are provided, it's important to note that the
+#' individual treatment effect will still be computed using all covariates.
 #' @export
 #'
 #' @examples
@@ -121,6 +127,7 @@ cre <- function(y, z, X,
   st_time_cre <- proc.time()
 
   # Input checks ---------------------------------------------------------------
+  check_input_data(y, z, X, ite)
   method_params <- check_method_params(y = y,
                                        ite = ite,
                                        params = method_params)
@@ -164,7 +171,7 @@ cre <- function(y, z, X,
     X_dis <- X_dis[, intervention_vars, drop = FALSE]
   }
 
-  # Generate Decision Rules
+  # Discover Decision Rules
   discovery <- discover_rules(X_dis,
                               ite_dis,
                               method_params,

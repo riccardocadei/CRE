@@ -18,7 +18,7 @@
 #'
 estimate_ite_xlearner <- function(y, z, X, oreg_method = "SL.xgboost") {
 
-  logger::log_trace("oreg_method: '{ps_method}' was selected.")
+  logger::log_trace("oreg_method: '{oreg_method}' was selected.")
 
   X <- as.data.frame(X)
 

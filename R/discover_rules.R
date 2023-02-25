@@ -37,7 +37,7 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
   # Generate rules matrix ------------------------------------------------------
   rules_matrix <- generate_rules_matrix(X, rules_list)
 
-  # Discard rules with too few or too many observations and correlated rules ---
+  # Discard rules with too few or too many observations rules ------------------
   rules_matrix <- filter_extreme_rules(rules_matrix, rules_list,
                                        getElement(hyper_params, "t_ext"))
   rules_list <- colnames(rules_matrix)

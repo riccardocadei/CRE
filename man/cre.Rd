@@ -11,7 +11,8 @@ cre(y, z, X, method_params = NULL, hyper_params = NULL, ite = NULL)
 
 \item{z}{A treatment vector.}
 
-\item{X}{A covariate matrix (or a data frame).}
+\item{X}{A covariate matrix (or a data frame). Should be provided as
+numerical values.}
 
 \item{method_params}{The list of parameters to define the models used,
 including:
@@ -27,7 +28,7 @@ including:
 (default: 'aipw').
 \item \emph{ps_method_dis}: The estimation model for the propensity score on the
 discovery subsample (default: 'SL.xgboost').
-\item \emph{or_method_dis}: The estimation model for the outcome regressions
+\item \emph{oreg_method_dis}: The estimation model for the outcome regressions
 estimate_ite_aipw on the discovery subsample (default: 'SL.xgboost').
 }
 \item \emph{Parameters for Inference}
@@ -36,16 +37,16 @@ estimate_ite_aipw on the discovery subsample (default: 'SL.xgboost').
 (default: 'aipw').
 \item \emph{ps_method_inf}: The estimation model for the propensity score on the
 inference subsample (default: 'SL.xgboost').
-\item \emph{or_method_inf}: The estimation model for the outcome regressions in
+\item \emph{oreg_method_inf}: The estimation model for the outcome regressions in
 estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
 }
 }}
 
-\item{hyper_params}{The list of hyper parameters to finetune the method,
+\item{hyper_params}{The list of hyper parameters to fine-tune the method,
 including:
 \itemize{
-\item \emph{intervention_vars}: Intervention-able variables used for Rules Generation
-(default: NULL).
+\item \emph{intervention_vars}: Intervention-able variables used for rules
+generation. Use \code{NULL} to include all variables (default: \code{NULL}).
 \item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
 T-Poisson ITE Estimation. NULL if offset is not used (default: NULL).
 \item \emph{ntrees_rf}: A number of decision trees for random forest (default: 20).
@@ -59,12 +60,12 @@ regression modeling algorithm.
 rules generation by random forest (default: TRUE).
 \item \emph{t_decay}: The decay threshold for rules pruning. Higher values will
 carry out an aggressive pruning (default: 0.025).
-\item \emph{t_ext}: The threshold to define too generic or too specific (extreme)
-rules (default: 0.01, range: (0,0.5)).
+\item \emph{t_ext}: The threshold to truncate too generic or too specific (extreme)
+rules (default: 0.01, range: [0, 0.5)).
 \item \emph{t_corr}: The threshold to define correlated rules (default: 1,
 range: (0,+inf)).
 \item \emph{t_pvalue}: the threshold to define statistically significant rules
-(default: 0.05, range: (0,1)).
+(default: 0.05, range: (0, 1)).
 \item \emph{stability_selection}: Whether or not using stability selection for
 selecting the rules (default: TRUE).
 \item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for
@@ -93,6 +94,12 @@ estimates with corresponding uncertainty quantification (\code{CATE}).
 \description{
 Performs the Causal Rule Ensemble on a data set with a response variable,
 a treatment variable, and various features.
+}
+\note{
+\itemize{
+\item If \code{intervention_vars} is provided, it's important to note that the
+individual treatment effect will still be computed using all covariates.
+}
 }
 \examples{
 

@@ -15,6 +15,11 @@ generate_rules_matrix(X, rules_list)
 A causal rules matrix.
 }
 \description{
-Generates the rules matrix from the feature matrix and a vector of rules.
+Generates the rules matrix from the feature covariate matrix and a vector of
+rules. The number of rows in rules_matrix is equal to the number of samples
+in \code{X}, and the number of columns is equal to the number of rules in
+\code{rules_list}. Each element of rules_matrix corresponds to a specific data
+sample and rule. If the data sample satisfies a rule, the corresponding
+element in rules_matrix is set to 1. Otherwise, the element is set to 0.
 }
 \keyword{internal}

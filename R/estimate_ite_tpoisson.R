@@ -1,8 +1,8 @@
 #' @title
-#' Estimate the Individual Treatment Effect (ITE) using T-Poisson Regression
+#' Estimate the Individual Treatment Effect (ITE) using T-Poisson regression
 #'
 #' @description
-#' Estimates the Individual Treatment Effect using Poisson Regression given a
+#' Estimates the Individual Treatment Effect using Poisson regression given a
 #' response vector, a treatment vector, and a features matrix.
 #'
 #' @param y An observed response vector.

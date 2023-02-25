@@ -28,6 +28,8 @@ select_rules <- function(rules_matrix, rules_list, ite,
 
   logger::log_debug("Selecting rules...")
 
+  "%>%" <- magrittr::"%>%"
+
   if (penalty_rl > 0) {
     rules_weight <- c()
     for (rule in rules_list) {
@@ -38,7 +40,6 @@ select_rules <- function(rules_matrix, rules_list, ite,
     rules_matrix <- t(t(rules_matrix) / rules_weight)
   }
 
-  `%>%` <- magrittr::`%>%`
   rules <- NULL
   if (length(rules_list) > 1) {
     if (stability_selection) {
@@ -71,8 +72,10 @@ select_rules <- function(rules_matrix, rules_list, ite,
       index_aa <- which(aa[-1, 1] != 0)
       rule_LASSO <- data.frame(rules = rules_list[index_aa],
                                val = aa[index_aa + 1, 1])
-      rule_LASSO <- rule_LASSO[order(-rule_LASSO[, 2]), ] %>%
-        dplyr::filter(!is.na(rules))
+
+      rule_LASSO <- rule_LASSO[order(-rule_LASSO[, 2]), ]
+      rule_LASSO <- rule_LASSO[!is.na(rule_LASSO$rules), ]
+
       rules_list <- rule_LASSO$rules
     }
   }
