@@ -16,12 +16,14 @@
 #'
 check_method_params <- function(y, ite, params) {
 
+  logger::log_debug("Checking method parameters...")
+
   # Honest Splitting Parameters Check ------------------------------------------
   ratio_dis <- getElement(params, "ratio_dis")
   if (length(ratio_dis) == 0) {
     ratio_dis <- 0.5
   } else {
-    if (!inherits(ratio_dis, "numeric") | (ratio_dis < 0) | (ratio_dis > 1)) {
+    if (!inherits(ratio_dis, "numeric") || (ratio_dis < 0) || (ratio_dis > 1)) {
       stop("Invalid 'ratio_dis' input. Please input a number between 0 and 1.")
     }
   }
@@ -33,10 +35,10 @@ check_method_params <- function(y, ite, params) {
   if (length(ite_method_dis) == 0) {
     ite_method_dis <- "aipw"
   } else {
-    if (!(ite_method_dis %in% c("aipw", "slearner","tlearner","xlearner",
-                                "bart","bcf","cf","tpoisson"))) {
+    if (!(ite_method_dis %in% c("aipw", "slearner", "tlearner", "xlearner",
+                                "bart", "bcf", "cf", "tpoisson"))) {
       stop(paste(
-        "Invalid ITE method for Discovery Subsample. Please choose ",
+        "Invalid ITE method for discovery subsample. Please choose ",
         "from the following:\n", "'aipw', 'bart', 'slearner','tlearner', ",
         "'xlearner', 'bcf', 'cf', or 'tpoisson'"
       ))
@@ -48,10 +50,10 @@ check_method_params <- function(y, ite, params) {
   if (length(ite_method_inf) == 0) {
     ite_method_inf <- "aipw"
   } else {
-    if (!(ite_method_dis %in% c("aipw", "slearner","tlearner","xlearner",
-                                "bart","bcf", "cf", "tpoisson"))) {
+    if (!(ite_method_inf %in% c("aipw", "slearner", "tlearner", "xlearner",
+                                "bart", "bcf", "cf", "tpoisson"))) {
       stop(paste(
-        "Invalid ITE method for Inference Subsample. Please choose ",
+        "Invalid ITE method for inference subsample. Please choose ",
         "from the following:\n", "'aipw', 'bart', 'slearner','tlearner', ",
         "'xlearner', 'bcf', 'cf', or 'tpoisson'"
       ))
@@ -63,7 +65,8 @@ check_method_params <- function(y, ite, params) {
   # Propensity Score Estimation Parameters Check--------------------------------
 
   ps_method_dis <- getElement(params, "ps_method_dis")
-  if (!(ite_method_dis %in% c("slearner", "tlearner", "xlearner", "tpoisson"))) {
+  if (!(ite_method_dis %in% c("slearner", "tlearner",
+                              "xlearner", "tpoisson"))) {
     if (length(ps_method_dis) == 0) {
       ps_method_dis <- "SL.xgboost"
     } else {
@@ -78,7 +81,8 @@ check_method_params <- function(y, ite, params) {
   params[["ps_method_dis"]] <- ps_method_dis
 
   ps_method_inf <- getElement(params, "ps_method_inf")
-  if (!(ite_method_inf %in% c("slearner", "tlearner", "xlearner", "tpoisson"))) {
+  if (!(ite_method_inf %in% c("slearner", "tlearner",
+                              "xlearner", "tpoisson"))) {
     if (length(ps_method_inf) == 0) {
       ps_method_inf <- "SL.xgboost"
     } else {
@@ -133,6 +137,8 @@ check_method_params <- function(y, ite, params) {
     params[["ps_method_inf"]] <- NULL
     params[["or_method_inf"]] <- NULL
   }
+
+  logger::log_debug("Done with checking method parameters.")
 
   return(params)
 }

@@ -25,6 +25,11 @@
 select_rules <- function(rules_matrix, rules_list, ite,
                          stability_selection, cutoff, pfer,
                          penalty_rl) {
+
+  logger::log_debug("Selecting rules...")
+
+  "%>%" <- magrittr::"%>%"
+
   if (penalty_rl > 0) {
     rules_weight <- c()
     for (rule in rules_list) {
@@ -35,15 +40,15 @@ select_rules <- function(rules_matrix, rules_list, ite,
     rules_matrix <- t(t(rules_matrix) / rules_weight)
   }
 
-  `%>%` <- magrittr::`%>%`
   rules <- NULL
   if (length(rules_list) > 1) {
     if (stability_selection) {
       # Stability Selection LASSO
       stab_mod <- tryCatch(
         {
-          stabs::stabsel(x = rules_matrix,
-                         y = ite,
+          stabs::stabsel(x = as.data.frame(rules_matrix),
+                         y = ite - mean(ite),
+                         intercept = FALSE,
                          fitfun = "glmnet.lasso",
                          cutoff = cutoff,
                          PFER = pfer)
@@ -60,18 +65,22 @@ select_rules <- function(rules_matrix, rules_list, ite,
     } else {
       # vanilla LASSO
       cv_lasso <- glmnet::cv.glmnet(x = rules_matrix,
-                                    y = ite,
+                                    y = ite - mean(ite),
                                     alpha = 1,
                                     intercept = FALSE)
       aa <- stats::coef(cv_lasso, s = cv_lasso$lambda.1se)
       index_aa <- which(aa[-1, 1] != 0)
       rule_LASSO <- data.frame(rules = rules_list[index_aa],
                                val = aa[index_aa + 1, 1])
-      rule_LASSO <- rule_LASSO[order(-rule_LASSO[, 2]), ] %>%
-        dplyr::filter(!is.na(rules))
+
+      rule_LASSO <- rule_LASSO[order(-rule_LASSO[, 2]), ]
+      rule_LASSO <- rule_LASSO[!is.na(rule_LASSO$rules), ]
+
       rules_list <- rule_LASSO$rules
     }
   }
+
+  logger::log_debug("Done with selecting rules.")
 
   return(rules_list)
 }

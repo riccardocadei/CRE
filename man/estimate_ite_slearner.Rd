@@ -13,7 +13,7 @@ estimate_ite_slearner(y, z, X, oreg_method = "SL.xgboost")
 
 \item{X}{A features matrix.}
 
-\item{oreg_method}{A estimation model for the outcome regressions.}
+\item{oreg_method}{An estimation model for the outcome regressions.}
 }
 \value{
 A list of ITE estimates.

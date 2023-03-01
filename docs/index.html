@@ -50,7 +50,7 @@
     
     <a class="navbar-brand me-2" href="index.html">CRE</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +85,7 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/NSAPH-Software/CRE/" aria-label="github">
+  <a class="nav-link" href="https://github.com/NSAPH-Software/CRE/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -107,29 +107,25 @@
 <div class="section level1">
 <h1 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h1>
-<p>Causal subgroup identification is a powerful statistical tool for determining vulnerabilities in a population with respect to a particular treatment. As causal machine learning provides an efficient and accurate tool for data-driven subgroup identification, software packages are proving an essential means to easily disseminate and reproduce these algorithms broadly.</p>
-<p>The CRE Package, written in R and available on GitHub, implements the recently developed Causal Rule Ensemble (CRE) algorithm, a flexible and precise method for denovo subgroup discovery. The CRE approach focuses on identifying drivers of treatment heterogeneity in observational or randomized studies in the presence of an intervention or treatment.</p>
+<p>Identifying subgroups of a study population where a treatment or exposure has a notably larger or smaller effect on an outcome compared to the population average is crucial in social and health sciences. While estimating the conditional average treatment effect (CATE) given a pre-specified set of covariates is a common approach, it only allows for estimating causal effects on subgroups that have been specified a priori by the researchers. This package implements the recently developed Causal Rule Ensemble (CRE) algorithm, a flexible and precise method for denovo subgroup discovery.</p>
 </div>
 <div class="section level1">
 <h1 id="package-details">Package Details<a class="anchor" aria-label="anchor" href="#package-details"></a>
 </h1>
-<p>The Package is centered on one R function, <code><a href="reference/cre.html">cre()</a></code>, that conducts the entirety of the CRE algorithm given a dataset and a series of input parameters from the user. The <code><a href="reference/cre.html">cre()</a></code> function calls on a number of helper functions to conduct discovery and inference subsample analysis. For example, for the estimation of Individual Treatment Effects, users can select a particular method from a large list of methodologies, each of which vary with respect to their speed and precision. The parameter selections will determine which helper functions the <code><a href="reference/cre.html">cre()</a></code> calls.</p>
-<p>The CRE method splits the inputted data into discovery and inference subsamples. On the discovery subsample, it generates and filters causal rules that explain the heterogeneity in treatment effects. It then applies these rules to the inference subsample and estimates the Conditional Average Treatment Effect (CATE) for each subgroup.</p>
-<p>The final output of the <code><a href="reference/cre.html">cre()</a></code> is the list of selected causal rules that identify the subgroups with higher heterogeneity in the effects and the matrix of estimated CATEs for each rule, both of which are highly accessible and interpretable.</p>
-<p>Note: A sensitivity analysis for unmeasured confounding will also be implemented in a later version.</p>
+<p>The cre() function executes the entire CRE algorithm by utilizing a data set and input parameters the user provides. The cre() function internally employs several functions to conduct subsample analysis for discovery and inference. To estimate Individual Treatment Effects, users can choose from various methodologies that vary in terms of speed and accuracy. The CRE method divides the study data into discovery and inference subsamples, generating and filtering causal rules on the discovery subsample to explain the heterogeneity in treatment effects. These rules are then applied to the inference subsample to estimate each subgroup’s Conditional Average Treatment Effect (CATE). The output of cre() includes a list of selected causal rules identifying subgroups with higher heterogeneity in the effects, as well as a matrix of estimated CATEs for each rule, both of which are easily accessible and interpretable.</p>
 </div>
 <div class="section level1">
 <h1 id="applications">Applications<a class="anchor" aria-label="anchor" href="#applications"></a>
 </h1>
-<p>Through this package, any user can apply the method to a variety of new datasets. The applications of the CRE method and R package are vast, with a notable potential impact in the field of public health. We intend to apply the method to a dataset linking air pollution (PM2.5) data to Medicare mortality data across the United States. Our empirical goal is to identify the most vulnerable communities, to inform policymakers on how to mitigate the negative health and economic effects on these subgroups and reduce inequality.</p>
+<p>The CRE package can be used in diverse theoretical and practical applications as long as working with binary exposure or treatment level. For example, it can be used in education to determine which teaching methods are most effective for specific student subgroups. In marketing, it can identify the most effective strategies for different consumer subgroups. In healthcare, it can be used to identify patient subgroups that benefit the most from a particular treatment or intervention. It can also be used in studies for personalized medicine where each subgroup of patients responds differently to the provided medicine. In public health, the CRE method was applied to discover subgroups that are more vulnerable (or resilient) to the causal effects of long-term exposure to air pollution on mortality.</p>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://cloud.r-project.org/package=CRE" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/NSAPH-Software/CRE/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/NSAPH-Software/CRE/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/NSAPH-Software/CRE/">Browse source code</a></li>
+<li><a href="https://github.com/NSAPH-Software/CRE/issues">Report a bug</a></li>
 </ul>
 </div>
 
@@ -163,8 +159,10 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/fasrc/CRE/actions"><img src="https://github.com/fasrc/CRE/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://CRAN.R-project.org/package=CRE" class="external-link"><img src="http://www.r-pkg.org/badges/version-last-release/CRE"></a></li>
+<li><a href="https://github.com/fasrc/CRE/actions" class="external-link"><img src="https://github.com/fasrc/CRE/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://codecov.io/gh/NSAPH-Software/CRE" class="external-link"><img src="https://codecov.io/gh/NSAPH-Software/CRE/branch/develop/graph/badge.svg?token=UMSVOYRKGA" alt="codecov"></a></li>
+<li><a href="http://www.r-pkg.org/pkg/cre" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/CRE" alt="CRAN RStudio mirror downloads"></a></li>
 </ul>
 </div>
 

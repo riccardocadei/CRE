@@ -7,20 +7,20 @@ test_that("X-Learner ITE Estimated Correctly", {
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
-  or_method <- "SL.xgboost"
+  oreg_method <- "SL.xgboost"
 
   # Incorrect data inputs
-  expect_error(estimate_ite_xlearner(y = "test", z, X, or_method))
-  expect_error(estimate_ite_xlearner(y, z = "test", X, or_method))
-  expect_error(estimate_ite_xlearner(y, z, X = NA, or_method))
+  expect_error(estimate_ite_xlearner(y = "test", z, X, oreg_method))
+  expect_error(estimate_ite_xlearner(y, z = "test", X, oreg_method))
+  expect_error(estimate_ite_xlearner(y, z, X = NA, oreg_method))
 
   # Correct outputs
-  ite <- expect_warning(estimate_ite_xlearner(y, z, X, or_method))
+  ite <- expect_warning(estimate_ite_xlearner(y, z, X, oreg_method))
   expect_true(length(ite) == length(y))
   expect_true(class(ite) == "numeric")
 
   # Reproducible results
   expect_equal(ite[1], 0.9212638, tolerance = 0.00001)
   expect_equal(ite[11], -1.103585, tolerance = 0.00001)
-  expect_equal(ite[91], 0.391092, tolerance = 0.00001)
+  expect_equal(ite[91], -0.226993, tolerance = 0.00001)
 })

@@ -12,3 +12,8 @@ set_options <- function(k, v) {
 list_options <- function() {
   names(my_options)
 }
+
+g_wc_str <- function(start, end) {
+  wc_rd <- (end - start)[[3]]
+  wc_string <- paste(sprintf("%.3f", wc_rd), "seconds")
+}

@@ -1,4 +1,20 @@
-# CRE (Developing)
+# CRE (Development)
+
+## Changed
+* Replace BATE with ATE in CATE Linear Decomposition.
+* Update `plot()` function (remove ATE, old BATE, and explicit AATEs).
+
+## Added
+
+## Removed
+* Causal Tree benchmark in functional tests.
+
+## Bug fixes
+* Rank-Deficient Rule Matrix Issue (redundant rules).
+* Intervention Variables Filtering (ordered filtering).
+
+
+# CRE 0.2.0 (2023-1-19)
 
 ## Changed
 * `offset` method-parameter -> hyper-parameter
@@ -12,7 +28,7 @@
 * `cre` object: added parameters and ite estimation.
 
 ## Added
-* Syntethic data set with 1 or 3 rules (`generate_cre_dataset`).
+* Synthetic data set with 1 or 3 rules (`generate_cre_dataset`).
 * S-Learner (`slearner`) method for ITE estimation.
 * T-Learner (`tlearner`) method for ITE estimation.
 * X-Learner (`xlearner`) method for ITE estimation.
@@ -24,7 +40,7 @@ estimations.
 * Default values for method parameters.
 * Simulation experiments for estimation (`estimation.R`).
 * Simulation experiments for discovery (`discovery.R`).
-* `extract_effect_modifiers` function (util for performance evaluation).
+* `extract_effect_modifiers` function (utility for performance evaluation).
 * `evaluate` function for discovery evaluation.
 * `confounding` parameter in `generate_cre_dataset` to set confounding type.
 * `ite_pred` and `model` in CRE results.
@@ -83,7 +99,7 @@ function.
 
 ## Added
 * Examples and tests for all functions.
-* `prune_rules` function to discard unpredictive rules.
+* `prune_rules` function to discard un-predictive rules.
 * `discard_anomalous_rules` function to discard anomalous rules (see `t_corr` 
 hyper-parameter.).
 * `discard_correlated_rules` function to discard correlated rules (see `t_anom` 

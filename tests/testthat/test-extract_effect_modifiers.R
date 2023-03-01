@@ -5,7 +5,7 @@ test_that("Effect Modifiers Extracted Correctly", {
                                  "x5>0.5 & x6<=0.5",
                                  "x4<=0",
                                  "x5<=0.5 & x7>0.5 & x8<=0.5")
-  effect_modifiers <- c("x1","x2","x4","x5","x6","x7","x8")
+  effect_modifiers <- c("x1", "x2", "x4", "x5", "x6", "x7", "x8")
 
   # Correct outputs
   expect_true(all(effect_modifiers ==

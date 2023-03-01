@@ -45,7 +45,8 @@
 #'
 estimate_ite <- function(y, z, X, ite_method, ...) {
 
-
+  logger::log_debug("Estimating ITE...")
+  st_time <- proc.time()
   # Address visible binding error.
   offset <- oreg_method <- NULL
   ps_method <- ps_method_dis <- ps_method_inf <- NULL
@@ -70,7 +71,7 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
   }
 
   if (ite_method == "slearner") {
-    check_args(c('oreg_method'), arg_names)
+    check_args(c("oreg_method"), arg_names)
     ite <- estimate_ite_slearner(y, z, X, oreg_method)
   } else if (ite_method == "tlearner") {
     check_args(c("oreg_method"), arg_names)
@@ -85,7 +86,7 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
     check_args(c("ps_method"), arg_names)
     ite <- estimate_ite_bart(y, z, X, ps_method)
   } else if (ite_method == "bcf") {
-    check_args(c('ps_method'), arg_names)
+    check_args(c("ps_method"), arg_names)
     ite <- estimate_ite_bcf(y, z, X, ps_method)
   } else if (ite_method == "cf") {
     check_args(c("ps_method"), arg_names)
@@ -98,5 +99,10 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
                "'slearner', 'tlearner', 'xlearner', 'aipw', 'bart', 'bcf', ",
                "'cf' or 'tpoisson'"))
   }
+
+  en_time <- proc.time()
+  logger::log_debug("Done with estimating ITE. ",
+                    "(WC: {g_wc_str(st_time, en_time)}", ".)")
+
   return(ite)
 }

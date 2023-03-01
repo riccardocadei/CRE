@@ -76,7 +76,7 @@ summary(result)
 plot(result)
 
 # Discovery
-dr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
+dr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(ATE)" == FALSE]
 metrics_dr <- evaluate(dr,dr_pred)
 print(paste("Decision Rules:  ",
             "IoU=",round(metrics_dr$IoU,2),

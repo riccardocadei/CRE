@@ -7,7 +7,6 @@
 generate_rules(
   X,
   ite,
-  intervention_vars,
   ntrees_rf,
   ntrees_gbm,
   node_size,
@@ -20,9 +19,6 @@ generate_rules(
 \item{X}{A covariate matrix.}
 
 \item{ite}{A vector of estimated ITE.}
-
-\item{intervention_vars}{A vector of intervention-able variables used for
-rules generation.}
 
 \item{ntrees_rf}{A number of decision trees for the random forest algorithm.}
 

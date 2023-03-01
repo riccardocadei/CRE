@@ -19,7 +19,6 @@ test_that("Extreme Rules Discarded Correctly", {
   replace <- FALSE
   t_decay <- 0.025
   t_ext <- 0.1
-  intervention_vars <- NULL
 
   # Step 1: Split data
   X <- as.matrix(X)
@@ -35,9 +34,8 @@ test_that("Extreme Rules Discarded Correctly", {
                            oreg_method = oreg_method)
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite, intervention_vars, ntrees_rf,
-                                  ntrees_gbm, node_size, max_nodes, max_depth,
-                                  replace)
+  initial_rules <- generate_rules(X, ite, ntrees_rf, ntrees_gbm, node_size,
+                                  max_nodes, max_depth, replace)
 
   rules_list <- filter_irrelevant_rules(initial_rules, X, ite, t_decay)
   rules_matrix <- generate_rules_matrix(X, rules_list)

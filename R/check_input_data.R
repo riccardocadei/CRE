@@ -16,9 +16,11 @@
 #'
 check_input_data <- function(y, z, X, ite = NULL) {
 
+  logger::log_debug("Checking input data...")
+
   # Observed Outcome
   if (is.matrix(y)) {
-    if (ncol(y)!=1 || !(is.numeric(y[,1]) || is.integer(y[,1]))) {
+    if (ncol(y) != 1 || !(is.numeric(y[, 1]) || is.integer(y[, 1]))) {
       stop("Observed response vector (y) input values should be a numerical
            vector, not a matrix")
     }
@@ -32,14 +34,14 @@ check_input_data <- function(y, z, X, ite = NULL) {
 
   # Treatment
   if (is.matrix(z)) {
-    if (ncol(z)!=1 || !(is.numeric(z[,1]) || is.integer(z[,1]))
-        | length(unique(z)) != 2) {
+    if (ncol(z) != 1 || !(is.numeric(z[, 1]) || is.integer(z[, 1]))
+        || length(unique(z)) != 2) {
       stop("Treatment vector (z) input values should be a numerical binary
            vector, not a matrix")
     }
     N_check <- nrow(z)
-  } else if (is.vector(z) & (is.numeric(z) || is.integer(z))
-             & length(unique(z)) == 2) {
+  } else if (is.vector(z) && (is.numeric(z) || is.integer(z))
+             && length(unique(z)) == 2) {
     N_check <- length(z)
   } else {
     stop(paste0("Treatment vector (z) input values should be",
@@ -87,6 +89,8 @@ check_input_data <- function(y, z, X, ite = NULL) {
                "same number of observations.",
                "Current values:", N, ",", N_check))
   }
+
+  logger::log_debug("Done with checking input data.")
 
   invisible(N)
 }
