@@ -85,7 +85,7 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
     if (confounding == "lin") {
       mean <- X$x1 + X$x3 + X$x4
     } else if (confounding == "nonlin") {
-      mean <- X$x1 + cos(X$x3)
+      mean <- X$x1 + cos(X$x3*X$x4)
     } else if (confounding == "no") {
       mean <- 0
     } else {
