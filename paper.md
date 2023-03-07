@@ -44,10 +44,6 @@ CRE Descriprion.
 
 $$
 \begin{algorithm}[H]
-\SetAlgoLined
-\DontPrintSemicolon
-\KwIn{input}
-\KwOut{output}
 \While{condition}{
     statements\;
 }
