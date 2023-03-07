@@ -42,12 +42,6 @@ See [@Lee:2020].
 
 CRE Descriprion.
 
-$$
-\begin{algorithm}[H]
-\caption{Algorithm name}
-\end{algorithm}
-$$
-
 # Example
 
 Generate Synthetic Data
