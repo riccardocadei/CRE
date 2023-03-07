@@ -112,7 +112,7 @@ Add plot results description.
 
 \begin{figure}
   \centering 
-  \includegraphics{images/example.pdf}
+  \includegraphics{images/example}
   \caption{Plot results}
   \label{fig:example} 
 \end{figure}
