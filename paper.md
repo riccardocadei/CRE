@@ -123,6 +123,13 @@ plot(cre_results)
 
 Add plot results description.
 
+\begin{figure}
+  \centering 
+  \includegraphics{images/example.pdf}
+  \caption{Plot results}
+  \label{fig:example} 
+\end{figure}
+
 # Acknowledgements
 
 We acknowledge contributions from ...

@@ -1,13 +1,13 @@
-set.seed(2021)
+set.seed(2022)
 
 # Set Experiment Parameter
 n_rules <- 4
 sample_size <- 2000
 effect_size <- 2
 confounding <- "no"
-ite_estimator_dis <- "tlearner"
-ite_estimator_inf <- "tlearner"
-pfer <- n_rules/(effect_size+1)
+ite_estimator_dis <- "bart"
+ite_estimator_inf <- "bart"
+pfer <- 0.5#n_rules/(effect_size+1)
 
 # Set Method and Hyper Parameters
 method_params <- list(ratio_dis = 0.5,
@@ -20,8 +20,8 @@ method_params <- list(ratio_dis = 0.5,
 
 hyper_params <- list(intervention_vars = NULL,
                      offset = NULL,
-                     ntrees_rf = 50,
-                     ntrees_gbm = 50,
+                     ntrees_rf = 40,
+                     ntrees_gbm = 40,
                      node_size = 20,
                      max_nodes = 8,
                      max_depth = 3,
