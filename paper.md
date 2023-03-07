@@ -44,9 +44,6 @@ CRE Descriprion.
 
 $$
 \begin{algorithm}[H]
-\While{condition}{
-    statements\;
-}
 \caption{Algorithm name}
 \end{algorithm}
 $$
