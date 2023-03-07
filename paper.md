@@ -23,6 +23,9 @@ affiliations:
    index: 1
 date: 2 November 2022
 bibliography: paper.bib
+header-includes: 
+ - \usepackage{algortihm}
+ - \usepackage{bm}
 
 ---
 
@@ -39,7 +42,18 @@ See [@Lee:2020].
 
 CRE Descriprion.
 
-Add algorithm table.
+$$
+\begin{algorithm}[H]
+\SetAlgoLined
+\DontPrintSemicolon
+\KwIn{input}
+\KwOut{output}
+\While{condition}{
+    statements\;
+}
+\caption{Algorithm name}
+\end{algorithm}
+$$
 
 # Example
 
@@ -53,9 +67,9 @@ dataset <- generate_cre_dataset(n = 1000,
                                 binary_covariates = TRUE,
                                 binary_outcome = FALSE,
                                 confounding = "no")
-y <- dataset[["y"]]
-z <- dataset[["z"]]
-X <- dataset[["X"]]
+y <- dataset$y
+z <- dataset$z
+X <- dataset$X
 ```
 Example 1. Run CRE with default parameters.
 
