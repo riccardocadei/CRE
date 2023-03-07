@@ -47,7 +47,7 @@ See [@Lee:2020].
 
 # Example
 
-Generate Synthetic Data
+Generate Synthetic Data.
 ```R
 dataset <- generate_cre_dataset(n = 2000, 
                                 rho = 0, 
@@ -104,21 +104,17 @@ hyper_params <- list(intervention_vars = c("x1","x2","x3","x4"),
 cre_results <- cre(y, z, X, method_params, hyper_params)
 ```
 
-Summarize results
+Summarize results.
 ```R
 summary(cre_results)
 ```
 
-Visualize results
+Visualize results.
 ```R
 plot(cre_results)
 ```
-\begin{figure}
-  \centering 
-  \includegraphics[width=\textwidth]{images/example}
-  \caption{Visualization of CRE HTE linear decomposition for Example 1. For each decision rules discovered, the corresponding AATE estimate with 95% confidence interval is reported in a range bar plot. The decision rules are order from the most vulnerable (high AATE) to the least, and the ATE is reported on top of the plot.}
-  \label{fig:example} 
-\end{figure}
+
+![Visualization of CRE HTE linear decomposition for Example 1. For each decision rules discovered, the corresponding AATE estimate with 95% confidence interval is reported in a range bar plot. The decision rules are order from the most vulnerable (high AATE) to the least, and the ATE is reported on top of the plot. \label{fig:example}](images/example.pdf)
 
 # Acknowledgements
 
