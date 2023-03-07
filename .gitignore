@@ -11,5 +11,5 @@ src/.DS_Store
 src-i386
 .DS_Store
 *.ipynb
-#*.pdf
+*.pdf
 *.log

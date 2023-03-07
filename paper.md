@@ -42,6 +42,14 @@ See [@Lee:2020].
 
 CRE Descriprion.
 
+```{=tex}
+\begin{align}
+\ell(\bm{{\beta}}|\bm{y}) & = \sum_{i=1}^n\log(\lambda_i) - \int_{\bm{s} \in \mathcal{A}}\lambda(\bm{s})d\bm{s} - \log(n!) \nonumber\\
+& \approx \sum_{i=1}^n\log(\lambda_i) - \sum_{i=1}^m w_i\lambda_i \nonumber\\
+& = \sum_{i=1}^m w_i\{z_i \log(\lambda_i) - \lambda_i\} \numberthis \label{eq:two}
+\end{align}
+```
+
 # Example
 
 Generate Synthetic Data
@@ -112,7 +120,7 @@ Add plot results description.
 
 \begin{figure}
   \centering 
-  \includegraphics{images/example}
+  \includegraphics[width=\textwidth]{images/example}
   \caption{Plot results}
   \label{fig:example} 
 \end{figure}
