@@ -24,7 +24,7 @@ affiliations:
 date: 2 November 2022
 bibliography: paper.bib
 header-includes: 
- - \usepackage{algortihm}
+ - \usepackage{algorithm}
  - \usepackage{bm}
 
 ---
