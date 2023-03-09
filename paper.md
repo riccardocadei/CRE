@@ -51,15 +51,9 @@ Several methodologies have already been proposed for both the tasks, but providi
 
 See [@Lee:2020].
 
-$$
-\begin{equation}
-\begin{split}
-    \tau(\bm{x}) &= \E[\tau_i | X_i=\bm{x}] \\
-    &=\bar{\tau} + \sum_{m=1}^M \alpha_m(\mathcal{R}) \cdot r_m(\bm{x}) 
-\end{split}
-\label{eq:catelindecomposition}
-\end{equation}
-$$
+$$\tau(\bm{x}) = \E[\tau_i | X_i=\bm{x}] =\bar{\tau} + \sum_{m=1}^M \alpha_m \cdot r_m(\bm{x}) $$
+
+where $\alpha_m$ and $r_m$.
 
 # Example
 
