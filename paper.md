@@ -40,15 +40,54 @@ header-includes:
 
 # Summary
 
-The bulk of heterogeneous treatment effect (HTE) literature focuses on two major tasks [@dwivedi2020stable]: (i) estimating HTEs by examining the conditional average treatment effect (CATE); (ii) discovering subgroups of a population characterized by HTE. 
-Several methodologies have already been proposed for both the tasks, but providing interpretability in the results is still an open challenge. Interpretability is a non-mathematical concept, yet it is often defined as the degree to which a human can understand the cause of a decision [@kim2016examples], [@miller2018explanation], [@lakkaraju2016interpretable], [@wang2022causal]. Honest Causal Tree [@athey2016] fits perfectly this definition, but despite its high interpretability, it tends to be highly unstable and to find an oversimplified representation of treatment heterogeneity. To accommodate these shortcomings, we implemented CRE, a new R package to discover heterogeneous subgroups through an ensemble-of-trees approach. CRE provides an interpretable representation of the HTE on observational data via an extensive exploration of complex heterogeneity patterns, while guaranteeing high stability in the discovery. 
-
-
-# Statement of need
-
+In health and social sciences, it is critically important to identify subgroups of the study population where a treatment has notable heterogeneity in the causal effects with respect to the average treatment effect. The bulk of heterogeneous treatment effect (HTE) literature focuses on two major tasks [@dwivedi2020stable]: (i) estimating HTEs by examining the conditional average treatment effect (CATE); (ii) discovering subgroups of a population characterized by HTE. 
+Several methodologies have already been proposed for both the tasks, but providing interpretability in the results is still an open challenge. Interpretability is a non-mathematical concept, yet it is often defined as the degree to which a human can understand the cause of a decision [@kim2016examples], [@miller2018explanation], [@lakkaraju2016interpretable], [@wang2022causal]. Honest Causal Tree [@athey2016] fits perfectly this definition, but despite its high interpretability, it tends to be highly unstable and to find an oversimplified representation of treatment heterogeneity. To accommodate these shortcomings, [@Lee:2020] proposed Causal Rule Ensemble, a new method for HTE characterization in terms of decision rules, via an extensive exploration of heterogeneity patterns by an ensemble-of-trees approach, enforcing high stability in the discovery. `CRE` is a R Package providing a flexible implementation of Causal Rule Ensemble algorithm.
 
 
 # Algorithm
+
+Causal Rule Ensemble
+```latex
+\begin{algorithm}[H]
+\footnotesize
+\caption{Causal Rule Ensemble (CRE)}
+\label{alg:cre}
+\vspace{0.15cm}
+{\bf Inputs:} covariates matrix $X$, (binary) treatment vector $\bm{z}$, and observed response vector $\bm{y}$.\\
+{\bf Outputs:} (i) a set of interpretable decision rules $\mathcal{\hat{R}}=\{\hat{r}_m\}_{m=1}^M$, 
+
+\hspace{1.48cm} (ii) ATE $\hat{\bar{\tau}}$ and AATEs $\hat{\bm{\alpha}}$ estimates and confidence intervals,
+
+\hspace{1.44cm} (iii) a sensitivity analysis on ATE $\hat{\bar{\tau}}$ and AATEs $\hat{\bm{\alpha}}$ estimates.
+
+\vspace{0.05cm}
+{\bf Procedure:}
+\begin{algorithmic}%[1]
+    \State $(X^{d},\bm{z}^{d},\bm{y}^{d}$), ($X^{e},\bm{z}^{e},\bm{y}^{e}) \gets \texttt{HonestSplitting}(X,\bm{z},\bm{y}) $
+    
+    % HCDR Discovery
+    \vspace{0.02cm}
+    \noindent
+    {\bf i. Discovery}
+    \begin{algorithmic}
+        \State $\bm{\hat{\tau}}^{d} \gets \texttt{EstimateITE}(X^{d},\bm{z}^{d},\bm{y}^{d})$ \Comment{e.g. AIPW, CF, BCF, BART, S/T/X-Learner}
+        \State $ \mathcal{\hat{R}'} \gets \texttt{GenerateRules}(X^{d},\bm{\hat{\tau}}^{d}) $
+        \Comment{i.e., tree-ensemble method} 
+        \State $ \mathcal{\hat{R}} \gets \texttt{RulesSelection}(\mathcal{\hat{R}'},X^{d},\bm{\hat{\tau}}^{d})$ \Comment{Stability Selection}
+    \end{algorithmic}
+    
+    % CATE Estimation
+    \vspace{0.02cm}
+    \noindent
+    {\bf ii. Estimation}
+    \begin{algorithmic}
+        \State $\bm{\hat{\tau}}^{e} \gets \texttt{EstimateITE}(X^{e},\bm{z}^{e},\bm{y}^{e})$ \Comment{e.g. AIPW, CF, BCF, BART, S/T/X-Learner}
+        \State $\hat{\bm{\alpha}} \gets \texttt{EstimateAATE}(\mathcal{\hat{R}},X^{e}, \bm{\hat{\tau}}^{e})$ \Comment{Linear Decomposition}
+        %\State $\text{C.I.}(\hat{\bm{\alpha}}) \gets \texttt{ConfidenceInterval}(\mathcal{\hat{R}},X^{e}, \bm{\hat{\tau}}^{e})$
+    \end{algorithmic}
+\end{algorithmic}
+\end{algorithm}
+```
 
 See [@Lee:2020].
 
