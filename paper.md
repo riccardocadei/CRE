@@ -34,6 +34,7 @@ bibliography: paper.bib
 header-includes: 
  - \usepackage{algorithm}
  - \usepackage{bm}
+ - \usepackage{amsmath}
 
 ---
 
@@ -51,7 +52,7 @@ Several methodologies have already been proposed for both the tasks, but providi
 
 See [@Lee:2020].
 
-$$\tau(\bm{x}) = \mathbb{E}[\tau_i | X_i=\bm{x}] = \bar{\tau} + \sum_{m=1}^M \alpha_m \cdot r_m(\bm{x})$$
+$$\tau(\boldsymbol{x}) = \mathbb{E}[\tau_i | X_i=\boldsymbol{x}] = \bar{\tau} + \sum_{m=1}^M \alpha_m \cdot r_m(\boldsymbol{x})$$
 
 where $\alpha_m$ and $r_m$.
 
