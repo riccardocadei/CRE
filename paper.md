@@ -1,5 +1,5 @@
 ---
-title: 'CRE: A R package for Interpretable inference of heterogeneous treatment effects'
+title: 'CRE: A R package for interpretable inference of heterogeneous treatment effects'
 tags:
   - R
   - causal inference
@@ -17,6 +17,12 @@ authors:
     affiliation: "1"
   - name: Falco J. Bargagli Stoffi
     orcid: 0000-0002-6131-8165
+    affiliation: "1"
+  - name: Kwonsang Lee
+    orcid: 0000-0002-5823-4331
+    affiliation: "1"
+  - name: Daniela Maria Garcia
+    orcid: 0000-0003-3226-3561
     affiliation: "1"
 affiliations:
  - name: Department of Biostatistics, Harvard School of Public Health
@@ -44,6 +50,16 @@ Several methodologies have already been proposed for both the tasks, but providi
 # Algorithm
 
 See [@Lee:2020].
+
+$$
+\begin{equation}
+\begin{split}
+    \tau(\bm{x}) &= \E[\tau_i | X_i=\bm{x}] \\
+    &=\bar{\tau} + \sum_{m=1}^M \alpha_m(\mathcal{R}) \cdot r_m(\bm{x}) 
+\end{split}
+\label{eq:catelindecomposition}
+\end{equation}
+$$
 
 # Example
 
