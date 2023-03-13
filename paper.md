@@ -41,7 +41,7 @@ header-includes:
 # Summary
 
 In health and social sciences, it is critically important to identify subgroups of the study population where a treatment has notable heterogeneity in the causal effects with respect to the average treatment effect. The bulk of heterogeneous treatment effect (HTE) literature focuses on two major tasks [@dwivedi2020stable]: (i) estimating HTEs by examining the conditional average treatment effect (CATE); (ii) discovering subgroups of a population characterized by HTE. 
-Several methodologies have been proposed for both tasks, but providing interpretability in the results is still an open challenge. Interpretability is a non-mathematical concept, yet it is often defined as the degree to which a human can understand the cause of a decision [@kim2016examples], [@miller2018explanation], [@lakkaraju2016interpretable], [@wang2022causal]. Honest Causal Tree [@athey2016] fits this definition perfectly, but despite its high interpretability, it tends to be highly unstable and to find an oversimplified representation of treatment heterogeneity. To accommodate these shortcomings, [@bargagli2023causal] proposed Causal Rule Ensemble, a new method for HTE characterization in terms of decision rules, via an extensive exploration of heterogeneity patterns by an ensemble-of-trees approach, enforcing high stability in the discovery. `CRE` is an R Package providing a flexible implementation of the Causal Rule Ensemble algorithm.
+Several methodologies have been proposed for both tasks, but providing interpretability in the results is still an open challenge. Interpretability is a non-mathematical concept, yet it is often defined as the degree to which a human can understand the cause of a decision [@kim2016examples], [@miller2018explanation], [@lakkaraju2016interpretable], [@wang2022causal]. Honest Causal Tree [@athey2016] fits this definition perfectly, but despite its high interpretability, it tends to be highly unstable and to find an oversimplified representation of treatment heterogeneity. To accommodate these shortcomings, @bargagli2023causal proposed Causal Rule Ensemble, a new method for HTE characterization in terms of decision rules, via an extensive exploration of heterogeneity patterns by an ensemble-of-trees approach, enforcing high stability in the discovery. `CRE` is an R Package providing a flexible implementation of the Causal Rule Ensemble algorithm.
 
 
 # Algorithm
@@ -80,7 +80,7 @@ X <- dataset$X
 
 We propose here three examples of how to run the Causal Rule Esemble algorithm by the `CRE` package.
 
-**Example 1.** Running Causal Rule Ensemble with default parameters described in [@bargagli2023causal].
+**Example 1.** Running Causal Rule Ensemble with default parameters described in @bargagli2023causal.
 ```R
 cre_results <- cre(y, z, X)
 ```
