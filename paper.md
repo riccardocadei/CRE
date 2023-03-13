@@ -15,14 +15,14 @@ authors:
     orcid: 0000-0003-4315-1426
     equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
     affiliation: "1"
-  - name: Falco J. Bargagli Stoffi
-    orcid: 0000-0002-6131-8165
-    affiliation: "1"
   - name: Kwonsang Lee
     orcid: 0000-0002-5823-4331
     affiliation: "1"
   - name: Daniela Maria Garcia
     orcid: 0000-0003-3226-3561
+    affiliation: "1"
+  - name: Falco J. Bargagli Stoffi
+    orcid: 0000-0002-6131-8165
     affiliation: "1"
 affiliations:
  - name: Department of Biostatistics, Harvard School of Public Health
@@ -41,7 +41,7 @@ header-includes:
 # Summary
 
 In health and social sciences, it is critically important to identify subgroups of the study population where a treatment has notable heterogeneity in the causal effects with respect to the average treatment effect. The bulk of heterogeneous treatment effect (HTE) literature focuses on two major tasks [@dwivedi2020stable]: (i) estimating HTEs by examining the conditional average treatment effect (CATE); (ii) discovering subgroups of a population characterized by HTE. 
-Several methodologies have been proposed for both tasks, but providing interpretability in the results is still an open challenge. Interpretability is a non-mathematical concept, yet it is often defined as the degree to which a human can understand the cause of a decision [@kim2016examples], [@miller2018explanation], [@lakkaraju2016interpretable], [@wang2022causal]. Honest Causal Tree [@athey2016] fits this definition perfectly, but despite its high interpretability, it tends to be highly unstable and to find an oversimplified representation of treatment heterogeneity. To accommodate these shortcomings, @bargagli2023causal proposed Causal Rule Ensemble, a new method for HTE characterization in terms of decision rules, via an extensive exploration of heterogeneity patterns by an ensemble-of-trees approach, enforcing high stability in the discovery. `CRE` is an R Package providing a flexible implementation of the Causal Rule Ensemble algorithm.
+Several methodologies have been proposed for both tasks, but providing interpretability in the results is still an open challenge. Interpretability is a non-mathematical concept, yet it is often defined as the degree to which a human can understand the cause of a decision [@kim2016examples, @miller2018explanation, @lakkaraju2016interpretable, @wang2022causal]. Honest Causal Tree [@athey2016] fits this definition perfectly, but despite its high interpretability, it tends to be highly unstable and to find an oversimplified representation of treatment heterogeneity. To accommodate these shortcomings, @bargagli2023causal proposed Causal Rule Ensemble, a new method for HTE characterization in terms of decision rules, via an extensive exploration of heterogeneity patterns by an ensemble-of-trees approach, enforcing high stability in the discovery. `CRE` is an R Package providing a flexible implementation of the Causal Rule Ensemble algorithm.
 
 
 # Algorithm
@@ -129,6 +129,6 @@ The results are collected in an S3 object containing: the number of decision rul
 
 # Acknowledgements
 
-We acknowledge contributions from ...
+This work was partially funded by the following grants: NIH: R01ES026217, R01MD012769, R01ES028033, 1R01ES030616, 1R01AG066793, 1R01MD016054-01A1; Sloan Foundation: G-2020-13946.
 
 # References
