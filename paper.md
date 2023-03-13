@@ -123,8 +123,9 @@ cre_results <- cre(y, z, X, method_params, hyper_params)
 
 The results are collected in an S3 object containing: the number of decision rules extracted at each step (`M`), the `data.frame` of the CATE decomposition estimates with corresponding uncertainty quantification (`CATE`), the list of selected parameters (`method_params` and `hyper_params`), and the predicted ITE (`ite_pred`). 
 
-`summarize()` and `print()` display a summary of these results, and `plot` visualizes the CATE decomposition estimates in a range bar plot. Figure 1 reports an example of the proposed results visualization for Example 1. 
-![visualization](images/example.pdf "Visualization of `CRE` HTE linear decomposition for Example 1. For each decision rules discovered, the corresponding AATE estimate with 95% confidence interval is reported in a range bar plot. The decision rules are order from the most vulnerable (high AATE) to the least, and the ATE is reported on top of the plot.")
+`summarize()` and `print()` display a summary of these results, and `plot()` visualizes the CATE decomposition estimates in a range bar plot. Figure 1 reports an example of the proposed results visualization for Example 1. 
+
+![visualization](images/example.pdf "Visualization of Causal Rule Ensemble HTE linear decomposition for Example 1. For each decision rule discovered, the corresponding AATE estimate with 95% confidence interval is reported in a range bar plot. The decision rules are ordered from the most vulnerable (high AATE) to the least, and the ATE is reported on top of the plot.")
 
 # Acknowledgements
 
