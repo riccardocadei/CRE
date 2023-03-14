@@ -129,6 +129,6 @@ The results are collected in an S3 object containing: the number of decision rul
 
 # Acknowledgements
 
-This work was partially funded by the following grants: NIH: R01ES026217, R01MD012769, R01ES028033, 1R01ES030616, 1R01AG066793, 1R01MD016054-01A1; Sloan Foundation: G-2020-13946.
+This work was partially funded by the following grants: NIH: R01ES026217, R01MD012769, R01ES028033, 1R01ES030616, 1R01AG066793, 1R01MD016054-01A1, R01AG066793-02S1 and R01ES028033-03S1; Sloan Foundation: G-2020-13946.
 
 # References
