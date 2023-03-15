@@ -29,7 +29,7 @@ affiliations:
    index: 1
  - name: School of Computer and Communication Sciences, EPFL
    index: 2
-date: 2 November 2022
+date: 15 March 2023
 bibliography: paper.bib
 header-includes: 
  - \usepackage{algorithm}
