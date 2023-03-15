@@ -65,7 +65,7 @@ install.packages("CRE")
 library("CRE")
 ```
 
-`generate_cre_dataset()` is a flexible synthetic dataset generator, which can be used for simulations before applying CRE to real-world observational data sets. 
+`generate_cre_dataset()` is a flexible synthetic dataset generator, which can be used for simulations before applying `CRE` to real-world observational data sets. 
 ```R
 dataset <- generate_cre_dataset(n = 2000, 
                                 rho = 0, 
