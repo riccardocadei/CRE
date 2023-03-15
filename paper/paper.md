@@ -15,19 +15,19 @@ authors:
     orcid: 0000-0003-4315-1426
     equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
     affiliation: "1"
-  - name: Falco J. Bargagli Stoffi
-    orcid: 0000-0002-6131-8165
-    affiliation: "1"
   - name: Kwonsang Lee
     orcid: 0000-0002-5823-4331
     affiliation: "1"
   - name: Daniela Maria Garcia
     orcid: 0000-0003-3226-3561
     affiliation: "1"
+  - name: Falco J. Bargagli Stoffi
+    orcid: 0000-0002-6131-8165
+    affiliation: "1"
 affiliations:
  - name: Department of Biostatistics, Harvard School of Public Health
    index: 1
- - name: School of Computer and Communication Sciences, EPFL
+ - name: Department of Computer and Communication Science, EPFL
    index: 2
 date: 15 March 2023
 bibliography: paper.bib
