@@ -9,7 +9,7 @@
 
 In health and social sciences, it is critically important to identify subgroups of the study population where a treatment has notable heterogeneity in the causal effects with respect to the average treatment effect (ATE). The bulk of heterogeneous treatment effect (HTE) literature focuses on two major tasks: (i) estimating HTEs by examining the conditional average treatment effect (CATE); (ii) discovering subgroups of a population characterized by HTE. 
 
-Several methodologies have been proposed for both tasks, but providing interpretability in the results is still an open challenge. [Bargagli-Stoffi et al. (2023)](https://arxiv.org/abs/2009.09036) proposed Causal Rule Ensemble, a new method for HTE characterization in terms of decision rules, via an extensive exploration of heterogeneity patterns by an ensemble-of-trees approach, enforcing stability in the discovery. `CRE` is an R Package providing a flexible implementation of the Causal Rule Ensemble algorithm.
+Several methodologies have been proposed for both tasks, but providing interpretability in the results is still an open challenge. [Bargagli-Stoffi et al. (2023)](https://arxiv.org/abs/2009.09036) proposed Causal Rule Ensemble, a new method for HTE characterization in terms of decision rules, via an extensive exploration of heterogeneity patterns by an ensemble-of-trees approach, enforcing stability in the discovery. CRE is an R Package providing a flexible implementation of the Causal Rule Ensemble algorithm.
 
 
 ## Installation
@@ -37,7 +37,6 @@ library("CRE")
 
 __Data (required)__   
 **`y`** The observed response/outcome vector (binary or continuous).
-
 **`z`** The treatment/exposure/policy vector (binary).  
 
 **`X`** The covariate matrix (binary or continuous).    
