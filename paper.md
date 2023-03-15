@@ -1,5 +1,5 @@
 ---
-title: 'CRE: A R package for interpretable inference of heterogeneous treatment effects'
+title: 'CRE: A R package for interpretable discovery and inference of heterogeneous treatment effects'
 tags:
   - R
   - causal inference
@@ -15,14 +15,14 @@ authors:
     orcid: 0000-0003-4315-1426
     equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
     affiliation: "1"
+  - name: Falco J. Bargagli Stoffi
+    orcid: 0000-0002-6131-8165
+    affiliation: "1"
   - name: Kwonsang Lee
     orcid: 0000-0002-5823-4331
     affiliation: "1"
   - name: Daniela Maria Garcia
     orcid: 0000-0003-3226-3561
-    affiliation: "1"
-  - name: Falco J. Bargagli Stoffi
-    orcid: 0000-0002-6131-8165
     affiliation: "1"
 affiliations:
  - name: Department of Biostatistics, Harvard School of Public Health
@@ -40,17 +40,19 @@ header-includes:
 
 # Summary
 
-In health and social sciences, it is critically important to identify subgroups of the study population where a treatment has notable heterogeneity in the causal effects with respect to the average treatment effect. The bulk of heterogeneous treatment effect (HTE) literature focuses on two major tasks [@dwivedi2020stable]: (i) estimating HTEs by examining the conditional average treatment effect (CATE); (ii) discovering subgroups of a population characterized by HTE. 
-Several methodologies have been proposed for both tasks, but providing interpretability in the results is still an open challenge. Interpretability is a non-mathematical concept, yet it is often defined as the degree to which a human can understand the cause of a decision [@kim2016examples; @miller2018explanation; @lakkaraju2016interpretable; @wang2022causal]. Honest Causal Tree [@athey2016] fits this definition perfectly, but despite its high interpretability, it tends to be highly unstable and to find an oversimplified representation of treatment heterogeneity. To accommodate these shortcomings, @bargagli2023causal proposed Causal Rule Ensemble, a new method for HTE characterization in terms of decision rules, via an extensive exploration of heterogeneity patterns by an ensemble-of-trees approach, enforcing high stability in the discovery. `CRE` is an R Package providing a flexible implementation of the Causal Rule Ensemble algorithm.
+
+In health and social sciences, it is critically important to identify subgroups of the study population where a treatment has notable heterogeneity in the causal effects with respect to the average treatment effect (ATE). The bulk of heterogeneous treatment effect (HTE) literature focuses on two major tasks [@dwivedi2020stable]: (i) estimating HTEs by examining the conditional average treatment effect (CATE); (ii) discovering subgroups of a population characterized by HTE. 
+
+Several methodologies have been proposed for both tasks, but providing interpretability in the results is still an open challenge. Interpretability is a non-mathematical concept, yet it is often defined as the degree to which a human can understand the cause of a decision [@kim2016examples; @miller2018explanation; @lakkaraju2016interpretable; @wang2022causal]. Honest Causal Tree [@athey2016] fits this definition perfectly, but despite its high interpretability, it tends to be highly unstable and to find an oversimplified representation of treatment heterogeneity [@bargagli2022heterogeneous]. To accommodate these shortcomings, @bargagli2023causal proposed Causal Rule Ensemble, a new method for HTE characterization in terms of decision rules, via an extensive exploration of heterogeneity patterns by an ensemble-of-trees approach, enforcing high stability in the discovery. `CRE` is an R Package providing a flexible implementation of the Causal Rule Ensemble algorithm.
 
 
 # Algorithm
 
 Causal Rule Ensemble relies on the Treatment Effect linear decomposition assumption, characterizing the Conditional Average Treatment Effect (CATE) by $M+1$ distinct contributions:
 $$\tau(\boldsymbol{x}) = \mathbb{E}[\tau_i | X_i=\boldsymbol{x}] = \bar{\tau} + \sum_{m=1}^M \alpha_m \cdot r_m(\boldsymbol{x})$$
-where $\bar{\tau}$ is the Average Treatment Effect (ATE), and for each $m$ in $\{1,..., M\}$, $r_m$ is an interpretable decision rule characterizing a specific subset of the covariate space, and $\alpha_m$ is the corresponding Additive Average Treatment Effect.
+where $\bar{\tau}$ is the ATE, and for each $m$ in $\{1,..., M\}$, $r_m$ is an interpretable decision rule characterizing a specific subset of the covariate space, and $\alpha_m$ is the corresponding Additive Average Treatment Effect (AATE).
 `CRE` procedure is divided into two steps, discovery and estimation, and each observation is used for only one of the two steps (honest splitting).
-During the discovery step, `CRE` retrieves the $M$ decision rules characterizing the heterogeneity in the treatment effect. A set of candidate decision rules is extracted by an ensemble of trees trained by a fit-the-fit procedure to model some Individual Treatment Effect (ITE) estimates, and among these, only a simple and robust subset of rules is selected for the linear decomposition by the Stability Selection algorithm via LASSO.
+During the discovery step, `CRE` retrieves the $M$ decision rules characterizing the heterogeneity in the treatment effect. A set of candidate decision rules is extracted by an ensemble of trees trained by a _fit-the-fit_ procedure to model some Individual Treatment Effect (ITE) estimates, and among these, only a simple and robust subset of rules is selected for the linear decomposition by the Stability Selection algorithm via LASSO.
 During the estimation step, `CRE` estimates the ATE and AATEs, by the normal equations to model some ITE estimates.
 In both steps, `CRE` is agnostic concerning the method used for ITE estimation.
 
@@ -126,6 +128,8 @@ The results are collected in an S3 object containing: the number of decision rul
 `summarize()` and `print()` display a summary of these results, and `plot()` visualizes the CATE decomposition estimates in a range bar plot. Figure 1 reports an example of the proposed results visualization for Example 1. 
 
 ![Visualization of Causal Rule Ensemble HTE linear decomposition for Example 1. For each decision rule discovered, the corresponding AATE estimate with 95% confidence interval is reported in a range bar plot. The decision rules are ordered from the most vulnerable (high AATE) to the least, and the ATE is reported on top of the plot.](images/example.pdf)
+
+Online documentation for the package can be found at [https://nsaph-software.github.io/CRE/](https://nsaph-software.github.io/CRE/).
 
 # Acknowledgements
 
