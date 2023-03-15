@@ -1,5 +1,5 @@
 ---
-title: 'CRE: A R package for interpretable discovery and inference of heterogeneous treatment effects'
+title: 'CRE: An R package for interpretable discovery and inference of heterogeneous treatment effects'
 tags:
   - R
   - causal inference
