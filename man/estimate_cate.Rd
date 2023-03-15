@@ -18,7 +18,7 @@ estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue)
 }
 \value{
 A list with 2 elements:
-\code{summary}: A dataframe summarizing the CATE linear decomposition:
+\code{summary}: A data frame summarizing the CATE linear decomposition:
 \itemize{
 \item 'Rule': rule name,
 \item 'Estimate': linear contribution to CATE,
