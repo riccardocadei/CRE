@@ -34,12 +34,6 @@ filter_irrelevant_rules <- function(rules, X, ite, t_decay) {
                                maxDecay = t_decay)
   rules <- unique(pruned[, 4])
 
-  for (i in 1:length(rules)) {
-    if (!grepl("&", rules[i]) & grepl("<=", rules[i])) {
-      rules[i] <- sub("<=", ">", rules[i])
-    }
-  }
-
   logger::log_debug("Done with filtering irrelevant rules.")
 
   return(unique(rules))
