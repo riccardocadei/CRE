@@ -193,7 +193,7 @@ Estimation.
 ```r
 `CRE/functional_tests/experiments/estimation.R`
 ```
-More exaustive simulation studies and real world experiment of CRE package can be found at [https://github.com/riccardocadei/CRE_applications](https://github.com/riccardocadei/CRE_applications).
+More exaustive simulation studies and real world experiment of CRE package can be found at [https://github.com/NSAPH-Projects/CRE_applications](https://github.com/NSAPH-Projects/CRE_applications).
 
 
 ## References
