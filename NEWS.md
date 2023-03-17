@@ -1,4 +1,4 @@
-# CRE (Development)
+# CRE 0.2.1 (2023-3-17)
 
 ## Changed
 * Replace BATE with ATE in CATE Linear Decomposition.
