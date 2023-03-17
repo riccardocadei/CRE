@@ -6,12 +6,13 @@
 #'
 #' @param rules_matrix A rules matrix.
 #' @param rules_list A list of rules (names).
-#' @param t_ext A threshold to define too generic or too specific rules.
+#' @param t_ext A threshold in [0, 0.5) range to truncate too generic or too
+#' specific rules.
 #'
 #' @keywords internal
 #'
 #' @return
-#' A rules matrix (without the rare/common rules discarded).
+#' A rules matrix without the rare/common rules.
 #'
 filter_extreme_rules <- function(rules_matrix, rules_list, t_ext) {
 

@@ -13,3 +13,5 @@ src-i386
 *.ipynb
 *.pdf
 *.log
+.Rdata
+.httr-oauth

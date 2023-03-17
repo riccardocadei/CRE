@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">CRE</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/NSAPH-Software/CRE/" aria-label="github">
+  <a class="nav-link" href="https://github.com/NSAPH-Software/CRE/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -81,7 +81,7 @@
       <img src="" class="logo" alt=""><h1>CRE</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/NSAPH-Software/CRE/blob/HEAD/vignettes/CRE.Rmd" class="external-link"><code>vignettes/CRE.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/NSAPH-Software/CRE/blob/HEAD/vignettes/CRE.Rmd"><code>vignettes/CRE.Rmd</code></a></small>
       <div class="d-none name"><code>CRE.Rmd</code></div>
     </div>
 
@@ -99,18 +99,18 @@
 <span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"NSAPH-Software/CRE"</span>, ref <span class="op">=</span> <span class="st">"develop"</span><span class="op">)</span></span></code></pre></div>
 <p>Import.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/NSAPH-Software/CRE" class="external-link">"CRE"</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/NSAPH-Software/CRE">"CRE"</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a>
 </h2>
 <p><strong>Data (required)</strong></p>
 <p><strong><code>y</code></strong> The observed response/outcome vector
-(binary or continuos).</p>
+(binary or continuous).</p>
 <p><strong><code>z</code></strong> The treatment/exposure/policy vector
 (binary).</p>
 <p><strong><code>X</code></strong> The covariate matrix (binary or
-continuos).</p>
+continuous).</p>
 <p><strong>Parameters (not required)</strong></p>
 <p><strong><code>method_parameters</code></strong> The list of
 parameters to define the models used, including:<br>
@@ -126,7 +126,7 @@ the propensity score on the discovery sub-sample (default:
 the outcome regressions estimate_ite_aipw on the discovery sub-sample
 (default: ‘SL.xgboost’).<br>
 - <strong><code>ite_method_inf</code></strong> The method to estimate
-the individual treatment effect (ITE) on the infernce sub-sample
+the individual treatment effect (ITE) on the inference sub-sample
 (default: ‘aipw’) [1].<br>
 - <strong><code>ps_method_inf</code></strong> The estimation model for
 the propensity score on the inference subsample (default:

@@ -64,7 +64,7 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
                                offset = offset)
 
   # Generate rules list
-  initial_rules_dis <- generate_rules(X_dis, ite_dis, intervention_vars,
+  initial_rules_dis <- generate_rules(X_dis, ite_dis,
                                       ntrees_rf, ntrees_gbm, node_size,
                                       max_nodes, max_depth, replace)
 
@@ -96,9 +96,9 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
                                X_names = X_names,
                                offset = offset)
 
-  if (length(select_rules_dis)==0){
+  if (length(select_rules_dis) == 0) {
     rules_matrix_inf <- NA
-    select_rules_interpretable <- NA
+    select_rules_interpretable <- c()
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
     select_rules_interpretable <- interpret_rules(select_rules_dis, X_names)
@@ -171,7 +171,6 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
   z_inf <- inference$z
   X_inf <- inference$X
 
-
   # No rule is selected
   select_rules_dis <- c()
 
@@ -184,9 +183,9 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
                                X_names = X_names,
                                offset = offset)
 
-  if (length(select_rules_dis)==0){
+  if (length(select_rules_dis) == 0) {
     rules_matrix_inf <- NA
-    select_rules_interpretable <- NA
+    select_rules_interpretable <- c()
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, select_rules_dis)
     select_rules_interpretable <- interpret_rules(select_rules_dis, X_names)
@@ -201,4 +200,3 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
                             ite_inf, t_pvalue)
   expect_true(class(cate_inf$summary) == "data.frame")
 })
-

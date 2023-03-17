@@ -1,20 +1,25 @@
-Submission (January 19, 2023)
+Re-submission (March 17, 2023)
 
-Thank you for taking the time to review the CRE 0.2.0 package. In this update we:
+Thank you for taking the time to review the CRE 0.2.1 package. I fixed the problem with URL. 
 
-- Added new methods to estimate individual treatment effect. 
-- Added default values for the parameters.
-- Improved test coverage.
-- Polished internal parameters name. 
+Best regards, 
+Naeem Khoshnevis
+RCD - HUIT
+Harvard University
 
-We also tested the package on numerous builds, including:
+Submission (March 17, 2023)
 
-- Windows Server 2022, R-release, 32/64 bit (windows-x86_64-release)        
-- macOS 10.13.6 High Sierra, R-release, brew (macos-highsierra-release)    
-- Debian Linux, R-devel, clang, ISO-8859-15 locale (debian-clang-devel)   
-- Ubuntu Linux 20.04.1 LTS, R-devel, GCC (ubuntu-gcc-devel)      
+Thank you for taking the time to review the CRE 0.2.1 package. In this update we:
 
+- We replaced BATE with ATE in CATE Linear Decomposition.
+- We updated `plot()` function (remove ATE, old BATE, and explicit AATEs).
+- We added code of conduct to the package.
+- We fixed a bug with rank-deficient rule matrix issue (redundant rules).
+- We fixed a bug with intervention variables filtering (ordered filtering).
 
-Best regards,           
-Naeem Khoshnevis       
-RCD - HUIT Harvard University
+All tests and checks were successful. We also checked the package on rhub. 
+
+Best regards, 
+Naeem Khoshnevis
+RCD - HUIT
+Harvard University

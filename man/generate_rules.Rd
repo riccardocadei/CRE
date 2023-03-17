@@ -7,7 +7,6 @@
 generate_rules(
   X,
   ite,
-  intervention_vars,
   ntrees_rf,
   ntrees_gbm,
   node_size,
@@ -20,9 +19,6 @@ generate_rules(
 \item{X}{A covariate matrix.}
 
 \item{ite}{A vector of estimated ITE.}
-
-\item{intervention_vars}{A vector of intervention-able variables used for
-rules generation.}
 
 \item{ntrees_rf}{A number of decision trees for the random forest algorithm.}
 
@@ -42,7 +38,7 @@ A list of rules (names).
 }
 \description{
 Generates a list of rules characterizing the heterogeneity in the Conditional
-Average Treatment Effect (CATE) by tree-based metods: random forest (RF) and
+Average Treatment Effect (CATE) by tree-based methods: random forest (RF) and
 generalized boosted regression modeling (GBM).
 }
 \keyword{internal}

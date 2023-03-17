@@ -5,13 +5,15 @@
 
 
 # CRE
-#### Interpretable Subgroups Identification through Ensemble Learning of Causal Rules
+#### Interpretable Discovery and Inference of Heterogeneous Treatment Effects
 
+In health and social sciences, it is critically important to identify subgroups of the study population where a treatment has notable heterogeneity in the causal effects with respect to the average treatment effect (ATE). The bulk of heterogeneous treatment effect (HTE) literature focuses on two major tasks: (i) estimating HTEs by examining the conditional average treatment effect (CATE); (ii) discovering subgroups of a population characterized by HTE. 
 
-The CRE package provides an interpretable identification of subgroups with heterogeneous causal effects. The heterogeneous subgroups are discovered through ensemble learning of causal rules. Causal rules are highly interpretable if-then statements that recursively partition the feature space into heterogeneous subgroups. A few significant causal rules are selected through Stability Selection to control for family-wise error rate in the finite sample setting. It proposes various estimation methods for the conditional causal effects for each discovered causal rule. It is highly flexible, and multiple causal estimands and imputation methods are implemented.
+Several methodologies have been proposed for both tasks, but providing interpretability in the results is still an open challenge. [Bargagli-Stoffi et al. (2023)](https://arxiv.org/abs/2009.09036) proposed Causal Rule Ensemble, a new method for HTE characterization in terms of decision rules, via an extensive exploration of heterogeneity patterns by an ensemble-of-trees approach, enforcing stability in the discovery. CRE is an R Package providing a flexible implementation of the Causal Rule Ensemble algorithm.
 
 
 ## Installation
+
 Installing from CRAN.
 
 ```r
@@ -31,12 +33,10 @@ Import.
 library("CRE")
 ```
 
-
 ## Arguments
 
 __Data (required)__   
 **`y`** The observed response/outcome vector (binary or continuous).
-
 **`z`** The treatment/exposure/policy vector (binary).  
 
 **`X`** The covariate matrix (binary or continuous).    
@@ -84,7 +84,7 @@ __Additional Estimates (not required)__
 - Augmented Inverse Probability Weighting (`aipw`)
 - Causal Forests (`cf`)
 - Bayesian Causal Forests (`bcf`)
-- Bayesian Additive Regression Trees (`bart`)
+- Causal Bayesian Additive Regression Trees (`bart`)
 
 if other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.
 
@@ -185,17 +185,53 @@ More synthetic data sets can be generated using `generate_cre_dataset()`.
 Discovery.
 
 ```r
-`CRE/functional_tests/experiments/discovery.R`
+CRE/functional_tests/experiments/discovery.R
 ```
 
 Estimation.
 
 ```r
-`CRE/functional_tests/experiments/estimation.R`
+CRE/functional_tests/experiments/estimation.R
 ```
+More exhaustive simulation studies and real world experiment of CRE package can be found at [https://github.com/NSAPH-Projects/cre_applications](https://github.com/NSAPH-Projects/cre_applications).
+
+
+## Code of Conduct
+
+Please note that the CRE project is released with a [Contributor Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct). By contributing to this project, you agree to abide by its terms.
+
 
 
 ## References
 
-Lee, K., Bargagli-Stoffi, F. J., & Dominici, F. (2020). Causal rule ensemble:
-Interpretable inference of heterogeneous treatment effects.  arXiv preprint arXiv:2009.09036.
+Causal Rule Ensemble ([methodological paper](https://arxiv.org/abs/2009.09036))
+```
+@article{bargagli2023causal,
+  title={{Causal rule ensemble: Interpretable Discovery and Inference of Heterogeneous Treatment Effects}},
+  author={Bargagli-Stoffi, Falco J and Cadei, Riccardo and Lee, Kwonsang and Dominici, Francesca},
+  journal={arXiv preprint arXiv:2009.09036},
+  year={2023}
+}
+```
+
+CRE (software paper)
+```
+@article{cadei2023CRE,
+  title = {CRE: an R package for Interpretable Discovery and Estimation of Heterogeneous Treatment Effect},
+  author = {Cadei, Riccardo and Khoshnevis, Naeem and Bargagli-Stoffi, Falco J and Lee, Kwonsang and Garcia, Daniela Maria},
+  year = {2023},
+  journal={Working paper},
+  url = {},
+}
+```
+
+CRE ([CRAN package](https://CRAN.R-project.org/package=CRE))
+```
+@Manual{khoshnevis2023CRE,
+  title = {CRE: Interpretable Subgroups Identification Through Ensemble Learning of Causal Rules},
+  author = {Khoshnevis, Naeem and Garcia, Daniela Maria and Cadei, Riccardo and Lee, Kwonsang  and Bargagli-Stoffi, Falco J},
+  year = {2023},
+  note = {R package version 0.2.0.9000},
+  url = {https://github.com/NSAPH-Software/CRE},
+}
+```

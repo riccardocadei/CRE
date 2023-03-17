@@ -31,17 +31,21 @@ test_that("ITE Estimated Correctly", {
                             ps_method = ps_method,
                             oreg_method = oreg_method))
 
-  expect_warning(expect_error(estimate_ite(y = dts_1$y, z = dts_2$z, X = dts_1$X,
-                              ite_method,
-                              include_ps = include_ps,
-                              ps_method = ps_method,
-                              oreg_method = oreg_method)))
+  expect_warning(expect_error(estimate_ite(y = dts_1$y,
+                                           z = dts_2$z,
+                                           X = dts_1$X,
+                                           ite_method,
+                                           include_ps = include_ps,
+                                           ps_method = ps_method,
+                                           oreg_method = oreg_method)))
 
-  expect_warning(expect_error(estimate_ite(y = dts_1$y, z = dts_1$z, X = dts_2$X,
-                              ite_method,
-                              include_ps = include_ps,
-                              ps_method = ps_method,
-                              oreg_method = oreg_method)))
+  expect_warning(expect_error(estimate_ite(y = dts_1$y,
+                                           z = dts_1$z,
+                                           X = dts_2$X,
+                                           ite_method,
+                                           include_ps = include_ps,
+                                           ps_method = ps_method,
+                                           oreg_method = oreg_method)))
 
   # Correct outputs
   ite_method <- "slearner"

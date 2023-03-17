@@ -2,16 +2,23 @@
 #' The 'CRE' package
 #'
 #' @description
-#' Provides an interpretable identification of subgroups with
-#' heterogeneous causal effect. The heterogeneous subgroups are
-#' discovered through ensemble learning of causal rules. Causal rules are
-#' highly interpretable if-then statement that recursively partition the
-#' features space into heterogeneous subgroups. A small number of
-#' significant causal rules are selected through Stability Selection to
-#' control for family-wise error rate in the finite sample setting. It
-#' proposes various estimation methods for the conditional causal effects
-#' for each discovered causal rule.  It is highly flexible and multiple
-#' causal estimands and imputation methods are implemented.
+#' In health and social sciences, it is critically important to 
+#' identify subgroups of the study population where a treatment 
+#' has notable heterogeneity in the causal effects with respect 
+#' to the average treatment effect. Data-driven discovery of 
+#' heterogeneous treatment effects (HTE) via decision tree methods 
+#' has been proposed for this task. Despite its high interpretability, 
+#' the single-tree discovery of HTE tends to be highly unstable and to 
+#' find an oversimplified representation of treatment heterogeneity. 
+#' To accommodate these shortcomings, we propose Causal Rule Ensemble 
+#' (CRE), a new method to discover heterogeneous subgroups through an 
+#' ensemble-of-trees approach. CRE has the following features: 
+#' 1) provides an interpretable representation of the HTE; 2) allows 
+#' extensive exploration of complex heterogeneity patterns; and 3) 
+#' guarantees high stability in the discovery. The discovered subgroups 
+#' are defined in terms of interpretable decision rules, and we develop 
+#' a general two-stage approach for subgroup-specific conditional 
+#' causal effects estimation, providing theoretical guarantees.
 #'
 #' @docType package
 #' @name CRE-package
@@ -23,6 +30,7 @@
 #' @author Falco Joannes Bargagli Stoffi
 #' @import xtable
 #' @import data.table
+#' @import SuperLearner
 #' @importFrom RRF RRF
 #' @importFrom RRF getTree
 #' @importFrom gbm pretty.gbm.tree
@@ -31,9 +39,8 @@
 #' @importFrom methods as
 #'
 #' @references
-#' Lee, K.,
-#' Bargagli-Stoffi, F. J., & Dominici, F. (2020). Causal rule ensemble:
-#' Interpretable inference of heterogeneous treatment effects.  arXiv
-#' preprint arXiv:2009.09036.
+#' Bargagli-Stoffi, F. J., Cadei, R., Lee, K. and Dominici, F. (2023). 
+#' Causal rule ensemble: Interpretable Discovery and Inference of 
+#' Heterogeneous Treatment Effects,arXiv preprint arXiv:2009.09036 
 #'
 NULL

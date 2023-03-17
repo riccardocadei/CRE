@@ -68,7 +68,8 @@ summary.cre <- function(object, verbose = 2, ...) {
 
     cat("\n  - Rules Generation")
     if (!is.null(getElement(params, "intervention_vars"))) {
-      cat("\n    - Intervention Variables:", getElement(params, "node_size"))
+      cat("\n    - Intervention Variables:", getElement(params,
+                                                        "intervention_vars"))
     } else {
       cat("\n    - Intervention Variables: All")
     }
@@ -98,7 +99,7 @@ summary.cre <- function(object, verbose = 2, ...) {
 
 
     cat("\n- CATE Inference")
-    if (getElement(params, "ite_method_inf")=="tpoisson") {
+    if (getElement(params, "ite_method_inf") == "tpoisson") {
       cat("\n    - Estimator       : tlearner")
       cat("\n    - Outcome         : poisson")
       cat("\n    - Offset          :", getElement(params, "offset"))

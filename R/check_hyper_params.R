@@ -100,7 +100,13 @@ check_hyper_params <- function(X_names, params) {
     if (!inherits(t_ext, "numeric")) {
       stop("Invalid 't_ext' input. Please input a number.")
     }
+    if (t_ext > 0.5 || t_ext < 0){
+      stop(paste("t_ext should be defind in [0, 0.5) range. ",
+                 "Current provided value: ", t_ext))
+    }
   }
+
+
   params[["t_ext"]] <- t_ext
 
   t_corr <- getElement(params, "t_corr")
