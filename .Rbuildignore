@@ -17,3 +17,5 @@ index.md
 ^docker_singularity/*$
 ^functional_tests/*$
 ^CRAN-SUBMISSION$
+^paper/*$
+^CODE_OF_CONDUCT\.md$
