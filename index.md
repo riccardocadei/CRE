@@ -3,18 +3,19 @@
 <!-- badges: start -->
 [![](http://www.r-pkg.org/badges/version-last-release/CRE)](https://CRAN.R-project.org/package=CRE)
 [![R-CMD-check](https://github.com/fasrc/CRE/workflows/R-CMD-check/badge.svg)](https://github.com/fasrc/CRE/actions)
-[![codecov](https://codecov.io/gh/NSAPH-Software/CRE/branch/develop/graph/badge.svg?token=UMSVOYRKGA)](https://codecov.io/gh/NSAPH-Software/CRE)]
+[![codecov](https://codecov.io/gh/NSAPH-Software/CRE/branch/develop/graph/badge.svg?token=UMSVOYRKGA)](https://codecov.io/gh/NSAPH-Software/CRE)
 [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/CRE)](http://www.r-pkg.org/pkg/cre)
 <!-- badges: end -->
 
 # Overview
 
-Identifying subgroups of a study population where a treatment or exposure has a notably larger or smaller effect on an outcome compared to the population average is crucial in social and health sciences. While estimating the conditional average treatment effect (CATE) given a pre-specified set of covariates is a common approach, it only allows for estimating causal effects on subgroups that have been specified a priori by the researchers. This package implements the recently developed Causal Rule Ensemble (CRE) algorithm, a flexible and precise method for denovo subgroup discovery. 
+Identifying subgroups of a study population where a treatment or exposure has a notably larger or smaller effect on an outcome compared to the population average is crucial in social and health sciences. While estimating the conditional average treatment effect (CATE) given a pre-specified set of covariates is a common approach, it only allows for estimating causal effects on subgroups that have been specified a priori by the researchers. This package implements the recently developed Causal Rule Ensemble (CRE) algorithm, a flexible and stable method for interpretable discovery and estimation of heterogeneous treatment effects in terms of decision rules.
 
 
 # Package Details
 
-The cre() function executes the entire CRE algorithm by utilizing a data set and input parameters the user provides. The cre() function internally employs several functions to conduct subsample analysis for discovery and inference. To estimate Individual Treatment Effects, users can choose from various methodologies that vary in terms of speed and accuracy. The CRE method divides the study data into discovery and inference subsamples, generating and filtering causal rules on the discovery subsample to explain the heterogeneity in treatment effects. These rules are then applied to the inference subsample to estimate each subgroup's Conditional Average Treatment Effect (CATE). The output of cre() includes a list of selected causal rules identifying subgroups with higher heterogeneity in the effects, as well as a matrix of estimated CATEs for each rule, both of which are easily accessible and interpretable.
+The cre() function executes the entire CRE algorithm by utilizing a data set and input parameters the user provides. It divides the study data into discovery and inference subsamples, generating and filtering decision rules on the discovery subsample to explain the heterogeneity in treatment effects. cre() uses the inference subsample to estimate a linear decomposition of the Conditional Average Treatment Effect (CATE) in terms of the just discovered decision rules, by normal equations to model some ITE estimates. In both steps, cre() is agnostic concerning the method used for ITE estimation. To estimate Individual Treatment Effects (ITE), users can choose from various methodologies that vary in terms of speed and accuracy. Several ITE estimators are internally implemented (i.e. AIPW, Causal Forest, Bayesian Causal Forest, Causal BART, S-Learner, T-Learner, X-Learner), but a customized ITE estimation can also be provided in input.
+The results are collected in an S3 object containing: the number of decision rules extracted at each step, the CATE decomposition estimates with corresponding uncertainty quantification, the list of selected parameters, and the predicted ITEs. 
 
 
 # Applications
