@@ -60,8 +60,9 @@ In both steps, `CRE` is agnostic concerning the method used for ITE estimation.
 
 
 # Usage
-`CRE` is available both on [CRAN](https://cran.r-project.org/web/packages/CRE/index.html) and [GitHub](https://github.com/NSAPH-Software/CRE) and can be installed and loaded into the R session
+`CRE` is available both on CRAN [@cre_r] and [GitHub](https://github.com/NSAPH-Software/CRE) and can be installed and loaded into the R session
 using:
+
 ```R
 install.packages("CRE")
 library("CRE")
