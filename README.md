@@ -32,7 +32,6 @@ Import.
 library("CRE")
 ```
 
-
 ## Arguments
 
 __Data (required)__   
@@ -185,15 +184,21 @@ More synthetic data sets can be generated using `generate_cre_dataset()`.
 Discovery.
 
 ```r
-`CRE/functional_tests/experiments/discovery.R`
+CRE/functional_tests/experiments/discovery.R
 ```
 
 Estimation.
 
 ```r
-`CRE/functional_tests/experiments/estimation.R`
+CRE/functional_tests/experiments/estimation.R
 ```
 More exaustive simulation studies and real world experiment of CRE package can be found at [https://github.com/NSAPH-Projects/cre_applications](https://github.com/NSAPH-Projects/cre_applications).
+
+
+## Code of Conduct
+
+Please note that the CRE project is released with a [Contributor Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct). By contributing to this project, you agree to abide by its terms.
+
 
 
 ## References
