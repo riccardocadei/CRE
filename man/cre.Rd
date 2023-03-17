@@ -48,7 +48,8 @@ including:
 \item \emph{intervention_vars}: Intervention-able variables used for rules
 generation. Use \code{NULL} to include all variables (default: \code{NULL}).
 \item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
-T-Poisson ITE Estimation. NULL if offset is not used (default: NULL).
+T-Poisson ITE estimation. Use \code{NULL} if offset is not used
+(default: NULL).
 \item \emph{ntrees_rf}: A number of decision trees for random forest (default: 20).
 \item \emph{ntrees_gbm}: A number of decision trees for the generalized boosted
 regression modeling algorithm.
@@ -86,8 +87,8 @@ An S3 object containing:
 \item A number of Decision Rules extracted at each step (\code{M}).
 \item A data.frame of Conditional Average Treatment Effect decomposition
 estimates with corresponding uncertainty quantification (\code{CATE}).
-\item A list of Method Parameters (\code{method_params}).
-\item A list of Hyper Parameters (\code{hyper_params}).
+\item A list of method parameters (\code{method_params}).
+\item A list of hyper parameters (\code{hyper_params}).
 \item An Individual Treatment Effect predicted (\code{ite_pred}).
 }
 }
@@ -97,7 +98,7 @@ a treatment variable, and various features.
 }
 \note{
 \itemize{
-\item If \code{intervention_vars} is provided, it's important to note that the
+\item If \code{intervention_vars} are provided, it's important to note that the
 individual treatment effect will still be computed using all covariates.
 }
 }
