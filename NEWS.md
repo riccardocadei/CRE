@@ -1,11 +1,18 @@
-# CRE (Development)
+# CRE (developing)
+
+## Changed 
+
+*   
+
+
+# CRE 0.2.1 (2023-3-17)
 
 ## Changed
 * Replace BATE with ATE in CATE Linear Decomposition.
 * Update `plot()` function (remove ATE, old BATE, and explicit AATEs).
 
 ## Added
-* Code of Conduct
+* Code of Conduct.
 
 ## Removed
 * Causal Tree benchmark in functional tests.

@@ -193,7 +193,7 @@ Estimation.
 ```r
 CRE/functional_tests/experiments/estimation.R
 ```
-More exaustive simulation studies and real world experiment of CRE package can be found at [https://github.com/NSAPH-Projects/cre_applications](https://github.com/NSAPH-Projects/cre_applications).
+More exhaustive simulation studies and real world experiment of CRE package can be found at [https://github.com/NSAPH-Projects/cre_applications](https://github.com/NSAPH-Projects/cre_applications).
 
 
 ## Code of Conduct
@@ -225,7 +225,7 @@ CRE (software paper)
 }
 ```
 
-CRE ([CRAN package](https://cran.r-project.org/web/packages/CRE/index.html))
+CRE ([CRAN package](https://CRAN.R-project.org/package=CRE))
 ```
 @Manual{khoshnevis2023CRE,
   title = {CRE: Interpretable Subgroups Identification Through Ensemble Learning of Causal Rules},
