@@ -112,7 +112,8 @@ estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').</p></li>
 including:</p><ul><li><p><em>intervention_vars</em>: Intervention-able variables used for rules
 generation. Use <code>NULL</code> to include all variables (default: <code>NULL</code>).</p></li>
 <li><p><em>offset</em>: Name of the covariate to use as offset (i.e. 'x1') for
-T-Poisson ITE Estimation. NULL if offset is not used (default: NULL).</p></li>
+T-Poisson ITE estimation. Use <code>NULL</code> if offset is not used
+(default: NULL).</p></li>
 <li><p><em>ntrees_rf</em>: A number of decision trees for random forest (default: 20).</p></li>
 <li><p><em>ntrees_gbm</em>: A number of decision trees for the generalized boosted
 regression modeling algorithm.
@@ -154,14 +155,14 @@ in Discovery and Inference are skipped (default: NULL).</p></dd>
 <p>An S3 object containing:</p><ul><li><p>A number of Decision Rules extracted at each step (<code>M</code>).</p></li>
 <li><p>A data.frame of Conditional Average Treatment Effect decomposition
 estimates with corresponding uncertainty quantification (<code>CATE</code>).</p></li>
-<li><p>A list of Method Parameters (<code>method_params</code>).</p></li>
-<li><p>A list of Hyper Parameters (<code>hyper_params</code>).</p></li>
+<li><p>A list of method parameters (<code>method_params</code>).</p></li>
+<li><p>A list of hyper parameters (<code>hyper_params</code>).</p></li>
 <li><p>An Individual Treatment Effect predicted (<code>ite_pred</code>).</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     
-<ul><li><p>If <code>intervention_vars</code> is provided, it's important to note that the
+<ul><li><p>If <code>intervention_vars</code> are provided, it's important to note that the
 individual treatment effect will still be computed using all covariates.</p></li>
 </ul></div>
 
