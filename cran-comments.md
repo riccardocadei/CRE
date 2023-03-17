@@ -1,3 +1,12 @@
+Re-submission (March 17, 2023)
+
+Thank you for taking the time to review the CRE 0.2.1 package. I fixed the problem with URL. 
+
+Best regards, 
+Naeem Khoshnevis
+RCD - HUIT
+Harvard University
+
 Submission (March 17, 2023)
 
 Thank you for taking the time to review the CRE 0.2.1 package. In this update we:

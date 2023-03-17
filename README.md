@@ -225,7 +225,7 @@ CRE (software paper)
 }
 ```
 
-CRE ([CRAN package](https://cran.r-project.org/web/packages/CRE/index.html))
+CRE ([CRAN package](https://CRAN.R-project.org/package=CRE))
 ```
 @Manual{khoshnevis2023CRE,
   title = {CRE: Interpretable Subgroups Identification Through Ensemble Learning of Causal Rules},
