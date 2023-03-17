@@ -5,6 +5,7 @@
 * Update `plot()` function (remove ATE, old BATE, and explicit AATEs).
 
 ## Added
+* Code of Conduct
 
 ## Removed
 * Causal Tree benchmark in functional tests.
