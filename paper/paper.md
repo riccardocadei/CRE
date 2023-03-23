@@ -11,10 +11,10 @@ authors:
     orcid: 0000-0003-2416-8943
     equal-contrib: true
     affiliation: "1, 2"
-  - name: Naeem Khoshnevis
+  - name: Naeem Khoshnevis^[Corresponding author]
     orcid: 0000-0003-4315-1426
-    equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
-    affiliation: "1"
+    equal-contrib: true
+    affiliation: "3"
   - name: Kwonsang Lee
     orcid: 0000-0002-5823-4331
     affiliation: "1"
@@ -29,6 +29,8 @@ affiliations:
    index: 1
  - name: Department of Computer and Communication Science, EPFL
    index: 2
+ - name: Research Computing, Harvard University
+   index: 3
 date: 15 March 2023
 bibliography: paper.bib
 header-includes: 
@@ -56,7 +58,9 @@ During the estimation step, `CRE` estimates the ATE and AATEs, by the normal equ
 
 
 # Usage
-`CRE` is available both on [CRAN](https://cran.r-project.org/web/packages/CRE/index.html) and [GitHub](https://github.com/NSAPH-Software/CRE) and can be installed and loaded into a R session using:
+
+`CRE` is available both on CRAN [@cre_r] and [GitHub](https://github.com/NSAPH-Software/CRE) and can be installed and loaded into the R session
+using:
 ```R
 install.packages("CRE")
 library("CRE")

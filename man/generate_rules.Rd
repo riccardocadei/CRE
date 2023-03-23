@@ -38,7 +38,7 @@ A list of rules (names).
 }
 \description{
 Generates a list of rules characterizing the heterogeneity in the Conditional
-Average Treatment Effect (CATE) by tree-based metods: random forest (RF) and
+Average Treatment Effect (CATE) by tree-based methods: random forest (RF) and
 generalized boosted regression modeling (GBM).
 }
 \keyword{internal}
