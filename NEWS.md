@@ -1,3 +1,10 @@
+# CRE 0.2.2 (2023-4-17)
+
+## Changed 
+
+* Fixed failing unit tests on specific operating systems.
+
+
 # CRE 0.2.1 (2023-3-17)
 
 ## Changed
