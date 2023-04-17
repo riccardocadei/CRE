@@ -1,14 +1,14 @@
 test_that("discover_rules works as expected!", {
   # Generate sample data
   set.seed(2021)
-  dataset_cont <- generate_cre_dataset(n = 300, rho = 0, n_rules = 2, p = 10,
+  dataset_cont <- generate_cre_dataset(n = 400, rho = 0, n_rules = 2, p = 10,
                                        effect_size = 2, binary_outcome = FALSE)
   y <- dataset_cont[["y"]]
   z <- dataset_cont[["z"]]
   X <- as.data.frame(dataset_cont[["X"]])
   X_names <- names(as.data.frame(X))
 
-  method_params <- list(ratio_dis = 0.25,
+  method_params <- list(ratio_dis = 0.5,
                         ite_method_dis = "bart",
                         ps_method_dis = "SL.xgboost",
                         oreg_method_dis = "SL.xgboost",
@@ -30,7 +30,7 @@ test_that("discover_rules works as expected!", {
                        replace = FALSE,
                        stability_selection = TRUE,
                        cutoff = 0.8,
-                       pfer = 0.1,
+                       pfer = 1,
                        penalty_rl = 1)
 
   # Input checks
