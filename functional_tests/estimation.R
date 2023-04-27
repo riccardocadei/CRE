@@ -71,7 +71,7 @@ if (experiment=="main") {
   ratio_dis <- 0.5
   effect_size <- 5
   pfer <- n_rules/(effect_size+1)
-  ite_estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner","bart")
+  ite_estimators <- c("aipw","cf","slearner","tlearner","xlearner","bart")
 
   method_params <- list(ratio_dis = ratio_dis,
                         ite_method_dis = "aipw",
