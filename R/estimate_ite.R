@@ -24,8 +24,6 @@
 #'     - `ps_method` and  `oreg_method`
 #'   - `bart`: Bayesian Additive Regression Trees.
 #'     - `ps_method`
-#'   - `bcf`: Bayesian Causal Forest.
-#'     - `ps_method`
 #'   - `cf`: Causal Forest.
 #'     - `ps_method`
 #' @param ... Additional parameters passed to different models.
@@ -85,9 +83,6 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
   } else if (ite_method == "bart") {
     check_args(c("ps_method"), arg_names)
     ite <- estimate_ite_bart(y, z, X, ps_method)
-  } else if (ite_method == "bcf") {
-    check_args(c("ps_method"), arg_names)
-    ite <- estimate_ite_bcf(y, z, X, ps_method)
   } else if (ite_method == "cf") {
     check_args(c("ps_method"), arg_names)
     ite <- estimate_ite_cf(y, z, X, ps_method)
@@ -96,7 +91,7 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
     ite <- estimate_ite_tpoisson(y, z, X, offset)
   } else {
     stop(paste("Invalid ITE method. Please choose from the following:\n",
-               "'slearner', 'tlearner', 'xlearner', 'aipw', 'bart', 'bcf', ",
+               "'slearner', 'tlearner', 'xlearner', 'aipw', 'bart', ",
                "'cf' or 'tpoisson'"))
   }
 

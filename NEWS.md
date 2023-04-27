@@ -1,14 +1,15 @@
 # CRE (development)
 
 ## Changed 
-
 * 
+
+## Removed 
+* Bayesian Causal Forest (`bcf`) ITE estimator.
 
 
 # CRE 0.2.2 (2023-4-17)
 
 ## Changed 
-
 * Fixed failing unit tests on specific operating systems.
 
 

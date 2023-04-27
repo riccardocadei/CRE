@@ -68,7 +68,7 @@ if (experiment=="main") {
   n_seeds <- 250
   ratio_dis <- 0.5
   effect_sizes <- seq(0, 5, 0.2)
-  ITE_estimators <- c("aipw","cf","bcf","slearner","tlearner","xlearner","bart")
+  ITE_estimators <- c("aipw","cf",'slearner","tlearner","xlearner","bart")
 
   method_params <- list(ratio_dis = ratio_dis,
                         ite_method_dis = "aipw",
