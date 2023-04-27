@@ -2,7 +2,7 @@ Type: Package
 Package: CRE
 Title: Interpretable Subgroups Identification Through Ensemble Learning of
     Causal Rules
-Version: 0.2.2.9000
+Version: 0.2.3
 Authors@R: c(
     person("Naeem", "Khoshnevis", , "nkhoshnevis@g.harvard.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4315-1426", AFFILIATION = "FASRC")),
@@ -69,4 +69,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.2.1
