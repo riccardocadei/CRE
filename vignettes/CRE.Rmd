@@ -91,7 +91,6 @@ __Additional Estimates (not required)__
 - X-Learner (`xlearner`)     
 - Augmented Inverse Probability Weighting (`aipw`)    
 - Causal Forests (`cf`)     
-- Bayesian Causal Forests (`bcf`)     
 - Bayesian Additive Regression Trees (`bart`)     
 
 if other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.    

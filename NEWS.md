@@ -1,7 +1,11 @@
+# CRE 0.2.3 (2023-4-27)
+
+## Removed 
+* Bayesian Causal Forest (`bcf`) ITE estimator is not supported.
+
 # CRE 0.2.2 (2023-4-17)
 
 ## Changed 
-
 * Fixed failing unit tests on specific operating systems.
 
 
