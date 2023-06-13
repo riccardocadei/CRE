@@ -16,12 +16,12 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-6131-8165"))
   )
 Maintainer: Naeem Khoshnevis <nkhoshnevis@g.harvard.edu>
-Description: Causal Rule Ensemble is a new method for interpretable 
-    heterogeneous treatment effects characterization in terms of decision 
-    rules via an extensive exploration of heterogeneity patterns by an 
-    ensemble-of-trees approach, enforcing high stability in the discovery.
-    It relies on a two-stage pseudo-outcome regression, and it is
-    supported by theoretical convergence guarantees. 
+Description: Provides a new method for interpretable heterogeneous 
+    treatment effects characterization in terms of decision rules 
+    via an extensive exploration of heterogeneity patterns by an 
+    ensemble-of-trees approach, enforcing high stability in the 
+    discovery. It relies on a two-stage pseudo-outcome regression, and 
+    it is supported by theoretical convergence guarantees. 
     Bargagli-Stoffi, F. J.; Cadei, R.; Lee, K. & Dominici, F. (2023) 
     Causal rule ensemble: Interpretable Discovery and Inference of 
     Heterogeneous Treatment Effects.  arXiv preprint <arXiv:2009.09036>.
