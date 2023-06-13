@@ -22,7 +22,6 @@ Description: Causal Rule Ensemble is a new method for interpretable
     ensemble-of-trees approach, enforcing high stability in the discovery.
     It relies on a two-stage pseudo-outcome regression, and it is
     supported by theoretical convergence guarantees. 
-    
     Bargagli-Stoffi, F. J.; Cadei, R.; Lee, K. & Dominici, F. (2023) 
     Causal rule ensemble: Interpretable Discovery and Inference of 
     Heterogeneous Treatment Effects.  arXiv preprint <arXiv:2009.09036>.
