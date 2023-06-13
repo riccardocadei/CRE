@@ -2,7 +2,7 @@
 % Please edit documentation in R/estimate_ite_tpoisson.R
 \name{estimate_ite_tpoisson}
 \alias{estimate_ite_tpoisson}
-\title{Estimate the Individual Treatment Effect (ITE) using T-Poisson Regression}
+\title{Estimate the Individual Treatment Effect (ITE) using T-Poisson regression}
 \usage{
 estimate_ite_tpoisson(y, z, X, offset)
 }
@@ -21,7 +21,7 @@ without offset.}
 A vector of ITE estimates.
 }
 \description{
-Estimates the Individual Treatment Effect using Poisson Regression given a
+Estimates the Individual Treatment Effect using Poisson regression given a
 response vector, a treatment vector, and a features matrix.
 }
 \keyword{internal}

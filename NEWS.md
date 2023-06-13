@@ -1,10 +1,38 @@
-# CRE (Development)
+# CRE (developing)
 
-## Added
-- 
+## Removed 
+*  
+
+## Changed 
+*  
+
+# CRE 0.2.3 (2023-4-27)
+
+## Removed 
+* Bayesian Causal Forest (`bcf`) ITE estimator is not supported.
+
+# CRE 0.2.2 (2023-4-17)
+
+## Changed 
+* Fixed failing unit tests on specific operating systems.
+
+
+# CRE 0.2.1 (2023-3-17)
 
 ## Changed
--
+* Replace BATE with ATE in CATE Linear Decomposition.
+* Update `plot()` function (remove ATE, old BATE, and explicit AATEs).
+
+## Added
+* Code of Conduct.
+
+## Removed
+* Causal Tree benchmark in functional tests.
+
+## Bug fixes
+* Rank-Deficient Rule Matrix Issue (redundant rules).
+* Intervention Variables Filtering (ordered filtering).
+
 
 # CRE 0.2.0 (2023-1-19)
 

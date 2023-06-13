@@ -1,10 +1,11 @@
 #' @title
-#' Filter irrelevant decision rules
+#' Filter irrelevant decision rules using leave-one-out pruning
 #'
 #' @description
-#' Filter irrelevant decision rules extracted evaluating the performance
-#' reduction removing a specific rule at the time
-#' (see 'Interpreting tree ensembles with the inTrees package'
+#' Filters the irrelevant decision rules. The irrelevant rules are interpreted
+#' as an error increase after removing a variable-value pair from the decision
+#' rules.
+#' (see "Interpreting tree ensembles with the inTrees package"
 #' by Houtao Deng, 2019).
 #'
 #' @param rules A list of rules.
@@ -32,12 +33,6 @@ filter_irrelevant_rules <- function(rules, X, ite, t_decay) {
                                target = ite,
                                maxDecay = t_decay)
   rules <- unique(pruned[, 4])
-
-  for (i in 1:length(rules)) {
-    if (!grepl("&", rules[i]) & grepl("<=", rules[i])) {
-      rules[i] <- sub("<=", ">", rules[i])
-    }
-  }
 
   logger::log_debug("Done with filtering irrelevant rules.")
 

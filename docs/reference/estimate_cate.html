@@ -12,7 +12,7 @@ linearly modeling the Individual Treatment Effect by a set of rules."><!-- mathj
     
     <a class="navbar-brand me-2" href="../index.html">CRE</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +43,7 @@ linearly modeling the Individual Treatment Effect by a set of rules."><!-- mathj
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
       <ul class="navbar-nav"><li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/NSAPH-Software/CRE/" aria-label="github">
+  <a class="nav-link" href="https://github.com/NSAPH-Software/CRE/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -56,7 +56,7 @@ linearly modeling the Individual Treatment Effect by a set of rules."><!-- mathj
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Estimate the Conditional Average Treatment Effect</h1>
-      <small class="dont-index">Source: <a href="https://github.com/NSAPH-Software/CRE/blob/HEAD/R/estimate_cate.R" class="external-link"><code>R/estimate_cate.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/NSAPH-Software/CRE/blob/HEAD/R/estimate_cate.R"><code>R/estimate_cate.R</code></a></small>
       <div class="d-none name"><code>estimate_cate.Rd</code></div>
     </div>
 
@@ -77,7 +77,7 @@ linearly modeling the Individual Treatment Effect by a set of rules.</p>
 
 
 <dt>rules_explicit</dt>
-<dd><p>A list of select rules in terms of coviariate names.</p></dd>
+<dd><p>A list of select rules in terms of covariate names.</p></dd>
 
 
 <dt>ite</dt>
@@ -93,11 +93,13 @@ linearly modeling the Individual Treatment Effect by a set of rules.</p>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A dataframe summarizing the CATE linear decomposition:</p><ul><li><p>'Rule': rule name,</p></li>
+<p>A list with 2 elements:
+<code>summary</code>: A data frame summarizing the CATE linear decomposition:</p><ul><li><p>'Rule': rule name,</p></li>
 <li><p>'Estimate': linear contribution to CATE,</p></li>
 <li><p>'CI_lower`: lower bound 95% confidence interval on the estimate,</p></li>
 <li><p>'CI_upper`: upper bound 95% confidence interval on the estimate,</p></li>
-<li><p><code>P-Value</code>: p-value (from Z-test).</p></li>
+<li><p><code>P-Value</code>: p-value (from Z-test).
+<code>model</code>: A linear model for CATE-ATE estimation.</p></li>
 </ul></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -8,12 +8,6 @@ Test Causal Rule Example on a syntethic dataset.
 ```r
 `CRE/functional_tests/example_cre.R`
 ```
-Benchmark.
-
-### (Honest) Causal Tree 
-```r
-`CRE/functional_tests/example_hct.R`
-```
 
 ## Simulations
 

@@ -11,10 +11,11 @@ filter_extreme_rules(rules_matrix, rules_list, t_ext)
 
 \item{rules_list}{A list of rules (names).}
 
-\item{t_ext}{A threshold to define too generic or too specific rules.}
+\item{t_ext}{A threshold in [0, 0.5) range to truncate too generic or too
+specific rules.}
 }
 \value{
-A rules matrix (without the rare/common rules discarded).
+A rules matrix without the rare/common rules.
 }
 \description{
 Discards rules with too few or too many observations.

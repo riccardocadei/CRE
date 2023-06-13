@@ -12,12 +12,14 @@
 #' (filter only rules with p-value <= t_pvalue).
 #'
 #' @return
-#' A dataframe summarizing the CATE linear decomposition:
+#' A list with 2 elements:
+#' `summary`: A data frame summarizing the CATE linear decomposition:
 #' - 'Rule': rule name,
 #' - 'Estimate': linear contribution to CATE,
 #' - 'CI_lower`: lower bound 95% confidence interval on the estimate,
 #' - 'CI_upper`: upper bound 95% confidence interval on the estimate,
 #' - `P-Value`: p-value (from Z-test).
+#' `model`: A linear model for CATE-ATE estimation.
 #'
 #' @import stats
 #' @keywords internal
@@ -25,57 +27,58 @@
 #'
 estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
 
-  `%>%` <- magrittr::`%>%`
-
   logger::log_debug("Estimating CATE ...")
 
-  if (any(is.na(rules_explicit))) {
-    # Estimate ATE (if No Rules Selected)
-    cate_model <- stats::lm(ite ~ 1)
-    cate_coeff <- summary(cate_model)$coefficients
-    cate_ci <- stats::confint(cate_model)
-    cate_summary <- data.frame(Rule = "(BATE)",
-                               Estimate = cate_coeff[1],
-                               CI_lower = cate_ci[1],
-                               CI_upper = cate_ci[2],
-                               P_Value = cate_coeff[2])
-    rownames(cate_summary) <- 1:nrow(cate_summary)
+  "%>%" <- magrittr::"%>%"
 
+  # Estimate ATE (if No Rules Selected)
+  ate_model <- stats::lm(ite ~ 1)
+  ate_coeff <- summary(ate_model)$coefficients
+  ate_ci <- stats::confint(ate_model)
+  ate_summary <- data.frame(Rule = "(ATE)",
+                            Estimate = ate_coeff[1],
+                            CI_lower = ate_ci[1],
+                            CI_upper = ate_ci[2],
+                            P_Value = ate_coeff[2])
+  rownames(ate_summary) <- 1:nrow(ate_summary)
+  if (length(rules_explicit) == 0) {
+    cate_summary <- ate_summary
+    aate_model <- NA
   } else {
-    # Estimate CATE
+    # Estimate AATEs
     rules_df_inf <- as.data.frame(rules_matrix)
     names(rules_df_inf) <- rules_explicit
-    dataset <- cbind(ite, rules_df_inf)
-    cate_model <- stats::lm(ite ~ ., data = dataset)
-    cate_coeff <- summary(cate_model)$coef[, c(1, 4)] %>% as.data.frame()
-    cate_ci <- stats::confint(cate_model) %>% as.data.frame()
-    cate_summary <- data.frame(Rule = c("(BATE)", rules_explicit),
-                               Estimate = cate_coeff[, 1],
-                               CI_lower = cate_ci[, 1],
-                               CI_upper = cate_ci[, 2],
-                               P_Value = cate_coeff[, 2])
-    row.names(cate_summary) <- 1:nrow(cate_summary)
+    aate_model <- stats::lm(ite - mean(ite) ~ . -1, data = rules_df_inf)
+    filter_na <- is.na(aate_model$coefficients)
+    if (sum(filter_na)) {
+      rules_matrix <- rules_matrix[, !filter_na]
+      rules_explicit <- rules_explicit[!filter_na]
+      return(estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue))
+    }
+    aate_coeff <- summary(aate_model)$coef[, c(1, 4), drop = FALSE] %>%
+                  as.data.frame()
+    aate_ci <- stats::confint(aate_model) %>% as.data.frame()
+    aate_summary <- data.frame(Rule = rules_explicit,
+                               Estimate = aate_coeff[, 1],
+                               CI_lower = aate_ci[, 1],
+                               CI_upper = aate_ci[, 2],
+                               P_Value = aate_coeff[, 2])
+    if (t_pvalue < 1) {
+      filter_pvalue <- aate_summary$P_Value <= t_pvalue
+      if (sum(filter_pvalue) < length(filter_pvalue)) {
+        rules_matrix <- rules_matrix[, filter_pvalue, drop = FALSE]
+        rules_explicit <- rules_explicit[filter_pvalue]
+        return(estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue))
+      }
+    }
+    cate_summary <- rbind(ate_summary, aate_summary)
+    rownames(cate_summary) <- 1:nrow(cate_summary)
 
     # Filter Not Significant Rules
     # TODO: This section needs refactoring. Calling the function itself, while
     # while the nature of the function is not recursive is not a good practice.
-
-    if (t_pvalue < 1) {
-      filter_pvalue <- cate_summary$P_Value <= t_pvalue
-      M <- length(filter_pvalue) - 1
-      if (sum(filter_pvalue[2:(M + 1)]) < M) {
-        rules_matrix <- rules_matrix[,filter_pvalue[2:(M + 1)], drop=FALSE]
-        rules_explicit <- rules_explicit[filter_pvalue[2:(M + 1)]]
-        if (length(rules_explicit)==0) {
-          rules_explicit <- NA
-        }
-        return(estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue))
-      }
-    }
   }
-  cate <- list(summary = cate_summary, model = cate_model)
-
   logger::log_debug("Done with estimating CATE.")
 
-  return(cate)
+  return(list(summary = cate_summary, model = aate_model))
 }

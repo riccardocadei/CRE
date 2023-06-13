@@ -79,7 +79,7 @@ test_that("generate_cre_dataset works as expected.", {
   expect_true(length(test_data_1[[2]]) == 100)
   expect_true(nrow(test_data_1[[3]]) == 100)
   expect_true(ncol(test_data_1[[3]]) == 10)
-  expect_equal(test_data_1$y[75], 1.650115, tolerance = 0.000001)
+  expect_equal(test_data_1$y[75], 0.9001148, tolerance = 0.000001)
   expect_equal(test_data_1$X[4, 4], 0)
 
   test_data_1 <- generate_cre_dataset(n = 100, rho = 0, n_rules = 4, p = 10,

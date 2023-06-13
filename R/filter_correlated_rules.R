@@ -2,7 +2,7 @@
 #' Filter correlated rules
 #'
 #' @description
-#' Discards highly correlated rules (i.e. `Cov(rule1,rule2) > t_corr`).
+#' Discards highly correlated rules (i.e. `Cov(rule1, rule2) > t_corr`).
 #'
 #' @param rules_matrix A rules matrix.
 #' @param rules_list A list of rules (names).
@@ -11,7 +11,7 @@
 #' @keywords internal
 #'
 #' @return
-#' A rules matrix (without the highly correlated columns).
+#' A rules matrix without the highly correlated rules (columns).
 #'
 filter_correlated_rules <- function(rules_matrix, rules_list, t_corr) {
 

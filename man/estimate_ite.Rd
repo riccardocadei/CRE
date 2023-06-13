@@ -42,10 +42,6 @@ the end of this parameters list.
 \itemize{
 \item \code{ps_method}
 }
-\item \code{bcf}: Bayesian Causal Forest.
-\itemize{
-\item \code{ps_method}
-}
 \item \code{cf}: Causal Forest.
 \itemize{
 \item \code{ps_method}
