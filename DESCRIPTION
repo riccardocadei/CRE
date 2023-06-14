@@ -1,7 +1,6 @@
 Type: Package
 Package: CRE
-Title: Interpretable Subgroups Identification Through Ensemble Learning of
-    Causal Rules
+Title: Interpretable Discovery and Inference of Heterogeneous Treatment Effects
 Version: 0.2.3.9000
 Authors@R: c(
     person("Naeem", "Khoshnevis", , "nkhoshnevis@g.harvard.edu", role = c("aut", "cre"),
