@@ -49,7 +49,6 @@ Imports:
     ggplot2,
     inTrees
 Suggests:
-    baggr,
     grf,
     BART,
     gnm,
