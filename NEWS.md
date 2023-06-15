@@ -1,3 +1,8 @@
+# CRE 0.2.4 (2023-6-14)
+
+## Changed 
+*  Method paper description is updated.
+
 # CRE 0.2.3 (2023-4-27)
 
 ## Removed 
