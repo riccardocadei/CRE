@@ -147,12 +147,9 @@ plot(cre_results)
   X <- dataset[["X"]]
 
   method_params = list(ratio_dis = 0.25,
-                       ite_method_dis="aipw",
-                       ps_method_dis = "SL.xgboost",
-                       oreg_method_dis = "SL.xgboost",
-                       ite_method_inf = "aipw",
-                       ps_method_inf = "SL.xgboost",
-                       oreg_method_inf = "SL.xgboost")
+                       ite_method ="aipw",
+                       learner_ps = "SL.xgboost",
+                       learner_y = "SL.xgboost")
 
  hyper_params = list(intervention_vars = c("x1","x2","x3","x4"),
                      offset = NULL,

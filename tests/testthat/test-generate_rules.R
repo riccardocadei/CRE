@@ -10,9 +10,8 @@ test_that("generate_rules works as expected!", {
 
 
   ite_method <- "bart"
-  include_ps <- "TRUE"
-  ps_method <- "SL.xgboost"
-  or_method <- NA
+  learner_ps <- "SL.xgboost"
+  learner_y <- NA
   ntrees_rf <- 100
   ntrees_gbm <- 50
   node_size <- 20
@@ -27,9 +26,8 @@ test_that("generate_rules works as expected!", {
 
   # Step 2: Estimate ITE
   ite <- estimate_ite(y, z, X, ite_method,
-                           include_ps = include_ps,
-                           ps_method = ps_method,
-                           or_method = or_method)
+                           learner_ps = learner_ps,
+                           learner_y = learner_y)
 
   # Correct outputs
   rules <- generate_rules(X, ite, ntrees_rf, ntrees_gbm,
@@ -39,8 +37,8 @@ test_that("generate_rules works as expected!", {
 
   ite_method <- "bart"
   include_ps <- "TRUE"
-  ps_method <- "SL.xgboost"
-  or_method <- NA
+  learner_ps <- "SL.xgboost"
+  learner_y <- NA
   ntrees_rf <- 100
   ntrees_gbm <- 0
   node_size <- 20
@@ -58,9 +56,8 @@ test_that("generate_rules works as expected!", {
 
   # Step 2: Estimate ITE
   ite <- estimate_ite(y, z, X, ite_method,
-                           include_ps = include_ps,
-                           ps_method = ps_method,
-                           or_method = or_method)
+                           learner_ps = learner_ps,
+                           learner_y = learner_y)
 
   # Correct outputs
   rules <- generate_rules(X, ite, ntrees_rf, ntrees_gbm,

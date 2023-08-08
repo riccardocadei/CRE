@@ -9,12 +9,9 @@ test_that("discover_rules works as expected!", {
   X_names <- names(as.data.frame(X))
 
   method_params <- list(ratio_dis = 0.5,
-                        ite_method_dis = "bart",
-                        ps_method_dis = "SL.xgboost",
-                        oreg_method_dis = "SL.xgboost",
-                        ite_method_inf = "bart",
-                        ps_method_inf = "SL.xgboost",
-                        oreg_method_inf = "SL.xgboost")
+                        ite_method = "bart",
+                        learner_ps = "SL.xgboost",
+                        learner_y = "SL.xgboost")
 
   hyper_params <- list(intervention_vars = NULL,
                        offset = NULL,
@@ -41,12 +38,9 @@ test_that("discover_rules works as expected!", {
 
   # Estimate ITE
   ite <- estimate_ite(y = y, z = z, X = X,
-                ite_method = getElement(method_params, "ite_method_dis"),
-                binary_outcome = getElement(method_params, "binary_outcome"),
-                include_ps = getElement(method_params, "include_ps_dis"),
-                ps_method = getElement(method_params, "ps_method_dis"),
-                oreg_method = getElement(method_params, "oreg_method_dis"),
-                X_names = X_names,
+                ite_method = getElement(method_params, "ite_method"),
+                learner_ps = getElement(method_params, "learner_ps"),
+                learner_y = getElement(method_params, "learner_y"),
                 offset = getElement(method_params, "offset"))
 
   # Generate Causal Decision Rules

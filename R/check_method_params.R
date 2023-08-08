@@ -31,111 +31,62 @@ check_method_params <- function(y, ite, params) {
 
 
   # ITE Estimation Parameters Check --------------------------------------------
-  ite_method_dis <- tolower(getElement(params, "ite_method_dis"))
-  if (length(ite_method_dis) == 0) {
-    ite_method_dis <- "aipw"
+  ite_method <- tolower(getElement(params, "ite_method"))
+  if (length(ite_method) == 0) {
+    ite_method <- "aipw"
   } else {
-    if (!(ite_method_dis %in% c("aipw", "slearner", "tlearner", "xlearner",
+    if (!(ite_method %in% c("aipw", "slearner", "tlearner", "xlearner",
                                 "bart", "cf", "tpoisson"))) {
       stop(paste(
-        "Invalid ITE method for discovery subsample. Please choose ",
-        "from the following:\n", "'aipw', 'bart', 'slearner','tlearner', ",
+        "Invalid ITE method. Please choose from the following:",
+        "\n", "'aipw', 'bart', 'slearner','tlearner', ",
         "'xlearner', 'cf', or 'tpoisson'"
       ))
     }
   }
-  params[["ite_method_dis"]] <- ite_method_dis
-
-  ite_method_inf <- tolower(getElement(params, "ite_method_inf"))
-  if (length(ite_method_inf) == 0) {
-    ite_method_inf <- "aipw"
-  } else {
-    if (!(ite_method_inf %in% c("aipw", "slearner", "tlearner", "xlearner",
-                                "bart", "cf", "tpoisson"))) {
-      stop(paste(
-        "Invalid ITE method for inference subsample. Please choose ",
-        "from the following:\n", "'aipw', 'bart', 'slearner','tlearner', ",
-        "'xlearner', 'cf', or 'tpoisson'"
-      ))
-    }
-  }
-  params[["ite_method_inf"]] <- ite_method_inf
+  params[["ite_method"]] <- ite_method
 
 
   # Propensity Score Estimation Parameters Check--------------------------------
 
-  ps_method_dis <- getElement(params, "ps_method_dis")
-  if (!(ite_method_dis %in% c("slearner", "tlearner",
+  learner_ps <- getElement(params, "learner_ps")
+  if (!(ite_method %in% c("slearner", "tlearner",
                               "xlearner", "tpoisson"))) {
-    if (length(ps_method_dis) == 0) {
-      ps_method_dis <- "SL.xgboost"
+    if (length(learner_ps) == 0) {
+      learner_ps <- "SL.xgboost"
     } else {
-      if (!(class(ps_method_dis) %in% c("character", "list"))) {
-        stop("Please specify a string or list of strings for the ps_method_dis
+      if (!(class(learner_ps) %in% c("character", "list"))) {
+        stop("Please specify a string or list of strings for the learner_ps
            argument.")
       }
     }
   } else {
-    ps_method_dis <- NA
+    learner_ps <- NA
   }
-  params[["ps_method_dis"]] <- ps_method_dis
+  params[["learner_ps"]] <- learner_ps
 
-  ps_method_inf <- getElement(params, "ps_method_inf")
-  if (!(ite_method_inf %in% c("slearner", "tlearner",
-                              "xlearner", "tpoisson"))) {
-    if (length(ps_method_inf) == 0) {
-      ps_method_inf <- "SL.xgboost"
+  # Outcome Estimation Parameters Check -----------------------
+  learner_y <- getElement(params, "learner_y")
+  if (ite_method %in% c("slearner", "tlearner", "xlearner", "aipw")) {
+    if (length(learner_y) == 0) {
+      learner_y <- "SL.xgboost"
     } else {
-      if (!(class(ps_method_inf) %in% c("character", "list"))) {
-        stop("Please specify a string or list of strings for the ps_method_inf
+      if (!(class(learner_y) %in% c("character", "list"))) {
+        stop("Please specify a string or list of strings for the learner_y
            argument.")
       }
     }
   } else {
-    ps_method_inf <- NA
+    learner_y <- NA
   }
-  params[["ps_method_inf"]] <- ps_method_inf
-
-  # Outcome Regression Score Estimation Parameters Check -----------------------
-  oreg_method_dis <- getElement(params, "oreg_method_dis")
-  if (ite_method_dis %in% c("slearner", "tlearner", "xlearner", "aipw")) {
-    if (length(oreg_method_dis) == 0) {
-      oreg_method_dis <- "SL.xgboost"
-    } else {
-      if (!(class(oreg_method_dis) %in% c("character", "list"))) {
-        stop("Please specify a string or list of strings for the oreg_method_dis
-           argument.")
-      }
-    }
-  } else {
-    oreg_method_dis <- NA
-  }
-  params[["oreg_method_dis"]] <- oreg_method_dis
-
-  oreg_method_inf <- getElement(params, "oreg_method_inf")
-  if (ite_method_inf %in% c("slearner", "tlearner", "xlearner", "aipw")) {
-    if (length(oreg_method_inf) == 0) {
-      oreg_method_inf <- "SL.xgboost"
-    } else {
-      if (!(class(oreg_method_inf) %in% c("character", "list"))) {
-        stop("Please specify a string or list of strings for the oreg_method_inf
-           argument.")
-      }
-    }
-  } else {
-    oreg_method_inf <- NA
-  }
-  params[["oreg_method_inf"]] <- oreg_method_inf
+  params[["learner_y"]] <- learner_y
 
 
   # Discard ITE Parameters if ITE estimates are provided------------------------
   if (!is.null(ite)) {
-    params[["ite_method_dis"]] <- "personalized"
-    params[["ps_method_dis"]] <- NULL
-    params[["or_method_dis"]] <- NULL
-    params[["ite_method_inf"]] <- "personalized"
-    params[["ps_method_inf"]] <- NULL
-    params[["or_method_inf"]] <- NULL
+    params[["ite_method"]] <- "personalized"
+    params[["learner_ps"]] <- NULL
+    params[["learner_y"]] <- NULL
   }
 
   logger::log_debug("Done with checking method parameters.")

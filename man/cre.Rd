@@ -22,23 +22,14 @@ including:
 \item \emph{ratio_dis}: The ratio of data delegated to rules discovery
 (default: 0.5).
 }
-\item \emph{Parameters for Discovery}
+\item \emph{Parameters for Discovery and Inference}
 \itemize{
-\item \emph{ite_method_dis}: The method to estimate the discovery sample ITE
+\item \emph{ite_method}: The method for ITE (pseudo-outcome) estimation
 (default: 'aipw').
-\item \emph{ps_method_dis}: The estimation model for the propensity score on the
-discovery subsample (default: 'SL.xgboost').
-\item \emph{oreg_method_dis}: The estimation model for the outcome regressions
-estimate_ite_aipw on the discovery subsample (default: 'SL.xgboost').
-}
-\item \emph{Parameters for Inference}
-\itemize{
-\item \emph{ite_method_inf}: The method to estimate the inference sample ITE
-(default: 'aipw').
-\item \emph{ps_method_inf}: The estimation model for the propensity score on the
-inference subsample (default: 'SL.xgboost').
-\item \emph{oreg_method_inf}: The estimation model for the outcome regressions in
-estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
+\item \emph{learner_ps}: The model for the propensity score estimation
+(default: 'SL.xgboost').
+\item \emph{learner_y}: The model for the outcome estimation
+(default: 'SL.xgboost').
 }
 }}
 
@@ -114,12 +105,9 @@ z <- dataset[["z"]]
 X <- dataset[["X"]]
 
 method_params <- list(ratio_dis = 0.25,
-                      ite_method_dis="aipw",
-                      ps_method_dis = "SL.xgboost",
-                      oreg_method_dis = "SL.xgboost",
-                      ite_method_inf = "aipw",
-                      ps_method_inf = "SL.xgboost",
-                      oreg_method_inf = "SL.xgboost")
+                      ite_method ="aipw",
+                      learner_ps = "SL.xgboost",
+                      learner_y = "SL.xgboost")
 
 hyper_params <- list(intervention_vars = NULL,
                      offset = NULL,

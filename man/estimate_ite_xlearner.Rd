@@ -4,7 +4,7 @@
 \alias{estimate_ite_xlearner}
 \title{Estimate the Individual Treatment Effect (ITE) using X-Learner.}
 \usage{
-estimate_ite_xlearner(y, z, X, oreg_method = "SL.xgboost")
+estimate_ite_xlearner(y, z, X, learner_y = "SL.xgboost")
 }
 \arguments{
 \item{y}{An observed response vector.}
@@ -13,7 +13,7 @@ estimate_ite_xlearner(y, z, X, oreg_method = "SL.xgboost")
 
 \item{X}{A features matrix.}
 
-\item{oreg_method}{A estimation model for the outcome regressions.}
+\item{learner_y}{A estimation model for the outcome.}
 }
 \value{
 A list of ITE estimates.
@@ -21,6 +21,6 @@ A list of ITE estimates.
 \description{
 Estimates the Individual Treatment Effect using X-Learner given a response
 vector, a treatment vector, a features matrix and an estimation model for
-the outcome regressions.
+the outcome.
 }
 \keyword{internal}

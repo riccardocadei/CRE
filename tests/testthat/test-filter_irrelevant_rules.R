@@ -8,9 +8,8 @@ test_that("Filter ireelevant rules run correctly", {
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
   ite_method <- "aipw"
-  include_ps <- "TRUE"
-  ps_method <- "SL.xgboost"
-  oreg_method <- "SL.xgboost"
+  learner_ps <- "SL.xgboost"
+  learner_y <- "SL.xgboost"
   ntrees <- 100
   node_size <- 20
   max_nodes <- 5
@@ -23,9 +22,8 @@ test_that("Filter ireelevant rules run correctly", {
 
   # Step 2: Estimate ITE
   ite <- estimate_ite(y, z, X, ite_method,
-                           include_ps = include_ps,
-                           ps_method = ps_method,
-                           oreg_method = oreg_method)
+                      learner_ps = learner_ps,
+                      learner_y = learner_y)
 
   expect_equal(ite[10], 0.6874263, tolerance = 0.000001)
   expect_equal(ite[25], -0.2175163, tolerance = 0.000001)

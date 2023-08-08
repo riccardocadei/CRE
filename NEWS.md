@@ -1,12 +1,25 @@
+# CRE Develop
+
+## Changed 
+* `ite_method_dis`, `ite_method_inf` method-parameter -> `ite_method`
+* `ps_method_dis`, `ps_method_inf` method-parameter -> `learner_ps`
+* `oreg_method_dis`, `oreg_method_inf` method-parameter -> `learner_y`
+
+## Removed
+* 
+
+
 # CRE 0.2.4 (2023-6-14)
 
 ## Changed 
 *  Method paper description is updated.
 
+
 # CRE 0.2.3 (2023-4-27)
 
 ## Removed 
 * Bayesian Causal Forest (`bcf`) ITE estimator is not supported.
+
 
 # CRE 0.2.2 (2023-4-17)
 

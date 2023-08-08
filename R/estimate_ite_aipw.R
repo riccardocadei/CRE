@@ -6,31 +6,31 @@
 #' Estimates the Individual Treatment Effect using Augmented Inverse Probability
 #' Weighting given a response vector, a treatment vector, a features matrix,
 #' an estimation model for the propensity score and estimation model for the
-#' outcome regressions.
+#' outcome.
 #'
 #' @param y An observed response vector.
 #' @param z A treatment vector.
 #' @param X A features matrix.
-#' @param ps_method A estimation model for the propensity score.
-#' @param oreg_method A estimation model for the outcome regressions.
+#' @param learner_ps A estimation model for the propensity score.
+#' @param learner_y A estimation model for the outcome.
 #'
 #' @return
 #' A list of ITE estimates.
 #'
 #' @keywords internal
 #'
-estimate_ite_aipw <- function(y, z, X, ps_method = "SL.xgboost",
-                              oreg_method = "SL.xgboost") {
+estimate_ite_aipw <- function(y, z, X, learner_ps = "SL.xgboost",
+                              learner_y = "SL.xgboost") {
 
-  logger::log_trace("ps_method: '{ps_method}' and oreg_method: '{oreg_method}'",
+  logger::log_trace("learner_ps: '{learner_ps}' and learner_y: '{learner_y}'",
                     " were provided.")
 
-  ps_hat <- estimate_ps(z, X, ps_method)
+  ps_hat <- estimate_ps(z, X, learner_ps)
 
   y_model <- SuperLearner::SuperLearner(Y = y,
                                         X = data.frame(X = X, Z = z),
                                         family = gaussian(),
-                                        SL.library = oreg_method,
+                                        SL.library = learner_y,
                                         cvControl = list(V = 0))
 
   if (sum(y_model$coef) == 0) y_model$coef[1] <- 1

@@ -49,12 +49,9 @@ __Parameters (not required)__
 
 **`method_parameters`** The list of parameters to define the models used, including:    
 - **`ratio_dis`** The ratio of data delegated to the discovery sub-sample (default: 0.5).     
-- **`ite_method_dis`** The method to estimate the individual treatment effect (ITE) on the discovery sub-sample (default: 'aipw') [1].       
-- **`ps_method_dis`** The estimation model for the propensity score on the discovery sub-sample (default: 'SL.xgboost').     
-- **`or_method_dis`** The estimation model for the outcome regressions estimate_ite_aipw on the discovery sub-sample (default: 'SL.xgboost').      
-- **`ite_method_inf`** The method to estimate the individual treatment effect (ITE) on the inference sub-sample (default: 'aipw') [1].         
-- **`ps_method_inf`** The estimation model for the propensity score on the inference subsample (default: 'SL.xgboost').     
-- **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').    
+- **`ite_method`** The method to estimate the individual treatment effect (default: 'aipw') [1].      
+- **`learner_ps`** The estimation model for the propensity score (default: 'SL.xgboost').     
+- **`learner_y`** The estimation model for the outcome (default: 'SL.xgboost').       
 
 **`hyper_params`** The list of hyper parameters to fine tune the method, including:    
 - **`intervention_vars`** Intervention-able variables used for Rules Generation (default: `NULL`).   
@@ -154,24 +151,21 @@ Example 3 (*setting parameters*)
 ```R
 set.seed(9687)
 dataset <- generate_cre_dataset(n = 1000, 
-                                  rho = 0, 
-                                  n_rules = 2, 
-                                  p = 10,
-                                  effect_size = 2, 
-                                  binary_covariates = TRUE,
-                                  binary_outcome = FALSE,
-                                  confounding = "no")
+                                rho = 0, 
+                                n_rules = 2, 
+                                p = 10,
+                                effect_size = 2, 
+                                binary_covariates = TRUE,
+                                binary_outcome = FALSE,
+                                confounding = "no")
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]
 
 method_params <- list(ratio_dis = 0.25,
-                      ite_method_dis="aipw",
-                      ps_method_dis = "SL.xgboost",
-                      oreg_method_dis = "SL.xgboost",
-                      ite_method_inf = "aipw",
-                      ps_method_inf = "SL.xgboost",
-                      oreg_method_inf = "SL.xgboost")
+                      ite_method ="aipw",
+                      learner_ps = "SL.xgboost",
+                      learner_y = "SL.xgboost")
 
 hyper_params <- list(intervention_vars = c("x1","x2","x3","x4"),
                      offset = NULL,

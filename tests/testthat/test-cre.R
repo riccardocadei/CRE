@@ -10,12 +10,9 @@ test_that("cre Runs Correctly", {
   X_names <- names(as.data.frame(X))
 
   method_params <- list(ratio_dis = 0.25,
-                        ite_method_dis = "bart",
-                        ps_method_dis = "SL.xgboost",
-                        oreg_method_dis = "SL.xgboost",
-                        ite_method_inf = "bart",
-                        ps_method_inf = "SL.xgboost",
-                        oreg_method_inf = "SL.xgboost")
+                        ite_method = "bart",
+                        learner_ps = "SL.xgboost",
+                        learner_y = "SL.xgboost")
 
  hyper_params <- list(intervention_vars = NULL,
                       offset = NULL,
@@ -39,39 +36,19 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   method_params[["ratio_dis"]] <- 0.25
-  method_params[["ite_method_dis"]] <- "test"
+  method_params[["ite_method"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  method_params[["ite_method_dis"]] <- "bart"
-  method_params[["ite_method_inf"]] <- "test"
+  method_params[["ite_method"]] <- "aipw"
+  method_params[["learner_ps"]] <- 1
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  method_params[["ite_method_inf"]] <- "bart"
-  method_params[["ite_method_dis"]] <- "tpoisson"
-  method_params[["ps_method_dis"]] <- 1
+  method_params[["learner_ps"]] <- "SL.xgboost"
+  method_params[["learner_y"]] <- 1
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  method_params[["ite_method_dis"]] <- "bart"
-  method_params[["ps_method_dis"]] <- "SL.xgboost"
-  method_params[["ite_method_inf"]] <- "tpoisson"
-  method_params[["ps_method_inf"]] <- 1
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  method_params[["ite_method_inf"]] <- "bart"
-  method_params[["ps_method_inf"]] <- "SL.xgboost"
-  method_params[["ite_method_dis"]] <- "aipw"
-  method_params[["oreg_method_dis"]] <- 1
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  method_params[["ite_method_dis"]] <- "bart"
-  method_params[["oreg_method_dis"]] <- "SL.xgboost"
-  method_params[["ite_method_inf"]] <- "aipw"
-  method_params[["oreg_method_inf"]] <- 1
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  method_params[["ite_method_inf"]] <- "bart"
-  method_params[["oreg_method_inf"]] <- "SL.xgboost"
-  method_params[["ite_method_dis"]] <- "tpoisson"
+  method_params[["learner_y"]] <- "SL.xgboost"
+  method_params[["ite_method"]] <- "tpoisson"
   hyper_params[["offset"]] <- "test"
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
@@ -79,7 +56,7 @@ test_that("cre Runs Correctly", {
   hyper_params[["ntrees_rf"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  method_params[["ite_method_dis"]] <- "aipw"
+  method_params[["ite_method"]] <- "aipw"
   hyper_params[["ntrees_rf"]] <- 100
   hyper_params[["ntrees_gbm"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))

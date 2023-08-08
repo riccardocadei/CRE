@@ -14,20 +14,13 @@
 #'   - *Parameters for Honest Splitting*
 #'     - *ratio_dis*: The ratio of data delegated to rules discovery
 #'     (default: 0.5).
-#'   - *Parameters for Discovery*
-#'     - *ite_method_dis*: The method to estimate the discovery sample ITE
+#'   - *Parameters for Discovery and Inference*
+#'     - *ite_method*: The method for ITE (pseudo-outcome) estimation
 #'     (default: 'aipw').
-#'     - *ps_method_dis*: The estimation model for the propensity score on the
-#'       discovery subsample (default: 'SL.xgboost').
-#'     - *oreg_method_dis*: The estimation model for the outcome regressions
-#'       estimate_ite_aipw on the discovery subsample (default: 'SL.xgboost').
-#'   - *Parameters for Inference*
-#'     - *ite_method_inf*: The method to estimate the inference sample ITE
-#'     (default: 'aipw').
-#'     - *ps_method_inf*: The estimation model for the propensity score on the
-#'       inference subsample (default: 'SL.xgboost').
-#'     - *oreg_method_inf*: The estimation model for the outcome regressions in
-#'       estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
+#'     - *learner_ps*: The model for the propensity score estimation
+#'     (default: 'SL.xgboost').
+#'     - *learner_y*: The model for the outcome estimation
+#'     (default: 'SL.xgboost').
 #' @param hyper_params The list of hyper parameters to fine-tune the method,
 #' including:
 #'  - *intervention_vars*: Intervention-able variables used for rules
@@ -91,12 +84,9 @@
 #' X <- dataset[["X"]]
 #'
 #' method_params <- list(ratio_dis = 0.25,
-#'                       ite_method_dis="aipw",
-#'                       ps_method_dis = "SL.xgboost",
-#'                       oreg_method_dis = "SL.xgboost",
-#'                       ite_method_inf = "aipw",
-#'                       ps_method_inf = "SL.xgboost",
-#'                       oreg_method_inf = "SL.xgboost")
+#'                       ite_method ="aipw",
+#'                       learner_ps = "SL.xgboost",
+#'                       learner_y = "SL.xgboost")
 #'
 #' hyper_params <- list(intervention_vars = NULL,
 #'                      offset = NULL,
@@ -157,11 +147,13 @@ cre <- function(y, z, X,
   st_time_rd <- proc.time()
   # Estimate ITE
   if (is.null(ite)) {
-    ite_dis <- estimate_ite(y = y_dis, z = z_dis, X = X_dis,
-                    ite_method = getElement(method_params, "ite_method_dis"),
-                    ps_method = getElement(method_params, "ps_method_dis"),
-                    oreg_method = getElement(method_params, "oreg_method_dis"),
-                    offset = getElement(method_params, "offset"))
+    ite_dis <- estimate_ite(y = y_dis,
+                          z = z_dis,
+                          X = X_dis,
+                          ite_method = getElement(method_params, "ite_method"),
+                          learner_ps = getElement(method_params, "learner_ps"),
+                          learner_y = getElement(method_params, "learner_y"),
+                          offset = getElement(method_params, "offset"))
   } else {
     logger::log_info("Using the provided ITE estimations...")
   }
@@ -188,11 +180,13 @@ cre <- function(y, z, X,
 
   # Estimate ITE
   if (is.null(ite)) {
-    ite_inf <- estimate_ite(y = y_inf, z = z_inf, X = X_inf,
-                    ite_method = getElement(method_params, "ite_method_inf"),
-                    ps_method = getElement(method_params, "ps_method_inf"),
-                    oreg_method = getElement(method_params, "oreg_method_inf"),
-                    offset = getElement(method_params, "offset"))
+    ite_inf <- estimate_ite(y = y_inf,
+                          z = z_inf,
+                          X = X_inf,
+                          ite_method = getElement(method_params, "ite_method"),
+                          learner_ps = getElement(method_params, "learner_ps"),
+                          learner_y = getElement(method_params, "learner_y"),
+                          offset = getElement(method_params, "offset"))
   } else {
     logger::log_info("Skipped generating ITE.",
                      "The provided ITE will be used.")
