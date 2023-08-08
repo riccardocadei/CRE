@@ -15,7 +15,6 @@ test_that("Correlated Rules Discarded Correctly", {
   node_size <- 20
   max_nodes <- 5
   max_depth <- 15
-  replace <- TRUE
   t_decay <- 0.025
   t_corr <- 1
   t_ext <- 0.01
@@ -38,7 +37,7 @@ test_that("Correlated Rules Discarded Correctly", {
 
   # Step 3: Generate rules list
   initial_rules <- generate_rules(X, ite, ntrees_rf, ntrees_gbm, node_size,
-                                  max_nodes, max_depth, replace)
+                                  max_nodes, max_depth)
 
   rules_list <- filter_irrelevant_rules(initial_rules, X,
                                         ite, t_decay)

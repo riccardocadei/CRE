@@ -17,7 +17,6 @@ test_that("generate_rules works as expected!", {
   node_size <- 20
   max_nodes <- 5
   max_depth <- 15
-  replace <- FALSE
 
   # Step 1: Split data
   X <- as.matrix(X)
@@ -31,7 +30,7 @@ test_that("generate_rules works as expected!", {
 
   # Correct outputs
   rules <- generate_rules(X, ite, ntrees_rf, ntrees_gbm,
-                          node_size, max_nodes, max_depth, replace)
+                          node_size, max_nodes, max_depth)
 
   expect_true(class(rules) == "character")
 
@@ -44,7 +43,6 @@ test_that("generate_rules works as expected!", {
   node_size <- 20
   max_nodes <- 5
   max_depth <- 15
-  replace <- FALSE
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -61,7 +59,7 @@ test_that("generate_rules works as expected!", {
 
   # Correct outputs
   rules <- generate_rules(X, ite, ntrees_rf, ntrees_gbm,
-                          node_size, max_nodes, max_depth, replace)
+                          node_size, max_nodes, max_depth)
 
   expect_true(class(rules) == "character")
 

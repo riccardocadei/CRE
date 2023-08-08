@@ -25,8 +25,7 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
                           getElement(hyper_params, "ntrees_gbm"),
                           getElement(hyper_params, "node_size"),
                           getElement(hyper_params, "max_nodes"),
-                          getElement(hyper_params, "max_depth"),
-                          getElement(hyper_params, "replace"))
+                          getElement(hyper_params, "max_depth"))
   M_initial <- length(rules)
   # Filtering ------------------------------------------------------------------
 

@@ -14,7 +14,6 @@
 #' @param node_size Minimum size of the trees' terminal nodes.
 #' @param max_nodes Maximum number of terminal nodes per tree.
 #' @param max_depth Maximum rules length.
-#' @param replace A boolean variable for replacement in bootstrapping.
 #'
 #' @return
 #' A list of rules (names).
@@ -22,7 +21,7 @@
 #' @keywords internal
 #'
 generate_rules <- function(X, ite, ntrees_rf, ntrees_gbm,
-                           node_size, max_nodes, max_depth, replace) {
+                           node_size, max_nodes, max_depth) {
 
   logger::log_debug("Generating (candidate) rules...")
   st_time <- proc.time()
@@ -35,7 +34,6 @@ generate_rules <- function(X, ite, ntrees_rf, ntrees_gbm,
     forest_RF <- randomForest::randomForest(x = X,
                                             y = ite,
                                             sampsize = sampsize,
-                                            replace = replace,
                                             ntree = ntrees_rf,
                                             maxnodes = max_nodes,
                                             nodesize = node_size)

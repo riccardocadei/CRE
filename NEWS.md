@@ -6,7 +6,7 @@
 * `oreg_method_dis`, `oreg_method_inf` method-parameter -> `learner_y`
 
 ## Removed
-* 
+* `replace` hyper-parameter
 
 
 # CRE 0.2.4 (2023-6-14)

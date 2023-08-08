@@ -40,7 +40,6 @@ test_that("Filter ireelevant rules run correctly", {
                               x = X,
                               y = ite,
                               sampsize = sf * N,
-                              replace = FALSE,
                               ntree = 1,
                               maxnodes = mn,
                               nodesize = node_size))
@@ -61,9 +60,9 @@ test_that("Filter ireelevant rules run correctly", {
   expect_equal(length(treelist), 2)
   expect_equal(length(treelist[2]$list), 100)
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
-  expect_equal(treelist[2]$list[[1]][2, 6], 0.4320062, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[2]][3, 6], -0.5863133, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[10]][3, 6], 0.06850307, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[1]][2, 6], 0.5720872, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3, 6], 0.6381637, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3, 6], -0.6764889, tolerance = 0.000001)
 
   rules <- extract_rules(treelist, X, ntrees, max_depth)
 

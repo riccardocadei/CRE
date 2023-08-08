@@ -16,7 +16,6 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
   node_size <- 20
   max_nodes <- 5
   max_depth <- 3
-  replace <- FALSE
   t_decay <- 0.025
   t_ext <- 0.02
   t_corr <- 0
@@ -58,7 +57,7 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
   # Generate rules list
   initial_rules_dis <- generate_rules(X_dis, ite_dis,
                                       ntrees_rf, ntrees_gbm, node_size,
-                                      max_nodes, max_depth, replace)
+                                      max_nodes, max_depth)
 
   rules_list_dis <- filter_irrelevant_rules(initial_rules_dis, X_dis,
                                             ite_dis, t_decay)
@@ -126,7 +125,6 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
   node_size <- 20
   max_nodes <- 5
   max_depth <- 3
-  replace <- FALSE
   t_decay <- 0.025
   t_ext <- 0.02
   t_corr <- 0

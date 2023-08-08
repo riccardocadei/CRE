@@ -35,8 +35,6 @@
 #'  - *node_size*: Minimum size of the trees' terminal nodes (default: 20).
 #'  - *max_nodes*: Maximum number of terminal nodes per tree (default: 5).
 #'  - *max_depth*: Maximum rules length (default: 3).
-#'  - *replace*: Boolean variable for replacement in bootstrapping for
-#'  rules generation by random forest (default: TRUE).
 #'  - *t_decay*: The decay threshold for rules pruning. Higher values will
 #'  carry out an aggressive pruning (default: 0.025).
 #'  - *t_ext*: The threshold to truncate too generic or too specific (extreme)

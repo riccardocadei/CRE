@@ -4,16 +4,7 @@
 \alias{generate_rules}
 \title{Generate rules}
 \usage{
-generate_rules(
-  X,
-  ite,
-  ntrees_rf,
-  ntrees_gbm,
-  node_size,
-  max_nodes,
-  max_depth,
-  replace
-)
+generate_rules(X, ite, ntrees_rf, ntrees_gbm, node_size, max_nodes, max_depth)
 }
 \arguments{
 \item{X}{A covariate matrix.}
@@ -30,8 +21,6 @@ regression modeling algorithm.}
 \item{max_nodes}{Maximum number of terminal nodes per tree.}
 
 \item{max_depth}{Maximum rules length.}
-
-\item{replace}{A boolean variable for replacement in bootstrapping.}
 }
 \value{
 A list of rules (names).

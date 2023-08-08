@@ -24,7 +24,6 @@ test_that("discover_rules works as expected!", {
                        t_ext = 0.025,
                        t_corr = 1,
                        t_pvalue = 0.05,
-                       replace = FALSE,
                        stability_selection = TRUE,
                        cutoff = 0.8,
                        pfer = 1,
