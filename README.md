@@ -164,8 +164,7 @@ plot(cre_results)
                      t_pvalue = 0.05,
                      stability_selection = TRUE,
                      cutoff = 0.8,
-                     pfer = 0.1,
-                     penalty_rl = 1)
+                     pfer = 0.1)
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
 summary(cre_results)

@@ -14,8 +14,6 @@
 #' the stability scores. Only for stability selection.
 #' @param pfer Upper bound for the per-family error rate (tolerated amount of
 #' falsely selected rules). Only for stability selection.
-#' @param penalty_rl Order of penalty for rules length during LASSO
-#' regularization (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2).
 #'
 #' @return
 #' A minimal set of rules linearly decomposing the CATE.
@@ -23,22 +21,19 @@
 #' @keywords internal
 #'
 select_rules <- function(rules_matrix, rules_list, ite,
-                         stability_selection, cutoff, pfer,
-                         penalty_rl) {
+                         stability_selection, cutoff, pfer) {
 
   logger::log_debug("Selecting rules...")
 
   "%>%" <- magrittr::"%>%"
 
-  if (penalty_rl > 0) {
-    rules_weight <- c()
-    for (rule in rules_list) {
-      rules_length <- lengths(regmatches(rule, gregexpr("&", rule))) + 1
-      rule_weight <- rules_length^penalty_rl
-      rules_weight <- append(rules_weight, rule_weight)
-    }
-    rules_matrix <- t(t(rules_matrix) / rules_weight)
+  rules_weight <- c()
+  for (rule in rules_list) {
+    rule_length <- lengths(regmatches(rule, gregexpr("&", rule))) + 1
+    rules_weight <- append(rules_weight, rule_length)
   }
+  rules_matrix <- t(t(rules_matrix) / rules_weight)
+
 
   rules <- NULL
   if (length(rules_list) > 1) {

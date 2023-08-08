@@ -18,7 +18,6 @@ test_that("Rules Interpreted Correctly", {
   cutoff <- 0.8
   stability_selection <- TRUE
   pfer <- 0.1
-  penalty_rl <- 1
 
   X_names <- names(as.data.frame(X))
   X <- as.matrix(X)
@@ -46,8 +45,7 @@ test_that("Rules Interpreted Correctly", {
                                             ite,
                                             cutoff,
                                             stability_selection,
-                                            pfer,
-                                            penalty_rl))
+                                            pfer))
 
   ###### Run Tests ######
 

@@ -7,6 +7,7 @@
 
 ## Removed
 * `replace` hyper-parameter
+* `penalty_rl` hyper-parameter
 
 
 # CRE 0.2.4 (2023-6-14)

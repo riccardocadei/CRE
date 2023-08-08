@@ -135,8 +135,7 @@ hyper_params <- list(intervention_vars = NULL,
                      t_pvalue = 0.05,
                      stability_selection = TRUE,
                      cutoff = 0.6,
-                     pfer = 1,
-                     penalty_rl = 1)
+                     pfer = 1)
 
 # linreg CATE estimation with aipw ITE estimation
 cre_results <- cre(y, z, X, method_params, hyper_params)

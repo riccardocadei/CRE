@@ -162,16 +162,6 @@ check_hyper_params <- function(X_names, params) {
   params[["cutoff"]] <- cutoff
 
 
-  penalty_rl <- getElement(params, "penalty_rl")
-  if (length(penalty_rl) == 0) {
-    penalty_rl <- 1
-  } else {
-    if (!inherits(penalty_rl, "numeric")) {
-      stop("Invalid 'penalty_rl' input. Please input a number.")
-    }
-  }
-  params[["penalty_rl"]] <- penalty_rl
-
   intervention_vars <- getElement(params, "intervention_vars")
   if (length(intervention_vars) == 0) {
     intervention_vars <- NULL

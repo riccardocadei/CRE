@@ -26,7 +26,6 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
   offset <- NULL
   t_pvalue <- 0.5
   intervention_vars <- NULL
-  penalty_rl <- 1
 
   # Check for binary outcome
   binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -76,8 +75,7 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
                                                 ite_dis,
                                                 stability_selection,
                                                 cutoff,
-                                                pfer,
-                                                penalty_rl))
+                                                pfer))
 
   # Estimate CATE
   ite_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method,
@@ -135,7 +133,6 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
   offset <- NULL
   t_pvalue <- 0.5
   intervention_vars <- NULL
-  penalty_rl <- 1
 
   # Check for binary outcome
   binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)

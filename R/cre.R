@@ -49,9 +49,6 @@
 #'  the stability scores (default: 0.9).
 #'  - *pfer*: Upper bound for the per-family error rate (tolerated amount of
 #' falsely selected rules) (default: 1).
-#'  - *penalty_rl*: Order of penalty for rules length during LASSO
-#'  regularization (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2)
-#' (default: 1).
 #' @param ite The estimated ITE vector. If given both the ITE estimation steps
 #' in Discovery and Inference are skipped (default: NULL).
 #'
@@ -97,11 +94,9 @@
 #'                      t_ext = 0.025,
 #'                      t_corr = 1,
 #'                      t_pvalue = 0.05,
-#'                      replace = FALSE,
 #'                      stability_selection = TRUE,
 #'                      cutoff = 0.6,
-#'                      pfer = 0.1,
-#'                      penalty_rl = 1)
+#'                      pfer = 0.1)
 #'
 #' cre_results <- cre(y, z, X, method_params, hyper_params)
 #'}

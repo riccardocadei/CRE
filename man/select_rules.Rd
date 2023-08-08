@@ -4,15 +4,7 @@
 \alias{select_rules}
 \title{Select rules}
 \usage{
-select_rules(
-  rules_matrix,
-  rules_list,
-  ite,
-  stability_selection,
-  cutoff,
-  pfer,
-  penalty_rl
-)
+select_rules(rules_matrix, rules_list, ite, stability_selection, cutoff, pfer)
 }
 \arguments{
 \item{rules_matrix}{The rules matrix.}
@@ -28,9 +20,6 @@ the stability scores. Only for stability selection.}
 
 \item{pfer}{Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules). Only for stability selection.}
-
-\item{penalty_rl}{Order of penalty for rules length during LASSO
-regularization (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2).}
 }
 \value{
 A minimal set of rules linearly decomposing the CATE.

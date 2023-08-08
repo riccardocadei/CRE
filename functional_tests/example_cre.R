@@ -5,18 +5,14 @@ n_rules <- 4
 sample_size <- 2000
 effect_size <- 2
 confounding <- "no"
-ite_estimator_dis <- "bart"
-ite_estimator_inf <- "bart"
+ite_estimator <- "bart"
 pfer <- 0.5#n_rules/(effect_size+1)
 
 # Set Method and Hyper Parameters
 method_params <- list(ratio_dis = 0.5,
-                      ite_method_dis = ite_estimator_dis,
-                      ps_method_dis = "SL.xgboost",
-                      oreg_method_dis = "SL.xgboost",
-                      ite_method_inf = ite_estimator_inf,
-                      ps_method_inf = "SL.xgboost",
-                      oreg_method_inf = "SL.xgboost")
+                      ite_method = ite_estimator,
+                      learner_ps = "SL.xgboost",
+                      learner_y = "SL.xgboost")
 
 hyper_params <- list(intervention_vars = NULL,
                      offset = NULL,
@@ -29,11 +25,9 @@ hyper_params <- list(intervention_vars = NULL,
                      t_ext = 0.01,
                      t_corr = 1,
                      t_pvalue = 0.05,
-                     replace = TRUE,
                      stability_selection = TRUE,
                      cutoff = 0.8,
-                     pfer = pfer,
-                     penalty_rl = 1)
+                     pfer = pfer)
 
 # Set Ground Truth
 {

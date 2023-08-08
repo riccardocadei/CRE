@@ -26,8 +26,7 @@ test_that("discover_rules works as expected!", {
                        t_pvalue = 0.05,
                        stability_selection = TRUE,
                        cutoff = 0.8,
-                       pfer = 1,
-                       penalty_rl = 1)
+                       pfer = 1)
 
   # Input checks
   check_input_data(y = y, z = z, X = X)
