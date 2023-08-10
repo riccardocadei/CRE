@@ -161,10 +161,11 @@ plot(cre_results)
                      t_decay = 0.025
                      t_ext = 0.025,
                      t_corr = 1,
-                     t_pvalue = 0.05,
                      stability_selection = TRUE,
                      cutoff = 0.8,
-                     pfer = 0.1)
+                     pfer = 0.1,
+                     B = 10,
+                     subsample = 0.5)
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
 summary(cre_results)
@@ -199,7 +200,7 @@ Please note that the CRE project is released with a [Contributor Code of Conduct
 ## References
 
 Causal Rule Ensemble ([methodological paper](https://arxiv.org/abs/2009.09036))
-```
+```bibtex
 @article{bargagli2023causal,
   title={{Causal rule ensemble: Interpretable Discovery and Inference of Heterogeneous Treatment Effects}},
   author={Bargagli-Stoffi, Falco J and Cadei, Riccardo and Lee, Kwonsang and Dominici, Francesca},
@@ -209,7 +210,7 @@ Causal Rule Ensemble ([methodological paper](https://arxiv.org/abs/2009.09036))
 ```
 
 CRE (software paper)
-```
+```bibtex
 @article{cadei2023CRE,
   title = {CRE: an R package for Interpretable Discovery and Estimation of Heterogeneous Treatment Effect},
   author = {Cadei, Riccardo and Khoshnevis, Naeem and Bargagli-Stoffi, Falco J and Lee, Kwonsang and Garcia, Daniela Maria},
@@ -220,7 +221,7 @@ CRE (software paper)
 ```
 
 CRE ([CRAN package](https://CRAN.R-project.org/package=CRE))
-```
+```bibtex
 @Manual{khoshnevis2023CRE,
   title = {CRE: Interpretable Subgroups Identification Through Ensemble Learning of Causal Rules},
   author = {Khoshnevis, Naeem and Garcia, Daniela Maria and Cadei, Riccardo and Lee, Kwonsang  and Bargagli-Stoffi, Falco J},

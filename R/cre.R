@@ -49,6 +49,11 @@
 #'  the stability scores (default: 0.9).
 #'  - *pfer*: Upper bound for the per-family error rate (tolerated amount of
 #' falsely selected rules) (default: 1).
+#'  - *B*: Number of bootstrap samples for stability selection in rules
+#'  selection and uncertainty quantification in estimation (default: 20).
+#'  - *subsample*: Bootstrap ratio subsample for forest generation and stability
+#'  selection in rules selection, and uncertainty quantification in estimation
+#'  (default: 0.5).
 #' @param ite The estimated ITE vector. If given both the ITE estimation steps
 #' in Discovery and Inference are skipped (default: NULL).
 #'
@@ -71,9 +76,14 @@
 #'
 #' \donttest{
 #' set.seed(2021)
-#' dataset <- generate_cre_dataset(n = 400, rho = 0, n_rules = 2, p = 10,
-#'                                 effect_size = 2, binary_covariates = TRUE,
-#'                                 binary_outcome = FALSE, confounding = "no")
+#' dataset <- generate_cre_dataset(n = 400,
+#'                                 rho = 0,
+#'                                 n_rules = 2,
+#'                                 p = 10,
+#'                                 effect_size = 2,
+#'                                 binary_covariates = TRUE,
+#'                                 binary_outcome = FALSE,
+#'                                 confounding = "no")
 #' y <- dataset[["y"]]
 #' z <- dataset[["z"]]
 #' X <- dataset[["X"]]
@@ -93,10 +103,11 @@
 #'                      t_decay = 0.025,
 #'                      t_ext = 0.025,
 #'                      t_corr = 1,
-#'                      t_pvalue = 0.05,
 #'                      stability_selection = TRUE,
 #'                      cutoff = 0.6,
-#'                      pfer = 0.1)
+#'                      pfer = 0.1,
+#'                      B = 20,
+#'                      subsample = 0.5)
 #'
 #' cre_results <- cre(y, z, X, method_params, hyper_params)
 #'}
@@ -200,22 +211,25 @@ cre <- function(y, z, X,
   }
 
   # Estimate CATE
-  cate_inf <- estimate_cate(rules_matrix_inf, rules_explicit,
-                            ite_inf, getElement(hyper_params, "t_pvalue"))
-  M["select_significant"] <- as.integer(length(cate_inf$summary$Rule)) - 1
+  cate_inf <- estimate_cate(rules_matrix_inf,
+                            rules_explicit,
+                            ite_inf,
+                            getElement(hyper_params, "B"),
+                            getElement(hyper_params, "subsample"))
+  M["select_significant"] <- as.integer(length(cate_inf$Rule)) - 1
 
   # Estimate ITE
   if (M["select_significant"] > 0) {
-    # Filter only Intervention-able variables
-    if (!is.null(intervention_vars)) X <- X[, intervention_vars, drop = FALSE]
-    rules_matrix <- generate_rules_matrix(X, rules)
-    filter <- rules_explicit %in%
-              cate_inf$summary$Rule[2:length(cate_inf$summary$Rule)]
-    rules_df <- as.data.frame(rules_matrix[, filter])
-    names(rules_df) <- rules_explicit[filter]
-    ite_pred <- predict(cate_inf$model, rules_df) + cate_inf$summary$Estimate[1]
+    filter <- rules_explicit %in% cate_inf$Rule[2:length(cate_inf$Rule)]
+    rules_matrix <- generate_rules_matrix(X, rules)[,filter]
+    rules <- rules[filter]
+    rules_explicit <- rules_explicit[filter]
+    rownames(cate_inf) <- cate_inf$Rule
+    ite_pred <- rules_matrix %*% as.matrix(cate_inf[rules_explicit,]["Estimate"])
+                + cate_inf$Estimate[1]
+    rownames(cate_inf) <- 1:nrow(cate_inf)
   } else {
-    ite_pred <- cate_inf$summary$Estimate[1]
+    ite_pred <- cate_inf$Estimate[1]
   }
 
   en_time_inf <- proc.time()
@@ -224,14 +238,11 @@ cre <- function(y, z, X,
 
   # Generate final results S3 object
   results <- list("M" = M,
-                  "CATE" = cate_inf[["summary"]],
+                  "CATE" = cate_inf,
                   "method_params" = method_params,
                   "hyper_params" = hyper_params,
                   "ite_pred" = ite_pred)
   attr(results, "class") <- "cre"
-
-  # Sensitivity Analysis -------------------------------------------------------
-  # TODO
 
   # Return Results -------------------------------------------------------------
   end_time_cre <- proc.time()

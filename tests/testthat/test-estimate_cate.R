@@ -19,13 +19,13 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
   t_decay <- 0.025
   t_ext <- 0.02
   t_corr <- 0
-  t_pvalue <- 0.05
   cutoff <- 0.8
   pfer <- 0.1
   stability_selection <- TRUE
   offset <- NULL
-  t_pvalue <- 0.5
   intervention_vars <- NULL
+  B <- 2
+  subsample <- 0.5
 
   # Check for binary outcome
   binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -97,8 +97,8 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
 
   # Correct outputs
   cate_inf <- estimate_cate(rules_matrix_inf, select_rules_interpretable,
-                            ite_inf, t_pvalue)
-  expect_true(class(cate_inf$summary) == "data.frame")
+                            ite_inf, B, subsample)
+  expect_true(class(cate_inf) == "data.frame")
 })
 
 
@@ -131,8 +131,9 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
   pfer <- 1
   stability_selection <- TRUE
   offset <- NULL
-  t_pvalue <- 0.5
   intervention_vars <- NULL
+  B <- 2
+  subsample <- 0.5
 
   # Check for binary outcome
   binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -177,6 +178,6 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
 
   # Correct outputs
   cate_inf <- estimate_cate(rules_matrix_inf, select_rules_interpretable,
-                            ite_inf, t_pvalue)
-  expect_true(class(cate_inf$summary) == "data.frame")
+                            ite_inf, B, subsample)
+  expect_true(class(cate_inf) == "data.frame")
 })

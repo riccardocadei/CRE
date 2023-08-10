@@ -1,5 +1,10 @@
 # CRE Develop
 
+## Added
+* Uncertainty Quantification in estimation by bootstrapping
+* `B` hyper-parameter
+* `subsample` hyper-parameter
+
 ## Changed 
 * `ite_method_dis`, `ite_method_inf` method-parameter -> `ite_method`
 * `ps_method_dis`, `ps_method_inf` method-parameter -> `learner_ps`
@@ -8,6 +13,7 @@
 ## Removed
 * `replace` hyper-parameter
 * `penalty_rl` hyper-parameter
+* `t_pvalue` hyper-parameter
 
 
 # CRE 0.2.4 (2023-6-14)

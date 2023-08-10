@@ -4,7 +4,7 @@
 \alias{estimate_cate}
 \title{Estimate the Conditional Average Treatment Effect}
 \usage{
-estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue)
+estimate_cate(rules_matrix, rules_explicit, ite, B = 1, subsample = 1)
 }
 \arguments{
 \item{rules_matrix}{A rules matrix,}
@@ -13,8 +13,11 @@ estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue)
 
 \item{ite}{The estimated ITEs.}
 
-\item{t_pvalue}{The threshold to define statistically significant rules
-(filter only rules with p-value <= t_pvalue).}
+\item{B}{The number of bootstrap samples for uncertainty quantification in
+estimation.}
+
+\item{subsample}{The bootstrap ratio subsample for uncertainty quantification
+in estimation.}
 }
 \value{
 A list with 2 elements:

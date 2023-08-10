@@ -62,6 +62,11 @@ selecting the rules (default: TRUE).
 the stability scores (default: 0.9).
 \item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules) (default: 1).
+\item \emph{B}: Number of bootstrap samples for stability selection in rules
+selection and uncertainty quantification in estimation (default: 20).
+\item \emph{subsample}: Bootstrap ratio subsample for forest generation and stability
+selection in rules selection, and uncertainty quantification in estimation
+(default: 0.5).
 }}
 
 \item{ite}{The estimated ITE vector. If given both the ITE estimation steps
@@ -92,9 +97,14 @@ individual treatment effect will still be computed using all covariates.
 
 \donttest{
 set.seed(2021)
-dataset <- generate_cre_dataset(n = 400, rho = 0, n_rules = 2, p = 10,
-                                effect_size = 2, binary_covariates = TRUE,
-                                binary_outcome = FALSE, confounding = "no")
+dataset <- generate_cre_dataset(n = 400,
+                                rho = 0,
+                                n_rules = 2,
+                                p = 10,
+                                effect_size = 2,
+                                binary_covariates = TRUE,
+                                binary_outcome = FALSE,
+                                confounding = "no")
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]
@@ -114,10 +124,11 @@ hyper_params <- list(intervention_vars = NULL,
                      t_decay = 0.025,
                      t_ext = 0.025,
                      t_corr = 1,
-                     t_pvalue = 0.05,
                      stability_selection = TRUE,
                      cutoff = 0.6,
-                     pfer = 0.1)
+                     pfer = 0.1,
+                     B = 20,
+                     subsample = 0.5)
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
 }

@@ -33,7 +33,7 @@ check_hyper_params <- function(X_names, params) {
     ntrees_gbm <- 20
   } else {
     if (!inherits(ntrees_gbm, "numeric")) {
-      stop("Invalid 'ntrees_gbm' input. Please input a number.")
+      stop("Invalid 'ntrees_gbm' input. Please input an integer.")
     }
   }
   params[["ntrees_gbm"]] <- ntrees_gbm
@@ -185,6 +185,28 @@ check_hyper_params <- function(X_names, params) {
     }
   }
   params[["offset"]] <- offset
+
+  # Check for correct B input
+  B <- getElement(params, "B")
+  if (length(B) == 0) {
+    B <- 20
+  } else {
+    if (!inherits(B, "numeric")) {
+      stop("Invalid 'B' input. Please input an integer.")
+    }
+  }
+  params[["B"]] <- B
+
+  # Check for correct subsample imput
+  subsample <- getElement(params, "subsample")
+  if (length(subsample) == 0) {
+    subsample <- 0.5
+  } else {
+    if (!inherits(subsample, "numeric") || (subsample < 0) || (subsample > 1)) {
+      stop("Invalid 'subsample' input. Please input a number between 0 and 1.")
+    }
+  }
+  params[["subsample"]] <- subsample
 
   logger::log_debug("Done with checking hyper parameters.")
 

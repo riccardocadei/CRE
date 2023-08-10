@@ -21,14 +21,14 @@ test_that("cre Runs Correctly", {
                       node_size = 10,
                       max_nodes = 5,
                       max_depth = 3,
-                      max_decay = 0.025,
-                      type_decay = 2,
+                      t_decay = 0.025,
                       t_ext = 0.025,
                       t_corr = 1,
-                      t_pvalue = 0.05,
                       stability_selection = TRUE,
                       cutoff = 0.6,
-                      pfer = 1)
+                      pfer = 1,
+                      B = 10,
+                      subsample = 0.5)
 
   method_params[["ratio_dis"]] <- 2
   expect_error(cre(y, z, X, method_params, hyper_params))
@@ -76,14 +76,14 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["t_ext"]] <- 0.025
+  hyper_params[["t_decay"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  hyper_params[["t_decay"]] <- 0.025
   hyper_params[["t_corr"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["t_corr"]] <- 1
-  hyper_params[["t_pvalue"]] <- "test"
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  hyper_params[["t_pvalue"]] <- 0.05
   hyper_params[["cutoff"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
@@ -96,6 +96,14 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["pfer"]] <- 1
+  hyper_params[["B"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  hyper_params[["B"]] <- 10
+  hyper_params[["subsample"]] <- 2
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  hyper_params[["subsample"]] <- 0.5
   hyper_params[["intervention_vars"]] <- c("test")
   expect_error(cre(y, z, X, method_params, hyper_params))
 
