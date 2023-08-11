@@ -4,7 +4,15 @@
 \alias{select_rules}
 \title{Select rules}
 \usage{
-select_rules(rules_matrix, rules_list, ite, stability_selection, cutoff, pfer)
+select_rules(
+  rules_matrix,
+  rules_list,
+  ite,
+  stability_selection,
+  cutoff,
+  pfer,
+  B
+)
 }
 \arguments{
 \item{rules_matrix}{The rules matrix.}
@@ -20,6 +28,8 @@ the stability scores. Only for stability selection.}
 
 \item{pfer}{Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules). Only for stability selection.}
+
+\item{B}{Number of bootstrap samples.}
 }
 \value{
 A minimal set of rules linearly decomposing the CATE.

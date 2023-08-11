@@ -54,7 +54,8 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
                              ite,
                              getElement(hyper_params, "stability_selection"),
                              getElement(hyper_params, "cutoff"),
-                             getElement(hyper_params, "pfer"))
+                             getElement(hyper_params, "pfer"),
+                             getElement(hyper_params, "B"))
   rules_list <- as.character(rules_list)
   M_select1 <- length(rules_list)
 

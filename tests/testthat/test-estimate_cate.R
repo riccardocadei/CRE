@@ -75,7 +75,8 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
                                                 ite_dis,
                                                 stability_selection,
                                                 cutoff,
-                                                pfer))
+                                                pfer,
+                                                B))
 
   # Estimate CATE
   ite_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method,

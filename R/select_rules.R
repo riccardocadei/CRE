@@ -14,6 +14,7 @@
 #' the stability scores. Only for stability selection.
 #' @param pfer Upper bound for the per-family error rate (tolerated amount of
 #' falsely selected rules). Only for stability selection.
+#' @param B Number of bootstrap samples.
 #'
 #' @return
 #' A minimal set of rules linearly decomposing the CATE.
@@ -21,7 +22,7 @@
 #' @keywords internal
 #'
 select_rules <- function(rules_matrix, rules_list, ite,
-                         stability_selection, cutoff, pfer) {
+                         stability_selection, cutoff, pfer, B) {
 
   logger::log_debug("Selecting rules...")
 
@@ -46,7 +47,8 @@ select_rules <- function(rules_matrix, rules_list, ite,
                          intercept = FALSE,
                          fitfun = "glmnet.lasso",
                          cutoff = cutoff,
-                         PFER = pfer)
+                         PFER = pfer,
+                         B = B)
         },
         error = function(e) {
           stop(paste(
