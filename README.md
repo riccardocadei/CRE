@@ -108,6 +108,7 @@ X <- dataset[["X"]]
 cre_results <- cre(y, z, X)
 summary(cre_results)
 plot(cre_results)
+ite_pred <- predict(cre_results, X) 
 ```
 
 **Example 2** (*personalized ite estimation*)
@@ -129,6 +130,7 @@ ite_pred <- ... # personalized ite estimation
 cre_results <- cre(y, z, X, ite = ite_pred)
 summary(cre_results)
 plot(cre_results)
+ite_pred <- predict(cre_results, X)
 ```
 
 **Example 3** (*setting parameters*)
@@ -170,6 +172,7 @@ plot(cre_results)
 cre_results <- cre(y, z, X, method_params, hyper_params)
 summary(cre_results)
 plot(cre_results)
+ite_pred <- predict(cre_results, X)
 ```
 
 More synthetic data sets can be generated using `generate_cre_dataset()`.

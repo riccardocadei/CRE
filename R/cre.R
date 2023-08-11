@@ -60,12 +60,12 @@
 #'
 #' @return
 #' An S3 object containing:
-#' - A number of Decision Rules extracted at each step (`M`).
-#' - A data.frame of Conditional Average Treatment Effect decomposition
+#' - The number of Decision Rules extracted at each step (`M`).
+#' - The data.frame of Conditional Average Treatment Effect decomposition
 #' estimates with corresponding uncertainty quantification (`CATE`).
-#' - A list of method parameters (`method_params`).
-#' - A list of hyper parameters (`hyper_params`).
-#' - An Individual Treatment Effect predicted (`ite_pred`).
+#' - The list of method parameters (`method_params`).
+#' - The list of hyper parameters (`hyper_params`).
+#' - The list of rules (implicit form) decomposing the CATE (`rules`).
 #'
 #' @note
 #' - If `intervention_vars` are provided, it's important to note that the
@@ -220,16 +220,11 @@ cre <- function(y, z, X,
 
   # Estimate ITE
   if (M["select_significant"] > 0) {
-    filter <- rules_explicit %in% cate_inf$Rule[2:length(cate_inf$Rule)]
-    rules_matrix <- generate_rules_matrix(X, rules)[,filter]
-    rules <- rules[filter]
-    rules_explicit <- rules_explicit[filter]
-    rownames(cate_inf) <- cate_inf$Rule
-    ite_pred <- rules_matrix %*% as.matrix(cate_inf[rules_explicit,]["Estimate"])
-                + cate_inf$Estimate[1]
-    rownames(cate_inf) <- 1:nrow(cate_inf)
+    rules <- rules[rules_explicit %in% cate_inf$Rule[2:length(cate_inf$Rule)]]
+    rules_explicit <- cate_inf$Rule[2:length(cate_inf$Rule)]
   } else {
-    ite_pred <- cate_inf$Estimate[1]
+    rules <- NULL
+    rules_explicit <- NULL
   }
 
   en_time_inf <- proc.time()
@@ -241,13 +236,12 @@ cre <- function(y, z, X,
                   "CATE" = cate_inf,
                   "method_params" = method_params,
                   "hyper_params" = hyper_params,
-                  "ite_pred" = ite_pred)
+                  "rules" = rules)
   attr(results, "class") <- "cre"
 
   # Return Results -------------------------------------------------------------
   end_time_cre <- proc.time()
   logger::log_info("Done with running CRE function!",
                    "(WC: {g_wc_str(st_time_cre, end_time_cre)}", ".)")
-  logger::log_info("Done!")
   return(results)
 }

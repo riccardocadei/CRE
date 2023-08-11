@@ -139,7 +139,7 @@ for (ite_estimator in ite_estimators){
     method_params[["ite_method_inf"]] <- ite_estimator
     tryCatch({
       result <- cre(y, z, X, method_params, hyper_params)
-      ite_pred <- result$ite_pred
+      ite_pred <- predict(result,x)
       cate_pred <- mean(ite_pred[X$x1 > 0.5 & X$x2 <= 0.5])
       ate_pred <- mean(ite_pred)
 

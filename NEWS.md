@@ -3,7 +3,9 @@
 ## Added
 * Uncertainty Quantification in estimation by bootstrapping
 * `B` hyper-parameter
-* `subsample` hyper-parameter
+* `subsample` hyper-parameter]
+* `rules`(implicit form) in cre() function return
+* predict() function for ITE estimation via CRE
 
 ## Changed 
 * `ite_method_dis`, `ite_method_inf` method-parameter -> `ite_method`
@@ -14,6 +16,7 @@
 * `replace` hyper-parameter
 * `penalty_rl` hyper-parameter
 * `t_pvalue` hyper-parameter
+* `ite_pred` from cre() function return
 
 
 # CRE 0.2.4 (2023-6-14)

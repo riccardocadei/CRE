@@ -69,6 +69,7 @@ X_names <- colnames(X)
 result <- cre(y, z, X, method_params, hyper_params)
 summary(result)
 plot(result)
+ite_pred <- predict(result, X)
 
 # Discovery
 dr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(ATE)" == FALSE]
@@ -88,7 +89,7 @@ print(paste("Effect Modifiers:  ",
             sep=""))
 
 #Estimation
-rmse <- sqrt(mean((ite - result$ite_pred)^2))
+rmse <- sqrt(mean((ite - ite_pred)^2))
 print(paste("RMSE: ", rmse))
-bias <- mean((ite - result$ite_pred))
+bias <- mean((ite - ite_pred))
 print(paste("Bias: ", bias))

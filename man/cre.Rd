@@ -75,12 +75,12 @@ in Discovery and Inference are skipped (default: NULL).}
 \value{
 An S3 object containing:
 \itemize{
-\item A number of Decision Rules extracted at each step (\code{M}).
-\item A data.frame of Conditional Average Treatment Effect decomposition
+\item The number of Decision Rules extracted at each step (\code{M}).
+\item The data.frame of Conditional Average Treatment Effect decomposition
 estimates with corresponding uncertainty quantification (\code{CATE}).
-\item A list of method parameters (\code{method_params}).
-\item A list of hyper parameters (\code{hyper_params}).
-\item An Individual Treatment Effect predicted (\code{ite_pred}).
+\item The list of method parameters (\code{method_params}).
+\item The list of hyper parameters (\code{hyper_params}).
+\item The list of rules (implicit form) decomposing the CATE (\code{rules}).
 }
 }
 \description{
