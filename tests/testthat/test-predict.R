@@ -33,7 +33,7 @@ test_that("predict function works as expected!", {
   ite_pred <- predict(result, X)
   expect_true(length(ite_pred) == nrow(X))
 
-  hyper_params$cutoff <- 1
+  hyper_params$t_corr <- 0
   hyper_params$subsample <- 0.1
   result <- cre(y, z, X, method_params, hyper_params)
   expect_true(length(ite_pred) == nrow(X))

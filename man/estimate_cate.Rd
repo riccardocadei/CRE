@@ -23,11 +23,11 @@ in estimation.}
 A list with 2 elements:
 \code{summary}: A data frame summarizing the CATE linear decomposition:
 \itemize{
-\item 'Rule': rule name,
-\item 'Estimate': linear contribution to CATE,
-\item 'CI_lower`: lower bound 95\% confidence interval on the estimate,
-\item 'CI_upper`: upper bound 95\% confidence interval on the estimate,
-\item \code{P-Value}: p-value (from Z-test).
+\item \code{Rule}: rule name,
+\item \code{Estimate}: linear contribution to CATE,
+\item \code{CI_lower}: lower bound 95\% confidence interval on the estimate,
+\item \code{CI_upper}: upper bound 95\% confidence interval on the estimate,
+\item \code{P_Value}: p-value (from Z-test).
 \code{model}: A linear model for CATE-ATE estimation.
 }
 }

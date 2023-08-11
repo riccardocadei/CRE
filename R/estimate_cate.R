@@ -16,11 +16,11 @@
 #' @return
 #' A list with 2 elements:
 #' `summary`: A data frame summarizing the CATE linear decomposition:
-#' - 'Rule': rule name,
-#' - 'Estimate': linear contribution to CATE,
-#' - 'CI_lower`: lower bound 95% confidence interval on the estimate,
-#' - 'CI_upper`: upper bound 95% confidence interval on the estimate,
-#' - `P-Value`: p-value (from Z-test).
+#' - `Rule`: rule name,
+#' - `Estimate`: linear contribution to CATE,
+#' - `CI_lower`: lower bound 95% confidence interval on the estimate,
+#' - `CI_upper`: upper bound 95% confidence interval on the estimate,
+#' - `P_Value`: p-value (from Z-test).
 #' `model`: A linear model for CATE-ATE estimation.
 #'
 #' @import stats
@@ -55,7 +55,8 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, B=1, subsample=1) {
       if (sum(filter_na)) {
         rules_matrix <- rules_matrix[, !filter_na]
         rules_explicit <- rules_explicit[!filter_na]
-        return(estimate_cate(rules_matrix, rules_explicit, ite))
+        return(estimate_cate(rules_matrix, rules_explicit, ite, B=1,
+                             subsample=1))
       }
       aate_coeff <- summary(aate_model)$coef[, c(1, 4), drop = FALSE] %>%
                     as.data.frame()
