@@ -106,7 +106,7 @@ y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]
 
-method_params <- list(ratio_dis = 0.25,
+method_params <- list(ratio_dis = 0.5,
                       ite_method ="aipw",
                       learner_ps = "SL.xgboost",
                       learner_y = "SL.xgboost")
@@ -120,9 +120,10 @@ hyper_params <- list(intervention_vars = NULL,
                      t_decay = 0.025,
                      t_ext = 0.025,
                      t_corr = 1,
+                     t_pvalue = 0.05,
                      stability_selection = TRUE,
                      cutoff = 0.6,
-                     pfer = 0.1,
+                     pfer = 1,
                      B = 20,
                      subsample = 0.5)
 
