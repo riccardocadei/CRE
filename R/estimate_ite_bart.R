@@ -9,7 +9,7 @@
 #' @param y An observed response vector.
 #' @param z A treatment vector.
 #' @param X A features matrix.
-#' @param ps_method Method for the estimation of the propensity score.
+#' @param learner_ps Method for the estimation of the propensity score.
 #'
 #' @return A list of ITE estimates.
 #'
@@ -18,12 +18,12 @@
 #'
 #' @keywords internal
 #'
-estimate_ite_bart <- function(y, z, X, ps_method) {
+estimate_ite_bart <- function(y, z, X, learner_ps) {
 
-  logger::log_trace("ps_method: '{ps_method}' was selected.")
+  logger::log_trace("learner_ps: '{learner_ps}' was selected.")
 
-  if (!is.null(ps_method)) {
-    est_ps <- estimate_ps(z, X, ps_method)
+  if (!is.null(learner_ps)) {
+    est_ps <- estimate_ps(z, X, learner_ps)
     X <- cbind(X, est_ps)
   }
 

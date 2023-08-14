@@ -20,11 +20,11 @@ the end of this parameters list.
 \itemize{
 \item \code{slearner}: S-Learner.
 \itemize{
-\item \code{oreg_method}
+\item \code{learner_y}
 }
 \item \code{tlearner}: T-Learner.
 \itemize{
-\item \code{oreg_method}
+\item \code{learner_y}
 }
 \item \code{tpoisson}: T-Poisson.
 \itemize{
@@ -32,23 +32,19 @@ the end of this parameters list.
 }
 \item \code{xlearner}: X-Learner.
 \itemize{
-\item \code{oreg_method}
+\item \code{learner_y}
 }
 \item \code{aipw}: Augmented Inverse Probability Weighting.
 \itemize{
-\item \code{ps_method} and  \code{oreg_method}
+\item \code{learner_ps} and  \code{learner_y}
 }
 \item \code{bart}: Bayesian Additive Regression Trees.
 \itemize{
-\item \code{ps_method}
-}
-\item \code{bcf}: Bayesian Causal Forest.
-\itemize{
-\item \code{ps_method}
+\item \code{learner_ps}
 }
 \item \code{cf}: Causal Forest.
 \itemize{
-\item \code{ps_method}
+\item \code{learner_ps}
 }
 }}
 
@@ -64,10 +60,10 @@ a treatment vector, a covariate matrix, and a desired algorithm.
 \details{
 \subsection{Additional parameters}{
 \itemize{
-\item \strong{ps_method}: An estimation method for the propensity score. This
+\item \strong{learner_ps}: An estimation method for the propensity score. This
 includes libraries for the SuperLearner package.
-\item \strong{oreg_method}: An estimation model for the outcome regressions. This
-includes libraries for the SuperLearner package.
+\item \strong{learner_y}: An estimation model for the outcome. This includes
+libraries for the SuperLearner package.
 \item \strong{offset}: Name of the covariate to use as offset (i.e. 'x1') for
 Poisson ITE Estimation. \code{NULL} if offset is not used.
 }

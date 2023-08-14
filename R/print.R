@@ -21,7 +21,6 @@ print.cre <- function(x, verbose = 2, ...) {
 }
 
 
-
 #' @title
 #' Print summary of CRE object
 #'
@@ -52,61 +51,45 @@ summary.cre <- function(object, verbose = 2, ...) {
   cat("CAUSAL RULE ENSAMBLE - Summary")
 
   if (verbose > 0) {
-    cat("\n\nMethods")
+    cat("\n\nModel parameters")
 
-    cat("\n- Causal Rules Discovery")
-    cat("\n  - ITE")
-    if (getElement(params, "ite_method_dis") == "tpoisson") {
-      cat("\n    - Estimator       : tlearner")
-      cat("\n    - Outcome         : poisson")
-      cat("\n    - Offset          :", getElement(params, "offset"))
+    cat("\n- Pseudo-Outcome estimation")
+    if (getElement(params, "ite_method") == "tpoisson") {
+      cat("\n. - Estimator       : tlearner")
+      cat("\n  - Outcome         : poisson")
+      cat("\n  - Offset          :", getElement(params, "offset"))
     } else {
-      cat("\n    - Estimator       :", getElement(params, "ite_method_dis"))
-      cat("\n    - Outcome         :", getElement(params, "oreg_method_dis"))
-      cat("\n    - Propensity Score:", getElement(params, "ps_method_dis"))
+      cat("\n  - Estimator       :", getElement(params, "ite_method"))
+      cat("\n  - Outcome         :", getElement(params, "learner_y"))
+      cat("\n  - Propensity Score:", getElement(params, "learner_ps"))
     }
 
-    cat("\n  - Rules Generation")
+    cat("\n- Rules Generation")
     if (!is.null(getElement(params, "intervention_vars"))) {
-      cat("\n    - Intervention Variables:", getElement(params,
+      cat("\n  - Intervention Variables:", getElement(params,
                                                         "intervention_vars"))
     } else {
-      cat("\n    - Intervention Variables: All")
+      cat("\n  - Intervention Variables: All")
     }
-    cat("\n    - Number of Trees       :", getElement(params, "ntrees_rf"),
-        "RF +", getElement(params, "ntrees_gbm"), "GBM")
-    cat("\n    - Node Size             :", getElement(params, "node_size"))
-    cat("\n    - Max Nodes             :", getElement(params, "max_nodes"))
-    cat("\n    - Max Depth             :", getElement(params, "max_depth"))
-    cat("\n  - Filtering")
-    cat("\n    - Threshold Decay (Irrelevant):", getElement(params,
+    cat("\n  - Number of Trees       :", getElement(params, "ntrees"))
+    cat("\n  - Node Size             :", getElement(params, "node_size"))
+    #cat("\n  - Max Rules             :", getElement(params, "max_rules"))
+    cat("\n  - Max Depth             :", getElement(params, "max_depth"))
+    cat("\n- Filtering")
+    cat("\n  - Threshold Decay (Irrelevant):", getElement(params,
                                                             "t_decay"))
-    cat("\n    - Threshold (Extreme)         :", getElement(params,
+    cat("\n  - Threshold (Extreme)         :", getElement(params,
                                                             "t_ext"))
-    cat("\n    - Threshold (Correlated)      :", getElement(params,
+    cat("\n  - Threshold (Correlated)      :", getElement(params,
                                                             "t_corr"))
-    cat("\n    - Threshold (p-Value)         :", getElement(params,
+    cat("\n  - Threshold (p-Value)         :", getElement(params,
                                                             "t_pvalue"))
-    cat("\n  - Causal Rules Discovery")
-    cat("\n    - Penalty Rules Length:", getElement(params, "penalty_rl"))
     if (getElement(params, "stability_selection")) {
-      cat("\n    - Stability Selection")
-      cat("\n      - Cutoff:", getElement(params, "cutoff"))
-      cat("\n      - PFER  :", getElement(params, "pfer"))
+      cat("\n- Stability Selection")
+      cat("\n  - Cutoff:", getElement(params, "cutoff"))
+      cat("\n  - PFER  :", getElement(params, "pfer"))
     } else {
-      cat("\n    - Stability Selection : FALSE")
-    }
-
-
-    cat("\n- CATE Inference")
-    if (getElement(params, "ite_method_inf") == "tpoisson") {
-      cat("\n    - Estimator       : tlearner")
-      cat("\n    - Outcome         : poisson")
-      cat("\n    - Offset          :", getElement(params, "offset"))
-    } else {
-      cat("\n    - Estimator       :", getElement(params, "ite_method_inf"))
-      cat("\n    - Outcome         :", getElement(params, "oreg_method_inf"))
-      cat("\n    - Propensity Score:", getElement(params, "ps_method_inf"))
+      cat("\n- Stability Selection : FALSE")
     }
   }
 

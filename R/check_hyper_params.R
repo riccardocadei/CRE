@@ -18,30 +18,18 @@ check_hyper_params <- function(X_names, params) {
   logger::log_debug("Checking hyper parameters...")
 
   # Input params checks --------------------------------------------------------
-  ntrees_rf <- getElement(params, "ntrees_rf")
-  if (length(ntrees_rf) == 0) {
-    ntrees_rf <- 20
+  ntrees <- getElement(params, "ntrees")
+  if (length(ntrees) == 0) {
+    ntrees <- 20
   } else {
-    if (!inherits(ntrees_rf, "numeric")) {
-      stop("Invalid 'ntrees_rf' input. Please input a number.")
+    if (!inherits(ntrees, "numeric")) {
+      stop("Invalid 'ntrees' input. Please input a positive integer")
+    }
+    if (ntrees<1) {
+      stop("Invalid 'ntrees' input. Please input a positive integer")
     }
   }
-  params[["ntrees_rf"]] <- ntrees_rf
-
-  ntrees_gbm <- getElement(params, "ntrees_gbm")
-  if (length(ntrees_gbm) == 0) {
-    ntrees_gbm <- 20
-  } else {
-    if (!inherits(ntrees_gbm, "numeric")) {
-      stop("Invalid 'ntrees_gbm' input. Please input a number.")
-    }
-  }
-  params[["ntrees_gbm"]] <- ntrees_gbm
-
-  if (params[["ntrees_gbm"]] + params[["ntrees_rf"]] == 0) {
-    stop("The total number of trees (ntrees_rf + ntrees_gbm) has to be
-         greater than 0")
-  }
+  params[["ntrees"]] <- ntrees
 
   node_size <- getElement(params, "node_size")
   if (length(node_size) == 0) {
@@ -53,15 +41,15 @@ check_hyper_params <- function(X_names, params) {
   }
   params[["node_size"]] <- node_size
 
-  max_nodes <- getElement(params, "max_nodes")
-  if (length(max_nodes) == 0) {
-    max_nodes <- 5
+  max_rules <- getElement(params, "max_rules")
+  if (length(max_rules) == 0) {
+    max_rules <- 50
   } else {
-    if (!inherits(max_nodes, "numeric")) {
-      stop("Invalid 'max_nodes' input. Please input a number.")
+    if (!inherits(max_rules, "numeric")) {
+      stop("Invalid 'max_rules' input. Please input a number.")
     }
   }
-  params[["max_nodes"]] <- max_nodes
+  params[["max_rules"]] <- max_rules
 
   max_depth <- getElement(params, "max_depth")
   if (length(max_depth) == 0) {
@@ -162,16 +150,6 @@ check_hyper_params <- function(X_names, params) {
   params[["cutoff"]] <- cutoff
 
 
-  penalty_rl <- getElement(params, "penalty_rl")
-  if (length(penalty_rl) == 0) {
-    penalty_rl <- 1
-  } else {
-    if (!inherits(penalty_rl, "numeric")) {
-      stop("Invalid 'penalty_rl' input. Please input a number.")
-    }
-  }
-  params[["penalty_rl"]] <- penalty_rl
-
   intervention_vars <- getElement(params, "intervention_vars")
   if (length(intervention_vars) == 0) {
     intervention_vars <- NULL
@@ -195,6 +173,28 @@ check_hyper_params <- function(X_names, params) {
     }
   }
   params[["offset"]] <- offset
+
+  # Check for correct B input
+  B <- getElement(params, "B")
+  if (length(B) == 0) {
+    B <- 20
+  } else {
+    if (!inherits(B, "numeric")) {
+      stop("Invalid 'B' input. Please input an integer.")
+    }
+  }
+  params[["B"]] <- B
+
+  # Check for correct subsample imput
+  subsample <- getElement(params, "subsample")
+  if (length(subsample) == 0) {
+    subsample <- 0.5
+  } else {
+    if (!inherits(subsample, "numeric") || (subsample < 0) || (subsample > 1)) {
+      stop("Invalid 'subsample' input. Please input a number between 0 and 1.")
+    }
+  }
+  params[["subsample"]] <- subsample
 
   logger::log_debug("Done with checking hyper parameters.")
 

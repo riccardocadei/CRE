@@ -4,7 +4,7 @@
 \alias{estimate_ite_cf}
 \title{Estimate the Individual Treatment Effect (ITE) using Causal Forest (CF)}
 \usage{
-estimate_ite_cf(y, z, X, ps_method)
+estimate_ite_cf(y, z, X, learner_ps)
 }
 \arguments{
 \item{y}{An observed response vector.}
@@ -13,7 +13,7 @@ estimate_ite_cf(y, z, X, ps_method)
 
 \item{X}{A features matrix.}
 
-\item{ps_method}{A method for the estimation of the propensity score.}
+\item{learner_ps}{A method for the estimation of the propensity score.}
 }
 \value{
 A list of ITE estimates.

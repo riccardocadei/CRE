@@ -10,15 +10,12 @@ test_that("generate_rules works as expected!", {
 
 
   ite_method <- "bart"
-  include_ps <- "TRUE"
-  ps_method <- "SL.xgboost"
-  or_method <- NA
-  ntrees_rf <- 100
-  ntrees_gbm <- 50
+  learner_ps <- "SL.xgboost"
+  learner_y <- NA
+  ntrees <- 100
   node_size <- 20
-  max_nodes <- 5
-  max_depth <- 15
-  replace <- FALSE
+  max_rules <- 50
+  max_depth <- 3
 
   # Step 1: Split data
   X <- as.matrix(X)
@@ -27,26 +24,21 @@ test_that("generate_rules works as expected!", {
 
   # Step 2: Estimate ITE
   ite <- estimate_ite(y, z, X, ite_method,
-                           include_ps = include_ps,
-                           ps_method = ps_method,
-                           or_method = or_method)
+                           learner_ps = learner_ps,
+                           learner_y = learner_y)
 
   # Correct outputs
-  rules <- generate_rules(X, ite, ntrees_rf, ntrees_gbm,
-                          node_size, max_nodes, max_depth, replace)
-
+  rules <- generate_rules(X, ite, ntrees, node_size, max_rules, max_depth)
   expect_true(class(rules) == "character")
 
   ite_method <- "bart"
   include_ps <- "TRUE"
-  ps_method <- "SL.xgboost"
-  or_method <- NA
-  ntrees_rf <- 100
-  ntrees_gbm <- 0
+  learner_ps <- "SL.xgboost"
+  learner_y <- NA
+  ntrees <- 100
   node_size <- 20
-  max_nodes <- 5
-  max_depth <- 15
-  replace <- FALSE
+  max_rules <- 50
+  max_depth <- 3
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -58,14 +50,11 @@ test_that("generate_rules works as expected!", {
 
   # Step 2: Estimate ITE
   ite <- estimate_ite(y, z, X, ite_method,
-                           include_ps = include_ps,
-                           ps_method = ps_method,
-                           or_method = or_method)
+                           learner_ps = learner_ps,
+                           learner_y = learner_y)
 
   # Correct outputs
-  rules <- generate_rules(X, ite, ntrees_rf, ntrees_gbm,
-                          node_size, max_nodes, max_depth, replace)
-
+  rules <- generate_rules(X, ite, ntrees, node_size, max_rules, max_depth)
   expect_true(class(rules) == "character")
 
 })

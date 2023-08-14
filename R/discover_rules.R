@@ -21,12 +21,10 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
   # Generate rules -------------------------------------------------------------
   rules <- generate_rules(X,
                           ite,
-                          getElement(hyper_params, "ntrees_rf"),
-                          getElement(hyper_params, "ntrees_gbm"),
+                          getElement(hyper_params, "ntrees"),
                           getElement(hyper_params, "node_size"),
-                          getElement(hyper_params, "max_nodes"),
-                          getElement(hyper_params, "max_depth"),
-                          getElement(hyper_params, "replace"))
+                          getElement(hyper_params, "max_rules"),
+                          getElement(hyper_params, "max_depth"))
   M_initial <- length(rules)
   # Filtering ------------------------------------------------------------------
 
@@ -56,7 +54,7 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
                              getElement(hyper_params, "stability_selection"),
                              getElement(hyper_params, "cutoff"),
                              getElement(hyper_params, "pfer"),
-                             getElement(hyper_params, "penalty_rl"))
+                             getElement(hyper_params, "B"))
   rules_list <- as.character(rules_list)
   M_select1 <- length(rules_list)
 

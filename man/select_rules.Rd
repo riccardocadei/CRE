@@ -11,7 +11,7 @@ select_rules(
   stability_selection,
   cutoff,
   pfer,
-  penalty_rl
+  B
 )
 }
 \arguments{
@@ -29,8 +29,7 @@ the stability scores. Only for stability selection.}
 \item{pfer}{Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules). Only for stability selection.}
 
-\item{penalty_rl}{Order of penalty for rules length during LASSO
-regularization (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2).}
+\item{B}{Number of bootstrap samples.}
 }
 \value{
 A minimal set of rules linearly decomposing the CATE.

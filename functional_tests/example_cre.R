@@ -1,39 +1,34 @@
 set.seed(2022)
 
 # Set Experiment Parameter
-n_rules <- 4
+n_rules <- 2
 sample_size <- 2000
 effect_size <- 2
 confounding <- "no"
-ite_estimator_dis <- "bart"
-ite_estimator_inf <- "bart"
-pfer <- 0.5#n_rules/(effect_size+1)
+ite_estimator <- "aipw"
+pfer <- n_rules/(effect_size+1)
 
 # Set Method and Hyper Parameters
 method_params <- list(ratio_dis = 0.5,
-                      ite_method_dis = ite_estimator_dis,
-                      ps_method_dis = "SL.xgboost",
-                      oreg_method_dis = "SL.xgboost",
-                      ite_method_inf = ite_estimator_inf,
-                      ps_method_inf = "SL.xgboost",
-                      oreg_method_inf = "SL.xgboost")
+                      ite_method = ite_estimator,
+                      learner_ps = "SL.xgboost",
+                      learner_y = "SL.xgboost")
 
 hyper_params <- list(intervention_vars = NULL,
                      offset = NULL,
-                     ntrees_rf = 40,
-                     ntrees_gbm = 40,
+                     ntrees = 40,
                      node_size = 20,
-                     max_nodes = 8,
-                     max_depth = 3,
+                     max_rules = 50,
+                     max_depth = 2,
                      t_decay = 0.025,
                      t_ext = 0.01,
                      t_corr = 1,
                      t_pvalue = 0.05,
-                     replace = TRUE,
                      stability_selection = TRUE,
                      cutoff = 0.8,
                      pfer = pfer,
-                     penalty_rl = 1)
+                     B = 20,
+                     subsample = 0.2)
 
 # Set Ground Truth
 {
@@ -74,6 +69,7 @@ X_names <- colnames(X)
 result <- cre(y, z, X, method_params, hyper_params)
 summary(result)
 plot(result)
+ite_pred <- predict(result, X)
 
 # Discovery
 dr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(ATE)" == FALSE]
@@ -93,7 +89,7 @@ print(paste("Effect Modifiers:  ",
             sep=""))
 
 #Estimation
-rmse <- sqrt(mean((ite - result$ite_pred)^2))
+rmse <- sqrt(mean((ite - ite_pred)^2))
 print(paste("RMSE: ", rmse))
-bias <- mean((ite - result$ite_pred))
+bias <- mean((ite - ite_pred))
 print(paste("Bias: ", bias))
