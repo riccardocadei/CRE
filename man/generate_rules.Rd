@@ -4,17 +4,14 @@
 \alias{generate_rules}
 \title{Generate rules}
 \usage{
-generate_rules(X, ite, ntrees_rf, ntrees_gbm, node_size, max_nodes, max_depth)
+generate_rules(X, ite, ntrees, node_size, max_nodes, max_depth)
 }
 \arguments{
 \item{X}{A covariate matrix.}
 
 \item{ite}{A vector of estimated ITE.}
 
-\item{ntrees_rf}{A number of decision trees for the random forest algorithm.}
-
-\item{ntrees_gbm}{A number of decision trees for the generalized boosted
-regression modeling algorithm.}
+\item{ntrees}{The number of decision trees for the random forest algorithm.}
 
 \item{node_size}{Minimum size of the trees' terminal nodes.}
 
@@ -27,7 +24,6 @@ A list of rules (names).
 }
 \description{
 Generates a list of rules characterizing the heterogeneity in the Conditional
-Average Treatment Effect (CATE) by tree-based methods: random forest (RF) and
-generalized boosted regression modeling (GBM).
+Average Treatment Effect (CATE) by tree-based methods (i.e., random forest).
 }
 \keyword{internal}

@@ -28,10 +28,7 @@
 #'  - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
 #'     T-Poisson ITE estimation. Use `NULL` if offset is not used
 #'     (default: NULL).
-#'  - *ntrees_rf*: A number of decision trees for random forest (default: 20).
-#'  - *ntrees_gbm*: A number of decision trees for the generalized boosted
-#' regression modeling algorithm.
-#'  (default: 20).
+#'  - *ntrees*: The number of decision trees for random forest (default: 20).
 #'  - *node_size*: Minimum size of the trees' terminal nodes (default: 20).
 #'  - *max_nodes*: Maximum number of terminal nodes per tree (default: 5).
 #'  - *max_depth*: Maximum rules length (default: 3).
@@ -95,8 +92,7 @@
 #'
 #' hyper_params <- list(intervention_vars = NULL,
 #'                      offset = NULL,
-#'                      ntrees_rf = 20,
-#'                      ntrees_gbm = 20,
+#'                      ntrees = 20,
 #'                      node_size = 20,
 #'                      max_nodes = 5,
 #'                      max_depth = 3,

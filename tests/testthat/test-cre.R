@@ -16,8 +16,7 @@ test_that("cre Runs Correctly", {
 
  hyper_params <- list(intervention_vars = NULL,
                       offset = NULL,
-                      ntrees_rf = 20,
-                      ntrees_gbm = 20,
+                      ntrees = 20,
                       node_size = 10,
                       max_nodes = 5,
                       max_depth = 3,
@@ -51,19 +50,14 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
   hyper_params[["offset"]] <- NULL
-  hyper_params[["ntrees_rf"]] <- "test"
+  hyper_params[["ntrees"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   method_params[["ite_method"]] <- "aipw"
-  hyper_params[["ntrees_rf"]] <- 100
-  hyper_params[["ntrees_gbm"]] <- "test"
+  hyper_params[["ntrees"]] <- 0
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["ntrees_rf"]] <- 0
-  hyper_params[["ntrees_gbm"]] <- 0
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  hyper_params[["ntrees_gbm"]] <- 50
+  hyper_params[["ntrees"]] <- 40
   hyper_params[["node_size"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
@@ -83,7 +77,7 @@ test_that("cre Runs Correctly", {
   hyper_params[["t_corr"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["t_corr"]] <- 1
+  hyper_params[["t_corr"]] <- 0.3
   hyper_params[["cutoff"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 

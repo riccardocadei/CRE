@@ -8,6 +8,8 @@
 * predict() function for ITE estimation via CRE
 
 ## Changed 
+* Unify `ntrees_gbm` hyper-parameter and `ntrees_gbm` hyper-parameter in 
+`ntrees` hyper-parameter.
 * In rules generation retrieve decision rules also from internal nodes, and not
 just from terminal nodes.
 * `ite_method_dis`, `ite_method_inf` method-parameter -> `ite_method`
@@ -15,6 +17,7 @@ just from terminal nodes.
 * `oreg_method_dis`, `oreg_method_inf` method-parameter -> `learner_y`
 
 ## Removed
+* Remove rules generation by Generalized Boosted Regression
 * `replace` hyper-parameter
 * `penalty_rl` hyper-parameter
 * `t_pvalue` hyper-parameter

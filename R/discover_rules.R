@@ -21,8 +21,7 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
   # Generate rules -------------------------------------------------------------
   rules <- generate_rules(X,
                           ite,
-                          getElement(hyper_params, "ntrees_rf"),
-                          getElement(hyper_params, "ntrees_gbm"),
+                          getElement(hyper_params, "ntrees"),
                           getElement(hyper_params, "node_size"),
                           getElement(hyper_params, "max_nodes"),
                           getElement(hyper_params, "max_depth"))

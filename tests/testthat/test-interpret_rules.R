@@ -9,8 +9,7 @@ test_that("Rules Interpreted Correctly", {
   ite_method <- "bart"
   learner_ps <- "SL.xgboost"
   learner_y <- NA
-  ntrees_rf <- 100
-  ntrees_gbm <- 50
+  ntrees <- 100
   node_size <- 20
   max_nodes <- 5
   max_depth <- 15
@@ -31,8 +30,8 @@ test_that("Rules Interpreted Correctly", {
                            learner_y = learner_y)
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite, ntrees_rf,
-                                  ntrees_gbm, node_size, max_nodes, max_depth)
+  initial_rules <- generate_rules(X, ite, ntrees, node_size,
+                                  max_nodes, max_depth)
 
   rules_list <- filter_irrelevant_rules(initial_rules, X, ite, t_decay)
 

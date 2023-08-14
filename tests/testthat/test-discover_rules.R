@@ -15,17 +15,16 @@ test_that("discover_rules works as expected!", {
 
   hyper_params <- list(intervention_vars = NULL,
                        offset = NULL,
-                       ntrees_rf = 100,
-                       ntrees_gbm = 50,
+                       #ntrees = 30,
                        node_size = 20,
                        max_nodes = 5,
                        max_depth = 3,
                        t_decay = 0.025,
                        t_ext = 0.025,
-                       t_corr = 1,
-                       stability_selection = TRUE,
-                       cutoff = 0.8,
-                       pfer = 1,
+                       t_corr = 0.2,
+                       stability_selection = FALSE,
+                       cutoff = 0.6,
+                       pfer = 10,
                        B = 2,
                        subsample = 0.5)
 
@@ -33,7 +32,7 @@ test_that("discover_rules works as expected!", {
   check_input_data(y = y, z = z, X = X)
   method_params <- check_method_params(y = y, ite = NULL,
                                        params = method_params)
-  check_hyper_params(params = hyper_params)
+  hyper_params <- check_hyper_params(params = hyper_params)
 
   # Estimate ITE
   ite <- estimate_ite(y = y, z = z, X = X,

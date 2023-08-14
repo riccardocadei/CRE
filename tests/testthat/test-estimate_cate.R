@@ -11,8 +11,7 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
   ite_method <- "aipw"
   learner_ps <- "SL.xgboost"
   learner_y <- "SL.xgboost"
-  ntrees_rf <- 100
-  ntrees_gbm <- 50
+  ntrees <- 100
   node_size <- 20
   max_nodes <- 5
   max_depth <- 3
@@ -55,7 +54,7 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
 
   # Generate rules list
   initial_rules_dis <- generate_rules(X_dis, ite_dis,
-                                      ntrees_rf, ntrees_gbm, node_size,
+                                      ntrees, node_size,
                                       max_nodes, max_depth)
 
   rules_list_dis <- filter_irrelevant_rules(initial_rules_dis, X_dis,
@@ -119,8 +118,7 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
   ite_method <- "aipw"
   learner_ps <- "SL.xgboost"
   learner_y <- "SL.xgboost"
-  ntrees_rf <- 100
-  ntrees_gbm <- 50
+  ntrees <- 100
   node_size <- 20
   max_nodes <- 5
   max_depth <- 3

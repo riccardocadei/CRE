@@ -122,8 +122,7 @@ method_params <- list(ratio_dis = 0.25,
                       offset = NULL)
 
 hyper_params <- list(intervention_vars = NULL,
-                     ntrees_rf = 20,
-                     ntrees_gbm = 20,
+                     ntrees = 20,
                      node_size = 20,
                      max_nodes = 5,
                      max_depth = 3,

@@ -12,8 +12,7 @@ test_that("generate_rules works as expected!", {
   ite_method <- "bart"
   learner_ps <- "SL.xgboost"
   learner_y <- NA
-  ntrees_rf <- 100
-  ntrees_gbm <- 50
+  ntrees <- 100
   node_size <- 20
   max_nodes <- 5
   max_depth <- 15
@@ -29,17 +28,14 @@ test_that("generate_rules works as expected!", {
                            learner_y = learner_y)
 
   # Correct outputs
-  rules <- generate_rules(X, ite, ntrees_rf, ntrees_gbm,
-                          node_size, max_nodes, max_depth)
-
+  rules <- generate_rules(X, ite, ntrees, node_size, max_nodes, max_depth)
   expect_true(class(rules) == "character")
 
   ite_method <- "bart"
   include_ps <- "TRUE"
   learner_ps <- "SL.xgboost"
   learner_y <- NA
-  ntrees_rf <- 100
-  ntrees_gbm <- 0
+  ntrees <- 100
   node_size <- 20
   max_nodes <- 5
   max_depth <- 15
@@ -58,9 +54,7 @@ test_that("generate_rules works as expected!", {
                            learner_y = learner_y)
 
   # Correct outputs
-  rules <- generate_rules(X, ite, ntrees_rf, ntrees_gbm,
-                          node_size, max_nodes, max_depth)
-
+  rules <- generate_rules(X, ite, ntrees, node_size, max_nodes, max_depth)
   expect_true(class(rules) == "character")
 
 })

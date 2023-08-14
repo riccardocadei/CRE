@@ -74,29 +74,24 @@ if (experiment=="main") {
   ite_estimators <- c("aipw","cf","slearner","tlearner","xlearner","bart")
 
   method_params <- list(ratio_dis = ratio_dis,
-                        ite_method_dis = "aipw",
-                        ps_method_dis = "SL.xgboost",
-                        oreg_method_dis = "SL.xgboost",
-                        ite_method_inf = "aipw",
-                        ps_method_inf = "SL.xgboost",
-                        oreg_method_inf = "SL.xgboost")
+                        ite_method = "aipw",
+                        learner_ps = "SL.xgboost",
+                        learner_y = "SL.xgboost")
 
   hyper_params <- list(intervention_vars = NULL,
                        offset = NULL,
-                       ntrees_rf = 40,
-                       ntrees_gbm = 40,
+                       ntrees = 40,
                        node_size = 20,
                        max_nodes = 2^max_depth,
                        max_depth = max_depth,
                        t_decay = 0.025,
                        t_ext = 0.01,
                        t_corr = 1,
-                       t_pvalue = 0.05,
-                       replace = TRUE,
                        stability_selection = TRUE,
                        cutoff = cutoff,
                        pfer = pfer,
-                       penalty_rl = 1)
+                       B = 20,
+                       subsample = 0.2)
 }
 
 # Set Cluster
