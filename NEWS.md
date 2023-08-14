@@ -1,27 +1,29 @@
 # CRE Develop
 
 ## Added
-* Uncertainty Quantification in estimation by bootstrapping
-* `B` hyper-parameter
-* `subsample` hyper-parameter]
-* `rules`(implicit form) in cre() function return
-* predict() function for ITE estimation via CRE
+* `max_rules` hyper parameters for max rules filtering.
+* Uncertainty Quantification in estimation by bootstrapping.
+* `B` hyper-parameter,
+* `subsample` hyper-parameter.
+* `rules`(implicit form) in cre() function return.
+* predict() function for ITE estimation via CRE.
 
 ## Changed 
 * Unify `ntrees_gbm` hyper-parameter and `ntrees_gbm` hyper-parameter in 
 `ntrees` hyper-parameter.
 * In rules generation retrieve decision rules also from internal nodes, and not
 just from terminal nodes.
-* `ite_method_dis`, `ite_method_inf` method-parameter -> `ite_method`
-* `ps_method_dis`, `ps_method_inf` method-parameter -> `learner_ps`
-* `oreg_method_dis`, `oreg_method_inf` method-parameter -> `learner_y`
+* `ite_method_dis`, `ite_method_inf` method-parameter -> `ite_method`.
+* `ps_method_dis`, `ps_method_inf` method-parameter -> `learner_ps`.
+* `oreg_method_dis`, `oreg_method_inf` method-parameter -> `learner_y`.
 
 ## Removed
-* Remove rules generation by Generalized Boosted Regression
-* `replace` hyper-parameter
-* `penalty_rl` hyper-parameter
-* `t_pvalue` hyper-parameter
-* `ite_pred` from cre() function return
+* `max_nodes` hyper-parameter.
+* Remove rules generation by Generalized Boosted Regression.
+* `replace` hyper-parameter.
+* `penalty_rl` hyper-parameter.
+* `t_pvalue` hyper-parameter.
+* `ite_pred` from cre() function return.
 
 
 # CRE 0.2.4 (2023-6-14)

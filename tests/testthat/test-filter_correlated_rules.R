@@ -13,7 +13,7 @@ test_that("Correlated Rules Discarded Correctly", {
   ntrees <- 100
   node_size <- 20
   max_nodes <- 5
-  max_depth <- 15
+  max_depth <- 3
   t_decay <- 0.025
   t_corr <- 1
   t_ext <- 0.01

@@ -15,9 +15,9 @@ test_that("discover_rules works as expected!", {
 
   hyper_params <- list(intervention_vars = NULL,
                        offset = NULL,
-                       #ntrees = 30,
+                       ntrees = 30,
                        node_size = 20,
-                       max_nodes = 5,
+                       max_rules = 5,
                        max_depth = 3,
                        t_decay = 0.025,
                        t_ext = 0.025,

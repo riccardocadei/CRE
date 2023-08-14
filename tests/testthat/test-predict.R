@@ -18,7 +18,7 @@ test_that("predict function works as expected!", {
                        ntrees_rf = 100,
                        ntrees_gbm = 50,
                        node_size = 20,
-                       max_nodes = 5,
+                       max_rules = 50,
                        max_depth = 3,
                        t_decay = 0.025,
                        t_ext = 0.025,

@@ -43,7 +43,6 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, B=1, subsample=1) {
                               CI_lower = ate_ci[1],
                               CI_upper = ate_ci[2],
                               P_Value = ate_coeff[2])
-    rownames(ate_summary) <- 1:nrow(ate_summary)
     if (length(rules_explicit) == 0) {
       result <- ate_summary
     } else {
@@ -112,5 +111,6 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, B=1, subsample=1) {
     }
   }
   #logger::log_debug("Done with estimating CATE.")
+  rownames(result) <- 1:nrow(result)
   return(result)
 }

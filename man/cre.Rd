@@ -43,7 +43,7 @@ T-Poisson ITE estimation. Use \code{NULL} if offset is not used
 (default: NULL).
 \item \emph{ntrees}: The number of decision trees for random forest (default: 20).
 \item \emph{node_size}: Minimum size of the trees' terminal nodes (default: 20).
-\item \emph{max_nodes}: Maximum number of terminal nodes per tree (default: 5).
+\item \emph{max_rules}: Maximum number of generated candidates rules (default: 50).
 \item \emph{max_depth}: Maximum rules length (default: 3).
 \item \emph{t_decay}: The decay threshold for rules pruning. Higher values will
 carry out an aggressive pruning (default: 0.025).
@@ -115,7 +115,7 @@ hyper_params <- list(intervention_vars = NULL,
                      offset = NULL,
                      ntrees = 20,
                      node_size = 20,
-                     max_nodes = 5,
+                     max_rules = 50,
                      max_depth = 3,
                      t_decay = 0.025,
                      t_ext = 0.025,

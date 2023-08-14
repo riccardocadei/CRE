@@ -41,15 +41,15 @@ check_hyper_params <- function(X_names, params) {
   }
   params[["node_size"]] <- node_size
 
-  max_nodes <- getElement(params, "max_nodes")
-  if (length(max_nodes) == 0) {
-    max_nodes <- 5
+  max_rules <- getElement(params, "max_rules")
+  if (length(max_rules) == 0) {
+    max_rules <- 50
   } else {
-    if (!inherits(max_nodes, "numeric")) {
-      stop("Invalid 'max_nodes' input. Please input a number.")
+    if (!inherits(max_rules, "numeric")) {
+      stop("Invalid 'max_rules' input. Please input a number.")
     }
   }
-  params[["max_nodes"]] <- max_nodes
+  params[["max_rules"]] <- max_rules
 
   max_depth <- getElement(params, "max_depth")
   if (length(max_depth) == 0) {

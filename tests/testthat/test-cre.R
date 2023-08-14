@@ -16,9 +16,9 @@ test_that("cre Runs Correctly", {
 
  hyper_params <- list(intervention_vars = NULL,
                       offset = NULL,
-                      ntrees = 20,
+                      ntrees = 50,
                       node_size = 10,
-                      max_nodes = 5,
+                      max_rules = 50,
                       max_depth = 3,
                       t_decay = 0.025,
                       t_ext = 0.025,
@@ -62,10 +62,10 @@ test_that("cre Runs Correctly", {
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["node_size"]] <- 5
-  hyper_params[["max_nodes"]] <- "test"
+  hyper_params[["max_rules"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["max_nodes"]] <- 5
+  hyper_params[["max_rules"]] <- 5
   hyper_params[["t_ext"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
@@ -77,11 +77,11 @@ test_that("cre Runs Correctly", {
   hyper_params[["t_corr"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["t_corr"]] <- 0.3
+  hyper_params[["t_corr"]] <- 0.1
   hyper_params[["cutoff"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["cutoff"]] <- 0.6
+  hyper_params[["cutoff"]] <- 0.8
   hyper_params[["stability_selection"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 

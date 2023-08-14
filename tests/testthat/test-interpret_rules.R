@@ -11,8 +11,8 @@ test_that("Rules Interpreted Correctly", {
   learner_y <- NA
   ntrees <- 100
   node_size <- 20
-  max_nodes <- 5
-  max_depth <- 15
+  max_rules <- 50
+  max_depth <- 3
   t_decay <- 0.025
   cutoff <- 0.8
   stability_selection <- TRUE
@@ -31,7 +31,7 @@ test_that("Rules Interpreted Correctly", {
 
   # Step 3: Generate rules list
   initial_rules <- generate_rules(X, ite, ntrees, node_size,
-                                  max_nodes, max_depth)
+                                  max_rules, max_depth)
 
   rules_list <- filter_irrelevant_rules(initial_rules, X, ite, t_decay)
 

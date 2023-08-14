@@ -4,7 +4,7 @@
 \alias{generate_rules}
 \title{Generate rules}
 \usage{
-generate_rules(X, ite, ntrees, node_size, max_nodes, max_depth)
+generate_rules(X, ite, ntrees, node_size, max_rules, max_depth)
 }
 \arguments{
 \item{X}{A covariate matrix.}
@@ -15,7 +15,7 @@ generate_rules(X, ite, ntrees, node_size, max_nodes, max_depth)
 
 \item{node_size}{Minimum size of the trees' terminal nodes.}
 
-\item{max_nodes}{Maximum number of terminal nodes per tree.}
+\item{max_rules}{Maximum number of candidate decision rules.}
 
 \item{max_depth}{Maximum rules length.}
 }

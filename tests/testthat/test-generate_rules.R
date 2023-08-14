@@ -14,8 +14,8 @@ test_that("generate_rules works as expected!", {
   learner_y <- NA
   ntrees <- 100
   node_size <- 20
-  max_nodes <- 5
-  max_depth <- 15
+  max_rules <- 50
+  max_depth <- 3
 
   # Step 1: Split data
   X <- as.matrix(X)
@@ -28,7 +28,7 @@ test_that("generate_rules works as expected!", {
                            learner_y = learner_y)
 
   # Correct outputs
-  rules <- generate_rules(X, ite, ntrees, node_size, max_nodes, max_depth)
+  rules <- generate_rules(X, ite, ntrees, node_size, max_rules, max_depth)
   expect_true(class(rules) == "character")
 
   ite_method <- "bart"
@@ -37,8 +37,8 @@ test_that("generate_rules works as expected!", {
   learner_y <- NA
   ntrees <- 100
   node_size <- 20
-  max_nodes <- 5
-  max_depth <- 15
+  max_rules <- 50
+  max_depth <- 3
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -54,7 +54,7 @@ test_that("generate_rules works as expected!", {
                            learner_y = learner_y)
 
   # Correct outputs
-  rules <- generate_rules(X, ite, ntrees, node_size, max_nodes, max_depth)
+  rules <- generate_rules(X, ite, ntrees, node_size, max_rules, max_depth)
   expect_true(class(rules) == "character")
 
 })

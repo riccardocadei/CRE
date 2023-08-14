@@ -12,7 +12,7 @@ test_that("Rules Extracted Correctly", {
   learner_y <- "SL.xgboost"
   ntrees <- 100
   node_size <- 20
-  max_nodes <- 5
+  max_rules <- 50
 
   # Check for binary outcome
   binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -35,7 +35,7 @@ test_that("Rules Extracted Correctly", {
   # Set parameters
   N <- dim(X)[1]
   sf <- min(1, (11 * sqrt(N) + 1) / N)
-  mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
+  mn <- 2 + floor(stats::rexp(1, 1 / (max_rules - 2)))
 
   # Random Forest
   forest <- suppressWarnings(randomForest::randomForest(x = X, y = ite,
@@ -45,7 +45,7 @@ test_that("Rules Extracted Correctly", {
                                                         maxnodes = mn,
                                                         nodesize = node_size))
   for (i in 2:ntrees) {
-    mn <- 2 + floor(stats::rexp(1, 1 / (max_nodes - 2)))
+    mn <- 2 + floor(stats::rexp(1, 1 / (max_rules - 2)))
     model1_RF <- suppressWarnings(randomForest::randomForest(
                                    x = X,
                                    y = ite,
@@ -63,9 +63,9 @@ test_that("Rules Extracted Correctly", {
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
   expect_equal(treelist[2]$list[[1]][2, 6], 0.4320062, tolerance = 0.000001)
   expect_equal(treelist[2]$list[[2]][3, 6], -0.5863133, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[10]][3, 6], 0.06850307, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3, 6], 0.6381637, tolerance = 0.000001)
 
-  max_depth <- 15
+  max_depth <- 3
 
   ###### Run Tests ######
 
@@ -77,6 +77,6 @@ test_that("Rules Extracted Correctly", {
   # Correct outputs
   rules_RF <- extract_rules(treelist, X, ntrees, max_depth)
   expect_true(any(class(rules_RF) == "matrix"))
-  expect_equal(length(rules_RF), 42463)
+  expect_equal(length(rules_RF), 67871)
   expect_equal(rules_RF[3], "X[,1]<=0.5 & X[,5]<=0.5")
 })
