@@ -77,6 +77,6 @@ test_that("Rules Extracted Correctly", {
   # Correct outputs
   rules_RF <- extract_rules(treelist, X, ntrees, max_depth)
   expect_true(any(class(rules_RF) == "matrix"))
-  expect_equal(length(rules_RF), 428)
-  expect_equal(rules_RF[3], "X[,1]<=0.5 & X[,5]>0.5")
+  expect_equal(length(rules_RF), 42463)
+  expect_equal(rules_RF[3], "X[,1]<=0.5 & X[,5]<=0.5")
 })

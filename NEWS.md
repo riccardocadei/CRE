@@ -8,6 +8,8 @@
 * predict() function for ITE estimation via CRE
 
 ## Changed 
+* In rules generation retrieve decision rules also from internal nodes, and not
+just from terminal nodes.
 * `ite_method_dis`, `ite_method_inf` method-parameter -> `ite_method`
 * `ps_method_dis`, `ps_method_inf` method-parameter -> `learner_ps`
 * `oreg_method_dis`, `oreg_method_inf` method-parameter -> `learner_y`
