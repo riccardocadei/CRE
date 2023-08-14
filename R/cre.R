@@ -99,6 +99,7 @@
 #'                      t_decay = 0.025,
 #'                      t_ext = 0.025,
 #'                      t_corr = 1,
+#'                      t_pvalue = 0.05,
 #'                      stability_selection = TRUE,
 #'                      cutoff = 0.6,
 #'                      pfer = 0.1,

@@ -155,14 +155,14 @@ ite_pred <- predict(cre_results, X)
 
  hyper_params = list(intervention_vars = c("x1","x2","x3","x4"),
                      offset = NULL,
-                     ntrees_rf = 20,
-                     ntrees_gbm = 20,
+                     ntrees = 20,
                      node_size = 20,
-                     max_nodes = 5,
+                     max_rules = 50,
                      max_depth = 3,
                      t_decay = 0.025
                      t_ext = 0.025,
                      t_corr = 1,
+                     t_pvalue = 0.05,
                      stability_selection = TRUE,
                      cutoff = 0.8,
                      pfer = 0.1,
