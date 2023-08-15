@@ -4,10 +4,10 @@
 \alias{predict.cre}
 \title{Predict Individual Treatment Effect via Causal Rule Ensemble}
 \usage{
-\method{predict}{cre}(CRE, X)
+\method{predict}{cre}(object, X)
 }
 \arguments{
-\item{CRE}{A cre object from running the CRE function.}
+\item{object}{A cre object from running the CRE function.}
 
 \item{X}{A covariate matrix (or data.frame)}
 }
