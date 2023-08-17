@@ -88,6 +88,9 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, B=1, subsample=1) {
     result <- aggregate(Estimate ~ Rule,
                         data = models,
                         FUN = function(x) c(mean = mean(x), sd = sd(x)))
+    rules_explicit_ <- c("(ATE)", rules_explicit)
+    result <- result[order(match(result$Rule, rules_explicit_)), ]
+
     Mean_Estimate <- result[,2][,1]
     Std_Dev_Estimate <- result[,2][,2]
     result$t <- Mean_Estimate / Std_Dev_Estimate
