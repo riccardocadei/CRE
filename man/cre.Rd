@@ -53,8 +53,9 @@ rules (default: 0.01, range: [0, 0.5)).
 range: (0,+inf)).
 \item \emph{t_pvalue}: the threshold to define statistically significant rules
 (default: 0.05, range: (0, 1)).
-\item \emph{stability_selection}: Whether or not using stability selection for
-selecting the rules (default: TRUE).
+\item \emph{stability_selection}: \code{vanilla} for stability selection, \code{error_control}
+for stability selection with error control and \code{no} for no stability
+selection (default: \code{vanilla}).
 \item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for
 the stability scores (default: 0.9).
 \item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of

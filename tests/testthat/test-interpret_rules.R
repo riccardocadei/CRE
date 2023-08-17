@@ -15,7 +15,7 @@ test_that("Rules Interpreted Correctly", {
   max_depth <- 3
   t_decay <- 0.025
   cutoff <- 0.8
-  stability_selection <- TRUE
+  stability_selection <- "vanilla"
   pfer <- 0.1
   B <- 2
 
@@ -57,7 +57,7 @@ test_that("Rules Interpreted Correctly", {
   # Correct outputs
   select_rules_interpretable <- interpret_rules(select_rules, X_names)
   expect_true(class(select_rules_interpretable) == "character")
-  if (!is.na(select_rules_interpretable)) {
+  if (!is.null(select_rules_interpretable)) {
     expect_true(length(select_rules_interpretable) == length(select_rules))
   } else {
     expect_true(identical(select_rules, character(0)))

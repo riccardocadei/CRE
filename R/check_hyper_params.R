@@ -118,37 +118,35 @@ check_hyper_params <- function(X_names, params) {
   params[["t_pvalue"]] <- t_pvalue
 
   stability_selection <- getElement(params, "stability_selection")
-  pfer <- getElement(params, "pfer")
-  cutoff <- getElement(params, "cutoff")
   if (length(stability_selection) == 0) {
-    stability_selection <- TRUE
-    pfer <- 1
-    cutoff <- 0.9
+    stability_selection <- "vanilla"
   } else {
-    if (!(stability_selection %in% c(TRUE, FALSE))) {
-      stop(paste0("Please specify 'TRUE' or 'FALSE' for",
-                  " the stability_selection argument."))
-    } else if (stability_selection) {
-      if (length(pfer) == 0) {
-        pfer <-  1
-      } else {
-        if (!inherits(pfer, "numeric")) {
-          stop("Invalid 'pfer' input. Please input a number.")
-        }
-      }
-      if (length(cutoff) == 0) {
-        cutoff <-  0.9
-      } else {
-        if (!inherits(cutoff, "numeric")) {
-          stop("Invalid 'cutoff' input. Please input a number.")
-        }
-      }
+    if (!(stability_selection %in% c("error_control", "no","vanilla"))) {
+      stop(paste0("Invalid `stability_selection` argument. Please input ",
+                  "a value among: {`no`, `vanilla`, `error_control`}."))
     }
   }
   params[["stability_selection"]] <- stability_selection
-  params[["pfer"]] <- pfer
+
+  cutoff <- getElement(params, "cutoff")
+  if (length(cutoff) == 0) {
+    cutoff <- 0.9
+  } else {
+    if (!inherits(cutoff, "numeric")) {
+      stop("Invalid 'cutoff' input. Please input a number.")
+    }
+  }
   params[["cutoff"]] <- cutoff
 
+  pfer <- getElement(params, "pfer")
+  if (length(pfer) == 0) {
+    pfer <- 1
+  } else {
+    if (!inherits(pfer, "numeric")) {
+      stop("Invalid 'pfer' input. Please input a number.")
+    }
+  }
+  params[["pfer"]] <- pfer
 
   intervention_vars <- getElement(params, "intervention_vars")
   if (length(intervention_vars) == 0) {

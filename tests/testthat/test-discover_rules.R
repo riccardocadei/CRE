@@ -22,7 +22,7 @@ test_that("discover_rules works as expected!", {
                        t_decay = 0.025,
                        t_ext = 0.025,
                        t_corr = 0.2,
-                       stability_selection = FALSE,
+                       stability_selection = "vanilla",
                        cutoff = 0.6,
                        pfer = 10,
                        B = 2,
