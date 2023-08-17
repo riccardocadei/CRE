@@ -1,6 +1,7 @@
 # CRE Develop
 
 ## Added
+* Add (vanilla) Stability Selection (without Error Control).
 * `max_rules` hyper parameters for max rules filtering.
 * Uncertainty Quantification in estimation by bootstrapping.
 * `B` hyper-parameter,
@@ -9,6 +10,7 @@
 * predict() function for ITE estimation via CRE.
 
 ## Changed 
+* Type `stability_selection` binary -> string ('no','vanilla','error_control').
 * Unify `ntrees_gbm` hyper-parameter and `ntrees_gbm` hyper-parameter in 
 `ntrees` hyper-parameter.
 * In rules generation retrieve decision rules also from internal nodes, and not

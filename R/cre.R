@@ -40,8 +40,10 @@
 #'  range: (0,+inf)).
 #'  - *t_pvalue*: the threshold to define statistically significant rules
 #' (default: 0.05, range: (0, 1)).
-#'  - *stability_selection*: Whether or not using stability selection for
-#'  selecting the rules (default: TRUE).
+#'  - *stability_selection*: Method for stability selection for selecting the
+#'  rules. `vanilla` for stability selection, `error_control`
+#'  for stability selection with error control and `no` for no stability
+#'  selection (default: `vanilla`).
 #'  - *cutoff*:  Threshold (percentage) defining the minimum cutoff value for
 #'  the stability scores (default: 0.9).
 #'  - *pfer*: Upper bound for the per-family error rate (tolerated amount of
@@ -100,7 +102,7 @@
 #'                      t_ext = 0.025,
 #'                      t_corr = 1,
 #'                      t_pvalue = 0.05,
-#'                      stability_selection = TRUE,
+#'                      stability_selection = "vanilla",
 #'                      cutoff = 0.6,
 #'                      pfer = 1,
 #'                      B = 20,

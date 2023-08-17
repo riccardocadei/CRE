@@ -163,7 +163,7 @@ ite_pred <- predict(cre_results, X)
                      t_ext = 0.025,
                      t_corr = 1,
                      t_pvalue = 0.05,
-                     stability_selection = TRUE,
+                     stability_selection = "vanilla",
                      cutoff = 0.8,
                      pfer = 0.1,
                      B = 10,

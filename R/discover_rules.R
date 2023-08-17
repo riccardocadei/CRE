@@ -29,34 +29,34 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
   # Filtering ------------------------------------------------------------------
 
   # Discard irrelevant variable-value pair from a rule condition ---------------
-  rules_list <- filter_irrelevant_rules(rules, X, ite,
+  rules <- filter_irrelevant_rules(rules, X, ite,
                                         getElement(hyper_params, "t_decay"))
-  M_filter1 <- length(rules_list)
+  M_filter1 <- length(rules)
   # Generate rules matrix ------------------------------------------------------
-  rules_matrix <- generate_rules_matrix(X, rules_list)
+  rules_matrix <- generate_rules_matrix(X, rules)
 
   # Discard rules with too few or too many observations rules ------------------
-  rules_matrix <- filter_extreme_rules(rules_matrix, rules_list,
+  rules_matrix <- filter_extreme_rules(rules_matrix, rules,
                                        getElement(hyper_params, "t_ext"))
-  rules_list <- colnames(rules_matrix)
-  M_filter2 <- length(rules_list)
+  rules <- colnames(rules_matrix)
+  M_filter2 <- length(rules)
 
   # Discard correlated rules ---------------------------------------------------
-  rules_matrix <- filter_correlated_rules(rules_matrix, rules_list,
+  rules_matrix <- filter_correlated_rules(rules_matrix, rules,
                                            getElement(hyper_params, "t_corr"))
-  rules_list <- colnames(rules_matrix)
-  M_filter3 <- length(rules_list)
+  rules <- colnames(rules_matrix)
+  M_filter3 <- length(rules)
 
   # Select Rules ---------------------------------------------------------------
-  rules_list <- select_rules(rules_matrix,
-                             rules_list,
-                             ite,
-                             getElement(hyper_params, "stability_selection"),
-                             getElement(hyper_params, "cutoff"),
-                             getElement(hyper_params, "pfer"),
-                             getElement(hyper_params, "B"))
-  rules_list <- as.character(rules_list)
-  M_select1 <- length(rules_list)
+  rules <- select_rules(rules_matrix,
+                        rules,
+                        ite,
+                        getElement(hyper_params, "stability_selection"),
+                        getElement(hyper_params, "cutoff"),
+                        getElement(hyper_params, "pfer"),
+                        getElement(hyper_params, "B"))
+  rules <- as.character(rules)
+  M_select1 <- length(rules)
 
   M <- list("initial" = M_initial,
             "filter_irrelevant" = M_filter1,
@@ -64,5 +64,5 @@ discover_rules <- function(X, ite, method_params, hyper_params) {
             "filter_correlated" = M_filter3,
             "select_LASSO" = M_select1)
 
-  return(list(rules = rules_list, M = M))
+  return(list(rules = rules, M = M))
 }
