@@ -23,7 +23,7 @@ test_that("cre Runs Correctly", {
                       t_decay = 0.025,
                       t_ext = 0.025,
                       t_corr = 1,
-                      stability_selection = TRUE,
+                      stability_selection = "vanilla",
                       cutoff = 0.6,
                       pfer = 1,
                       B = 10,
@@ -85,7 +85,7 @@ test_that("cre Runs Correctly", {
   hyper_params[["stability_selection"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["stability_selection"]] <- TRUE
+  hyper_params[["stability_selection"]] <- "vanilla"
   hyper_params[["pfer"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
@@ -106,7 +106,7 @@ test_that("cre Runs Correctly", {
   cre_results <- cre(y, z, X, method_params, hyper_params)
   expect_true(class(cre_results) == "cre")
 
-  hyper_params[["stability_selection"]] <- FALSE
+  hyper_params[["stability_selection"]] <- "error_control"
   cre_results <- cre(y, z, X, method_params, hyper_params)
   expect_true(class(cre_results) == "cre")
 

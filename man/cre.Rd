@@ -53,17 +53,18 @@ rules (default: 0.01, range: [0, 0.5)).
 range: (0,+inf)).
 \item \emph{t_pvalue}: the threshold to define statistically significant rules
 (default: 0.05, range: (0, 1)).
-\item \emph{stability_selection}: Whether or not using stability selection for
-selecting the rules (default: TRUE).
+\item \emph{stability_selection}: Method for stability selection for selecting the
+rules. \code{vanilla} for stability selection, \code{error_control}
+for stability selection with error control and \code{no} for no stability
+selection (default: \code{vanilla}).
 \item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for
 the stability scores (default: 0.9).
 \item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules) (default: 1).
 \item \emph{B}: Number of bootstrap samples for stability selection in rules
 selection and uncertainty quantification in estimation (default: 20).
-\item \emph{subsample}: Bootstrap ratio subsample for forest generation and stability
-selection in rules selection, and uncertainty quantification in estimation
-(default: 0.5).
+\item \emph{subsample}: Bootstrap ratio subsample for stability selection in rules
+selection and uncertainty quantification in estimation (default: 0.5).
 }}
 
 \item{ite}{The estimated ITE vector. If given both the ITE estimation steps
@@ -121,7 +122,7 @@ hyper_params <- list(intervention_vars = NULL,
                      t_ext = 0.025,
                      t_corr = 1,
                      t_pvalue = 0.05,
-                     stability_selection = TRUE,
+                     stability_selection = "vanilla",
                      cutoff = 0.6,
                      pfer = 1,
                      B = 20,

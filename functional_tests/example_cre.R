@@ -1,16 +1,9 @@
-set.seed(2022)
-
-# Set Experiment Parameter
-n_rules <- 2
-sample_size <- 2000
-effect_size <- 2
-confounding <- "no"
-ite_estimator <- "aipw"
-pfer <- n_rules/(effect_size+1)
+set.seed(2023)
+n_rules <- 4
 
 # Set Method and Hyper Parameters
 method_params <- list(ratio_dis = 0.5,
-                      ite_method = ite_estimator,
+                      ite_method = "aipw",
                       learner_ps = "SL.xgboost",
                       learner_y = "SL.xgboost")
 
@@ -18,17 +11,17 @@ hyper_params <- list(intervention_vars = NULL,
                      offset = NULL,
                      ntrees = 40,
                      node_size = 20,
-                     max_rules = 50,
-                     max_depth = 2,
+                     max_rules = 100,
+                     max_depth = 3,
                      t_decay = 0.025,
-                     t_ext = 0.01,
+                     t_ext = 0.025,
                      t_corr = 1,
                      t_pvalue = 0.05,
-                     stability_selection = TRUE,
-                     cutoff = 0.8,
-                     pfer = pfer,
-                     B = 20,
-                     subsample = 0.2)
+                     stability_selection = "vanilla",
+                     cutoff = 0.9,
+                     pfer = 1,
+                     B = 50,
+                     subsample = 0.05)
 
 # Set Ground Truth
 {
@@ -39,11 +32,11 @@ hyper_params <- list(intervention_vars = NULL,
     dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5")
     em <- c("x1","x2","x5","x6")
   } else if (n_rules==3) {
-    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5", "x4>0.5")
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5", "x4<=0.5")
     em <- c("x1","x2","x5","x6","x4")
   } else if (n_rules==4) {
     dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
-            "x4>0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
+            "x4<=0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
     em <- c("x1","x2","x5","x6","x4","x7","x8")
   } else {
     stop(paste("Synthtic dataset with", n_rules,"rules has not been",
@@ -52,14 +45,14 @@ hyper_params <- list(intervention_vars = NULL,
 }
 
 # Generate Dataset
-dataset <- generate_cre_dataset(n = sample_size,
+dataset <- generate_cre_dataset(n = 5000,
                                 rho = 0,
                                 p = 10,
-                                effect_size = effect_size,
+                                effect_size = 5,
                                 n_rules = n_rules,
                                 binary_covariates = TRUE,
                                 binary_outcome = FALSE,
-                                confounding = confounding)
+                                confounding = "no")
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]

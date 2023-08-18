@@ -23,7 +23,7 @@ test_that("predict function works as expected!", {
                        t_decay = 0.025,
                        t_ext = 0.025,
                        t_corr = 1,
-                       stability_selection = FALSE,
+                       stability_selection = "vanilla",
                        cutoff = 0.8,
                        pfer = 1,
                        B = 2,

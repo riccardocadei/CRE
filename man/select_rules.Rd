@@ -4,24 +4,16 @@
 \alias{select_rules}
 \title{Select rules}
 \usage{
-select_rules(
-  rules_matrix,
-  rules_list,
-  ite,
-  stability_selection,
-  cutoff,
-  pfer,
-  B
-)
+select_rules(rules_matrix, rules, ite, stability_selection, cutoff, pfer, B)
 }
 \arguments{
 \item{rules_matrix}{The rules matrix.}
 
-\item{rules_list}{A list of rules.}
+\item{rules}{A list of rules.}
 
 \item{ite}{The estimated ITE.}
 
-\item{stability_selection}{Whether or not using stability selection.}
+\item{stability_selection}{Stability selection method.}
 
 \item{cutoff}{Threshold (percentage) defining the minimum cutoff value for
 the stability scores. Only for stability selection.}

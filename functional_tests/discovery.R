@@ -33,7 +33,7 @@ if (experiment=="main") {
   sample_size <- 2000
   confounding <- "lin"
   dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
-          "x4>0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
+          "x4<=0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
   em <- c("x1","x2","x5","x6","x4","x7","x8")
   max_depth <- 3
 } else if (experiment=="rct") {
@@ -85,7 +85,7 @@ if (experiment=="main") {
                        t_ext = 0.01,
                        t_corr = 1,
                        t_pvalue = 0.05,
-                       stability_selection = TRUE,
+                       stability_selection = "vanilla",
                        cutoff = cutoff,
                        pfer = 1,
                        B = 20,

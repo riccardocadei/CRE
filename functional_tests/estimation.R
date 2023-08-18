@@ -88,7 +88,7 @@ if (experiment=="main") {
                        t_ext = 0.01,
                        t_corr = 1,
                        t_pvalue = 0.05,
-                       stability_selection = TRUE,
+                       stability_selection = "vanilla",
                        cutoff = cutoff,
                        pfer = pfer,
                        B = 20,

@@ -25,13 +25,14 @@ generate_rules <- function(X, ite, ntrees, node_size, max_rules, max_depth) {
   # TODO: replace splitting criteria enforcing heterogeneity
   if (ntrees > 0) {
     N <- dim(X)[1]
-    sampsize <- min(1, (11 * sqrt(N) + 1) / N) * N
+    sampsize <- 0.5 * N
     forest <- randomForest::randomForest(x = X,
                                          y = ite,
                                          sampsize = sampsize,
                                          ntree = ntrees,
                                          maxnodes = 2^max_depth,
-                                         nodesize = node_size)
+                                         nodesize = node_size,
+                                         mtry = ncol(X)*2/3)
 
     treelist <- inTrees::RF2List(forest)
     rules <- extract_rules(treelist, X, max_depth)
