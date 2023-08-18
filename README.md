@@ -52,7 +52,7 @@ __Parameters (not required)__
 - **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').   
 
 **`hyper_params`** The list of hyper parameters to finetune the method, including:
-- **`intervention_vars`** Intervention-able variables used for Rules Generation (default: NULL).  
+- **`intervention_vars`** Array with intervention-able covariates names used for Rules Generation. Empty or null array means that all the covariates are considered as intervention-able (default: NULL).  
 - **`offset`** Name of the covariate to use as offset (i.e. 'x1') for T-Poisson ITE Estimation. NULL if not used (default: NULL).
 - **`ntrees_rf`** A number of decision trees for random forest (default: 20).   
 - **`ntrees_gbm`** A number of decision trees for the generalized boosted regression modeling algorithm. (default: 20).     
@@ -94,12 +94,12 @@ if other estimates of the ITE are provided in `ite` additional argument, both th
 
 **Example 1** (*default parameters*)
 ```R
-set.seed(9687)
-dataset <- generate_cre_dataset(n = 1000, 
+set.seed(2023)
+dataset <- generate_cre_dataset(n = 2000, 
                                 rho = 0, 
                                 n_rules = 2, 
                                 p = 10,
-                                effect_size = 2, 
+                                effect_size = 5, 
                                 binary_covariates = TRUE,
                                 binary_outcome = FALSE,
                                 confounding = "no")
@@ -115,12 +115,12 @@ ite_pred <- predict(cre_results, X)
 
 **Example 2** (*personalized ite estimation*)
 ```R
-set.seed(9687)
-dataset <- generate_cre_dataset(n = 1000, 
+set.seed(2023)
+dataset <- generate_cre_dataset(n = 2000, 
                                 rho = 0, 
                                 n_rules = 2, 
                                 p = 10,
-                                effect_size = 2, 
+                                effect_size = 5, 
                                 binary_covariates = TRUE,
                                 binary_outcome = FALSE,
                                 confounding = "no")
@@ -128,7 +128,10 @@ dataset <- generate_cre_dataset(n = 1000,
   z <- dataset[["z"]]
   X <- dataset[["X"]]
 
-ite_pred <- ... # personalized ite estimation
+# personalized ITE estimation (S-Learner with Linear Regression)
+model <- lm(y ~., data = data.frame(y = y, X = X, z = z) )
+ite_pred <- predict(model, newdata = data.frame(X = X, z = z))
+
 cre_results <- cre(y, z, X, ite = ite_pred)
 summary(cre_results)
 plot(cre_results)
@@ -137,8 +140,8 @@ ite_pred <- predict(cre_results, X)
 
 **Example 3** (*setting parameters*)
 ```R
-  set.seed(9687)
-  dataset <- generate_cre_dataset(n = 1000, 
+  set.seed(2023)
+  dataset <- generate_cre_dataset(n = 2000, 
                                   rho = 0, 
                                   n_rules = 2, 
                                   p = 10,
@@ -150,26 +153,26 @@ ite_pred <- predict(cre_results, X)
   z <- dataset[["z"]]
   X <- dataset[["X"]]
 
-  method_params = list(ratio_dis = 0.25,
+  method_params = list(ratio_dis = 0.5,
                        ite_method ="aipw",
                        learner_ps = "SL.xgboost",
                        learner_y = "SL.xgboost")
 
- hyper_params = list(intervention_vars = c("x1","x2","x3","x4"),
+ hyper_params = list(intervention_vars = c("x1","x2","x3","x4","x5","x6"),
                      offset = NULL,
                      ntrees = 20,
                      node_size = 20,
                      max_rules = 50,
-                     max_depth = 3,
-                     t_decay = 0.025
+                     max_depth = 2,
+                     t_decay = 0.025,
                      t_ext = 0.025,
                      t_corr = 1,
                      t_pvalue = 0.05,
                      stability_selection = "vanilla",
                      cutoff = 0.8,
                      pfer = 0.1,
-                     B = 10,
-                     subsample = 0.5)
+                     B = 50,
+                     subsample = 0.1)
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
 summary(cre_results)

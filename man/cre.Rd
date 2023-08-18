@@ -36,8 +36,9 @@ including:
 \item{hyper_params}{The list of hyper parameters to fine-tune the method,
 including:
 \itemize{
-\item \emph{intervention_vars}: Intervention-able variables used for rules
-generation. Use \code{NULL} to include all variables (default: \code{NULL}).
+\item \emph{intervention_vars}: Array with intervention-able covariates names used
+for Rules Generation. Empty or null array means that all the covariates are
+considered as intervention-able (default: NULL).
 \item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
 T-Poisson ITE estimation. Use \code{NULL} if offset is not used
 (default: NULL).

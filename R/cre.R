@@ -23,8 +23,9 @@
 #'     (default: 'SL.xgboost').
 #' @param hyper_params The list of hyper parameters to fine-tune the method,
 #' including:
-#'  - *intervention_vars*: Intervention-able variables used for rules
-#'  generation. Use `NULL` to include all variables (default: `NULL`).
+#'  - *intervention_vars*: Array with intervention-able covariates names used
+#'  for Rules Generation. Empty or null array means that all the covariates are
+#'  considered as intervention-able (default: NULL).
 #'  - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
 #'     T-Poisson ITE estimation. Use `NULL` if offset is not used
 #'     (default: NULL).
