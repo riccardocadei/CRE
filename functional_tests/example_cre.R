@@ -1,5 +1,5 @@
 set.seed(2023)
-n_rules <- 3
+n_rules <- 4
 
 # Set Method and Hyper Parameters
 method_params <- list(ratio_dis = 0.5,
@@ -11,14 +11,14 @@ hyper_params <- list(intervention_vars = NULL,
                      offset = NULL,
                      ntrees = 40,
                      node_size = 20,
-                     max_rules = 50,
-                     max_depth = 2,
+                     max_rules = 100,
+                     max_depth = 3,
                      t_decay = 0.025,
                      t_ext = 0.025,
                      t_corr = 1,
                      t_pvalue = 0.05,
                      stability_selection = "vanilla",
-                     cutoff = 0.8,
+                     cutoff = 0.9,
                      pfer = 1,
                      B = 50,
                      subsample = 0.05)
@@ -32,11 +32,11 @@ hyper_params <- list(intervention_vars = NULL,
     dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5")
     em <- c("x1","x2","x5","x6")
   } else if (n_rules==3) {
-    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5", "x4>0.5")
+    dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5", "x4<=0.5")
     em <- c("x1","x2","x5","x6","x4")
   } else if (n_rules==4) {
     dr <- c("x1>0.5 & x2<=0.5", "x5>0.5 & x6<=0.5",
-            "x4>0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
+            "x4<=0.5", "x5<=0.5 & x7>0.5 & x8<=0.5")
     em <- c("x1","x2","x5","x6","x4","x7","x8")
   } else {
     stop(paste("Synthtic dataset with", n_rules,"rules has not been",
