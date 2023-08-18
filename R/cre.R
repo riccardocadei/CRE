@@ -50,9 +50,8 @@
 #' falsely selected rules) (default: 1).
 #'  - *B*: Number of bootstrap samples for stability selection in rules
 #'  selection and uncertainty quantification in estimation (default: 20).
-#'  - *subsample*: Bootstrap ratio subsample for forest generation and stability
-#'  selection in rules selection, and uncertainty quantification in estimation
-#'  (default: 0.5).
+#'  - *subsample*: Bootstrap ratio subsample for stability selection in rules
+#'  selection and uncertainty quantification in estimation (default: 0.5).
 #' @param ite The estimated ITE vector. If given both the ITE estimation steps
 #' in Discovery and Inference are skipped (default: NULL).
 #'

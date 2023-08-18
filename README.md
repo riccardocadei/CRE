@@ -69,6 +69,8 @@ __Parameters (not required)__
 - **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).
 - **`penalty_rl`** Order of penalty for rules length during LASSO for Causal
 Rules Discovery (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2) (default: 1).
+- **`B`** Number of bootstrap samples for stability selection in rules selection and uncertainty quantification in estimation (default: 20).
+- **`subsample`** Bootstrap ratio subsample and stability selection in rules selection, and uncertainty quantification in estimation (default: 0.5).
 
 __Additional Estimates (not required)__    
 **`ite`** The estimated ITE vector. If given, both the ITE estimation steps in Discovery and Inference are skipped (default: NULL).

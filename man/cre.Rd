@@ -63,9 +63,8 @@ the stability scores (default: 0.9).
 falsely selected rules) (default: 1).
 \item \emph{B}: Number of bootstrap samples for stability selection in rules
 selection and uncertainty quantification in estimation (default: 20).
-\item \emph{subsample}: Bootstrap ratio subsample for forest generation and stability
-selection in rules selection, and uncertainty quantification in estimation
-(default: 0.5).
+\item \emph{subsample}: Bootstrap ratio subsample for stability selection in rules
+selection and uncertainty quantification in estimation (default: 0.5).
 }}
 
 \item{ite}{The estimated ITE vector. If given both the ITE estimation steps
