@@ -31,7 +31,8 @@ generate_rules <- function(X, ite, ntrees, node_size, max_rules, max_depth) {
                                          sampsize = sampsize,
                                          ntree = ntrees,
                                          maxnodes = 2^max_depth,
-                                         nodesize = node_size)
+                                         nodesize = node_size,
+                                         mtry = ncol(X)*2/3)
 
     treelist <- inTrees::RF2List(forest)
     rules <- extract_rules(treelist, X, max_depth)
