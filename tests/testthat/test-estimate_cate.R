@@ -20,7 +20,7 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
   t_corr <- 0
   cutoff <- 0.8
   pfer <- 0.1
-  stability_selection <- TRUE
+  stability_selection <- "no"
   offset <- NULL
   intervention_vars <- NULL
   B <- 2
@@ -128,7 +128,7 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
   t_pvalue <- 0.05
   cutoff <- 0.8
   pfer <- 1
-  stability_selection <- TRUE
+  stability_selection <- "error_control"
   offset <- NULL
   intervention_vars <- NULL
   B <- 2

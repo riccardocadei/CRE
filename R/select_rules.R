@@ -89,7 +89,7 @@ select_rules <- function(rules_matrix, rules, ite,
                                       intercept = FALSE)
         aa <- stats::coef(cv_lasso, s = cv_lasso$lambda.1se)
         index_aa <- which(aa[-1, 1] != 0)
-        rule_LASSO <- data.frame(rules = rules_list[index_aa],
+        rule_LASSO <- data.frame(rules = rules[index_aa],
                                  val = aa[index_aa + 1, 1])
         rule_LASSO <- rule_LASSO[order(-rule_LASSO[, 2]), ]
         rule_LASSO <- rule_LASSO[!is.na(rule_LASSO$rules), ]
