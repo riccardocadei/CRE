@@ -137,7 +137,7 @@ Figure 1 reports the visualization of the results for Example 3, which perfectly
 
 The observed average execution time of the method varying the number of individuals and observed covariates on a MacBook Pro 16GB Apple M1 processor is reported in Figure 2. 
 
-![Log-Log line plot reporting the average execution time of `cre()` and standard deviation over 10 seeds per experiment, varying the number of individuals and observed covariates.](images/computation_time_JOSS.pdf)
+![Log-Log line plot reporting the average execution time of `cre()` and standard deviation over 10 seeds per experiment, varying the number of individuals and observed covariates.](images/computation_time.pdf)
 
 Online documentation for the package can be found at [https://nsaph-software.github.io/CRE/](https://nsaph-software.github.io/CRE/).
 
