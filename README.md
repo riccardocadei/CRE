@@ -80,13 +80,13 @@ __Additional Estimates (not required)__
 ## Notes
 
 **[1]** Options for the ITE estimation are as follows: 
-- S-Learner (`slearner`)
-- T-Learner (`tlearner`)
-- T-Poisson (`tpoisson`)
-- X-Learner (`xlearner`)
-- Augmented Inverse Probability Weighting (`aipw`)
-- Causal Forests (`cf`)
-- Causal Bayesian Additive Regression Trees (`bart`)
+- [S-Learner](https://www.tandfonline.com/doi/pdf/10.1198/jcgs.2010.08162?casa_token=OZlb52s-4bMAAAAA:60Ye7a0sTgZV-K2EtRs_zyE1GD2H3xgbleo47Fz1Mte3ZCiz097oV8QYTMbRvHTUoy57ukcrvEk) (`slearner`)
+- [T-Learner](https://journals.sagepub.com/doi/pdf/10.1002/dir.10035?casa_token=Cxhw8gRR8bEAAAAA:Dtjt4dDd_CTFg0G0w7TiBYEFjqT1p2ufeyFAX2R8GrUUNmkyrLUKYOhyK_VCQvXzO8rddPjOK5A) (`tlearner`)
+- [T-Poisson](https://journals.sagepub.com/doi/pdf/10.1002/dir.10035?casa_token=Cxhw8gRR8bEAAAAA:Dtjt4dDd_CTFg0G0w7TiBYEFjqT1p2ufeyFAX2R8GrUUNmkyrLUKYOhyK_VCQvXzO8rddPjOK5A) (`tpoisson`)
+- [X-Learner](https://www.pnas.org/doi/epdf/10.1073/pnas.1804597116) (`xlearner`)
+- [Augmented Inverse Probability Weighting](https://www.jstor.org/stable/pdf/2290910.pdf?casa_token=W6IlQUhMN4cAAAAA:R-BueV-53W70b3EcdDXGZGLtDQgLt-97wTIS_6gIbdvtWwjVOqSDqm5APxY4BOfDXbx9rrO0f4vjKXjKC_kYxiwFIJGvxG0rx2glk3NCxT18x2b0PA) (`aipw`)
+- [Causal Forests](https://projecteuclid.org/journals/annals-of-statistics/volume-47/issue-2/Generalized-random-forests/10.1214/18-AOS1709.full) (`cf`)
+- [Causal Bayesian Additive Regression Trees](https://www.tandfonline.com/doi/pdf/10.1198/jcgs.2010.08162?casa_token=tlBxbbiESdgAAAAA:3RY4NQrwexcIyo2F-v1SIty7ZSMD8qNIf5uiHqlN8G3BWCisPDEtHOWn5IK23tAdN2zOqzNo-p4) (`bart`)
 
 if other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.
 
