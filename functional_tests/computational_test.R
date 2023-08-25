@@ -57,8 +57,12 @@ for (p in c(5,10,50)) {
     }
   }
 }
-computation_time
+
+results_dir <- "~CRE/functional_tests/results/"
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
 write.csv(computation_time,
-          "functional_tests/results/computation_time_JOSS.csv",
+          "CRE/functional_tests/results/computation_time_JOSS.csv",
           row.names = FALSE)
 
