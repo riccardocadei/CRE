@@ -202,7 +202,7 @@ More exhaustive simulation studies and real world experiment of CRE package can 
 
 ## Code of Conduct
 
-Please note that the CRE project is released with a [Contributor Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct). By contributing to this project, you agree to abide by its terms.
+Please note that the CRE project is released with a [Contributor Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct). By contributing to this project, you agree to abide by its terms. More information about the opening issues and contributing (i.e., git branching model) can be found on [CRE website](https://nsaph-software.github.io/CRE/articles/Contribution.html).
 
 
 
