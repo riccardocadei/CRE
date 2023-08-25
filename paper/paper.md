@@ -136,7 +136,7 @@ Figure 1 reports the visualization of the results for Example 3, which perfectly
 ![Visualization of Causal Rule Ensemble HTE linear decomposition for Example 3. For each decision rule discovered, the corresponding AATE estimate with 95% confidence interval is reported in a range bar plot. The decision rules are ordered from the most vulnerable (high AATE) to the least, and the ATE is reported on top of the plot.](images/example.pdf)
 
 The observed average execution time of the method varying the number of individuals and observed covariates on a MacBook Pro 16GB Apple M1 processor is reported in Figure 2. 
-![Log-Log line plot reporting the average execution time of `cre()` and standard deviation over 10 seeds per experiment, varying the number of individuals and observed covariates.](images/comptation_time_JOSS.png)
+![Log-Log line plot reporting the average execution time of `cre()` and standard deviation over 10 seeds per experiment, varying the number of individuals and observed covariates.](images/computation_time_JOSS.png)
 
 Online documentation for the package can be found at [https://nsaph-software.github.io/CRE/](https://nsaph-software.github.io/CRE/).
 
