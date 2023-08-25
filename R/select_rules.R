@@ -53,8 +53,9 @@ select_rules <- function(rules_matrix, rules, ite,
                                    nfolds = 5,
                                    gamma = c(0.01, 0.05, 0.1, 0.5, 1, 5, 10),
                                    intercept = FALSE)
-        non_zero_indices <- which(as.matrix(coef(lasso)) != 0)-1
-        stability_scores[non_zero_indices] <- stability_scores[non_zero_indices]+1
+        non_zero_indices <- which(as.matrix(coef(lasso)) != 0) - 1
+        stability_scores[non_zero_indices] <- stability_scores[non_zero_indices]
+                                              + 1
       }
       stability_scores <- stability_scores / B
       rules <- colnames(R)[stability_scores >= cutoff]

@@ -1,15 +1,15 @@
 #' @title
-#' Predict Individual Treatment Effect via Causal Rule Ensemble
+#' Predict individual treatment effect via causal rule ensemble
 #'
 #' @description
-#' Predict Individual Treatment Effect via Causal Rule Ensemble algorithm.
+#' Predicts individual treatment effect via causal rule ensemble algorithm.
 #'
 #' @param object A cre object from running the CRE function.
 #' @param X A covariate matrix (or data.frame)
 #' @param ... Additional arguments passed to customize the prediction.
 #'
 #' @return
-#' Array with the estimated Individual Treatment Effects
+#' An array with the estimated Individual Treatment Effects
 #'
 #' @export
 #'

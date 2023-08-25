@@ -73,7 +73,7 @@ summary.cre <- function(object, verbose = 2, ...) {
     }
     cat("\n  - Number of Trees       :", getElement(params, "ntrees"))
     cat("\n  - Node Size             :", getElement(params, "node_size"))
-    #cat("\n  - Max Rules             :", getElement(params, "max_rules"))
+    cat("\n  - Max Rules             :", getElement(params, "max_rules"))
     cat("\n  - Max Depth             :", getElement(params, "max_depth"))
     cat("\n- Filtering")
     cat("\n  - Threshold Decay (Irrelevant):", getElement(params,
@@ -84,15 +84,16 @@ summary.cre <- function(object, verbose = 2, ...) {
                                                             "t_corr"))
     cat("\n  - Threshold (p-Value)         :", getElement(params,
                                                             "t_pvalue"))
-    if (getElement(params, "stability_selection")=="error_control") {
+    stability_selection <- getElement(params, "stability_selection")
+    if (stability_selection == "error_control") {
       cat("\n- Stability Selection with Error Control")
       cat("\n  - Cutoff:", getElement(params, "cutoff"))
       cat("\n  - PFER  :", getElement(params, "pfer"))
-    } else if (getElement(params, "stability_selection")=="vanilla") {
+    } else if (stability_selection == "vanilla") {
       cat("\n- Vanilla Stability Selection")
       cat("\n  - Cutoff:", getElement(params, "cutoff"))
-    } else if (getElement(params, "stability_selection")=="no") {
-      cat("\n- No Stability Selection")
+    } else if (stability_selection == "no") {
+      cat("\n- No Stability Selection (only LASSO)")
     }
   }
 

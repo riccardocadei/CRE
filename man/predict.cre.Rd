@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.cre}
 \alias{predict.cre}
-\title{Predict Individual Treatment Effect via Causal Rule Ensemble}
+\title{Predict individual treatment effect via causal rule ensemble}
 \usage{
 \method{predict}{cre}(object, X, ...)
 }
@@ -14,8 +14,8 @@
 \item{...}{Additional arguments passed to customize the prediction.}
 }
 \value{
-Array with the estimated Individual Treatment Effects
+An array with the estimated Individual Treatment Effects
 }
 \description{
-Predict Individual Treatment Effect via Causal Rule Ensemble algorithm.
+Predicts individual treatment effect via causal rule ensemble algorithm.
 }
