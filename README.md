@@ -38,6 +38,7 @@ The full list of required dependencies can be found in project [DESCRIPTION](htt
 
 __Data (required)__   
 **`y`** The observed response/outcome vector (binary or continuous).
+
 **`z`** The treatment/exposure/policy vector (binary).  
 
 **`X`** The covariate matrix (binary or continuous).    
