@@ -46,31 +46,25 @@ __Data (required)__
 __Parameters (not required)__    
 **`method_parameters`** The list of parameters to define the models used, including:
 - **`ratio_dis`** The ratio of data delegated to the discovery sub-sample (default: 0.5). 
-- **`ite_method_dis`** The method to estimate the individual treatment effect (ITE) on the discovery sub-sample (default: 'aipw') [1].        
-- **`ps_method_dis`** The estimation model for the propensity score on the discovery sub-sample (default: 'SL.xgboost').     
-- **`or_method_dis`** The estimation model for the outcome regressions estimate_ite_aipw on the discovery sub-sample (default: 'SL.xgboost').      
-- **`ite_method_inf`** The method to estimate the individual treatment effect (ITE) on the inference sub-sample (default: 'aipw') [1].       
-- **`ps_method_inf`** The estimation model for the propensity score on the inference subsample (default: 'SL.xgboost').     
-- **`or_method_inf`** The estimation model for the outcome regressions in estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').   
+- **`ite_method`** The method to estimate the individual treatment effect (ITE) psudo-outcome estimation (default: 'aipw') [1].        
+- **`learner_ps`** The model for the propensity score estimation (default: 'SL.xgboost').
+- **`learner_y`** The model for the outcome estimation (default: 'SL.xgboost').   
 
 **`hyper_params`** The list of hyper parameters to finetune the method, including:
 - **`intervention_vars`** Array with intervention-able covariates names used for Rules Generation. Empty or null array means that all the covariates are considered as intervention-able (default: NULL).  
 - **`offset`** Name of the covariate to use as offset (i.e. 'x1') for T-Poisson ITE Estimation. NULL if not used (default: NULL).
-- **`ntrees_rf`** A number of decision trees for random forest (default: 20).   
-- **`ntrees_gbm`** A number of decision trees for the generalized boosted regression modeling algorithm. (default: 20).     
+- **`ntrees`** The number of decision trees for random forest (default: 20).   
 - **`node_size`** Minimum size of the trees' terminal nodes (default: 20).
-- **`max_nodes`** Maximum number of terminal nodes per tree (default: 5).  
+- **`max_rules`** Maximum number of generated candidates rules (default: 50).
 - **`max_depth`** Maximum rules length (default: 3).  
 - **`replace`** Boolean variable for replacement in bootstrapping (default: TRUE).     
 - **`t_decay`** The decay threshold for rules pruning (default: 0.025).          
 - **`t_ext`** The threshold to define too generic or too specific (extreme) rules (default: 0.01).     
 - **`t_corr`** The threshold to define correlated rules (default: 1). 
 - **`t_pvalue`** The threshold to define statistically significant rules (default: 0.05).
-- **`stability_selection`** Whether or not using stability selection for selecting the causal rules (default: TRUE).
+- **`stability_selection`** Method for stability selection for selecting the rules. `vanilla` for stability selection, `error_control` for stability selection with error control and `no` for no stability selection (default: `vanilla`).
 - **`cutoff`** Threshold defining the minimum cutoff value for the stability scores (default: 0.9).
 - **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).
-- **`penalty_rl`** Order of penalty for rules length during LASSO for Causal
-Rules Discovery (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2) (default: 1).
 - **`B`** Number of bootstrap samples for stability selection in rules selection and uncertainty quantification in estimation (default: 20).
 - **`subsample`** Bootstrap ratio subsample and stability selection in rules selection, and uncertainty quantification in estimation (default: 0.5).
 
