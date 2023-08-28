@@ -5,13 +5,7 @@
 \title{Estimate the Individual Treatment Effect (ITE) using Augmented Inverse
 Probability Weighting (AIPW)}
 \usage{
-estimate_ite_aipw(
-  y,
-  z,
-  X,
-  ps_method = "SL.xgboost",
-  oreg_method = "SL.xgboost"
-)
+estimate_ite_aipw(y, z, X, learner_ps = "SL.xgboost", learner_y = "SL.xgboost")
 }
 \arguments{
 \item{y}{An observed response vector.}
@@ -20,9 +14,9 @@ estimate_ite_aipw(
 
 \item{X}{A features matrix.}
 
-\item{ps_method}{A estimation model for the propensity score.}
+\item{learner_ps}{A estimation model for the propensity score.}
 
-\item{oreg_method}{A estimation model for the outcome regressions.}
+\item{learner_y}{A estimation model for the outcome.}
 }
 \value{
 A list of ITE estimates.
@@ -31,6 +25,6 @@ A list of ITE estimates.
 Estimates the Individual Treatment Effect using Augmented Inverse Probability
 Weighting given a response vector, a treatment vector, a features matrix,
 an estimation model for the propensity score and estimation model for the
-outcome regressions.
+outcome.
 }
 \keyword{internal}

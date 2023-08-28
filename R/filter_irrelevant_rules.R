@@ -21,16 +21,17 @@
 filter_irrelevant_rules <- function(rules, X, ite, t_decay) {
 
   logger::log_debug("Filtering irrelevant rules...")
+  ite_ <- ite - mean(ite)
 
   rules_matrix <- matrix(rules)
   colnames(rules_matrix) <- "condition"
   metric <- inTrees::getRuleMetric(rules_matrix,
                                    X,
-                                   ite)
+                                   ite_)
 
   pruned <- inTrees::pruneRule(rules = metric,
                                X = X,
-                               target = ite,
+                               target = ite_,
                                maxDecay = t_decay)
   rules <- unique(pruned[, 4])
 

@@ -8,31 +8,23 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
   X <- as.data.frame(dataset_cont[["X"]])
   X_names <- names(as.data.frame(X))
   ratio_dis <- 0.25
-  ite_method_dis <- "aipw"
-  include_ps_dis <- "TRUE"
-  ps_method_dis <- "SL.xgboost"
-  oreg_method_dis <- "SL.xgboost"
-  ite_method_inf <- "aipw"
-  include_ps_inf <- "FALSE"
-  ps_method_inf <- "SL.xgboost"
-  oreg_method_inf <- "SL.xgboost"
-  ntrees_rf <- 100
-  ntrees_gbm <- 50
+  ite_method <- "aipw"
+  learner_ps <- "SL.xgboost"
+  learner_y <- "SL.xgboost"
+  ntrees <- 100
   node_size <- 20
-  max_nodes <- 5
+  max_rules <- 50
   max_depth <- 3
-  replace <- FALSE
   t_decay <- 0.025
   t_ext <- 0.02
   t_corr <- 0
-  t_pvalue <- 0.05
   cutoff <- 0.8
   pfer <- 0.1
-  stability_selection <- TRUE
+  stability_selection <- "no"
   offset <- NULL
-  t_pvalue <- 0.5
   intervention_vars <- NULL
-  penalty_rl <- 1
+  B <- 2
+  subsample <- 0.5
 
   # Check for binary outcome
   binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -55,18 +47,15 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
   X_inf <- inference$X
 
   # Estimate ITE
-  ite_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method_dis,
-                               binary_outcome = binary_outcome,
-                               include_ps = include_ps_dis,
-                               ps_method = ps_method_dis,
-                               oreg_method = oreg_method_dis,
-                               X_names = X_names,
+  ite_dis <- estimate_ite(y_dis, z_dis, X_dis, ite_method,
+                               learner_ps = learner_ps,
+                               learner_y = learner_y,
                                offset = offset)
 
   # Generate rules list
   initial_rules_dis <- generate_rules(X_dis, ite_dis,
-                                      ntrees_rf, ntrees_gbm, node_size,
-                                      max_nodes, max_depth, replace)
+                                      ntrees, node_size,
+                                      max_rules, max_depth)
 
   rules_list_dis <- filter_irrelevant_rules(initial_rules_dis, X_dis,
                                             ite_dis, t_decay)
@@ -86,14 +75,12 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
                                                 stability_selection,
                                                 cutoff,
                                                 pfer,
-                                                penalty_rl))
+                                                B))
 
   # Estimate CATE
-  ite_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
-                               include_ps = include_ps_inf,
-                               ps_method = ps_method_inf,
-                               oreg_method = oreg_method_inf,
-                               X_names = X_names,
+  ite_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method,
+                               learner_ps = learner_ps,
+                               learner_y = learner_y,
                                offset = offset)
 
   if (length(select_rules_dis) == 0) {
@@ -110,8 +97,8 @@ test_that("CATE Estimation Runs Correctly (test 1/2)", {
 
   # Correct outputs
   cate_inf <- estimate_cate(rules_matrix_inf, select_rules_interpretable,
-                            ite_inf, t_pvalue)
-  expect_true(class(cate_inf$summary) == "data.frame")
+                            ite_inf, B, subsample)
+  expect_true(class(cate_inf) == "data.frame")
 })
 
 
@@ -125,31 +112,27 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
   X <- as.data.frame(dataset_cont[["X"]])
   X_names <- names(as.data.frame(X))
   ratio_dis <- 0.25
-  ite_method_dis <- "aipw"
-  include_ps_dis <- "TRUE"
-  ps_method_dis <- "SL.xgboost"
-  oreg_method_dis <- "SL.xgboost"
-  ite_method_inf <- "aipw"
-  include_ps_inf <- "FALSE"
-  ps_method_inf <- "SL.xgboost"
-  oreg_method_inf <- "SL.xgboost"
-  ntrees_rf <- 100
-  ntrees_gbm <- 50
+  ite_method <- "aipw"
+  learner_ps <- "SL.xgboost"
+  learner_y <- "SL.xgboost"
+  ite_method <- "aipw"
+  learner_ps <- "SL.xgboost"
+  learner_y <- "SL.xgboost"
+  ntrees <- 100
   node_size <- 20
-  max_nodes <- 5
+  max_rules <- 5
   max_depth <- 3
-  replace <- FALSE
   t_decay <- 0.025
   t_ext <- 0.02
   t_corr <- 0
   t_pvalue <- 0.05
   cutoff <- 0.8
   pfer <- 1
-  stability_selection <- TRUE
+  stability_selection <- "error_control"
   offset <- NULL
-  t_pvalue <- 0.5
   intervention_vars <- NULL
-  penalty_rl <- 1
+  B <- 2
+  subsample <- 0.5
 
   # Check for binary outcome
   binary_outcome <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -175,12 +158,9 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
   select_rules_dis <- c()
 
   # Estimate CATE
-  ite_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method_inf,
-                               binary_outcome = binary_outcome,
-                               include_ps = include_ps_inf,
-                               ps_method = ps_method_inf,
-                               oreg_method = oreg_method_inf,
-                               X_names = X_names,
+  ite_inf <- estimate_ite(y_inf, z_inf, X_inf, ite_method,
+                               learner_ps = learner_ps,
+                               learner_y = learner_y,
                                offset = offset)
 
   if (length(select_rules_dis) == 0) {
@@ -197,6 +177,6 @@ test_that("CATE Estimation Runs Correctly (test 2/2)", {
 
   # Correct outputs
   cate_inf <- estimate_cate(rules_matrix_inf, select_rules_interpretable,
-                            ite_inf, t_pvalue)
-  expect_true(class(cate_inf$summary) == "data.frame")
+                            ite_inf, B, subsample)
+  expect_true(class(cate_inf) == "data.frame")
 })

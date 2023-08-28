@@ -8,15 +8,12 @@ test_that("Correlated Rules Discarded Correctly", {
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
   ite_method <- "bart"
-  include_ps <- "TRUE"
-  ps_method <- "SL.xgboost"
-  oreg_method <- NA
-  ntrees_rf <- 100
-  ntrees_gbm <- 50
+  learner_ps <- "SL.xgboost"
+  learner_y <- NA
+  ntrees <- 100
   node_size <- 20
   max_nodes <- 5
-  max_depth <- 15
-  replace <- TRUE
+  max_depth <- 3
   t_decay <- 0.025
   t_corr <- 1
   t_ext <- 0.01
@@ -34,14 +31,12 @@ test_that("Correlated Rules Discarded Correctly", {
 
   # Step 2: Estimate ITE
   ite <- estimate_ite(y, z, X, ite_method,
-                           binary_outcome = binary_outcome,
-                           include_ps = include_ps,
-                           ps_method = ps_method,
-                           oreg_method = oreg_method)
+                           learner_ps = learner_ps,
+                           learner_y = learner_y)
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite, ntrees_rf, ntrees_gbm, node_size,
-                                  max_nodes, max_depth, replace)
+  initial_rules <- generate_rules(X, ite, ntrees, node_size,
+                                  max_nodes, max_depth)
 
   rules_list <- filter_irrelevant_rules(initial_rules, X,
                                         ite, t_decay)

@@ -22,43 +22,30 @@ including:
 \item \emph{ratio_dis}: The ratio of data delegated to rules discovery
 (default: 0.5).
 }
-\item \emph{Parameters for Discovery}
+\item \emph{Parameters for Discovery and Inference}
 \itemize{
-\item \emph{ite_method_dis}: The method to estimate the discovery sample ITE
+\item \emph{ite_method}: The method for ITE (pseudo-outcome) estimation
 (default: 'aipw').
-\item \emph{ps_method_dis}: The estimation model for the propensity score on the
-discovery subsample (default: 'SL.xgboost').
-\item \emph{oreg_method_dis}: The estimation model for the outcome regressions
-estimate_ite_aipw on the discovery subsample (default: 'SL.xgboost').
-}
-\item \emph{Parameters for Inference}
-\itemize{
-\item \emph{ite_method_inf}: The method to estimate the inference sample ITE
-(default: 'aipw').
-\item \emph{ps_method_inf}: The estimation model for the propensity score on the
-inference subsample (default: 'SL.xgboost').
-\item \emph{oreg_method_inf}: The estimation model for the outcome regressions in
-estimate_ite_aipw on the inference subsample (default: 'SL.xgboost').
+\item \emph{learner_ps}: The model for the propensity score estimation
+(default: 'SL.xgboost').
+\item \emph{learner_y}: The model for the outcome estimation
+(default: 'SL.xgboost').
 }
 }}
 
 \item{hyper_params}{The list of hyper parameters to fine-tune the method,
 including:
 \itemize{
-\item \emph{intervention_vars}: Intervention-able variables used for rules
-generation. Use \code{NULL} to include all variables (default: \code{NULL}).
+\item \emph{intervention_vars}: Array with intervention-able covariates names used
+for Rules Generation. Empty or null array means that all the covariates are
+considered as intervention-able (default: NULL).
 \item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
 T-Poisson ITE estimation. Use \code{NULL} if offset is not used
 (default: NULL).
-\item \emph{ntrees_rf}: A number of decision trees for random forest (default: 20).
-\item \emph{ntrees_gbm}: A number of decision trees for the generalized boosted
-regression modeling algorithm.
-(default: 20).
+\item \emph{ntrees}: The number of decision trees for random forest (default: 20).
 \item \emph{node_size}: Minimum size of the trees' terminal nodes (default: 20).
-\item \emph{max_nodes}: Maximum number of terminal nodes per tree (default: 5).
+\item \emph{max_rules}: Maximum number of generated candidates rules (default: 50).
 \item \emph{max_depth}: Maximum rules length (default: 3).
-\item \emph{replace}: Boolean variable for replacement in bootstrapping for
-rules generation by random forest (default: TRUE).
 \item \emph{t_decay}: The decay threshold for rules pruning. Higher values will
 carry out an aggressive pruning (default: 0.025).
 \item \emph{t_ext}: The threshold to truncate too generic or too specific (extreme)
@@ -67,15 +54,18 @@ rules (default: 0.01, range: [0, 0.5)).
 range: (0,+inf)).
 \item \emph{t_pvalue}: the threshold to define statistically significant rules
 (default: 0.05, range: (0, 1)).
-\item \emph{stability_selection}: Whether or not using stability selection for
-selecting the rules (default: TRUE).
+\item \emph{stability_selection}: Method for stability selection for selecting the
+rules. \code{vanilla} for stability selection, \code{error_control}
+for stability selection with error control and \code{no} for no stability
+selection (default: \code{vanilla}).
 \item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for
 the stability scores (default: 0.9).
 \item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
 falsely selected rules) (default: 1).
-\item \emph{penalty_rl}: Order of penalty for rules length during LASSO
-regularization (i.e. 0: no penalty, 1: rules_length, 2: rules_length^2)
-(default: 1).
+\item \emph{B}: Number of bootstrap samples for stability selection in rules
+selection and uncertainty quantification in estimation (default: 20).
+\item \emph{subsample}: Bootstrap ratio subsample for stability selection in rules
+selection and uncertainty quantification in estimation (default: 0.5).
 }}
 
 \item{ite}{The estimated ITE vector. If given both the ITE estimation steps
@@ -84,12 +74,12 @@ in Discovery and Inference are skipped (default: NULL).}
 \value{
 An S3 object containing:
 \itemize{
-\item A number of Decision Rules extracted at each step (\code{M}).
-\item A data.frame of Conditional Average Treatment Effect decomposition
+\item The number of Decision Rules extracted at each step (\code{M}).
+\item The data.frame of Conditional Average Treatment Effect decomposition
 estimates with corresponding uncertainty quantification (\code{CATE}).
-\item A list of method parameters (\code{method_params}).
-\item A list of hyper parameters (\code{hyper_params}).
-\item An Individual Treatment Effect predicted (\code{ite_pred}).
+\item The list of method parameters (\code{method_params}).
+\item The list of hyper parameters (\code{hyper_params}).
+\item The list of rules (implicit form) decomposing the CATE (\code{rules}).
 }
 }
 \description{
@@ -106,37 +96,38 @@ individual treatment effect will still be computed using all covariates.
 
 \donttest{
 set.seed(2021)
-dataset <- generate_cre_dataset(n = 400, rho = 0, n_rules = 2, p = 10,
-                                effect_size = 2, binary_covariates = TRUE,
-                                binary_outcome = FALSE, confounding = "no")
+dataset <- generate_cre_dataset(n = 400,
+                                rho = 0,
+                                n_rules = 2,
+                                p = 10,
+                                effect_size = 2,
+                                binary_covariates = TRUE,
+                                binary_outcome = FALSE,
+                                confounding = "no")
 y <- dataset[["y"]]
 z <- dataset[["z"]]
 X <- dataset[["X"]]
 
-method_params <- list(ratio_dis = 0.25,
-                      ite_method_dis="aipw",
-                      ps_method_dis = "SL.xgboost",
-                      oreg_method_dis = "SL.xgboost",
-                      ite_method_inf = "aipw",
-                      ps_method_inf = "SL.xgboost",
-                      oreg_method_inf = "SL.xgboost")
+method_params <- list(ratio_dis = 0.5,
+                      ite_method ="aipw",
+                      learner_ps = "SL.xgboost",
+                      learner_y = "SL.xgboost")
 
 hyper_params <- list(intervention_vars = NULL,
                      offset = NULL,
-                     ntrees_rf = 20,
-                     ntrees_gbm = 20,
+                     ntrees = 20,
                      node_size = 20,
-                     max_nodes = 5,
+                     max_rules = 50,
                      max_depth = 3,
                      t_decay = 0.025,
                      t_ext = 0.025,
                      t_corr = 1,
                      t_pvalue = 0.05,
-                     replace = FALSE,
-                     stability_selection = TRUE,
+                     stability_selection = "vanilla",
                      cutoff = 0.6,
-                     pfer = 0.1,
-                     penalty_rl = 1)
+                     pfer = 1,
+                     B = 20,
+                     subsample = 0.5)
 
 cre_results <- cre(y, z, X, method_params, hyper_params)
 }

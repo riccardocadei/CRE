@@ -8,9 +8,8 @@ test_that("Filter ireelevant rules run correctly", {
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
   ite_method <- "aipw"
-  include_ps <- "TRUE"
-  ps_method <- "SL.xgboost"
-  oreg_method <- "SL.xgboost"
+  learner_ps <- "SL.xgboost"
+  learner_y <- "SL.xgboost"
   ntrees <- 100
   node_size <- 20
   max_nodes <- 5
@@ -23,9 +22,8 @@ test_that("Filter ireelevant rules run correctly", {
 
   # Step 2: Estimate ITE
   ite <- estimate_ite(y, z, X, ite_method,
-                           include_ps = include_ps,
-                           ps_method = ps_method,
-                           oreg_method = oreg_method)
+                      learner_ps = learner_ps,
+                      learner_y = learner_y)
 
   expect_equal(ite[10], 0.6874263, tolerance = 0.000001)
   expect_equal(ite[25], -0.2175163, tolerance = 0.000001)
@@ -42,7 +40,6 @@ test_that("Filter ireelevant rules run correctly", {
                               x = X,
                               y = ite,
                               sampsize = sf * N,
-                              replace = FALSE,
                               ntree = 1,
                               maxnodes = mn,
                               nodesize = node_size))
@@ -63,9 +60,9 @@ test_that("Filter ireelevant rules run correctly", {
   expect_equal(length(treelist), 2)
   expect_equal(length(treelist[2]$list), 100)
   expect_equal(colnames(treelist[2]$list[[1]])[1], "left daughter")
-  expect_equal(treelist[2]$list[[1]][2, 6], 0.4320062, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[2]][3, 6], -0.5863133, tolerance = 0.000001)
-  expect_equal(treelist[2]$list[[10]][3, 6], 0.06850307, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[1]][2, 6], 0.5720872, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[2]][3, 6], 0.6381637, tolerance = 0.000001)
+  expect_equal(treelist[2]$list[[10]][3, 6], -0.6764889, tolerance = 0.000001)
 
   rules <- extract_rules(treelist, X, ntrees, max_depth)
 
