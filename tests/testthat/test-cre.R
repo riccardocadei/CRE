@@ -10,125 +10,94 @@ test_that("cre Runs Correctly", {
   X_names <- names(as.data.frame(X))
 
   method_params <- list(ratio_dis = 0.25,
-                        ite_method_dis = "bart",
-                        ps_method_dis = "SL.xgboost",
-                        oreg_method_dis = "SL.xgboost",
-                        ite_method_inf = "bart",
-                        ps_method_inf = "SL.xgboost",
-                        oreg_method_inf = "SL.xgboost")
+                        ite_method = "bart",
+                        learner_ps = "SL.xgboost",
+                        learner_y = "SL.xgboost")
 
  hyper_params <- list(intervention_vars = NULL,
                       offset = NULL,
-                      ntrees_rf = 20,
-                      ntrees_gbm = 20,
+                      ntrees = 50,
                       node_size = 10,
-                      max_nodes = 5,
+                      max_rules = 50,
                       max_depth = 3,
-                      max_decay = 0.025,
-                      type_decay = 2,
+                      t_decay = 0.025,
                       t_ext = 0.025,
                       t_corr = 1,
-                      t_pvalue = 0.05,
-                      replace = FALSE,
-                      stability_selection = TRUE,
+                      stability_selection = "vanilla",
                       cutoff = 0.6,
                       pfer = 1,
-                      penalty_rl = 1)
+                      B = 10,
+                      subsample = 0.5)
 
   method_params[["ratio_dis"]] <- 2
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   method_params[["ratio_dis"]] <- 0.25
-  method_params[["ite_method_dis"]] <- "test"
+  method_params[["ite_method"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  method_params[["ite_method_dis"]] <- "bart"
-  method_params[["ite_method_inf"]] <- "test"
+  method_params[["ite_method"]] <- "aipw"
+  method_params[["learner_ps"]] <- 1
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  method_params[["ite_method_inf"]] <- "bart"
-  method_params[["ite_method_dis"]] <- "tpoisson"
-  method_params[["ps_method_dis"]] <- 1
+  method_params[["learner_ps"]] <- "SL.xgboost"
+  method_params[["learner_y"]] <- 1
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  method_params[["ite_method_dis"]] <- "bart"
-  method_params[["ps_method_dis"]] <- "SL.xgboost"
-  method_params[["ite_method_inf"]] <- "tpoisson"
-  method_params[["ps_method_inf"]] <- 1
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  method_params[["ite_method_inf"]] <- "bart"
-  method_params[["ps_method_inf"]] <- "SL.xgboost"
-  method_params[["ite_method_dis"]] <- "aipw"
-  method_params[["oreg_method_dis"]] <- 1
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  method_params[["ite_method_dis"]] <- "bart"
-  method_params[["oreg_method_dis"]] <- "SL.xgboost"
-  method_params[["ite_method_inf"]] <- "aipw"
-  method_params[["oreg_method_inf"]] <- 1
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  method_params[["ite_method_inf"]] <- "bart"
-  method_params[["oreg_method_inf"]] <- "SL.xgboost"
-  method_params[["ite_method_dis"]] <- "tpoisson"
+  method_params[["learner_y"]] <- "SL.xgboost"
+  method_params[["ite_method"]] <- "tpoisson"
   hyper_params[["offset"]] <- "test"
   expect_error(cre(y_temp, z, X, method_params, hyper_params))
 
   hyper_params[["offset"]] <- NULL
-  hyper_params[["ntrees_rf"]] <- "test"
+  hyper_params[["ntrees"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  method_params[["ite_method_dis"]] <- "aipw"
-  hyper_params[["ntrees_rf"]] <- 100
-  hyper_params[["ntrees_gbm"]] <- "test"
+  method_params[["ite_method"]] <- "aipw"
+  hyper_params[["ntrees"]] <- 0
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["ntrees_rf"]] <- 0
-  hyper_params[["ntrees_gbm"]] <- 0
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  hyper_params[["ntrees_gbm"]] <- 50
+  hyper_params[["ntrees"]] <- 40
   hyper_params[["node_size"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["node_size"]] <- 5
-  hyper_params[["replace"]] <- "test"
+  hyper_params[["max_rules"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["replace"]] <- TRUE
-  hyper_params[["max_nodes"]] <- "test"
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  hyper_params[["max_nodes"]] <- 5
+  hyper_params[["max_rules"]] <- 5
   hyper_params[["t_ext"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["t_ext"]] <- 0.025
+  hyper_params[["t_decay"]] <- "test"
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  hyper_params[["t_decay"]] <- 0.025
   hyper_params[["t_corr"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["t_corr"]] <- 1
-  hyper_params[["t_pvalue"]] <- "test"
-  expect_error(cre(y, z, X, method_params, hyper_params))
-
-  hyper_params[["t_pvalue"]] <- 0.05
+  hyper_params[["t_corr"]] <- 0.1
   hyper_params[["cutoff"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["cutoff"]] <- 0.6
+  hyper_params[["cutoff"]] <- 0.8
   hyper_params[["stability_selection"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["stability_selection"]] <- TRUE
+  hyper_params[["stability_selection"]] <- "vanilla"
   hyper_params[["pfer"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
   hyper_params[["pfer"]] <- 1
-  hyper_params[["penalty_rl"]] <- "test"
+  hyper_params[["B"]] <- "test"
   expect_error(cre(y, z, X, method_params, hyper_params))
 
-  hyper_params[["penalty_rl"]] <- 1
+  hyper_params[["B"]] <- 10
+  hyper_params[["subsample"]] <- 2
+  expect_error(cre(y, z, X, method_params, hyper_params))
+
+  hyper_params[["subsample"]] <- 0.5
   hyper_params[["intervention_vars"]] <- c("test")
   expect_error(cre(y, z, X, method_params, hyper_params))
 
@@ -137,7 +106,7 @@ test_that("cre Runs Correctly", {
   cre_results <- cre(y, z, X, method_params, hyper_params)
   expect_true(class(cre_results) == "cre")
 
-  hyper_params[["stability_selection"]] <- FALSE
+  hyper_params[["stability_selection"]] <- "error_control"
   cre_results <- cre(y, z, X, method_params, hyper_params)
   expect_true(class(cre_results) == "cre")
 

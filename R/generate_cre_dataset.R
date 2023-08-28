@@ -109,7 +109,7 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
                  "rules has not been implemented yet. ",
                  "Available 'n_rules' options: {1,2}."))
     }
-    y0[X$x4 > 0.5] <- y0[X$x4 > 0.5] + 0.5 * effect_size
+    y0[X$x4 <= 0.5] <- y0[X$x4 <= 0.5] + 0.5 * effect_size
   }
   if (n_rules >= 4) {
     y1[X$x5 <= 0.5 & X$x7 > 0.5 & X$x8 <= 0.5] <-

@@ -7,20 +7,17 @@ test_that("Rules Interpreted Correctly", {
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
   ite_method <- "bart"
-  include_ps <- "TRUE"
-  ps_method <- "SL.xgboost"
-  oreg_method <- NA
-  ntrees_rf <- 100
-  ntrees_gbm <- 50
+  learner_ps <- "SL.xgboost"
+  learner_y <- NA
+  ntrees <- 100
   node_size <- 20
-  max_nodes <- 5
-  max_depth <- 15
-  replace <- FALSE
+  max_rules <- 50
+  max_depth <- 3
   t_decay <- 0.025
   cutoff <- 0.8
-  stability_selection <- TRUE
+  stability_selection <- "vanilla"
   pfer <- 0.1
-  penalty_rl <- 1
+  B <- 2
 
   X_names <- names(as.data.frame(X))
   X <- as.matrix(X)
@@ -29,14 +26,12 @@ test_that("Rules Interpreted Correctly", {
 
   # Step 2: Estimate ITE
   ite <- estimate_ite(y, z, X, ite_method,
-                           include_ps = include_ps,
-                           ps_method = ps_method,
-                           oreg_method = oreg_method)
+                           learner_ps = learner_ps,
+                           learner_y = learner_y)
 
   # Step 3: Generate rules list
-  initial_rules <- generate_rules(X, ite, ntrees_rf,
-                                  ntrees_gbm, node_size, max_nodes, max_depth,
-                                  replace)
+  initial_rules <- generate_rules(X, ite, ntrees, node_size,
+                                  max_rules, max_depth)
 
   rules_list <- filter_irrelevant_rules(initial_rules, X, ite, t_decay)
 
@@ -51,7 +46,7 @@ test_that("Rules Interpreted Correctly", {
                                             cutoff,
                                             stability_selection,
                                             pfer,
-                                            penalty_rl))
+                                            B))
 
   ###### Run Tests ######
 
@@ -62,7 +57,7 @@ test_that("Rules Interpreted Correctly", {
   # Correct outputs
   select_rules_interpretable <- interpret_rules(select_rules, X_names)
   expect_true(class(select_rules_interpretable) == "character")
-  if (!is.na(select_rules_interpretable)) {
+  if (!is.null(select_rules_interpretable)) {
     expect_true(length(select_rules_interpretable) == length(select_rules))
   } else {
     expect_true(identical(select_rules, character(0)))
