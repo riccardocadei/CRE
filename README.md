@@ -32,7 +32,7 @@ Import.
 ```r
 library("CRE")
 ```
-The full list of required dependencies can be found in project [DESCRIPTION](https://github.com/NSAPH-Software/CRE/blob/main/DESCRIPTION) file.
+The full list of required dependencies can be found in project in the DESCRIPTION file.
 
 ## Arguments
 
