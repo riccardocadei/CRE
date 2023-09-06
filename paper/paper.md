@@ -37,8 +37,6 @@ header-includes:
  - \usepackage{algorithm}
  - \usepackage{bm}
  - \usepackage{amsmath}
- - \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
-
 ---
 
 # Summary
