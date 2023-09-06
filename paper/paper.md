@@ -37,6 +37,7 @@ header-includes:
  - \usepackage{algorithm}
  - \usepackage{bm}
  - \usepackage{amsmath}
+ - \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 
 ---
 
@@ -55,8 +56,47 @@ Causal Rule Ensemble relies on the Treatment Effect linear decomposition assumpt
 $$\tau(\boldsymbol{x}) = \mathbb{E}[\tau_i | X_i=\boldsymbol{x}] = \bar{\tau} + \sum_{m=1}^M \alpha_m \cdot r_m(\boldsymbol{x})$$
 where $\bar{\tau}$ is the ATE, $\tau_i$ is the ITE, and for each $m$ in $\{1,..., M\}$, $r_m$ is an interpretable decision rule characterizing a specific subset of the covariate space, and $\alpha_m$ is the corresponding Additive Average Treatment Effect (AATE).
 The `CRE` procedure is divided into two steps, discovery and inference, and each observation is used for only one of the two steps (honest splitting). The splitting is at random and the percentage allocated to each step is controlled.
-During the discovery step, `CRE` retrieves the $M$ decision rules characterizing the heterogeneity in the treatment effect. A set of candidate decision rules is extracted by an ensemble of trees trained by a _fit-the-fit_ procedure to model some Individual Treatment Effect (ITE) estimates [@tibshirani2023package; @polley2019package; @dorie2020package], and among these, only a simple and robust subset of rules is selected for the linear decomposition by the Stability Selection algorithm via LASSO [@friedman2021package; @hofner2015package].
+During the discovery step, `CRE` retrieves the $M$ decision rules characterizing the heterogeneity in the treatment effect. A set of candidate decision rules is extracted by an ensemble of trees trained by a _fit-the-fit_ procedure to model some Individual Treatment Effect (ITE) estimates [@tibshirani2023package; @polley2019package; @dorie2020package], and among these, only a simple and robust subset of rules is selected for the linear decomposition by the Stability Selection algorithm via LASSO [@meinshausen2010stability; @friedman2021package; @hofner2015package].
 During the inference step, `CRE` estimates the ATE and AATEs, by the normal equations to model some ITE estimates and confidence intervals are provided by bootstrapping. 
+
+$$
+\begin{algorithm}
+\footnotesize
+\caption{Causal Rule Ensemble (CRE)}
+\label{alg:cre}
+\vspace{0.15cm}
+{\bf Inputs:} covariates matrix $\bm{X}$, (binary) treatment vector $\bm{z}$, and observed response vector $\bm{y}$.\\
+{\bf Outputs:} (i) a set of interpretable decision rules $\mathcal{\hat{R}}=\{\hat{r}_m\}_{m=1}^M$, 
+
+\hspace{1.55cm} (ii) ATE $\hat{\bar{\tau}}$ and AATEs $\hat{\bm{\alpha}}$ estimates and confidence intervals,
+
+\vspace{0.05cm}
+{\bf Procedure:}
+\begin{algorithmic}
+    \State $(\bm{X}^{dis},\bm{z}^{dis},\bm{y}^{dis}$), ($\bm{X}^{inf},\bm{z}^{inf},\bm{y}^{inf}) \gets \texttt{HonestSplitting}(\bm{X},\bm{z},\bm{y}) $
+
+    \vspace{0.02cm}
+    \noindent
+    {\bf i. Discovery}
+    \begin{algorithmic}
+        \State $\bm{\hat{\tau}}^{dis} \gets \texttt{EstimatePseudoOutcomes}(\bm{X}^{dis},\bm{z}^{dis},\bm{y}^{dis})$ \Comment{e.g. AIPW, CF, BCF, CausalBART, S/T/X-Learner} %(subsection \ref{ssec:ite_dis})}
+        \State $ \mathcal{\hat{R}'} \gets \texttt{GenerateRules}(\bm{X}^{dis},\bm{\hat{\tau}}^{dis}) $
+        \Comment{i.e., tree-ensemble method} %(subsection \ref{ssec:generation})}
+        \State $ \mathcal{\hat{R}} \gets \texttt{RulesSelection}(\mathcal{\hat{R}'},\bm{X}^{dis},\bm{\hat{\tau}}^{dis})$ \Comment{Stability Selection} %(subsection \ref{ssec:selection})}
+    \end{algorithmic}
+    
+    % CATE Inference
+    \vspace{0.02cm}
+    \noindent
+    {\bf ii. Inference}
+    \begin{algorithmic}
+        \State $\bm{\hat{\tau}}^{inf} \gets \texttt{EstimatePseudoOutcomes}(\bm{X}^{inf},\bm{z}^{inf},\bm{y}^{inf})$ \Comment{e.g. AIPW, CF, BCF, CausalBART, S/T/X-Learner} %(subsection \ref{ssec:ite_inf})}
+        \State $\hat{\bm{\alpha}} \gets \texttt{EstimateAATE}(\mathcal{\hat{R}},\bm{X}^{inf}, \bm{\hat{\tau}}^{inf})$ \Comment{Linear smoothing} %(subsection \ref{ssec:aate})}
+    \end{algorithmic}
+
+\end{algorithmic}
+\end{algorithm}
+$$
 
 # Usage
 
@@ -67,7 +107,7 @@ install.packages("CRE")
 library("CRE")
 ```
 
-`generate_cre_dataset()` is a flexible synthetic dataset generator, which can be used for simulations before applying `CRE` to real-world observational data sets. It generates an outcome array `y` (binary or continuous), a treatment array `z` (binary), a covariate matrix (binary or continuous) and the true (unobserved) indidual treatment effect `ite` (useful for performance evaluation). For a full description of the data generating process, see Section 4 in @bargagli2023causal.
+`generate_cre_dataset()` is a flexible synthetic dataset generator, which can be used for simulations before applying `CRE` to real-world observational data sets. It generates an outcome array `y` (binary or continuous), a treatment array `z` (binary), a covariate matrix (binary or continuous) and the true (unobserved) indidual treatment effect `ite` (useful for performance evaluation). For a full description of the data generating process and its variants, see Section 4 in @bargagli2023causal.
 ```R
 set.seed(2023)
 dataset <- generate_cre_dataset(n = 5000, 
