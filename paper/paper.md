@@ -59,45 +59,6 @@ The `CRE` procedure is divided into two steps, discovery and inference, and each
 During the discovery step, `CRE` retrieves the $M$ decision rules characterizing the heterogeneity in the treatment effect. A set of candidate decision rules is extracted by an ensemble of trees trained by a _fit-the-fit_ procedure to model some Individual Treatment Effect (ITE) estimates [@tibshirani2023package; @polley2019package; @dorie2020package], and among these, only a simple and robust subset of rules is selected for the linear decomposition by the Stability Selection algorithm via LASSO [@meinshausen2010stability; @friedman2021package; @hofner2015package].
 During the inference step, `CRE` estimates the ATE and AATEs, by the normal equations to model some ITE estimates and confidence intervals are provided by bootstrapping. 
 
-$$
-\begin{algorithm}
-\footnotesize
-\caption{Causal Rule Ensemble (CRE)}
-\label{alg:cre}
-\vspace{0.15cm}
-{\bf Inputs:} covariates matrix $\bm{X}$, (binary) treatment vector $\bm{z}$, and observed response vector $\bm{y}$.\\
-{\bf Outputs:} (i) a set of interpretable decision rules $\mathcal{\hat{R}}=\{\hat{r}_m\}_{m=1}^M$, 
-
-\hspace{1.55cm} (ii) ATE $\hat{\bar{\tau}}$ and AATEs $\hat{\bm{\alpha}}$ estimates and confidence intervals,
-
-\vspace{0.05cm}
-{\bf Procedure:}
-\begin{algorithmic}
-    \State $(\bm{X}^{dis},\bm{z}^{dis},\bm{y}^{dis}$), ($\bm{X}^{inf},\bm{z}^{inf},\bm{y}^{inf}) \gets \texttt{HonestSplitting}(\bm{X},\bm{z},\bm{y}) $
-
-    \vspace{0.02cm}
-    \noindent
-    {\bf i. Discovery}
-    \begin{algorithmic}
-        \State $\bm{\hat{\tau}}^{dis} \gets \texttt{EstimatePseudoOutcomes}(\bm{X}^{dis},\bm{z}^{dis},\bm{y}^{dis})$ \Comment{e.g. AIPW, CF, BCF, CausalBART, S/T/X-Learner} %(subsection \ref{ssec:ite_dis})}
-        \State $ \mathcal{\hat{R}'} \gets \texttt{GenerateRules}(\bm{X}^{dis},\bm{\hat{\tau}}^{dis}) $
-        \Comment{i.e., tree-ensemble method} %(subsection \ref{ssec:generation})}
-        \State $ \mathcal{\hat{R}} \gets \texttt{RulesSelection}(\mathcal{\hat{R}'},\bm{X}^{dis},\bm{\hat{\tau}}^{dis})$ \Comment{Stability Selection} %(subsection \ref{ssec:selection})}
-    \end{algorithmic}
-    
-    % CATE Inference
-    \vspace{0.02cm}
-    \noindent
-    {\bf ii. Inference}
-    \begin{algorithmic}
-        \State $\bm{\hat{\tau}}^{inf} \gets \texttt{EstimatePseudoOutcomes}(\bm{X}^{inf},\bm{z}^{inf},\bm{y}^{inf})$ \Comment{e.g. AIPW, CF, BCF, CausalBART, S/T/X-Learner} %(subsection \ref{ssec:ite_inf})}
-        \State $\hat{\bm{\alpha}} \gets \texttt{EstimateAATE}(\mathcal{\hat{R}},\bm{X}^{inf}, \bm{\hat{\tau}}^{inf})$ \Comment{Linear smoothing} %(subsection \ref{ssec:aate})}
-    \end{algorithmic}
-
-\end{algorithmic}
-\end{algorithm}
-$$
-
 # Usage
 
 `CRE` is available both on CRAN [@cre_r] and [GitHub](https://github.com/NSAPH-Software/CRE) and can be installed and loaded into the R session
