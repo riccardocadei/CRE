@@ -83,7 +83,7 @@ __Additional Estimates (not required)__
 - [Causal Forests](https://projecteuclid.org/journals/annals-of-statistics/volume-47/issue-2/Generalized-random-forests/10.1214/18-AOS1709.full) (`cf`)
 - [Causal Bayesian Additive Regression Trees](https://www.tandfonline.com/doi/pdf/10.1198/jcgs.2010.08162?casa_token=tlBxbbiESdgAAAAA:3RY4NQrwexcIyo2F-v1SIty7ZSMD8qNIf5uiHqlN8G3BWCisPDEtHOWn5IK23tAdN2zOqzNo-p4) (`bart`)
 
-if other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.
+If other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.  Each ITE estimator requires also an outcome learner and/or a propensity score learner. Both these models are simple classifiers/regressors. By default XGBoost from `superlearner` package is used for both these steps.
 
 
 ## Examples
@@ -180,18 +180,20 @@ More synthetic data sets can be generated using `generate_cre_dataset()`.
 
 
 ## Simulations
+Reproduce simulation experiments in Section 4 in @bargagli2023causal, evaluating Causal Rule Ensemble Discovery and Estimation performances, comparing with different benchmarks. 
 
-Discovery.
+**Discovery**: Evaluate performance of Causal Rule Ensemble algorithm (varying the pseudo-outcome estimator) in rules and effect modifier discovery.
 
 ```r
 CRE/functional_tests/experiments/discovery.R
 ```
 
-Estimation.
+**Estimation**: Evaluate performance of Causal Rule Ensemble algorithm (varying the pseudo-outcome estimator) in treatment effect estimation and comparing it with the corresponding stand-alone ITE estimators.
 
 ```r
 CRE/functional_tests/experiments/estimation.R
 ```
+
 More exhaustive simulation studies and real world experiment of CRE package can be found at [https://github.com/NSAPH-Projects/cre_applications](https://github.com/NSAPH-Projects/cre_applications).
 
 
