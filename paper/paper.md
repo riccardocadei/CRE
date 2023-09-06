@@ -53,8 +53,8 @@ Several methodologies for HTE estimation have already been proposed (together wi
 
 Causal Rule Ensemble relies on the Treatment Effect linear decomposition assumption, which characterizes the Conditional Average Treatment Effect (CATE) as the sum of $M+1$ distinct contributions:
 $$\tau(\boldsymbol{x}) = \mathbb{E}[\tau_i | X_i=\boldsymbol{x}] = \bar{\tau} + \sum_{m=1}^M \alpha_m \cdot r_m(\boldsymbol{x})$$
-where $\bar{\tau}$ is the ATE, and for each $m$ in $\{1,..., M\}$, $r_m$ is an interpretable decision rule characterizing a specific subset of the covariate space, and $\alpha_m$ is the corresponding Additive Average Treatment Effect (AATE).
-`CRE` procedure is divided into two steps, discovery and inference, and each observation is used for only one of the two steps (honest splitting). The splitting is at random and the percentage allocated to each step is controlled.
+where $\bar{\tau}$ is the ATE, $\tau_i$ is the ITE, and for each $m$ in $\{1,..., M\}$, $r_m$ is an interpretable decision rule characterizing a specific subset of the covariate space, and $\alpha_m$ is the corresponding Additive Average Treatment Effect (AATE).
+The `CRE` procedure is divided into two steps, discovery and inference, and each observation is used for only one of the two steps (honest splitting). The splitting is at random and the percentage allocated to each step is controlled.
 During the discovery step, `CRE` retrieves the $M$ decision rules characterizing the heterogeneity in the treatment effect. A set of candidate decision rules is extracted by an ensemble of trees trained by a _fit-the-fit_ procedure to model some Individual Treatment Effect (ITE) estimates [@tibshirani2023package; @polley2019package; @dorie2020package], and among these, only a simple and robust subset of rules is selected for the linear decomposition by the Stability Selection algorithm via LASSO [@friedman2021package; @hofner2015package].
 During the inference step, `CRE` estimates the ATE and AATEs, by the normal equations to model some ITE estimates and confidence intervals are provided by bootstrapping. 
 
@@ -67,7 +67,7 @@ install.packages("CRE")
 library("CRE")
 ```
 
-`generate_cre_dataset()` is a flexible synthetic dataset generator, which can be used for simulations before applying `CRE` to real-world observational data sets. For a full description of the data generating process, see Section 4 in @bargagli2023causal.
+`generate_cre_dataset()` is a flexible synthetic dataset generator, which can be used for simulations before applying `CRE` to real-world observational data sets. It generates an outcome array `y` (binary or continuous), a treatment array `z` (binary), a covariate matrix (binary or continuous) and the true (unobserved) indidual treatment effect `ite` (useful for performance evaluation). For a full description of the data generating process, see Section 4 in @bargagli2023causal.
 ```R
 set.seed(2023)
 dataset <- generate_cre_dataset(n = 5000, 
@@ -81,6 +81,7 @@ dataset <- generate_cre_dataset(n = 5000,
 y <- dataset$y
 z <- dataset$z
 X <- dataset$X
+ite <- dataset$ite
 ```
 
 We propose here three examples of how to run the Causal Rule Esemble algorithm by the `CRE` package.
@@ -90,7 +91,7 @@ We propose here three examples of how to run the Causal Rule Esemble algorithm b
 results <- cre(y, z, X)
 ```
 
-**Example 2.** Running Causal Rule Ensemble with customized ITE estimator.
+**Example 2.** Running Causal Rule Ensemble with customized ITE estimator. If `ite` argument is provided, the psudo-outcome estimation both in the discovery and inference step is skipped. This argument is useful either to consider new ITE estimators which are not internally implemented in this package, either to compute this estimation una tantum (saving the results) and speed up the execution time during the hyper-parameter tuning.
 ```R
 # personalized ITE estimation (S-Learner with Linear Regression)
 model <- lm(y ~., data = data.frame(y = y, X = X, z = z) )

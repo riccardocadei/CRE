@@ -180,18 +180,20 @@ More synthetic data sets can be generated using `generate_cre_dataset()`.
 
 
 ## Simulations
+Reproduce simulation experiments in Section 4 in @bargagli2023causal, evaluating Causal Rule Ensemble Discovery and Estimation performances, comparing with different benchmarks. 
 
-Discovery.
+**Discovery**: Evaluate performance of Causal Rule Ensemble algorithm (varying the pseudo-outcome estimator) in rules and effect modifier discovery.
 
 ```r
 CRE/functional_tests/experiments/discovery.R
 ```
 
-Estimation.
+**Estimation**: Evaluate performance of Causal Rule Ensemble algorithm (varying the pseudo-outcome estimator) in treatment effect estimation and comparing it with the corresponding stand-alone ITE estimators.
 
 ```r
 CRE/functional_tests/experiments/estimation.R
 ```
+
 More exhaustive simulation studies and real world experiment of CRE package can be found at [https://github.com/NSAPH-Projects/cre_applications](https://github.com/NSAPH-Projects/cre_applications).
 
 
