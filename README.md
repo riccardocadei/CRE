@@ -62,7 +62,7 @@ __Parameters (not required)__
 - **`t_ext`** The threshold to define too generic or too specific (extreme) rules (default: 0.01).     
 - **`t_corr`** The threshold to define correlated rules (default: 1). 
 - **`t_pvalue`** The threshold to define statistically significant rules (default: 0.05).
-- **`stability_selection`** Method for stability selection for selecting the rules. `vanilla` for stability selection, `error_control` for stability selection with error control and `no` for no stability selection (default: `vanilla`).
+- **`stability_selection`** Method for stability selection for selecting the rules. 'vanilla' for stability selection, 'error_control' for stability selection with error control and 'no' for no stability selection (default: 'vanilla').
 - **`cutoff`** Threshold defining the minimum cutoff value for the stability scores (default: 0.9).
 - **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).
 - **`B`** Number of bootstrap samples for stability selection in rules selection and uncertainty quantification in estimation (default: 20).
