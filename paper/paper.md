@@ -87,12 +87,12 @@ ite <- dataset$ite
 
 We propose here three examples of how to run the Causal Rule Esemble algorithm by the `CRE` package.
 
-**Example 1.** Running Causal Rule Ensemble with default parameters. For a detailed descriptions of the method parameters and their default values check [https://nsaph-software.github.io/CRE/articles/CRE.html](https://nsaph-software.github.io/CRE/articles/CRE.html).
+**Example 1.** Running Causal Rule Ensemble with default parameters. For a detailed description of the default method and hyper parameters refer to [https://nsaph-software.github.io/CRE/articles/CRE.html](https://nsaph-software.github.io/CRE/articles/CRE.html).
 ```R
 results <- cre(y, z, X)
 ```
 
-**Example 2.** Running Causal Rule Ensemble with customized IATE estimator. If `ite` argument is provided, the psudo-outcome estimation both in the discovery and inference step is skipped. This argument is useful either to consider new IATE estimators which are not internally implemented in this package, either to compute this estimation una tantum (saving the results) and speed up the execution time during the hyper-parameter tuning.
+**Example 2.** Running Causal Rule Ensemble with customized IATE estimator. If `ite` argument is provided, the IATE estimation both in the discovery and inference step is skipped. This argument is useful either to consider new IATE estimators which are not internally implemented in this package, either to compute this estimation una tantum (saving the results) and speed up the execution time during the hyper-parameter tuning.
 ```R
 # personalized IATE estimation (S-Learner with Linear Regression)
 model <- lm(y ~., data = data.frame(y = y, X = X, z = z) )
@@ -101,7 +101,7 @@ iate_pred <- predict(model, newdata = data.frame(X = X, z = z))
 results <- cre(y, z, X, ite = iate_pred)
 ```
 
-**Example 3.** Running Causal Rule Ensemble with customized parameters (no need to explicit all the arguments).
+**Example 3.** Running Causal Rule Ensemble with customized parameters (no need to explicit all the arguments). The method parameters (`method_params`) entail the IATE estimator method, the outcome and propensity score learners (if needed) and the the ratio of data to use for each step. The hyper parameters (`hyper_params`) entail all the other parameters through which Causal Rule Ensemble algorithm can be fine tuned. For a detailed description of all the method and hyper parameters refer to [https://nsaph-software.github.io/CRE/articles/CRE.html](https://nsaph-software.github.io/CRE/articles/CRE.html).
 ```R
 method_params <- list(ratio_dis = 0.5,
                       ite_method = "aipw",
