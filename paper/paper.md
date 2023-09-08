@@ -54,8 +54,11 @@ Causal Rule Ensemble relies on the Treatment Effect linear decomposition assumpt
 $$\tau(\boldsymbol{x}) = \mathbb{E}[\tau_i | X_i=\boldsymbol{x}] = \bar{\tau} + \sum_{m=1}^M \alpha_m \cdot r_m(\boldsymbol{x})$$
 where $\bar{\tau}$ is the ATE, $\tau_i$ is the ITE, and for each $m$ in $\{1,..., M\}$, $r_m$ is an interpretable decision rule characterizing a specific subset of the covariate space, and $\alpha_m$ is the corresponding Additive Average Treatment Effect (AATE).
 The `CRE` procedure is divided into two steps, discovery and inference, and each observation is used for only one of the two steps (honest splitting). The splitting is at random and the percentage allocated to each step is controlled.
-During the discovery step, `CRE` retrieves the $M$ decision rules characterizing the heterogeneity in the treatment effect. A set of candidate decision rules is extracted by an ensemble of trees trained by a _fit-the-fit_ procedure to model some Individual Treatment Effect (ITE) estimates [@tibshirani2023package; @polley2019package; @dorie2020package], and among these, only a simple and robust subset of rules is selected for the linear decomposition by the Stability Selection algorithm via LASSO [@meinshausen2010stability; @friedman2021package; @hofner2015package].
-During the inference step, `CRE` estimates the ATE and AATEs, by the normal equations to model some ITE estimates and confidence intervals are provided by bootstrapping. 
+During the discovery step, `CRE` retrieves the $M$ decision rules characterizing the heterogeneity in the treatment effect. A set of candidate decision rules is extracted by an ensemble of trees trained by a _fit-the-fit_ procedure to model some Individual Average Treatment Effect (IATE) estimates [@tibshirani2023package; @polley2019package; @dorie2020package], and among these, only a simple and robust subset of rules is selected for the linear decomposition by the Stability Selection algorithm via LASSO [@meinshausen2010stability; @friedman2021package; @hofner2015package].
+During the inference step, `CRE` estimates the ATE and AATEs, by the normal equations to model some IATE estimates and confidence intervals are provided by bootstrapping. 
+A brief schematic summary of the described procedure is reported below.
+
+![](images/algorithm.png)
 
 # Usage
 
@@ -90,13 +93,13 @@ We propose here three examples of how to run the Causal Rule Esemble algorithm b
 results <- cre(y, z, X)
 ```
 
-**Example 2.** Running Causal Rule Ensemble with customized ITE estimator. If `ite` argument is provided, the psudo-outcome estimation both in the discovery and inference step is skipped. This argument is useful either to consider new ITE estimators which are not internally implemented in this package, either to compute this estimation una tantum (saving the results) and speed up the execution time during the hyper-parameter tuning.
+**Example 2.** Running Causal Rule Ensemble with customized IATE estimator. If `ite` argument is provided, the psudo-outcome estimation both in the discovery and inference step is skipped. This argument is useful either to consider new IATE estimators which are not internally implemented in this package, either to compute this estimation una tantum (saving the results) and speed up the execution time during the hyper-parameter tuning.
 ```R
-# personalized ITE estimation (S-Learner with Linear Regression)
+# personalized IATE estimation (S-Learner with Linear Regression)
 model <- lm(y ~., data = data.frame(y = y, X = X, z = z) )
-ite_pred <- predict(model, newdata = data.frame(X = X, z = z))
+iate_pred <- predict(model, newdata = data.frame(X = X, z = z))
 
-results <- cre(y, z, X, ite = ite_pred)
+results <- cre(y, z, X, ite = iate_pred)
 ```
 
 **Example 3.** Running Causal Rule Ensemble with customized parameters (no need to explicit all the arguments).
