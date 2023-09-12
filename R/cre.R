@@ -124,7 +124,7 @@ cre <- function(y, z, X,
   method_params <- check_method_params(y = y,
                                        ite = ite,
                                        params = method_params)
-  hyper_params <- check_hyper_params(X_names = names(X),
+  hyper_params <- check_hyper_params(X_names = colnames(as.data.frame(X)),
                                      params = hyper_params)
 
   # Honest Splitting -----------------------------------------------------------
@@ -206,7 +206,7 @@ cre <- function(y, z, X,
     rules_explicit <- c()
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, rules)
-    rules_explicit <- interpret_rules(rules, colnames(X_inf))
+    rules_explicit <- interpret_rules(rules, colnames(as.data.frame(X)))
   }
 
   # Estimate CATE
