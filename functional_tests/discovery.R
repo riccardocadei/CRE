@@ -65,7 +65,7 @@ if (experiment=="main") {
 
 # Other Setting
 {
-  n_seeds <- 250
+  n_seeds <- 2
   ratio_dis <- 0.5
   effect_sizes <- seq(0, 5, 0.2)
   ITE_estimators <- c("aipw","cf","slearner","tlearner","xlearner","bart")
@@ -148,13 +148,12 @@ for(effect_size in effect_sizes){
       X <- dataset[["X"]]
       X_names <- colnames(X)
 
-      method_params[["ite_method_dis"]] <- ITE_estimator
-      method_params[["ite_method_inf"]] <- ITE_estimator
+      method_params[["ite_method"]] <- ITE_estimator
       hyper_params[["pfer"]] <- n_rules/(effect_size+1)
       metrics <- tryCatch({
         result <- cre(y, z, X, method_params, hyper_params)
 
-        dr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(BATE)" == FALSE]
+        dr_pred <- result$CATE$Rule[result$CATE$Rule %in% "(ATE)" == FALSE]
         metrics_dr <- evaluate(dr, dr_pred)
         em_pred <- extract_effect_modifiers(dr_pred, X_names)
         metrics_em <- evaluate(em, em_pred)
@@ -181,7 +180,7 @@ colnames(discovery) <- c("method","effect_size","seed",
 rownames(discovery) <- 1:nrow(discovery)
 
 # Save results
-results_dir <- "~/CRE/functional_tests/results/"
+results_dir <- "~/Desktop/CRE/functional_tests/results/"
 if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
