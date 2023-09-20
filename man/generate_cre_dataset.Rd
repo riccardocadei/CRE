@@ -20,7 +20,7 @@ generate_cre_dataset(
 Non-integer values will be converted into an integer number.}
 
 \item{rho}{A positive double number that represents the correlation
-within the covariates (default: 0, range: (0,1)).}
+within the covariates (default: 0, range: [0,1]).}
 
 \item{n_rules}{The number of causal rules (default: 2, range: {1,2,3,4}).}
 
