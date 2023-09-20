@@ -125,7 +125,7 @@ dataset <- generate_cre_dataset(n = 2000,
   X <- dataset[["X"]]
 
 # personalized ITE estimation (S-Learner with Linear Regression)
-model <- lm(y ~., data = data.frame(y = y, X = X, z = z) )
+model <- lm(y ~., data = data.frame(y = y, X = X, z = z))
 ite_pred <- predict(model, newdata = data.frame(X = X, z = z))
 
 cre_results <- cre(y, z, X, ite = ite_pred)
