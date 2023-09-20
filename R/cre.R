@@ -43,7 +43,7 @@
 #'    - *t_ext*: The threshold to truncate too generic or too specific (extreme)
 #'    rules (default: 0.01, range: [0, 0.5)).
 #'    - *t_corr*: The threshold to define correlated rules (default: 1,
-#'    range: [0,+inf]).
+#'    range: [0,+inf).
 #'    - *stability_selection*: Method for stability selection for selecting the
 #'    rules. `vanilla` for stability selection, `error_control`
 #'    for stability selection with error control and `no` for no stability
