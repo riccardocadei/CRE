@@ -67,7 +67,7 @@ linearly modeling the Individual Treatment Effect by a set of rules.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">estimate_cate</span><span class="op">(</span><span class="va">rules_matrix</span>, <span class="va">rules_explicit</span>, <span class="va">ite</span>, <span class="va">t_pvalue</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">estimate_cate</span><span class="op">(</span><span class="va">rules_matrix</span>, <span class="va">rules_explicit</span>, <span class="va">ite</span>, B <span class="op">=</span> <span class="fl">1</span>, subsample <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -84,9 +84,14 @@ linearly modeling the Individual Treatment Effect by a set of rules.</p>
 <dd><p>The estimated ITEs.</p></dd>
 
 
-<dt>t_pvalue</dt>
-<dd><p>The threshold to define statistically significant rules
-(filter only rules with p-value &lt;= t_pvalue).</p></dd>
+<dt>B</dt>
+<dd><p>The number of bootstrap samples for uncertainty quantification in
+estimation.</p></dd>
+
+
+<dt>subsample</dt>
+<dd><p>The bootstrap ratio subsample for uncertainty quantification
+in estimation.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -94,11 +99,11 @@ linearly modeling the Individual Treatment Effect by a set of rules.</p>
     
 
 <p>A list with 2 elements:
-<code>summary</code>: A data frame summarizing the CATE linear decomposition:</p><ul><li><p>'Rule': rule name,</p></li>
-<li><p>'Estimate': linear contribution to CATE,</p></li>
-<li><p>'CI_lower`: lower bound 95% confidence interval on the estimate,</p></li>
-<li><p>'CI_upper`: upper bound 95% confidence interval on the estimate,</p></li>
-<li><p><code>P-Value</code>: p-value (from Z-test).
+<code>summary</code>: A data frame summarizing the CATE linear decomposition:</p><ul><li><p><code>Rule</code>: rule name,</p></li>
+<li><p><code>Estimate</code>: linear contribution to CATE,</p></li>
+<li><p><code>CI_lower</code>: lower bound 95% confidence interval on the estimate,</p></li>
+<li><p><code>CI_upper</code>: upper bound 95% confidence interval on the estimate,</p></li>
+<li><p><code>P_Value</code>: p-value (from Z-test).
 <code>model</code>: A linear model for CATE-ATE estimation.</p></li>
 </ul></div>
 

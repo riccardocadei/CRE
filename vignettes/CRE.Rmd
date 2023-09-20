@@ -78,16 +78,16 @@ __Additional Estimates (not required)__
 
 ### Options for the ITE estimation
 
-**[1]** Options for the ITE estimation are as follows: 
-- [S-Learner](https://CRAN.R-project.org/package=SuperLearner) (`slearner`)
-- [T-Learner](https://CRAN.R-project.org/package=SuperLearner) (`tlearner`)
-- [T-Poisson](https://CRAN.R-project.org/package=stats) (`tpoisson`)
-- [X-Learner](https://CRAN.R-project.org/package=SuperLearner) (`xlearner`)
-- [Augmented Inverse Probability Weighting](https://CRAN.R-project.org/package=SuperLearner) (`aipw`)
-- [Causal Forests](https://CRAN.R-project.org/package=grf) (`cf`)
-- [Causal Bayesian Additive Regression Trees](https://CRAN.R-project.org/package=bartCause) (`bart`)
+**[1]** Options for the ITE estimation are as follows:   
+- [S-Learner](https://CRAN.R-project.org/package=SuperLearner) (`slearner`).    
+- [T-Learner](https://CRAN.R-project.org/package=SuperLearner) (`tlearner`)  
+- [T-Poisson](https://CRAN.R-project.org/package=stats) (`tpoisson`)  
+- [X-Learner](https://CRAN.R-project.org/package=SuperLearner) (`xlearner`)  
+- [Augmented Inverse Probability Weighting](https://CRAN.R-project.org/package=SuperLearner) (`aipw`)  
+- [Causal Forests](https://CRAN.R-project.org/package=grf) (`cf`)  
+- [Causal Bayesian Additive Regression Trees](https://CRAN.R-project.org/package=bartCause) (`bart`)  
 
-If other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.  The ITE estimator requires also an outcome learner and/or a propensity score learner from the [SuperLearner](https://CRAN.R-project.org/package=SuperLearner) package (i.e., 'SL.lm', 'SL.svm'). Both these models are simple classifiers/regressors. By default XGBoost algorithm is used for both these steps.   
+If other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.  The ITE estimator requires also an outcome learner and/or a propensity score learner from the [SuperLearner](https://CRAN.R-project.org/package=SuperLearner) package (i.e., 'SL.lm', 'SL.svm'). Both these models are simple classifiers/regressors. By default XGBoost algorithm is used for both these steps.     
 
 ### Customized wrapper for SuperLearner
 
