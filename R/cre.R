@@ -16,18 +16,25 @@
 #'     (default: 0.5).
 #'   - *Parameters for Discovery and Inference*
 #'     - *ite_method*: The method for ITE (pseudo-outcome) estimation
-#'     (default: 'aipw').
+#'     (default: 'aipw', options: {'aipw' for Augmented Inverse Probability
+#'     Weighting, 'cf' for Causal Forest, 'bart' for Causal Bayesian Additive
+#'     Regression Trees, slearner' for S-Learner, 'tlearner' for T-Learner,
+#'     'xlearner' for X-Learner, 'tpoisson' for T-Learner with Poisson
+#'     regression}).
 #'     - *learner_ps*: The model for the propensity score estimation
-#'     (default: 'SL.xgboost').
+#'     (default: 'SL.xgboost', options: {any SuperLearner prediction model i.e.,
+#'     'SL.lm', 'SL.svm'}, used only for 'aipw','bart','cf' ITE estimators).
 #'     - *learner_y*: The model for the outcome estimation
-#'     (default: 'SL.xgboost').
+#'     (default: 'SL.xgboost', options: {any SuperLearner prediction model i.e.,
+#'     'SL.lm', 'SL.svm'}, used only for 'aipw','slearner','tlearner' and
+#'     'xlearner' ITE estimators).
 #' @param hyper_params The list of hyper parameters to fine-tune the method,
 #' including:
 #'  - *intervention_vars*: Array with intervention-able covariates names used
 #'  for Rules Generation. Empty or null array means that all the covariates are
 #'  considered as intervention-able (default: NULL).
 #'  - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
-#'     T-Poisson ITE estimation. Use `NULL` if offset is not used
+#'     T-Poisson ITE estimation. Use NULL if offset is not used
 #'     (default: NULL).
 #'  - *ntrees*: The number of decision trees for random forest (default: 20).
 #'  - *node_size*: Minimum size of the trees' terminal nodes (default: 20).
@@ -38,9 +45,9 @@
 #'  - *t_ext*: The threshold to truncate too generic or too specific (extreme)
 #'  rules (default: 0.01, range: [0, 0.5)).
 #'  - *t_corr*: The threshold to define correlated rules (default: 1,
-#'  range: (0,+inf)).
+#'  range: [0,+inf]).
 #'  - *t_pvalue*: the threshold to define statistically significant rules
-#' (default: 0.05, range: (0, 1)).
+#' (default: 0.05, range: [0, 1]).
 #'  - *stability_selection*: Method for stability selection for selecting the
 #'  rules. `vanilla` for stability selection, `error_control`
 #'  for stability selection with error control and `no` for no stability
@@ -67,6 +74,7 @@
 #' - The list of rules (implicit form) decomposing the CATE (`rules`).
 #'
 #' @note
+#'
 #' - If `intervention_vars` are provided, it's important to note that the
 #' individual treatment effect will still be computed using all covariates.
 #' @export
@@ -74,7 +82,7 @@
 #' @examples
 #'
 #' \donttest{
-#' set.seed(2021)
+#' set.seed(123)
 #' dataset <- generate_cre_dataset(n = 400,
 #'                                 rho = 0,
 #'                                 n_rules = 2,

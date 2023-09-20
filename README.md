@@ -46,9 +46,9 @@ __Data (required)__
 __Parameters (not required)__    
 **`method_parameters`** The list of parameters to define the models used, including:
 - **`ratio_dis`** The ratio of data delegated to the discovery sub-sample (default: 0.5). 
-- **`ite_method`** The method to estimate the individual treatment effect (ITE) psudo-outcome estimation (default: 'aipw') [1].        
-- **`learner_ps`** The model for the propensity score estimation (default: 'SL.xgboost').
-- **`learner_y`** The model for the outcome estimation (default: 'SL.xgboost').   
+- **`ite_method`** The method to estimate the individual treatment effect (ITE) pseudo-outcome estimation (default: 'aipw') [1].        
+- **`learner_ps`** The ([SuperLearner](https://cran.r-project.org/web/packages/SuperLearner/index.html)) model for the propensity score estimation (default: 'SL.xgboost', used only for 'aipw','bart','cf' ITE estimators).
+- **`learner_y`** The ([SuperLearner](https://cran.r-project.org/web/packages/SuperLearner/index.html)) model for the outcome estimation (default: 'SL.xgboost', used only for 'aipw','slearner','tlearner' and 'xlearner' ITE estimators).   
 
 **`hyper_params`** The list of hyper parameters to finetune the method, including:
 - **`intervention_vars`** Array with intervention-able covariates names used for Rules Generation. Empty or null array means that all the covariates are considered as intervention-able (default: NULL).  
@@ -83,7 +83,7 @@ __Additional Estimates (not required)__
 - [Causal Forests](https://projecteuclid.org/journals/annals-of-statistics/volume-47/issue-2/Generalized-random-forests/10.1214/18-AOS1709.full) (`cf`)
 - [Causal Bayesian Additive Regression Trees](https://www.tandfonline.com/doi/pdf/10.1198/jcgs.2010.08162?casa_token=tlBxbbiESdgAAAAA:3RY4NQrwexcIyo2F-v1SIty7ZSMD8qNIf5uiHqlN8G3BWCisPDEtHOWn5IK23tAdN2zOqzNo-p4) (`bart`)
 
-If other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.  Each ITE estimator requires also an outcome learner and/or a propensity score learner. Both these models are simple classifiers/regressors. By default XGBoost from `superlearner` package is used for both these steps.
+If other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.  The ITE estimator requires also an outcome learner and/or a propensity score learner from the [SuperLearner](https://cran.r-project.org/web/packages/SuperLearner/index.html) package (i.e., 'SL.lm', 'SL.svm'). Both these models are simple classifiers/regressors. By default XGBoost algorithm is used for both these steps.
 
 
 ## Examples

@@ -25,11 +25,18 @@ including:
 \item \emph{Parameters for Discovery and Inference}
 \itemize{
 \item \emph{ite_method}: The method for ITE (pseudo-outcome) estimation
-(default: 'aipw').
+(default: 'aipw', options: {'aipw' for Augmented Inverse Probability
+Weighting, 'cf' for Causal Forest, 'bart' for Causal Bayesian Additive
+Regression Trees, slearner' for S-Learner, 'tlearner' for T-Learner,
+'xlearner' for X-Learner, 'tpoisson' for T-Learner with Poisson
+regression}).
 \item \emph{learner_ps}: The model for the propensity score estimation
-(default: 'SL.xgboost').
+(default: 'SL.xgboost', options: {any SuperLearner prediction model i.e.,
+'SL.lm', 'SL.svm'}, used only for 'aipw','bart','cf' ITE estimators).
 \item \emph{learner_y}: The model for the outcome estimation
-(default: 'SL.xgboost').
+(default: 'SL.xgboost', options: {any SuperLearner prediction model i.e.,
+'SL.lm', 'SL.svm'}, used only for 'aipw','slearner','tlearner' and
+'xlearner' ITE estimators).
 }
 }}
 
@@ -40,7 +47,7 @@ including:
 for Rules Generation. Empty or null array means that all the covariates are
 considered as intervention-able (default: NULL).
 \item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
-T-Poisson ITE estimation. Use \code{NULL} if offset is not used
+T-Poisson ITE estimation. Use NULL if offset is not used
 (default: NULL).
 \item \emph{ntrees}: The number of decision trees for random forest (default: 20).
 \item \emph{node_size}: Minimum size of the trees' terminal nodes (default: 20).
@@ -51,9 +58,9 @@ carry out an aggressive pruning (default: 0.025).
 \item \emph{t_ext}: The threshold to truncate too generic or too specific (extreme)
 rules (default: 0.01, range: [0, 0.5)).
 \item \emph{t_corr}: The threshold to define correlated rules (default: 1,
-range: (0,+inf)).
+range: \link{0,+inf}).
 \item \emph{t_pvalue}: the threshold to define statistically significant rules
-(default: 0.05, range: (0, 1)).
+(default: 0.05, range: \link{0, 1}).
 \item \emph{stability_selection}: Method for stability selection for selecting the
 rules. \code{vanilla} for stability selection, \code{error_control}
 for stability selection with error control and \code{no} for no stability
@@ -95,7 +102,7 @@ individual treatment effect will still be computed using all covariates.
 \examples{
 
 \donttest{
-set.seed(2021)
+set.seed(123)
 dataset <- generate_cre_dataset(n = 400,
                                 rho = 0,
                                 n_rules = 2,
