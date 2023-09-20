@@ -1,6 +1,7 @@
 ^CRE\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^LICENSE$
 ^\.github$
 _archive
 ^_pkgdown\.yml$
@@ -19,3 +20,4 @@ index.md
 ^CRAN-SUBMISSION$
 ^paper/*$
 ^CODE_OF_CONDUCT\.md$
+

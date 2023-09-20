@@ -18,3 +18,6 @@ set_logger("mylogger.log", "INFO")
 log_meta <- get_logger()
 
 }
+\seealso{
+\code{\link{set_logger}} for information on setting the log level and file path.
+}
