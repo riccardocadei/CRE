@@ -7,6 +7,9 @@
     <loc>https://github.com/NSAPH-Software/CRE/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
+    <loc>https://github.com/NSAPH-Software/CRE/LICENSE-text.html</loc>
+  </url>
+  <url>
     <loc>https://github.com/NSAPH-Software/CRE/articles/CRE.html</loc>
   </url>
   <url>
@@ -197,6 +200,9 @@
   </url>
   <url>
     <loc>https://github.com/NSAPH-Software/CRE/reference/plot_cre.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/NSAPH-Software/CRE/reference/predict.cre.html</loc>
   </url>
   <url>
     <loc>https://github.com/NSAPH-Software/CRE/reference/print.cre.html</loc>

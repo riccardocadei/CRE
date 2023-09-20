@@ -25,23 +25,29 @@ including:
 \item \emph{Parameters for Discovery and Inference}
 \itemize{
 \item \emph{ite_method}: The method for ITE (pseudo-outcome) estimation
-(default: 'aipw').
+(default: 'aipw', options: {'aipw' for Augmented Inverse Probability
+Weighting, 'cf' for Causal Forest, 'bart' for Causal Bayesian Additive
+Regression Trees, slearner' for S-Learner, 'tlearner' for T-Learner,
+'xlearner' for X-Learner, 'tpoisson' for T-Learner with Poisson
+regression}).
 \item \emph{learner_ps}: The model for the propensity score estimation
-(default: 'SL.xgboost').
+(default: 'SL.xgboost', options: {any SuperLearner prediction model i.e.,
+'SL.lm', 'SL.svm'}, used only for 'aipw','bart','cf' ITE estimators).
 \item \emph{learner_y}: The model for the outcome estimation
-(default: 'SL.xgboost').
+(default: 'SL.xgboost', options: {any SuperLearner prediction model i.e.,
+'SL.lm', 'SL.svm'}, used only for 'aipw','slearner','tlearner' and
+'xlearner' ITE estimators).
 }
 }}
 
 \item{hyper_params}{The list of hyper parameters to fine-tune the method,
 including:
 \itemize{
+\item \emph{General hyper parameters}
+\itemize{
 \item \emph{intervention_vars}: Array with intervention-able covariates names used
 for Rules Generation. Empty or null array means that all the covariates are
 considered as intervention-able (default: NULL).
-\item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
-T-Poisson ITE estimation. Use \code{NULL} if offset is not used
-(default: NULL).
 \item \emph{ntrees}: The number of decision trees for random forest (default: 20).
 \item \emph{node_size}: Minimum size of the trees' terminal nodes (default: 20).
 \item \emph{max_rules}: Maximum number of generated candidates rules (default: 50).
@@ -51,36 +57,38 @@ carry out an aggressive pruning (default: 0.025).
 \item \emph{t_ext}: The threshold to truncate too generic or too specific (extreme)
 rules (default: 0.01, range: [0, 0.5)).
 \item \emph{t_corr}: The threshold to define correlated rules (default: 1,
-range: (0,+inf)).
-\item \emph{t_pvalue}: the threshold to define statistically significant rules
-(default: 0.05, range: (0, 1)).
+range: [0,+inf).
 \item \emph{stability_selection}: Method for stability selection for selecting the
 rules. \code{vanilla} for stability selection, \code{error_control}
 for stability selection with error control and \code{no} for no stability
 selection (default: \code{vanilla}).
-\item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for
-the stability scores (default: 0.9).
-\item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
-falsely selected rules) (default: 1).
 \item \emph{B}: Number of bootstrap samples for stability selection in rules
 selection and uncertainty quantification in estimation (default: 20).
 \item \emph{subsample}: Bootstrap ratio subsample for stability selection in rules
 selection and uncertainty quantification in estimation (default: 0.5).
+}
+\item \emph{Method specific hyper parameters}
+\itemize{
+\item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
+T-Poisson ITE estimation. Use NULL if offset is not used (default: NULL).
+\item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for
+the stability scores for Stability Selection (default: 0.9).
+\item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
+falsely selected rules) for Error Control Stability Selection (default: 1).
+}
 }}
 
 \item{ite}{The estimated ITE vector. If given both the ITE estimation steps
 in Discovery and Inference are skipped (default: NULL).}
 }
 \value{
-An S3 object containing:
-\itemize{
-\item The number of Decision Rules extracted at each step (\code{M}).
-\item The data.frame of Conditional Average Treatment Effect decomposition
-estimates with corresponding uncertainty quantification (\code{CATE}).
-\item The list of method parameters (\code{method_params}).
-\item The list of hyper parameters (\code{hyper_params}).
-\item The list of rules (implicit form) decomposing the CATE (\code{rules}).
-}
+An S3 object composed by:
+\item{M}{the number of Decision Rules extracted at each step,}
+\item{CATE}{the data.frame of Conditional Average Treatment Effect
+decomposition estimates with corresponding uncertainty quantification,}
+\item{method_params}{the list of method parameters,}
+\item{hyper_params}{the list of hyper parameters,}
+\item{rules}{the list of rules (implicit form) decomposing the CATE.}
 }
 \description{
 Performs the Causal Rule Ensemble on a data set with a response variable,
@@ -95,7 +103,7 @@ individual treatment effect will still be computed using all covariates.
 \examples{
 
 \donttest{
-set.seed(2021)
+set.seed(123)
 dataset <- generate_cre_dataset(n = 400,
                                 rho = 0,
                                 n_rules = 2,
@@ -122,7 +130,6 @@ hyper_params <- list(intervention_vars = NULL,
                      t_decay = 0.025,
                      t_ext = 0.025,
                      t_corr = 1,
-                     t_pvalue = 0.05,
                      stability_selection = "vanilla",
                      cutoff = 0.6,
                      pfer = 1,

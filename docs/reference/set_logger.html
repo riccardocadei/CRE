@@ -75,13 +75,27 @@
 
 
 <dt>logger_level</dt>
-<dd><p>The log level. Available levels include:</p><ul><li><p>TRACE</p></li>
-<li><p>DEBUG</p></li>
-<li><p>INFO (Default)</p></li>
-<li><p>SUCCESS</p></li>
-<li><p>WARN</p></li>
-<li><p>ERROR</p></li>
-<li><p>FATAL</p></li>
+<dd><p>The log level. When a log level is set, all log levels
+below it are also activated (if implemented). Available levels include:</p><ul><li><p>TRACE: Provides verbose detailed logging, including the steps taken to
+achieve a result, often used for debugging. Activating TRACE will also
+enable DEBUG, INFO, SUCCESS, WARN, ERROR, and FATAL logs.</p></li>
+<li><p>DEBUG: Provides detailed logging about the flow of the application, used
+mostly by developers to understand potential issues. Activating DEBUG will
+also enable INFO, SUCCESS, WARN, ERROR, and FATAL logs.</p></li>
+<li><p>INFO (Default): Standard messages that inform the user about the normal
+operation of the system. Activating INFO will also enable SUCCESS, WARN,
+ERROR, and FATAL logs.</p></li>
+<li><p>SUCCESS: Messages indicating successful completion of a particular
+operation or task. Activating SUCCESS will also enable WARN, ERROR, and
+FATAL logs.</p></li>
+<li><p>WARN: Warning messages about events that might cause problems in the
+future, but are not yet errors. Activating WARN will also enable ERROR
+and FATAL logs.</p></li>
+<li><p>ERROR: Reports an error due to which the system may not be able to
+achieve its functionality, but the application won't halt. Activating
+ERROR will also enable FATAL logs.</p></li>
+<li><p>FATAL: Reports very severe error events that will presumably lead the
+application to abort.</p></li>
 </ul></dd>
 
 </dl></div>
@@ -90,6 +104,12 @@
     
 
 <p>No return value. This function is called for side effects.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <p>Log levels are specified by developers during the initial implementation.
+Future developers or contributors can leverage these log levels to better
+capture and document the application's processes and events.</p>
     </div>
 
     <div class="section level2">

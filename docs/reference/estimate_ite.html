@@ -88,19 +88,19 @@ a treatment vector, a covariate matrix, and a desired algorithm.</p>
 <dd><p>A method for estimating the Individual Treatment Effect.
 Some methods requires additional parameters. These parameters are mentioned
 in the indented blocks for each method and their definitions are provided at
-the end of this parameters list.</p><ul><li><p><code>slearner</code>: S-Learner.</p><ul><li><p><code>oreg_method</code></p></li>
+the end of this parameters list.</p><ul><li><p><code>slearner</code>: S-Learner.</p><ul><li><p><code>learner_y</code></p></li>
 </ul></li>
-<li><p><code>tlearner</code>: T-Learner.</p><ul><li><p><code>oreg_method</code></p></li>
+<li><p><code>tlearner</code>: T-Learner.</p><ul><li><p><code>learner_y</code></p></li>
 </ul></li>
 <li><p><code>tpoisson</code>: T-Poisson.</p><ul><li><p><code>offset</code></p></li>
 </ul></li>
-<li><p><code>xlearner</code>: X-Learner.</p><ul><li><p><code>oreg_method</code></p></li>
+<li><p><code>xlearner</code>: X-Learner.</p><ul><li><p><code>learner_y</code></p></li>
 </ul></li>
-<li><p><code>aipw</code>: Augmented Inverse Probability Weighting.</p><ul><li><p><code>ps_method</code> and  <code>oreg_method</code></p></li>
+<li><p><code>aipw</code>: Augmented Inverse Probability Weighting.</p><ul><li><p><code>learner_ps</code> and  <code>learner_y</code></p></li>
 </ul></li>
-<li><p><code>bart</code>: Bayesian Additive Regression Trees.</p><ul><li><p><code>ps_method</code></p></li>
+<li><p><code>bart</code>: Bayesian Additive Regression Trees.</p><ul><li><p><code>learner_ps</code></p></li>
 </ul></li>
-<li><p><code>cf</code>: Causal Forest.</p><ul><li><p><code>ps_method</code></p></li>
+<li><p><code>cf</code>: Causal Forest.</p><ul><li><p><code>learner_ps</code></p></li>
 </ul></li>
 </ul></dd>
 
@@ -121,10 +121,10 @@ the end of this parameters list.</p><ul><li><p><code>slearner</code>: S-Learner.
 <div class="section">
 <h3 id="additional-parameters">Additional parameters<a class="anchor" aria-label="anchor" href="#additional-parameters"></a></h3>
 
-<ul><li><p><strong>ps_method</strong>: An estimation method for the propensity score. This
+<ul><li><p><strong>learner_ps</strong>: An estimation method for the propensity score. This
 includes libraries for the SuperLearner package.</p></li>
-<li><p><strong>oreg_method</strong>: An estimation model for the outcome regressions. This
-includes libraries for the SuperLearner package.</p></li>
+<li><p><strong>learner_y</strong>: An estimation model for the outcome. This includes
+libraries for the SuperLearner package.</p></li>
 <li><p><strong>offset</strong>: Name of the covariate to use as offset (i.e. 'x1') for
 Poisson ITE Estimation. <code>NULL</code> if offset is not used.</p></li>
 </ul></div>

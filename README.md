@@ -46,27 +46,25 @@ __Data (required)__
 __Parameters (not required)__    
 **`method_parameters`** The list of parameters to define the models used, including:
 - **`ratio_dis`** The ratio of data delegated to the discovery sub-sample (default: 0.5). 
-- **`ite_method`** The method to estimate the individual treatment effect (ITE) psudo-outcome estimation (default: 'aipw') [1].        
-- **`learner_ps`** The model for the propensity score estimation (default: 'SL.xgboost').
-- **`learner_y`** The model for the outcome estimation (default: 'SL.xgboost').   
+- **`ite_method`** The method to estimate the individual treatment effect (ITE) pseudo-outcome estimation (default: 'aipw') [1].        
+- **`learner_ps`** The ([SuperLearner](https://CRAN.R-project.org/package=SuperLearner)) model for the propensity score estimation (default: 'SL.xgboost', used only for 'aipw','bart','cf' ITE estimators).
+- **`learner_y`** The ([SuperLearner](https://CRAN.R-project.org/package=SuperLearner)) model for the outcome estimation (default: 'SL.xgboost', used only for 'aipw','slearner','tlearner' and 'xlearner' ITE estimators).   
 
 **`hyper_params`** The list of hyper parameters to finetune the method, including:
 - **`intervention_vars`** Array with intervention-able covariates names used for Rules Generation. Empty or null array means that all the covariates are considered as intervention-able (default: NULL).  
-- **`offset`** Name of the covariate to use as offset (i.e. 'x1') for T-Poisson ITE Estimation. NULL if not used (default: NULL).
 - **`ntrees`** The number of decision trees for random forest (default: 20).   
 - **`node_size`** Minimum size of the trees' terminal nodes (default: 20).
 - **`max_rules`** Maximum number of generated candidates rules (default: 50).
 - **`max_depth`** Maximum rules length (default: 3).  
-- **`replace`** Boolean variable for replacement in bootstrapping (default: TRUE).     
 - **`t_decay`** The decay threshold for rules pruning (default: 0.025).          
 - **`t_ext`** The threshold to define too generic or too specific (extreme) rules (default: 0.01).     
 - **`t_corr`** The threshold to define correlated rules (default: 1). 
-- **`t_pvalue`** The threshold to define statistically significant rules (default: 0.05).
 - **`stability_selection`** Method for stability selection for selecting the rules. 'vanilla' for stability selection, 'error_control' for stability selection with error control and 'no' for no stability selection (default: 'vanilla').
-- **`cutoff`** Threshold defining the minimum cutoff value for the stability scores (default: 0.9).
-- **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).
 - **`B`** Number of bootstrap samples for stability selection in rules selection and uncertainty quantification in estimation (default: 20).
 - **`subsample`** Bootstrap ratio subsample and stability selection in rules selection, and uncertainty quantification in estimation (default: 0.5).
+- **`offset`** Name of the covariate to use as offset (i.e. 'x1') for T-Poisson ITE Estimation. `NULL` if not used (default: `NULL`).   
+- **`cutoff`** Threshold defining the minimum cutoff value for the stability scores in Stability Selection (default: 0.9).    
+- **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) in Error Control Stability Selection (default: 1).
 
 __Additional Estimates (not required)__    
 **`ite`** The estimated ITE vector. If given, both the ITE estimation steps in Discovery and Inference are skipped (default: NULL).
@@ -75,15 +73,15 @@ __Additional Estimates (not required)__
 ## Notes
 
 **[1]** Options for the ITE estimation are as follows: 
-- [S-Learner](https://www.tandfonline.com/doi/pdf/10.1198/jcgs.2010.08162?casa_token=OZlb52s-4bMAAAAA:60Ye7a0sTgZV-K2EtRs_zyE1GD2H3xgbleo47Fz1Mte3ZCiz097oV8QYTMbRvHTUoy57ukcrvEk) (`slearner`)
-- [T-Learner](https://journals.sagepub.com/doi/pdf/10.1002/dir.10035?casa_token=Cxhw8gRR8bEAAAAA:Dtjt4dDd_CTFg0G0w7TiBYEFjqT1p2ufeyFAX2R8GrUUNmkyrLUKYOhyK_VCQvXzO8rddPjOK5A) (`tlearner`)
-- [T-Poisson](https://journals.sagepub.com/doi/pdf/10.1002/dir.10035?casa_token=Cxhw8gRR8bEAAAAA:Dtjt4dDd_CTFg0G0w7TiBYEFjqT1p2ufeyFAX2R8GrUUNmkyrLUKYOhyK_VCQvXzO8rddPjOK5A) (`tpoisson`)
-- [X-Learner](https://www.pnas.org/doi/epdf/10.1073/pnas.1804597116) (`xlearner`)
-- [Augmented Inverse Probability Weighting](https://www.jstor.org/stable/pdf/2290910.pdf?casa_token=W6IlQUhMN4cAAAAA:R-BueV-53W70b3EcdDXGZGLtDQgLt-97wTIS_6gIbdvtWwjVOqSDqm5APxY4BOfDXbx9rrO0f4vjKXjKC_kYxiwFIJGvxG0rx2glk3NCxT18x2b0PA) (`aipw`)
-- [Causal Forests](https://projecteuclid.org/journals/annals-of-statistics/volume-47/issue-2/Generalized-random-forests/10.1214/18-AOS1709.full) (`cf`)
-- [Causal Bayesian Additive Regression Trees](https://www.tandfonline.com/doi/pdf/10.1198/jcgs.2010.08162?casa_token=tlBxbbiESdgAAAAA:3RY4NQrwexcIyo2F-v1SIty7ZSMD8qNIf5uiHqlN8G3BWCisPDEtHOWn5IK23tAdN2zOqzNo-p4) (`bart`)
+- [S-Learner](https://CRAN.R-project.org/package=SuperLearner) (`slearner`)
+- [T-Learner](https://CRAN.R-project.org/package=SuperLearner) (`tlearner`)
+- [T-Poisson](https://CRAN.R-project.org/package=stats) (`tpoisson`)
+- [X-Learner](https://CRAN.R-project.org/package=SuperLearner) (`xlearner`)
+- [Augmented Inverse Probability Weighting](https://CRAN.R-project.org/package=SuperLearner) (`aipw`)
+- [Causal Forests](https://CRAN.R-project.org/package=grf) (`cf`)
+- [Causal Bayesian Additive Regression Trees](https://CRAN.R-project.org/package=bartCause) (`bart`)
 
-If other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.  Each ITE estimator requires also an outcome learner and/or a propensity score learner. Both these models are simple classifiers/regressors. By default XGBoost from `superlearner` package is used for both these steps.
+If other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.  The ITE estimator requires also an outcome learner and/or a propensity score learner from the [SuperLearner](https://CRAN.R-project.org/package=SuperLearner) package (i.e., 'SL.lm', 'SL.svm'). Both these models are simple classifiers/regressors. By default XGBoost algorithm is used for both these steps.
 
 
 ## Examples
@@ -125,7 +123,7 @@ dataset <- generate_cre_dataset(n = 2000,
   X <- dataset[["X"]]
 
 # personalized ITE estimation (S-Learner with Linear Regression)
-model <- lm(y ~., data = data.frame(y = y, X = X, z = z) )
+model <- lm(y ~., data = data.frame(y = y, X = X, z = z))
 ite_pred <- predict(model, newdata = data.frame(X = X, z = z))
 
 cre_results <- cre(y, z, X, ite = ite_pred)
@@ -163,7 +161,6 @@ ite_pred <- predict(cre_results, X)
                      t_decay = 0.025,
                      t_ext = 0.025,
                      t_corr = 1,
-                     t_pvalue = 0.05,
                      stability_selection = "vanilla",
                      cutoff = 0.8,
                      pfer = 0.1,
