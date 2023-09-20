@@ -57,7 +57,7 @@ vector (\code{ite}).
 
 The input parameters specify the data set characteristic, including the
 number of individuals (\code{n}), the number of covariates (\code{p}), the correlation
-within the coariates (\code{rho}),  the number of decision rules
+within the covariates (\code{rho}),  the number of decision rules
 (\code{n_rules}) decomposing the Conditional Average Treatment Effect (CATE), the
 treatment effect magnitude (\code{effect_size}), the confounding mechanism
 (\code{confounding}), and whether the covariates and outcomes are binary or

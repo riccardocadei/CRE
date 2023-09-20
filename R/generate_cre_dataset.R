@@ -9,7 +9,7 @@
 #'
 #' The input parameters specify the data set characteristic, including the
 #' number of individuals (`n`), the number of covariates (`p`), the correlation
-#' within the coariates (`rho`),  the number of decision rules
+#' within the covariates (`rho`),  the number of decision rules
 #' (`n_rules`) decomposing the Conditional Average Treatment Effect (CATE), the
 #' treatment effect magnitude (`effect_size`), the confounding mechanism
 #' (`confounding`), and whether the covariates and outcomes are binary or
