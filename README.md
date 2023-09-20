@@ -61,7 +61,6 @@ __Parameters (not required)__
 - **`t_decay`** The decay threshold for rules pruning (default: 0.025).          
 - **`t_ext`** The threshold to define too generic or too specific (extreme) rules (default: 0.01).     
 - **`t_corr`** The threshold to define correlated rules (default: 1). 
-- **`t_pvalue`** The threshold to define statistically significant rules (default: 0.05).
 - **`stability_selection`** Method for stability selection for selecting the rules. 'vanilla' for stability selection, 'error_control' for stability selection with error control and 'no' for no stability selection (default: 'vanilla').
 - **`cutoff`** Threshold defining the minimum cutoff value for the stability scores (default: 0.9).
 - **`pfer`** Upper bound for the per-family error rate (tolerated amount of falsely selected rules) (default: 1).
@@ -163,7 +162,6 @@ ite_pred <- predict(cre_results, X)
                      t_decay = 0.025,
                      t_ext = 0.025,
                      t_corr = 1,
-                     t_pvalue = 0.05,
                      stability_selection = "vanilla",
                      cutoff = 0.8,
                      pfer = 0.1,

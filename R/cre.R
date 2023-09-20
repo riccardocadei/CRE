@@ -46,8 +46,6 @@
 #'  rules (default: 0.01, range: [0, 0.5)).
 #'  - *t_corr*: The threshold to define correlated rules (default: 1,
 #'  range: [0,+inf]).
-#'  - *t_pvalue*: the threshold to define statistically significant rules
-#' (default: 0.05, range: [0, 1]).
 #'  - *stability_selection*: Method for stability selection for selecting the
 #'  rules. `vanilla` for stability selection, `error_control`
 #'  for stability selection with error control and `no` for no stability
@@ -109,7 +107,6 @@
 #'                      t_decay = 0.025,
 #'                      t_ext = 0.025,
 #'                      t_corr = 1,
-#'                      t_pvalue = 0.05,
 #'                      stability_selection = "vanilla",
 #'                      cutoff = 0.6,
 #'                      pfer = 1,

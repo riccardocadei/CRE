@@ -107,16 +107,6 @@ check_hyper_params <- function(X_names, params) {
   }
   params[["t_corr"]] <- t_corr
 
-  t_pvalue <- getElement(params, "t_pvalue")
-  if (length(t_pvalue) == 0) {
-    t_pvalue <- 0.05
-  } else {
-    if (!inherits(t_pvalue, "numeric")) {
-      stop("Invalid 't_pvalue' input. Please input a number.")
-    }
-  }
-  params[["t_pvalue"]] <- t_pvalue
-
   stability_selection <- getElement(params, "stability_selection")
   if (length(stability_selection) == 0) {
     stability_selection <- "vanilla"
