@@ -68,7 +68,7 @@ install.packages("CRE")
 library("CRE")
 ```
 
-`generate_cre_dataset()` is a flexible synthetic dataset generator, which can be used for simulations before applying `CRE` to real-world observational data sets. It generates an outcome array `y` (binary or continuous), a treatment array `z` (binary), a covariate matrix (binary or continuous) and the true (unobserved) indidual treatment effect `ite` (useful for performance evaluation). For a full description of the data generating process and its variants, see Section 4 in @bargagli2023causal.
+`generate_cre_dataset()` is a flexible synthetic dataset generator, which can be used for simulations before applying `CRE` to real-world observational data sets. It generates an outcome array `y` (binary or continuous), a treatment array `z` (binary), a covariate matrix (binary or continuous) and the true (unobserved) indidual treatment effect `ite` (useful for performance evaluation). The input parameters specify the dataset characteristic, including the number of individuals (`n`), the number of covariates (`p`), the correlation within the covariates (`rho`),  the number of decision rules (`n_rules`) decomposing the CATE, the treatment effect magnitude (`effect_size`), the confounding mechanism (`confounding`), and whether the covariates and outcomes are binary or continuous (`binary_covariates`, `binary_outcome`). For a full description of the data generating process and its variants, see Section 4 in @bargagli2023causal.
 ```R
 set.seed(2023)
 dataset <- generate_cre_dataset(n = 5000, 
@@ -95,13 +95,13 @@ results <- cre(y, z, X)
 **Example 2.** Running Causal Rule Ensemble with customized IATE estimator. If `ite` argument is provided, the IATE estimation both in the discovery and inference step is skipped. This argument is useful either to consider new IATE estimators which are not internally implemented in this package, either to compute this estimation una tantum (saving the results) and speed up the execution time during the hyper-parameter tuning.
 ```R
 # personalized IATE estimation (S-Learner with Linear Regression)
-model <- lm(y ~., data = data.frame(y = y, X = X, z = z) )
+model <- lm(y ~., data = data.frame(y = y, X = X, z = z))
 iate_pred <- predict(model, newdata = data.frame(X = X, z = z))
 
 results <- cre(y, z, X, ite = iate_pred)
 ```
 
-**Example 3.** Running Causal Rule Ensemble with customized parameters (no need to explicit all the arguments). The method parameters (`method_params`) entail the IATE estimator method, the outcome and propensity score learners (if needed) and the the ratio of data to use for each step. The hyper parameters (`hyper_params`) entail all the other parameters through which Causal Rule Ensemble algorithm can be fine tuned. For a detailed description of all the method and hyper parameters refer to [https://nsaph-software.github.io/CRE/articles/CRE.html](https://nsaph-software.github.io/CRE/articles/CRE.html).
+**Example 3.** Running Causal Rule Ensemble with customized parameters (no need to explicit all the arguments). The method parameters (`method_params`) entail the IATE estimator method, the outcome and propensity score learners, if needed), and the the ratio of data to use for each step. The hyper parameters (`hyper_params`) entail all the other parameters through which Causal Rule Ensemble algorithm can be fine tuned. For a detailed description of all the method and hyper parameters refer to [https://nsaph-software.github.io/CRE/articles/CRE.html](https://nsaph-software.github.io/CRE/articles/CRE.html).
 ```R
 method_params <- list(ratio_dis = 0.5,
                       ite_method = "aipw",
