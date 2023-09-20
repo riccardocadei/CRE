@@ -65,16 +65,15 @@
 #'
 #'
 #' @return
-#' An S3 object containing:
-#' - The number of Decision Rules extracted at each step (`M`).
-#' - The data.frame of Conditional Average Treatment Effect decomposition
-#' estimates with corresponding uncertainty quantification (`CATE`).
-#' - The list of method parameters (`method_params`).
-#' - The list of hyper parameters (`hyper_params`).
-#' - The list of rules (implicit form) decomposing the CATE (`rules`).
+#' An S3 object composed by:
+#' \item{M}{the number of Decision Rules extracted at each step,}
+#'  \item{CATE}{the data.frame of Conditional Average Treatment Effect
+#'  decomposition estimates with corresponding uncertainty quantification,}
+#'  \item{method_params}{the list of method parameters,}
+#'  \item{hyper_params}{the list of hyper parameters,}
+#'  \item{rules}{the list of rules (implicit form) decomposing the CATE.}
 #'
 #' @note
-#'
 #' - If `intervention_vars` are provided, it's important to note that the
 #' individual treatment effect will still be computed using all covariates.
 #' @export

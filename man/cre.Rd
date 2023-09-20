@@ -82,15 +82,13 @@ falsely selected rules) for Error Control Stability Selection (default: 1).
 in Discovery and Inference are skipped (default: NULL).}
 }
 \value{
-An S3 object containing:
-\itemize{
-\item The number of Decision Rules extracted at each step (\code{M}).
-\item The data.frame of Conditional Average Treatment Effect decomposition
-estimates with corresponding uncertainty quantification (\code{CATE}).
-\item The list of method parameters (\code{method_params}).
-\item The list of hyper parameters (\code{hyper_params}).
-\item The list of rules (implicit form) decomposing the CATE (\code{rules}).
-}
+An S3 object composed by:
+\item{M}{the number of Decision Rules extracted at each step,}
+\item{CATE}{the data.frame of Conditional Average Treatment Effect
+decomposition estimates with corresponding uncertainty quantification,}
+\item{method_params}{the list of method parameters,}
+\item{hyper_params}{the list of hyper parameters,}
+\item{rules}{the list of rules (implicit form) decomposing the CATE.}
 }
 \description{
 Performs the Causal Rule Ensemble on a data set with a response variable,

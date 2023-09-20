@@ -41,17 +41,13 @@ range: >=0).}
 \item "nonlin" for non-linear confounding,
 \item "no" for no confounding (default).
 }}
-
-\item{y}{an outcome vector,}
-
-\item{z}{a treatment vector,}
-
-\item{X}{a covariates matrix,}
-
-\item{ite}{a individual treatment vector.}
 }
 \value{
 A list, representing the generated synthetic data set, containing:
+\item{y}{an outcome vector,}
+\item{z}{a treatment vector,}
+\item{X}{a covariates matrix,}
+\item{ite}{an individual treatment vector.}
 }
 \description{
 Generates synthetic data sets to run simulation for causal inference

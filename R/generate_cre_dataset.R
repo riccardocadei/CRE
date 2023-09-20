@@ -69,10 +69,10 @@
 #'
 #' @return
 #' A list, representing the generated synthetic data set, containing:
-#' @param y an outcome vector,
-#' @param z a treatment vector,
-#' @param X a covariates matrix,
-#' @param ite a individual treatment vector.
+#'  \item{y}{an outcome vector,}
+#'  \item{z}{a treatment vector,}
+#'  \item{X}{a covariates matrix,}
+#'  \item{ite}{an individual treatment vector.}
 #'
 #' @note
 #' Set the covariates domain (`binary_covariates`) and outcome domain
