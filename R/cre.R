@@ -30,34 +30,36 @@
 #'     'xlearner' ITE estimators).
 #' @param hyper_params The list of hyper parameters to fine-tune the method,
 #' including:
-#'  - *intervention_vars*: Array with intervention-able covariates names used
-#'  for Rules Generation. Empty or null array means that all the covariates are
-#'  considered as intervention-able (default: NULL).
-#'  - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
-#'     T-Poisson ITE estimation. Use NULL if offset is not used
-#'     (default: NULL).
-#'  - *ntrees*: The number of decision trees for random forest (default: 20).
-#'  - *node_size*: Minimum size of the trees' terminal nodes (default: 20).
-#'  - *max_rules*: Maximum number of generated candidates rules (default: 50).
-#'  - *max_depth*: Maximum rules length (default: 3).
-#'  - *t_decay*: The decay threshold for rules pruning. Higher values will
-#'  carry out an aggressive pruning (default: 0.025).
-#'  - *t_ext*: The threshold to truncate too generic or too specific (extreme)
-#'  rules (default: 0.01, range: [0, 0.5)).
-#'  - *t_corr*: The threshold to define correlated rules (default: 1,
-#'  range: [0,+inf]).
-#'  - *stability_selection*: Method for stability selection for selecting the
-#'  rules. `vanilla` for stability selection, `error_control`
-#'  for stability selection with error control and `no` for no stability
-#'  selection (default: `vanilla`).
-#'  - *cutoff*:  Threshold (percentage) defining the minimum cutoff value for
-#'  the stability scores (default: 0.9).
-#'  - *pfer*: Upper bound for the per-family error rate (tolerated amount of
-#' falsely selected rules) (default: 1).
-#'  - *B*: Number of bootstrap samples for stability selection in rules
-#'  selection and uncertainty quantification in estimation (default: 20).
-#'  - *subsample*: Bootstrap ratio subsample for stability selection in rules
-#'  selection and uncertainty quantification in estimation (default: 0.5).
+#'  - *General hyper parameters*
+#'    - *intervention_vars*: Array with intervention-able covariates names used
+#'    for Rules Generation. Empty or null array means that all the covariates are
+#'    considered as intervention-able (default: NULL).
+#'    - *ntrees*: The number of decision trees for random forest (default: 20).
+#'    - *node_size*: Minimum size of the trees' terminal nodes (default: 20).
+#'    - *max_rules*: Maximum number of generated candidates rules (default: 50).
+#'    - *max_depth*: Maximum rules length (default: 3).
+#'    - *t_decay*: The decay threshold for rules pruning. Higher values will
+#'    carry out an aggressive pruning (default: 0.025).
+#'    - *t_ext*: The threshold to truncate too generic or too specific (extreme)
+#'    rules (default: 0.01, range: [0, 0.5)).
+#'    - *t_corr*: The threshold to define correlated rules (default: 1,
+#'    range: [0,+inf]).
+#'    - *stability_selection*: Method for stability selection for selecting the
+#'    rules. `vanilla` for stability selection, `error_control`
+#'    for stability selection with error control and `no` for no stability
+#'    selection (default: `vanilla`).
+#'    - *B*: Number of bootstrap samples for stability selection in rules
+#'    selection and uncertainty quantification in estimation (default: 20).
+#'    - *subsample*: Bootstrap ratio subsample for stability selection in rules
+#'    selection and uncertainty quantification in estimation (default: 0.5).
+#'  - *Method specific hyper parameters*
+#'    - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
+#'    T-Poisson ITE estimation. Use NULL if offset is not used (default: NULL).
+#'    - *cutoff*:  Threshold (percentage) defining the minimum cutoff value for
+#'    the stability scores for Stability Selection (default: 0.9).
+#'    - *pfer*: Upper bound for the per-family error rate (tolerated amount of
+#'    falsely selected rules) for Error Control Stability Selection (default: 1).
+#'
 #' @param ite The estimated ITE vector. If given both the ITE estimation steps
 #' in Discovery and Inference are skipped (default: NULL).
 #'

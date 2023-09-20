@@ -43,12 +43,11 @@ regression}).
 \item{hyper_params}{The list of hyper parameters to fine-tune the method,
 including:
 \itemize{
+\item \emph{General hyper parameters}
+\itemize{
 \item \emph{intervention_vars}: Array with intervention-able covariates names used
 for Rules Generation. Empty or null array means that all the covariates are
 considered as intervention-able (default: NULL).
-\item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
-T-Poisson ITE estimation. Use NULL if offset is not used
-(default: NULL).
 \item \emph{ntrees}: The number of decision trees for random forest (default: 20).
 \item \emph{node_size}: Minimum size of the trees' terminal nodes (default: 20).
 \item \emph{max_rules}: Maximum number of generated candidates rules (default: 50).
@@ -59,20 +58,24 @@ carry out an aggressive pruning (default: 0.025).
 rules (default: 0.01, range: [0, 0.5)).
 \item \emph{t_corr}: The threshold to define correlated rules (default: 1,
 range: \link{0,+inf}).
-\item \emph{t_pvalue}: the threshold to define statistically significant rules
-(default: 0.05, range: \link{0, 1}).
 \item \emph{stability_selection}: Method for stability selection for selecting the
 rules. \code{vanilla} for stability selection, \code{error_control}
 for stability selection with error control and \code{no} for no stability
 selection (default: \code{vanilla}).
-\item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for
-the stability scores (default: 0.9).
-\item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
-falsely selected rules) (default: 1).
 \item \emph{B}: Number of bootstrap samples for stability selection in rules
 selection and uncertainty quantification in estimation (default: 20).
 \item \emph{subsample}: Bootstrap ratio subsample for stability selection in rules
 selection and uncertainty quantification in estimation (default: 0.5).
+}
+\item \emph{Method specific hyper parameters}
+\itemize{
+\item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
+T-Poisson ITE estimation. Use NULL if offset is not used (default: NULL).
+\item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for
+the stability scores for Stability Selection (default: 0.9).
+\item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
+falsely selected rules) for Error Control Stability Selection (default: 1).
+}
 }}
 
 \item{ite}{The estimated ITE vector. If given both the ITE estimation steps
@@ -129,7 +132,6 @@ hyper_params <- list(intervention_vars = NULL,
                      t_decay = 0.025,
                      t_ext = 0.025,
                      t_corr = 1,
-                     t_pvalue = 0.05,
                      stability_selection = "vanilla",
                      cutoff = 0.6,
                      pfer = 1,
