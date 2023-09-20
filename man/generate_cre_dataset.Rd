@@ -22,11 +22,12 @@ Non-integer values will be converted into an integer number.}
 \item{rho}{A positive double number that represents the correlation
 within the covariates (default: 0, range: (0,1)).}
 
-\item{n_rules}{The number of causal rules. (default: 2, range: {1,2,3,4}).}
+\item{n_rules}{The number of causal rules (default: 2, range: {1,2,3,4}).}
 
 \item{p}{The number of covariates (default: 10).}
 
-\item{effect_size}{The effect size magnitude in (default: 2, range: >=0).}
+\item{effect_size}{The treatment effect size magnitude (default: 2,
+range: >=0).}
 
 \item{binary_covariates}{Whether to use binary or continuous covariates
 (default: TRUE).}
@@ -36,30 +37,81 @@ within the covariates (default: 0, range: (0,1)).}
 
 \item{confounding}{Only for continuous outcome, add confounding variables:
 \itemize{
-\item Linear confounding "lin".
-\item Non-linear confounding "nonlin".
-\item No confounding "no" (default).
+\item "lin" for linear confounding,
+\item "nonlin" for non-linear confounding,
+\item "no" for no confounding (default).
 }}
+
+\item{y}{an outcome vector,}
+
+\item{z}{a treatment vector,}
+
+\item{X}{a covariates matrix,}
+
+\item{ite}{a individual treatment vector.}
 }
 \value{
-A list of synthetic data containing:
-\itemize{
-\item An outcome vector (\code{y}),
-\item A treatment vector (\code{z}),
-\item A covariates matrix (\code{X}) and
-\item An individual treatment vector (\code{ite})
-}
+A list, representing the generated synthetic data set, containing:
 }
 \description{
-Generates synthetic data with continues or binary outcome.
+Generates synthetic data sets to run simulation for causal inference
+experiments composed by an outcome vector (\code{y}), a treatment vector (\code{z}),
+a covariates matrix (\code{X}), and an unobserved individual treatment effects
+vector (\code{ite}).
+
+The input parameters specify the data set characteristic, including the
+number of individuals (\code{n}), the number of covariates (\code{p}), the correlation
+within the coariates (\code{rho}),  the number of decision rules
+(\code{n_rules}) decomposing the Conditional Average Treatment Effect (CATE), the
+treatment effect magnitude (\code{effect_size}), the confounding mechanism
+(\code{confounding}), and whether the covariates and outcomes are binary or
+continuous (\code{binary_covariates}, \code{binary_outcome}).
+
+The covariates matrix is generated with the specified correlation among
+individuals, and each covariate is sampled either from a Bernoulli(0.5) if
+binary, or a Gaussian(0,1) if continuous. The treatment vector is sampled
+from a Bernoulli($\frac{1}{1+\exp{1-x_1+x_2-x_3}}), enforcing the treatment
+assignment probabilities to be a function of observed covariates.
+The potential outcomes ($y(0)$ and $y(1)$) are then sampled from a Bernoulli
+if binary, or a Gaussian (with standard deviation equal to 1) if continuous.
+Their mean is equal to a confounding term (null, linear or non-linear and
+always null for binary outcome) plus 1-4 decision rules weighted by the
+treatment effect magnitude. The two potential outcomes characterizes the CATE
+(and then the unobserved individual treatment effects vector) as the sum of
+different additive contributions for each decision rules considered
+(plus an intercept). The final expression of the CATE depends on the
+treatment effect magnitude and the number of decision rules considered.
+
+The 4 decision rules are:
+\itemize{
+\item Rule 1: \cdot 1_{x_1>0.5; x_2<=0.5}(\textbf{x}),
+\item Rule 2: \cdot 1_{x_5>0.5; x_6<=0.5}(\textbf{x}),
+\item Rule 3: \cdot 1_{x_4<0.5}(\textbf{x}),
+\item Rule 4: \cdot 1_{x_5<=0.5; x_7>0.5; x_8<=0.5}(\textbf{x});
+with corresponding additive average treatment effect (AATE) equal to:
+\item Rule 1: - \code{effect_size} ,
+\item Rule 2: + \code{effect_size}\cdot 1_{x_5>0.5; x_6<=0.5}(\textbf{x}),
+\item Rule 3: $- 0.5 \cdot$ \code{effect_size},
+\item Rule 4: $+ 2 \cdot$ \code{effect_size}.
+}
+
+In example, setting \code{effect_size}=4 and \code{n_rules}=2:
+$\text{CATE}(\textbf{x}) = -4 \cdot 1_{x_1>0.5; x_2<0.5}(\textbf{x}) + 4
+\cdot 1_{x_5>0.5; x_6<0.5}(\textbf{x})$
+
+The final outcome vector y is finally computed by combining the potential
+outcomes according to the treatment assignment. In summary, this function
+empowers researchers and data scientists to simulate complex causal scenarios
+with various degrees of heterogeneity and confounding, providing valuable
+synthetic datasets for causal inference studies.
 }
 \note{
-Set (binary/continuous) covariates domain (\code{binary_covariates}).
-Set (binary/continuous) outcome domain (\code{binary_outcome}).
+Set the covariates domain (\code{binary_covariates}) and outcome domain
+(\code{binary_outcome}) according to the experiment of interest.
 Increase complexity in heterogeneity discovery:
 \itemize{
-\item Decreasing the sample size (\code{n}),
-\item adding correlation among variables (\code{rho}),
+\item decreasing the sample size (\code{n}),
+\item adding correlation among covariates (\code{rho}),
 \item increasing the number of rules (\code{n_rules}),
 \item increasing the number of covariates (\code{p}),
 \item decreasing the absolute value of the causal effect (\code{effect_size}),
