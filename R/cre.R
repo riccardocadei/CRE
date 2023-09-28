@@ -212,7 +212,12 @@ cre <- function(y, z, X,
     rules_explicit <- c()
   } else {
     rules_matrix_inf <- generate_rules_matrix(X_inf, rules)
-    rules_explicit <- interpret_rules(rules, colnames(as.data.frame(X)))
+    if (!is.null(hyper_params$intervention_vars)) {
+      covariate_names <- hyper_params$intervention_vars
+    } else {
+      covariate_names <- colnames(as.data.frame(X))
+    }
+    rules_explicit <- interpret_rules(rules, covariate_names)
   }
 
   # Estimate CATE
