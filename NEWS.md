@@ -27,6 +27,9 @@ just from terminal nodes.
 * `t_pvalue` hyper-parameter.
 * `ite_pred` from cre() function return.
 
+## Bug fixes
+* Error saving covariates name in CRE result when using `intervention_vars`.
+
 
 # CRE 0.2.4 (2023-6-14)
 
