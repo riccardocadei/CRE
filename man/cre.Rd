@@ -25,17 +25,17 @@ including:
 \item \emph{Parameters for Discovery and Inference}
 \itemize{
 \item \emph{ite_method}: The method for ITE (pseudo-outcome) estimation
-(default: "aipw", options: {"aipw" for Augmented Inverse Probability
+(default: "aipw", options: "aipw" for Augmented Inverse Probability
 Weighting, "cf" for Causal Forest, "bart" for Causal Bayesian Additive
 Regression Trees, "slearner" for S-Learner, "tlearner" for T-Learner,
 "xlearner" for X-Learner, "tpoisson" for T-Learner with Poisson
-regression}).
+regression).
 \item \emph{learner_ps}: The model for the propensity score estimation
-(default: "SL.xgboost", options: {any SuperLearner prediction model i.e.,
-"SL.lm", "SL.svm"}, used only for "aipw","bart","cf" ITE estimators).
+(default: "SL.xgboost", options: any SuperLearner prediction model i.e.,
+"SL.lm", "SL.svm", used only for "aipw","bart","cf" ITE estimators).
 \item \emph{learner_y}: The model for the outcome estimation
-(default: "SL.xgboost", options: {any SuperLearner prediction model i.e.,
-"SL.lm", "SL.svm"}, used only for "aipw","slearner","tlearner" and
+(default: "SL.xgboost", options: any SuperLearner prediction model i.e.,
+"SL.lm", "SL.svm", used only for "aipw","slearner","tlearner" and
 "xlearner" ITE estimators).
 }
 }}
