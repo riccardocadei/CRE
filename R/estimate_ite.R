@@ -33,7 +33,7 @@
 #'   includes libraries for the SuperLearner package.
 #'   - **learner_y**: An estimation model for the outcome. This includes
 #'   libraries for the SuperLearner package.
-#'   - **offset**: Name of the covariate to use as offset (i.e. 'x1') for
+#'   - **offset**: Name of the covariate to use as offset (i.e. \dQuote{x1}) for
 #'     Poisson ITE Estimation. `NULL` if offset is not used.
 #'
 #' @return

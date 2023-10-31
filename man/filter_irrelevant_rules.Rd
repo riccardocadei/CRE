@@ -16,12 +16,12 @@ filter_irrelevant_rules(rules, X, ite, t_decay)
 \item{t_decay}{The decay threshold for rules pruning.}
 }
 \value{
-A list of 'relevant' rules.
+A list of \dQuote{relevant} rules.
 }
 \description{
 Filters the irrelevant decision rules. The irrelevant rules are interpreted
 as an error increase after removing a variable-value pair from the decision
-rules (see "Interpreting tree ensembles with the inTrees package" by
+rules (see \dQuote{Interpreting tree ensembles with the inTrees package} by
 Houtao Deng, 2019).
 }
 \keyword{internal}

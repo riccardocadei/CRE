@@ -117,13 +117,13 @@ parameters to define the models used, including:<br>
 - <strong><code>ratio_dis</code></strong> The ratio of data delegated to
 the discovery sub-sample (default: 0.5).<br>
 - <strong><code>ite_method</code></strong> The method to estimate the
-individual treatment effect (default: ‘aipw’) [1].<br>
+individual treatment effect (default: “aipw”) [1].<br>
 - <strong><code>learner_ps</code></strong> The (<a href="https://CRAN.R-project.org/package=SuperLearner" class="external-link">SuperLearner</a>)
-model for the propensity score estimation (default: ‘SL.xgboost’, used
-only for ‘aipw’,‘bart’,‘cf’ ITE estimators).<br>
+model for the propensity score estimation (default: “SL.xgboost”, used
+only for “aipw”,“bart”,“cf” ITE estimators).<br>
 - <strong><code>learner_y</code></strong> The (<a href="https://CRAN.R-project.org/package=SuperLearner" class="external-link">SuperLearner</a>)
-model for the outcome estimation (default: ‘SL.xgboost’, used only for
-‘aipw’,‘slearner’,‘tlearner’ and ‘xlearner’ ITE estimators).</p>
+model for the outcome estimation (default: “SL.xgboost”, used only for
+“aipw”,“slearner”,“tlearner” and “xlearner” ITE estimators).</p>
 <p><strong><code>hyper_params</code></strong> The list of hyper
 parameters to fine tune the method, including:<br>
 - <strong><code>intervention_vars</code></strong> Intervention-able
@@ -153,7 +153,7 @@ estimation (default: 20). - <strong><code>subsample</code></strong>
 Bootstrap ratio subsample for stability selection in rules selection and
 uncertainty quantification in estimation (default: 0.5). -
 <strong><code>offset</code></strong> Name of the covariate to use as
-offset (i.e. ‘x1’) for T-Poisson ITE Estimation. <code>NULL</code> if
+offset (i.e. “x1”) for T-Poisson ITE Estimation. <code>NULL</code> if
 not used (default: <code>NULL</code>).<br>
 - <strong><code>cutoff</code></strong> Threshold defining the minimum
 cutoff value for the stability scores in Stability Selection (default:
@@ -192,7 +192,7 @@ additional argument, both the ITE estimations in discovery and inference
 are skipped and those values estimates are used instead. The ITE
 estimator requires also an outcome learner and/or a propensity score
 learner from the <a href="https://CRAN.R-project.org/package=SuperLearner" class="external-link">SuperLearner</a>
-package (i.e., ‘SL.lm’, ‘SL.svm’). Both these models are simple
+package (i.e., “SL.lm”, “SL.svm”). Both these models are simple
 classifiers/regressors. By default XGBoost algorithm is used for both
 these steps.</p>
 </div>

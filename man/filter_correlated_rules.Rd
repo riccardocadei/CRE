@@ -17,6 +17,6 @@ filter_correlated_rules(rules_matrix, rules_list, t_corr)
 A rules matrix without the highly correlated rules (columns).
 }
 \description{
-Discards highly correlated rules (i.e., \eqn{Cov(\text{rule1}, \text{rule2}) > \text{t_corr}}).
+Discards highly correlated rules (i.e., \eqn{Cov(rule_1,rule_2) > t_{corr}}).
 }
 \keyword{internal}

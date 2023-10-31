@@ -1,5 +1,5 @@
 #' @title
-#' Estimate the Individual Treatment Effect (ITE) using T-Learner.
+#' Estimate the Individual Treatment Effect (ITE) using T-Learner
 #'
 #' @description
 #' Estimates the Individual Treatment Effect using T-Learner given a response

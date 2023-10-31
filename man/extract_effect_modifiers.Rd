@@ -12,7 +12,7 @@ extract_effect_modifiers(rules_list, X_names)
 \item{X_names}{A list of the covariate names.}
 }
 \value{
-A list of the Effect Modifiers.
+A list of the effect modifiers.
 }
 \description{
 Extracts the effect modifiers from a list of (causal) decision rules.

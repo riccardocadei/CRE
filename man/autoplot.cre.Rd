@@ -2,12 +2,12 @@
 % Please edit documentation in R/plot.R
 \name{autoplot.cre}
 \alias{autoplot.cre}
-\title{A helper function for CRE object}
+\title{A helper function for cre object}
 \usage{
 \method{autoplot}{cre}(object, ...)
 }
 \arguments{
-\item{object}{A CRE object.}
+\item{object}{A \code{cre} object.}
 
 \item{...}{Additional arguments passed to customize the plot.}
 }
@@ -15,6 +15,6 @@
 Returns a ggplot object.
 }
 \description{
-A helper function to plot CRE object using ggplot2 package.
+A helper function to plot cre object using ggplot2 package.
 }
 \keyword{internal}

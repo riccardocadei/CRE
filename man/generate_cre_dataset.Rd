@@ -69,7 +69,7 @@ individuals, and each covariate is sampled either from a
 The treatment vector is sampled from a
 \code{Bernoulli(\eqn{\frac{1}{1+ \exp(1-x_1+x_2-x_3)}})}, enforcing the treatment
 assignment probabilities to be a function of observed covariates.
-The potential outcomes (\code{y}(0) and \code{y}(1)) are then sampled from a Bernoulli
+The potential outcomes (\eqn{y(0)} and \eqn{y(1)}) are then sampled from a Bernoulli
 if binary, or a Gaussian (with standard deviation equal to 1) if continuous.
 Their mean is equal to a confounding term (null, linear or non-linear and
 always null for binary outcome) plus 1-4 decision rules weighted by the

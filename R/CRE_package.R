@@ -1,5 +1,5 @@
 #' @title
-#' The 'CRE' package
+#' The CRE package
 #'
 #' @description
 #' In health and social sciences, it is critically important to

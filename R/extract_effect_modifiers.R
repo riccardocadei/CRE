@@ -10,7 +10,7 @@
 #' @keywords internal
 #'
 #' @return
-#' A list of the Effect Modifiers.
+#' A list of the effect modifiers.
 #'
 extract_effect_modifiers <- function(rules_list, X_names) {
   effect_modifiers <- c()
