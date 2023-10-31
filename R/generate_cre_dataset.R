@@ -57,9 +57,9 @@
 #' range: >=0).
 #' @param p The number of covariates (default: 10).
 #' @param binary_covariates Whether to use binary or continuous covariates
-#' (default: TRUE).
+#' (default: `TRUE`).
 #' @param binary_outcome Whether to use binary or continuous outcomes
-#' (default: TRUE).
+#' (default: `TRUE`).
 #' @param confounding Only for continuous outcome, add confounding variables:
 #' - "lin" for linear confounding,
 #' - "nonlin" for non-linear confounding,
@@ -97,7 +97,7 @@ generate_cre_dataset <- function(n = 1000, rho = 0, n_rules = 2, p = 10,
 
   # Check for correct binary input
   if (!(binary_outcome %in% c(TRUE, FALSE))) {
-    stop("Invalid 'binary' input. Please specify TRUE or FALSE.")
+    stop("Invalid 'binary' input. Please specify `TRUE` or `FALSE`.")
   }
   if (is.numeric(n) && !is.integer(n)) {
     n <- as.integer(n)
