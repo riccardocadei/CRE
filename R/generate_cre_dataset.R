@@ -6,7 +6,6 @@
 #' experiments composed by an outcome vector (`y`), a treatment vector (`z`),
 #' a covariates matrix (`X`), and an unobserved individual treatment effects
 #' vector (`ite`).
-#'
 #' The arguments specify the data set characteristic, including the
 #' number of individuals (`n`), the number of covariates (`p`), the correlation
 #' within the covariates (`rho`),  the number of decision rules
@@ -17,33 +16,36 @@
 #'
 #' @details
 #' The covariates matrix is generated with the specified correlation among
-#' individuals, and each covariate is sampled either from a Bernoulli(0.5) if
-#' binary, or a Gaussian(0,1) if continuous. The treatment vector is sampled
-#' from a Bernoulli(1/(1+exp(1-x_1+x_2-x_3))), enforcing the treatment
+#' individuals, and each covariate is sampled either from a
+#' \code{Bernoulli(0.5)} if binary, or a \code{Gaussian(0,1)} if continuous.
+#' The treatment vector is sampled from a
+#' \code{Bernoulli(1/(1+ exp(\eqn{1-x_1+x_2-x_3})))}, enforcing the treatment
 #' assignment probabilities to be a function of observed covariates.
-#' The potential outcomes (y(0) and y(1)) are then sampled from a Bernoulli
+#' The potential outcomes (`y`(0) and `y`(1)) are then sampled from a Bernoulli
 #' if binary, or a Gaussian (with standard deviation equal to 1) if continuous.
 #' Their mean is equal to a confounding term (null, linear or non-linear and
 #' always null for binary outcome) plus 1-4 decision rules weighted by the
 #' treatment effect magnitude. The two potential outcomes characterizes the CATE
 #' (and then the unobserved individual treatment effects vector) as the sum of
 #' different additive contributions for each decision rules considered
-#' (plus an intercept). The final expression of the CATE depends on the
-#' treatment effect magnitude and the number of decision rules considered.
+#' (plus an intercept).
+#' The final expression of the CATE depends on the treatment effect magnitude
+#' and the number of decision rules considered.
 #'
 #' The 4 decision rules are:
-#' - Rule 1: 1_{x_1>0.5; x_2<=0.5}(*x*),
-#' - Rule 2: 1_{x_5>0.5; x_6<=0.5}(*x*),
-#' - Rule 3: 1_{x_4<0.5}(*x*),
-#' - Rule 4: 1_{x_5<=0.5; x_7>0.5; x_8<=0.5}(*x*);
+#' - Rule 1: \deqn{1\{x_1 > 0.5; x_2 \leq 0.5\}(\textbf{x})}
+#' - Rule 2: \deqn{1\{x_5 > 0.5; x_6 \leq 0.5\}(\textbf{x})}
+#' - Rule 3: \deqn{1\{x_4 \leq 0.5\}(\textbf{x})}
+#' - Rule 4: \deqn{1\{x_5 \leq 0.5; x_7 > 0.5; x_8 \leq 0.5\}(\textbf{x})}
 #' with corresponding additive average treatment effect (AATE) equal to:
-#' - Rule 1: - `effect_size` ,
-#' - Rule 2: + `effect_size` * 1_{x_5>0.5; x_6<=0.5}(*x*),
-#' - Rule 3: - 0.5 * `effect_size`,
-#' - Rule 4: + 2 * `effect_size`.
+#' - Rule 1: - `effect_size`,
+#' - Rule 2: + `effect_size`,
+#' - Rule 3: - 0.5 `effect_size`,
+#' - Rule 4: + 2 `effect_size`.
 #'
 #' In example, setting `effect_size`=4 and `n_rules`=2:
-#' CATE(*x*) = -4  1_{x_1>0.5; x_2<0.5}(*x*) + 4 1_{x_5>0.5; x_6<0.5}(*x*)
+#' \deqn{\text{CATE}(\textbf{x}) = -4 1\{x_1 > 0.5; x_2 \leq 0.5\}(\textbf{x}) +
+#' 4 1\{x_5 > 0.5; x_6 \leq 0.5\}(\textbf{x})}.
 #'
 #' The final outcome vector y is finally computed by combining the potential
 #' outcomes according to the treatment assignment.
