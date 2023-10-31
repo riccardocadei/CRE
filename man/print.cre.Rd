@@ -9,9 +9,9 @@
 \arguments{
 \item{x}{A cre object from running the CRE function.}
 
-\item{verbose}{Set level of results description details: only results summary
-0, results+parameters summary 1, results+parameters+rules summary
-(default 2).}
+\item{verbose}{Set level of results description details: 0 for only results
+summary, 1 for results and parameters summary, 2 for results and parameters
+and rules summary (default 2).}
 
 \item{...}{Additional arguments passed to customize the results description.}
 }

@@ -2,7 +2,7 @@
 #' Filter correlated rules
 #'
 #' @description
-#' Discards highly correlated rules (i.e. `Cov(rule1, rule2) > t_corr`).
+#' Discards highly correlated rules (i.e., \eqn{Cov(rule_1,rule_2) > t_{corr}}).
 #'
 #' @param rules_matrix A rules matrix.
 #' @param rules_list A list of rules (names).

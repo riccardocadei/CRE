@@ -4,7 +4,7 @@
 \name{CRE-package}
 \alias{CRE-package}
 \alias{CRE}
-\title{The 'CRE' package}
+\title{The CRE package}
 \description{
 In health and social sciences, it is critically important to
 identify subgroups of the study population where a treatment

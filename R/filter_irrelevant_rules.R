@@ -4,9 +4,8 @@
 #' @description
 #' Filters the irrelevant decision rules. The irrelevant rules are interpreted
 #' as an error increase after removing a variable-value pair from the decision
-#' rules.
-#' (see "Interpreting tree ensembles with the inTrees package"
-#' by Houtao Deng, 2019).
+#' rules (see \dQuote{Interpreting tree ensembles with the inTrees package} by
+#' Houtao Deng, 2019).
 #'
 #' @param rules A list of rules.
 #' @param X A features matrix.
@@ -16,7 +15,7 @@
 #' @keywords internal
 #'
 #' @return
-#' A list of 'relevant' rules.
+#' A list of \dQuote{relevant} rules.
 #'
 filter_irrelevant_rules <- function(rules, X, ite, t_decay) {
 

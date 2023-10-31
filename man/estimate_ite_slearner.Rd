@@ -2,7 +2,7 @@
 % Please edit documentation in R/estimate_ite_slearner.R
 \name{estimate_ite_slearner}
 \alias{estimate_ite_slearner}
-\title{Estimate the Individual Treatment Effect (ITE) using S-Learner.}
+\title{Estimate the Individual Treatment Effect (ITE) using S-Learner}
 \usage{
 estimate_ite_slearner(y, z, X, learner_y = "SL.xgboost")
 }

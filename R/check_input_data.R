@@ -2,7 +2,7 @@
 #' Check input data
 #'
 #' @description
-#' Conducts sanity checks for the input data
+#' Conducts sanity checks for the input data.
 #'
 #' @param y The observed response vector.
 #' @param z The treatment vector.

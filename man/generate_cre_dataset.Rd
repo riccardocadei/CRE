@@ -27,19 +27,19 @@ within the covariates (default: 0, range: [0,1)).}
 \item{p}{The number of covariates (default: 10).}
 
 \item{effect_size}{The treatment effect size magnitude (default: 2,
-range: >=0).}
+range: \eqn{\geq}0).}
 
 \item{binary_covariates}{Whether to use binary or continuous covariates
-(default: TRUE).}
+(default: \code{TRUE}).}
 
 \item{binary_outcome}{Whether to use binary or continuous outcomes
-(default: TRUE).}
+(default: \code{TRUE}).}
 
 \item{confounding}{Only for continuous outcome, add confounding variables:
 \itemize{
-\item "lin" for linear confounding,
-\item "nonlin" for non-linear confounding,
-\item "no" for no confounding (default).
+\item \code{lin} for linear confounding,
+\item \code{nonlin} for non-linear confounding,
+\item \code{no} for no confounding (default).
 }}
 }
 \value{
@@ -54,51 +54,51 @@ Generates synthetic data sets to run simulation for causal inference
 experiments composed by an outcome vector (\code{y}), a treatment vector (\code{z}),
 a covariates matrix (\code{X}), and an unobserved individual treatment effects
 vector (\code{ite}).
-
-The input parameters specify the data set characteristic, including the
+The arguments specify the data set characteristic, including the
 number of individuals (\code{n}), the number of covariates (\code{p}), the correlation
 within the covariates (\code{rho}),  the number of decision rules
 (\code{n_rules}) decomposing the Conditional Average Treatment Effect (CATE), the
 treatment effect magnitude (\code{effect_size}), the confounding mechanism
 (\code{confounding}), and whether the covariates and outcomes are binary or
 continuous (\code{binary_covariates}, \code{binary_outcome}).
-
+}
+\details{
 The covariates matrix is generated with the specified correlation among
-individuals, and each covariate is sampled either from a Bernoulli(0.5) if
-binary, or a Gaussian(0,1) if continuous. The treatment vector is sampled
-from a Bernoulli(1/(1+exp(1-x_1+x_2-x_3))), enforcing the treatment
+individuals, and each covariate is sampled either from a
+\code{Bernoulli(0.5)} if binary, or a \code{Gaussian(0,1)} if continuous.
+The treatment vector is sampled from a
+\code{Bernoulli}(\eqn{\frac{1}{1+ \exp(1-x_1+x_2-x_3)}}), enforcing the treatment
 assignment probabilities to be a function of observed covariates.
-The potential outcomes (y(0) and y(1)) are then sampled from a Bernoulli
+The potential outcomes (\eqn{y(0)} and \eqn{y(1)}) are then sampled from a Bernoulli
 if binary, or a Gaussian (with standard deviation equal to 1) if continuous.
 Their mean is equal to a confounding term (null, linear or non-linear and
 always null for binary outcome) plus 1-4 decision rules weighted by the
 treatment effect magnitude. The two potential outcomes characterizes the CATE
 (and then the unobserved individual treatment effects vector) as the sum of
 different additive contributions for each decision rules considered
-(plus an intercept). The final expression of the CATE depends on the
-treatment effect magnitude and the number of decision rules considered.
+(plus an intercept).
+The final expression of the CATE depends on the treatment effect magnitude
+and the number of decision rules considered.
 
 The 4 decision rules are:
 \itemize{
-\item Rule 1: 1_{x_1>0.5; x_2<=0.5}(\emph{x}),
-\item Rule 2: 1_{x_5>0.5; x_6<=0.5}(\emph{x}),
-\item Rule 3: 1_{x_4<0.5}(\emph{x}),
-\item Rule 4: 1_{x_5<=0.5; x_7>0.5; x_8<=0.5}(\emph{x});
+\item Rule 1: \eqn{1\{x_1 > 0.5; x_2 \leq 0.5\}(\textbf{x})}
+\item Rule 2: \eqn{1\{x_5 > 0.5; x_6 \leq 0.5\}(\textbf{x})}
+\item Rule 3: \eqn{1\{x_4 \leq 0.5\}(\textbf{x})}
+\item Rule 4: \eqn{1\{x_5 \leq 0.5; x_7 > 0.5; x_8 \leq 0.5\}(\textbf{x})}
 with corresponding additive average treatment effect (AATE) equal to:
-\item Rule 1: - \code{effect_size} ,
-\item Rule 2: + \code{effect_size} * 1_{x_5>0.5; x_6<=0.5}(\emph{x}),
-\item Rule 3: - 0.5 * \code{effect_size},
-\item Rule 4: + 2 * \code{effect_size}.
+\item Rule 1: \eqn{-} \code{effect_size},
+\item Rule 2: \eqn{+} \code{effect_size},
+\item Rule 3: \eqn{- 0.5 \cdot} \code{effect_size},
+\item Rule 4: \eqn{+ 2 \cdot} \code{effect_size}.
 }
 
 In example, setting \code{effect_size}=4 and \code{n_rules}=2:
-CATE(\emph{x}) = -4  1_{x_1>0.5; x_2<0.5}(\emph{x}) + 4 1_{x_5>0.5; x_6<0.5}(\emph{x})
+\deqn{\text{CATE}(\textbf{x}) = -4 \cdot 1\{x_1 > 0.5; x_2 \leq 0.5\}(\textbf{x}) +
+4 \cdot 1\{x_5 > 0.5; x_6 \leq 0.5\}(\textbf{x})}
 
-The final outcome vector y is finally computed by combining the potential
-outcomes according to the treatment assignment. In summary, this function
-empowers researchers and data scientists to simulate complex causal scenarios
-with various degrees of heterogeneity and confounding, providing valuable
-synthetic datasets for causal inference studies.
+The final outcome vector \code{y} is finally computed by combining the potential
+outcomes according to the treatment assignment.
 }
 \note{
 Set the covariates domain (\code{binary_covariates}) and outcome domain

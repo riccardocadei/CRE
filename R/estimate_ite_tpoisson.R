@@ -8,9 +8,9 @@
 #' @param y An observed response vector.
 #' @param z A treatment vector.
 #' @param X A features matrix.
-#' @param offset A name of the covariate to use as offset (i.e. 'x1') to model
-#' the corresponding outcome rate. `NULL` to model directly the outcome counts
-#' without offset.
+#' @param offset A name of the covariate to use as offset (i.e. \dQuote{x1}) to
+#' model the corresponding outcome rate. `NULL` to model directly the outcome
+#' counts without offset.
 #'
 #' @return
 #' A vector of ITE estimates.

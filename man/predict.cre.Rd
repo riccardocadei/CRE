@@ -7,7 +7,7 @@
 \method{predict}{cre}(object, X, ...)
 }
 \arguments{
-\item{object}{A cre object from running the CRE function.}
+\item{object}{A \code{cre} object from running the CRE function.}
 
 \item{X}{A covariate matrix (or data.frame)}
 

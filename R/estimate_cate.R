@@ -5,7 +5,7 @@
 #' Estimates the Conditional Average Treatment Effect (CATE) by
 #' linearly modeling the Individual Treatment Effect by a set of rules.
 #'
-#' @param rules_matrix A rules matrix,
+#' @param rules_matrix A rules matrix.
 #' @param rules_explicit A list of select rules in terms of covariate names.
 #' @param ite The estimated ITEs.
 #' @param B The number of bootstrap samples for uncertainty quantification in

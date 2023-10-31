@@ -64,7 +64,7 @@ a treatment vector, a covariate matrix, and a desired algorithm.
 includes libraries for the SuperLearner package.
 \item \strong{learner_y}: An estimation model for the outcome. This includes
 libraries for the SuperLearner package.
-\item \strong{offset}: Name of the covariate to use as offset (i.e. 'x1') for
+\item \strong{offset}: Name of the covariate to use as offset (i.e. \dQuote{x1}) for
 Poisson ITE Estimation. \code{NULL} if offset is not used.
 }
 }

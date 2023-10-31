@@ -16,24 +16,25 @@
 #'     (default: 0.5).
 #'   - *Parameters for Discovery and Inference*
 #'     - *ite_method*: The method for ITE (pseudo-outcome) estimation
-#'     (default: 'aipw', options: {'aipw' for Augmented Inverse Probability
-#'     Weighting, 'cf' for Causal Forest, 'bart' for Causal Bayesian Additive
-#'     Regression Trees, slearner' for S-Learner, 'tlearner' for T-Learner,
-#'     'xlearner' for X-Learner, 'tpoisson' for T-Learner with Poisson
-#'     regression}).
+#'     (default: \emph{aipw}, options: \emph{aipw} for Augmented Inverse
+#'     Probability Weighting, \emph{cf} for Causal Forest, \emph{bart} for
+#'     Causal Bayesian Additive Regression Trees, \emph{slearner} for S-Learner,
+#'     \emph{tlearner} for T-Learner, \emph{xlearner} for X-Learner,
+#'     \emph{tpoisson} for T-Learner with Poisson regression).
 #'     - *learner_ps*: The model for the propensity score estimation
-#'     (default: 'SL.xgboost', options: {any SuperLearner prediction model i.e.,
-#'     'SL.lm', 'SL.svm'}, used only for 'aipw','bart','cf' ITE estimators).
+#'     (default: `SL.xgboost`, options: any SuperLearner prediction model i.e.,
+#'     `SL.lm`, `SL.svm`, used only for \emph{aipw}, \emph{bart}, \emph{cf}
+#'     ITE estimators).
 #'     - *learner_y*: The model for the outcome estimation
-#'     (default: 'SL.xgboost', options: {any SuperLearner prediction model i.e.,
-#'     'SL.lm', 'SL.svm'}, used only for 'aipw','slearner','tlearner' and
-#'     'xlearner' ITE estimators).
+#'     (default: `SL.xgboost`, options: any SuperLearner prediction model i.e.,
+#'     `SL.lm`, `SL.svm`, used only for `aipw`, `slearner`, `tlearner` and
+#'     `xlearner` ITE estimators).
 #' @param hyper_params The list of hyper parameters to fine-tune the method,
 #' including:
 #'  - *General hyper parameters*
 #'    - *intervention_vars*: Array with intervention-able covariates names used
-#'    for Rules Generation. Empty or null array means that all the covariates are
-#'    considered as intervention-able (default: NULL).
+#'    for Rules Generation. Empty or null array means that all the covariates
+#'    are considered as intervention-able (default: `NULL`).
 #'    - *ntrees*: The number of decision trees for random forest (default: 20).
 #'    - *node_size*: Minimum size of the trees' terminal nodes (default: 20).
 #'    - *max_rules*: Maximum number of generated candidates rules (default: 50).
@@ -43,25 +44,26 @@
 #'    - *t_ext*: The threshold to truncate too generic or too specific (extreme)
 #'    rules (default: 0.01, range: [0, 0.5)).
 #'    - *t_corr*: The threshold to define correlated rules (default: 1,
-#'    range: [0,+inf).
+#'    range: `[0,+inf)`).
 #'    - *stability_selection*: Method for stability selection for selecting the
-#'    rules. `vanilla` for stability selection, `error_control`
-#'    for stability selection with error control and `no` for no stability
-#'    selection (default: `vanilla`).
+#'    rules. "vanilla" for stability selection, "error_control"
+#'    for stability selection with error control and "no" for no stability
+#'    selection (default: "vanilla").
 #'    - *B*: Number of bootstrap samples for stability selection in rules
 #'    selection and uncertainty quantification in estimation (default: 20).
 #'    - *subsample*: Bootstrap ratio subsample for stability selection in rules
 #'    selection and uncertainty quantification in estimation (default: 0.5).
 #'  - *Method specific hyper parameters*
-#'    - *offset*: Name of the covariate to use as offset (i.e. 'x1') for
-#'    T-Poisson ITE estimation. Use NULL if offset is not used (default: NULL).
+#'    - *offset*: Name of the covariate to use as offset (i.e. \dQuote{x1}) for
+#'    T-Poisson ITE estimation. Use `NULL` if offset is not used (default:
+#'    `NULL`).
 #'    - *cutoff*:  Threshold (percentage) defining the minimum cutoff value for
 #'    the stability scores for Stability Selection (default: 0.9).
 #'    - *pfer*: Upper bound for the per-family error rate (tolerated amount of
 #'    falsely selected rules) for Error Control Stability Selection (default: 1).
 #'
 #' @param ite The estimated ITE vector. If given both the ITE estimation steps
-#' in Discovery and Inference are skipped (default: NULL).
+#' in Discovery and Inference are skipped (default: `NULL`).
 #'
 #'
 #' @return
@@ -74,7 +76,7 @@
 #'  \item{rules}{the list of rules (implicit form) decomposing the CATE.}
 #'
 #' @note
-#' - If `intervention_vars` are provided, it's important to note that the
+#' - If `intervention_vars` are provided, it is important to note that the
 #' individual treatment effect will still be computed using all covariates.
 #' @export
 #'
