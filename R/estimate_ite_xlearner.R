@@ -1,5 +1,5 @@
 #' @title
-#' Estimate the Individual Treatment Effect (ITE) using X-Learner.
+#' Estimate the Individual Treatment Effect (ITE) using X-Learner
 #'
 #' @description
 #' Estimates the Individual Treatment Effect using X-Learner given a response

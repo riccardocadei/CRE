@@ -2,7 +2,7 @@
 #' Check input parameters
 #'
 #' @description
-#' Checks consistency in input (hyper) parameters for the cre function.
+#' Checks consistency in input (hyper) parameters for the `cre` function.
 #'
 #' @param X_names The observed covariates names.
 #' @param params The list of parameters required to run the function.

@@ -4,7 +4,7 @@
 #' @description
 #' Predicts individual treatment effect via causal rule ensemble algorithm.
 #'
-#' @param object A cre object from running the CRE function.
+#' @param object A `cre` object from running the CRE function.
 #' @param X A covariate matrix (or data.frame)
 #' @param ... Additional arguments passed to customize the prediction.
 #'

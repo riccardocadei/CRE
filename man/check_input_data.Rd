@@ -19,6 +19,6 @@ check_input_data(y, z, X, ite = NULL)
 The number of data samples.
 }
 \description{
-Conducts sanity checks for the input data
+Conducts sanity checks for the input data.
 }
 \keyword{internal}

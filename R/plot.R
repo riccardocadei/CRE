@@ -1,10 +1,10 @@
 #' @title
-#' A helper function for CRE object
+#' A helper function for cre object
 #'
 #' @description
-#' A helper function to plot CRE object using ggplot2 package.
+#' A helper function to plot cre object using ggplot2 package.
 #'
-#' @param object A CRE object.
+#' @param object A `cre` object.
 #' @param ... Additional arguments passed to customize the plot.
 #'
 #' @return
@@ -64,12 +64,12 @@ autoplot.cre <- function(object, ...) {
 }
 
 #' @title
-#' Extend generic plot functions for CRE class
+#' Extend generic plot functions for cre class
 #'
 #' @description
-#' A wrapper function to extend generic plot functions for CRE class.
+#' A wrapper function to extend generic plot functions for cre class.
 #'
-#' @param x  A CRE object.
+#' @param x  A `cre` object.
 #' @param ... Additional arguments passed to customize the plot.
 #'
 #' @return

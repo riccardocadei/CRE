@@ -13,9 +13,9 @@ estimate_ite_tpoisson(y, z, X, offset)
 
 \item{X}{A features matrix.}
 
-\item{offset}{A name of the covariate to use as offset (i.e. 'x1') to model
-the corresponding outcome rate. \code{NULL} to model directly the outcome counts
-without offset.}
+\item{offset}{A name of the covariate to use as offset (i.e. \dQuote{x1}) to
+model the corresponding outcome rate. \code{NULL} to model directly the outcome
+counts without offset.}
 }
 \value{
 A vector of ITE estimates.

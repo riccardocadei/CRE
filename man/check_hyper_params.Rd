@@ -16,6 +16,6 @@ A modified input \code{params}. A list of parameters that might be changed durin
 the checks.
 }
 \description{
-Checks consistency in input (hyper) parameters for the cre function.
+Checks consistency in input (hyper) parameters for the \code{cre} function.
 }
 \keyword{internal}
