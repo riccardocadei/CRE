@@ -19,7 +19,7 @@
 #' individuals, and each covariate is sampled either from a
 #' \code{Bernoulli(0.5)} if binary, or a \code{Gaussian(0,1)} if continuous.
 #' The treatment vector is sampled from a
-#' \code{Bernoulli(\eqn{\frac{1}{1+ \exp(1-x_1+x_2-x_3)}})}, enforcing the treatment
+#' \code{Bernoulli}(\eqn{\frac{1}{1+ \exp(1-x_1+x_2-x_3)}}), enforcing the treatment
 #' assignment probabilities to be a function of observed covariates.
 #' The potential outcomes (\eqn{y(0)} and \eqn{y(1)}) are then sampled from a Bernoulli
 #' if binary, or a Gaussian (with standard deviation equal to 1) if continuous.
@@ -63,9 +63,9 @@
 #' @param binary_outcome Whether to use binary or continuous outcomes
 #' (default: `TRUE`).
 #' @param confounding Only for continuous outcome, add confounding variables:
-#' - "lin" for linear confounding,
-#' - "nonlin" for non-linear confounding,
-#' - "no" for no confounding (default).
+#' - `lin` for linear confounding,
+#' - `nonlin` for non-linear confounding,
+#' - `no` for no confounding (default).
 #'
 #' @return
 #' A list, representing the generated synthetic data set, containing:

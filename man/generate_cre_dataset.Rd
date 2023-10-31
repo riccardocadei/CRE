@@ -37,9 +37,9 @@ range: \eqn{\geq}0).}
 
 \item{confounding}{Only for continuous outcome, add confounding variables:
 \itemize{
-\item "lin" for linear confounding,
-\item "nonlin" for non-linear confounding,
-\item "no" for no confounding (default).
+\item \code{lin} for linear confounding,
+\item \code{nonlin} for non-linear confounding,
+\item \code{no} for no confounding (default).
 }}
 }
 \value{
@@ -67,7 +67,7 @@ The covariates matrix is generated with the specified correlation among
 individuals, and each covariate is sampled either from a
 \code{Bernoulli(0.5)} if binary, or a \code{Gaussian(0,1)} if continuous.
 The treatment vector is sampled from a
-\code{Bernoulli(\eqn{\frac{1}{1+ \exp(1-x_1+x_2-x_3)}})}, enforcing the treatment
+\code{Bernoulli}(\eqn{\frac{1}{1+ \exp(1-x_1+x_2-x_3)}}), enforcing the treatment
 assignment probabilities to be a function of observed covariates.
 The potential outcomes (\eqn{y(0)} and \eqn{y(1)}) are then sampled from a Bernoulli
 if binary, or a Gaussian (with standard deviation equal to 1) if continuous.
