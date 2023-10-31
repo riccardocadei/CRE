@@ -4,9 +4,8 @@
 #' @description
 #' Filters the irrelevant decision rules. The irrelevant rules are interpreted
 #' as an error increase after removing a variable-value pair from the decision
-#' rules.
-#' (see "Interpreting tree ensembles with the inTrees package"
-#' by Houtao Deng, 2019).
+#' rules (see "Interpreting tree ensembles with the inTrees package" by
+#' Houtao Deng, 2019).
 #'
 #' @param rules A list of rules.
 #' @param X A features matrix.

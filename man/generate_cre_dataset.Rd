@@ -95,9 +95,9 @@ with corresponding additive average treatment effect (AATE) equal to:
 
 In example, setting \code{effect_size}=4 and \code{n_rules}=2:
 \deqn{\text{CATE}(\textbf{x}) = -4 \cdot 1\{x_1 > 0.5; x_2 \leq 0.5\}(\textbf{x}) +
-4 \cdot 1\{x_5 > 0.5; x_6 \leq 0.5\}(\textbf{x})}.
+4 \cdot 1\{x_5 > 0.5; x_6 \leq 0.5\}(\textbf{x})}
 
-The final outcome vector y is finally computed by combining the potential
+The final outcome vector \code{y} is finally computed by combining the potential
 outcomes according to the treatment assignment.
 }
 \note{
