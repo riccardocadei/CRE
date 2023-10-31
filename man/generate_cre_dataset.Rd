@@ -27,7 +27,7 @@ within the covariates (default: 0, range: [0,1)).}
 \item{p}{The number of covariates (default: 10).}
 
 \item{effect_size}{The treatment effect size magnitude (default: 2,
-range: >=0).}
+range: \eqn{\geq}0).}
 
 \item{binary_covariates}{Whether to use binary or continuous covariates
 (default: \code{TRUE}).}
@@ -67,7 +67,7 @@ The covariates matrix is generated with the specified correlation among
 individuals, and each covariate is sampled either from a
 \code{Bernoulli(0.5)} if binary, or a \code{Gaussian(0,1)} if continuous.
 The treatment vector is sampled from a
-\code{Bernoulli(1/(1+ exp(\eqn{1-x_1+x_2-x_3})))}, enforcing the treatment
+\code{Bernoulli(\eqn{\frac{1}{1+ \exp(1-x_1+x_2-x_3)}})}, enforcing the treatment
 assignment probabilities to be a function of observed covariates.
 The potential outcomes (\code{y}(0) and \code{y}(1)) are then sampled from a Bernoulli
 if binary, or a Gaussian (with standard deviation equal to 1) if continuous.
@@ -82,20 +82,20 @@ and the number of decision rules considered.
 
 The 4 decision rules are:
 \itemize{
-\item Rule 1: \deqn{1\{x_1 > 0.5; x_2 \leq 0.5\}(\textbf{x})}
-\item Rule 2: \deqn{1\{x_5 > 0.5; x_6 \leq 0.5\}(\textbf{x})}
-\item Rule 3: \deqn{1\{x_4 \leq 0.5\}(\textbf{x})}
-\item Rule 4: \deqn{1\{x_5 \leq 0.5; x_7 > 0.5; x_8 \leq 0.5\}(\textbf{x})}
+\item Rule 1: \eqn{1\{x_1 > 0.5; x_2 \leq 0.5\}(\textbf{x})}
+\item Rule 2: \eqn{1\{x_5 > 0.5; x_6 \leq 0.5\}(\textbf{x})}
+\item Rule 3: \eqn{1\{x_4 \leq 0.5\}(\textbf{x})}
+\item Rule 4: \eqn{1\{x_5 \leq 0.5; x_7 > 0.5; x_8 \leq 0.5\}(\textbf{x})}
 with corresponding additive average treatment effect (AATE) equal to:
-\item Rule 1: - \code{effect_size},
-\item Rule 2: + \code{effect_size},
-\item Rule 3: - 0.5 \code{effect_size},
-\item Rule 4: + 2 \code{effect_size}.
+\item Rule 1: \eqn{-} \code{effect_size},
+\item Rule 2: \eqn{+} \code{effect_size},
+\item Rule 3: \eqn{- 0.5 \cdot} \code{effect_size},
+\item Rule 4: \eqn{+ 2 \cdot} \code{effect_size}.
 }
 
 In example, setting \code{effect_size}=4 and \code{n_rules}=2:
-\deqn{\text{CATE}(\textbf{x}) = -4 1\{x_1 > 0.5; x_2 \leq 0.5\}(\textbf{x}) +
-4 1\{x_5 > 0.5; x_6 \leq 0.5\}(\textbf{x})}.
+\deqn{\text{CATE}(\textbf{x}) = -4 \cdot 1\{x_1 > 0.5; x_2 \leq 0.5\}(\textbf{x}) +
+4 \cdot 1\{x_5 > 0.5; x_6 \leq 0.5\}(\textbf{x})}.
 
 The final outcome vector y is finally computed by combining the potential
 outcomes according to the treatment assignment.
