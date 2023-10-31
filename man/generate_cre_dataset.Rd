@@ -30,10 +30,10 @@ within the covariates (default: 0, range: [0,1)).}
 range: >=0).}
 
 \item{binary_covariates}{Whether to use binary or continuous covariates
-(default: TRUE).}
+(default: \code{TRUE}).}
 
 \item{binary_outcome}{Whether to use binary or continuous outcomes
-(default: TRUE).}
+(default: \code{TRUE}).}
 
 \item{confounding}{Only for continuous outcome, add confounding variables:
 \itemize{
@@ -55,14 +55,15 @@ experiments composed by an outcome vector (\code{y}), a treatment vector (\code{
 a covariates matrix (\code{X}), and an unobserved individual treatment effects
 vector (\code{ite}).
 
-The input parameters specify the data set characteristic, including the
+The arguments specify the data set characteristic, including the
 number of individuals (\code{n}), the number of covariates (\code{p}), the correlation
 within the covariates (\code{rho}),  the number of decision rules
 (\code{n_rules}) decomposing the Conditional Average Treatment Effect (CATE), the
 treatment effect magnitude (\code{effect_size}), the confounding mechanism
 (\code{confounding}), and whether the covariates and outcomes are binary or
 continuous (\code{binary_covariates}, \code{binary_outcome}).
-
+}
+\details{
 The covariates matrix is generated with the specified correlation among
 individuals, and each covariate is sampled either from a Bernoulli(0.5) if
 binary, or a Gaussian(0,1) if continuous. The treatment vector is sampled
@@ -95,10 +96,7 @@ In example, setting \code{effect_size}=4 and \code{n_rules}=2:
 CATE(\emph{x}) = -4  1_{x_1>0.5; x_2<0.5}(\emph{x}) + 4 1_{x_5>0.5; x_6<0.5}(\emph{x})
 
 The final outcome vector y is finally computed by combining the potential
-outcomes according to the treatment assignment. In summary, this function
-empowers researchers and data scientists to simulate complex causal scenarios
-with various degrees of heterogeneity and confounding, providing valuable
-synthetic datasets for causal inference studies.
+outcomes according to the treatment assignment.
 }
 \note{
 Set the covariates domain (\code{binary_covariates}) and outcome domain

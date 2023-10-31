@@ -25,18 +25,18 @@ including:
 \item \emph{Parameters for Discovery and Inference}
 \itemize{
 \item \emph{ite_method}: The method for ITE (pseudo-outcome) estimation
-(default: 'aipw', options: {'aipw' for Augmented Inverse Probability
-Weighting, 'cf' for Causal Forest, 'bart' for Causal Bayesian Additive
-Regression Trees, slearner' for S-Learner, 'tlearner' for T-Learner,
-'xlearner' for X-Learner, 'tpoisson' for T-Learner with Poisson
+(default: "aipw", options: {"aipw" for Augmented Inverse Probability
+Weighting, "cf" for Causal Forest, "bart" for Causal Bayesian Additive
+Regression Trees, "slearner" for S-Learner, "tlearner" for T-Learner,
+"xlearner" for X-Learner, "tpoisson" for T-Learner with Poisson
 regression}).
 \item \emph{learner_ps}: The model for the propensity score estimation
-(default: 'SL.xgboost', options: {any SuperLearner prediction model i.e.,
-'SL.lm', 'SL.svm'}, used only for 'aipw','bart','cf' ITE estimators).
+(default: "SL.xgboost", options: {any SuperLearner prediction model i.e.,
+"SL.lm", "SL.svm"}, used only for "aipw","bart","cf" ITE estimators).
 \item \emph{learner_y}: The model for the outcome estimation
-(default: 'SL.xgboost', options: {any SuperLearner prediction model i.e.,
-'SL.lm', 'SL.svm'}, used only for 'aipw','slearner','tlearner' and
-'xlearner' ITE estimators).
+(default: "SL.xgboost", options: {any SuperLearner prediction model i.e.,
+"SL.lm", "SL.svm"}, used only for "aipw","slearner","tlearner" and
+"xlearner" ITE estimators).
 }
 }}
 
@@ -46,8 +46,8 @@ including:
 \item \emph{General hyper parameters}
 \itemize{
 \item \emph{intervention_vars}: Array with intervention-able covariates names used
-for Rules Generation. Empty or null array means that all the covariates are
-considered as intervention-able (default: NULL).
+for Rules Generation. Empty or null array means that all the covariates
+are considered as intervention-able (default: \code{NULL}).
 \item \emph{ntrees}: The number of decision trees for random forest (default: 20).
 \item \emph{node_size}: Minimum size of the trees' terminal nodes (default: 20).
 \item \emph{max_rules}: Maximum number of generated candidates rules (default: 50).
@@ -59,9 +59,9 @@ rules (default: 0.01, range: [0, 0.5)).
 \item \emph{t_corr}: The threshold to define correlated rules (default: 1,
 range: [0,+inf).
 \item \emph{stability_selection}: Method for stability selection for selecting the
-rules. \code{vanilla} for stability selection, \code{error_control}
-for stability selection with error control and \code{no} for no stability
-selection (default: \code{vanilla}).
+rules. "vanilla" for stability selection, "error_control"
+for stability selection with error control and "no" for no stability
+selection (default: "vanilla").
 \item \emph{B}: Number of bootstrap samples for stability selection in rules
 selection and uncertainty quantification in estimation (default: 20).
 \item \emph{subsample}: Bootstrap ratio subsample for stability selection in rules
@@ -69,8 +69,9 @@ selection and uncertainty quantification in estimation (default: 0.5).
 }
 \item \emph{Method specific hyper parameters}
 \itemize{
-\item \emph{offset}: Name of the covariate to use as offset (i.e. 'x1') for
-T-Poisson ITE estimation. Use NULL if offset is not used (default: NULL).
+\item \emph{offset}: Name of the covariate to use as offset (i.e. "x1") for
+T-Poisson ITE estimation. Use \code{NULL} if offset is not used (default:
+\code{NULL}).
 \item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for
 the stability scores for Stability Selection (default: 0.9).
 \item \emph{pfer}: Upper bound for the per-family error rate (tolerated amount of
@@ -79,7 +80,7 @@ falsely selected rules) for Error Control Stability Selection (default: 1).
 }}
 
 \item{ite}{The estimated ITE vector. If given both the ITE estimation steps
-in Discovery and Inference are skipped (default: NULL).}
+in Discovery and Inference are skipped (default: \code{NULL}).}
 }
 \value{
 An S3 object composed by:
