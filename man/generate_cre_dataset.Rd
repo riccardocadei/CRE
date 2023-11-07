@@ -37,9 +37,9 @@ range: \eqn{\geq}0).}
 
 \item{confounding}{Only for continuous outcome, add confounding variables:
 \itemize{
-\item \code{lin} for linear confounding,
-\item \code{nonlin} for non-linear confounding,
-\item \code{no} for no confounding (default).
+\item \code{"lin"} for linear confounding,
+\item \code{"nonlin"} for non-linear confounding,
+\item \code{"no"} for no confounding (default).
 }}
 }
 \value{

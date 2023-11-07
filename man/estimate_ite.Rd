@@ -18,31 +18,29 @@ Some methods requires additional parameters. These parameters are mentioned
 in the indented blocks for each method and their definitions are provided at
 the end of this parameters list.
 \itemize{
-\item \code{slearner}: S-Learner.
+\item \code{"slearner"}: S-Learner.
+- \code{learner_y}
+\item \code{"tlearner"}: T-Learner.
 \itemize{
 \item \code{learner_y}
 }
-\item \code{tlearner}: T-Learner.
-\itemize{
-\item \code{learner_y}
-}
-\item \code{tpoisson}: T-Poisson.
+\item \code{"tpoisson"}: T-Poisson.
 \itemize{
 \item \code{offset}
 }
-\item \code{xlearner}: X-Learner.
+\item \code{"xlearner"}: X-Learner.
 \itemize{
 \item \code{learner_y}
 }
-\item \code{aipw}: Augmented Inverse Probability Weighting.
+\item \code{"aipw"}: Augmented Inverse Probability Weighting.
 \itemize{
 \item \code{learner_ps} and  \code{learner_y}
 }
-\item \code{bart}: Bayesian Additive Regression Trees.
+\item \code{"bart"}: Bayesian Additive Regression Trees.
 \itemize{
 \item \code{learner_ps}
 }
-\item \code{cf}: Causal Forest.
+\item \code{"cf"}: Causal Forest.
 \itemize{
 \item \code{learner_ps}
 }
@@ -64,7 +62,7 @@ a treatment vector, a covariate matrix, and a desired algorithm.
 includes libraries for the SuperLearner package.
 \item \strong{learner_y}: An estimation model for the outcome. This includes
 libraries for the SuperLearner package.
-\item \strong{offset}: Name of the covariate to use as offset (i.e. \dQuote{x1}) for
+\item \strong{offset}: Name of the covariate to use as offset (i.e. \code{"x1"}) for
 Poisson ITE Estimation. \code{NULL} if offset is not used.
 }
 }

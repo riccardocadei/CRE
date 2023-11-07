@@ -63,9 +63,9 @@
 #' @param binary_outcome Whether to use binary or continuous outcomes
 #' (default: `TRUE`).
 #' @param confounding Only for continuous outcome, add confounding variables:
-#' - `lin` for linear confounding,
-#' - `nonlin` for non-linear confounding,
-#' - `no` for no confounding (default).
+#' - \code{"lin"} for linear confounding,
+#' - \code{"nonlin"} for non-linear confounding,
+#' - \code{"no"} for no confounding (default).
 #'
 #' @return
 #' A list, representing the generated synthetic data set, containing:

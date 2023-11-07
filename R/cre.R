@@ -16,19 +16,20 @@
 #'     (default: 0.5).
 #'   - *Parameters for Discovery and Inference*
 #'     - *ite_method*: The method for ITE (pseudo-outcome) estimation
-#'     (default: \emph{aipw}, options: \emph{aipw} for Augmented Inverse
-#'     Probability Weighting, \emph{cf} for Causal Forest, \emph{bart} for
-#'     Causal Bayesian Additive Regression Trees, \emph{slearner} for S-Learner,
-#'     \emph{tlearner} for T-Learner, \emph{xlearner} for X-Learner,
-#'     \emph{tpoisson} for T-Learner with Poisson regression).
+#'     (default: \code{"aipw"}, options: \code{"aipw"} for Augmented Inverse
+#'     Probability Weighting, \code{"cf"} for Causal Forest, \code{"bart"} for
+#'     Causal Bayesian Additive Regression Trees, \code{"slearner"} for S-Learner,
+#'     \code{"tlearner"} for T-Learner, \code{"xlearner"} for X-Learner,
+#'     \code{"tpoisson"} for T-Learner with Poisson regression).
 #'     - *learner_ps*: The model for the propensity score estimation
-#'     (default: `SL.xgboost`, options: any SuperLearner prediction model i.e.,
-#'     `SL.lm`, `SL.svm`, used only for \emph{aipw}, \emph{bart}, \emph{cf}
-#'     ITE estimators).
+#'     (default: \code{"SL.xgboost"}, options: any SuperLearner prediction model
+#'     i.e., \code{"SL.lm"}, \code{"SL.svm"}, used only for \code{"aipw"},
+#'     \code{"bart"}, \code{"cf"} ITE estimators).
 #'     - *learner_y*: The model for the outcome estimation
-#'     (default: `SL.xgboost`, options: any SuperLearner prediction model i.e.,
-#'     `SL.lm`, `SL.svm`, used only for `aipw`, `slearner`, `tlearner` and
-#'     `xlearner` ITE estimators).
+#'     (default: \code{"SL.xgboost"}, options: any SuperLearner prediction model
+#'     i.e., \code{"SL.lm"}, \code{"SL.svm"}, used only for \code{"aipw"},
+#'     \code{"slearner"}, \code{"tlearner"} and \code{"xlearner"} ITE
+#'     estimators).
 #' @param hyper_params The list of hyper parameters to fine-tune the method,
 #' including:
 #'  - *General hyper parameters*
@@ -46,15 +47,15 @@
 #'    - *t_corr*: The threshold to define correlated rules (default: 1,
 #'    range: `[0,+inf)`).
 #'    - *stability_selection*: Method for stability selection for selecting the
-#'    rules. "vanilla" for stability selection, "error_control"
-#'    for stability selection with error control and "no" for no stability
-#'    selection (default: "vanilla").
+#'    rules. \code{"vanilla"} for stability selection, \code{"error_control"}
+#'    for stability selection with error control and  \code{"no"} for no
+#'    stability selection (default: \code{"vanilla"}).
 #'    - *B*: Number of bootstrap samples for stability selection in rules
 #'    selection and uncertainty quantification in estimation (default: 20).
 #'    - *subsample*: Bootstrap ratio subsample for stability selection in rules
 #'    selection and uncertainty quantification in estimation (default: 0.5).
 #'  - *Method specific hyper parameters*
-#'    - *offset*: Name of the covariate to use as offset (i.e. \dQuote{x1}) for
+#'    - *offset*: Name of the covariate to use as offset (i.e., \code{"x1"}) for
 #'    T-Poisson ITE estimation. Use `NULL` if offset is not used (default:
 #'    `NULL`).
 #'    - *cutoff*:  Threshold (percentage) defining the minimum cutoff value for
@@ -68,7 +69,7 @@
 #'
 #' @return
 #' An S3 object composed by:
-#' \item{M}{the number of Decision Rules extracted at each step,}
+#'  \item{M}{the number of Decision Rules extracted at each step,}
 #'  \item{CATE}{the data.frame of Conditional Average Treatment Effect
 #'  decomposition estimates with corresponding uncertainty quantification,}
 #'  \item{method_params}{the list of method parameters,}

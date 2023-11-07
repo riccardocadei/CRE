@@ -25,19 +25,20 @@ including:
 \item \emph{Parameters for Discovery and Inference}
 \itemize{
 \item \emph{ite_method}: The method for ITE (pseudo-outcome) estimation
-(default: \emph{aipw}, options: \emph{aipw} for Augmented Inverse
-Probability Weighting, \emph{cf} for Causal Forest, \emph{bart} for
-Causal Bayesian Additive Regression Trees, \emph{slearner} for S-Learner,
-\emph{tlearner} for T-Learner, \emph{xlearner} for X-Learner,
-\emph{tpoisson} for T-Learner with Poisson regression).
+(default: \code{"aipw"}, options: \code{"aipw"} for Augmented Inverse
+Probability Weighting, \code{"cf"} for Causal Forest, \code{"bart"} for
+Causal Bayesian Additive Regression Trees, \code{"slearner"} for S-Learner,
+\code{"tlearner"} for T-Learner, \code{"xlearner"} for X-Learner,
+\code{"tpoisson"} for T-Learner with Poisson regression).
 \item \emph{learner_ps}: The model for the propensity score estimation
-(default: \code{SL.xgboost}, options: any SuperLearner prediction model i.e.,
-\code{SL.lm}, \code{SL.svm}, used only for \emph{aipw}, \emph{bart}, \emph{cf}
-ITE estimators).
+(default: \code{"SL.xgboost"}, options: any SuperLearner prediction model
+i.e., \code{"SL.lm"}, \code{"SL.svm"}, used only for \code{"aipw"},
+\code{"bart"}, \code{"cf"} ITE estimators).
 \item \emph{learner_y}: The model for the outcome estimation
-(default: \code{SL.xgboost}, options: any SuperLearner prediction model i.e.,
-\code{SL.lm}, \code{SL.svm}, used only for \code{aipw}, \code{slearner}, \code{tlearner} and
-\code{xlearner} ITE estimators).
+(default: \code{"SL.xgboost"}, options: any SuperLearner prediction model
+i.e., \code{"SL.lm"}, \code{"SL.svm"}, used only for \code{"aipw"},
+\code{"slearner"}, \code{"tlearner"} and \code{"xlearner"} ITE
+estimators).
 }
 }}
 
@@ -60,9 +61,9 @@ rules (default: 0.01, range: [0, 0.5)).
 \item \emph{t_corr}: The threshold to define correlated rules (default: 1,
 range: \verb{[0,+inf)}).
 \item \emph{stability_selection}: Method for stability selection for selecting the
-rules. "vanilla" for stability selection, "error_control"
-for stability selection with error control and "no" for no stability
-selection (default: "vanilla").
+rules. \code{"vanilla"} for stability selection, \code{"error_control"}
+for stability selection with error control and  \code{"no"} for no
+stability selection (default: \code{"vanilla"}).
 \item \emph{B}: Number of bootstrap samples for stability selection in rules
 selection and uncertainty quantification in estimation (default: 20).
 \item \emph{subsample}: Bootstrap ratio subsample for stability selection in rules
@@ -70,7 +71,7 @@ selection and uncertainty quantification in estimation (default: 0.5).
 }
 \item \emph{Method specific hyper parameters}
 \itemize{
-\item \emph{offset}: Name of the covariate to use as offset (i.e. \dQuote{x1}) for
+\item \emph{offset}: Name of the covariate to use as offset (i.e., \code{"x1"}) for
 T-Poisson ITE estimation. Use \code{NULL} if offset is not used (default:
 \code{NULL}).
 \item \emph{cutoff}:  Threshold (percentage) defining the minimum cutoff value for

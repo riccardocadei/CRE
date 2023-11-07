@@ -12,19 +12,19 @@
 #' Some methods requires additional parameters. These parameters are mentioned
 #' in the indented blocks for each method and their definitions are provided at
 #' the end of this parameters list.
-#'   - `slearner`: S-Learner.
+#'   -  \code{"slearner"}: S-Learner.
 #'     - `learner_y`
-#'   - `tlearner`: T-Learner.
+#'   - \code{"tlearner"}: T-Learner.
 #'     - `learner_y`
-#'   - `tpoisson`: T-Poisson.
+#'   - \code{"tpoisson"}: T-Poisson.
 #'     - `offset`
-#'   - `xlearner`: X-Learner.
+#'   - \code{"xlearner"}: X-Learner.
 #'     - `learner_y`
-#'   - `aipw`: Augmented Inverse Probability Weighting.
+#'   - \code{"aipw"}: Augmented Inverse Probability Weighting.
 #'     - `learner_ps` and  `learner_y`
-#'   - `bart`: Bayesian Additive Regression Trees.
+#'   - \code{"bart"}: Bayesian Additive Regression Trees.
 #'     - `learner_ps`
-#'   - `cf`: Causal Forest.
+#'   - \code{"cf"}: Causal Forest.
 #'     - `learner_ps`
 #' @param ... Additional parameters passed to different models.
 #' @details
@@ -33,7 +33,7 @@
 #'   includes libraries for the SuperLearner package.
 #'   - **learner_y**: An estimation model for the outcome. This includes
 #'   libraries for the SuperLearner package.
-#'   - **offset**: Name of the covariate to use as offset (i.e. \dQuote{x1}) for
+#'   - **offset**: Name of the covariate to use as offset (i.e. \code{"x1"}) for
 #'     Poisson ITE Estimation. `NULL` if offset is not used.
 #'
 #' @return
